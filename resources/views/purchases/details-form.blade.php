@@ -304,16 +304,16 @@
                         x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
                     >
                         <x-forms.field>
-                            <x-forms.label x-bind:for="`purchase[${index}][with_holding_tax]`">
+                            <x-forms.label x-bind:for="`purchase[${index}][withholding_tax]`">
                                 Withholding Tax (%) <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
-                                    x-bind:id="`purchase[${index}][with_holding_tax]`"
-                                    x-bind:name="`purchase[${index}][with_holding_tax]`"
+                                    x-bind:id="`purchase[${index}][withholding_tax]`"
+                                    x-bind:name="`purchase[${index}][withholding_tax]`"
                                     placeholder="Withholding Tax in Percentage"
-                                    x-model="purchase.with_holding_tax"
+                                    x-model="purchase.withholding_tax"
                                 />
                                 <x-common.icon
                                     name="fas fa-percent"
@@ -321,7 +321,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`purchase.${index}.with_holding_tax`)"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.withholding_tax`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

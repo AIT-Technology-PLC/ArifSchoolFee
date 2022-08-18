@@ -15,7 +15,7 @@ return new class extends Migration
             $table->decimal('excise_tax', 22)->nullable()->after('duty_rate');
             $table->decimal('vat_rate', 22)->nullable()->after('excise_tax');
             $table->decimal('surtax', 22)->nullable()->after('vat_rate');
-            $table->decimal('with_holding_tax', 22)->nullable()->after('surtax');
+            $table->decimal('withholding_tax', 22)->nullable()->after('surtax');
         });
     }
 
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->dropColumn('excise_tax');
             $table->dropColumn('vat_rate');
             $table->dropColumn('surtax');
-            $table->dropColumn('with_holding_tax');
+            $table->dropColumn('withholding_tax');
         });
     }
 };

@@ -81,7 +81,7 @@ class PurchaseDetail extends Model
     public function getWithHoldingTaxAmountAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return $this->with_holding_tax / 100 * $this->dutyPayingValue;
+            return $this->withholding_tax / 100 * $this->dutyPayingValue;
         }
 
         return 0;
@@ -100,6 +100,15 @@ class PurchaseDetail extends Model
     {
         if ($this->purchase->type == 'Import') {
             return $this->dutyPayingValue + $this->totalPayableTax;
+        }
+
+        return 0;
+    }
+
+    public function getUnitCostAfterTaxAttribute()
+    {
+        if ($this->purchase->type == 'Import') {
+            return $this->totalCostAfterTax / $this->quantity;
         }
 
         return 0;

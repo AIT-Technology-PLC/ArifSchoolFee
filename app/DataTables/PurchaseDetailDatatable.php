@@ -24,16 +24,19 @@ class PurchaseDetailDatatable extends DataTable
             ->editColumn('quantity', function ($purchaseDetail) {
                 return quantity($purchaseDetail->quantity, $purchaseDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn($purchaseDetail) => money($purchaseDetail->unit_price))
-            ->editColumn('total', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
-            ->editColumn('duty_paying_value', fn($purchaseDetail) => number_format($purchaseDetail->dutyPayingValue, 2))
-            ->editColumn('custom_duty_tax', fn($purchaseDetail) => number_format($purchaseDetail->customDutyTax, 2))
-            ->editColumn('excise_tax', fn($purchaseDetail) => number_format($purchaseDetail->exciseTaxAmount, 2))
-            ->editColumn('value_added_tax', fn($purchaseDetail) => number_format($purchaseDetail->valueAddedTax, 2))
-            ->editColumn('surtax', fn($purchaseDetail) => number_format($purchaseDetail->surtaxAmount, 2))
-            ->editColumn('with_holding_tax', fn($purchaseDetail) => number_format($purchaseDetail->withHoldingTaxAmount, 2))
-            ->editColumn('total_payable_tax', fn($purchaseDetail) => number_format($purchaseDetail->totalPayableTax, 2))
-            ->editColumn('total_cost_after_tax', fn($purchaseDetail) => number_format($purchaseDetail->totalCostAfterTax, 2))
+            ->editColumn('unit_cost', fn($purchaseDetail) => money($purchaseDetail->unit_price))
+            ->editColumn('total_cost', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
+            ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freight_cost))
+            ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freight_insurance_cost))
+            ->editColumn('duty_paying_value', fn($purchaseDetail) => money($purchaseDetail->dutyPayingValue))
+            ->editColumn('custom_duty_tax', fn($purchaseDetail) => money($purchaseDetail->customDutyTax))
+            ->editColumn('excise_tax', fn($purchaseDetail) => money($purchaseDetail->exciseTaxAmount))
+            ->editColumn('value_added_tax', fn($purchaseDetail) => money($purchaseDetail->valueAddedTax))
+            ->editColumn('surtax', fn($purchaseDetail) => money($purchaseDetail->surtaxAmount))
+            ->editColumn('withholding_tax', fn($purchaseDetail) => money($purchaseDetail->withHoldingTaxAmount))
+            ->editColumn('total_payable_tax', fn($purchaseDetail) => money($purchaseDetail->totalPayableTax))
+            ->editColumn('unit_cost_after_tax', fn($purchaseDetail) => money($purchaseDetail->unitCostAfterTax))
+            ->editColumn('total_cost_after_tax', fn($purchaseDetail) => money($purchaseDetail->totalCostAfterTax))
             ->editColumn('actions', function ($purchaseDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'purchase-details',
@@ -59,16 +62,19 @@ class PurchaseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
-            Column::make('unit_price')->addClass('has-text-right'),
-            Column::computed('total')->addClass('has-text-right'),
-            request()->route('purchase')->isImported() ? Column::computed('duty_paying_value') : null,
-            request()->route('purchase')->isImported() ? Column::computed('custom_duty_tax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('excise_tax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('value_added_tax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('surtax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('with_holding_tax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('total_payable_tax') : null,
-            request()->route('purchase')->isImported() ? Column::computed('total_cost_after_tax') : null,
+            Column::make('unit_cost', 'unit_price')->addClass('has-text-right'),
+            Column::computed('total_cost')->addClass('has-text-right'),
+            request()->route('purchase')->isImported() ? Column::computed('freight_cost')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('freight_insurance_cost')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('duty_paying_value')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('custom_duty_tax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('excise_tax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('value_added_tax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('surtax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('withholding_tax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('total_payable_tax')->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('unit_cost_after_tax')->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('total_cost_after_tax')->addClass('has-text-right') : null,
             Column::computed('actions'),
         ];
 

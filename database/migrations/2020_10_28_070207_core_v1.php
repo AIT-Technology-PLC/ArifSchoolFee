@@ -264,7 +264,7 @@ return new class extends Migration
             $table->decimal('excise_tax', 22)->nullable();
             $table->decimal('vat_rate', 22)->nullable();
             $table->decimal('surtax', 22)->nullable();
-            $table->decimal('with_holding_tax', 22)->nullable();
+            $table->decimal('withholding_tax', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

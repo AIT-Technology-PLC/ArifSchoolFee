@@ -3,7 +3,7 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', {{ $purchase->exchange_rate }})">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -106,19 +106,19 @@
                                     >Cash Payment</option>
                                     <option
                                         value="Credit Payment"
-                                        @selected(!$purchase->isCashPayment())
+                                        @selected($purchase->payment_type == 'Credit Payment')
                                     >Credit Payment</option>
                                     <option
                                         value="LC"
-                                        @selected(!$purchase->payment_type == 'LC')
+                                        @selected($purchase->payment_type == 'LC')
                                     >LC</option>
                                     <option
                                         value="TT"
-                                        @selected(!$purchase->payment_type == 'TT')
+                                        @selected($purchase->payment_type == 'TT')
                                     >TT</option>
                                     <option
                                         value="CAD"
-                                        @selected(!$purchase->payment_type == 'CAD')
+                                        @selected($purchase->payment_type == 'CAD')
                                     >CAD</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -178,10 +178,11 @@
                                     <option
                                         selected
                                         disabled
+                                        value=""
                                     >Select Tax Type</option>
-                                    <option value="0.15">VAT</option>
-                                    <option value="0.02">ToT</option>
-                                    <option value="0">None</option>
+                                    <option value="VAT">VAT</option>
+                                    <option value="TOT">ToT</option>
+                                    <option value="None">None</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"

@@ -16,6 +16,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$purchase->purchased_on->toFormattedDateString()"
+                        label="Issued On"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-shopping-bag"
                         :data="$purchase->type"
                         label="Purchase Type"
@@ -54,19 +61,12 @@
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
-                            icon="fas fa-hashtag"
+                            icon="fas fa-arrow-trend-up"
                             :data="$purchase->exchange_rate"
-                            label="Exchange Rate"
+                            label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
                 @endif
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-calendar-day"
-                        :data="$purchase->purchased_on->toFormattedDateString()"
-                        label="Issued On"
-                    />
-                </div>
                 @if (!$purchase->isImported())
                     <div class="column is-6">
                         <x-common.show-data-section
@@ -94,8 +94,15 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
+                            :data="number_format($purchase->purchaseDetails->sum('totalPayableTax'), 2)"
+                            label="Total Payable Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-dollar-sign"
                             :data="number_format($purchase->purchaseDetails->sum('totalCostAfterTax'), 2)"
-                            label="Grand Total Cost After Tax"
+                            label="Grand Total Cost After Tax ({{ userCompany()->currency }})"
                         />
                     </div>
                 @endif

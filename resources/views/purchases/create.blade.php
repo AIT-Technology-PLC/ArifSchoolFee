@@ -3,7 +3,7 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}', '{{ old('tax_type') }}', '{{ old('currency') }}', {{ old('exchange_rate') }})">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}', '{{ old('tax_type') }}', '{{ old('currency') }}', '{{ old('exchange_rate') }}')">
         <x-content.header title="New Purchase" />
         <form
             id="formOne"
@@ -177,6 +177,7 @@
                                     <option
                                         selected
                                         disabled
+                                        value=""
                                     >Select Tax Type</option>
                                     <option value="VAT">VAT</option>
                                     <option value="TOT">ToT</option>
