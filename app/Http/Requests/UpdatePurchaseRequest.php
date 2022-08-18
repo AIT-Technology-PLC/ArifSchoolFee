@@ -22,7 +22,7 @@ class UpdatePurchaseRequest extends FormRequest
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string'],
-            'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', '']), 'required_if:type,Local Purchase'],
+            'tax_type' => ['nullable', 'string', Rule::in(['0.15', '0.02', '0']), 'required_if:type,Local Purchase'],
             'currency' => ['nullable', 'string', 'required_if:type,Import'],
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import'],
             'description' => ['nullable', 'string'],
