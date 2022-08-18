@@ -100,22 +100,27 @@
                                         disabled
                                     >Select Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Cash Payment"
                                         @selected(old('payment_type') == 'Cash Payment')
                                     >Cash Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Credit Payment"
                                         @selected(old('payment_type') == 'Credit Payment')
                                     >Credit Payment</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="LC"
                                         @selected(old('payment_type') == 'LC')
                                     >LC</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="TT"
                                         @selected(old('payment_type') == 'TT')
                                     >TT</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="CAD"
                                         @selected(old('payment_type') == 'CAD')
                                     >CAD</option>

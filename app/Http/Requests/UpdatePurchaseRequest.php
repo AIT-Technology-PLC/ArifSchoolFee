@@ -21,7 +21,7 @@ class UpdatePurchaseRequest extends FormRequest
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'purchased_on' => ['required', 'date'],
-            'payment_type' => ['required', 'string'],
+            'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Local Purchase', 'Import']))],
             'tax_type' => ['nullable', 'string', Rule::in(['0.15', '0.02', '0']), 'required_if:type,Local Purchase', 'prohibited_if:type,Import'],
             'currency' => ['nullable', 'string', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

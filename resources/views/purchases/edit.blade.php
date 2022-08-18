@@ -101,22 +101,27 @@
                                         disabled
                                     >Select Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Cash Payment"
                                         @selected($purchase->isCashPayment())
                                     >Cash Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Credit Payment"
                                         @selected($purchase->payment_type == 'Credit Payment')
                                     >Credit Payment</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="LC"
                                         @selected($purchase->payment_type == 'LC')
                                     >LC</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="TT"
                                         @selected($purchase->payment_type == 'TT')
                                     >TT</option>
                                     <option
+                                        x-show="!isPurchaseByLocal()"
                                         value="CAD"
                                         @selected($purchase->payment_type == 'CAD')
                                     >CAD</option>
