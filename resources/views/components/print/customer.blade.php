@@ -56,7 +56,7 @@
         @endif
     </section>
     <hr
-        class="my-0 has-background-white-ter"
+        class="my-0 has-background-grey-lighter"
         style="margin-left: -10%;margin-right: -10%"
     >
 @endif
