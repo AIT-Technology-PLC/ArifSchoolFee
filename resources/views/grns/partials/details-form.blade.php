@@ -141,7 +141,7 @@
                                     x-bind:name="`grn[${index}][batch_no]`"
                                     x-model="grn.batch_no"
                                     type="text"
-                                    placeholder="Batech No"
+                                    placeholder="Batch No"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
