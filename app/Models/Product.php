@@ -17,6 +17,7 @@ class Product extends Model
 
     protected $casts = [
         'properties' => 'array',
+        'is_batchable' => 'boolean',
     ];
 
     protected $cascadeDeletes = [
