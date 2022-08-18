@@ -3,6 +3,9 @@
 namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
+use App\Models\EmployeeCompensation;
+use App\Models\EmployeeCompensationHistory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class AdvancementService
@@ -18,8 +21,19 @@ class AdvancementService
         DB::transaction(function () use ($advancement) {
             $advancement->advancementDetails->each(function ($advancementDetail) {
                 $advancementDetail->employee->position = $advancementDetail->job_position;
-                $advancementDetail->employee->gross_salary = $advancementDetail->gross_salary;
                 $advancementDetail->employee->save();
+
+                $emlpoyeeCompensation = EmployeeCompensation::where('employee_id', $advancementDetail->employee_id)->first();
+                $changeCount = EmployeeCompensationHistory::where('employee_id', $advancementDetail->employee_id)->count();
+                if ($changeCount > 0) {
+                    $emlpoyeeCompensation->change_count = $changeCount;
+                }
+
+                EmployeeCompensationHistory::create($emlpoyeeCompensation->toArray());
+
+                $emlpoyeeCompensation->delete();
+
+                EmployeeCompensation::create(Arr::only($advancementDetail->toArray(), ['employee_id', 'compensation_id', 'amount']));
             });
         });
 

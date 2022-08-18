@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('change_count', 22);
+            $table->bigInteger('change_count');
             $table->decimal('amount', 22);
             $table->timestamps();
             $table->softDeletes();

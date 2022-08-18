@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Compensation;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,5 +26,10 @@ class AdvancementDetail extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function compensation()
+    {
+        return $this->belongsTo(Compensation::class);
     }
 }
