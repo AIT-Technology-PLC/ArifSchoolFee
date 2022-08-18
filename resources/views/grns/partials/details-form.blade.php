@@ -127,6 +127,51 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6 "
+                        x-show="(Product.whereProductId(grn.product_id)?.is_batchable ==1)"
+                    >
+                        <x-forms.label x-bind:for="`grn[${index}][batch_no]`">
+                            Batch No <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    x-bind:id="`grn[${index}][batch_no]`"
+                                    x-bind:name="`grn[${index}][batch_no]`"
+                                    x-model="grn.batch_no"
+                                    type="text"
+                                    placeholder="Batech No"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`grn.${index}.batch_no`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    x-bind:id="`grn[${index}][expiry_date]`"
+                                    x-bind:name="`grn[${index}][expiry_date]`"
+                                    x-model="grn.expiry_date"
+                                    type="text"
+                                    x-on:focus="$el.type='date'"
+                                    placeholder="Expiry Date"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`grn.${index}.expiry_date`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label x-bind:for="`grn[${index}][description]`">

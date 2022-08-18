@@ -195,6 +195,82 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="is_batchable">
+                                Is Batchable <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_batchable"
+                                    name="is_batchable"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected(old('is_batchable', $product->is_batchable) == '1')
+                                    >Yes</option>
+                                    <option
+                                        <option
+                                        value="0"
+                                        @selected(old('is_batchable', $product->is_batchable) == '0')
+                                    > No </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_batchable" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="batch_priority">
+                                Batch Priority <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="batch_priority"
+                                    name="batch_priority"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Batch Priority
+                                    </option>
+                                    <option
+                                        value="fifo"
+                                        @selected(old('batch_priority', $product->batch_priority) == 'fifo')
+                                    > First In First Out </option>
+                                    <option
+                                        <option
+                                        value="lifo"
+                                        @selected(old('batch_priority', $product->batch_priority) == 'lifo')
+                                    > Last In First Out </option>
+                                    <option
+                                        <option
+                                        value=""
+                                    > None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="batch_priority" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">

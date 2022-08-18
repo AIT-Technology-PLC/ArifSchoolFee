@@ -185,4 +185,14 @@ class Product extends Model
     {
         return $query->where('type', '!=', 'Services');
     }
+
+    public function isLifo()
+    {
+        return $this->batch_priority == 'lifo';
+    }
+
+    public function isBatchable()
+    {
+        return $this->is_batchable == '1';
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MerchandiseBatch;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,5 +29,10 @@ class Merchandise extends Model
             $this->available + $this->reserved,
             2, '.', ''
         );
+    }
+
+    public function merchandiseBatches()
+    {
+        return $this->hasMany(MerchandiseBatch::class);
     }
 }

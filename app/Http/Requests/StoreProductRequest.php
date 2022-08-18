@@ -25,6 +25,8 @@ class StoreProductRequest extends FormRequest
             'properties' => ['nullable', 'array'],
             'product_category_id' => ['required', 'integer', new MustBelongToCompany('product_categories')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
+            'is_batchable' => ['nullable', 'integer'],
+            'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo'])],
         ];
     }
 }

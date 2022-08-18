@@ -23,6 +23,8 @@ class UpdateGrnRequest extends FormRequest
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.description' => ['nullable', 'string'],
+            'grn.*.batch_no' => ['nullable', 'string'],
+            'grn.*.expiry_date' => ['nullable', 'date'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
