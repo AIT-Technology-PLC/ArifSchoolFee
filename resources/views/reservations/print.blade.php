@@ -85,7 +85,7 @@
         </h1>
     </section>
 
-    <section class="table-breaked has-background-white">
+    <section class="table-breaked has-background-white mb-6">
         <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
             <thead>
                 <tr class="is-borderless">
@@ -181,15 +181,6 @@
             </tbody>
         </table>
     </section>
-
-    <footer class="my-6">
-        <h1 class="title is-size-7 is-uppercase">
-            I received the above goods/services in good condition: <span
-                class="is-inline-block"
-                style="border: 1px solid lightgrey;width: 20%"
-            ></span>
-        </h1>
-    </footer>
 
     <x-print.user
         :created-by="$reservation->createdBy ?? null"
