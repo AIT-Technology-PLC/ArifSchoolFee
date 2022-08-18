@@ -179,9 +179,9 @@
                                         selected
                                         disabled
                                     >Select Tax Type</option>
-                                    <option value="VAT">VAT</option>
-                                    <option value="ToT">ToT</option>
-                                    <option value="">None</option>
+                                    <option value="0.15">VAT</option>
+                                    <option value="0.02">ToT</option>
+                                    <option value="0">None</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"

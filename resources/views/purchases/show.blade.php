@@ -39,7 +39,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-file-invoice-dollar"
-                            :data="$purchase->tax_type"
+                            :data="$purchase->tax_type == 0.15 ? 'VAT' : ($purchase->tax_type == 0.02 ? 'TOT' : 'None')"
                             label="Tax Type"
                         />
                     </div>
