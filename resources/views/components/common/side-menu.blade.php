@@ -583,8 +583,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debit Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Read Debit'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -691,6 +691,19 @@
                                         label="Credits"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Debit Management'))
+                            @can('Read Debit')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('debits.index') }}"
+                                        label="Debits"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debits.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('debits.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

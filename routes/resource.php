@@ -160,3 +160,7 @@ Route::get('manifest.json', function () {
 });
 
 Route::resource('receivables', Resource\ReceivableController::class)->only(['index']);
+
+Route::resource('debits', Resource\DebitController::class);
+
+Route::resource('debits.debit-settlements', Resource\DebitSettlementController::class)->except(['index', 'show'])->shallow();

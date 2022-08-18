@@ -78,9 +78,9 @@ class Credit extends Model
         return ($query->selectRaw('SUM(DATEDIFF(last_settled_at, issued_on)) / COUNT(id) as days')
                 ->first()
                 ->days) ?? 0.00;
-    }
+        }
 
-    public function isSettled()
+        public function isSettled()
     {
         return $this->credit_amount == $this->credit_amount_settled;
     }

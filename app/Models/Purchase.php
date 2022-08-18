@@ -37,6 +37,11 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
+    public function debits()
+    {
+        return $this->hasMany(Debit::class);
+    }
+
     public function purchasedBy()
     {
         return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);

@@ -27,4 +27,9 @@ class Supplier extends Model
     {
         return $this->hasMany(Grn::class);
     }
+
+    public function debits()
+    {
+        return $this->hasMany(Debit::class);
+    }
 }
