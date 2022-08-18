@@ -314,6 +314,16 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Compensation Adjustment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Compensation Adjustment']);
 
+            // Debit
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Debit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Debit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Debit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Debit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Settle Debit']);
+
+            // Other
+            $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Debit']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
