@@ -55,4 +55,8 @@
             </aside>
         @endif
     </section>
+    <hr
+        class="my-0 has-background-white-ter"
+        style="margin-left: -10%;margin-right: -10%"
+    >
 @endif
