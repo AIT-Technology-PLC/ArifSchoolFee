@@ -39,7 +39,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-file-invoice-dollar"
-                            :data="$purchase->tax_type == 0.15 ? 'VAT' : ($purchase->tax_type == 0.02 ? 'TOT' : 'None')"
+                            :data="$purchase->tax_type"
                             label="Tax Type"
                         />
                     </div>
@@ -73,6 +73,13 @@
                             icon="fas fa-dollar-sign"
                             :data="number_format($purchase->subtotalPrice, 2)"
                             label="Subtotal Price ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-dollar-sign"
+                            :data="$purchase->vat"
+                            :label="$purchase->tax_type"
                         />
                     </div>
                     <div class="column is-6">
@@ -190,7 +197,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    @if (isFeatureEnabled('Grn Management'))
+    @if (isFeatureEnabled('Grn Management') && $purchase->grns->isNotEmpty())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Goods Received Notes" />
             <x-content.footer>

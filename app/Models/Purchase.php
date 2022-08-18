@@ -41,6 +41,30 @@ class Purchase extends Model
         return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);
     }
 
+    public function getVatAttribute()
+    {
+        return number_format(
+            $this->subtotalPrice * $this->localTaxRate,
+            2,
+            thousands_separator:''
+        );
+    }
+
+    public function getLocalTaxRateAttribute()
+    {
+        $value = 0;
+
+        if ($this->tax_type == 'VAT') {
+            $value = 0.15;
+        }
+
+        if ($this->tax_type == 'TOT') {
+            $value = 0.02;
+        }
+
+        return $value;
+    }
+
     public function scopePurchased($query)
     {
         return $query->whereNotNull('purchased_by');
