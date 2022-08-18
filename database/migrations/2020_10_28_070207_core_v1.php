@@ -213,7 +213,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->string('unit_of_measurement');
             $table->decimal('min_on_hand', 22);
-            $table->string('is_batchable')->nullable;
+            $table->string('is_batchable')->nullable();
             $table->string('batch_priority')->nullable();
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
