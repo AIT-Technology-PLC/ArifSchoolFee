@@ -156,9 +156,9 @@
                                 <x-forms.input
                                     x-bind:id="`grn[${index}][expiry_date]`"
                                     x-bind:name="`grn[${index}][expiry_date]`"
+                                    x-init="grn.expiry_date ? grn.expiry_date = new Date(grn.expiry_date).toLocaleDateString('en-CA') : grn.expiry_date"
                                     x-model="grn.expiry_date"
-                                    type="text"
-                                    x-on:focus="$el.type='date'"
+                                    type="date"
                                     placeholder="Expiry Date"
                                 />
                                 <x-common.icon

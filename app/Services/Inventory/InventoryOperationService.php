@@ -41,7 +41,7 @@ class InventoryOperationService
 
     public static function addToBatch($detail, $merchandise)
     {
-        if (Product::find($detail['product_id'])->isBatchable() && isset($detail['batch_no'])) {
+        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
             $merchandiseBatch = MerchandiseBatch::firstOrCreate(
                 [
                     'merchandise_id' => $merchandise->id,
@@ -79,14 +79,14 @@ class InventoryOperationService
 
     public static function subtractFromBatch($detail, $merchandise)
     {
-        $merchandiseBatches = MerchandiseBatch::all();
+        $merchandiseBatches = $merchandise->merchandiseBatches()->where('quantity', '>', 0)->get();
 
-        if ($merchandise->product->isLifo()) {
-            $merchandiseBatches = $merchandiseBatches->sortByDesc('expiry_date')->where('merchandise_id', $merchandise->id);
+        if ($merchandise->product->isBatchable() && $merchandise->product->isLifo()) {
+            $merchandiseBatches = $merchandiseBatches->sortByDesc('expiry_date');
         }
 
-        if (!$merchandise->product->isLifo()) {
-            $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date')->where('merchandise_id', $merchandise->id);
+        if ($merchandise->product->isBatchable() && !$merchandise->product->isLifo()) {
+            $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date');
         }
 
         foreach ($merchandiseBatches as $merchandiseBatch) {

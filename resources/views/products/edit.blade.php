@@ -212,12 +212,12 @@
                                 >
                                     <option
                                         value="1"
-                                        @selected(old('is_batchable', $product->is_batchable) == '1')
+                                        @selected($product->isBatchable())
                                     >Yes</option>
                                     <option
                                         <option
                                         value="0"
-                                        @selected(old('is_batchable', $product->is_batchable) == '0')
+                                        @selected(!$product->isBatchable())
                                     > No </option>
                                 </x-forms.select>
                                 <x-common.icon
