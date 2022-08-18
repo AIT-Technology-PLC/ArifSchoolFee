@@ -191,7 +191,7 @@
     </section>
 
     <section
-        class="page-break mt-5 mb-6"
+        class="page-break my-6"
         style="width: 60% !important"
     >
         @if ($proformaInvoice->terms)

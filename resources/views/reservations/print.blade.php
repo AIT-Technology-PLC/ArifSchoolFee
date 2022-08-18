@@ -85,7 +85,7 @@
         </h1>
     </section>
 
-    <section class="table-breaked has-background-white mb-6">
+    <section class="table-breaked has-background-white">
         <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
             <thead>
                 <tr class="is-borderless">
@@ -182,10 +182,12 @@
         </table>
     </section>
 
-    <x-print.user
-        :created-by="$reservation->createdBy ?? null"
-        :approved-by="$reservation->approvedBy ?? null"
-    />
+    <section class="mt-6">
+        <x-print.user
+            :created-by="$reservation->createdBy ?? null"
+            :approved-by="$reservation->approvedBy ?? null"
+        />
+    </section>
 </body>
 
 </html>
