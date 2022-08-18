@@ -3,7 +3,7 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper>
+    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', {{ $purchase->exchange_rate }})">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -67,19 +67,15 @@
                                     class="is-fullwidth"
                                     id="type"
                                     name="type"
+                                    x-model="purchaseType"
+                                    x-on:change="changePurchaseInformation"
                                 >
                                     <option
                                         selected
                                         disabled
                                     >Select Type</option>
-                                    <option
-                                        value="Local Purchase"
-                                        @selected(!$purchase->isImported())
-                                    >Local Purchase</option>
-                                    <option
-                                        value="Import"
-                                        @selected($purchase->isImported())
-                                    >Import</option>
+                                    <option value="Local Purchase">Local Purchase</option>
+                                    <option value="Import">Import</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-shopping-bag"
@@ -112,45 +108,24 @@
                                         value="Credit Payment"
                                         @selected(!$purchase->isCashPayment())
                                     >Credit Payment</option>
+                                    <option
+                                        value="LC"
+                                        @selected(!$purchase->payment_type == 'LC')
+                                    >LC</option>
+                                    <option
+                                        value="TT"
+                                        @selected(!$purchase->payment_type == 'TT')
+                                    >TT</option>
+                                    <option
+                                        value="CAD"
+                                        @selected(!$purchase->payment_type == 'CAD')
+                                    >CAD</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-credit-card"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="payment_type" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="tax_type">
-                                Tax Type <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left ">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="tax_type"
-                                    name="tax_type"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Tax Type</option>
-                                    <option
-                                        value="VAT"
-                                        @selected($purchase->tax_type == 'VAT')
-                                    >VAT</option>
-                                    <option
-                                        value="ToT"
-                                        @selected($purchase->tax_type == 'ToT')
-                                    >ToT</option>
-                                    <option value="">None</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-file-invoice-dollar"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="tax_type" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -181,6 +156,85 @@
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="supplier_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': !isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="tax_type">
+                                Tax Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tax_type"
+                                    name="tax_type"
+                                    x-model="taxType"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Tax Type</option>
+                                    <option value="VAT">VAT</option>
+                                    <option value="ToT">ToT</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tax_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.label for="currency">
+                            Currency <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="currency"
+                                    name="currency"
+                                    x-model="currency"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Currency</option>
+                                    <option value="AED">AED - UAE Dirham</option>
+                                    <option value="CHF">CHF - Swiss Frank</option>
+                                    <option value="CNY">CNY - China Yuan</option>
+                                    <option value="ETB">ETB - Ethiopian Birr</option>
+                                    <option value="EUR">EUR - Euro Union Countries</option>
+                                    <option value="GBP">GBP - GB Pound Sterling</option>
+                                    <option value="SAR">SAR - Saudi Riyal</option>
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="exchange_rate"
+                                    id="exchange_rate"
+                                    placeholder="Exchange Rate"
+                                    x-model="exchangeRate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-dollar-sign"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="currency" />
+                                <x-common.validation-error property="exchange_rate" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

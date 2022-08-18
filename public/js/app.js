@@ -454,50 +454,22 @@ document.addEventListener("alpine:init", () => {
             taxType = "",
             currency = "",
             exchangeRate = "",
-            freight_cost = "",
-            freight_insurance_cost = "",
-            duty_rate = "",
-            excise_tax = "",
-            vat_rate = "",
-            surtax = "",
-            withholding_tax = "",
         ) => ({
             purchaseType: "",
             taxType: "",
             currency: "",
             exchangeRate: "",
-            freight_cost: "",
-            freight_insurance_cost: "",
-            duty_rate: "",
-            excise_tax: "",
-            vat_rate: "",
-            surtax: "",
-            withholding_tax: "",
 
             init() {
                 this.purchaseType = purchaseType;
                 this.taxType = taxType;
                 this.currency = currency;
                 this.exchangeRate = exchangeRate;
-                this.freight_cost = freight_cost;
-                this.freight_insurance_cost = freight_insurance_cost;
-                this.duty_rate = duty_rate;
-                this.excise_tax = excise_tax;
-                this.vat_rate = vat_rate;
-                this.surtax = surtax;
-                this.withholding_tax = withholding_tax;
             },
             changePurchaseInformation() {
                 if (this.purchaseType === "Local Purchase") {
                     this.currency = "";
                     this.exchangeRate = "";
-                    this.freight_cost = "";
-                    this.freight_insurance_cost = "";
-                    this.duty_rate = "";
-                    this.excise_tax = "";
-                    this.vat_rate = "";
-                    this.surtax = "";
-                    this.withholding_tax = "";
                 }
                 if (this.purchaseType === "Import") {
                     this.taxType = "";

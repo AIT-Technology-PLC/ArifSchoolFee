@@ -3,7 +3,7 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}')">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}', '{{ old('tax_type') }}', '{{ old('currency') }}', {{ old('exchange_rate') }})">
         <x-content.header title="New Purchase" />
         <form
             id="formOne"
@@ -73,14 +73,8 @@
                                         selected
                                         disabled
                                     >Select Type</option>
-                                    <option
-                                        value="Local Purchase"
-                                        @selected(old('type') == 'Local Purchase')
-                                    >Local Purchase</option>
-                                    <option
-                                        value="Import"
-                                        @selected(old('type') == 'Import')
-                                    >Import</option>
+                                    <option value="Local Purchase">Local Purchase</option>
+                                    <option value="Import">Import</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-shopping-bag"
@@ -171,7 +165,7 @@
                     >
                         <x-forms.field>
                             <x-forms.label for="tax_type">
-                                Tax Type <sup class="has-text-danger"></sup>
+                                Tax Type <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left ">
                                 <x-forms.select
@@ -184,14 +178,8 @@
                                         selected
                                         disabled
                                     >Select Tax Type</option>
-                                    <option
-                                        value="VAT"
-                                        @selected(old('tax_type') == 'VAT')
-                                    >VAT</option>
-                                    <option
-                                        value="ToT"
-                                        @selected(old('tax_type') == 'ToT')
-                                    >ToT</option>
+                                    <option value="VAT">VAT</option>
+                                    <option value="ToT">ToT</option>
                                     <option value="">None</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -208,7 +196,7 @@
                         x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
                     >
                         <x-forms.label for="currency">
-                            Puchase Currency <sup class="has-text-danger">*</sup>
+                            Currency <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control>
@@ -221,8 +209,15 @@
                                         selected
                                         disabled
                                     >Select Currency</option>
-                                    <option value="ETB">ETB</option>
-                                    <option value="Dollar">Dollar</option>
+                                    <option value="AED">AED - UAE Dirham</option>
+                                    <option value="CHF">CHF - Swiss Frank</option>
+                                    <option value="CNY">CNY - China Yuan</option>
+                                    <option value="ETB">ETB - Ethiopian Birr</option>
+                                    <option value="EUR">EUR - Euro Union Countries</option>
+                                    <option value="GBP">GBP - GB Pound Sterling</option>
+                                    <option value="SAR">SAR - Saudi Riyal</option>
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="">None</option>
                                 </x-forms.select>
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -230,15 +225,15 @@
                                     type="number"
                                     name="exchange_rate"
                                     id="exchange_rate"
-                                    placeholder="exchange rate"
+                                    placeholder="Exchange Rate"
                                     x-model="exchangeRate"
                                 />
                                 <x-common.icon
-                                    name="fas fa-money-bill"
+                                    name="fas fa-dollar-sign"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="exchange_rate" />
                                 <x-common.validation-error property="currency" />
+                                <x-common.validation-error property="exchange_rate" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
