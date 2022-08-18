@@ -184,7 +184,8 @@
 
     <footer class="my-6">
         <h1 class="title is-size-7 is-uppercase">
-            I received the above goods/services in good condition: <span
+            I received the above goods/services in good condition:
+            <span
                 class="is-inline-block"
                 style="border: 1px solid lightgrey;width: 20%"
             ></span>

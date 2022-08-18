@@ -40,6 +40,10 @@
         class="my-0 has-background-grey-lighter"
         style="margin-left: -10%;margin-right: -10%"
     >
+    <hr
+        class="my-0 has-background-grey-lighter"
+        style="margin-left: -10%;margin-right: -10%"
+    >
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
