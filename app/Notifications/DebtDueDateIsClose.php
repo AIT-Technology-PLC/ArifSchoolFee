@@ -34,7 +34,7 @@ class DebtDueDateIsClose extends Notification
             );
 
         return [
-            'icon' => 'fas fa-money-check',
+            'icon' => 'fas fa-money-check-dollar',
             'message' => $message,
             'endpoint' => '/debts?type=due',
         ];
