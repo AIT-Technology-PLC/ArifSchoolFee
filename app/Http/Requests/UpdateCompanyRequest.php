@@ -40,6 +40,10 @@ class UpdateCompanyRequest extends FormRequest
             ],
 
             'logo' => ['sometimes', 'file'],
+            'paid_time_off_amount' => ['nullable', 'numeric'],
+            'paid_time_off_type' => ['nullable', 'string', Rule::in(['Days', 'Hours'])],
+            'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
+
         ];
     }
 }

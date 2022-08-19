@@ -148,6 +148,64 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][time_off_amount]`">
+                                            Time Off Amount <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.input
+                                                x-bind:id="`leave[${index}][time_off_amount]`"
+                                                x-bind:name="`leave[${index}][time_off_amount]`"
+                                                x-model="leave.time_off_amount"
+                                                type="number"
+                                                placeholder="Time Off Amount"
+                                            />
+                                            <x-common.icon
+                                                name="fas fa-th"
+                                                class="is-small is-left"
+                                            />
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.time_off_amount`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][is_paid_time_off]`">
+                                            Is Paid Time Off <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control>
+                                            <label class="radio has-text-grey has-text-weight-normal">
+                                                <input
+                                                    x-bind:id="`leave[${index}][is_paid_time_off]`"
+                                                    x-bind:name="`leave[${index}][is_paid_time_off]`"
+                                                    x-model="leave.is_paid_time_off"
+                                                    type="radio"
+                                                    value="1"
+                                                    class="mt-3"
+                                                >
+                                                Yes
+                                            </label>
+                                            <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                                <input
+                                                    type="radio"
+                                                    x-bind:id="`leave[${index}][is_paid_time_off]`"
+                                                    x-bind:name="`leave[${index}][is_paid_time_off]`"
+                                                    x-model="leave.is_paid_time_off"
+                                                    value="0"
+                                                >
+                                                No
+                                            </label>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.is_paid_time_off`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
                             </div>
                         </div>
                     </div>

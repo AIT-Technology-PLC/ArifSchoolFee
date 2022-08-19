@@ -103,6 +103,13 @@
                         label="Ending Period"
                     />
                 </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fa-solid fa-clock"
+                        :data="$leaf->time_off_amount"
+                        label="Time Off Amount"
+                    />
+                </div>
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

@@ -419,6 +419,78 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="paid_time_off_amount">
+                                Paid Time Off Amount <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="paid_time_off_amount"
+                                    name="paid_time_off_amount"
+                                    type="number"
+                                    placeholder="Paid Time Off Amount"
+                                    value="{{ $company->paid_time_off_amount ?? '' }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="paid_time_off_amount" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="paid_time_off_type">
+                                Paid Time Off Type <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="paid_time_off_type"
+                                    name="paid_time_off_type"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Paid Time Off Type</option>
+                                    <option
+                                        value="Days"
+                                        @selected($company->paid_time_off_type == 'Days')
+                                    >Days</option>
+                                    <option
+                                        value="Hours"
+                                        @selected($company->paid_time_off_type == 'Hours')
+                                    >Hours</option>
+                                </x-forms.select>
+                                <x-common.validation-error property="paid_time_off_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="working_days">
+                                Working Days <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="working_days"
+                                    name="working_days"
+                                    type="number"
+                                    min="1"
+                                    max="30"
+                                    placeholder="Working Days"
+                                    value="{{ $company->working_days ?? '' }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="working_days" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

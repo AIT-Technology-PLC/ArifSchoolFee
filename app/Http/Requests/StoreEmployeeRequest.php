@@ -56,6 +56,7 @@ class StoreEmployeeRequest extends FormRequest
             'employeeCompensation' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'array'],
             'employeeCompensation.*.compensation_id' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'integer', 'distinct', new MustBelongToCompany('compensations')],
             'employeeCompensation.*.amount' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'numeric'],
+            'paid_time_off_amount' => ['nullable', 'numeric'],
         ];
     }
 }

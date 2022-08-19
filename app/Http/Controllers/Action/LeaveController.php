@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeLeaveRequest;
@@ -10,18 +9,23 @@ use App\Models\Leave;
 use App\Models\LeaveCategory;
 use App\Notifications\LeaveApproved;
 use App\Notifications\LeaveCreated;
+use App\Services\Models\LeaveService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class LeaveController extends Controller
 {
-    public function __construct()
+    private $leaveService;
+
+    public function __construct(LeaveService $leaveService)
     {
         $this->middleware('isFeatureAccessible:Leave Management');
+
+        $this->leaveService = $leaveService;
     }
 
-    public function approve(Leave $leaf, ApproveTransactionAction $action)
+    public function approve(Leave $leaf)
     {
         $this->authorize('approve', $leaf);
 
@@ -33,7 +37,7 @@ class LeaveController extends Controller
             return back()->with('failedMessage', 'You can not approve a leave that is cancelled.');
         }
 
-        [$isExecuted, $message] = $action->execute($leaf);
+        [$isExecuted, $message] = $this->leaveService->approve($leaf);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
