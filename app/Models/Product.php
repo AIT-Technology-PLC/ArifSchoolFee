@@ -17,6 +17,7 @@ class Product extends Model
 
     protected $casts = [
         'properties' => 'array',
+        'is_batchable' => 'boolean',
     ];
 
     protected $cascadeDeletes = [
@@ -184,5 +185,15 @@ class Product extends Model
     public function scopeInventoryType($query)
     {
         return $query->where('type', '!=', 'Services');
+    }
+
+    public function isLifo()
+    {
+        return $this->batch_priority == 'lifo';
+    }
+
+    public function isBatchable()
+    {
+        return $this->is_batchable == '1';
     }
 }

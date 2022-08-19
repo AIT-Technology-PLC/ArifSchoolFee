@@ -14,6 +14,10 @@ class GrnDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'expiry_date' => 'date',
+    ];
+
     public function grn()
     {
         return $this->belongsTo(Grn::class);
@@ -50,7 +54,7 @@ class GrnDetail extends Model
             ->load([
                 'grn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['supplier']);
-                }, ]
+                }]
             );
     }
 }

@@ -3,12 +3,12 @@
 ])
 
 @if ($customer)
-    <section class="is-clearfix has-background-white-bis py-3 pl-6">
+    <section class="is-clearfix py-3">
         <aside
             class="is-pulled-left"
             style="width: 25% !important"
         >
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                 Customer
             </h1>
             <p class="has-text-black is-size-6 pr-2">
@@ -20,7 +20,7 @@
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     TIN
                 </h1>
                 <p class="has-text-black is-size-6 pr-2">
@@ -33,7 +33,7 @@
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     Contact
                 </h1>
                 <p class="has-text-black is-size-6 pr-2">
@@ -46,7 +46,7 @@
                 class="is-pulled-left"
                 style="width: 25% !important"
             >
-                <h1 class="is-uppercase has-text-grey-light has-text-weight-bold is-size-7">
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     Location
                 </h1>
                 <p class="has-text-black is-size-6 pr-2">
@@ -55,4 +55,8 @@
             </aside>
         @endif
     </section>
+    <hr
+        class="my-0 has-background-grey-lighter"
+        style="margin-left: -10%;margin-right: -10%"
+    >
 @endif

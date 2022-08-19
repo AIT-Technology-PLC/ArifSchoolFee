@@ -29,6 +29,7 @@ class ProductController extends Controller
                 'product_category_id' => $product->product_category_id,
                 'product_category_name' => $product->productCategory->name,
                 'price' => $product->price,
+                'is_batchable' => $product->is_batchable,
             ];
         });
     }

@@ -39,7 +39,11 @@ class UpdateCompanyRequest extends FormRequest
                 },
             ],
 
-            'logo' => ['sometimes', 'file'],
+            'logo' => ['sometimes', 'file', 'mimes:jpg,jpeg,png'],
+            'print_template_image' => ['sometimes', 'file', 'mimes:jpg,jpeg,png'],
+            'print_padding_top' => ['required', 'numeric', 'between:0,100'],
+            'print_padding_bottom' => ['required', 'numeric', 'between:0,100'],
+            'print_padding_horizontal' => ['required', 'numeric', 'between:0,100'],
         ];
     }
 }

@@ -27,86 +27,75 @@
         href="{{ asset('css/app.css') }}"
         rel="stylesheet"
     >
-    <style>
-        .page-break {
-            page-break-inside: avoid;
-        }
 
-        @media print {
-            .table-breaked {
-                page-break-before: auto;
-            }
-        }
-
-        .summernote-table table td,
-        .summernote-table table th {
-            border-width: 1px !important;
-            padding: 0 !important;
-        }
-
-        td {
-            padding-top: 0.25rem !important;
-            padding-bottom: 0.25rem !important;
-        }
-    </style>
+    @include('assets.print-css')
 </head>
 
-<body>
-    <x-print.header :warehouse="authUser()->warehouse" />
+<body class="{{ userCompany()->hasPrintTemplate() ? 'company-background company-y-padding company-x-padding' : 'px-6' }}">
+    @if (!userCompany()->hasPrintTemplate())
+        <x-print.header :warehouse="$gdn->warehouse" />
+    @endif
 
-    <main>
-        <hr class="my-0">
-        <section class="pt-5 has-text-centered">
-            <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-                Production Plan
-            </h1>
-        </section>
-        <section class="is-clearfix has-background-white px-6 py-3">
-            @foreach ($reportData as $row)
-                <section>
-                    <h2 class="is-size-6"> Product: <strong>{{ $row->first()['product_name'] }}</strong></h2>
-                    <h2 class="is-size-6"> Bill Of Material: <strong>{{ $row->first()['bill_of_material'] }}</strong></h2>
-                    <h2 class="is-size-6"> Quantity: <strong>{{ number_format($row->first()['quantity'], 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
-                    <h2 class="is-size-6"> Factory: <strong>{{ $row->first()['factory_name'] }}</strong></h2>
-                    <h2 class="is-size-6"> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
-                </section>
-                <section class="table-breaked">
-                    <h3 class="pt-4 has-text-centered has-text-weight-bold is-uppercase is-size-7">
-                        Production Capacity Report
-                    </h3>
-                    <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
-                        <thead>
+    <hr
+        class="my-0 has-background-grey-lighter"
+        style="margin-left: -10%;margin-right: -10%"
+    >
+    <hr
+        class="my-0 has-background-grey-lighter"
+        style="margin-left: -10%;margin-right: -10%"
+    >
+
+    <section class="pt-5 has-text-centered">
+        <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
+            Production Plan
+        </h1>
+    </section>
+
+    <section class="py-3">
+        @foreach ($reportData as $row)
+            <section>
+                <h2 class="is-size-6"> Product: <strong>{{ $row->first()['product_name'] }}</strong></h2>
+                <h2 class="is-size-6"> Bill Of Material: <strong>{{ $row->first()['bill_of_material'] }}</strong></h2>
+                <h2 class="is-size-6"> Quantity: <strong>{{ number_format($row->first()['quantity'], 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
+                <h2 class="is-size-6"> Factory: <strong>{{ $row->first()['factory_name'] }}</strong></h2>
+                <h2 class="is-size-6"> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
+            </section>
+            <section class="table-breaked has-background-white">
+                <h3 class="pt-4 has-text-centered has-text-weight-bold is-uppercase is-size-7">
+                    Production Capacity Report
+                </h3>
+                <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Raw Material</th>
+                            <th>Available Amount </th>
+                            <th>Required Amount</th>
+                            <th>Difference</th>
+                            <th>Box</th>
+                            <th>Production Capacity </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($row as $value)
                             <tr>
-                                <th>#</th>
-                                <th>Raw Material</th>
-                                <th>Available Amount </th>
-                                <th>Required Amount</th>
-                                <th>Difference</th>
-                                <th>Box</th>
-                                <th>Production Capacity </th>
+                                <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
+                                <td> {{ $value['raw_material'] }}</td>
+                                <td class="has-text-right"> {{ number_format($value['available_amount'], 2) }}</td>
+                                <td class="has-text-right"> {{ number_format($value['required_amount'], 2) }}</td>
+                                <td class="{{ $value['difference'] >= 0 ? 'text-green' : 'text-purple' }} has-text-right"> {{ number_format($value['difference'], 2) }}</td>
+                                <td> {{ $value['raw_material_unit_of_measurement'] }}</td>
+                                <td class="has-text-right"> {{ number_format($value['production_capacity'], 2) }} {{ $value['product_unit_of_measurement'] }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($row as $value)
-                                <tr>
-                                    <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
-                                    <td> {{ $value['raw_material'] }}</td>
-                                    <td class="has-text-right"> {{ number_format($value['available_amount'], 2) }}</td>
-                                    <td class="has-text-right"> {{ number_format($value['required_amount'], 2) }}</td>
-                                    <td class="{{ $value['difference'] >= 0 ? 'text-green' : 'text-purple' }} has-text-right"> {{ number_format($value['difference'], 2) }}</td>
-                                    <td> {{ $value['raw_material_unit_of_measurement'] }}</td>
-                                    <td class="has-text-right"> {{ number_format($value['production_capacity'], 2) }} {{ $value['product_unit_of_measurement'] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </section>
-                @if (!$loop->last)
-                    <hr class="mt-6 mb-3">
-                @endif
-            @endforeach
-        </section>
-    </main>
+                        @endforeach
+                    </tbody>
+                </table>
+            </section>
+            @if (!$loop->last)
+                <hr class="mt-6 mb-3">
+            @endif
+        @endforeach
+    </section>
 </body>
 
 </html>

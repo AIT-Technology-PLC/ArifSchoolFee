@@ -3,7 +3,7 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper>
+    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}', '{{ old('tax_type') }}', '{{ old('currency') }}', '{{ old('exchange_rate') }}')">
         <x-content.header title="New Purchase" />
         <form
             id="formOne"
@@ -56,27 +56,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
-                        <x-forms.field>
-                            <x-forms.label for="discount">
-                                Discount <sup class="has-text-danger"> </sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    id="discount"
-                                    name="discount"
-                                    placeholder="Discount in Percentage"
-                                    value="{{ old('discount') ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-percent"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="discount" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="type">
@@ -87,19 +66,15 @@
                                     class="is-fullwidth"
                                     id="type"
                                     name="type"
+                                    x-model="purchaseType"
+                                    x-on:change="changePurchaseInformation"
                                 >
                                     <option
                                         selected
                                         disabled
                                     >Select Type</option>
-                                    <option
-                                        value="Local Purchase"
-                                        @selected(old('type') == 'Local Purchase')
-                                    >Local Purchase</option>
-                                    <option
-                                        value="Import"
-                                        @selected(old('type') == 'Import')
-                                    >Import</option>
+                                    <option value="Local Purchase">Local Purchase</option>
+                                    <option value="Import">Import</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-shopping-bag"
@@ -125,13 +100,30 @@
                                         disabled
                                     >Select Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Cash Payment"
                                         @selected(old('payment_type') == 'Cash Payment')
                                     >Cash Payment</option>
                                     <option
+                                        x-show="isPurchaseByLocal()"
                                         value="Credit Payment"
                                         @selected(old('payment_type') == 'Credit Payment')
                                     >Credit Payment</option>
+                                    <option
+                                        x-show="!isPurchaseByLocal()"
+                                        value="LC"
+                                        @selected(old('payment_type') == 'LC')
+                                    >LC</option>
+                                    <option
+                                        x-show="!isPurchaseByLocal()"
+                                        value="TT"
+                                        @selected(old('payment_type') == 'TT')
+                                    >TT</option>
+                                    <option
+                                        x-show="!isPurchaseByLocal()"
+                                        value="CAD"
+                                        @selected(old('payment_type') == 'CAD')
+                                    >CAD</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-credit-card"
@@ -171,24 +163,99 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': !isPurchaseByLocal() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="tax_type">
+                                Tax Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tax_type"
+                                    name="tax_type"
+                                    x-model="taxType"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                        value=""
+                                    >Select Tax Type</option>
+                                    <option value="VAT">VAT</option>
+                                    <option value="TOT">ToT</option>
+                                    <option value="None">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tax_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                    >
+                        <x-forms.label for="currency">
+                            Currency <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="currency"
+                                    name="currency"
+                                    x-model="currency"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Currency</option>
+                                    <option value="AED">AED - UAE Dirham</option>
+                                    <option value="CHF">CHF - Swiss Frank</option>
+                                    <option value="CNY">CNY - China Yuan</option>
+                                    <option value="ETB">ETB - Ethiopian Birr</option>
+                                    <option value="EUR">EUR - Euro Union Countries</option>
+                                    <option value="GBP">GBP - GB Pound Sterling</option>
+                                    <option value="SAR">SAR - Saudi Riyal</option>
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="exchange_rate"
+                                    id="exchange_rate"
+                                    placeholder="Exchange Rate"
+                                    x-model="exchangeRate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-dollar-sign"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="currency" />
+                                <x-common.validation-error property="exchange_rate" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
-                                Description <sup class="has-text-danger"> </sup>
+                                Description <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.textarea
                                     name="description"
                                     id="description"
-                                    class="pl-6"
+                                    class="summernote textarea"
                                     placeholder="Description or note to be taken"
-                                >
-                                    {{ old('description') ?? '' }}
+                                >{{ old('description') ?? '' }}
                                 </x-forms.textarea>
-                                <x-common.icon
-                                    name="fas fa-edit"
-                                    class="is-large is-left"
-                                />
                                 <x-common.validation-error property="description" />
                             </x-forms.control>
                         </x-forms.field>
