@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Debit extends Model
+class Debt extends Model
 {
     use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, HasFactory;
 
@@ -23,7 +23,7 @@ class Debit extends Model
 
     protected $attributes = [
         'cash_amount' => 0,
-        'debit_amount_settled' => 0,
+        'debt_amount_settled' => 0,
     ];
 
     public function purchase()
@@ -36,44 +36,44 @@ class Debit extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function debitSettlements()
+    public function debtSettlements()
     {
-        return $this->hasMany(DebitSettlement::class);
+        return $this->hasMany(DebtSettlement::class);
     }
 
     public function getSettlementPercentageAttribute()
     {
-        return ($this->debit_amount_settled / $this->debit_amount) * 100;
+        return ($this->debt_amount_settled / $this->debt_amount) * 100;
     }
 
-    public function getDebitAmountUnsettledAttribute()
+    public function getDebtAmountUnsettledAttribute()
     {
-        return $this->debit_amount - $this->debit_amount_settled;
+        return $this->debt_amount - $this->debt_amount_settled;
     }
 
     public function scopeSettled($query)
     {
-        return $query->whereColumn('debit_amount', 'debit_amount_settled');
+        return $query->whereColumn('debt_amount', 'debt_amount_settled');
     }
 
     public function scopePartiallySettled($query)
     {
         return $query
-            ->where('debit_amount_settled', '>', 0)
-            ->whereColumn('debit_amount', '>', 'debit_amount_settled');
+            ->where('debt_amount_settled', '>', 0)
+            ->whereColumn('debt_amount', '>', 'debt_amount_settled');
     }
 
     public function scopeNoSettlements($query)
     {
-        return $query->where('debit_amount_settled', 0);
+        return $query->where('debt_amount_settled', 0);
     }
 
     public function scopeUnsettled($query)
     {
-        return $query->whereColumn('debit_amount', '>', 'debit_amount_settled');
+        return $query->whereColumn('debt_amount', '>', 'debt_amount_settled');
     }
 
-    public function scopeAverageDebitSettlementDays($query)
+    public function scopeAverageDebtSettlementDays($query)
     {
         return ($query->selectRaw('SUM(DATEDIFF(last_settled_at, issued_on)) / COUNT(id) as days')
                 ->first()
@@ -82,6 +82,6 @@ class Debit extends Model
 
         public function isSettled()
     {
-        return $this->debit_amount == $this->debit_amount_settled;
+        return $this->debt_amount == $this->debt_amount_settled;
     }
 }

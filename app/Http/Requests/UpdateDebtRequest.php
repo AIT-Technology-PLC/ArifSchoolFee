@@ -6,7 +6,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDebitRequest extends FormRequest
+class UpdateDebtRequest extends FormRequest
 {
     public function authorize()
     {
@@ -16,9 +16,9 @@ class StoreDebitRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('debits')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id)],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
-            'debit_amount' => ['required', 'numeric', 'gt:0'],
+            'debt_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],
             'due_date' => ['required', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],

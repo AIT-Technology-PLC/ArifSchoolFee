@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Debit')
+@section('title', 'Edit Debt')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="Edit Debit" />
+        <x-content.header title="Edit Debt" />
         <form
             id="formOne"
-            action="{{ route('debits.update', $debit->id) }}"
+            action="{{ route('debts.update', $debt->id) }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate
@@ -20,14 +20,14 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                Debit Number <sup class="has-text-danger">*</sup>
+                                Debt Number <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
-                                    value="{{ $debit->code }}"
+                                    value="{{ $debt->code }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
@@ -38,23 +38,23 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label for="debit_amount">
-                            Debit Amount <sup class="has-text-danger">*</sup>
+                        <x-forms.label for="debt_amount">
+                            Debt Amount <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    id="debit_amount"
-                                    name="debit_amount"
+                                    id="debt_amount"
+                                    name="debt_amount"
                                     type="number"
-                                    placeholder="Debit Amount"
-                                    value="{{ $credit->debit_amount }}"
+                                    placeholder="Debt Amount"
+                                    value="{{ $debt->debt_amount }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="debit_amount" />
+                                <x-common.validation-error property="debt_amount" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -76,7 +76,7 @@
                                     @foreach ($suppliers as $supplier)
                                         <option
                                             value="{{ $supplier->id }}"
-                                            @selected($debit->supplier_id == $supplier->id)
+                                            @selected($debt->supplier_id == $supplier->id)
                                         >{{ $supplier->company_name }}</option>
                                     @endforeach
                                 </x-forms.select>
@@ -99,7 +99,7 @@
                                     name="issued_on"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $debit->issued_on->toDateTimeLocalString() }}"
+                                    value="{{ $debt->issued_on->toDateTimeLocalString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -120,7 +120,7 @@
                                     name="due_date"
                                     id="due_date"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $debit->due_date->toDateString() }}"
+                                    value="{{ $debt->due_date->toDateString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -142,7 +142,7 @@
                                     class="summernote"
                                     placeholder="Description or note to be taken"
                                 >
-                                    {{ $debit->description ?? '' }}
+                                    {{ $debt->description ?? '' }}
                                 </x-forms.textarea>
                                 <x-common.validation-error property="description" />
                             </x-forms.control>

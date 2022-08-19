@@ -206,9 +206,18 @@ Route::post('/customers/{customer}/settle-credit',
     [Action\CustomerController::class, 'settleCredit'])
     ->name('customers.settle_credit');
 
+//Suppliers
 Route::post('/suppliers/import',
     [Action\SupplierController::class, 'import'])
     ->name('suppliers.import');
+
+Route::get('/suppliers/{supplier}/settle',
+    [Action\SupplierController::class, 'settle'])
+    ->name('suppliers.settle');
+
+Route::post('/suppliers/{supplier}/settle-debt',
+    [Action\SupplierController::class, 'settleDebt'])
+    ->name('suppliers.settle_debt');
 
 Route::post('/tender-statuses/import',
     [Action\TenderStatusController::class, 'import'])

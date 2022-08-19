@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Debit Details')
+@section('title', 'Debt Details')
 
 @section('content')
     <x-common.content-wrapper>
@@ -10,79 +10,79 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-money-check"
-                        :data="$debit->code"
-                        label="Debit No"
+                        icon="fas fa-money-check-dollar"
+                        :data="$debt->code"
+                        label="Debt No"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-file-invoice"
-                        :data="$debit->purchase->code ?? 'N/A'"
+                        :data="$debt->purchase->code ?? 'N/A'"
                         label="Purchase No"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"
-                        :data="$debit->supplier->company_name"
+                        :data="$debt->supplier->company_name"
                         label="Supplier"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-spinner"
-                        data="{{ number_format($debit->settlement_percentage, 2) }}%"
+                        data="{{ number_format($debt->settlement_percentage, 2) }}%"
                         label="Settlement Percentage"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$debit->issued_on->toFormattedDateString()"
+                        :data="$debt->issued_on->toFormattedDateString()"
                         label="Issued On"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$debit->due_date->toFormattedDateString()"
+                        :data="$debt->due_date->toFormattedDateString()"
                         label="Due Date"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$debit->last_settled_at ? $debit->last_settled_at->toFormattedDateString() : 'N/A'"
+                        :data="$debt->last_settled_at ? $debt->last_settled_at->toFormattedDateString() : 'N/A'"
                         label="Last Settlement Date"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-check"
-                        data="{{ number_format($debit->debit_amount, 2) }}"
-                        label="Debit Amount in {{ userCompany()->currency }}"
+                        data="{{ number_format($debt->debt_amount, 2) }}"
+                        label="Debt Amount in {{ userCompany()->currency }}"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-check"
-                        data="{{ number_format($debit->debit_amount_settled, 2) }}"
+                        data="{{ number_format($debt->debt_amount_settled, 2) }}"
                         label="Settled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-check"
-                        data="{{ number_format($debit->debit_amount_unsettled, 2) }}"
+                        data="{{ number_format($debt->debt_amount_unsettled, 2) }}"
                         label="Unsettled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
-                @if (!is_null($debit->description))
+                @if (!is_null($debt->description))
                     <div class="column is-12">
                         <x-common.show-data-section
                             type="long"
-                            :data="$debit->description"
+                            :data="$debt->description"
                             label="Details"
                         />
                     </div>
@@ -93,29 +93,29 @@
 
     <x-common.content-wrapper class="mt-5">
         <x-content.header
-            title="Debit Settlements"
+            title="Debt Settlements"
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$debit->isSettled())
-                    @can('Settle Debit')
+                @if (!$debt->isSettled())
+                    @can('Settle Debt')
                         <x-common.dropdown-item>
                             <x-common.button
                                 tag="a"
-                                href="{{ route('debits.debit-settlements.create', $debit->id) }}"
+                                href="{{ route('debts.debt-settlements.create', $debt->id) }}"
                                 mode="button"
-                                icon="fas fa-money-check"
+                                icon="fas fa-money-check-dollar"
                                 label="Add Settlement"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @can('Update Debit')
+                @can('Update Debt')
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="a"
-                            href="{{ route('debits.edit', $debit->id) }}"
+                            href="{{ route('debts.edit', $debt->id) }}"
                             mode="button"
                             icon="fas fa-pen"
                             label="Edit"
@@ -128,12 +128,12 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('deleted')" />
-            @if ($debit->isSettled())
-                <x-common.success-message message="This debit is fully settled." />
-            @elseif ($debit->settlement_percentage)
-                <x-common.fail-message message="This debit is partially settled." />
+            @if ($debt->isSettled())
+                <x-common.success-message message="This debt is fully settled." />
+            @elseif ($debt->settlement_percentage)
+                <x-common.fail-message message="This debt is partially settled." />
             @else
-                <x-common.fail-message message="No settlements was made to this debit." />
+                <x-common.fail-message message="No settlements was made to this debt." />
             @endif
             {{ $dataTable->table() }}
         </x-content.footer>

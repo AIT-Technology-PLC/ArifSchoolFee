@@ -24,6 +24,7 @@ class UpdateSupplierRequest extends FormRequest
             'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
+            'debt_amount_limit' => ['required', 'numeric', 'min:0'],
         ];
     }
 }

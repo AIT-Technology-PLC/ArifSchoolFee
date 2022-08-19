@@ -36,9 +36,9 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
-    public function debits()
+    public function debts()
     {
-        return $this->hasMany(Debit::class);
+        return $this->hasMany(Debt::class);
     }
 
     public function purchasedBy()

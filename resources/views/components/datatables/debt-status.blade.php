@@ -1,4 +1,4 @@
-@if ($debit->isSettled())
+@if ($debt->isSettled())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>
@@ -7,13 +7,13 @@
             Fully Settled
         </span>
     </span>
-@elseif ($debit->settlementPercentage)
+@elseif ($debt->settlementPercentage)
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
             <i class="fas fa-spinner"></i>
         </span>
         <span>
-            {{ number_format($debit->settlement_percentage, 2) }}% Settled
+            {{ number_format($debt->settlement_percentage, 2) }}% Settled
         </span>
     </span>
 @else

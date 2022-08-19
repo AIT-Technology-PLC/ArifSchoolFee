@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Debits')
+@section('title', 'Debts')
 
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-3 p-lr-0">
             <x-common.total-model
-                model="debits"
-                :amount="$totalDebits"
-                icon="fas fa-money-check"
+                model="debts"
+                :amount="$totalDebts"
+                icon="fas fa-money-check-dollar"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -37,31 +37,31 @@
         </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
-                amount="{{ number_format($currentDebitBalance, 2) }}"
+                amount="{{ number_format($currentDebtBalance, 2) }}"
                 border-color="#3d8660"
                 text-color="text-green"
-                label="Unsettled Debit Balance (in {{ userCompany()->currency }})"
+                label="Unsettled Debt Balance (in {{ userCompany()->currency }})"
             />
         </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
-                amount="{{ number_format($averageDebitSettlementDays, 2) }}"
+                amount="{{ number_format($averageDebtSettlementDays, 2) }}"
                 border-color="#863d63"
                 text-color="text-purple"
-                label="Average Debit Settlement Period (in Days)"
+                label="Average Debt Settlement Period (in Days)"
             />
         </div>
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Debits">
-            @can('Create Debit')
+        <x-content.header title="Debts">
+            @can('Create Debt')
                 <x-common.button
                     tag="a"
-                    href="{{ route('debits.create') }}"
+                    href="{{ route('debts.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Debit"
+                    label="Create Debt"
                     class="btn-green is-outlined is-small"
                 />
             @endcan

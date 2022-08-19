@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDebitSettlementRequest extends FormRequest
+class UpdateDebtSettlementRequest extends FormRequest
 {
     public function authorize()
     {
@@ -18,7 +18,7 @@ class UpdateDebitSettlementRequest extends FormRequest
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash'],
-            'settled_at' => ['required', 'date', 'after_or_equal:' . $this->route('credit_settlement')->credit->issued_on->toDateString()],
+            'settled_at' => ['required', 'date', 'after_or_equal:' . $this->route('debt_settlement')->debt->issued_on->toDateString()],
             'description' => ['nullable', 'string'],
         ];
     }

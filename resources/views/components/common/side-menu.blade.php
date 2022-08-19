@@ -583,8 +583,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debit Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Read Debit'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debt Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Read Debt'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -695,15 +695,15 @@
                                 </li>
                             @endcan
                         @endif
-                        @if (isFeatureEnabled('Debit Management'))
-                            @can('Read Debit')
+                        @if (isFeatureEnabled('Debt Management'))
+                            @can('Read Debt')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('debits.index') }}"
-                                        label="Debits"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debits.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('debits.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('debts.index') }}"
+                                        label="Debts"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debts.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('debts.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

@@ -2,12 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\Debit;
+use App\Models\Debt;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class DebitDatatable extends DataTable
+class DebtDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
@@ -17,55 +17,55 @@ class DebitDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($debit) => route('debits.show', $debit->id),
+                'data-url' => fn($debt) => route('debts.show', $debt->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn($debit) => $debit->warehouse->name)
-            ->editColumn('purchase no', function ($debit) {
+            ->editColumn('branch', fn($debt) => $debt->warehouse->name)
+            ->editColumn('purchase no', function ($debt) {
                 return view('components.datatables.link', [
-                    'url' => $debit->purchase()->exists() ? route('purchases.show', $debit->purchase->id) : 'javascript:void(0)',
-                    'label' => $debit->purchase()->exists() ? $debit->purchase->code : 'N/A',
+                    'url' => $debt->purchase()->exists() ? route('purchases.show', $debt->purchase->id) : 'javascript:void(0)',
+                    'label' => $debt->purchase()->exists() ? $debt->purchase->code : 'N/A',
                 ]);
             })
-            ->editColumn('supplier', function ($debit) {
+            ->editColumn('supplier', function ($debt) {
                 return view('components.datatables.link', [
-                    'url' => route('suppliers.debits.index', $debit->supplier_id),
-                    'label' => $debit->supplier->company_name,
+                    'url' => route('suppliers.debts.index', $debt->supplier_id),
+                    'label' => $debt->supplier->company_name,
                 ]);
             })
-            ->editColumn('status', fn($debit) => view('components.datatables.debit-status', compact('debit')))
+            ->editColumn('status', fn($debt) => view('components.datatables.debt-status', compact('debt')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when(strtolower($keyword) == 'no settlements', fn($query) => $query->noSettlements())
                     ->when(strtolower($keyword) == 'partial settlements', fn($query) => $query->partiallySettled())
                     ->when(strtolower($keyword) == 'settled', fn($query) => $query->settled());
             })
-            ->editColumn('debit amount', fn($debit) => userCompany()->currency . '. ' . number_format($debit->debit_amount, 2))
-            ->editColumn('amount settled', fn($debit) => userCompany()->currency . '. ' . number_format($debit->debit_amount_settled, 2))
-            ->editColumn('amount unsettled', fn($debit) => userCompany()->currency . '. ' . number_format($debit->debit_amount_unsettled, 2))
-            ->editColumn('issued_on', fn($debit) => $debit->issued_on->toFormattedDateString())
-            ->editColumn('due_date', fn($debit) => $debit->due_date->toFormattedDateString())
-            ->editColumn('actions', function ($debit) {
+            ->editColumn('debt amount', fn($debt) => userCompany()->currency . '. ' . number_format($debt->debt_amount, 2))
+            ->editColumn('amount settled', fn($debt) => userCompany()->currency . '. ' . number_format($debt->debt_amount_settled, 2))
+            ->editColumn('amount unsettled', fn($debt) => userCompany()->currency . '. ' . number_format($debt->debt_amount_unsettled, 2))
+            ->editColumn('issued_on', fn($debt) => $debt->issued_on->toFormattedDateString())
+            ->editColumn('due_date', fn($debt) => $debt->due_date->toFormattedDateString())
+            ->editColumn('actions', function ($debt) {
                 return view('components.common.action-buttons', [
-                    'model' => 'debits',
-                    'id' => $debit->id,
+                    'model' => 'debts',
+                    'id' => $debt->id,
                     'buttons' => 'all',
                 ]);
             })
             ->addIndexColumn();
     }
 
-    public function query(Debit $debit)
+    public function query(Debt $debt)
     {
-        return $debit
+        return $debt
             ->newQuery()
-            ->select('debits.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('debits.warehouse_id', request('branch')))
+            ->select('debts.*')
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('debts.warehouse_id', request('branch')))
             ->when(request('status') == 'no settlements', fn($query) => $query->noSettlements())
             ->when(request('status') == 'partial settlements', fn($query) => $query->partiallySettled())
             ->when(request('status') == 'settled', fn($query) => $query->settled())
-            ->when(request()->routeIs('suppliers.debits.index'), function ($query) {
+            ->when(request()->routeIs('suppliers.debts.index'), function ($query) {
                 return $query->where('supplier_id', request()->route('supplier')->id);
             })
             ->when(request('type') == 'due', function ($query) {
@@ -81,18 +81,18 @@ class DebitDatatable extends DataTable
     protected function getColumns()
     {
         $isHidden = isFeatureEnabled('Purchase Management') ? '' : 'is-hidden';
-        $requestHasSupplier = request()->routeIs('suppliers.debits.index');
+        $requestHasSupplier = request()->routeIs('suppliers.debts.index');
 
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
-            Column::make('code')->className('has-text-centered')->title('Credit No'),
+            Column::make('code')->className('has-text-centered')->title('Debt No'),
             Column::make('purchase no', 'purchase.code')
                 ->className('has-text-centered actions ' . $isHidden),
             Column::make('status')->orderable(false),
             Column::make('supplier', 'supplier.company_name')->className('actions')->visible(!$requestHasSupplier),
-            Column::make('debit amount', 'debit_amount'),
-            Column::make('amount settled', 'debit_amount_settled')->visible(false),
+            Column::make('debt amount', 'debt_amount'),
+            Column::make('amount settled', 'debt_amount_settled')->visible(false),
             Column::computed('amount unsettled')->visible(false),
             Column::make('issued_on'),
             Column::make('due_date')->visible(false),
@@ -102,6 +102,6 @@ class DebitDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Debit_' . date('YmdHis');
+        return 'Debt_' . date('YmdHis');
     }
 }

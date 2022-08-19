@@ -205,7 +205,7 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
-                ['name' => 'Debit Management'],
+                ['name' => 'Debt Management'],
                 ['is_enabled' => 1]
             );
 

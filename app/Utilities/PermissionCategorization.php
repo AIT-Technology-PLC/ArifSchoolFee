@@ -149,9 +149,9 @@ class PermissionCategorization
             'label' => 'Compensation Adjustment',
             'feature' => 'Compensation Adjustment',
         ],
-        'debit' => [
-            'label' => 'Debit',
-            'feature' => 'Debit Management',
+        'debt' => [
+            'label' => 'Debt',
+            'feature' => 'Debt Management',
         ],
     ];
 

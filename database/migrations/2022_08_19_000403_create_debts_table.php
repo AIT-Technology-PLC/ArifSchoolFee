@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('debits', function (Blueprint $table) {
+        Schema::create('debts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('purchase_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->decimal('cash_amount', 22);
-            $table->decimal('debit_amount', 22);
-            $table->decimal('debit_amount_settled', 22);
+            $table->decimal('debt_amount', 22);
+            $table->decimal('debt_amount_settled', 22);
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
@@ -36,6 +36,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::drop('debits');
+        Schema::drop('debts');
     }
 };

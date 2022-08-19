@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Create Debit')
+@section('title', 'Create Debt')
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="New Debit" />
+        <x-content.header title="New Debt" />
         <form
             id="formOne"
-            action="{{ route('debits.store') }}"
+            action="{{ route('debts.store') }}"
             method="POST"
             enctype="multipart/form-data"
             novalidate
@@ -19,14 +19,14 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                Debit Number <sup class="has-text-danger">*</sup>
+                                Debt Number <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
-                                    value="{{ $currentDebitCode }}"
+                                    value="{{ $currentDebtCode }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
@@ -37,23 +37,23 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label for="debit_amount">
-                            Debit Amount <sup class="has-text-danger">*</sup>
+                        <x-forms.label for="debt_amount">
+                            Debt Amount <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    id="debit_amount"
-                                    name="debit_amount"
+                                    id="debt_amount"
+                                    name="debt_amount"
                                     type="number"
                                     placeholder="Credit Amount"
-                                    value="{{ old('debit_amount') ?? '.00' }}"
+                                    value="{{ old('debt_amount') ?? '.00' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="debit_amount" />
+                                <x-common.validation-error property="debt_amount" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

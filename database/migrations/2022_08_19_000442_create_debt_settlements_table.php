@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('debit_settlements', function (Blueprint $table) {
+        Schema::create('debt_settlements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('debit_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('debt_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('amount', 22);
             $table->string('method');
             $table->string('bank_name')->nullable();
@@ -20,12 +20,12 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('debit_id');
+            $table->index('debt_id');
         });
     }
 
     public function down()
     {
-        Schema::drop('debit_settlements');
+        Schema::drop('debt_settlements');
     }
 };

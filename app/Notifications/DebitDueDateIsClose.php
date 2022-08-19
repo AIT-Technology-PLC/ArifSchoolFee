@@ -8,15 +8,15 @@ use Illuminate\Support\Str;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
 
-class DebitDueDateIsClose extends Notification
+class DebtDueDateIsClose extends Notification
 {
     use Queueable;
 
-    private $totalDebits;
+    private $totalDebts;
 
-    public function __construct($totalDebits)
+    public function __construct($totalDebts)
     {
-        $this->totalDebits = $totalDebits;
+        $this->totalDebts = $totalDebts;
     }
 
     public function via($notifiable)
@@ -26,9 +26,9 @@ class DebitDueDateIsClose extends Notification
 
     public function toArray($notifiable)
     {
-        $message = Str::of($this->totalDebits)
+        $message = Str::of($this->totalDebts)
             ->append(
-                Str::plural(' debit', $this->totalDebits),
+                Str::plural(' debt', $this->totalDebts),
                 ' will be due',
                 ' after 7 days or less'
             );
@@ -36,21 +36,21 @@ class DebitDueDateIsClose extends Notification
         return [
             'icon' => 'fas fa-money-check',
             'message' => $message,
-            'endpoint' => '/debits?type=due',
+            'endpoint' => '/debts?type=due',
         ];
     }
 
     public function toWebPush($notifiable, $notification)
     {
-        $message = Str::of($this->totalDebits)
+        $message = Str::of($this->totalDebts)
             ->append(
-                Str::plural(' debit', $this->totalDebits),
+                Str::plural(' debt', $this->totalDebts),
                 ' will be due',
                 ' after 7 days or less'
             );
 
         return (new WebPushMessage)
-            ->title('Debit Due Date Close')
+            ->title('Debt Due Date Close')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
             ->badge(asset('pwa/pwa-512x512.png'))
