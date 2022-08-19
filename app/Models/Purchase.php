@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Approvable;
 use App\Traits\Branchable;
+use App\Traits\CalculateDebtPayment;
 use App\Traits\Closable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -13,12 +14,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, Approvable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, CalculateDebtPayment, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
         'purchased_on' => 'datetime',
+        'due_date' => 'datetime',
     ];
 
     public function supplier()
@@ -36,9 +38,9 @@ class Purchase extends Model
         return $this->hasMany(Grn::class);
     }
 
-    public function debts()
+    public function debt()
     {
-        return $this->hasMany(Debt::class);
+        return $this->hasOne(Debt::class);
     }
 
     public function purchasedBy()

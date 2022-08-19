@@ -49,6 +49,12 @@ class DebtController extends Controller
 
     public function store(StoreDebtRequest $request)
     {
+        $supplier = Supplier::findOrFail($request->validated('supplier_id'));
+
+        if ($supplier->hasReachedDebtLimit($request->validated('debt_amount'))) {
+            return back()->withInput()->with('failedMessage', 'You can not exceed debt amount limit provided by this company');
+        }
+
         $debt = Debt::create($request->validated());
 
         return redirect()->route('debts.show', $debt->id);
@@ -88,6 +94,10 @@ class DebtController extends Controller
         if ($debt->purchase()->exists()) {
             return redirect()->route('debts.show', $debt->id)
                 ->with('failedMessage', 'Editing a debt that belongs to a purchase is not allowed.');
+        }
+
+        if ($debt->supplier->hasReachedDebtLimit($request->validated('debt_amount'), $debt->id)) {
+            return back()->with('failedMessage', 'You can not exceed debt amount limit provided by this company');
         }
 
         if ($request->validated('debt_amount') < $debt->debt_amount_settled) {

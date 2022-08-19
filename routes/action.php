@@ -29,6 +29,10 @@ Route::post('/purchases/{purchase}/close',
     [Action\PurchaseController::class, 'close'])
     ->name('purchases.close');
 
+Route::post('/purchases/{purchase}/convert-to-debt',
+    [Action\PurchaseController::class, 'convertToDebt'])
+    ->name('purchases.convert_to_debt');
+
 // Transfers
 Route::post('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])

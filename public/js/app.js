@@ -454,17 +454,29 @@ document.addEventListener("alpine:init", () => {
             taxType = "",
             currency = "",
             exchangeRate = "",
+            paymentType = "",
+            cashPayedType = "",
+            cashPayed = "",
+            dueDate = ""
         ) => ({
             purchaseType: "",
             taxType: "",
             currency: "",
             exchangeRate: "",
+            paymentType: "",
+            cashPayedType: "",
+            cashPayed: "",
+            dueDate: "",
 
             init() {
                 this.purchaseType = purchaseType;
                 this.taxType = taxType;
                 this.currency = currency;
                 this.exchangeRate = exchangeRate;
+                this.paymentType = paymentType;
+                this.cashPayedType = cashPayedType;
+                this.cashPayed = cashPayed;
+                this.dueDate = dueDate;
             },
             changePurchaseInformation() {
                 if (this.purchaseType === "Local Purchase") {
@@ -476,10 +488,30 @@ document.addEventListener("alpine:init", () => {
                 }
             },
 
+            changePaymentMethod() {
+                if (this.paymentType === "Cash Payment") {
+                    this.cashPayedType = "percent";
+                    this.cashPayed = 100;
+                    this.dueDate = "";
+                }
+                if (this.paymentType === "Credit Payment") {
+                    this.cashPayedType = "";
+                    this.cashPayed = "";
+                    this.dueDate = "";
+                }
+            },
+
             isPurchaseByLocal() {
                 return (
                     this.purchaseType === "" ||
                     this.purchaseType === "Local Purchase"
+                );
+            },
+
+            isPaymentInCash() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType === "Cash Payment"
                 );
             },
         })

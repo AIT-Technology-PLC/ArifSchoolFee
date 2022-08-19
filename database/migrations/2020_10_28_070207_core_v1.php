@@ -239,6 +239,9 @@ return new class extends Migration
             $table->boolean('is_closed')->default(0);
             $table->string('type');
             $table->string('payment_type');
+            $table->string('cash_payed_type');
+            $table->decimal('cash_payed', 22);
+            $table->dateTime('due_date')->nullable();
             $table->string('tax_type')->nullable();
             $table->string('currency')->nullable();
             $table->decimal('exchange_rate', 22)->nullable();
