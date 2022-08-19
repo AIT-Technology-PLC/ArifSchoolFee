@@ -251,6 +251,90 @@
                             </div>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6"
+                        x-data="UploadedFileNameHandler"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="print_template_image">
+                                Print Template <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <div class="file has-name">
+                                <label class="file-label">
+                                    <x-forms.input
+                                        class="file-input"
+                                        type="file"
+                                        name="print_template_image"
+                                        x-model="file"
+                                        x-on:change="getFileName"
+                                    />
+                                    <span class="file-cta bg-green has-text-white">
+                                        <x-common.icon
+                                            name="fas fa-upload"
+                                            class="file-icon"
+                                        />
+                                        <span class="file-label">
+                                            Upload Template
+                                        </span>
+                                    </span>
+                                    <span
+                                        class="file-name"
+                                        x-text="fileName || '{{ $company->print_template_image }}' || 'Select File...'"
+                                    >
+                                    </span>
+                                </label>
+                            </div>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label>
+                            Print Padding (%) <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="print_padding_top"
+                                    name="print_padding_top"
+                                    type="number"
+                                    placeholder="Top Padding"
+                                    value="{{ $company->print_padding_top }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-arrow-up"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="print_padding_top" />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="print_padding_bottom"
+                                    name="print_padding_bottom"
+                                    type="number"
+                                    placeholder="Bottom Padding"
+                                    value="{{ $company->print_padding_bottom }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-arrow-down"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="print_padding_bottom" />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="print_padding_horizontal"
+                                    name="print_padding_horizontal"
+                                    type="number"
+                                    placeholder="Horizontal Padding"
+                                    value="{{ $company->print_padding_horizontal }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-arrows-left-right"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="print_padding_horizontal" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="proforma_invoice_prefix">

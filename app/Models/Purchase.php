@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\Closable;
-use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Discountable, Closable, Approvable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, Approvable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -40,6 +39,30 @@ class Purchase extends Model
     public function purchasedBy()
     {
         return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);
+    }
+
+    public function getVatAttribute()
+    {
+        return number_format(
+            $this->subtotalPrice * $this->localTaxRate,
+            2,
+            thousands_separator:''
+        );
+    }
+
+    public function getLocalTaxRateAttribute()
+    {
+        $value = 0;
+
+        if ($this->tax_type == 'VAT') {
+            $value = 0.15;
+        }
+
+        if ($this->tax_type == 'TOT') {
+            $value = 0.02;
+        }
+
+        return $value;
     }
 
     public function scopePurchased($query)

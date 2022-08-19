@@ -3,6 +3,7 @@
 namespace App\Services\Inventory;
 
 use App\Models\Merchandise;
+use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Support\Arr;
@@ -33,6 +34,25 @@ class InventoryOperationService
             $merchandise->$to = $merchandise->$to + $detail['quantity'];
 
             $merchandise->save();
+
+            static::addToBatch($detail, $merchandise);
+        }
+    }
+
+    public static function addToBatch($detail, $merchandise)
+    {
+        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
+            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
+                [
+                    'merchandise_id' => $merchandise->id,
+                    'batch_no' => $detail['batch_no'],
+                ],
+            );
+
+            $merchandiseBatch->expiry_date = $detail['expiry_date'];
+            $merchandiseBatch->quantity += $detail['quantity'];
+
+            $merchandiseBatch->save();
         }
     }
 
@@ -52,6 +72,37 @@ class InventoryOperationService
             $merchandise->$from = $merchandise->$from - $detail['quantity'];
 
             $merchandise->save();
+
+            static::subtractFromBatch($detail, $merchandise);
+        }
+    }
+
+    public static function subtractFromBatch($detail, $merchandise)
+    {
+        $merchandiseBatches = $merchandise->merchandiseBatches()->where('quantity', '>', 0)->get();
+
+        if ($merchandise->product->isBatchable() && $merchandise->product->isLifo()) {
+            $merchandiseBatches = $merchandiseBatches->sortByDesc('expiry_date');
+        }
+
+        if ($merchandise->product->isBatchable() && !$merchandise->product->isLifo()) {
+            $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date');
+        }
+
+        foreach ($merchandiseBatches as $merchandiseBatch) {
+            if ($merchandiseBatch->quantity >= $detail['quantity']) {
+                $merchandiseBatch->quantity -= $detail['quantity'];
+
+                $merchandiseBatch->save();
+                break;
+            }
+
+            if ($merchandiseBatch->quantity < $detail['quantity']) {
+                $detail['quantity'] -= $merchandiseBatch->quantity;
+                $merchandiseBatch->quantity = 0;
+
+                $merchandiseBatch->save();
+            }
         }
     }
 

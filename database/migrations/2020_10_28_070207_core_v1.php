@@ -217,6 +217,8 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->string('unit_of_measurement');
             $table->decimal('min_on_hand', 22);
+            $table->string('is_batchable')->nullable();
+            $table->string('batch_priority')->nullable();
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -238,9 +240,11 @@ return new class extends Migration
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
-            $table->decimal('discount', 22)->nullable();
             $table->string('type');
             $table->string('payment_type');
+            $table->string('tax_type')->nullable();
+            $table->string('currency')->nullable();
+            $table->decimal('exchange_rate', 22)->nullable();
             $table->dateTime('purchased_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -258,7 +262,13 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
-            $table->decimal('discount', 22)->nullable();
+            $table->decimal('freight_cost', 22)->nullable();
+            $table->decimal('freight_insurance_cost', 22)->nullable();
+            $table->decimal('duty_rate', 22)->nullable();
+            $table->decimal('excise_tax', 22)->nullable();
+            $table->decimal('vat_rate', 22)->nullable();
+            $table->decimal('surtax', 22)->nullable();
+            $table->decimal('withholding_tax', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -448,6 +458,8 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
+            $table->string('batch_no')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -1233,6 +1245,19 @@ return new class extends Migration
             $table->index('adjustment_id');
         });
 
+        Schema::create('merchandise_batches', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('merchandise_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('batch_no')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->decimal('quantity', 22)->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('merchandise_id');
+            $table->index('batch_no');
+        });
+
         Schema::create('employee_compensation_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -1330,6 +1355,7 @@ return new class extends Migration
         Schema::drop('employee_compensations');
         Schema::drop('compensation_adjustment_details');
         Schema::drop('compensation_adjustments');
+        Schema::drop('merchandise_batches');
         Schema::drop('employee_compensation_histories');
     }
 };

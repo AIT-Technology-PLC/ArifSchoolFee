@@ -31,6 +31,12 @@ class CompanyController extends Controller
                     'logo' => $request->logo->store('logo', 'public'),
                 ]);
             }
+
+            if ($request->hasFile('print_template_image')) {
+                $company->update([
+                    'print_template_image' => $request->print_template_image->store('print_template_image', 'public'),
+                ]);
+            }
         });
 
         return back()->with('successMessage', 'Settings updated successfully.');
