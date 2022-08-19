@@ -25,9 +25,8 @@ class AdvancementService
 
                 $emlpoyeeCompensation = EmployeeCompensation::where('employee_id', $advancementDetail->employee_id)->first();
                 $changeCount = EmployeeCompensationHistory::where('employee_id', $advancementDetail->employee_id)->count();
-                if ($changeCount > 0) {
-                    $emlpoyeeCompensation->change_count = $changeCount;
-                }
+
+                $emlpoyeeCompensation->change_count = $changeCount;
 
                 EmployeeCompensationHistory::create($emlpoyeeCompensation->toArray());
 
