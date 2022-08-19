@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->decimal('paid_time_off_amount', 22)->default(0)->after('emergency_phone');
+            $table->decimal('paid_time_off_amount', 22)->nullable()->after('emergency_phone');
         });
     }
 
