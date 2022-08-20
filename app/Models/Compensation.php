@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use App\Traits\HasUserstamps;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\EmployeeCompensationHistory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Compensation extends Model
@@ -53,5 +54,10 @@ class Compensation extends Model
     public function scopeCanBeInputtedManually($query)
     {
         return $query->where('can_be_inputted_manually', 1);
+    }
+
+    public function employeeCompensationHistories()
+    {
+        return $this->hasMany(EmployeeCompensationHistory::class);
     }
 }

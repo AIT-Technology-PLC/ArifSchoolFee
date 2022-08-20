@@ -540,7 +540,7 @@
                                             name="paid_time_off_amount"
                                             type="number"
                                             placeholder="Paid Time Off Amount"
-                                            value="{{ old('paid_time_off_amount') }}"
+                                            value="{{ old('paid_time_off_amount', userCompany()->paid_time_off_amount) }}"
                                         />
                                         <x-common.icon
                                             name="fas fa-th"

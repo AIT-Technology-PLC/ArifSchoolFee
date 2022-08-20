@@ -23,7 +23,7 @@ class AdvancementService
                 $advancementDetail->employee->position = $advancementDetail->job_position;
                 $advancementDetail->employee->save();
 
-                $emlpoyeeCompensation = EmployeeCompensation::where('employee_id', $advancementDetail->employee_id)->first();
+                $emlpoyeeCompensation = EmployeeCompensation::where('employee_id', $advancementDetail->employee_id)->where('compensation_id', $advancementDetail->compensation_id)->first();
                 $changeCount = EmployeeCompensationHistory::where('employee_id', $advancementDetail->employee_id)->count();
 
                 $emlpoyeeCompensation->change_count = $changeCount;

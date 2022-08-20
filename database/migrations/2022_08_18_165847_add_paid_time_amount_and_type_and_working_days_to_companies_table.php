@@ -9,9 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->decimal('paid_time_off_amount', 22)->nullable()->after('can_show_branch_detail_on_print');
-            $table->string('paid_time_off_type')->nullable()->after('paid_time_off_amount');
-            $table->bigInteger('working_days')->nullable()->after('paid_time_off_type');
+            $table->decimal('paid_time_off_amount', 22)->default(0)->after('can_show_branch_detail_on_print');
+            $table->string('paid_time_off_type')->default('Days')->after('paid_time_off_amount');
+            $table->bigInteger('working_days')->default(30)->after('paid_time_off_type');
         });
     }
 

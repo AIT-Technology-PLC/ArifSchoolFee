@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Department;
+use App\Models\EmployeeCompensationHistory;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
@@ -93,5 +94,10 @@ class Employee extends Model
     public function compensationAdjustmentDetails()
     {
         return $this->hasMany(CompensationAdjustmentDetail::class);
+    }
+
+    public function employeeCompensationHistories()
+    {
+        return $this->hasMany(EmployeeCompensationHistory::class);
     }
 }

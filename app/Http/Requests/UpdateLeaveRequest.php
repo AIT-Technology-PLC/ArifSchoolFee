@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use App\Rules\ValidateTimeOfAmount;
+use App\Rules\ValidateTimeOffAmount;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateLeaveRequest extends FormRequest
@@ -20,7 +21,7 @@ class UpdateLeaveRequest extends FormRequest
             'starting_period' => ['required', 'date'],
             'ending_period' => ['required', 'date', 'after:starting_period'],
             'is_paid_time_off' => ['required', 'boolean'],
-            'time_off_amount' => ['required', 'numeric', new ValidateTimeOfAmount],
+            'time_off_amount' => ['nullable', 'numeric', 'required_if:is_paid_time_off,1', new ValidateTimeOffAmount],
         ];
     }
 }

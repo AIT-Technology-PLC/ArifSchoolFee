@@ -6,7 +6,7 @@ use App\Models\Employee;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Arr;
 
-class ValidateTimeOfAmount implements Rule
+class ValidateTimeOffAmount implements Rule
 {
     private $message;
 
@@ -21,13 +21,13 @@ class ValidateTimeOfAmount implements Rule
 
         $employeeId = request()->input($employeeIdKey) ?? Arr::get($this->details, $employeeIdKey);
 
-        $timeOfAmountKey = str_replace('.time_off_amount', '.is_paid_time_off', $attribute);
+        $timeOffAmountKey = str_replace('.time_off_amount', '.is_paid_time_off', $attribute);
 
-        $timeOfAmount = request()->input($timeOfAmountKey) ?? Arr::get($this->details, $timeOfAmountKey);
+        $timeOffAmount = request()->input($timeOffAmountKey) ?? Arr::get($this->details, $timeOffAmountKey);
 
         $employee = Employee::firstWhere('id', $employeeId);
 
-        if ($timeOfAmount == 1 && $employee->paid_time_off_amount < $value) {
+        if ($timeOffAmount == 1 && $employee->paid_time_off_amount < $value) {
             $this->message = "Employee has not enough Paid Time Off Amount .";
 
             return false;
