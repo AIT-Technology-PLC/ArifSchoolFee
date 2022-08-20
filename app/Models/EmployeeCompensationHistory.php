@@ -2,26 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Employee;
 use App\Models\Compensation;
-use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AdvancementDetail extends Model
+class EmployeeCompensationHistory extends Model
 {
-    use SoftDeletes, TouchParentUserstamp;
+    use SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
-
-    public function parentModel()
-    {
-        return $this->advancement;
-    }
-
-    public function advancement()
-    {
-        return $this->belongsTo(Advancement::class);
-    }
 
     public function employee()
     {

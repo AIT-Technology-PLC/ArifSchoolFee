@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->decimal('amount', 22);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['employee_id', 'compensation_id']);
             $table->index('compensation_id');

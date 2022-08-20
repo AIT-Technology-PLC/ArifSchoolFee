@@ -262,12 +262,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
 
-            //Earning
-            $permissions[] = Permission::firstOrCreate(['name' => 'Create Earning']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Earning']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Update Earning']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Earning']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Earning']);
             //Advancement
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Advancement']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Advancement']);
@@ -361,7 +355,6 @@ class Permissions extends Seeder
                 'Create Leave',
                 'Create Expense Claim',
                 'Create Advancement',
-                'Create Earning',
                 'Create Announcement',
                 'Create Compensation Adjustment',
                 'Read Department',
@@ -372,7 +365,6 @@ class Permissions extends Seeder
                 'Read Leave',
                 'Read Expense Claim',
                 'Read Advancement',
-                'Read Earning',
                 'Read Announcement',
                 'Read Compensation Adjustment',
                 'Update Department',
@@ -383,7 +375,6 @@ class Permissions extends Seeder
                 'Update Attendance',
                 'Update Advancement',
                 'Update Leave',
-                'Update Earning',
                 'Update Announcement',
                 'Update Compensation Adjustment',
                 'Delete Department',
@@ -394,13 +385,11 @@ class Permissions extends Seeder
                 'Delete Leave',
                 'Delete Expense Claim',
                 'Delete Advancement',
-                'Delete Earning',
                 'Delete Announcement',
                 'Delete Compensation Adjustment',
                 'Import Employee',
                 'Approve Attendance',
                 'Approve Warning',
-                'Approve Earning',
                 'Approve Leave',
                 'Approve Expense Claim',
                 'Approve Advancement',
@@ -418,7 +407,6 @@ class Permissions extends Seeder
                 'Create Employee',
                 'Create Employee Transfer',
                 'Create Department',
-                'Create Earning',
                 'Create Leave',
                 'Create Expense Claim',
                 'Create Advancement',
@@ -429,7 +417,6 @@ class Permissions extends Seeder
                 'Read Employee',
                 'Read Employee Transfer',
                 'Read Department',
-                'Read Earning',
                 'Read Leave',
                 'Read Expense Claim',
                 'Read Advancement',
@@ -441,7 +428,6 @@ class Permissions extends Seeder
                 'Update Employee Transfer',
                 'Update Department',
                 'Update Warning',
-                'Update Earning',
                 'Update Leave',
                 'Update Expense Claim',
                 'Update Advancement',

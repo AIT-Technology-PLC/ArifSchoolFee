@@ -132,10 +132,6 @@ class PermissionCategorization
             'label' => 'Expense Claim',
             'feature' => 'Expense Claim',
         ],
-        'earning' => [
-            'label' => 'Earning',
-            'feature' => 'Earning Management',
-        ],
         'announcement' => [
             'label' => 'Announcement',
             'feature' => 'Announcement Management',

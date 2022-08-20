@@ -26,7 +26,7 @@ class UpdateUserAction
         DB::transaction(function () use ($employee, $data) {
             $user = $this->UpdateUser($employee, $data);
 
-            $employee->update(Arr::only($data, ['position', 'enabled', 'gender', 'address', 'bank_name', 'bank_account', 'tin_number', 'job_type', 'phone', 'id_type', 'id_number', 'date_of_hiring', 'date_of_birth', 'emergency_name', 'emergency_phone', 'department_id']));
+            $employee->update(Arr::only($data, ['position', 'enabled', 'gender', 'address', 'bank_name', 'bank_account', 'tin_number', 'job_type', 'phone', 'id_type', 'id_number', 'date_of_hiring', 'date_of_birth', 'emergency_name', 'emergency_phone', 'department_id', 'paid_time_off_amount']));
 
             $this->action->execute(
                 $user,

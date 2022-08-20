@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\HasUserstamps;
-use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmployeeCompensation extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps;
+    use SoftDeletes;
 
     protected $table = 'employee_compensations';
 

@@ -364,11 +364,6 @@ Route::post('/expense-claims/request',
     [Action\ExpenseClaimController::class, 'storeExpenseClaim'])
     ->name('expense-claims.request.store');
 
-// Earning
-Route::post('/earnings/{earning}/approve',
-    [Action\EarningController::class, 'approve'])
-    ->name('earnings.approve');
-
 // Announcement
 Route::post('/announcements/{announcement}/approve',
     [Action\AnnouncementController::class, 'approve'])

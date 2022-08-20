@@ -8,22 +8,21 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('earning_details', function (Blueprint $table) {
+        Schema::create('employee_compensation_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('earning_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('earning_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('change_count');
             $table->decimal('amount', 22);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('earning_id');
-            $table->index('earning_category_id');
+            $table->index('employee_id');
         });
     }
 
     public function down()
     {
-        Schema::drop('earning_details');
+        Schema::drop('employee_compensation_histories');
     }
 };

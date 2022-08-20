@@ -61,29 +61,6 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label x-bind:for="`advancement[${index}][gross_salary]`">
-                            Gross Salary <sup class="has-text-danger">*</sup>
-                        </x-forms.label>
-                        <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left is-expanded">
-                                <x-forms.input
-                                    type="number"
-                                    x-bind:id="`advancement[${index}][gross_salary]`"
-                                    x-bind:name="`advancement[${index}][gross_salary]`"
-                                    x-model="advancement.gross_salary"
-                                />
-                                <x-common.icon
-                                    name="fas fa-money-bill"
-                                    class="is-small is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`advancement.${index}.gross_salary`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
                         <x-forms.label x-bind:for="`advancement[${index}][job_position]`">
                             Job Position <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -102,6 +79,57 @@
                                 <span
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`advancement.${index}.job_position`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`advancement[${index}][compensation_id]`">
+                                Compensation <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    x-bind:id="`advancement[${index}][compensation_id]`"
+                                    x-bind:name="`advancement[${index}][compensation_id]`"
+                                    x-model="advancement.compensation_id"
+                                >
+                                    @foreach ($compensations as $compensation)
+                                        <option value="{{ $compensation->id }}">{{ $compensation->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fa-solid fa-circle-dollar-to-slot"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`advancement.${index}.compensation_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label x-bind:for="`advancement[${index}][amount]`">
+                            Amount <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:id="`advancement[${index}][amount]`"
+                                    x-bind:name="`advancement[${index}][amount]`"
+                                    x-model="advancement.amount"
+                                    type="number"
+                                    placeholder="Amount"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`advancement.${index}.amount`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

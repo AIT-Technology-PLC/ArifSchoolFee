@@ -531,6 +531,27 @@
                             </div>
                             <div class="column is-6">
                                 <x-forms.field>
+                                    <x-forms.label for="paid_time_off_amount">
+                                        Paid Time Off Amount <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="paid_time_off_amount"
+                                            name="paid_time_off_amount"
+                                            type="number"
+                                            placeholder="Paid Time Off Amount"
+                                            value="{{ old('paid_time_off_amount', userCompany()->paid_time_off_amount) }}"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-th"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="paid_time_off_amount" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.field>
                                     <x-forms.label for="enabled">
                                         Can this employee access the system? <sup class="has-text-danger">*</sup>
                                     </x-forms.label>

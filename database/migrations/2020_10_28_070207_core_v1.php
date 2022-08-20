@@ -95,6 +95,9 @@ return new class extends Migration
             $table->boolean('is_discount_before_vat')->default(1);
             $table->boolean('is_convert_to_siv_as_approved')->default(1);
             $table->boolean('can_show_branch_detail_on_print')->default(1);
+            $table->decimal('paid_time_off_amount', 22)->default(0);
+            $table->string('paid_time_off_type')->default('Days');
+            $table->bigInteger('working_days')->default(30);
             $table->timestamps();
             $table->softDeletes();
 
@@ -137,6 +140,7 @@ return new class extends Migration
             $table->dateTime('date_of_birth')->nullable();
             $table->string('emergency_name')->nullable();
             $table->string('emergency_phone')->nullable();
+            $table->decimal('paid_time_off_amount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -1043,51 +1047,6 @@ return new class extends Migration
             $table->index('attendance_id');
         });
 
-        Schema::create('earning_categories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->string('name');
-            $table->string('type');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('company_id');
-            $table->unique(['company_id', 'name', 'type']);
-        });
-
-        Schema::create('earnings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->bigInteger('code');
-            $table->dateTime('starting_period');
-            $table->dateTime('ending_period');
-            $table->longText('description')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('company_id');
-            $table->index('warehouse_id');
-        });
-
-        Schema::create('earning_details', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('earning_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('earning_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('amount', 22);
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->index('earning_id');
-            $table->index('earning_category_id');
-        });
-
         Schema::create('integrations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
@@ -1130,6 +1089,8 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->dateTime('starting_period')->nullable();
             $table->dateTime('ending_period')->nullable();
+            $table->boolean('is_paid_time_off');
+            $table->decimal('time_off_amount', 22);
             $table->timestamps();
             $table->softDeletes();
 
@@ -1160,7 +1121,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('advancement_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('gross_salary', 22)->nullable();
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('amount', 22);
             $table->string('job_position');
             $table->timestamps();
             $table->softDeletes();
@@ -1246,18 +1208,14 @@ return new class extends Migration
 
         Schema::create('employee_compensations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->decimal('amount', 22);
             $table->timestamps();
             $table->softDeletes();
 
             $table->unique(['employee_id', 'compensation_id']);
             $table->index('compensation_id');
-            $table->index('company_id');
         });
 
         Schema::create('compensation_adjustments', function (Blueprint $table) {
@@ -1302,6 +1260,18 @@ return new class extends Migration
 
             $table->index('merchandise_id');
             $table->index('batch_no');
+        });
+
+        Schema::create('employee_compensation_histories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('compensation_id')->nullable()->constrained('compensations')->onDelete('cascade')->onUpdate('cascade');
+            $table->bigInteger('change_count');
+            $table->decimal('amount', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('employee_id');
         });
 
         Schema::create('debts', function (Blueprint $table) {
@@ -1423,9 +1393,6 @@ return new class extends Migration
         Schema::drop('advancements');
         Schema::drop('expense_claim_details');
         Schema::drop('expense_claims');
-        Schema::drop('earning_categories');
-        Schema::drop('earning_details');
-        Schema::drop('earnings');
         Schema::drop('announcements');
         Schema::drop('announcement_warehouse');
         Schema::drop('compensations');
@@ -1433,6 +1400,7 @@ return new class extends Migration
         Schema::drop('compensation_adjustment_details');
         Schema::drop('compensation_adjustments');
         Schema::drop('merchandise_batches');
+        Schema::drop('employee_compensation_histories');
         Schema::drop('debt_settlements');
         Schema::drop('debts');
     }

@@ -16,8 +16,9 @@ class AdvancementDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('employee name', fn($advancementDetail) => $advancementDetail->employee->user->name)
+            ->editColumn('compensation', fn($advancementDetail) => $advancementDetail->compensation->name)
+            ->editColumn('amount', fn($advancementDetail) => $advancementDetail->amount)
             ->editColumn('job_position', fn($advancementDetail) => $advancementDetail->job_position)
-            ->editColumn('gross_salary', fn($advancementDetail) => $advancementDetail->gross_salary)
             ->editColumn('actions', function ($advancementDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'advancement-details',
@@ -44,8 +45,9 @@ class AdvancementDetailDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('employee name', 'employee.user.name'),
+            Column::make('compensation'),
+            Column::make('amount'),
             Column::make('job_position'),
-            Column::make('gross_salary'),
             Column::computed('actions'),
         ];
     }

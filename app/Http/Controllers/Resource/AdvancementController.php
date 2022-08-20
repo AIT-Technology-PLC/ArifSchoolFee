@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdvancementRequest;
 use App\Http\Requests\UpdateAdvancementRequest;
 use App\Models\Advancement;
+use App\Models\Compensation;
 use App\Models\User;
 use App\Notifications\AdvancementCreated;
 use App\Utilities\Notifiables;
@@ -40,7 +41,9 @@ class AdvancementController extends Controller
     {
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
-        return view('advancements.create', compact('users'));
+        $compensations = Compensation::orderBy('name')->get();
+
+        return view('advancements.create', compact('users', 'compensations'));
     }
 
     public function store(StoreAdvancementRequest $request)
@@ -73,9 +76,11 @@ class AdvancementController extends Controller
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
+        $compensations = Compensation::orderBy('name')->get();
+
         $advancement->load(['advancementDetails']);
 
-        return view('advancements.edit', compact('advancement', 'users'));
+        return view('advancements.edit', compact('advancement', 'users', 'compensations'));
     }
 
     public function update(UpdateAdvancementRequest $request, Advancement $advancement)

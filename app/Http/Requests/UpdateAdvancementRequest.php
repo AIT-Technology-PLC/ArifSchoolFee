@@ -26,8 +26,9 @@ class UpdateAdvancementRequest extends FormRequest
                     $fail('You do not have permission to modify an advancement request of this employee.');
                 }
             }],
-            'advancement.*.gross_salary' => ['required', 'numeric'],
             'advancement.*.job_position' => ['required', 'string'],
+            'advancement.*.compensation_id' => ['required', 'string', new MustBelongToCompany('compensations')],
+            'advancement.*.amount' => ['required', 'numeric'],
         ];
     }
 }
