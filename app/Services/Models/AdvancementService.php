@@ -30,7 +30,7 @@ class AdvancementService
 
                 EmployeeCompensationHistory::create($emlpoyeeCompensation->toArray());
 
-                $emlpoyeeCompensation->delete();
+                $emlpoyeeCompensation->forceDelete();
 
                 EmployeeCompensation::create(Arr::only($advancementDetail->toArray(), ['employee_id', 'compensation_id', 'amount']));
             });
