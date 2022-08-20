@@ -30,21 +30,4 @@ class Supplier extends Model
     {
         return $this->hasMany(Grn::class);
     }
-
-    public function getUndueDebtAmount()
-    {
-        $debts = $this->debts()->unsettled()->where('due_date', '>=', today())->get();
-
-        return $debts->sum('debt_amount') - $debts->sum('debt_amount_settled');
-    }
-
-    public function getOverdueDebtAmountByPeriod($from, $to = null)
-    {
-        $debts = $this->debts()->unsettled()
-            ->where('due_date', '<=', now()->subDays($from))
-            ->when(!is_null($to), fn($q) => $q->where('due_date', '>=', now()->subDays($to)))
-            ->get();
-
-        return $debts->sum('debt_amount') - $debts->sum('debt_amount_settled');
-    }
 }

@@ -149,6 +149,19 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
+                @elseif (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
+                    @can('Convert To Debt')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.convert_to_debt', $purchase->id)"
+                                action="convert"
+                                intention="convert this purchase to debt"
+                                icon="fas fa-money-check-dollar"
+                                label="Convert to Debt"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @elseif(!$purchase->isClosed())
                     @if (isFeatureEnabled('Grn Management'))
                         @can('Create GRN')

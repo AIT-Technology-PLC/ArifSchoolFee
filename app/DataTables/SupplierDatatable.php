@@ -15,15 +15,19 @@ class SupplierDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('registered on', fn ($supplier) => $supplier->created_at->toFormattedDateString())
-            ->editColumn('added by', fn ($supplier) => $supplier->createdBy->name)
-            ->editColumn('edited by', fn ($supplier) => $supplier->updatedBy->name)
+            ->editColumn('debt limit', function ($supplier) {
+                return isFeatureEnabled('Debt Management')
+                ? view('components.datatables.link', [
+                    'url' => route('suppliers.debts.index', $supplier->id),
+                    'label' => userCompany()->currency . '. ' . number_format($supplier->debt_amount_limit, 2),
+                ])
+                : userCompany()->currency . '. ' . number_format($supplier->debt_amount_limit, 2);
+            })
+            ->editColumn('registered on', fn($supplier) => $supplier->created_at->toFormattedDateString())
+            ->editColumn('added by', fn($supplier) => $supplier->createdBy->name)
+            ->editColumn('edited by', fn($supplier) => $supplier->updatedBy->name)
             ->editColumn('actions', function ($supplier) {
-                return view('components.common.action-buttons', [
-                    'model' => 'suppliers',
-                    'id' => $supplier->id,
-                    'buttons' => ['edit', 'delete'],
-                ]);
+                return view('components.datatables.supplier-action', compact('supplier'));
             })
             ->addIndexColumn();
     }
@@ -44,6 +48,7 @@ class SupplierDatatable extends DataTable
             Column::computed('#'),
             Column::make('company_name')->title('Name'),
             Column::make('tin')->content('N/A')->title('TIN No'),
+            Column::make('debt limit', 'debt_amount_limit'),
             Column::make('address')->visible(false)->content('N/A'),
             Column::make('contact_name')->content('N/A'),
             Column::make('email')->visible(false)->content('N/A'),
@@ -57,6 +62,6 @@ class SupplierDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Supplier_'.date('YmdHis');
+        return 'Supplier_' . date('YmdHis');
     }
 }
