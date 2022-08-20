@@ -17,33 +17,33 @@ class PayableDatatable extends DataTable
             ->collection($query)
             ->editColumn('company_name', fn($supplier) => $supplier->company_name)
             ->editColumn('current', function ($supplier) {
-                return view('components.datatables.payable-period', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $supplier->getUndueDebtAmount(),
                 ]);
             })
             ->editColumn('1-30 days', function ($supplier) {
-                return view('components.datatables.payable-period', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $supplier->getOverdueDebtAmountByPeriod(1, 30),
                 ]);
             })
             ->editColumn('31-60 days', function ($supplier) {
-                return view('components.datatables.payable-period', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $supplier->getOverdueDebtAmountByPeriod(31, 60),
                 ]);
             })
             ->editColumn('61-90 days', function ($supplier) {
-                return view('components.datatables.payable-period', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $supplier->getOverdueDebtAmountByPeriod(61, 90),
                 ]);
             })
             ->editColumn('> 90 days', function ($supplier) {
-                return view('components.datatables.payable-period', [
+                return view('components.datatables.receivable-period', [
                     'amount' => $supplier->getOverdueDebtAmountByPeriod(91),
                 ]);
             })
             ->editColumn('total balance', function ($supplier) {
-                return view('components.datatables.payable-period', [
-                    'amount' => $supplier->debt->sum('debt_amount_unsettled'),
+                return view('components.datatables.receivable-period', [
+                    'amount' => $supplier->debts->sum('debt_amount_unsettled'),
                 ]);
             })
             ->addIndexColumn();
@@ -54,9 +54,9 @@ class PayableDatatable extends DataTable
         return $supplier
             ->newQuery()
             ->select('suppliers.*')
-            ->whereHas('debt', fn($q) => $q->unsettled())
+            ->whereHas('debts', fn($q) => $q->unsettled())
             ->with([
-                'debt',
+                'debts',
             ])
             ->get();
     }
