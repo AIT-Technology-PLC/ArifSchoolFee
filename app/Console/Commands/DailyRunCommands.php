@@ -23,6 +23,7 @@ class DailyRunCommands extends Command
         'credit:due-date-notification',
         'backup:run --disable-notifications',
         'job:behind-schedule-notification',
+        'debt:due-date-notification',
     ];
 
     public function __construct()

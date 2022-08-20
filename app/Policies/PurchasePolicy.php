@@ -50,4 +50,9 @@ class PurchasePolicy
     {
         return $user->can('Make Purchase');
     }
+
+    public function convertToDebt(User $user, Purchase $purchase)
+    {
+        return $user->can('Convert To Debt');
+    }
 }

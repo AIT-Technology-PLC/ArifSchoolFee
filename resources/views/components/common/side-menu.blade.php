@@ -548,8 +548,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debt Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Read Debt'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -656,6 +656,19 @@
                                         label="Credits"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Debt Management'))
+                            @can('Read Debt')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('debts.index') }}"
+                                        label="Debts"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debts.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('debts.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

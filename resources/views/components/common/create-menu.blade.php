@@ -417,8 +417,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Credit', 'Create Price', 'Create Customer'])
+            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debt Management'))
+                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Credit', 'Create Price', 'Create Customer', 'Create Debt'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -522,6 +522,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Credit </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Create Debt')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('debts.create') }}"
+                                            icon="fas fa-money-check-dollar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Debt </span>
                                         </span>
                                     </div>
                                 @endcan
