@@ -975,8 +975,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Credit Management'))
-        @canany(['Read Credit'])
+    @if (isFeatureEnabled('Credit Management', 'Debt Management'))
+        @canany(['Read Credit', 'Read Debt'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1018,6 +1018,20 @@
                                         label="Receivables & Aging"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('receivables.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('receivables.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Debt Management'))
+                            @can('Read Debt')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('payables.index') }}"
+                                        label="Payables & Aging"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payables.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('payables.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
