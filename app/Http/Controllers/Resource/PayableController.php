@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resource;
 
 use App\DataTables\PayableDatatable;
 use App\Http\Controllers\Controller;
+use App\Models\Debt;
 
 class PayableController extends Controller
 {
