@@ -149,7 +149,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Debt Payment' && $purchase->supplier()->exists())
+                @elseif (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
                     @can('Convert To Debt')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

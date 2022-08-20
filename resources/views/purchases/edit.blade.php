@@ -3,7 +3,7 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_payed_type }}', {{ $purchase->cash_payed }}, '{{ $purchase->due_date?->toDateString() }}')">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', {{ $purchase->cash_paid }}, '{{ $purchase->due_date?->toDateString() }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -108,8 +108,8 @@
                                     >Cash Payment</option>
                                     <option
                                         x-show="isPurchaseByLocal()"
-                                        value="Debt Payment"
-                                    >Debt Payment</option>
+                                        value="Credit Payment"
+                                    >Credit Payment</option>
                                     <option
                                         x-show="!isPurchaseByLocal()"
                                         value="LC"
@@ -136,14 +136,14 @@
                         x-cloak
                         x-bind:class="{ 'is-hidden': isPaymentInCash() }"
                     >
-                        <x-forms.label for="cash_payed">
-                            Cash Payed <sup class="has-text-danger">*</sup>
+                        <x-forms.label for="cash_paid">
+                            Cash Paid <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control>
                                 <x-forms.select
-                                    name="cash_payed_type"
-                                    x-model="cashPayedType"
+                                    name="cash_paid_type"
+                                    x-model="cashPaidType"
                                 >
                                     <option
                                         selected
@@ -157,17 +157,17 @@
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     type="number"
-                                    name="cash_payed"
-                                    id="cash_payed"
+                                    name="cash_paid"
+                                    id="cash_paid"
                                     placeholder="eg. 50"
-                                    x-model="cashPayed"
+                                    x-model="cashPaid"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="cash_payed" />
-                                <x-common.validation-error property="cash_payed_type" />
+                                <x-common.validation-error property="cash_paid" />
+                                <x-common.validation-error property="cash_paid_type" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -178,7 +178,7 @@
                     >
                         <x-forms.field>
                             <x-forms.label for="due_date">
-                                Debit Due Date <sup class="has-text-danger">*</sup>
+                                Credit Due Date <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input

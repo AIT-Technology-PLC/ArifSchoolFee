@@ -455,8 +455,8 @@ document.addEventListener("alpine:init", () => {
             currency = "",
             exchangeRate = "",
             paymentType = "",
-            cashPayedType = "",
-            cashPayed = "",
+            cashPaidType = "",
+            cashPaid = "",
             dueDate = ""
         ) => ({
             purchaseType: "",
@@ -464,8 +464,8 @@ document.addEventListener("alpine:init", () => {
             currency: "",
             exchangeRate: "",
             paymentType: "",
-            cashPayedType: "",
-            cashPayed: "",
+            cashPaidType: "",
+            cashPaid: "",
             dueDate: "",
 
             init() {
@@ -474,8 +474,8 @@ document.addEventListener("alpine:init", () => {
                 this.currency = currency;
                 this.exchangeRate = exchangeRate;
                 this.paymentType = paymentType;
-                this.cashPayedType = cashPayedType;
-                this.cashPayed = cashPayed;
+                this.cashPaidType = cashPaidType;
+                this.cashPaid = cashPaid;
                 this.dueDate = dueDate;
             },
             changePurchaseInformation() {
@@ -490,13 +490,13 @@ document.addEventListener("alpine:init", () => {
 
             changePaymentMethod() {
                 if (this.paymentType === "Cash Payment") {
-                    this.cashPayedType = "percent";
-                    this.cashPayed = 100;
+                    this.cashPaidType = "percent";
+                    this.cashPaid = 100;
                     this.dueDate = "";
                 }
                 if (this.paymentType === "Credit Payment") {
-                    this.cashPayedType = "";
-                    this.cashPayed = "";
+                    this.cashPaidType = "";
+                    this.cashPaid = "";
                     this.dueDate = "";
                 }
             },

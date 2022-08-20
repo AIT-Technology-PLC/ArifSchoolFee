@@ -11,19 +11,19 @@ trait CalculateDebtPayment
 
     public function getDebtPayableInPercentageAttribute()
     {
-        return 100.00 - $this->cash_payed_in_percentage;
+        return 100.00 - $this->cash_paid_in_percentage;
     }
 
     public function getPaymentInCashAttribute()
     {
         $price = $this->grandTotalPrice;
 
-        if ($this->cash_payed_type == 'percent') {
-            $paymentInCash = $price * ($this->cash_payed_in_percentage / 100);
+        if ($this->cash_paid_type == 'percent') {
+            $paymentInCash = $price * ($this->cash_paid_in_percentage / 100);
         }
 
-        if ($this->cash_payed_type == 'amount') {
-            $paymentInCash = $this->cash_payed;
+        if ($this->cash_paid_type == 'amount') {
+            $paymentInCash = $this->cash_paid;
         }
 
         return $paymentInCash;
@@ -37,11 +37,11 @@ trait CalculateDebtPayment
             return 0.00;
         }
 
-        if ($this->cash_payed_type == 'percent') {
-            $cashReceivedInPercentage = $this->cash_payed;
+        if ($this->cash_paid_type == 'percent') {
+            $cashReceivedInPercentage = $this->cash_paid;
         }
 
-        if ($this->cash_payed_type == 'amount') {
+        if ($this->cash_paid_type == 'amount') {
             $cashReceivedInPercentage = ($this->paymentInCash / $price) * 100;
         }
 

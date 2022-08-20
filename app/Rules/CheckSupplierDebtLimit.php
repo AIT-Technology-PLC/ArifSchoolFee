@@ -12,32 +12,32 @@ class CheckSupplierDebtLimit implements Rule
 
     private $paymentType;
 
-    private $cashPayedType;
+    private $cashPaidType;
 
-    private $cashPayed;
+    private $cashPaid;
 
     private $message;
 
-    public function __construct($details, $paymentType, $cashPayedType, $cashPayed)
+    public function __construct($details, $paymentType, $cashPaidType, $cashPaid)
     {
         $this->details = $details;
 
         $this->paymentType = $paymentType;
 
-        $this->cashPayedType = $cashPayedType;
+        $this->cashPaidType = $cashPaidType;
 
-        $this->cashPayed = $cashPayed;
+        $this->cashPaid = $cashPaid;
 
         $this->message = 'You can not exceed debt amount limit provided by this company.';
     }
 
     public function passes($attribute, $value)
     {
-        if ($this->paymentType != 'Debt Payment' || is_null($value)) {
+        if ($this->paymentType != 'Credit Payment' || is_null($value)) {
             return true;
         }
 
-        if (is_null($this->details) || is_null($this->cashPayedType) || is_null($this->cashPayed)) {
+        if (is_null($this->details) || is_null($this->cashPaidType) || is_null($this->cashPaid)) {
             $this->message = 'Please provide all payment details information.';
             return false;
         }
@@ -56,13 +56,13 @@ class CheckSupplierDebtLimit implements Rule
 
         $price = Price::getGrandTotalPrice($this->details);
 
-        if ($this->cashPayedType == 'amount') {
-            $debtAmount = $price - $this->cashPayed;
+        if ($this->cashPaidType == 'amount') {
+            $debtAmount = $price - $this->cashPaid;
         }
 
-        if ($this->cashPayedType == 'percent') {
-            $cashPayed = $this->cashPayed / 100;
-            $debtAmount = $price - ($price * $cashPayed);
+        if ($this->cashPaidType == 'percent') {
+            $cashPaid = $this->cashPaid / 100;
+            $debtAmount = $price - ($price * $cashPaid);
         }
 
         return $currentDebtLimit >= $debtAmount;

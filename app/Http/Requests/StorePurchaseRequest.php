@@ -25,30 +25,30 @@ class StorePurchaseRequest extends FormRequest
                 new CheckSupplierDebtLimit(
                     $this->get('purchase'),
                     $this->get('payment_type'),
-                    $this->get('cash_payed_type'),
-                    $this->get('cash_payed')
+                    $this->get('cash_paid_type'),
+                    $this->get('cash_paid')
                 )],
             'purchased_on' => ['required', 'date'],
-            'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Cash Payment', 'Debt Payment'])), function ($attribute, $value, $fail) {
-                if ($value == 'Debt Payment' && is_null($this->get('supplier_id'))) {
-                    $fail('Debt Payment without supplier is not allowed, please select a supplier.');
+            'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Cash Payment', 'Credit Payment'])), function ($attribute, $value, $fail) {
+                if ($value == 'Credit Payment' && is_null($this->get('supplier_id'))) {
+                    $fail('Credit Payment without supplier is not allowed, please select a supplier.');
                 }
             }],
-            'cash_payed_type' => ['required', 'string', function ($attribute, $value, $fail) {
+            'cash_paid_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
                     $fail('When payment type is "Cash Payment", the type should be "Percent".');
                 }
             },
             ],
-            'cash_payed' => ['bail', 'required', 'numeric', 'gte:0',
+            'cash_paid' => ['bail', 'required', 'numeric', 'gte:0',
                 new VerifyCashReceivedAmountIsValid(
                     $this->get('payment_type'),
                     0,
                     $this->get('purchase'),
-                    $this->get('cash_payed_type')
+                    $this->get('cash_paid_type')
                 ),
             ],
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Debt Payment', 'prohibited_if:payment_type,Cash Payment'],
+            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None']), 'required_if:type,Local Purchase', 'prohibited_if:type,Import'],
             'currency' => ['nullable', 'string', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
