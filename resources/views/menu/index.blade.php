@@ -937,8 +937,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Credit Management'))
-            @canany(['Read Credit'])
+        @if (isFeatureEnabled('Credit Management', 'Debt Management'))
+            @canany(['Read Credit', 'Read Debt'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -966,6 +966,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Receivables & Aging
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Read Debt')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('payables.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-sack-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Payables & Aging
                                         </span>
                                     </div>
                                 @endcan

@@ -160,3 +160,5 @@ Route::get('manifest.json', function () {
 });
 
 Route::resource('receivables', Resource\ReceivableController::class)->only(['index']);
+
+Route::resource('payables', Resource\PayableController::class)->only(['index']);

@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Total Payables ({{ userCompany()->currency }})"
                 :amount="number_format($totalPayables, 2)"
-                icon="fas fa-hand-holding-dollar"
+                icon="fas fa-sack-dollar"
             />
         </div>
         <div class="column is-6 p-lr-0">
