@@ -30,4 +30,49 @@ class Supplier extends Model
     {
         return $this->hasMany(Grn::class);
     }
+
+    public function debts()
+    {
+        return $this->hasMany(Debt::class);
+    }
+
+    public function hasReachedDebtLimit($newDebtAmount, $excludedDebtId = null)
+    {
+        if ($this->debt_amount_limit == 0) {
+            return false;
+        }
+
+        $totalDebtAmount = $this->debts()
+            ->when($excludedDebtId, fn($query) => $query->where('id', '<>', $excludedDebtId))
+            ->sum('debt_amount');
+
+        $totalDebtAmountSettled = $this->debts()
+            ->when($excludedDebtId, fn($query) => $query->where('id', '<>', $excludedDebtId))
+            ->sum('debt_amount_settled');
+
+        $currentDebtAmount = $totalDebtAmount - $totalDebtAmountSettled;
+
+        if (($currentDebtAmount + $newDebtAmount) > $this->debt_amount_limit) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getUndueDebtAmount()
+    {
+        $debts = $this->debts()->unsettled()->where('due_date', '>=', today())->get();
+
+        return $debts->sum('debt_amount') - $debts->sum('debt_amount_settled');
+    }
+
+    public function getOverdueDebtAmountByPeriod($from, $to = null)
+    {
+        $debts = $this->debts()->unsettled()
+            ->where('due_date', '<=', now()->subDays($from))
+            ->when(!is_null($to), fn($q) => $q->where('due_date', '>=', now()->subDays($to)))
+            ->get();
+
+        return $debts->sum('debt_amount') - $debts->sum('debt_amount_settled');
+    }
 }

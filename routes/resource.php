@@ -161,4 +161,10 @@ Route::get('manifest.json', function () {
 
 Route::resource('receivables', Resource\ReceivableController::class)->only(['index']);
 
+Route::resource('debts', Resource\DebtController::class);
+
+Route::resource('debts.debt-settlements', Resource\DebtSettlementController::class)->except(['index', 'show'])->shallow();
+
+Route::resource('suppliers.debts', Resource\SupplierDebtController::class)->only('index');
+
 Route::resource('payables', Resource\PayableController::class)->only(['index']);
