@@ -24,6 +24,27 @@
         </div>
         <div class="column is-6">
             <x-forms.field>
+                <x-forms.label for="debt_amount_limit">
+                    Debt Limit <sup class="has-text-danger">*</sup>
+                </x-forms.label>
+                <x-forms.control class="has-icons-left">
+                    <x-forms.input
+                        id="debt_amount_limit"
+                        name="debt_amount_limit"
+                        type="number"
+                        placeholder="Debt Limit"
+                        x-model="supplier.debt_amount_limit"
+                    />
+                    <x-common.icon
+                        name="fas fa-dollar-sign"
+                        class="is-small is-left"
+                    />
+                    <x-common.validation-error property="debt_amount_limit" />
+                </x-forms.control>
+            </x-forms.field>
+        </div>
+        <div class="column is-6">
+            <x-forms.field>
                 <x-forms.label for="tin">
                     TIN <sup class="has-text-danger"> </sup>
                 </x-forms.label>

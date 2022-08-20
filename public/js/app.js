@@ -454,17 +454,29 @@ document.addEventListener("alpine:init", () => {
             taxType = "",
             currency = "",
             exchangeRate = "",
+            paymentType = "",
+            cashPaidType = "",
+            cashPaid = "",
+            dueDate = ""
         ) => ({
             purchaseType: "",
             taxType: "",
             currency: "",
             exchangeRate: "",
+            paymentType: "",
+            cashPaidType: "",
+            cashPaid: "",
+            dueDate: "",
 
             init() {
                 this.purchaseType = purchaseType;
                 this.taxType = taxType;
                 this.currency = currency;
                 this.exchangeRate = exchangeRate;
+                this.paymentType = paymentType;
+                this.cashPaidType = cashPaidType;
+                this.cashPaid = cashPaid;
+                this.dueDate = dueDate;
             },
             changePurchaseInformation() {
                 if (this.purchaseType === "Local Purchase") {
@@ -476,10 +488,30 @@ document.addEventListener("alpine:init", () => {
                 }
             },
 
+            changePaymentMethod() {
+                if (this.paymentType === "Cash Payment") {
+                    this.cashPaidType = "percent";
+                    this.cashPaid = 100;
+                    this.dueDate = "";
+                }
+                if (this.paymentType === "Credit Payment") {
+                    this.cashPaidType = "";
+                    this.cashPaid = "";
+                    this.dueDate = "";
+                }
+            },
+
             isPurchaseByLocal() {
                 return (
                     this.purchaseType === "" ||
                     this.purchaseType === "Local Purchase"
+                );
+            },
+
+            isPaymentInCash() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType === "Cash Payment"
                 );
             },
         })

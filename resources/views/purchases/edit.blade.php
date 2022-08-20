@@ -3,7 +3,7 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}')">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', {{ $purchase->cash_paid }}, '{{ $purchase->due_date?->toDateString() }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -95,6 +95,8 @@
                                     class="is-fullwidth"
                                     id="payment_type"
                                     name="payment_type"
+                                    x-model="paymentType"
+                                    x-on:change="changePaymentMethod"
                                 >
                                     <option
                                         selected
@@ -103,27 +105,22 @@
                                     <option
                                         x-show="isPurchaseByLocal()"
                                         value="Cash Payment"
-                                        @selected($purchase->isCashPayment())
                                     >Cash Payment</option>
                                     <option
                                         x-show="isPurchaseByLocal()"
                                         value="Credit Payment"
-                                        @selected($purchase->payment_type == 'Credit Payment')
                                     >Credit Payment</option>
                                     <option
                                         x-show="!isPurchaseByLocal()"
                                         value="LC"
-                                        @selected($purchase->payment_type == 'LC')
                                     >LC</option>
                                     <option
                                         x-show="!isPurchaseByLocal()"
                                         value="TT"
-                                        @selected($purchase->payment_type == 'TT')
                                     >TT</option>
                                     <option
                                         x-show="!isPurchaseByLocal()"
                                         value="CAD"
-                                        @selected($purchase->payment_type == 'CAD')
                                     >CAD</option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -131,6 +128,71 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="payment_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                    >
+                        <x-forms.label for="cash_paid">
+                            Cash Paid <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.select
+                                    name="cash_paid_type"
+                                    x-model="cashPaidType"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                        value=""
+                                    >Type</option>
+                                    <option value="amount">Amount</option>
+                                    <option value="percent">Percent</option>
+                                </x-forms.select>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="cash_paid"
+                                    id="cash_paid"
+                                    placeholder="eg. 50"
+                                    x-model="cashPaid"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="cash_paid" />
+                                <x-common.validation-error property="cash_paid_type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="due_date">
+                                Credit Due Date <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="date"
+                                    name="due_date"
+                                    id="due_date"
+                                    placeholder="mm/dd/yyyy"
+                                    x-model="dueDate"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar-alt"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="due_date" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

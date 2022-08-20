@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Credit extends Model
+class Debt extends Model
 {
     use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, HasFactory;
 
@@ -23,57 +23,57 @@ class Credit extends Model
 
     protected $attributes = [
         'cash_amount' => 0,
-        'credit_amount_settled' => 0,
+        'debt_amount_settled' => 0,
     ];
 
-    public function gdn()
+    public function purchase()
     {
-        return $this->belongsTo(Gdn::class);
+        return $this->belongsTo(Purchase::class);
     }
 
-    public function customer()
+    public function supplier()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Supplier::class);
     }
 
-    public function creditSettlements()
+    public function debtSettlements()
     {
-        return $this->hasMany(CreditSettlement::class);
+        return $this->hasMany(DebtSettlement::class);
     }
 
     public function getSettlementPercentageAttribute()
     {
-        return ($this->credit_amount_settled / $this->credit_amount) * 100;
+        return ($this->debt_amount_settled / $this->debt_amount) * 100;
     }
 
-    public function getCreditAmountUnsettledAttribute()
+    public function getDebtAmountUnsettledAttribute()
     {
-        return $this->credit_amount - $this->credit_amount_settled;
+        return $this->debt_amount - $this->debt_amount_settled;
     }
 
     public function scopeSettled($query)
     {
-        return $query->whereColumn('credit_amount', 'credit_amount_settled');
+        return $query->whereColumn('debt_amount', 'debt_amount_settled');
     }
 
     public function scopePartiallySettled($query)
     {
         return $query
-            ->where('credit_amount_settled', '>', 0)
-            ->whereColumn('credit_amount', '>', 'credit_amount_settled');
+            ->where('debt_amount_settled', '>', 0)
+            ->whereColumn('debt_amount', '>', 'debt_amount_settled');
     }
 
     public function scopeNoSettlements($query)
     {
-        return $query->where('credit_amount_settled', 0);
+        return $query->where('debt_amount_settled', 0);
     }
 
     public function scopeUnsettled($query)
     {
-        return $query->whereColumn('credit_amount', '>', 'credit_amount_settled');
+        return $query->whereColumn('debt_amount', '>', 'debt_amount_settled');
     }
 
-    public function scopeAverageCreditSettlementDays($query)
+    public function scopeAverageDebtSettlementDays($query)
     {
         return ($query->selectRaw('SUM(DATEDIFF(last_settled_at, issued_on)) / COUNT(id) as days')
                 ->first()
@@ -82,6 +82,6 @@ class Credit extends Model
 
         public function isSettled()
     {
-        return $this->credit_amount == $this->credit_amount_settled;
+        return $this->debt_amount == $this->debt_amount_settled;
     }
 }
