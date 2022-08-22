@@ -40,10 +40,6 @@
         class="my-0 has-background-grey-lighter"
         style="margin-left: -10%;margin-right: -10%"
     >
-    <hr
-        class="my-0 has-background-grey-lighter"
-        style="margin-left: -10%;margin-right: -10%"
-    >
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
@@ -60,11 +56,11 @@
                 <h2 class="is-size-6"> Factory: <strong>{{ $row->first()['factory_name'] }}</strong></h2>
                 <h2 class="is-size-6"> Production Capacity: <strong>{{ number_format($row->min('production_capacity'), 2) }} {{ $row->first()['product_unit_of_measurement'] }}</strong></h2>
             </section>
-            <section class="table-breaked has-background-white">
+            <section class="table-breaked">
                 <h3 class="pt-4 has-text-centered has-text-weight-bold is-uppercase is-size-7">
                     Production Capacity Report
                 </h3>
-                <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
+                <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
                     <thead>
                         <tr>
                             <th>#</th>
