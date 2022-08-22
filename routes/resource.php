@@ -162,3 +162,5 @@ Route::resource('debts.debt-settlements', Resource\DebtSettlementController::cla
 Route::resource('suppliers.debts', Resource\SupplierDebtController::class)->only('index');
 
 Route::resource('payables', Resource\PayableController::class)->only(['index']);
+
+Route::resource('payrolls', Resource\PayrollController::class);

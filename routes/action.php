@@ -390,3 +390,12 @@ Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
 Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
     [Action\CompensationAdjustmentController::class, 'cancel'])
     ->name('compensation-adjustments.cancel');
+
+// Payroll
+Route::post('/payrolls/{payroll}/approve',
+    [Action\PayrollController::class, 'approve'])
+    ->name('payrolls.approve');
+
+Route::post('/payrolls/{payroll}/pay',
+    [Action\PayrollController::class, 'pay'])
+    ->name('payrolls.pay');
