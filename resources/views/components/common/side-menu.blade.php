@@ -940,8 +940,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Credit Management', 'Debt Management'))
-        @canany(['Read Credit', 'Read Debt'])
+    @if (isFeatureEnabled('Credit Management', 'Debt Management', 'Payroll Management'))
+        @canany(['Read Credit', 'Read Debt', 'Read Payroll'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -974,6 +974,20 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
+                        @if (isFeatureEnabled('Payroll Management'))
+                            @can('Read Payroll')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('payrolls.index') }}"
+                                        label="Payrolls"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payrolls.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('payrolls.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
                         @if (isFeatureEnabled('Credit Management'))
                             @can('Read Credit')
                                 <li>
