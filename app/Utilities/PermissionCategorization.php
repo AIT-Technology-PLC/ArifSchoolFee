@@ -149,6 +149,10 @@ class PermissionCategorization
             'label' => 'Debt',
             'feature' => 'Debt Management',
         ],
+        'payroll' => [
+            'label' => 'Payroll',
+            'feature' => 'Payroll Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
