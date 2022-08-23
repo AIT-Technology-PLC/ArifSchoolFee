@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Action;
 
 use App\Actions\ApproveTransactionAction;
-use App\Actions\PayTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Notifications\PayrollApproved;
+use App\Notifications\PayrollPaid;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
@@ -39,7 +39,7 @@ class PayrollController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function pay(Payroll $payroll, PayTransactionAction $action)
+    public function pay(Payroll $payroll)
     {
         $this->authorize('pay', $payroll);
 
@@ -47,12 +47,17 @@ class PayrollController extends Controller
             return back()->with('failedMessage', 'You can not pay a payroll that is not approved.');
         }
 
-        [$isExecuted, $message] = $action->execute($payroll);
-
-        if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
+        if ($payroll->isPaid()) {
+            return [false, 'This transaction is already paid.'];
         }
 
-        return back()->with('successMessage', $message);
+        $payroll->pay();
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Payroll', $payroll->warehouse_id, $payroll->createdBy),
+            new PayrollPaid($payroll)
+        );
+
+        return back()->with('successMessage', 'You have paid this transaction successfully.');
     }
 }
