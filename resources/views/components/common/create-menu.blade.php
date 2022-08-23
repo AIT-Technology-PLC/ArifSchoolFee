@@ -795,7 +795,7 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('payrolls.create') }}"
-                                            icon="fa-solid fa-magnifying-glass-dollar"
+                                            icon="fa-solid fa-coins"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>

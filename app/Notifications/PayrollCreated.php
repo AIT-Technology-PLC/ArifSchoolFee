@@ -24,7 +24,7 @@ class PayrollCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fa-solid fa-magnifying-glass-dollar',
+            'icon' => 'fa-solid fa-coins',
             'message' => 'Payroll has been created by ' . ucfirst($this->payroll->createdBy->name),
             'endpoint' => '/payrolls/' . $this->payroll->id,
         ];

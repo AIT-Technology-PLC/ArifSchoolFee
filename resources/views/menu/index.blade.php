@@ -946,7 +946,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fa-solid fa-magnifying-glass-dollar"></i>
+                                                <i class="fa-solid fa-coins"></i>
                                             </span>
                                         </a>
                                         <br>

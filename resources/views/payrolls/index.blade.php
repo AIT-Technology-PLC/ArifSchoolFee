@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Payrolls"
                 :amount="$totalPayrolls"
-                icon="fa-solid fa-magnifying-glass-dollar"
+                icon="fa-solid fa-coins"
             />
         </div>
         <div class="column is-3 p-lr-0">

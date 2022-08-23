@@ -24,7 +24,7 @@ class PayrollApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fa-solid fa-magnifying-glass-dollar',
+            'icon' => 'fa-solid fa-coins',
             'message' => 'Payroll has been approved by ' . ucfirst($this->payroll->approvedBy->name),
             'endpoint' => '/payrolls/' . $this->payroll->id,
         ];

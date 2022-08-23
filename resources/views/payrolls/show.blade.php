@@ -63,7 +63,7 @@
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fa-solid fa-magnifying-glass-dollar"
+                        icon="fa-solid fa-coins"
                         :data="$payroll->code"
                         label="Reference No"
                     />
