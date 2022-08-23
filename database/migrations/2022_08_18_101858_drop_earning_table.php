@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::drop('earning_categories');
         Schema::drop('earning_details');
         Schema::drop('earnings');
+        Schema::drop('earning_categories');
     }
 
     public function down()

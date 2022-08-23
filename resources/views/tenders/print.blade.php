@@ -40,10 +40,6 @@
         class="my-0 has-background-grey-lighter"
         style="margin-left: -10%;margin-right: -10%"
     >
-    <hr
-        class="my-0 has-background-grey-lighter"
-        style="margin-left: -10%;margin-right: -10%"
-    >
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
@@ -51,8 +47,8 @@
         </h1>
     </section>
 
-    <section class="table-breaked has-background-white">
-        <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7">
+    <section class="table-breaked">
+        <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
             <thead>
                 <tr class="is-borderless">
                     <td
