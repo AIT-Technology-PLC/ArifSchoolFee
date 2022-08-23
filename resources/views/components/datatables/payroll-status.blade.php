@@ -1,6 +1,6 @@
  @if ($payroll->isPaid())
      <span class="tag is-small bg-gold has-text-white">
-         <x-common.icon name="fas fa-times-check" />
+         <x-common.icon name="fa-solid fa-circle-check" />
          <span>
              Paid
          </span>

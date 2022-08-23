@@ -24,7 +24,7 @@ class PayrollPaid extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'fa-solid fa-sack-dollar',
+            'icon' => 'fa-solid fa-magnifying-glass-dollar',
             'message' => 'Payroll has been paid by ' . ucfirst($this->payroll->paidBy->name),
             'endpoint' => '/payrolls/' . $this->payroll->id,
         ];

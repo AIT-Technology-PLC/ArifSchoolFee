@@ -40,7 +40,7 @@ class PayrollPolicy
         return $user->can('Approve Payroll');
     }
 
-    public function cancel(User $user, Payroll $payroll)
+    public function pay(User $user, Payroll $payroll)
     {
         return $user->can('Pay Payroll');
     }

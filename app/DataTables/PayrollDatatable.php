@@ -24,7 +24,7 @@ class PayrollDatatable extends DataTable
             ])
             ->editColumn('branch', fn($payroll) => $payroll->warehouse->name)
             ->editColumn('status', fn($payroll) => view('components.datatables.payroll-status', compact('payroll')))
-            ->editColumn('bank', fn($payroll) => $payroll->bank)
+            ->editColumn('bank_name', fn($payroll) => $payroll->bank_name)
             ->editColumn('issued_on', fn($payroll) => $payroll->issued_on->toFormattedDateString())
             ->editColumn('starting_period', fn($payroll) => $payroll->starting_period->toDateString())
             ->editColumn('ending_period', fn($payroll) => $payroll->ending_period->toDateString())
@@ -66,7 +66,7 @@ class PayrollDatatable extends DataTable
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
-            Column::make('bank'),
+            Column::make('bank_name'),
             Column::make('issued_on'),
             Column::make('starting_period')->visible(false),
             Column::make('ending_period')->visible(false),

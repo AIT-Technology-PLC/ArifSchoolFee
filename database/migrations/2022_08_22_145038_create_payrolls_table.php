@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('paid_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
-            $table->string('bank');
+            $table->string('bank_name');
             $table->dateTime('issued_on')->nullable();
             $table->date('starting_period')->nullable();
             $table->date('ending_period')->nullable();

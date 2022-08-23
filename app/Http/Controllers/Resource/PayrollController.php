@@ -49,6 +49,8 @@ class PayrollController extends Controller
             $payroll = Payroll::create($request->validated());
 
             Notification::send(Notifiables::byNextActionPermission('Approve Payroll'), new PayrollCreated($payroll));
+
+            return $payroll;
         });
 
         return redirect()->route('payrolls.show', $payroll->id);
