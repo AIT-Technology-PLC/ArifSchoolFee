@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Expense;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -74,5 +75,10 @@ class Supplier extends Model
             ->get();
 
         return $debts->sum('debt_amount') - $debts->sum('debt_amount_settled');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
     }
 }

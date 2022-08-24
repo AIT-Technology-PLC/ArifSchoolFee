@@ -23,6 +23,13 @@ class ExpenseDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('status', fn($expense) => view('components.datatables.expense-status', compact('expense')))
+            ->editColumn('total price', function ($expense) {
+                if (userCompany()->isDiscountBeforeVAT()) {
+                    return money($expense->grandTotalPrice);
+                }
+
+                return money($expense->grandTotalPriceAfterDiscount);
+            })
             ->editColumn('supplier', fn($expense) => $expense->supplier->company_name ?? 'N/A')
             ->editColumn('tax_type', fn($expense) => $expense->tax_type)
             ->editColumn('issued_on', fn($expense) => $expense->issued_on->toFormattedDateString())
@@ -60,7 +67,8 @@ class ExpenseDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
-            Column::make('supplier'),
+            Column::computed('total price'),
+            Column::make('supplier', 'supplier.company_name'),
             Column::make('tax_type'),
             Column::make('prepared by', 'createdBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

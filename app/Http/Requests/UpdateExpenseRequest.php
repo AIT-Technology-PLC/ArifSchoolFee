@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateExpenseRequest extends FormRequest
 {
@@ -17,7 +17,7 @@ class UpdateExpenseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('expenses')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('expenses', $this->route('expense')->id)],
             'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date'],

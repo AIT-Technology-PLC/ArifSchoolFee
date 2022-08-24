@@ -15,7 +15,7 @@ class ExpenseCategory extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $cascadeDeletes = ['expense_details'];
+    protected $cascadeDeletes = ['expenseDetails'];
 
     public function expenseDetails()
     {

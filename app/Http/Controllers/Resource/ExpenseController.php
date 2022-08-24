@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\Supplier;
 use App\Notifications\ExpenseCreated;
 use App\Utilities\Notifiables;
@@ -40,9 +41,11 @@ class ExpenseController extends Controller
     {
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
+        $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
+
         $currentExpenseCode = nextReferenceNumber('expenses');
 
-        return view('expenses.create', compact('suppliers', 'currentExpenseCode'));
+        return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories'));
     }
 
     public function store(StoreExpenseRequest $request)
@@ -52,7 +55,7 @@ class ExpenseController extends Controller
 
             $expense->expenseDetails()->createMany($request->validated('expense'));
 
-            Notification::send(Notifiables::byNextActionPermission('Approve Expense '), new ExpenseCreated($expense));
+            Notification::send(Notifiables::byNextActionPermission('Approve Expense'), new ExpenseCreated($expense));
 
             return $expense;
         });
@@ -75,9 +78,11 @@ class ExpenseController extends Controller
 
         $expense->load(['expenseDetails']);
 
+        $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
+
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('expenses.edit', compact('expense', 'suppliers'));
+        return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories'));
     }
 
     public function update(UpdateExpenseRequest $request, Expense $expense)

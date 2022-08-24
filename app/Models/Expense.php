@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\ExpenseDetail;
+use App\Models\Supplier;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
@@ -24,6 +25,35 @@ class Expense extends Model
     public function expenseDetails()
     {
         return $this->hasMany(ExpenseDetail::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
+    public function getVatAttribute()
+    {
+        return number_format(
+            $this->subtotalPrice * $this->localTaxRate,
+            2,
+            thousands_separator:''
+        );
+    }
+
+    public function getLocalTaxRateAttribute()
+    {
+        $value = 0;
+
+        if ($this->tax_type == 'VAT') {
+            $value = 0.15;
+        }
+
+        if ($this->tax_type == 'TOT') {
+            $value = 0.02;
+        }
+
+        return $value;
     }
 
     public function details()
