@@ -24,7 +24,7 @@ class ExpenseCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => '',
+            'icon' => 'fa-solid fa-money-bill-trend-up',
             'message' => 'Expense has been created by ' . ucfirst($this->expense->createdBy->name),
             'endpoint' => '/expenses/' . $this->expense->id,
         ];

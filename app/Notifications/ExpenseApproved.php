@@ -24,7 +24,7 @@ class ExpenseApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => '',
+            'icon' => 'fa-solid fa-money-bill-trend-up',
             'message' => 'Expense has been approved by ' . ucfirst($this->expense->approvedBy->name),
             'endpoint' => '/expenses/' . $this->expense->id,
         ];
