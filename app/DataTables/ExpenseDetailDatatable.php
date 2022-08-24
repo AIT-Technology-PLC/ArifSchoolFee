@@ -45,8 +45,8 @@ class ExpenseDetailDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name'),
-            Column::make('quantity'),
             Column::make('category', 'expenseCategory.name'),
+            Column::make('quantity'),
             Column::make('unit_price'),
             Column::computed('actions'),
         ];
