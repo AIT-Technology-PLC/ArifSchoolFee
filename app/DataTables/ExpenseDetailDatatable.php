@@ -34,7 +34,10 @@ class ExpenseDetailDatatable extends DataTable
         return $expenseDetail
             ->newQuery()
             ->select('expense_details.*')
-            ->where('expense_id', request()->route('expense')->id);
+            ->where('expense_id', request()->route('expense')->id)
+            ->with([
+                'expenseCategory:id,name',
+            ]);
     }
 
     protected function getColumns()
@@ -43,7 +46,7 @@ class ExpenseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('name'),
             Column::make('quantity'),
-            Column::make('category'),
+            Column::make('category', 'expenseCategory.name'),
             Column::make('unit_price'),
             Column::computed('actions'),
         ];
