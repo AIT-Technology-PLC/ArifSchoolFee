@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Models\Purchase;
-use App\Notifications\PurchaseApproved;
 use App\Notifications\PurchaseMade;
 use App\Services\Models\PurchaseService;
 use App\Utilities\Notifiables;
@@ -56,11 +54,11 @@ class PurchaseController extends Controller
         return back()->with('successMessage', 'Purchase closed and archived successfully.');
     }
 
-    public function approve(Purchase $purchase, ApproveTransactionAction $action)
+    public function approve(Purchase $purchase)
     {
         $this->authorize('approve', $purchase);
 
-        [$isExecuted, $message] = $action->execute($purchase, PurchaseApproved::class, 'Make Purchase');
+        [$isExecuted, $message] = $this->purchaseService->approve($purchase);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
