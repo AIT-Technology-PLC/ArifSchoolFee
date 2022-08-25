@@ -23,19 +23,23 @@ class ValidateTimeOffAmount implements Rule
         $employeeId = $this->employeeId;
         $isPaidTimeOff = $value;
 
-        if (is_null($this->employeeId)) {
-            $employeeIdKey = str_replace('.time_off_amount', '.employee_id', $attribute);
-            $employeeId = request()->input($employeeIdKey);
-        }
-
         if (is_null($this->isPaidTimeOff)) {
             $isPaidTimeOffKey = str_replace('.time_off_amount', '.is_paid_time_off', $attribute);
             $isPaidTimeOff = request()->input($isPaidTimeOffKey);
         }
 
+        if (!$isPaidTimeOff) {
+            return true;
+        }
+
+        if (is_null($this->employeeId)) {
+            $employeeIdKey = str_replace('.time_off_amount', '.employee_id', $attribute);
+            $employeeId = request()->input($employeeIdKey);
+        }
+
         $employee = Employee::firstWhere('id', $employeeId);
 
-        return $isPaidTimeOff && $employee->paid_time_off_amount >= $value;
+        return $employee->paid_time_off_amount >= $value;
     }
 
     public function message()

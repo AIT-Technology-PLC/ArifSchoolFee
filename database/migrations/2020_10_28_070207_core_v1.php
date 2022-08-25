@@ -1090,7 +1090,7 @@ return new class extends Migration
             $table->dateTime('starting_period')->nullable();
             $table->dateTime('ending_period')->nullable();
             $table->boolean('is_paid_time_off');
-            $table->decimal('time_off_amount', 22);
+            $table->decimal('time_off_amount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
