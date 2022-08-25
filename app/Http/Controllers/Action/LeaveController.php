@@ -56,7 +56,7 @@ class LeaveController extends Controller
         $this->authorize('cancel', $leaf);
 
         if ($leaf->isApproved()) {
-            return back()->with('failedMessage', 'You can not cancel a leave that is approved..');
+            return back()->with('failedMessage', 'You can not cancel a leave that is approved.');
         }
 
         [$isExecuted, $message] = $action->execute($leaf);
