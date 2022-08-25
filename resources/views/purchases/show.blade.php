@@ -68,6 +68,22 @@
                     </div>
                 @endif
                 @if (!$purchase->isImported())
+                    @if ($purchase->payment_in_debt > 0)
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                icon="fas fa-hand-holding-usd"
+                                data="{{ number_format($purchase->paymentInCash, 2) }} ({{ number_format($purchase->cashPaidInPercentage, 2) }}%)"
+                                label="In Cash ({{ userCompany()->currency }})"
+                            />
+                        </div>
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                icon="fas fa-money-check"
+                                data="{{ number_format($purchase->paymentInDebt, 2) }} ({{ number_format($purchase->debtPayableInPercentage, 2) }}%)"
+                                label="On Credit ({{ userCompany()->currency }})"
+                            />
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
