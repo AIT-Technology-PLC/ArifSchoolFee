@@ -133,7 +133,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][freight_cost]`">
@@ -161,7 +161,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][freight_insurance_cost]`">
@@ -189,7 +189,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][duty_rate]`">
@@ -217,7 +217,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][excise_tax]`">
@@ -245,7 +245,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][vat_rate]`">
@@ -273,7 +273,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][surtax]`">
@@ -301,7 +301,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][withholding_tax]`">

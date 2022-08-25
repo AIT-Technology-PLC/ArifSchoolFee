@@ -73,7 +73,10 @@
                                     <option
                                         selected
                                         disabled
-                                    >Select Type</option>
+                                        value=""
+                                    >
+                                        Select Type
+                                    </option>
                                     <option value="Local Purchase">Local Purchase</option>
                                     <option value="Import">Import</option>
                                 </x-forms.select>
@@ -101,6 +104,7 @@
                                     <option
                                         selected
                                         disabled
+                                        value=""
                                     >Select Payment</option>
                                     <option
                                         x-show="isPurchaseByLocal()"
@@ -111,15 +115,15 @@
                                         value="Credit Payment"
                                     >Credit Payment</option>
                                     <option
-                                        x-show="!isPurchaseByLocal()"
+                                        x-show="isPurchaseByImport()"
                                         value="LC"
                                     >LC</option>
                                     <option
-                                        x-show="!isPurchaseByLocal()"
+                                        x-show="isPurchaseByImport()"
                                         value="TT"
                                     >TT</option>
                                     <option
-                                        x-show="!isPurchaseByLocal()"
+                                        x-show="isPurchaseByImport()"
                                         value="CAD"
                                     >CAD</option>
                                 </x-forms.select>
@@ -134,7 +138,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        x-show="isPurchaseByLocal() && isPaymentInCredit()"
                     >
                         <x-forms.label for="cash_paid">
                             Cash Paid <sup class="has-text-danger">*</sup>
@@ -174,7 +178,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                        x-show="isPurchaseByLocal() && isPaymentInCredit()"
                     >
                         <x-forms.field>
                             <x-forms.label for="due_date">
@@ -229,7 +233,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': !isPurchaseByLocal() }"
+                        x-show="isPurchaseByLocal()"
                     >
                         <x-forms.field>
                             <x-forms.label for="tax_type">
@@ -262,7 +266,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isPurchaseByLocal() }"
+                        x-show="isPurchaseByImport()"
                     >
                         <x-forms.label for="currency">
                             Currency <sup class="has-text-danger">*</sup>
