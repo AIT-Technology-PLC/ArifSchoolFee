@@ -97,7 +97,7 @@ return new class extends Migration
             $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
-            $table->bigInteger('working_days')->default(30);
+            $table->bigInteger('working_days')->default(26);
             $table->timestamps();
             $table->softDeletes();
 
