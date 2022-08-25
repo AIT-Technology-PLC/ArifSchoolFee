@@ -40,6 +40,6 @@ class ValidateTimeOffAmount implements Rule
 
     public function message()
     {
-        return "Employee has not enough Paid Time Off Amount.";
+        return "Employee has no enough Paid Time Off Amount.";
     }
 }

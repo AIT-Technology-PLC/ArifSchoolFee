@@ -52,9 +52,9 @@ class UpdateEmployeeRequest extends FormRequest
             'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:emergency_phone,null'],
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
             'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
-            'employeeCompensation' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'array'],
-            'employeeCompensation.*.compensation_id' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'integer', 'distinct', new MustBelongToCompany('compensations')],
-            'employeeCompensation.*.amount' => [Rule::when(isFeatureEnabled('Compensation Management'), 'required', 'prohibited'), 'numeric'],
+            'employeeCompensation' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'array'],
+            'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', new MustBelongToCompany('compensations')],
+            'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric'],
             'paid_time_off_amount' => ['nullable', 'numeric'],
         ];
     }
