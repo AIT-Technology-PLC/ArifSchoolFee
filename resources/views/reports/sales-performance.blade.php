@@ -119,7 +119,10 @@
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
-                        Top Customers by Revenue
+                        <span class="icon mr-1">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span>Top Customers by Revenue</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -151,7 +154,10 @@
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
-                        Top Performing Branches
+                        <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Top Performing Branches</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -183,7 +189,10 @@
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
-                        Salesperson Leaderboard
+                        <span class="icon mr-1">
+                            <i class="fas fa-user-tie"></i>
+                        </span>
+                        <span>Salesperson Leaderboard</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -215,7 +224,10 @@
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
-                        Best-Selling Products
+                        <span class="icon mr-1">
+                            <i class="fas fa-th"></i>
+                        </span>
+                        <span>Best-Selling Products</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -249,7 +261,10 @@
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
-                        Best Performing Categories
+                        <span class="icon mr-1">
+                            <i class="fas fa-layer-group"></i>
+                        </span>
+                        <span>Best Performing Categories</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
