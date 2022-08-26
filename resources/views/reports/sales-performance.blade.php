@@ -177,6 +177,7 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
+                        <th><abbr> Quantity </abbr></th>
                         <th><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -184,6 +185,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $productRevenue['product'] }} </td>
+                                <td> {{ $productRevenue['quantity'] }} </td>
                                 <td> {{ number_format($productRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
@@ -198,6 +200,7 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Category </abbr></th>
+                        <th><abbr> Quantity </abbr></th>
                         <th><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -205,6 +208,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $categoryRevenue['category'] }} </td>
+                                <td> {{ $categoryRevenue['quantity'] }} </td>
                                 <td> {{ number_format($categoryRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach

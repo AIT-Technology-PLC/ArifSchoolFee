@@ -37,7 +37,7 @@ class RevenueReport
             ]);
         }
 
-        return $branchesByRevenue;
+        return $branchesByRevenue->sortByDesc('revenue');
     }
 
     public function getCustomersByRevenue()
@@ -51,7 +51,7 @@ class RevenueReport
             ]);
         }
 
-        return $customerByRevenue;
+        return $customerByRevenue->sortByDesc('revenue');
     }
 
     public function getRepsByRevenue()
@@ -65,7 +65,7 @@ class RevenueReport
             ]);
         }
 
-        return $repsByRevenue;
+        return $repsByRevenue->sortByDesc('revenue');
     }
 
     public function getProductsByRevenue()
@@ -75,11 +75,12 @@ class RevenueReport
         foreach ($this->source->pluck('details')->flatten(1)->unique('product_name') as $value) {
             $productsByRevenue->push([
                 'product' => $value['product_name'],
+                'quantity' => $this->source->pluck('details')->flatten(1)->where('product_name', $value['product_name'])->sum('quantity') . ' ' . $value['unit_of_measurement'],
                 'revenue' => $this->source->pluck('details')->flatten(1)->where('product_name', $value['product_name'])->sum('unit_price'),
             ]);
         }
 
-        return $productsByRevenue;
+        return $productsByRevenue->sortByDesc('revenue');
     }
 
     public function getProductCategoriesByRevenue()
@@ -89,11 +90,12 @@ class RevenueReport
         foreach ($this->source->pluck('details')->flatten(1)->unique('product_category_name') as $value) {
             $productCategoriesByRevenue->push([
                 'category' => $value['product_category_name'],
+                'quantity' => $this->source->pluck('details')->flatten(1)->where('product_category_name', $value['product_category_name'])->sum('quantity') . ' ' . $value['unit_of_measurement'],
                 'revenue' => $this->source->pluck('details')->flatten(1)->where('product_category_name', $value['product_category_name'])->sum('unit_price'),
             ]);
         }
 
-        return $productCategoriesByRevenue;
+        return $productCategoriesByRevenue->sortByDesc('revenue');
     }
 
     public function getTotalRevenueReveivables()

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('sales_report_source')->nullable()->after('sector');
+            $table->string('sales_report_source')->default('Approved Delivery Orders')->after('sector');
         });
     }
 
