@@ -243,6 +243,10 @@ document.addEventListener("alpine:init", () => {
         },
         showOutOf() {
             this.isOnHand = false;
+
+            setTimeout(() => {
+                $("table.display").DataTable().columns.adjust().draw();
+            });
         },
     }));
 
@@ -698,8 +702,9 @@ document.addEventListener("alpine:init", () => {
         isSideMenuOpenedOnLaptop: true,
 
         async toggleOnLaptop() {
-            await (this.isSideMenuOpenedOnLaptop =
-                !this.isSideMenuOpenedOnLaptop);
+            await Promise.resolve(
+                (this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop)
+            );
 
             $("table.display").DataTable().columns.adjust().draw();
         },
