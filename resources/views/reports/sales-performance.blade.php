@@ -12,14 +12,12 @@
                         name="branch"
                         class="is-size-7-mobile is-fullwidth"
                     >
+                        <option disabled> Branches </option>
                         <option
-                            disabled
-                            selected
-                        >
-                            Branches
-                        </option>
-                        <option value="all"> All </option>
-                        @foreach (authUser()->getAllowedWarehouses('Sales Report') as $warehouse)
+                            value=""
+                            @selected(request('branch') == '')
+                        > All </option>
+                        @foreach ($warehouses as $warehouse)
                             <option
                                 value="{{ $warehouse->id }}"
                                 @selected(request('branch') == $warehouse->id)
@@ -109,7 +107,7 @@
                 label="Basket Size Analysis"
             />
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <x-content.header title="Top Customers by Revenue" />
             <x-content.footer>
                 <x-common.client-datatable has-filter="false">
@@ -123,14 +121,14 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customerRevenue['customer'] }} </td>
-                                <td> {{ $customerRevenue['revenue'] }} </td>
+                                <td> {{ number_format($customerRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <x-content.header title="Top Performing Branches " />
             <x-content.footer>
                 <x-common.client-datatable has-filter="false">
@@ -144,14 +142,14 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $branchRevenue['branch'] }} </td>
-                                <td> {{ $branchRevenue['revenue'] }} </td>
+                                <td> {{ number_format($branchRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <x-content.header title="Salesperson Leaderboard" />
             <x-content.footer>
                 <x-common.client-datatable has-filter="false">
@@ -165,14 +163,14 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $salesRevenue['sales'] }} </td>
-                                <td> {{ $salesRevenue['revenue'] }} </td>
+                                <td> {{ number_format($salesRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <x-content.header title="Best-Selling Products" />
             <x-content.footer>
                 <x-common.client-datatable has-filter="false">
@@ -186,14 +184,14 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $productRevenue['product'] }} </td>
-                                <td> {{ $productRevenue['revenue'] }} </td>
+                                <td> {{ number_format($productRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
-        <div class="column is-6">
+        <div class="column is-6 p-lr-0">
             <x-content.header title="Best Performing Categories" />
             <x-content.footer>
                 <x-common.client-datatable has-filter="false">
@@ -207,7 +205,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $categoryRevenue['category'] }} </td>
-                                <td> {{ $categoryRevenue['revenue'] }} </td>
+                                <td> {{ number_format($categoryRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

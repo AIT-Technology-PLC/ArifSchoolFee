@@ -15,8 +15,16 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            request('branch') => ['nullable', 'integer', Rule::in(authUser()->getAllowedWarehouses('Sales Report')->pluck('id'))],
-            request('period') => ['nullable', 'date'],
+            'branch' => ['nullable', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
+            'period' => ['nullable', 'array'],
+            'period.*' => ['nullable', 'date'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'period' => is_null($this->input('period')) ? null : dateRangePicker($this->input('period')),
+        ]);
     }
 }

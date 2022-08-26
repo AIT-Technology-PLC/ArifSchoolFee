@@ -102,8 +102,8 @@ function initiateDataTables() {
             { type: "date", targets: JSON.parse(table.attr("data-date")) },
         ],
         lengthMenu: [
-            [10, 25, 50, 75, 100, -1],
-            [10, 25, 50, 75, 100, "All"],
+            [5, 10, 25, 50, 75, 100],
+            [5, 10, 25, 50, 75, 100],
         ],
         dom: JSON.parse(table.attr("data-has-filter")) ? 'lBfrtip' : 'lBrtip',
         buttons: [

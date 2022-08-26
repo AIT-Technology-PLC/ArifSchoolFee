@@ -1,7 +1,7 @@
 <div class="mx-3">
     <form method="get">
         <div class="box">
-            <div class="level">
+            <div class="level mb-2">
                 <div class="level-left">
                     <div class="level-item">
                         <div>
@@ -20,7 +20,9 @@
                             <x-common.button
                                 tag="button"
                                 mode="button"
+                                type="reset"
                                 label="Clear Filters"
+                                x-on:click="location.search=''"
                                 class="is-small btn-green is-outlined is-rounded"
                             />
                             <x-common.button
@@ -40,6 +42,7 @@
                 <x-common.button
                     tag="button"
                     mode="button"
+                    type="reset"
                     label="Clear Filters"
                     class="is-small btn-green is-outlined is-rounded"
                 />
@@ -69,8 +72,8 @@
                 "format": "YYYY/MM/DD"
             },
             "alwaysShowCalendars": true,
-            "startDate": moment().startOf('month'),
-            "endDate": moment().endOf('month')
+            "startDate": moment().subtract(6, 'days'),
+            "endDate": moment()
         });
     </script>
 @endpush
