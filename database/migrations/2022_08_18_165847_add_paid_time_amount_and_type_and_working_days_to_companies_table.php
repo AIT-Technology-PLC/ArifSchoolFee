@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('companies', function (Blueprint $table) {
             $table->decimal('paid_time_off_amount', 22)->default(0)->after('can_show_branch_detail_on_print');
             $table->string('paid_time_off_type')->default('Days')->after('paid_time_off_amount');
-            $table->bigInteger('working_days')->default(30)->after('paid_time_off_type');
+            $table->bigInteger('working_days')->default(26)->after('paid_time_off_type');
         });
     }
 

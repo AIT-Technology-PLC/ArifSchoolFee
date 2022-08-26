@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('leaves', function (Blueprint $table) {
             $table->boolean('is_paid_time_off')->after('ending_period');
-            $table->decimal('time_off_amount', 22)->after('is_paid_time_off');
+            $table->decimal('time_off_amount', 22)->nullable()->after('is_paid_time_off');
         });
     }
 

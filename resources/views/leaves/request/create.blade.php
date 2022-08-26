@@ -80,6 +80,58 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="time_off_amount">
+                                Time Off {{ userCompany()->paid_time_off_type }} <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="time_off_amount"
+                                    name="time_off_amount"
+                                    type="number"
+                                    placeholder="Time Off Amount"
+                                    value="{{ old('time_off_amount') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="time_off_amount" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_paid_time_off">
+                                Is Paid Time Off <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        id="is_paid_time_off"
+                                        name="is_paid_time_off"
+                                        type="radio"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked(old('is_paid_time_off'))
+                                    >
+                                    Yes
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        type="radio"
+                                        id="is_paid_time_off"
+                                        name="is_paid_time_off"
+                                        value="0"
+                                        @checked(!old('is_paid_time_off'))
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="is_paid_time_off" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

@@ -41,11 +41,6 @@ class Leave extends Model
         return $this->belongsTo(LeaveCategory::class);
     }
 
-    public function getLeavePeriodAttribute()
-    {
-        return number_format($this->ending_period->floatDiffInDays($this->starting_period), 2);
-    }
-
     public function isPaidTimeOff()
     {
         return $this->is_paid_time_off == 1;

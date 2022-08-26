@@ -592,6 +592,10 @@
                                         @selected($company->paid_time_off_type == 'Hours')
                                     >Hours</option>
                                 </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
                                 <x-common.validation-error property="paid_time_off_type" />
                             </x-forms.control>
                         </x-forms.field>

@@ -44,7 +44,7 @@ class LeaveController extends Controller
         }
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->warehouse_id, $leaf->createdBy)->push($leaf->employee->user),
+            Notifiables::byPermissionAndWarehouse('Read Leave', $leaf->warehouse_id, $leaf->createdBy)->push($leaf->employee->user)->unique(),
             new LeaveApproved($leaf)
         );
 
@@ -56,7 +56,7 @@ class LeaveController extends Controller
         $this->authorize('cancel', $leaf);
 
         if ($leaf->isApproved()) {
-            return back()->with('failedMessage', 'You can not cancel a leave that is approved..');
+            return back()->with('failedMessage', 'You can not cancel a leave that is approved.');
         }
 
         [$isExecuted, $message] = $action->execute($leaf);
