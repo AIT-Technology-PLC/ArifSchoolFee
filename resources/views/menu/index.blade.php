@@ -981,6 +981,45 @@
             @endcanany
         @endif
 
+        @if (isFeatureEnabled('Sales Report'))
+            @canany(['Read Sales Performance Report'])
+                <section class="mb-5">
+                    <x-content.header>
+                        <x-slot name="header">
+                            <span class="icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </span>
+                            <span class="ml-2">
+                                Report & Analytics
+                            </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Sales Report'))
+                                @can('Read Sales Performance Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.sales_performance') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-file-lines"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales Performance
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                </section>
+            @endcanany
+        @endif
+
         @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
             @canany(['Read Pad', 'Read Employee', 'Update Company'])
                 <section>
