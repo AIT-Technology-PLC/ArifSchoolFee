@@ -87,6 +87,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('logo')->nullable();
             $table->string('sector')->nullable();
+            $table->string('sales_report_source')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
             $table->string('tin')->unique()->nullable();

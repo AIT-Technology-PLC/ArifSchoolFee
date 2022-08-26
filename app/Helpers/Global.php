@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Feature;
+use App\Models\Limit;
 use App\Models\Pad;
 use App\Models\User;
-use App\Models\Limit;
-use App\Models\Feature;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 if (!function_exists('authUser')) {
@@ -87,5 +87,12 @@ if (!function_exists('getPadPermissions')) {
         return Cache::store('array')->rememberForever(authUser()->id . '_' . 'padPermissions', function () {
             return authUser()->padPermissions()->get();
         });
+    }
+}
+
+if (!function_exists('dateRangePicker')) {
+    function dateRangePicker($period)
+    {
+        return explode('-', str($period)->replace(' ', ''));
     }
 }

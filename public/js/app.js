@@ -105,7 +105,7 @@ function initiateDataTables() {
             [10, 25, 50, 75, 100, -1],
             [10, 25, 50, 75, 100, "All"],
         ],
-        dom: "lBfrtip",
+        dom: JSON.parse(table.attr("data-has-filter")) ? 'lBfrtip' : 'lBrtip',
         buttons: [
             "colvis",
             {

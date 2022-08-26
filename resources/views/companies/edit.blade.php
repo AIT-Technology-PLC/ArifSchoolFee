@@ -216,6 +216,50 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="sales_report_source">
+                                Sales Report Source <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="sales_report_source"
+                                    name="sales_report_source"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Source</option>
+                                    <option
+                                        value="All Delivery Orders"
+                                        {{ $company->sales_report_source == 'All Delivery Orders' ? 'selected' : '' }}
+                                    >All Delivery Orders</option>
+                                    <option
+                                        value="Approved Delivery Orders"
+                                        {{ $company->sales_report_source == 'Approved Delivery Orders' ? 'selected' : '' }}
+                                    >Approved Delivery Orders</option>
+                                    <option
+                                        value="Subtracted Delivery Orders"
+                                        {{ $company->sales_report_source == 'Subtracted Delivery Orders' ? 'selected' : '' }}
+                                    >Subtracted Delivery Orders</option>
+                                    <option
+                                        value="All Invoices"
+                                        {{ $company->sales_report_source == 'All Invoices' ? 'selected' : '' }}
+                                    >All Invoices</option>
+                                    <option
+                                        value="Approved Invoices"
+                                        {{ $company->sales_report_source == 'Approved Invoices' ? 'selected' : '' }}
+                                    >Approved Invoices</option>
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div
                         class="column is-6"
                         x-data="UploadedFileNameHandler"

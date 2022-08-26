@@ -6,38 +6,32 @@
     x-transition
 >
     <div class="box radius-top-0">
-        <div>
-            <table
-                class="regular-datatable is-hoverable is-size-7 display nowrap"
-                data-date="[]"
-                data-numeric="[3,4,5]"
-            >
-                <thead>
-                    <tr>
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Product </abbr></th>
-                        <th><abbr> Category </abbr></th>
-                        @can('Read Available Inventory')
-                            <th class="has-text-right text-green"><abbr> Available </abbr></th>
+        <x-content.footer>
+            <x-common.client-datatable>
+                <x-slot name="headings">
+                    <th><abbr> # </abbr></th>
+                    <th><abbr> Product </abbr></th>
+                    <th><abbr> Category </abbr></th>
+                    @can('Read Available Inventory')
+                        <th class="has-text-right text-green"><abbr> Available </abbr></th>
+                    @endcan
+                    @if (isFeatureEnabled('Reservation Management'))
+                        @can('Read Reserved Inventory')
+                            <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
                         @endcan
-                        @if (isFeatureEnabled('Reservation Management'))
-                            @can('Read Reserved Inventory')
-                                <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
-                            @endcan
-                        @endif
-                        @if (userCompany()->plan->isPremium())
-                            @can('Read Work In Process Inventory')
-                                <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
-                            @endcan
-                        @endif
-                        @can('Read On Hand Inventory')
-                            <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                    @endif
+                    @if (userCompany()->plan->isPremium())
+                        @can('Read Work In Process Inventory')
+                            <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
                         @endcan
-                        <th><abbr> Level </abbr></th>
-                        <th><abbr> Actions </abbr></th>
-                    </tr>
-                </thead>
-                <tbody class="list">
+                    @endif
+                    @can('Read On Hand Inventory')
+                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                    @endcan
+                    <th><abbr> Level </abbr></th>
+                    <th><abbr> Actions </abbr></th>
+                </x-slot>
+                <x-slot name="body">
                     @foreach ($onHandMerchandises as $merchandise)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
@@ -125,8 +119,8 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
-        </div>
+                </x-slot>
+            </x-common.client-datatable>
+        </x-content.footer>
     </div>
 </section>

@@ -20,6 +20,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
+            'sales_report_source' => ['nullable', 'string', 'max:255'],
             'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where(function ($query) {
                 return $query->where('id', '<>', $this->route('company')->id);
             })],
