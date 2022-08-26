@@ -310,6 +310,56 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="freight_cost">
+                                Freight Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    id="freight_cost"
+                                    name="freight_cost"
+                                    placeholder="Freight Cost"
+                                    x-model="freightCost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_cost" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="freight_insurance_cost">
+                                Freight Insurance Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    id="freight_insurance_cost"
+                                    name="freight_insurance_cost"
+                                    placeholder="Freight Insurance Cost"
+                                    x-model="freightInsuranceCost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_insurance_cost" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">

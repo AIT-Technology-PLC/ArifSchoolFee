@@ -136,62 +136,6 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
-                            <x-forms.label x-bind:for="`purchase[${index}][freight_cost]`">
-                                Freight Cost <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    x-bind:id="`purchase[${index}][freight_cost]`"
-                                    x-bind:name="`purchase[${index}][freight_cost]`"
-                                    placeholder="Freight Cost"
-                                    x-model="purchase.freight_cost"
-                                />
-                                <x-common.icon
-                                    name="fas fa-money-bill"
-                                    class="is-large is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`purchase.${index}.freight_cost`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div
-                        class="column is-6"
-                        x-cloak
-                        x-show="isPurchaseByImport()"
-                    >
-                        <x-forms.field>
-                            <x-forms.label x-bind:for="`purchase[${index}][freight_insurance_cost]`">
-                                Freight Insurance Cost <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    x-bind:id="`purchase[${index}][freight_insurance_cost]`"
-                                    x-bind:name="`purchase[${index}][freight_insurance_cost]`"
-                                    placeholder="Freight Insurance Cost"
-                                    x-model="purchase.freight_insurance_cost"
-                                />
-                                <x-common.icon
-                                    name="fas fa-money-bill"
-                                    class="is-large is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`purchase.${index}.freight_insurance_cost`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div
-                        class="column is-6"
-                        x-cloak
-                        x-show="isPurchaseByImport()"
-                    >
-                        <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][duty_rate]`">
                                 Duty Rate (%) <sup class="has-text-danger">*</sup>
                             </x-forms.label>
