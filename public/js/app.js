@@ -101,11 +101,11 @@ function initiateDataTables() {
             },
             { type: "date", targets: JSON.parse(table.attr("data-date")) },
         ],
-        lengthMenu: [
-            [5, 10, 25, 50, 75, 100],
-            [5, 10, 25, 50, 75, 100],
-        ],
-        dom: JSON.parse(table.attr("data-has-filter")) ? 'lBfrtip' : 'lBrtip',
+        lengthMenu: JSON.parse(table.attr("data-length-menu")),
+        dom: "lBfrtip",
+        lengthChange: JSON.parse(table.attr("data-has-length-change")),
+        searching: JSON.parse(table.attr("data-has-filter")),
+        pagingType: table.attr("data-paging-type"),
         buttons: [
             "colvis",
             {

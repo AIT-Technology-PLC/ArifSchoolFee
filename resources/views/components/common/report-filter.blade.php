@@ -1,4 +1,4 @@
-<div class="mx-3">
+<div class="mx-3 m-lr-0">
     <form method="get">
         <div class="box">
             <div class="level mb-2">
