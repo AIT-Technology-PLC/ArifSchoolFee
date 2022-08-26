@@ -697,8 +697,9 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("sideMenu", () => ({
         isSideMenuOpenedOnLaptop: true,
 
-        toggleOnLaptop() {
-            this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop;
+        async toggleOnLaptop() {
+            await (this.isSideMenuOpenedOnLaptop =
+                !this.isSideMenuOpenedOnLaptop);
 
             $("table.display").DataTable().columns.adjust().draw();
         },
