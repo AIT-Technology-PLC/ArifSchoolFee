@@ -34,13 +34,13 @@ class StorePurchaseRequest extends FormRequest
                     $fail('Credit Payment without supplier is not allowed, please select a supplier.');
                 }
             }],
-            'cash_paid_type' => ['required', 'string', function ($attribute, $value, $fail) {
+            'cash_paid_type' => ['nullable', 'string', 'required_if:payment_type,Credit Payment', function ($attribute, $value, $fail) {
                 if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
                     $fail('When payment type is "Cash Payment", the type should be "Percent".');
                 }
             },
             ],
-            'cash_paid' => ['bail', 'required', 'numeric', 'gte:0',
+            'cash_paid' => ['nullable', 'numeric', 'gte:0', 'required_if:payment_type,Credit Payment',
                 new VerifyCashReceivedAmountIsValid(
                     $this->get('payment_type'),
                     0,
@@ -48,7 +48,7 @@ class StorePurchaseRequest extends FormRequest
                     $this->get('cash_paid_type')
                 ),
             ],
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
+            'due_date' => ['nullable', 'date', 'after:purchased_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None']), 'required_if:type,Local Purchase', 'prohibited_if:type,Import'],
             'currency' => ['nullable', 'string', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

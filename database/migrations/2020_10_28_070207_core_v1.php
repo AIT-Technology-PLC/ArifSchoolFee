@@ -244,8 +244,8 @@ return new class extends Migration
             $table->boolean('is_closed')->default(0);
             $table->string('type');
             $table->string('payment_type');
-            $table->string('cash_paid_type');
-            $table->decimal('cash_paid', 22);
+            $table->string('cash_paid_type')->nullable();
+            $table->decimal('cash_paid', 22)->nullable();
             $table->dateTime('due_date')->nullable();
             $table->string('tax_type')->nullable();
             $table->string('currency')->nullable();
