@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.report-filter>
-        <div class="column is-3 p-lr-0 pt-0">
+        <div class="column is-3 pt-0">
             <x-forms.field class="has-text-centered">
                 <x-forms.control>
                     <x-forms.select
@@ -42,86 +42,108 @@
         </div>
     </x-common.report-filter>
 
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-4 p-lr-0">
+    <div class="columns is-marginless is-multiline mt-3">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($revenueReport->getTotalRevenueBeforeTax(), 2)"
-                border-color="#3d8660"
+                border-color="#fff"
                 text-color="text-green"
-                label="Total Revenue Before Tax"
+                label="Revenue Before VAT"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($revenueReport->getTotalRevenueAfterTax(), 2)"
-                border-color="#863d63"
+                border-color="#fff"
                 text-color="text-purple"
-                label="Total Revenue After Tax"
+                label="Revenue After VAT"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($revenueReport->getTotalRevenueTax(), 2)"
-                border-color="#86843d"
+                border-color="#fff"
                 text-color="text-gold"
-                label="Total Revenue Tax"
+                label="Revenue VAT"
             />
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($revenueReport->getDailyAverageRevenue(), 2)"
-                border-color="#3d6386"
+                border-color="#fff"
                 text-color="text-blue"
                 label="Daily Average Revenue"
             />
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($revenueReport->getTotalRevenueReveivables(), 2)"
-                border-color="#3d6386"
+                border-color="#fff"
                 text-color="text-blue"
-                label="Total Receivable Revenue"
+                label="Receivable Revenue"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($transactionReport->getAverageTransactionValue(), 2)"
-                border-color="#86843d"
+                border-color="#fff"
                 text-color="text-gold"
                 label="Average Transaction Value"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="$transactionReport->getTotalTransactionCount()"
-                border-color="#863d63"
+                border-color="#fff"
                 text-color="text-purple"
-                label="Total Transaction"
+                label="Transaction"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-3 p-lr-0">
             <x-common.index-insight
+                label-text-size="is-size-6"
                 :amount="number_format($transactionReport->getAverageItemsPerTransaction(), 2)"
-                border-color="#3d8660"
+                border-color="#fff"
                 text-color="text-green"
                 label="Basket Size Analysis"
             />
         </div>
         <div class="column is-6 p-lr-0">
-            <x-content.header title="Top Customers by Revenue" />
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span>Top Customers by Revenue</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable has-filter="false">
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Customer </abbr></th>
-                        <th><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($revenueReport->getCustomersByRevenue() as $customerRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customerRevenue['customer'] }} </td>
-                                <td> {{ number_format($customerRevenue['revenue'], 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($customerRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -129,20 +151,34 @@
             </x-content.footer>
         </div>
         <div class="column is-6 p-lr-0">
-            <x-content.header title="Top Performing Branches " />
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Top Performing Branches</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable has-filter="false">
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Branch </abbr></th>
-                        <th><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($revenueReport->getBranchesByRevenue() as $branchRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $branchRevenue['branch'] }} </td>
-                                <td> {{ number_format($branchRevenue['revenue'], 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($branchRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -150,20 +186,34 @@
             </x-content.footer>
         </div>
         <div class="column is-6 p-lr-0">
-            <x-content.header title="Salesperson Leaderboard" />
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-user-tie"></i>
+                        </span>
+                        <span>Salesperson Leaderboard</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable has-filter="false">
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Salesperson </abbr></th>
-                        <th><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($revenueReport->getRepsByRevenue() as $salesRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $salesRevenue['sales'] }} </td>
-                                <td> {{ number_format($salesRevenue['revenue'], 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($salesRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -171,20 +221,36 @@
             </x-content.footer>
         </div>
         <div class="column is-6 p-lr-0">
-            <x-content.header title="Best-Selling Products" />
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-tags"></i>
+                        </span>
+                        <span>Best-Selling Products</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable has-filter="false">
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
-                        <th><abbr> Revenue </abbr></th>
+                        <th><abbr> Quantity </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($revenueReport->getProductsByRevenue() as $productRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $productRevenue['product'] }} </td>
-                                <td> {{ number_format($productRevenue['revenue'], 2) }} </td>
+                                <td> {{ $productRevenue['quantity'] }} </td>
+                                <td class="has-text-right"> {{ number_format($productRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -192,20 +258,36 @@
             </x-content.footer>
         </div>
         <div class="column is-6 p-lr-0">
-            <x-content.header title="Best Performing Categories" />
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-layer-group"></i>
+                        </span>
+                        <span>Best Performing Categories</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable has-filter="false">
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th><abbr> Revenue </abbr></th>
+                        <th><abbr> Quantity </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($revenueReport->getProductCategoriesByRevenue() as $categoryRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $categoryRevenue['category'] }} </td>
-                                <td> {{ number_format($categoryRevenue['revenue'], 2) }} </td>
+                                <td> {{ $categoryRevenue['quantity'] }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryRevenue['revenue'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

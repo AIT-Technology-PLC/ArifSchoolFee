@@ -101,11 +101,11 @@ function initiateDataTables() {
             },
             { type: "date", targets: JSON.parse(table.attr("data-date")) },
         ],
-        lengthMenu: [
-            [5, 10, 25, 50, 75, 100],
-            [5, 10, 25, 50, 75, 100],
-        ],
-        dom: JSON.parse(table.attr("data-has-filter")) ? 'lBfrtip' : 'lBrtip',
+        lengthMenu: JSON.parse(table.attr("data-length-menu")),
+        dom: "lBfrtip",
+        lengthChange: JSON.parse(table.attr("data-has-length-change")),
+        searching: JSON.parse(table.attr("data-has-filter")),
+        pagingType: table.attr("data-paging-type"),
         buttons: [
             "colvis",
             {
@@ -243,6 +243,10 @@ document.addEventListener("alpine:init", () => {
         },
         showOutOf() {
             this.isOnHand = false;
+
+            setTimeout(() => {
+                $("table.display").DataTable().columns.adjust().draw();
+            });
         },
     }));
 
@@ -697,8 +701,10 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("sideMenu", () => ({
         isSideMenuOpenedOnLaptop: true,
 
-        toggleOnLaptop() {
-            this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop;
+        async toggleOnLaptop() {
+            await Promise.resolve(
+                (this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop)
+            );
 
             $("table.display").DataTable().columns.adjust().draw();
         },
