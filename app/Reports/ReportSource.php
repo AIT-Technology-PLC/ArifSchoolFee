@@ -12,30 +12,35 @@ class ReportSource
         $source = match(userCompany()->sales_report_source) {
             'All Delivery Orders' => Gdn::when(!is_null($branch), fn($q) => $q->where('warehouse_id', $branch))
                 ->when(!is_null($period), fn($query) => $query->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1]))
-                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today()))
+                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', today()))
                 ->withCount('gdnDetails')->having('gdn_details_count', '>', 0)
+                ->with(['gdnDetails.product.productCategory', 'warehouse', 'customer', 'createdBy'])
                 ->get(),
             'Approved Delivery Orders' => Gdn::when(!is_null($branch), fn($q) => $q->where('warehouse_id', $branch))
                 ->when(!is_null($period), fn($query) => $query->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1]))
-                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today()))
+                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', today()))
                 ->withCount('gdnDetails')->having('gdn_details_count', '>', 0)
+                ->with(['gdnDetails.product.productCategory', 'warehouse', 'customer', 'createdBy'])
                 ->approved()
                 ->get(),
             'Subtracted Delivery Orders' => Gdn::when(!is_null($branch), fn($q) => $q->where('warehouse_id', $branch))
                 ->when(!is_null($period), fn($query) => $query->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1]))
-                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today()))
+                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', today()))
                 ->withCount('gdnDetails')->having('gdn_details_count', '>', 0)
+                ->with(['gdnDetails.product.productCategory', 'warehouse', 'customer', 'createdBy'])
                 ->subtracted()
                 ->get(),
             'All Invoices' => Sale::when(!is_null($branch), fn($q) => $q->where('warehouse_id', $branch))
                 ->when(!is_null($period), fn($query) => $query->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1]))
-                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today()))
+                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', today()))
                 ->withCount('saleDetails')->having('sale_details_count', '>', 0)
+                ->with(['saleDetails.product.productCategory', 'warehouse', 'customer', 'createdBy'])
                 ->get(),
             'Approved Invoices' => Sale::when(!is_null($branch), fn($q) => $q->where('warehouse_id', $branch))
                 ->when(!is_null($period), fn($query) => $query->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1]))
-                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today()))
+                ->when(is_null($period), fn($query) => $query->whereDate('issued_on', today()))
                 ->withCount('saleDetails')->having('sale_details_count', '>', 0)
+                ->with(['saleDetails.product.productCategory', 'warehouse', 'customer', 'createdBy'])
                 ->approved()
                 ->get(),
         };

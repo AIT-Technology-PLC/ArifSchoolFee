@@ -1,6 +1,6 @@
-@props(['title', 'isMobile' => false])
+@props(['title', 'isMobile' => false, 'bgColor' => 'has-background-white-bis'])
 
-<div class="box radius-bottom-0 mb-0 has-background-white-bis p-4">
+<div class="box radius-bottom-0 mb-0 {{ $bgColor }} p-4">
     <h1 class="title text-green has-text-weight-medium is-size-5 is-size-6-mobile">
         <div class="level {{ $isMobile ? 'is-mobile' : '' }}">
             <div class="level-left">
