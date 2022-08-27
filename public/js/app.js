@@ -497,16 +497,12 @@ document.addEventListener("alpine:init", () => {
                     this.cashPaidType = "percent";
                     this.cashPaid = 100;
                     this.dueDate = "";
-                    this.freightCost = "";
-                    this.freightInsuranceCost = "";
                     return;
                 }
 
                 this.cashPaidType = "";
                 this.cashPaid = "";
                 this.dueDate = "";
-                this.freightCost = "";
-                this.freightInsuranceCost = "";
             },
             isPurchaseByLocal() {
                 return this.purchaseType === "Local Purchase";
