@@ -4,7 +4,7 @@
 
 @section('content')
     <x-common.report-filter>
-        <div class="column is-3 pt-0">
+        <div class="column is-3 p-lr-0 pt-0">
             <x-forms.field class="has-text-centered">
                 <x-forms.control>
                     <x-forms.select
