@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +25,7 @@ class UpdateSaleRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
             'fs_number' => ['sometimes', Rule::when(! is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder($this->input('sale.*.quantity'))],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0'],
             'sale.*.description' => ['nullable', 'string'],

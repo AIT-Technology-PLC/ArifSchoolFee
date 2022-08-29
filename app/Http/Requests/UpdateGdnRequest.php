@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,7 +23,7 @@ class UpdateGdnRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder($this->input('gdn.*.quantity'), $this->input('gdn.*.warehouse_id'))],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
@@ -31,7 +32,7 @@ class UpdateGdnRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    ! $this->route('gdn')->isApproved(),
+                    !$this->route('gdn')->isApproved(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('gdn'),
