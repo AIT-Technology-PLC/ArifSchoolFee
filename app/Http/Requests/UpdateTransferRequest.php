@@ -17,7 +17,11 @@ class UpdateTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('transfers') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],

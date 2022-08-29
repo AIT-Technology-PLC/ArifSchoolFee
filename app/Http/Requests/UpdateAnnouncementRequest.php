@@ -16,7 +16,11 @@ class UpdateAnnouncementRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('announcements', $this->route('announcement')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('announcements', $this->route('announcement')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('announcements') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'warehouse_id' => ['required', 'array'],

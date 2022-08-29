@@ -17,7 +17,11 @@ class UpdateSivRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('sivs') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],

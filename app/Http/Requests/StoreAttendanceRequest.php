@@ -19,7 +19,11 @@ class StoreAttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('attendances')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('attendances'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('attendances') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],
             'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)],

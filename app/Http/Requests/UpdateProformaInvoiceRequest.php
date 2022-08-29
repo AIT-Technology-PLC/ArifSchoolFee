@@ -17,7 +17,11 @@ class UpdateProformaInvoiceRequest extends FormRequest
     {
         return [
             'prefix' => ['nullable', 'string'],
-            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices', $this->route('proforma_invoice')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices', $this->route('proforma_invoice')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('proforma_invoices') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['nullable', 'date', 'after_or_equal:issued_on'],

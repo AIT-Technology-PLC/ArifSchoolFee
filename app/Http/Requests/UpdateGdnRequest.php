@@ -20,7 +20,11 @@ class UpdateGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('gdns') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
@@ -31,7 +35,7 @@ class UpdateGdnRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    ! $this->route('gdn')->isApproved(),
+                    !$this->route('gdn')->isApproved(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('gdn'),

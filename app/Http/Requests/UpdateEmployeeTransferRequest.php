@@ -17,7 +17,11 @@ class UpdateEmployeeTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers', $this->route('employee_transfer')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers', $this->route('employee_transfer')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('employee_transfers') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'issued_on' => ['required', 'date'],
             'employeeTransfer' => ['required', 'array'],
             'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {

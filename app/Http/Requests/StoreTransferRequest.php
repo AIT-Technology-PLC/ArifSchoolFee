@@ -17,7 +17,11 @@ class StoreTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('transfers')],
+            'code' => ['required', 'string', new UniqueReferenceNum('transfers'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('transfers') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],

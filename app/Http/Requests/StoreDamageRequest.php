@@ -17,7 +17,11 @@ class StoreDamageRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('damages')],
+            'code' => ['required', 'string', new UniqueReferenceNum('damages'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('damages') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'damage' => ['required', 'array'],
             'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'damage.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('subtract')->pluck('id'))],

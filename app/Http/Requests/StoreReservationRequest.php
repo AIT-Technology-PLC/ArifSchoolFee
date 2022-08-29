@@ -20,7 +20,11 @@ class StoreReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('reservations')],
+            'code' => ['required', 'string', new UniqueReferenceNum('reservations'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('reservations') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

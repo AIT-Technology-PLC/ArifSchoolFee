@@ -448,7 +448,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="is_editing_reference_number_enabled">
-                                Editing Reference Number <sup class="has-text-danger">*</sup>
+                                Editing Reference Numbers <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
                                 <label class="radio has-text-grey has-text-weight-normal">

@@ -19,7 +19,11 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('sales')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('sales'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('sales') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],

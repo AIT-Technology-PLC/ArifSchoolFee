@@ -19,7 +19,11 @@ class StorePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('purchases')],
+            'code' => ['required', 'string', new UniqueReferenceNum('purchases'), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('purchases') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers'),
                 new CheckSupplierDebtLimit(

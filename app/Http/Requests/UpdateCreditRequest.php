@@ -16,7 +16,11 @@ class UpdateCreditRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('credits', $this->route('credit')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('credits', $this->route('credit')->id), function ($attribute, $value, $fail) {
+                if ($this->get('code') != nextReferenceNumber('credits') && !userCompany()->isEditingReferenceNumberEnabled()) {
+                    $fail('Modifying a reference number is not allowed.');
+                }
+            }],
             'customer_id' => ['required', 'integer', new MustBelongToCompany('customers')],
             'credit_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],
