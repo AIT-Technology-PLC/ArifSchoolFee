@@ -34,6 +34,7 @@
                                     type="text"
                                     name="code"
                                     id="code"
+                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
                                     value="{{ $proformaInvoice->code ?? '' }}"
                                 />
                                 <x-common.icon

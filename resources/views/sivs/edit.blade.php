@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Edit SIV')
-    
+
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="Edit SIV" />
@@ -26,6 +26,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
                                     value="{{ $siv->code }}"
                                 />
                                 <x-common.icon
@@ -193,9 +194,9 @@
                     </div>
                 </div>
             </x-content.main>
-            
+
             @include('sivs.details-form', ['data' => ['siv' => old('siv') ?? $siv->sivDetails]])
-            
+
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>
