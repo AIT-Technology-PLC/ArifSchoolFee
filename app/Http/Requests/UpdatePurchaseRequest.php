@@ -55,6 +55,7 @@ class UpdatePurchaseRequest extends FormRequest
             'freight_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_insurance_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_unit' => ['nullable', 'string', 'max:255', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
+            'freight_amount' => ['numeric', 'gte:0', 'size:' . collect($this->input('purchase'))->sum('amount'), 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'description' => ['nullable', 'string'],
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],

@@ -36,7 +36,7 @@ class PurchaseDetail extends Model
     public function getDutyPayingValueAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return ($this->unit_price * $this->quantity) + ($this->purchase->freight_cost / $this->amount) + ($this->purchase->freight_insurance_cost / $this->amount);
+            return ($this->unit_price * $this->quantity) + ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount') + ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
         }
 
         return 0;

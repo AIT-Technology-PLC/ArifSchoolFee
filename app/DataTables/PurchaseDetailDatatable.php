@@ -26,8 +26,7 @@ class PurchaseDetailDatatable extends DataTable
             })
             ->editColumn('unit_cost', fn($purchaseDetail) => money($purchaseDetail->unit_price))
             ->editColumn('total_cost', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
-            ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freight_cost))
-            ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freight_insurance_cost))
+            ->editColumn('amount', fn($purchaseDetail) => money($purchaseDetail->amount))
             ->editColumn('duty_paying_value', fn($purchaseDetail) => money($purchaseDetail->dutyPayingValue))
             ->editColumn('custom_duty_tax', fn($purchaseDetail) => money($purchaseDetail->customDutyTax))
             ->editColumn('excise_tax', fn($purchaseDetail) => money($purchaseDetail->exciseTaxAmount))
@@ -64,8 +63,7 @@ class PurchaseDetailDatatable extends DataTable
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_cost', 'unit_price')->addClass('has-text-right'),
             Column::computed('total_cost')->addClass('has-text-right'),
-            request()->route('purchase')->isImported() ? Column::computed('freight_cost')->visible(false)->addClass('has-text-right') : null,
-            request()->route('purchase')->isImported() ? Column::computed('freight_insurance_cost')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('amount')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('duty_paying_value')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('custom_duty_tax')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('excise_tax')->visible(false)->addClass('has-text-right') : null,
