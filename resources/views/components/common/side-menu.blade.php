@@ -790,8 +790,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Expense Management'))
-        @canany(['Read Purchase', 'Read Supplier', 'Read Expense'])
+    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
