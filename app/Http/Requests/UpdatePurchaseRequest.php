@@ -34,13 +34,13 @@ class UpdatePurchaseRequest extends FormRequest
                     $fail('Credit Payment without supplier is not allowed, please select a supplier.');
                 }
             }],
-            'cash_paid_type' => ['nullable', 'string', 'required_if:payment_type,Credit Payment', function ($attribute, $value, $fail) {
+            'cash_paid_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
                     $fail('When payment type is "Cash Payment", the type should be "Percent".');
                 }
             },
             ],
-            'cash_paid' => ['nullable', 'numeric', 'gte:0', 'required_if:payment_type,Credit Payment',
+            'cash_paid' => ['bail', 'required', 'numeric', 'gte:0',
                 new VerifyCashReceivedAmountIsValid(
                     $this->get('payment_type'),
                     0,
@@ -54,11 +54,13 @@ class UpdatePurchaseRequest extends FormRequest
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_insurance_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
+            'freight_unit' => ['nullable', 'string', 'max:255', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'description' => ['nullable', 'string'],
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
             'purchase.*.unit_price' => ['required', 'numeric'],
+            'purchase.*.amount' => ['nullable', 'numeric', 'gt:0', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.duty_rate' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.excise_tax' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
