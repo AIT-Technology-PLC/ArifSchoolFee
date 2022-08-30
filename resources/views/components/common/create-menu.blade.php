@@ -670,8 +670,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Purchase Management', 'Supplier Management'))
-                @canany(['Create Purchase', 'Create Supplier'])
+            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Expense Management'))
+                @canany(['Create Purchase', 'Create Supplier', 'Create Expense'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -711,6 +711,33 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Supplier </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Create Expense')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expense-categories.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense Category </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expenses.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense </span>
                                     </div>
                                 @endcan
                             @endif
@@ -770,66 +797,6 @@
                                 <br>
                                 <span class="is-size-7"> New Product </span>
                             </div>
-                        </div>
-                    </x-content.footer>
-                @endcan
-            @endif
-
-            @if (isFeatureEnabled('Payroll Management', 'Expense Management'))
-                @canany('Create Payroll', 'Create Expense')
-                    <x-content.header>
-                        <x-slot name="header">
-                            <x-common.icon
-                                name="fas fa-chart-line"
-                                class="is-size-6 text-green"
-                            />
-                            <span class="ml-2 is-size-6 text-green"> Finance </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Payroll Management'))
-                                @can('Create Payroll')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('payrolls.create') }}"
-                                            icon="fa-solid fa-coins"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Payroll </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Expense Management'))
-                                @can('Create Expense')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('expense-categories.create') }}"
-                                            icon="fa-solid fa-money-bill-trend-up"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Expense Category </span>
-                                    </div>
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('expenses.create') }}"
-                                            icon="fa-solid fa-money-bill-trend-up"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Expense </span>
-                                    </div>
-                                @endcan
-                            @endif
                         </div>
                     </x-content.footer>
                 @endcan

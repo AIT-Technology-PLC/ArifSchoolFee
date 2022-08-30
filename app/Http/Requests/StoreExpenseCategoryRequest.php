@@ -17,7 +17,7 @@ class StoreExpenseCategoryRequest extends FormRequest
         return [
             'expenseCategory' => ['required', 'array'],
             'expenseCategory.*.name' => ['required', 'string', 'distinct', Rule::unique('expense_categories')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id);
+                return $query->where('warehouse_id', authUser()->warehouse_id);
             })],
         ];
     }

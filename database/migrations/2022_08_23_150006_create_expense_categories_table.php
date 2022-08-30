@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('expense_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
@@ -18,7 +19,8 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index('company_id');
-            $table->unique(['company_id', 'name']);
+            $table->index('warehouse_id');
+            $table->unique(['warehouse_id', 'name']);
         });
     }
 

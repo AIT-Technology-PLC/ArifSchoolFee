@@ -797,8 +797,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management'))
-            @canany(['Read Purchase', 'Read Supplier'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Expense Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Expense'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -845,6 +845,39 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Suppliers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Read Expense')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expense-categories.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense Categories
+                                        </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expenses.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expenses
                                         </span>
                                     </div>
                                 @endcan
@@ -923,8 +956,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Credit Management', 'Debt Management', 'Expense Management'))
-            @canany(['Read Credit', 'Read Debt', 'Read Expense'])
+        @if (isFeatureEnabled('Credit Management', 'Debt Management'))
+            @canany(['Read Credit', 'Read Debt'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -971,39 +1004,6 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Payables & Aging
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Expense Management'))
-                                @can('Read Expense')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('expense-categories.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fa-solid fa-money-bill-trend-up"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Expense Categories
-                                        </span>
-                                    </div>
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('expenses.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fa-solid fa-money-bill-trend-up"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Expenses
                                         </span>
                                     </div>
                                 @endcan

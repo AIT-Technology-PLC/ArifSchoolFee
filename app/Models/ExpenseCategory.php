@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\ExpenseDetail;
+use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExpenseCategory extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, CascadeSoftDeletes;
+    use MultiTenancy, SoftDeletes, Branchable, HasUserstamps, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
