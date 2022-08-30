@@ -87,6 +87,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('logo')->nullable();
             $table->string('sector')->nullable();
+            $table->string('sales_report_source')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
             $table->string('tin')->unique()->nullable();
@@ -97,7 +98,7 @@ return new class extends Migration
             $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
-            $table->bigInteger('working_days')->default(30);
+            $table->bigInteger('working_days')->default(26);
             $table->timestamps();
             $table->softDeletes();
 
@@ -1090,7 +1091,7 @@ return new class extends Migration
             $table->dateTime('starting_period')->nullable();
             $table->dateTime('ending_period')->nullable();
             $table->boolean('is_paid_time_off');
-            $table->decimal('time_off_amount', 22);
+            $table->decimal('time_off_amount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -101,11 +101,11 @@ function initiateDataTables() {
             },
             { type: "date", targets: JSON.parse(table.attr("data-date")) },
         ],
-        lengthMenu: [
-            [10, 25, 50, 75, 100, -1],
-            [10, 25, 50, 75, 100, "All"],
-        ],
+        lengthMenu: JSON.parse(table.attr("data-length-menu")),
         dom: "lBfrtip",
+        lengthChange: JSON.parse(table.attr("data-has-length-change")),
+        searching: JSON.parse(table.attr("data-has-filter")),
+        pagingType: table.attr("data-paging-type"),
         buttons: [
             "colvis",
             {
@@ -243,6 +243,10 @@ document.addEventListener("alpine:init", () => {
         },
         showOutOf() {
             this.isOnHand = false;
+
+            setTimeout(() => {
+                $("table.display").DataTable().columns.adjust().draw();
+            });
         },
     }));
 
@@ -479,40 +483,31 @@ document.addEventListener("alpine:init", () => {
                 this.dueDate = dueDate;
             },
             changePurchaseInformation() {
-                if (this.purchaseType === "Local Purchase") {
-                    this.currency = "";
-                    this.exchangeRate = "";
-                }
-                if (this.purchaseType === "Import") {
-                    this.taxType = "";
-                }
+                this.taxType = "";
+                this.currency = "";
+                this.exchangeRate = "";
+                this.paymentType = "";
             },
-
             changePaymentMethod() {
                 if (this.paymentType === "Cash Payment") {
                     this.cashPaidType = "percent";
                     this.cashPaid = 100;
                     this.dueDate = "";
+                    return;
                 }
-                if (this.paymentType === "Credit Payment") {
-                    this.cashPaidType = "";
-                    this.cashPaid = "";
-                    this.dueDate = "";
-                }
-            },
 
+                this.cashPaidType = "";
+                this.cashPaid = "";
+                this.dueDate = "";
+            },
             isPurchaseByLocal() {
-                return (
-                    this.purchaseType === "" ||
-                    this.purchaseType === "Local Purchase"
-                );
+                return this.purchaseType === "Local Purchase";
             },
-
-            isPaymentInCash() {
-                return (
-                    this.paymentType === "" ||
-                    this.paymentType === "Cash Payment"
-                );
+            isPurchaseByImport() {
+                return this.purchaseType === "Import";
+            },
+            isPaymentInCredit() {
+                return this.paymentType === "Credit Payment";
             },
         })
     );
@@ -706,8 +701,10 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("sideMenu", () => ({
         isSideMenuOpenedOnLaptop: true,
 
-        toggleOnLaptop() {
-            this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop;
+        async toggleOnLaptop() {
+            await Promise.resolve(
+                (this.isSideMenuOpenedOnLaptop = !this.isSideMenuOpenedOnLaptop)
+            );
 
             $("table.display").DataTable().columns.adjust().draw();
         },

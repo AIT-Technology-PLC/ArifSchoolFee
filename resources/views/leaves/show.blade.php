@@ -84,9 +84,9 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fa-solid fa-clock"
-                        :data="$leaf->leavePeriod"
-                        label="Period (In Days)"
+                        icon="fa-solid fa-umbrella-beach"
+                        :data="$leaf->isPaidTimeOff() ? 'Paid' : 'Unpaid'"
+                        label="Time Off Type"
                     />
                 </div>
                 <div class="column is-6">
