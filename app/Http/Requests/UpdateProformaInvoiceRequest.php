@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
-use App\Rules\ValidateBackorder;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProformaInvoiceRequest extends FormRequest
@@ -25,7 +24,7 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'terms' => ['nullable', 'string'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice' => ['required', 'array'],
-            'proformaInvoice.*.product_id' => ['required', 'string', new MustBelongToCompany('products'), new ValidateBackorder($this->input('proformaInvoice.*.quantity'))],
+            'proformaInvoice.*.product_id' => ['required', 'string', new MustBelongToCompany('products')],
             'proformaInvoice.*.quantity' => ['required', 'numeric', 'gt:0'],
             'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],

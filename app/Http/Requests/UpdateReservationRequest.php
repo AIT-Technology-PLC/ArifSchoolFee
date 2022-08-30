@@ -23,7 +23,7 @@ class UpdateReservationRequest extends FormRequest
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id)],
             'reservation' => ['required', 'array'],
-            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder($this->input('reservation.*.quantity'), $this->input('reservation.*.warehouse_id'))],
+            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0'],
