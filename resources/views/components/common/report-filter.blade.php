@@ -1,5 +1,11 @@
 <div class="mx-3 m-lr-0">
-    <form method="get">
+    <form
+        method="GET"
+        enctype="multipart/form-data"
+        novalidate
+        action="{{ route('reports.sales_performance') }}"
+    >
+        @method('GET')
         <div class="box">
             <div class="level mb-2">
                 <div class="level-left">
@@ -35,9 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="columns is-marginless is-vcentered">
-                {{ $slot }}
-            </div>
+            {{ $slot }}
             <div class="buttons is-centered my-4 is-hidden-tablet">
                 <x-common.button
                     tag="button"
