@@ -653,8 +653,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management'))
-                @canany(['Create Purchase', 'Create Supplier', 'Create Debt'])
+            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Expense'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon

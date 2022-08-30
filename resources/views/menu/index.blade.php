@@ -797,8 +797,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Expense Management'))
-            @canany(['Read Purchase', 'Read Supplier', 'Read Expense'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -845,6 +845,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Suppliers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Read Debt')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('debts.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-money-check-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Debts
                                         </span>
                                     </div>
                                 @endcan

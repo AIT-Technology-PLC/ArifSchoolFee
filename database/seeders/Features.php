@@ -205,11 +205,11 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
-                ['name' => 'Expense Management'],
+                ['name' => 'Sales Report'],
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
-                ['name' => 'Sales Report'],
+                ['name' => 'Expense Management'],
                 ['is_enabled' => 1]
             );
 
