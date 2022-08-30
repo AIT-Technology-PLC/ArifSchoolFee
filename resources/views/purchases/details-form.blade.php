@@ -135,6 +135,43 @@
                         x-cloak
                         x-show="isPurchaseByImport()"
                     >
+                        <x-forms.label x-bind:for="`purchase[${index}][amount]`">
+                            Amount <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    x-bind:id="`purchase[${index}][amount]`"
+                                    x-bind:name="`purchase[${index}][amount]`"
+                                    x-model="purchase.amount"
+                                    placeholder="Product Amount"
+                                />
+                                <x-common.icon
+                                    name="fas fa-balance-scale"
+                                    class="is-large is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`purchase.${index}.amount`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    type="button"
+                                    mode="button"
+                                    class="bg-green has-text-white"
+                                    x-text="freightUnit"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`purchase[${index}][duty_rate]`">
                                 Duty Rate (%) <sup class="has-text-danger">*</sup>
