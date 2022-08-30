@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\BillOfMaterial;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -18,11 +19,7 @@ class StoreJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('job_orders'), function ($attribute, $value, $fail) {
-                if ($this->get('code') != nextReferenceNumber('job_orders') && !userCompany()->isEditingReferenceNumberEnabled()) {
-                    $fail('Modifying a reference number is not allowed.');
-                }
-            }],
+            'code' => ['required', 'integer', new UniqueReferenceNum('job_orders'), new CanEditReferenceNumber($this->get('code'), 'job_orders')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'), 'prohibited_if:is_internal_job,1'],
             'factory_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'description' => ['nullable', 'string'],

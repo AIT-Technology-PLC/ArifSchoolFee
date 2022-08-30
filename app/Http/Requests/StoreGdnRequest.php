@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -20,11 +21,7 @@ class StoreGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns'), function ($attribute, $value, $fail) {
-                if ($this->get('code') != nextReferenceNumber('gdns') && !userCompany()->isEditingReferenceNumberEnabled()) {
-                    $fail('Modifying a reference number is not allowed.');
-                }
-            }],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns'), new CanEditReferenceNumber($this->get('code'), 'gdns')],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

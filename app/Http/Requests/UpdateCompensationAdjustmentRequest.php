@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Employee;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -18,11 +19,8 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id), function ($attribute, $value, $fail) {
-                if ($this->get('code') != nextReferenceNumber('compensation_adjustments') && !userCompany()->isEditingReferenceNumberEnabled()) {
-                    $fail('Modifying a reference number is not allowed.');
-                }
-            }],
+            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id),
+                new CanEditReferenceNumber($this->get('code'), 'compensation_adjustments')],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', Rule::unique('compensation_adjustments')->where(function ($query) {
                 return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('compensation_adjustment')->id);

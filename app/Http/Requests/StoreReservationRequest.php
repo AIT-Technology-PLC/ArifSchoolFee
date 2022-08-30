@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -20,11 +21,7 @@ class StoreReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('reservations'), function ($attribute, $value, $fail) {
-                if ($this->get('code') != nextReferenceNumber('reservations') && !userCompany()->isEditingReferenceNumberEnabled()) {
-                    $fail('Modifying a reference number is not allowed.');
-                }
-            }],
+            'code' => ['required', 'string', new UniqueReferenceNum('reservations'), new CanEditReferenceNumber($this->get('code'), 'reservations')],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

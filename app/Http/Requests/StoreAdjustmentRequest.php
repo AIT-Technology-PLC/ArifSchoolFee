@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,11 +18,7 @@ class StoreAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('adjustments'), function ($attribute, $value, $fail) {
-                if ($this->get('code') != nextReferenceNumber('adjustments') && !userCompany()->isEditingReferenceNumberEnabled()) {
-                    $fail('Modifying a reference number is not allowed.');
-                }
-            }],
+            'code' => ['required', 'string', new UniqueReferenceNum('adjustments'), new CanEditReferenceNumber($this->get('code'), 'adjustments')],
             'adjustment' => ['required', 'array'],
             'adjustment.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('adjustment')->pluck('id'))],
             'adjustment.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
