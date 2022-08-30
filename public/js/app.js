@@ -464,6 +464,7 @@ document.addEventListener("alpine:init", () => {
             dueDate = "",
             freightCost = "",
             freightInsuranceCost = "",
+            freightUnit = "",
         ) => ({
             purchaseType: "",
             taxType: "",
@@ -475,6 +476,7 @@ document.addEventListener("alpine:init", () => {
             dueDate: "",
             freightCost: "",
             freightInsuranceCost: "",
+            freightUnit: "",
 
             init() {
                 this.purchaseType = purchaseType;
@@ -487,6 +489,7 @@ document.addEventListener("alpine:init", () => {
                 this.dueDate = dueDate;
                 this.freightCost = freightCost;
                 this.freightInsuranceCost = freightInsuranceCost;
+                this.freightUnit = freightUnit;
             },
             changePurchaseInformation() {
                 this.taxType = "";
@@ -494,10 +497,11 @@ document.addEventListener("alpine:init", () => {
                 this.exchangeRate = "";
                 this.freightCost = "";
                 this.freightInsuranceCost = "";
+                this.freightUnit = "";
                 this.paymentType = "";
             },
             changePaymentMethod() {
-                if (this.paymentType === "Cash Payment") {
+                if (this.paymentType != "Credit Payment") {
                     this.cashPaidType = "percent";
                     this.cashPaid = 100;
                     this.dueDate = "";
