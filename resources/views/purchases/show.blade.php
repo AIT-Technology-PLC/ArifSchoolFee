@@ -66,6 +66,27 @@
                             label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="$purchase->freight_cost"
+                            label="Freight Cost ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="$purchase->freight_insurance_cost"
+                            label="Freight Insurance Cost ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-balance-scale"
+                            :data="$purchase->freight_unit"
+                            label="Freight Unit"
+                        />
+                    </div>
                 @endif
                 @if (!$purchase->isImported())
                     @if ($purchase->payment_in_debt > 0)
