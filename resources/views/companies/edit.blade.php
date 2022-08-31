@@ -487,7 +487,7 @@
                                         name="is_backorder_enabled"
                                         value="1"
                                         class="mt-3"
-                                        {{ $company->is_backorder_enabled ? 'checked' : '' }}
+                                        @checked($company->isBackorderEnabled())
                                     >
                                     Enabled
                                 </label>
@@ -497,7 +497,7 @@
                                         type="radio"
                                         name="is_backorder_enabled"
                                         value="0"
-                                        {{ $company->is_backorder_enabled ? '' : 'checked' }}
+                                        @checked(!$company->isBackorderEnabled())
                                     >
                                     Disabled
                                 </label>
