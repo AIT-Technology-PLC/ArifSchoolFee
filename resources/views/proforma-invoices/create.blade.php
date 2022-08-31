@@ -30,7 +30,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    type="text"
+                                    type="number"
                                     name="code"
                                     id="code"
                                     value="{{ $currentProformaInvoiceCode }}"
