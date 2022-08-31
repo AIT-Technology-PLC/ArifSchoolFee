@@ -3,7 +3,7 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', {{ $purchase->cash_paid }}, '{{ $purchase->due_date?->toDateString() }}')">
+    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', '{{ $purchase->cash_paid }}', '{{ $purchase->due_date?->toDateString() }}', '{{ $purchase->freight_cost }}', '{{ $purchase->freight_insurance_cost }}', '{{ $purchase->freight_unit }}', '{{ $purchase->freight_amount }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -308,6 +308,91 @@
                                 />
                                 <x-common.validation-error property="currency" />
                                 <x-common.validation-error property="exchange_rate" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="freight_cost">
+                                Freight Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    id="freight_cost"
+                                    name="freight_cost"
+                                    placeholder="Freight Cost"
+                                    x-model="freightCost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_cost" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="freight_insurance_cost">
+                                Freight Insurance Cost <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    id="freight_insurance_cost"
+                                    name="freight_insurance_cost"
+                                    placeholder="Freight Insurance Cost"
+                                    x-model="freightInsuranceCost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_insurance_cost" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.label for="freight_amount">
+                            Freight Amount <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control>
+                                <x-forms.select
+                                    name="freight_unit"
+                                    x-model="freightUnit"
+                                >
+                                    <x-common.measurement-unit-options />
+                                    <option value="">None</option>
+                                </x-forms.select>
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="freight_amount"
+                                    id="freight_amount"
+                                    placeholder="Total Freight Amount"
+                                    x-model="freightAmount"
+                                />
+                                <x-common.icon
+                                    name="fas fa-balance-scale"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_amount" />
+                                <x-common.validation-error property="freight_unit" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
