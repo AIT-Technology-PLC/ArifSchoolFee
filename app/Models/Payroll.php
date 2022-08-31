@@ -6,7 +6,6 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -21,11 +20,6 @@ class Payroll extends Model
         'starting_period' => 'date',
         'ending_period' => 'date',
     ];
-
-    public function scopePayrollEnded()
-    {
-        return $this->ending_period <= Carbon::now();
-    }
 
     public function paidBy()
     {

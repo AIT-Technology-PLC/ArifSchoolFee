@@ -21,10 +21,6 @@ class PayrollController extends Controller
     {
         $this->authorize('approve', $payroll);
 
-        if (!$payroll->payrollEnded()) {
-            return back()->with('failedMessage', 'You can not approve a payroll with ending period after today.');
-        }
-
         [$isExecuted, $message] = $action->execute($payroll);
 
         if (!$isExecuted) {
