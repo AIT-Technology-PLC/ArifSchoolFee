@@ -629,9 +629,9 @@
                                         @selected($company->sales_report_source == 'All Delivery Orders')
                                     >All Delivery Orders</option>
                                     <option
-                                        value="Approved Delivery Orders"
-                                        @selected($company->sales_report_source == 'Approved Delivery Orders')
-                                    >Approved Delivery Orders</option>
+                                        value="Approved & Subtracted Delivery Orders"
+                                        @selected($company->sales_report_source == 'Approved & Subtracted Delivery Orders')
+                                    >Approved & Subtracted Delivery Orders</option>
                                     <option
                                         value="Subtracted Delivery Orders"
                                         @selected($company->sales_report_source == 'Subtracted Delivery Orders')
@@ -649,6 +649,7 @@
                                     name="fas fa-sort"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="sales_report_source" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

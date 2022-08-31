@@ -35,12 +35,20 @@ class PurchaseDetail extends Model
 
     public function getFreightCostValueAttribute()
     {
-        return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
+        if ($this->purchase->isImported()) {
+            return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        return 0;
     }
 
     public function getFreightInsuranceCostValueAttribute()
     {
-        return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
+        if ($this->purchase->isImported()) {
+            return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        return 0;
     }
 
     public function getDutyPayingValueAttribute()

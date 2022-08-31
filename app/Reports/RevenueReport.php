@@ -2,113 +2,99 @@
 
 namespace App\Reports;
 
+use Illuminate\Support\Carbon;
+
 class RevenueReport
 {
-    private $source;
+    private $period;
 
-    public function __construct($source)
+    private $branches;
+
+    private $master;
+
+    private $details;
+
+    private $subtotalPrice;
+
+    public function __construct($branches, $period)
     {
-        $this->source = $source;
+        $source = ReportSource::getSalesReportInput($branches, $period);
+
+        $this->period = $period;
+
+        $this->branches = $branches;
+
+        $this->master = $source['master'];
+
+        $this->details = $source['details'];
+
+        $this->subtotalPrice = (clone $this->master)->sum('subtotal_price');
+    }
+
+    public function __get($name)
+    {
+        if (!isset($this->$name)) {
+            $this->$name = $this->$name();
+        }
+
+        return $this->$name;
     }
 
     public function getTotalRevenueBeforeTax()
     {
-        return $this->source->sum('subtotal_price');
+        return $this->subtotalPrice;
     }
 
     public function getTotalRevenueAfterTax()
     {
-        return $this->source->sum('grand_total_price_after_discount');
+        return $this->subtotalPrice * 1.15;
     }
 
     public function getTotalRevenueTax()
     {
-        return $this->source->sum('tax_amount');
+        return $this->subtotalPrice * 0.15;
     }
 
     public function getBranchesByRevenue()
     {
-        $branchesByRevenue = collect();
-
-        foreach ($this->source->unique('branch_name') as $value) {
-            $branchesByRevenue->push([
-                'branch' => $value['branch_name'],
-                'revenue' => $this->source->where('branch_name', $value['branch_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $branchesByRevenue->sortByDesc('revenue');
+        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, warehouse_name')->groupBy('warehouse_id')->orderByDesc('revenue')->get();
     }
 
     public function getCustomersByRevenue()
     {
-        $customerByRevenue = collect();
-
-        foreach ($this->source->unique('customer_name') as $value) {
-            $customerByRevenue->push([
-                'customer' => $value['customer_name'],
-                'revenue' => $this->source->where('customer_name', $value['customer_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $customerByRevenue->sortByDesc('revenue');
+        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
     }
 
     public function getRepsByRevenue()
     {
-        $repsByRevenue = collect();
-
-        foreach ($this->source->unique('sales_rep_name') as $value) {
-            $repsByRevenue->push([
-                'sales' => $value['sales_rep_name'],
-                'revenue' => $this->source->where('sales_rep_name', $value['sales_rep_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $repsByRevenue->sortByDesc('revenue');
+        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
     }
 
     public function getProductsByRevenue()
     {
-        $productsByRevenue = collect();
-
-        foreach ($this->source->pluck('details')->flatten(1)->unique('product_name') as $value) {
-            $productsByRevenue->push([
-                'product' => $value['product_name'],
-                'quantity' => $this->source->pluck('details')->flatten(1)->where('product_name', $value['product_name'])->sum('quantity') . ' ' . $value['unit_of_measurement'],
-                'revenue' => $this->source->pluck('details')->flatten(1)->where('product_name', $value['product_name'])->sum('unit_price'),
-            ]);
-        }
-
-        return $productsByRevenue->sortByDesc('revenue');
+        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')->groupBy('product_id')->orderByDesc('revenue')->get();
     }
 
     public function getProductCategoriesByRevenue()
     {
-        $productCategoriesByRevenue = collect();
-
-        foreach ($this->source->pluck('details')->flatten(1)->unique('product_category_name') as $value) {
-            $productCategoriesByRevenue->push([
-                'category' => $value['product_category_name'],
-                'quantity' => $this->source->pluck('details')->flatten(1)->where('product_category_name', $value['product_category_name'])->sum('quantity') . ' ' . $value['unit_of_measurement'],
-                'revenue' => $this->source->pluck('details')->flatten(1)->where('product_category_name', $value['product_category_name'])->sum('unit_price'),
-            ]);
-        }
-
-        return $productCategoriesByRevenue->sortByDesc('revenue');
-    }
-
-    public function getTotalRevenueReveivables()
-    {
-        return $this->source->sum('credit_amount');
+        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_category_name')->groupBy('product_category_id')->orderByDesc('revenue')->get();
     }
 
     public function getDailyAverageRevenue()
     {
-        if ($this->source->unique('transaction_date')->count() == 0) {
-            return 0;
+        $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;
+
+        return $this->getTotalRevenueAfterTax / $days;
+    }
+
+    public function getCashSalesPercentage()
+    {
+        $cashPaymentTransactionCount = (clone $this->master)->where('payment_type', 'Cash Payment')->count();
+
+        if ($cashPaymentTransactionCount == 0) {
+            return $cashPaymentTransactionCount;
         }
 
-        return $this->source->sum('grand_total_price_after_discount') / $this->source->unique('transaction_date')->count();
+        return $cashPaymentTransactionCount / (clone $this->master)->count() * 100;
     }
 }

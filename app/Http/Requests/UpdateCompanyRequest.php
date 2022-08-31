@@ -48,7 +48,7 @@ class UpdateCompanyRequest extends FormRequest
             'paid_time_off_amount' => ['nullable', 'numeric'],
             'paid_time_off_type' => ['nullable', 'string', Rule::in(['Days', 'Hours'])],
             'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
-            'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
+            'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
         ];
     }
 }

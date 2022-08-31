@@ -31,7 +31,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="text"
+                                    type="number"
                                     name="code"
                                     id="code"
                                     readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
