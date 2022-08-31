@@ -44,6 +44,10 @@ class RouteServiceProvider extends ServiceProvider
             // Resource Controllers
             Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
                 ->group(base_path('routes/resource.php'));
+
+            // Report Controllers
+            Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
+                ->group(base_path('routes/reports.php'));
         });
     }
 

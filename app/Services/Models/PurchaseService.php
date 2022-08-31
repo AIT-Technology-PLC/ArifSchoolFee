@@ -2,6 +2,10 @@
 
 namespace App\Services\Models;
 
+use App\Actions\ApproveTransactionAction;
+use App\Notifications\PurchaseApproved;
+use Illuminate\Support\Facades\DB;
+
 class PurchaseService
 {
     public function convertToGrn($purchase)
@@ -33,7 +37,7 @@ class PurchaseService
             return [false, 'A debt for this purchase was already created.'];
         }
 
-        if ($purchase->payment_type == 'Cash Payment') {
+        if ($purchase->payment_type != 'Credit Payment') {
             return [false, 'Creating a debt for purchase with 0.00 debt amount is not allowed.'];
         }
 
@@ -56,5 +60,21 @@ class PurchaseService
         ]);
 
         return [true, ''];
+    }
+
+    public function approve($purchase)
+    {
+        return DB::transaction(function () use ($purchase) {
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($purchase, PurchaseApproved::class, 'Make Purchase');
+
+            if (!$isExecuted) {
+                DB::rollBack();
+                return [$isExecuted, $message];
+            }
+
+            $this->convertToDebt($purchase);
+
+            return [true, $message];
+        });
     }
 }

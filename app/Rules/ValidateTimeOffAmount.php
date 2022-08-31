@@ -4,40 +4,46 @@ namespace App\Rules;
 
 use App\Models\Employee;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Arr;
 
 class ValidateTimeOffAmount implements Rule
 {
-    private $message;
+    private $employeeId;
 
-    public function __construct($details = [])
+    private $isPaidTimeOff;
+
+    public function __construct($employeeId = null, $isPaidTimeOff = null)
     {
-        $this->details = $details;
+        $this->employeeId = $employeeId;
+
+        $this->isPaidTimeOff = $isPaidTimeOff;
     }
 
     public function passes($attribute, $value)
     {
-        $employeeIdKey = str_replace('.time_off_amount', '.employee_id', $attribute);
+        $employeeId = $this->employeeId;
+        $isPaidTimeOff = $value;
 
-        $employeeId = request()->input($employeeIdKey) ?? Arr::get($this->details, $employeeIdKey);
+        if (is_null($this->isPaidTimeOff)) {
+            $isPaidTimeOffKey = str_replace('.time_off_amount', '.is_paid_time_off', $attribute);
+            $isPaidTimeOff = request()->input($isPaidTimeOffKey);
+        }
 
-        $timeOffAmountKey = str_replace('.time_off_amount', '.is_paid_time_off', $attribute);
+        if (!$isPaidTimeOff) {
+            return true;
+        }
 
-        $timeOffAmount = request()->input($timeOffAmountKey) ?? Arr::get($this->details, $timeOffAmountKey);
+        if (is_null($this->employeeId)) {
+            $employeeIdKey = str_replace('.time_off_amount', '.employee_id', $attribute);
+            $employeeId = request()->input($employeeIdKey);
+        }
 
         $employee = Employee::firstWhere('id', $employeeId);
 
-        if ($timeOffAmount == 1 && $employee->paid_time_off_amount < $value) {
-            $this->message = "Employee has not enough Paid Time Off Amount .";
-
-            return false;
-        }
-
-        return true;
+        return $employee->paid_time_off_amount >= $value;
     }
 
     public function message()
     {
-        return $this->message;
+        return "Employee has no enough Paid Time Off Amount.";
     }
 }

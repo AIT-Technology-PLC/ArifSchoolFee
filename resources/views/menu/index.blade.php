@@ -496,8 +496,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Debt Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Read Debt'])
+        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
+            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -620,25 +620,6 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Credits
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Debt Management'))
-                                @can('Read Debt')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('debts.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-money-check-dollar"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Debts
                                         </span>
                                     </div>
                                 @endcan
@@ -797,8 +778,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management'))
-            @canany(['Read Purchase', 'Read Supplier'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Debt'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -845,6 +826,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Suppliers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Read Debt')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('debts.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-money-check-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Debts
                                         </span>
                                     </div>
                                 @endcan
@@ -990,6 +990,45 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Payables & Aging
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                </section>
+            @endcanany
+        @endif
+
+        @if (isFeatureEnabled('Sales Report'))
+            @canany(['Read Sales Performance Report'])
+                <section class="mb-5">
+                    <x-content.header>
+                        <x-slot name="header">
+                            <span class="icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </span>
+                            <span class="ml-2">
+                                Report & Analytics
+                            </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Sales Report'))
+                                @can('Read Sales Performance Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.sales_performance') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-file-lines"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales Performance
                                         </span>
                                     </div>
                                 @endcan

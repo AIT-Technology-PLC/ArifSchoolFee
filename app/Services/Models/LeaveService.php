@@ -11,28 +11,21 @@ class LeaveService
     {
         if (!$leaf->isPaidTimeOff()) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($leaf);
-
-            if (!$isExecuted) {
-                return [$isExecuted, $message];
-            }
-
-            return [true, $message];
+            return [$isExecuted, $message];
         }
 
-        if ($leaf->isPaidTimeOff() && $leaf->employee->paid_time_off_amount >= $leaf->time_off_amount) {
-            DB::transaction(function () use ($leaf) {
-                $leaf->employee->paid_time_off_amount -= $leaf->time_off_amount;
-
-                $leaf->employee->save();
-
-                [$isExecuted, $message] = (new ApproveTransactionAction)->execute($leaf);
-
-                if (!$isExecuted) {
-                    return [$isExecuted, $message];
-                }
-
-                return [true, $message];
-            });
+        if ($leaf->time_off_amount > $leaf->employee->paid_time_off_amount) {
+            return [false, 'Employee has no enough Paid Time Off.'];
         }
+
+        return DB::transaction(function () use ($leaf) {
+            $leaf->employee->paid_time_off_amount -= $leaf->time_off_amount;
+
+            $leaf->employee->save();
+
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($leaf);
+
+            return [$isExecuted, $message];
+        });
     }
 }

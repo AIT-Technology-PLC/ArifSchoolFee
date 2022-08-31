@@ -66,8 +66,45 @@
                             label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="$purchase->freight_cost"
+                            label="Freight Cost ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="$purchase->freight_insurance_cost"
+                            label="Freight Insurance Cost ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-balance-scale"
+                            :data="$purchase->freight_unit"
+                            label="Freight Unit"
+                        />
+                    </div>
                 @endif
                 @if (!$purchase->isImported())
+                    @if ($purchase->payment_in_debt > 0)
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                icon="fas fa-hand-holding-usd"
+                                data="{{ number_format($purchase->paymentInCash, 2) }} ({{ number_format($purchase->cashPaidInPercentage, 2) }}%)"
+                                label="In Cash ({{ userCompany()->currency }})"
+                            />
+                        </div>
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                icon="fas fa-money-check"
+                                data="{{ number_format($purchase->paymentInDebt, 2) }} ({{ number_format($purchase->debtPayableInPercentage, 2) }}%)"
+                                label="On Credit ({{ userCompany()->currency }})"
+                            />
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
@@ -149,19 +186,6 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
-                    @can('Convert To Debt')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('purchases.convert_to_debt', $purchase->id)"
-                                action="convert"
-                                intention="convert this purchase to debt"
-                                icon="fas fa-money-check-dollar"
-                                label="Convert to Debt"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
                 @elseif(!$purchase->isClosed())
                     @if (isFeatureEnabled('Grn Management'))
                         @can('Create GRN')
@@ -185,6 +209,20 @@
                                 intention="close this purchase"
                                 icon="fas fa-ban"
                                 label="Close"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
+                    @can('Convert To Debt')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.convert_to_debt', $purchase->id)"
+                                action="convert"
+                                intention="convert this purchase to debt"
+                                icon="fas fa-money-check-dollar"
+                                label="Convert to Debt"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>

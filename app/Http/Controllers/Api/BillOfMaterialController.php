@@ -14,7 +14,7 @@ class BillOfMaterialController extends Controller
 
     public function index()
     {
-        $billOfMaterials = BillOfMaterial::with(['product'])->active()->orderBy('name')->get();
+        $billOfMaterials = BillOfMaterial::with(['product'])->active()->approved()->orderBy('name')->get();
 
         return $billOfMaterials->map(function ($billOfMaterial) {
             return [

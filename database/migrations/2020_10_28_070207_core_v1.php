@@ -87,6 +87,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('logo')->nullable();
             $table->string('sector')->nullable();
+            $table->string('sales_report_source')->nullable();
             $table->boolean('enabled');
             $table->string('currency');
             $table->string('tin')->unique()->nullable();
@@ -97,7 +98,7 @@ return new class extends Migration
             $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
-            $table->bigInteger('working_days')->default(30);
+            $table->bigInteger('working_days')->default(26);
             $table->timestamps();
             $table->softDeletes();
 
@@ -249,6 +250,9 @@ return new class extends Migration
             $table->string('tax_type')->nullable();
             $table->string('currency')->nullable();
             $table->decimal('exchange_rate', 22)->nullable();
+            $table->decimal('freight_cost', 22)->nullable();
+            $table->decimal('freight_insurance_cost', 22)->nullable();
+            $table->string('freight_unit')->nullable();
             $table->dateTime('purchased_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
@@ -266,8 +270,7 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22);
-            $table->decimal('freight_cost', 22)->nullable();
-            $table->decimal('freight_insurance_cost', 22)->nullable();
+            $table->decimal('amount', 22)->nullable();
             $table->decimal('duty_rate', 22)->nullable();
             $table->decimal('excise_tax', 22)->nullable();
             $table->decimal('vat_rate', 22)->nullable();
@@ -1090,7 +1093,7 @@ return new class extends Migration
             $table->dateTime('starting_period')->nullable();
             $table->dateTime('ending_period')->nullable();
             $table->boolean('is_paid_time_off');
-            $table->decimal('time_off_amount', 22);
+            $table->decimal('time_off_amount', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

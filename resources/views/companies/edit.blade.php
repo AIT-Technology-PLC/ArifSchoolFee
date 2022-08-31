@@ -548,6 +548,10 @@
                                         @selected($company->paid_time_off_type == 'Hours')
                                     >Hours</option>
                                 </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
                                 <x-common.validation-error property="paid_time_off_type" />
                             </x-forms.control>
                         </x-forms.field>
@@ -572,6 +576,49 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="working_days" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="sales_report_source">
+                                Sales Report Source <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="sales_report_source"
+                                    name="sales_report_source"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Source</option>
+                                    <option
+                                        value="All Delivery Orders"
+                                        @selected($company->sales_report_source == 'All Delivery Orders')
+                                    >All Delivery Orders</option>
+                                    <option
+                                        value="Approved Delivery Orders"
+                                        @selected($company->sales_report_source == 'Approved Delivery Orders')
+                                    >Approved Delivery Orders</option>
+                                    <option
+                                        value="Subtracted Delivery Orders"
+                                        @selected($company->sales_report_source == 'Subtracted Delivery Orders')
+                                    >Subtracted Delivery Orders</option>
+                                    <option
+                                        value="All Invoices"
+                                        @selected($company->sales_report_source == 'All Invoices')
+                                    >All Invoices</option>
+                                    <option
+                                        value="Approved Invoices"
+                                        @selected($company->sales_report_source == 'Approved Invoices')
+                                    >Approved Invoices</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

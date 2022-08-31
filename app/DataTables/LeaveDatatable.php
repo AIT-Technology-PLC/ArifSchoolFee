@@ -26,7 +26,7 @@ class LeaveDatatable extends DataTable
             ->editColumn('status', fn($leave) => view('components.datatables.leave-status', compact('leave')))
             ->editColumn('employee', fn($leave) => $leave->employee->user->name)
             ->editColumn('category', fn($leave) => $leave->leaveCategory->name)
-            ->editColumn('period', fn($leave) => $leave->leavePeriod)
+            ->editColumn('type', fn($leave) => $leave->isPaidTimeOff() ? 'Paid' : 'Unpaid')
             ->editColumn('starting_period', fn($leave) => $leave->starting_period->toFormattedDateString())
             ->editColumn('ending_period', fn($leave) => $leave->ending_period->toFormattedDateString())
             ->editColumn('prepared by', fn($leave) => $leave->createdBy->name)
@@ -71,7 +71,7 @@ class LeaveDatatable extends DataTable
             Column::computed('status'),
             Column::make('category', ' leaveCategory.name'),
             Column::make('employee', 'employee.user.name'),
-            Column::computed('period'),
+            Column::computed('type'),
             Column::make('starting_period')->visible(false),
             Column::make('ending_period')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
