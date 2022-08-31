@@ -44,7 +44,7 @@ class PayrollController extends Controller
         }
 
         if ($payroll->isPaid()) {
-            return [false, 'This transaction is already paid.'];
+            return back()->with('failedMessage', 'This transaction is already paid.');
         }
 
         $payroll->pay();
