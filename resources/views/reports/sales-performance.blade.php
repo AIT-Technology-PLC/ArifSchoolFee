@@ -251,7 +251,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $productRevenue->product_name }} </td>
-                                <td class="has-text-right"> {{ $productRevenue->quantity }} </td>
+                                <td class="has-text-right"> {{ quantity($productRevenue->quantity, $productRevenue->product_unit_of_measurement) }} </td>
                                 <td class="has-text-right"> {{ number_format($productRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
@@ -288,7 +288,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $categoryRevenue->product_category_name }} </td>
-                                <td class="has-text-right"> {{ $categoryRevenue->quantity }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryRevenue->quantity, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($categoryRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach

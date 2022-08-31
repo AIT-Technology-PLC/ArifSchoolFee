@@ -21,6 +21,7 @@ return new class extends Migration
                 product_categories.name AS product_category_name,
                 gdn_details.product_id,
                 products.name AS product_name,
+                products.unit_of_measurement AS product_unit_of_measurement,
                 gdn_details.warehouse_id,
                 warehouses.name AS warehouse_name,
                 gdn_details.quantity,

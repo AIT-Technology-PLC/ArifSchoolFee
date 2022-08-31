@@ -21,6 +21,7 @@ return new class extends Migration
                 product_categories.name AS product_category_name,
                 sale_details.product_id,
                 products.name AS product_name,
+                products.unit_of_measurement AS product_unit_of_measurement,
                 sale_details.quantity,
                 sale_details.unit_price,
                 (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(sd.unit_price, 2), ROUND(sd.unit_price/1.15, 2))*sd.quantity), 2) FROM sale_details sd WHERE sd.id = sale_details.id) AS line_price

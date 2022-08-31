@@ -72,7 +72,7 @@ class RevenueReport
 
     public function getProductsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_name')->groupBy('product_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')->groupBy('product_id')->orderByDesc('revenue')->get();
     }
 
     public function getProductCategoriesByRevenue()
