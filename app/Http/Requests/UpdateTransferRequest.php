@@ -19,7 +19,7 @@ class UpdateTransferRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id),
-                new CanEditReferenceNumber($this->get('code'), 'transfers')],
+                new CanEditReferenceNumber('transfers')],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],

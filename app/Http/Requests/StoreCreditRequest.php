@@ -17,7 +17,7 @@ class StoreCreditRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('credits'), new CanEditReferenceNumber($this->get('code'), 'credits')],
+            'code' => ['required', 'string', new UniqueReferenceNum('credits'), new CanEditReferenceNumber('credits')],
             'customer_id' => ['required', 'integer', new MustBelongToCompany('customers')],
             'credit_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],

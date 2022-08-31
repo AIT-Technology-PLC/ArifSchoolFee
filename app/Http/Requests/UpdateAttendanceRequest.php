@@ -21,7 +21,7 @@ class UpdateAttendanceRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances', $this->route('attendance')->id),
-                new CanEditReferenceNumber($this->get('code'), 'attendances')],
+                new CanEditReferenceNumber('attendances')],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)],
             'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)],

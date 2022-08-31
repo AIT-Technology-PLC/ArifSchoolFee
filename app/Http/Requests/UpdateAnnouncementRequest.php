@@ -18,7 +18,7 @@ class UpdateAnnouncementRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('announcements', $this->route('announcement')->id),
-                new CanEditReferenceNumber($this->get('code'), 'announcements')],
+                new CanEditReferenceNumber('announcements')],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'warehouse_id' => ['required', 'array'],

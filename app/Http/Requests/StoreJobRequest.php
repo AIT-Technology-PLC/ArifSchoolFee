@@ -19,7 +19,7 @@ class StoreJobRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('job_orders'), new CanEditReferenceNumber($this->get('code'), 'job_orders')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('job_orders'), new CanEditReferenceNumber('job_orders')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'), 'prohibited_if:is_internal_job,1'],
             'factory_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'description' => ['nullable', 'string'],

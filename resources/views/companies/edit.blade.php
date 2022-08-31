@@ -457,7 +457,7 @@
                                         name="is_editing_reference_number_enabled"
                                         value="1"
                                         class="mt-3"
-                                        {{ $company->is_editing_reference_number_enabled ? 'checked' : '' }}
+                                        @checked($company->isEditingReferenceNumberEnabled())
                                     >
                                     Enabled
                                 </label>
@@ -467,7 +467,7 @@
                                         type="radio"
                                         name="is_editing_reference_number_enabled"
                                         value="0"
-                                        {{ $company->is_editing_reference_number_enabled ? '' : 'checked' }}
+                                        @checked(!$company->isEditingReferenceNumberEnabled())
                                     >
                                     Disabled
                                 </label>

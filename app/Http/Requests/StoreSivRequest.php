@@ -18,7 +18,7 @@ class StoreSivRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('sivs'), new CanEditReferenceNumber($this->get('code'), 'sivs')],
+            'code' => ['required', 'string', new UniqueReferenceNum('sivs'), new CanEditReferenceNumber('sivs')],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],

@@ -22,7 +22,7 @@ class UpdateReservationRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id),
-                new CanEditReferenceNumber($this->get('code'), 'reservations')],
+                new CanEditReferenceNumber('reservations')],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

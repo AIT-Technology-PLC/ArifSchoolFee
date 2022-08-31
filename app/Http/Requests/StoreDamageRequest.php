@@ -18,7 +18,7 @@ class StoreDamageRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('damages'), new CanEditReferenceNumber($this->get('code'), 'damages')],
+            'code' => ['required', 'string', new UniqueReferenceNum('damages'), new CanEditReferenceNumber('damages')],
             'damage' => ['required', 'array'],
             'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'damage.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('subtract')->pluck('id'))],

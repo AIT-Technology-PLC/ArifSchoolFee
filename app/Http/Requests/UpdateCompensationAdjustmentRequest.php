@@ -20,7 +20,7 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id),
-                new CanEditReferenceNumber($this->get('code'), 'compensation_adjustments')],
+                new CanEditReferenceNumber('compensation_adjustments')],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', Rule::unique('compensation_adjustments')->where(function ($query) {
                 return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('compensation_adjustment')->id);

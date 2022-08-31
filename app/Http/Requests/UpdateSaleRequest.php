@@ -22,7 +22,7 @@ class UpdateSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), new CanEditReferenceNumber($this->get('code'), 'sales')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), new CanEditReferenceNumber('sales')],
             'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],

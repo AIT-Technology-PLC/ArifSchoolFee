@@ -18,7 +18,7 @@ class StoreGrnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('grns'), new CanEditReferenceNumber($this->get('code'), 'grns')],
+            'code' => ['required', 'string', new UniqueReferenceNum('grns'), new CanEditReferenceNumber('grns')],
             'grn' => ['required', 'array'],
             'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

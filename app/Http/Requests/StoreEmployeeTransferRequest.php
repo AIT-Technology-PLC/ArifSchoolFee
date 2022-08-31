@@ -18,7 +18,7 @@ class StoreEmployeeTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers'), new CanEditReferenceNumber($this->get('code'), 'employee_transfers')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers'), new CanEditReferenceNumber('employee_transfers')],
             'issued_on' => ['required', 'date'],
             'employeeTransfer' => ['required', 'array'],
             'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {

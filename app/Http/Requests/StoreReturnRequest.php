@@ -18,7 +18,7 @@ class StoreReturnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('returns'), new CanEditReferenceNumber($this->get('code'), 'returns')],
+            'code' => ['required', 'string', new UniqueReferenceNum('returns'), new CanEditReferenceNumber('returns')],
             'return' => ['required', 'array'],
             'return.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

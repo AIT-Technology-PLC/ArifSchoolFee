@@ -17,7 +17,7 @@ class StoreAnnouncementRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('announcements'), new CanEditReferenceNumber($this->get('code'), 'announcements')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('announcements'), new CanEditReferenceNumber('announcements')],
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
             'warehouse_id' => ['required', 'array'],

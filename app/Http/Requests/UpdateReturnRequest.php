@@ -19,7 +19,7 @@ class UpdateReturnRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('returns', $this->route('return')->id),
-                new CanEditReferenceNumber($this->get('code'), 'returns')],
+                new CanEditReferenceNumber('returns')],
             'return' => ['required', 'array'],
             'return.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

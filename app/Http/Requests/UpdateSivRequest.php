@@ -19,7 +19,7 @@ class UpdateSivRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id),
-                new CanEditReferenceNumber($this->get('code'), 'sivs')],
+                new CanEditReferenceNumber('sivs')],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],

@@ -17,7 +17,7 @@ class UpdateDebtRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id), new CanEditReferenceNumber($this->get('code'), 'debts')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id), new CanEditReferenceNumber('debts')],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
             'debt_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],

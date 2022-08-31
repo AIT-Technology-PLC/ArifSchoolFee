@@ -18,7 +18,7 @@ class UpdateCreditRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('credits', $this->route('credit')->id),
-                new CanEditReferenceNumber($this->get('code'), 'credits')],
+                new CanEditReferenceNumber('credits')],
             'customer_id' => ['required', 'integer', new MustBelongToCompany('customers')],
             'credit_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],

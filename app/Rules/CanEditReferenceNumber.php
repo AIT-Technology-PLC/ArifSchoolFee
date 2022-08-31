@@ -6,20 +6,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CanEditReferenceNumber implements Rule
 {
-    private $code;
-
     private $table;
 
-    public function __construct($code, $table)
+    public function __construct($table)
     {
-        $this->code = $code;
-
         $this->table = $table;
     }
 
     public function passes($attribute, $value)
     {
-        if ($this->code != nextReferenceNumber($this->table) && !userCompany()->isEditingReferenceNumberEnabled()) {
+        if ($value != nextReferenceNumber($this->table) && !userCompany()->isEditingReferenceNumberEnabled()) {
             return false;
         }
 

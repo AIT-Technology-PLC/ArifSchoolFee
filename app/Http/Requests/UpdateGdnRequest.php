@@ -21,7 +21,7 @@ class UpdateGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id), new CanEditReferenceNumber($this->get('code'), 'gdns')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id), new CanEditReferenceNumber('gdns')],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

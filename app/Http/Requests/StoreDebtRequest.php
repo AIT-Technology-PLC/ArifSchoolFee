@@ -17,7 +17,7 @@ class StoreDebtRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('debts'), new CanEditReferenceNumber($this->get('code'), 'debts')],
+            'code' => ['required', 'string', new UniqueReferenceNum('debts'), new CanEditReferenceNumber('debts')],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
             'debt_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],

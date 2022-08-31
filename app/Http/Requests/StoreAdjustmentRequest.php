@@ -18,7 +18,7 @@ class StoreAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('adjustments'), new CanEditReferenceNumber($this->get('code'), 'adjustments')],
+            'code' => ['required', 'string', new UniqueReferenceNum('adjustments'), new CanEditReferenceNumber('adjustments')],
             'adjustment' => ['required', 'array'],
             'adjustment.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('adjustment')->pluck('id'))],
             'adjustment.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
