@@ -321,6 +321,13 @@ class Permissions extends Seeder
             // Sales Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Sales Performance Report']);
 
+            //Finance Expense
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 

@@ -162,3 +162,9 @@ Route::resource('debts.debt-settlements', Resource\DebtSettlementController::cla
 Route::resource('suppliers.debts', Resource\SupplierDebtController::class)->only('index');
 
 Route::resource('payables', Resource\PayableController::class)->only(['index']);
+
+Route::resource('expense-categories', Resource\ExpenseCategoryController::class)->except(['show']);
+
+Route::resource('expenses', Resource\ExpenseController::class);
+
+Route::resource('expense-details', Resource\ExpenseDetailController::class)->only(['destroy']);
