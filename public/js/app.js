@@ -461,7 +461,11 @@ document.addEventListener("alpine:init", () => {
             paymentType = "",
             cashPaidType = "",
             cashPaid = "",
-            dueDate = ""
+            dueDate = "",
+            freightCost = "",
+            freightInsuranceCost = "",
+            freightUnit = "",
+            freightAmount = "",
         ) => ({
             purchaseType: "",
             taxType: "",
@@ -471,6 +475,10 @@ document.addEventListener("alpine:init", () => {
             cashPaidType: "",
             cashPaid: "",
             dueDate: "",
+            freightCost: "",
+            freightInsuranceCost: "",
+            freightUnit: "",
+            freightAmount: "",
 
             init() {
                 this.purchaseType = purchaseType;
@@ -481,15 +489,23 @@ document.addEventListener("alpine:init", () => {
                 this.cashPaidType = cashPaidType;
                 this.cashPaid = cashPaid;
                 this.dueDate = dueDate;
+                this.freightCost = freightCost;
+                this.freightInsuranceCost = freightInsuranceCost;
+                this.freightUnit = freightUnit;
+                this.freightAmount = freightAmount;
             },
             changePurchaseInformation() {
                 this.taxType = "";
                 this.currency = "";
                 this.exchangeRate = "";
+                this.freightCost = "";
+                this.freightInsuranceCost = "";
+                this.freightUnit = "";
+                this.freightAmount = "";
                 this.paymentType = "";
             },
             changePaymentMethod() {
-                if (this.paymentType === "Cash Payment") {
+                if (this.paymentType != "Credit Payment") {
                     this.cashPaidType = "percent";
                     this.cashPaid = 100;
                     this.dueDate = "";
