@@ -38,6 +38,22 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-dollar-sign"
+                        :data="number_format($expense->subtotalPrice, 2)"
+                        label="Subtotal Price ({{ userCompany()->currency }})"
+                    />
+                </div>
+                @if ($expense->tax_type != 'None')
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-dollar-sign"
+                            :data="$expense->vat"
+                            :label="$expense->tax_type"
+                        />
+                    </div>
+                @endif
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-dollar-sign"
                         :data="number_format($expense->grandTotalPrice, 2)"
                         label="Grand Total Price ({{ userCompany()->currency }})"
                     />

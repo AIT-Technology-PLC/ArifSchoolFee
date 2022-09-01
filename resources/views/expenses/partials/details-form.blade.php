@@ -86,7 +86,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`expense[${index}][quantity]`">
-                            Quantity<sup class="has-text-danger">*</sup>
+                            Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -110,7 +110,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`expense[${index}][unit_price]`">
-                            Unit Price<sup class="has-text-danger">*</sup>
+                            Unit Price <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -119,7 +119,7 @@
                                     x-bind:name="`expense[${index}][unit_price]`"
                                     x-model="expense.unit_price"
                                     type="number"
-                                    placeholder="unit_price"
+                                    placeholder="Unit Price"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"

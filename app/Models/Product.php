@@ -17,7 +17,7 @@ class Product extends Model
 
     protected $casts = [
         'properties' => 'array',
-        'is_batchable' => 'boolean',
+        'is_batchable' => 'int',
     ];
 
     protected $cascadeDeletes = [
@@ -194,6 +194,6 @@ class Product extends Model
 
     public function isBatchable()
     {
-        return $this->is_batchable == '1';
+        return $this->is_batchable == 1;
     }
 }

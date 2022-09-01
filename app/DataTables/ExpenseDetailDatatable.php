@@ -46,8 +46,8 @@ class ExpenseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('name'),
             Column::make('category', 'expenseCategory.name'),
-            Column::make('quantity'),
-            Column::make('unit_price'),
+            Column::make('quantity')->addClass('has-text-right'),
+            Column::make('unit_price')->addClass('has-text-right'),
             Column::computed('actions'),
         ];
     }

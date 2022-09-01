@@ -22,6 +22,7 @@ class ExpenseDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->editColumn('branch', fn($expense) => $expense->warehouse->name)
             ->editColumn('status', fn($expense) => view('components.datatables.expense-status', compact('expense')))
             ->editColumn('total price', function ($expense) {
                 if (userCompany()->isDiscountBeforeVAT()) {
@@ -50,10 +51,12 @@ class ExpenseDatatable extends DataTable
     {
         return $expense
             ->newQuery()
+            ->select('expenses.*')
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('expenses.warehouse_id', request('branch')))
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->select('expenses.*')
             ->with([
+                'warehouse:id,name',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
@@ -65,12 +68,13 @@ class ExpenseDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
             Column::computed('total price'),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('tax_type'),
-            Column::make('prepared by', 'createdBy.name')->visible(false),
+            Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

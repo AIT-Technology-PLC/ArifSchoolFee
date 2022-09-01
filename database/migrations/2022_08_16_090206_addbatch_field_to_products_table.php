@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('is_batchable')->nullable()->after('min_on_hand');
+            $table->boolean('is_batchable')->default(0)->after('min_on_hand');
             $table->string('batch_priority')->nullable()->after('is_batchable');
         });
     }
