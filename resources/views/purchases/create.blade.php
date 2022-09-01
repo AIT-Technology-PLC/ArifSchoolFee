@@ -3,8 +3,21 @@
 @section('title', 'Create New Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ old('type') }}', '{{ old('tax_type') }}', '{{ old('currency') }}', '{{ old('exchange_rate') }}', '{{ old('payment_type') }}', '{{ old('cash_paid_type') }}', '{{ old('cash_paid') }}', '{{ old('due_date') }}', '{{ old('freight_cost') }}', '{{ old('freight_insurance_cost') }}', '{{ old('freight_unit') }}', '{{ old('freight_amount') }}')">
+    <x-common.content-wrapper x-data="purchaseInformation(
+        '{{ old('type') }}',
+        '{{ old('tax_type') }}',
+        '{{ old('currency') }}',
+        '{{ old('exchange_rate') }}',
+        '{{ old('payment_type') }}',
+        '{{ old('cash_paid_type') }}',
+        '{{ old('cash_paid') }}',
+        '{{ old('due_date') }}',
+        '{{ old('freight_cost') }}',
+        '{{ old('freight_insurance_cost') }}',
+        '{{ old('freight_unit') }}',
+        '{{ old('freight_amount') }}')">
         <x-content.header title="New Purchase" />
+        {{ implode($errors->all()) }}
         <form
             id="formOne"
             action="{{ route('purchases.store') }}"

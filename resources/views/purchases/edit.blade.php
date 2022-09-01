@@ -3,7 +3,19 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', '{{ $purchase->cash_paid }}', '{{ $purchase->due_date?->toDateString() }}', '{{ $purchase->freight_cost }}', '{{ $purchase->freight_insurance_cost }}', '{{ $purchase->freight_unit }}', '{{ $purchase->freight_amount }}')">
+    <x-common.content-wrapper x-data="purchaseInformation(
+        '{{ $purchase->type }}',
+        '{{ $purchase->tax_type }}',
+        '{{ $purchase->currency }}',
+        '{{ $purchase->exchange_rate }}',
+        '{{ $purchase->payment_type }}',
+        '{{ $purchase->cash_paid_type }}',
+        '{{ $purchase->cash_paid }}',
+        '{{ $purchase->due_date?->toDateString() }}',
+        '{{ $purchase->freight_cost }}',
+        '{{ $purchase->freight_insurance_cost }}',
+        '{{ $purchase->freight_unit }}',
+        '{{ $purchase->purchaseDetails->sum('amount') }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
