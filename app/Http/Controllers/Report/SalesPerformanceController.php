@@ -17,6 +17,8 @@ class SalesPerformanceController extends Controller
 
     public function __invoke(FilterRequest $request)
     {
+        abort_if(authUser()->cannot('Read Sales Performance Report'), 403);
+
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
         $revenueReport = new RevenueReport($request->validated('branches'), $request->validated('period'));
