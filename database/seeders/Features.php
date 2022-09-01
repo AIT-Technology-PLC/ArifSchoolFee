@@ -240,6 +240,7 @@ class Features extends Seeder
                         'Notification Management',
                         'Return Management',
                         'Push Notification',
+                        'Sales Report',
                     ])
                     ->pluck('id')
                     ->toArray()
