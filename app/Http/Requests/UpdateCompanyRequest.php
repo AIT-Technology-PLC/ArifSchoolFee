@@ -20,9 +20,7 @@ class UpdateCompanyRequest extends FormRequest
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where(function ($query) {
-                return $query->where('id', '<>', $this->route('company')->id);
-            })],
+            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where('id', '<>', $this->route('company')->id)->withoutTrashed()],
             'proforma_invoice_prefix' => ['nullable', 'string', 'max:255'],
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],

@@ -15,9 +15,7 @@ class UpdateExpenseCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'distinct', Rule::unique('expense_categories')->where(function ($query) {
-                return $query->where('warehouse_id', authUser()->warehouse_id)->where('id', '<>', $this->route('expense_category')->id);
-            })],
+            'name' => ['required', 'string', 'distinct', Rule::unique('expense_categories')->where('warehouse_id', authUser()->warehouse_id)->where('id', '<>', $this->route('expense_category')->id)->withoutTrashed()],
         ];
     }
 }
