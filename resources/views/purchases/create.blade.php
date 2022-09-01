@@ -17,7 +17,6 @@
         '{{ old('freight_unit') }}',
         '{{ old('freight_amount') }}')">
         <x-content.header title="New Purchase" />
-        {{ implode($errors->all()) }}
         <form
             id="formOne"
             action="{{ route('purchases.store') }}"

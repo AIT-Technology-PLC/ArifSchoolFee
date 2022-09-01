@@ -15,7 +15,7 @@
         '{{ $purchase->freight_cost }}',
         '{{ $purchase->freight_insurance_cost }}',
         '{{ $purchase->freight_unit }}',
-        '{{ $purchase->purchaseDetails->sum('amount') }}')">
+        '{{ $purchase->isImported() ? $purchase->purchaseDetails->sum('amount') : '' }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
