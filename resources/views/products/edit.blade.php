@@ -14,7 +14,7 @@
         >
             @csrf
             @method('PATCH')
-            <x-content.main x-data="productType('{{ $product->type }}')">
+            <x-content.main x-data="productType('{{ $product->type }}', '{{ $product->is_batchable }}', '{{ $product->batch_priority }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
@@ -209,16 +209,11 @@
                                     class="is-fullwidth"
                                     id="is_batchable"
                                     name="is_batchable"
+                                    x-model="isBatchable"
+                                    x-on:change="changeProductType"
                                 >
-                                    <option
-                                        value="1"
-                                        @selected($product->isBatchable())
-                                    >Yes</option>
-                                    <option
-                                        <option
-                                        value="0"
-                                        @selected(!$product->isBatchable())
-                                    > No </option>
+                                    <option value="1">Yes</option>
+                                    <option value="0"> No </option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
@@ -231,7 +226,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
+                        x-bind:class="{ 'is-hidden': isBatchable == 0 }"
                     >
                         <x-forms.field>
                             <x-forms.label for="batch_priority">
@@ -242,26 +237,15 @@
                                     class="is-fullwidth"
                                     id="batch_priority"
                                     name="batch_priority"
+                                    x-model="batchPriority"
+                                    x-on:change="changeProductType"
                                 >
-                                    <option
-                                        disabled
-                                        selected
-                                    >
+                                    <option disabled>
                                         Select Batch Priority
                                     </option>
-                                    <option
-                                        value="fifo"
-                                        @selected(old('batch_priority', $product->batch_priority) == 'fifo')
-                                    > First In First Out </option>
-                                    <option
-                                        <option
-                                        value="lifo"
-                                        @selected(old('batch_priority', $product->batch_priority) == 'lifo')
-                                    > Last In First Out </option>
-                                    <option
-                                        <option
-                                        value=""
-                                    > None</option>
+                                    <option value="fifo"> First In First Out </option>
+                                    <option value="lifo"> Last In First Out </option>
+                                    <option value=""> None</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
