@@ -653,8 +653,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management'))
-                @canany(['Create Purchase', 'Create Supplier', 'Create Debt'])
+            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Expense'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -711,6 +711,33 @@
                                         <br>
                                         <span class="is-size-7"> New Debt </span>
                                         </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Create Expense')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expense-categories.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense Category </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expenses.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense </span>
                                     </div>
                                 @endcan
                             @endif

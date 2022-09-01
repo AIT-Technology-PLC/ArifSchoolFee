@@ -790,8 +790,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management'))
-        @canany(['Read Purchase', 'Read Supplier', 'Read Debt'])
+    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -859,6 +859,28 @@
                                         label="Debts"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debts.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('debts.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Expense Management'))
+                            @can('Read Expense')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('expense-categories.index') }}"
+                                        label="Expense Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expense-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('expense-categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('expenses.index') }}"
+                                        label="Expenses"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expenses.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('expenses.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
