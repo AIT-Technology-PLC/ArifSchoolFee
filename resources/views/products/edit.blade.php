@@ -255,34 +255,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
-                    >
-                        <x-forms.field>
-                            <x-forms.label for="has_chassis_tracker">
-                                Has Chassis Tracker <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left ">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="has_chassis_tracker"
-                                    name="has_chassis_tracker"
-                                    x-model="hasChassisTracker"
-                                    x-on:change="changeProductType"
-                                >
-                                    <option value="1"> Yes </option>
-                                    <option value="0"> No </option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-sort"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="has_chassis_tracker" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (userCompany()->allowChassisTracker())
+                        <div
+                            class="column is-6"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isTypeService }"
+                        >
+                            <x-forms.field>
+                                <x-forms.label for="has_chassis_tracker">
+                                    Has Chassis Tracker <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left ">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="has_chassis_tracker"
+                                        name="has_chassis_tracker"
+                                        x-model="hasChassisTracker"
+                                        x-on:change="changeProductType"
+                                    >
+                                        <option value="1"> Yes </option>
+                                        <option value="0"> No </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="has_chassis_tracker" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">

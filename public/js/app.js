@@ -737,7 +737,7 @@ document.addEventListener("alpine:init", () => {
         },
     });
 
-    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "", hasChassisTracker = "0") => ({
+    Alpine.data("productType", (type = "", isBatchable = "", batchPriority = "", hasChassisTracker = "") => ({
         type: "",
         isBatchable: "0",
         batchPriority: "",
