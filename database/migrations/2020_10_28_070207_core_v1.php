@@ -222,6 +222,7 @@ return new class extends Migration
             $table->decimal('min_on_hand', 22);
             $table->string('is_batchable')->nullable();
             $table->string('batch_priority')->nullable();
+            $table->boolean('has_chassis_tracker')->default(0);
             $table->json('properties')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();

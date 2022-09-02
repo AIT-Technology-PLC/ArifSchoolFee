@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="productType('{{ old('type') }}', '{{ old('is_batchable', 0) }}', '{{ old('batch_priority') }}')">
+            <x-content.main x-data="productType('{{ old('type') }}', '{{ old('is_batchable', 0) }}', '{{ old('batch_priority') }}', '{{ old('has_chassis_tracker') }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
@@ -254,32 +254,30 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService }"
+                    >
                         <x-forms.field>
                             <x-forms.label for="has_chassis_tracker">
                                 Has Chassis Tracker <sup class="has-text-danger">*</sup>
                             </x-forms.label>
-                            <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
-                                    <input
-                                        type="radio"
-                                        name="has_chassis_tracker"
-                                        value="1"
-                                        class="mt-3"
-                                        @checked(old('has_chassis_tracker'))
-                                    >
-                                    Yes
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
-                                    <input
-                                        type="radio"
-                                        name="has_chassis_tracker"
-                                        value="0"
-                                        @checked(!old('has_chassis_tracker'))
-                                    >
-                                    No
-                                </label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="has_chassis_tracker"
+                                    name="has_chassis_tracker"
+                                    x-model="hasChassisTracker"
+                                    x-on:change="changeProductType"
+                                >
+                                    <option value="1"> Yes </option>
+                                    <option value="0"> No </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
                                 <x-common.validation-error property="has_chassis_tracker" />
                             </x-forms.control>
                         </x-forms.field>
