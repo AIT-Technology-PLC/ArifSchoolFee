@@ -25,6 +25,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],
             'can_show_branch_detail_on_print' => ['required', 'boolean'],
+            'allow_chassis_tracker' => ['required', 'boolean'],
             'income_tax_region' => ['required', 'string', Rule::in(['Ethiopia'])],
 
             'is_discount_before_vat' => [

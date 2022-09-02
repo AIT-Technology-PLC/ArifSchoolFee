@@ -18,6 +18,7 @@ class Company extends Model
         'is_price_before_vat' => 'boolean',
         'is_convert_to_siv_as_approved' => 'boolean',
         'can_show_branch_detail_on_print' => 'boolean',
+        'allow_chassis_tracker' => 'boolean',
     ];
 
     public function plan()
@@ -183,7 +184,7 @@ class Company extends Model
     public function email(): Attribute
     {
         return Attribute::make(
-            get:fn ($value) => str()->lower($value) ?? ''
+            get:fn($value) => str()->lower($value) ?? ''
         );
     }
 
@@ -234,5 +235,10 @@ class Company extends Model
     public function hasPrintTemplate()
     {
         return $this->print_template_image;
+    }
+
+    public function allowChassisTracker()
+    {
+        return $this->allow_chassis_tracker;
     }
 }

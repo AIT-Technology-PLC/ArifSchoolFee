@@ -477,6 +477,36 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="allow_chassis_tracker">
+                                Allow Chassis Tracker <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        type="radio"
+                                        name="allow_chassis_tracker"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($company->allowChassisTracker())
+                                    >
+                                    Yes
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        type="radio"
+                                        name="allow_chassis_tracker"
+                                        value="0"
+                                        @checked(!$company->allowChassisTracker())
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="allow_chassis_tracker" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="income_tax_region">
                                 Income Tax Region <sup class="has-text-danger"></sup>
                             </x-forms.label>
