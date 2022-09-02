@@ -18,7 +18,7 @@ class Product extends Model
     protected $casts = [
         'properties' => 'array',
         'is_batchable' => 'int',
-        'has_chassis_tracker:' => 'boolean',
+        'has_chassis_tracker' => 'boolean',
     ];
 
     protected $cascadeDeletes = [
