@@ -39,4 +39,9 @@ class Grn extends Model
     {
         return $this->grnDetails;
     }
+
+    public function chassisNumbers()
+    {
+        return $this->hasMany(ChassisNumber::class);
+    }
 }
