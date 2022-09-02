@@ -12,6 +12,9 @@ return new class extends Migration
      */
     public function up()
     {
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
         DB::unprepared(
             "
             CREATE OR REPLACE VIEW gdn_detail_reports AS SELECT
@@ -100,6 +103,9 @@ return new class extends Migration
      */
     public function down()
     {
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
         DB::unprepared('DROP VIEW gdn_master_reports');
         DB::unprepared('DROP VIEW gdn_detail_reports');
     }
