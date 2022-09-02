@@ -255,6 +255,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="has_chassis_tracker">
+                                Has Chassis Tracker <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        type="radio"
+                                        name="has_chassis_tracker"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($product->hasChassisTracker())
+                                    >
+                                    Yes
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        type="radio"
+                                        name="has_chassis_tracker"
+                                        value="0"
+                                        @checked(!$product->hasChassisTracker())
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="has_chassis_tracker" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
