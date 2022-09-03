@@ -87,7 +87,7 @@
                 :amount="number_format($transactionReport->getAverageTransactionValue, 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Average Transaction Value"
+                label="Average Sale Value"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -96,7 +96,7 @@
                 :amount="number_format($transactionReport->transactionCount)"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Number Of Transactions"
+                label="Number Of Sales"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -144,7 +144,7 @@
                         @foreach ($revenueReport->getCustomersByRevenue as $customerRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $customerRevenue->customer_name }} </td>
+                                <td> {{ $customerRevenue->customer_name ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ number_format($customerRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
@@ -214,7 +214,7 @@
                         @foreach ($revenueReport->getRepsByRevenue as $salesRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $salesRevenue->user_name }} </td>
+                                <td> {{ $salesRevenue->user_name ?? 'Deleted Salesperson' }} </td>
                                 <td class="has-text-right"> {{ number_format($salesRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach

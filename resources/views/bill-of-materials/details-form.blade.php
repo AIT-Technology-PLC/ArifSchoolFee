@@ -47,6 +47,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.new-product-list
+                                    :type="['Raw Material']"
                                     class="product-list"
                                     x-bind:id="`billOfMaterial[${index}][product_id]`"
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
