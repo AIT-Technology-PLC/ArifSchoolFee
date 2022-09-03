@@ -44,8 +44,13 @@
                                     x-model="expense.name"
                                     type="text"
                                     placeholder="Name"
-                                >
-                                </x-forms.input>
+                                    list="name"
+                                />
+                                <datalist id="name" class="is-absolute" style="left: 0;right: 0;">
+                                    @foreach ($expenseNames as $expenseName)
+                                        <option value="{{ $expenseName }}" />
+                                    @endforeach
+                                </datalist>
                                 <x-common.icon
                                     name="fa-solid fa-money-bill-trend-up"
                                     class="is-small is-left"

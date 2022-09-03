@@ -9,6 +9,7 @@ use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\ExpenseDetail;
 use App\Models\Supplier;
 use App\Notifications\ExpenseCreated;
 use App\Utilities\Notifiables;
@@ -45,7 +46,9 @@ class ExpenseController extends Controller
 
         $currentExpenseCode = nextReferenceNumber('expenses');
 
-        return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories'));
+        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+
+        return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories', 'expenseNames'));
     }
 
     public function store(StoreExpenseRequest $request)
@@ -82,7 +85,9 @@ class ExpenseController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories'));
+        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+
+        return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories', 'expenseNames'));
     }
 
     public function update(UpdateExpenseRequest $request, Expense $expense)
