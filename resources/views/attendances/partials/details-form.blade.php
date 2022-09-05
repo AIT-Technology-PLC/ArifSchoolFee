@@ -110,6 +110,7 @@
                         this.attendances = attendance;
                         return;
                     }
+
                     this.add();
                 },
 

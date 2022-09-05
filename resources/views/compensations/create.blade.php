@@ -192,7 +192,6 @@
                                                     type="radio"
                                                     value="1"
                                                     class="mt-3"
-                                                    @checked(old('is_active'))
                                                 >
                                                 Active
                                             </label>
@@ -203,7 +202,6 @@
                                                     x-bind:name="`compensation[${index}][is_active]`"
                                                     x-model="compensation.is_active"
                                                     value="0"
-                                                    @checked(!old('is_active'))
                                                 >
                                                 Not Active
                                             </label>
@@ -228,7 +226,6 @@
                                                     type="radio"
                                                     value="1"
                                                     class="mt-3"
-                                                    @checked(old('is_taxable'))
                                                 >
                                                 Taxable
                                             </label>
@@ -239,7 +236,6 @@
                                                     x-bind:name="`compensation[${index}][is_taxable]`"
                                                     x-model="compensation.is_taxable"
                                                     value="0"
-                                                    @checked(!old('is_taxable'))
                                                 >
                                                 Not Taxable
                                             </label>
@@ -264,7 +260,6 @@
                                                     type="radio"
                                                     value="1"
                                                     class="mt-3"
-                                                    @checked(old('is_adjustable'))
                                                 >
                                                 Adjustable
                                             </label>
@@ -275,7 +270,6 @@
                                                     x-bind:name="`compensation[${index}][is_adjustable]`"
                                                     x-model="compensation.is_adjustable"
                                                     value="0"
-                                                    @checked(!old('is_adjustable'))
                                                 >
                                                 Not Adjustable
                                             </label>
@@ -300,7 +294,6 @@
                                                     type="radio"
                                                     value="1"
                                                     class="mt-3"
-                                                    @checked(old('can_be_inputted_manually'))
                                                 >
                                                 Inputted Manually
                                             </label>
@@ -311,7 +304,6 @@
                                                     x-bind:name="`compensation[${index}][can_be_inputted_manually]`"
                                                     x-model="compensation.can_be_inputted_manually"
                                                     value="0"
-                                                    @checked(!old('can_be_inputted_manually'))
                                                 >
                                                 Not Inputted Manually
                                             </label>

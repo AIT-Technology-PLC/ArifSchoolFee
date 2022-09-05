@@ -24,7 +24,7 @@ class LeaveApproved extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'user-slash',
+            'icon' => 'umbrella-beach',
             'message' => 'Leave has been approved by ' . ucfirst($this->leaf->approvedBy->name),
             'endpoint' => '/leaves/' . $this->leaf->id,
         ];

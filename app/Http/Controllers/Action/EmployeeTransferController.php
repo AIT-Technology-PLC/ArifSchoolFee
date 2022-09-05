@@ -25,7 +25,7 @@ class EmployeeTransferController extends Controller
     {
         $this->authorize('approve', $employeeTransfer);
 
-        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $employeeTransfer->employeeTransferDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $employeeTransfer->employeeTransferDetails->pluck('employee_id')))->pluck('warehouse_id')->values()->all())) {
             return back()->with('failedMessage', 'You do not have permission to approve this employee transfer request.');
 
         }
