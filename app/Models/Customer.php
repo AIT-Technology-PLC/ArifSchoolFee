@@ -99,8 +99,8 @@ class Customer extends Model
     public function getOverdueCreditAmountByPeriod($from, $to = null)
     {
         $credits = $this->credits()->unsettled()
-            ->where('due_date', '<=', now()->subDays($from))
-            ->when(!is_null($to), fn($q) => $q->where('due_date', '>=', now()->subDays($to)))
+            ->where('due_date', '<=', now()->subDays($from)->endOfDay())
+            ->when(!is_null($to), fn($q) => $q->where('due_date', '>=', now()->subDays($to)->startOfDay()))
             ->get();
 
         return $credits->sum('credit_amount') - $credits->sum('credit_amount_settled');
