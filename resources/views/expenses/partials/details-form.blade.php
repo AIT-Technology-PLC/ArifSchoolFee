@@ -33,32 +33,6 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label x-bind:for="`expense[${index}][name]`">
-                                Name <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    class="is-fullwidth"
-                                    x-bind:id="`expense[${index}][name]`"
-                                    x-bind:name="`expense[${index}][name]`"
-                                    x-model="expense.name"
-                                    type="text"
-                                    placeholder="Name"
-                                >
-                                </x-forms.input>
-                                <x-common.icon
-                                    name="fa-solid fa-money-bill-trend-up"
-                                    class="is-small is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`expense.${index}.name`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
                             <x-forms.label x-bind:for="`expense[${index}][expense_category_id]`">
                                 Category <sup class="has-text-danger">*</sup>
                             </x-forms.label>
@@ -80,6 +54,41 @@
                                 <span
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`expense.${index}.expense_category_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label x-bind:for="`expense[${index}][name]`">
+                                Name <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    class="is-fullwidth"
+                                    x-bind:id="`expense[${index}][name]`"
+                                    x-bind:name="`expense[${index}][name]`"
+                                    x-model="expense.name"
+                                    type="text"
+                                    placeholder="Name"
+                                    list="name"
+                                />
+                                <datalist
+                                    id="name"
+                                    class="is-absolute"
+                                    style="left: 0;right: 0;"
+                                >
+                                    @foreach ($expenseNames as $expenseName)
+                                        <option value="{{ $expenseName }}" />
+                                    @endforeach
+                                </datalist>
+                                <x-common.icon
+                                    name="fa-solid fa-money-bill-trend-up"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`expense.${index}.name`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

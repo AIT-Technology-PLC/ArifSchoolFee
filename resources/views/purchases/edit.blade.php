@@ -304,6 +304,7 @@
                                     <option value="USD">USD - US Dollar</option>
                                     <option value="">None</option>
                                 </x-forms.select>
+                                <x-common.validation-error property="currency" />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
@@ -317,7 +318,6 @@
                                     name="fas fa-dollar-sign"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="currency" />
                                 <x-common.validation-error property="exchange_rate" />
                             </x-forms.control>
                         </x-forms.field>
@@ -378,9 +378,23 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.label for="freight_amount">
-                            Freight Amount <sup class="has-text-danger">*</sup>
+                            Freight Volume <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="freight_amount"
+                                    id="freight_amount"
+                                    placeholder="Total Freight Volume"
+                                    x-model="freightAmount"
+                                />
+                                <x-common.icon
+                                    name="fas fa-balance-scale"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_amount" />
+                            </x-forms.control>
                             <x-forms.control>
                                 <x-forms.select
                                     name="freight_unit"
@@ -389,20 +403,6 @@
                                     <x-common.measurement-unit-options />
                                     <option value="">None</option>
                                 </x-forms.select>
-                            </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
-                                <x-forms.input
-                                    type="number"
-                                    name="freight_amount"
-                                    id="freight_amount"
-                                    placeholder="Total Freight Amount"
-                                    x-model="freightAmount"
-                                />
-                                <x-common.icon
-                                    name="fas fa-balance-scale"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="freight_amount" />
                                 <x-common.validation-error property="freight_unit" />
                             </x-forms.control>
                         </x-forms.field>

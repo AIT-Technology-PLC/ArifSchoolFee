@@ -333,29 +333,7 @@ class Permissions extends Seeder
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
             // Assign permissions to role
-            $analyst->syncPermissions([
-                'Read GDN',
-                'Read GRN',
-                'Read Job',
-                'Read Purchase',
-                'Read Sale',
-                'Read Proforma Invoice',
-                'Read Damage',
-                'Read SIV',
-                'Read Adjustment',
-                'Read Return',
-                'Read Available Inventory',
-                'Read Reserved Inventory',
-                'Read Work In Process Inventory',
-                'Read On Hand Inventory',
-                'Read Out Of Stock Inventory',
-                'Read Product',
-                'Read Supplier',
-                'Read Customer',
-                'Read Reservation',
-                'Read BOM',
-                'Read Department',
-            ]);
+            $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));
 
             $humanResourceManager->syncPermissions([
                 'Create Department',

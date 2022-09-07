@@ -156,6 +156,7 @@ class PermissionCategorization
         'expense' => [
             'label' => 'Expense',
             'feature' => 'Expense Management',
+            'exclude' => ['Expense Claim']
         ],
     ];
 

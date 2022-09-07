@@ -179,14 +179,7 @@
 
                 async init() {
                     if (compensationAdjustment) {
-                        await Promise.resolve(
-                            compensationAdjustment.forEach((item, index) => {
-                                this.compensationAdjustments.push({
-                                    employee_id: item[0].employee_id,
-                                    employeeAdjustments: item
-                                });
-                            })
-                        );
+                        Promise.resolve(this.compensationAdjustments = compensationAdjustment);
 
                         await Promise.resolve($(".employee-list").trigger("change"));
 

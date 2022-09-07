@@ -13,6 +13,8 @@ class SalesPerformanceController extends Controller
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Sales Report');
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
     }
 
     public function __invoke(FilterRequest $request)

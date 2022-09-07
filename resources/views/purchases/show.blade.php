@@ -83,8 +83,8 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-balance-scale"
-                            :data="$purchase->freight_unit"
-                            label="Freight Unit"
+                            :data="quantity($purchase->purchaseDetails->sum('amount'), $purchase->freight_unit)"
+                            label="Freight Volume"
                         />
                     </div>
                 @endif

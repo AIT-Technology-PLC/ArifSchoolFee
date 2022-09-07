@@ -23,7 +23,7 @@ class CompensationAdjustmentController extends Controller
     {
         $this->authorize('approve', $compensationAdjustment);
 
-        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $compensationAdjustment->compensationAdjustmentDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $compensationAdjustment->compensationAdjustmentDetails->pluck('employee_id')))->pluck('warehouse_id')->values()->all())) {
             return back()->with('failedMessage', 'You do not have permission to approve this adjustment request.');
         }
 

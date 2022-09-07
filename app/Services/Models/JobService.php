@@ -161,17 +161,15 @@ class JobService
                 }
             }
 
-            if (!isset($details) || !count($details)) {
-                return false;
+            if (isset($details) && count($details)) {
+                $billOfMaterialdetails = Arr::flatten($details, 1);
+
+                if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                    return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
+                }
+
+                InventoryOperationService::subtract($billOfMaterialdetails);
             }
-
-            $billOfMaterialdetails = Arr::flatten($details, 1);
-
-            if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
-                return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
-            }
-
-            InventoryOperationService::subtract($billOfMaterialdetails);
 
             if (isset($wipDetails) && count($wipDetails)) {
                 InventoryOperationService::subtract($wipDetails, 'wip');

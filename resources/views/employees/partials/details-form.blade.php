@@ -110,6 +110,7 @@
                         this.employeeCompensations = employeeCompensation;
                         return;
                     }
+
                     this.add();
                 },
 
