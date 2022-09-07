@@ -142,6 +142,11 @@ class Product extends Model
         return $this->hasMany(JobExtra::class);
     }
 
+    public function chassisNumbers()
+    {
+        return $this->hasMany(ChassisNumber::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];

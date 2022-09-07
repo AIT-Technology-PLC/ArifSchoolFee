@@ -27,6 +27,11 @@ class JobDetail extends Model
         return $this->belongsTo(BillOfMaterial::class);
     }
 
+    public function chassisNumbers()
+    {
+        return $this->hasMany(ChassisNumber::class);
+    }
+
     public function parentModel()
     {
         return $this->job;
@@ -55,7 +60,7 @@ class JobDetail extends Model
 
         $totalQuantity = $this->quantity ?? 0.00;
 
-        if (! $totalQuantity) {
+        if (!$totalQuantity) {
             return 100.00;
         }
 
@@ -112,7 +117,7 @@ class JobDetail extends Model
             ->load([
                 'job' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }, ]
+                }]
             );
 
         $jobDetailsBillOfMaterials->push(...$jobDetails);

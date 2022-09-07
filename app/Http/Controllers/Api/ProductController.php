@@ -30,6 +30,7 @@ class ProductController extends Controller
                 'product_category_name' => $product->productCategory->name,
                 'price' => $product->price,
                 'is_batchable' => $product->is_batchable,
+                'has_chassis_tracker' => $product->has_chassis_tracker,
             ];
         });
     }

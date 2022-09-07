@@ -10,21 +10,19 @@ return new class extends Migration
     {
         Schema::create('chassis_numbers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gdn_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('grn_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('job_order_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('merchandise_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('chassis_number')->nullable();
-            $table->string('engine_number')->nullable();
+            $table->foreignId('gdn_detail_id')->nullable()->constrained()->onDelete('set null')->onUpdate('set null');
+            $table->foreignId('grn_detail_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('job_detail_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('chassis_number')->unique();
+            $table->string('engine_number')->unique();
             $table->boolean('is_document_received')->default(0);
-            $table->boolean('is_added')->default(0);
-            $table->boolean('is_subtracted')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['merchandise_id', 'chassis_number']);
-            $table->unique(['merchandise_id', 'engine_number']);
-            $table->index('merchandise_id');
+            $table->index('product_id');
+            $table->index('warehouse_id');
         });
     }
 

@@ -57,11 +57,6 @@ class Job extends Model
         return $this->hasMany(JobExtra::class, 'job_order_id');
     }
 
-    public function chassisNumbers()
-    {
-        return $this->hasMany(ChassisNumber::class, 'job_order_id');
-    }
-
     public function getJobCompletionRateAttribute()
     {
         $completedJobs = $this->jobDetails->sum('available');

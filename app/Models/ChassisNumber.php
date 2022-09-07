@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Branchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChassisNumber extends Model
 {
-    use SoftDeletes;
+    use Branchable, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -17,18 +18,28 @@ class ChassisNumber extends Model
         'is_subtracted' => 'boolean',
     ];
 
-    public function job()
+    public function jobDetail()
     {
-        return $this->belongsTo(Job::class, 'job_order_id');
+        return $this->belongsTo(JobDetail::class);
     }
 
-    public function gdn()
+    public function gdnDetail()
     {
-        return $this->belongsTo(Gdn::class);
+        return $this->belongsTo(GdnDetail::class);
     }
 
-    public function grn()
+    public function grnDetail()
     {
-        return $this->belongsTo(Grn::class);
+        return $this->belongsTo(GrnDetail::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function scopeNotSold($query)
+    {
+        return $query->whereNull('gdn_detail_id');
     }
 }
