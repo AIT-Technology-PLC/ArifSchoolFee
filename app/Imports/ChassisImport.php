@@ -49,17 +49,13 @@ class ChassisImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             }
 
             if ($jobDetail->product_id == $productID) {
-                $chassisNumber = new ChassisNumber([
+                ChassisNumber::create([
                     'job_detail_id' => $jobDetail->id,
                     'product_id' => $productID,
                     'warehouse_id' => $this->job->factory_id,
                     'chassis_number' => $row['chassis_number'],
                     'engine_number' => $row['engine_number'],
                 ]);
-
-                $this->chassisNumbers->push($chassisNumber);
-
-                return $chassisNumber;
             }
         }
     }
