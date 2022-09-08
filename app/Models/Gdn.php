@@ -50,11 +50,6 @@ class Gdn extends Model
         return $this->hasOne(Credit::class);
     }
 
-    public function chassisNumbers()
-    {
-        return $this->hasMany(ChassisNumber::class);
-    }
-
     public function details()
     {
         return $this->gdnDetails;
