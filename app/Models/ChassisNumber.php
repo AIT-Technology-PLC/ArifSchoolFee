@@ -14,8 +14,6 @@ class ChassisNumber extends Model
 
     protected $casts = [
         'is_document_received' => 'boolean',
-        'is_added' => 'boolean',
-        'is_subtracted' => 'boolean',
     ];
 
     public function jobDetail()
