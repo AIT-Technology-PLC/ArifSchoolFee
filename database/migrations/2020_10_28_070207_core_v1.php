@@ -99,6 +99,7 @@ return new class extends Migration
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
             $table->bigInteger('working_days')->default(26);
+            $table->boolean('is_backorder_enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();
 

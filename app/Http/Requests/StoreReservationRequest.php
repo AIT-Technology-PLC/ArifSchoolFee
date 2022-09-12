@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,7 +23,7 @@ class StoreReservationRequest extends FormRequest
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('reservations')],
             'reservation' => ['required', 'array'],
-            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0'],
