@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -21,7 +22,7 @@ class StoreReservationRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('reservations')],
+            'code' => ['required', 'string', new UniqueReferenceNum('reservations'), new CanEditReferenceNumber('reservations')],
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

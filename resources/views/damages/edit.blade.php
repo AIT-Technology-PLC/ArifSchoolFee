@@ -26,6 +26,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
                                     value="{{ $damage->code }}"
                                 />
                                 <x-common.icon

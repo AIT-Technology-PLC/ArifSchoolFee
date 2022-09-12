@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Sale;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -21,8 +22,8 @@ class UpdateSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
-            'fs_number' => ['sometimes', Rule::when(! is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
+            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), new CanEditReferenceNumber('sales')],
+            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
@@ -31,7 +32,7 @@ class UpdateSaleRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    ! $this->route('sale')->isApproved() && ! $this->route('sale')->isCancelled(),
+                    !$this->route('sale')->isApproved() && !$this->route('sale')->isCancelled(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('sale'),

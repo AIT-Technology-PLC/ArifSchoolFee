@@ -18,6 +18,7 @@ class Company extends Model
         'is_price_before_vat' => 'boolean',
         'is_convert_to_siv_as_approved' => 'boolean',
         'can_show_branch_detail_on_print' => 'boolean',
+        'is_editing_reference_number_enabled' => 'boolean',
         'is_backorder_enabled' => 'boolean',
     ];
 
@@ -184,7 +185,7 @@ class Company extends Model
     public function email(): Attribute
     {
         return Attribute::make(
-            get:fn ($value) => str()->lower($value) ?? ''
+            get:fn($value) => str()->lower($value) ?? ''
         );
     }
 
@@ -235,6 +236,11 @@ class Company extends Model
     public function hasPrintTemplate()
     {
         return $this->print_template_image;
+    }
+
+    public function isEditingReferenceNumberEnabled()
+    {
+        return $this->is_editing_reference_number_enabled;
     }
 
     public function isBackorderEnabled()

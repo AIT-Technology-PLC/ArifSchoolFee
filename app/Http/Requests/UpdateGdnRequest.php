@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -21,7 +22,7 @@ class UpdateGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id), new CanEditReferenceNumber('gdns')],
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

@@ -26,6 +26,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
                                     value="{{ $reservation->code }}"
                                 />
                                 <x-common.icon

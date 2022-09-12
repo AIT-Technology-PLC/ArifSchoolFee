@@ -95,6 +95,7 @@ return new class extends Migration
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);
             $table->boolean('is_convert_to_siv_as_approved')->default(1);
+            $table->boolean('is_editing_reference_number_enabled')->default(1);
             $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');

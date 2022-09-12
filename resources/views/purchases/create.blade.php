@@ -37,6 +37,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
                                     value="{{ $currentPurchaseNo }}"
                                 />
                                 <x-common.icon
