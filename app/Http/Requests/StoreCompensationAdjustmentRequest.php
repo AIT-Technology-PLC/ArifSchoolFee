@@ -22,12 +22,8 @@ class StoreCompensationAdjustmentRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments'),
                 new CanEditReferenceNumber('compensation_adjustments')],
             'issued_on' => ['required', 'date'],
-            'starting_period' => ['required', 'date', Rule::unique('compensation_adjustments')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id);
-            })],
-            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('compensation_adjustments')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id);
-            })],
+            'starting_period' => ['required', 'date', Rule::unique('compensation_adjustments')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('compensation_adjustments')->where('company_id', userCompany()->id)->withoutTrashed()],
             'compensationAdjustment' => ['required', 'array'],
             'compensationAdjustment.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
                 if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {

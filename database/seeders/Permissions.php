@@ -321,33 +321,18 @@ class Permissions extends Seeder
             // Sales Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Sales Performance Report']);
 
+            //Finance Expense
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
             // Assign permissions to role
-            $analyst->syncPermissions([
-                'Read GDN',
-                'Read GRN',
-                'Read Job',
-                'Read Purchase',
-                'Read Sale',
-                'Read Proforma Invoice',
-                'Read Damage',
-                'Read SIV',
-                'Read Adjustment',
-                'Read Return',
-                'Read Available Inventory',
-                'Read Reserved Inventory',
-                'Read Work In Process Inventory',
-                'Read On Hand Inventory',
-                'Read Out Of Stock Inventory',
-                'Read Product',
-                'Read Supplier',
-                'Read Customer',
-                'Read Reservation',
-                'Read BOM',
-                'Read Department',
-            ]);
+            $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));
 
             $humanResourceManager->syncPermissions([
                 'Create Department',

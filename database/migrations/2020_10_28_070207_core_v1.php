@@ -100,6 +100,7 @@ return new class extends Migration
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
             $table->bigInteger('working_days')->default(26);
+            $table->boolean('is_backorder_enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();
 
@@ -1318,6 +1319,54 @@ return new class extends Migration
             $table->index('debt_id');
         });
 
+        Schema::create('expense_categories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+            $table->unique(['warehouse_id', 'name']);
+        });
+
+        Schema::create('expenses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('tax_type')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
+        });
+
+        Schema::create('expense_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('expense_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('expense_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name');
+            $table->decimal('quantity', 22);
+            $table->decimal('unit_price');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('expense_category_id');
+            $table->index('expense_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1407,5 +1456,8 @@ return new class extends Migration
         Schema::drop('employee_compensation_histories');
         Schema::drop('debt_settlements');
         Schema::drop('debts');
+        Schema::drop('expense_details');
+        Schema::drop('expenses');
+        Schema::drop('expense_categories');
     }
 };

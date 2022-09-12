@@ -5,6 +5,10 @@
     disabled
 >Select Measurement Unit</option>
 <option
+    value="Barrel"
+    {{ $selectedUnitType == 'Barrel' ? 'selected' : '' }}
+>Barrel</option>
+<option
     value="Box"
     {{ $selectedUnitType == 'Box' ? 'selected' : '' }}
 >Box</option>
@@ -16,6 +20,10 @@
     value="Day"
     {{ $selectedUnitType == 'Day' ? 'selected' : '' }}
 >Days</option>
+<option
+    value="Galon"
+    {{ $selectedUnitType == 'Galon' ? 'selected' : '' }}
+>Galon</option>
 <option
     value="Hour"
     {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
@@ -29,6 +37,10 @@
     {{ $selectedUnitType == 'Liter' ? 'selected' : '' }}
 >Liter</option>
 <option
+    value="Lump Sum"
+    {{ $selectedUnitType == 'Lump Sum' ? 'selected' : '' }}
+>Lump Sum (LS)</option>
+<option
     value="Meter"
     {{ $selectedUnitType == 'Meter' ? 'selected' : '' }}
 >Meter</option>
@@ -40,6 +52,10 @@
     value="Packet"
     {{ $selectedUnitType == 'Packet' ? 'selected' : '' }}
 >Packet</option>
+<option
+    value="Pairs"
+    {{ $selectedUnitType == 'Pairs' ? 'selected' : '' }}
+>Pairs</option>
 <option
     value="Piece"
     {{ $selectedUnitType == 'Piece' ? 'selected' : '' }}

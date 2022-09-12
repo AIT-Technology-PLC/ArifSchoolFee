@@ -12,7 +12,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement(
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
+        DB::unprepared(
             "
             CREATE OR REPLACE VIEW gdn_detail_reports AS SELECT
                 gdn_details.gdn_id,
@@ -43,13 +46,13 @@ return new class extends Migration
             INNER JOIN product_categories
                 ON products.product_category_id = product_categories.id
             INNER JOIN warehouses
-                ON gdn_details.warehouse_id = warehouses.id AND warehouses.is_active = 1 
+                ON gdn_details.warehouse_id = warehouses.id AND warehouses.is_active = 1
             WHERE
                 gdn_details.deleted_at IS NULL
             "
         );
 
-        DB::statement(
+        DB::unprepared(
             "
             CREATE OR REPLACE VIEW gdn_master_reports AS SELECT
                 gdns.id,
@@ -100,7 +103,10 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW gdn_master_reports');
-        DB::statement('DROP VIEW gdn_detail_reports');
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
+        DB::unprepared('DROP VIEW gdn_master_reports');
+        DB::unprepared('DROP VIEW gdn_detail_reports');
     }
 };

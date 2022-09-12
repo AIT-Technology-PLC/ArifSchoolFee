@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Action as Action;
+
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -390,3 +391,8 @@ Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
 Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
     [Action\CompensationAdjustmentController::class, 'cancel'])
     ->name('compensation-adjustments.cancel');
+
+//Expense
+Route::post('/expenses/{expense}/approve',
+    [Action\ExpenseController::class, 'approve'])
+    ->name('expenses.approve');

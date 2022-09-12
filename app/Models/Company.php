@@ -19,6 +19,7 @@ class Company extends Model
         'is_convert_to_siv_as_approved' => 'boolean',
         'can_show_branch_detail_on_print' => 'boolean',
         'is_editing_reference_number_enabled' => 'boolean',
+        'is_backorder_enabled' => 'boolean',
     ];
 
     public function plan()
@@ -240,5 +241,10 @@ class Company extends Model
     public function isEditingReferenceNumberEnabled()
     {
         return $this->is_editing_reference_number_enabled;
+    }
+
+    public function isBackorderEnabled()
+    {
+        return $this->is_backorder_enabled;
     }
 }

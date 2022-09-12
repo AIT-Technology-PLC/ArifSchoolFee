@@ -5,6 +5,7 @@ use App\Models\Limit;
 use App\Models\Pad;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -94,5 +95,19 @@ if (!function_exists('dateRangePicker')) {
     function dateRangePicker($period)
     {
         return explode('-', str($period)->replace(' ', ''));
+    }
+}
+
+if (!function_exists('turnOffPreparedStatementEmulation')) {
+    function turnOffPreparedStatementEmulation()
+    {
+        Config::set('database.connections.mysql.options.' . \PDO::ATTR_EMULATE_PREPARES, true);
+    }
+}
+
+if (!function_exists('turnOffMysqlStictMode')) {
+    function turnOffMysqlStictMode()
+    {
+        Config::set('database.connections.mysql.strict', false);
     }
 }

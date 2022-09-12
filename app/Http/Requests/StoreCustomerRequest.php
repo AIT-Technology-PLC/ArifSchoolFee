@@ -16,9 +16,7 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('customers')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id);
-            })],
+            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255'],

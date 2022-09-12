@@ -23,8 +23,8 @@ class UpdateAttendanceRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances', $this->route('attendance')->id),
                 new CanEditReferenceNumber('attendances')],
             'issued_on' => ['required', 'date'],
-            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)],
-            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)],
+            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)->withoutTrashed()],
+            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)->withoutTrashed()],
             'attendance' => ['required', 'array'],
             'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
                 if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {

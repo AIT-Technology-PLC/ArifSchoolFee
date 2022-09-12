@@ -12,7 +12,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::statement(
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
+        DB::unprepared(
             "
             CREATE OR REPLACE VIEW sale_detail_reports AS SELECT
                 sale_details.sale_id,
@@ -40,7 +43,7 @@ return new class extends Migration
             "
         );
 
-        DB::statement(
+        DB::unprepared(
             "
             CREATE OR REPLACE VIEW sale_master_reports AS SELECT
                 sales.id,
@@ -86,7 +89,10 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW sale_master_reports');
-        DB::statement('DROP VIEW sale_detail_reports');
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
+
+        DB::unprepared('DROP VIEW sale_master_reports');
+        DB::unprepared('DROP VIEW sale_detail_reports');
     }
 };

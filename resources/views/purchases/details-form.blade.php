@@ -136,7 +136,7 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.label x-bind:for="`purchase[${index}][amount]`">
-                            Amount <sup class="has-text-danger">*</sup>
+                            Freight Volume <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -145,7 +145,7 @@
                                     x-bind:id="`purchase[${index}][amount]`"
                                     x-bind:name="`purchase[${index}][amount]`"
                                     x-model="purchase.amount"
-                                    placeholder="Product Amount"
+                                    placeholder="Freight Volume"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"

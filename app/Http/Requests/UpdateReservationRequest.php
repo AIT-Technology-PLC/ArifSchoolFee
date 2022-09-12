@@ -6,6 +6,7 @@ use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +25,7 @@ class UpdateReservationRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id),
                 new CanEditReferenceNumber('reservations')],
             'reservation' => ['required', 'array'],
-            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0'],

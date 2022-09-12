@@ -26,7 +26,7 @@ class PurchaseDetailDatatable extends DataTable
             })
             ->editColumn('unit_cost', fn($purchaseDetail) => money($purchaseDetail->unit_price))
             ->editColumn('total_cost', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
-            ->editColumn('amount', fn($purchaseDetail) => number_format($purchaseDetail->amount, 2))
+            ->editColumn('freight_volume', fn($purchaseDetail) => quantity($purchaseDetail->amount, $purchaseDetail->freight_unit))
             ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freightCostValue))
             ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freightInsuranceCostValue))
             ->editColumn('duty_paying_value', fn($purchaseDetail) => money($purchaseDetail->dutyPayingValue))
@@ -65,7 +65,7 @@ class PurchaseDetailDatatable extends DataTable
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_cost', 'unit_price')->addClass('has-text-right'),
             Column::computed('total_cost')->addClass('has-text-right'),
-            request()->route('purchase')->isImported() ? Column::computed('amount')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('freight_volume')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_cost')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_insurance_cost')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('duty_paying_value')->visible(false)->addClass('has-text-right') : null,

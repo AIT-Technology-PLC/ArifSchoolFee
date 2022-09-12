@@ -25,7 +25,7 @@ class AdvancementController extends Controller
     {
         $this->authorize('approve', $advancement);
 
-        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $advancement->advancementDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $advancement->advancementDetails->pluck('employee_id')))->pluck('warehouse_id')->values()->all())) {
             return back()->with('failedMessage', 'You do not have permission to approve this advancement request.');
         }
 
