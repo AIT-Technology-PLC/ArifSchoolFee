@@ -25,7 +25,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
-                                    readonly="{{ !userCompany()->isEditingReferenceNumberEnabled() }}"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $currentGdnCode }}"
                                 />
                                 <x-common.icon
