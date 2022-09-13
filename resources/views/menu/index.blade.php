@@ -1014,8 +1014,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report'))
-            @canany(['Read Sales Performance Report'])
+        @if (isFeatureEnabled('Sales Report', 'Expense Report'))
+            @canany(['Read Sales Performance Report', 'Read Expense Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1043,6 +1043,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Sales Performance
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Report'))
+                                @can('Read Expense Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.expense') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart-column"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense
                                         </span>
                                     </div>
                                 @endcan
