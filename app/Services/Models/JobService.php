@@ -167,6 +167,7 @@ class JobService
                 $billOfMaterialdetails = Arr::flatten($details, 1);
 
                 if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                    DB::rollBack();
                     return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
                 }
 
