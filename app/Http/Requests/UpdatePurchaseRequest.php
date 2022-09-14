@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -20,7 +19,7 @@ class UpdatePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('purchases', $this->route('purchase')->id), new CanEditReferenceNumber('purchases')],
+            'code' => ['required', 'string', new UniqueReferenceNum('purchases', $this->route('purchase')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers'),
                 new CheckSupplierDebtLimit(

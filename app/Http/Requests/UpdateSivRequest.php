@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +18,7 @@ class UpdateSivRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id),
-                new CanEditReferenceNumber('sivs')],
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
