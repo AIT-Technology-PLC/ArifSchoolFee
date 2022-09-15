@@ -25,8 +25,6 @@ class ExpenseReportController extends Controller
 
         $expenseTransactionReport = new ExpenseTransactionReport(ReportSource::getExpenseReportInput($request->validated('branches'), $request->validated('period')));
 
-        dd($expenseReport->getExpenseCategoriesByExpense());
-
         return view('reports.expense', compact('expenseReport', 'expenseTransactionReport', 'warehouses'));
     }
 }

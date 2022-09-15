@@ -39,9 +39,9 @@ class ReportSource
     public static function getExpenseReportInput($branches, $period)
     {
         $source = Expense::whereIn('warehouse_id', $branches)
-        // ->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1])
-            ->whereDate('issued_on', '>=', today()->subDays(6))->whereDate('issued_on', '<=', today())
+            ->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1])
             ->withCount('expenseDetails')->having('expense_details_count', '>', 0)
+            ->approved()
             ->get();
 
         $formatedSource = collect();
@@ -64,10 +64,9 @@ class ReportSource
                 $data['details'][] =
                     [
                     'transaction_type' => 'approved_expense',
-                    'transaction_number' => $transaction->code,
                     'expense_category_name' => $transactionDetail->expenseCategory->name,
-                    'unit_price' => (int) $transactionDetail->unit_price,
-                    'quantity' => (int) $transactionDetail->quantity,
+                    'unit_price' => $transactionDetail->unit_price,
+                    'quantity' => $transactionDetail->quantity,
                 ];
             }
 

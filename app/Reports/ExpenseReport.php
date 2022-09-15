@@ -82,7 +82,9 @@ class ExpenseReport
             $expenseCategoriesByExpense->push([
                 'category' => $value['expense_category_name'],
                 'quantity' => $this->source->pluck('details')->flatten(1)->where('expense_category_name', $value['expense_category_name'])->sum('quantity'),
-                'expense' => $this->source->pluck('details')->flatten(1)->where('expense_category_name', $value['expense_category_name'])->mul('unit_price'),
+                'expense' => $this->source->pluck('details')->flatten(1)->where('expense_category_name', $value['expense_category_name'])->reduce(function ($carry, $item) {
+                    return $carry + ($item['unit_price'] * $item['quantity']);
+                }),
             ]);
         }
 
