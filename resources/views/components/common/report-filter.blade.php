@@ -1,9 +1,11 @@
+@props(['action'])
+
 <div class="mx-3 m-lr-0">
     <form
         method="GET"
         enctype="multipart/form-data"
         novalidate
-        action="{{ route('reports.sales_performance') }}"
+        action="{{ $action }}"
     >
         @method('GET')
         <div class="box">
