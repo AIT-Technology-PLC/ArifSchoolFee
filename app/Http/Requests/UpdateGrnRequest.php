@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +18,7 @@ class UpdateGrnRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('grns', $this->route('grn')->id),
-                new CanEditReferenceNumber('grns')],
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'grn' => ['required', 'array'],
             'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

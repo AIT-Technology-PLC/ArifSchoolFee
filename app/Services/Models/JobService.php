@@ -37,6 +37,7 @@ class JobService
                 }
 
                 if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
+                    DB::rollBack();
                     return [false, 'The quantity provided is inaccurate.'];
                 }
 
@@ -69,6 +70,7 @@ class JobService
             $billOfMaterialdetails = Arr::flatten($details, 1);
 
             if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                DB::rollBack();
                 return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
             }
 
@@ -165,6 +167,7 @@ class JobService
                 $billOfMaterialdetails = Arr::flatten($details, 1);
 
                 if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                    DB::rollBack();
                     return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
                 }
 

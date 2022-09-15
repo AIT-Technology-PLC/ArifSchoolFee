@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,7 +18,7 @@ class UpdateTransferRequest extends FormRequest
     {
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id),
-                new CanEditReferenceNumber('transfers')],
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],
