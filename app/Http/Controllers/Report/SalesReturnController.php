@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Reports\ReportSource;
+use App\Reports\SalesReturnReport;
+use App\Reports\TransactionReport;
 
 class SalesReturnController extends Controller
 {
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Sales Report');
-        turnOffPreparedStatementEmulation();
-        turnOffMysqlStictMode();
     }
 
     public function __invoke(FilterRequest $request)
@@ -20,6 +21,13 @@ class SalesReturnController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        return view('reports.sales-return', compact('warehouses'));
+        $salesReturnReport = new SalesReturnReport(
+            ReportSource::getSalesReturnReportInput($request->validated('branches'), $request->validated('period')));
+
+        $transactionReport = new TransactionReport(
+            ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))
+        );
+
+        return view('reports.sales-return', compact('warehouses', 'salesReturnReport', 'transactionReport'));
     }
 }

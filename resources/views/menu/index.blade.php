@@ -1053,7 +1053,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class=""></i>
+                                                <i class="fa-solid fa-file-circle-xmark"></i>
                                             </span>
                                         </a>
                                         <br>
