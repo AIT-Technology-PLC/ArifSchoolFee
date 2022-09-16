@@ -204,6 +204,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Price']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Price']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Price']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Price']);
 
             // Pad
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Pad']);

@@ -396,3 +396,8 @@ Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
 Route::post('/expenses/{expense}/approve',
     [Action\ExpenseController::class, 'approve'])
     ->name('expenses.approve');
+
+//Price
+Route::post('/prices/import',
+    [Action\PriceController::class, 'import'])
+    ->name('prices.import');
