@@ -26,7 +26,7 @@ class ReservationDetailDatatable extends DataTable
                 return quantity($reservationDetail->quantity, $reservationDetail->product->unit_of_measurement);
             })
             ->editColumn('unit_price', fn ($reservationDetail) => money($reservationDetail->unit_price))
-            ->editColumn('discount', fn ($reservationDetail) => number_format($reservationDetail->discount * 100, 2).'%')
+            ->editColumn('discount', fn ($reservationDetail) => $reservationDetail->discount.'%')
             ->editColumn('total', fn ($reservationDetail) => money($reservationDetail->totalPrice))
             ->editColumn('description', fn ($reservationDetail) => nl2br(e($reservationDetail->description)))
             ->editColumn('actions', function ($reservationDetail) {

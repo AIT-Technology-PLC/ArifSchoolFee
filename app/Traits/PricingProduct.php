@@ -27,10 +27,11 @@ trait PricingProduct
     public function getTotalPriceAttribute()
     {
         $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');
+        $discount = ($this->discount ?? 0.00) / 100;
         $discountAmount = 0.00;
 
         if (userCompany()->isDiscountBeforeVAT()) {
-            $discountAmount = number_format($totalPrice * $this->discount, 2, thousands_separator:'');
+            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
         }
 
         return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
