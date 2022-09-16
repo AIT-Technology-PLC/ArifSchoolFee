@@ -33,7 +33,7 @@ return new class extends Migration
                 IF(
                     gdn_details.discount IS NULL,
                     (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id),
-                    (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) - ROUND((SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) * gdn_details.discount, 2)
+                    (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) - ROUND((SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) * (gdn_details.discount / 100), 2)
                 ) AS line_price
             FROM
                 gdn_details
@@ -78,7 +78,7 @@ return new class extends Migration
                 IF(
                     gdns.discount IS NULL,
                     (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id),
-                    (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) - ROUND((SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) * gdns.discount, 2)
+                    (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) - ROUND((SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) * (gdns.discount / 100), 2)
                 ) AS subtotal_price
             FROM
                 gdns

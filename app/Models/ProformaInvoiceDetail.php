@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\Discountable;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProformaInvoiceDetail extends Model
 {
-    use HasFactory, SoftDeletes, PricingProduct, Discountable, TouchParentUserstamp;
+    use HasFactory, SoftDeletes, PricingProduct, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -31,7 +30,7 @@ class ProformaInvoiceDetail extends Model
 
     public function setProductIdAttribute($value)
     {
-        if (! is_numeric($value)) {
+        if (!is_numeric($value)) {
             $this->attributes['custom_product'] = $value;
 
             $this->attributes['product_id'] = null;
