@@ -1015,7 +1015,7 @@
         @endif
 
         @if (isFeatureEnabled('Sales Report'))
-            @canany(['Read Sales Performance Report'])
+            @canany(['Read Sales Performance Report', 'Read Sales Return Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1046,7 +1046,24 @@
                                         </span>
                                     </div>
                                 @endcan
+                                @can('Read Sales Return Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.sales_return') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-file-circle-xmark"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales Return
+                                        </span>
+                                    </div>
+                                @endcan
                             @endif
+
                         </div>
                     </x-content.footer>
                 </section>

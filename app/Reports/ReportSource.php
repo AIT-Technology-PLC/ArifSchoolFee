@@ -2,6 +2,7 @@
 
 namespace App\Reports;
 
+use App\Models\Returnn;
 use Illuminate\Support\Facades\DB;
 
 class ReportSource
@@ -33,5 +34,36 @@ class ReportSource
                 ->whereDate($masterTable . '.issued_on', '>=', $period[0])->whereDate($masterTable . '.issued_on', '<=', $period[1])
                 ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status)),
         ];
+    }
+
+    public static function getSalesReturnReportInput($branches, $period)
+    {
+        $source = Returnn::whereIn('warehouse_id', $branches)
+            ->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1])
+            ->withCount('returnDetails')->having('return_details_count', '>', 0)
+            ->approved()
+            ->get();
+
+        $formatedSource = collect();
+
+        foreach ($source as $transaction) {
+            $data = [
+                'transaction_type' => 'approved_return',
+                'customer_name' => $transaction->customer->company_name ?? 'No Customer',
+                'details' => [],
+            ];
+
+            foreach ($transaction->details() as $transactionDetail) {
+                $data['details'][] =
+                    [
+                    'product_name' => $transactionDetail->product->name,
+                    'quantity' => $transactionDetail->quantity,
+                ];
+            }
+
+            $formatedSource->push($data);
+        }
+
+        return $formatedSource;
     }
 }
