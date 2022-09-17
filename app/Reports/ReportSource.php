@@ -3,6 +3,7 @@
 namespace App\Reports;
 
 use App\Models\ReturnDetail;
+use App\Scopes\BranchScope;
 use Illuminate\Support\Facades\DB;
 
 class ReportSource
@@ -42,7 +43,8 @@ class ReportSource
             ->whereHas('returnn', function ($q) use ($branches, $period) {
                 return $q->whereIn('warehouse_id', $branches)
                     ->whereDate('issued_on', '>=', $period[0])->whereDate('issued_on', '<=', $period[1])
-                    ->approved();
+                    ->added()
+                    ->withoutGlobalScopes([BranchScope::class]);
             })
             ->join('products', 'return_details.product_id', '=', 'products.id')
             ->join('returns', 'return_details.return_id', '=', 'returns.id')
