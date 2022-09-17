@@ -1070,7 +1070,7 @@
                                         tag="a"
                                         href="{{ route('reports.sales_performance') }}"
                                         label="Sales Performance"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sales_performance') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
@@ -1081,7 +1081,7 @@
                                         tag="a"
                                         href="{{ route('reports.sales_return') }}"
                                         label="Sales Return"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sales_return') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>

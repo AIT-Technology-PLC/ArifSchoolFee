@@ -3,7 +3,7 @@
 @section('title', 'Sales Performance')
 
 @section('content')
-    <x-common.report-filter>
+    <x-common.report-filter action="{{ route('reports.sales_performance') }}">
         <div class="columns is-marginless is-vcentered">
             <div class="column is-3 p-lr-0 pt-0">
                 <x-forms.field class="has-text-centered">
