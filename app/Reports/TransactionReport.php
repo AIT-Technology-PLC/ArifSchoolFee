@@ -45,9 +45,4 @@ class TransactionReport
 
         return $this->details->count() / $this->transactionCount;
     }
-
-    public function getSalesTransactionCount()
-    {
-        return $this->transactionCount;
-    }
 }

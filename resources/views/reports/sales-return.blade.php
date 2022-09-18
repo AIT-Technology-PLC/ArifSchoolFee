@@ -45,10 +45,46 @@
     </x-common.report-filter>
 
     <div class="columns is-marginless is-multiline mt-3">
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                amount="{{ number_format($returnReport->getTotalRevenueAfterTax, 2) }}"
+                border-color="#fff"
+                text-color="text-purple"
+                label="Revenue After VAT"
+            ></x-common.index-insight>
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($returnReport->getTotalRevenueBeforeTax, 2)"
+                border-color="#fff"
+                text-color="text-green"
+                label="Revenue Before VAT"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($returnReport->getTotalRevenueTax, 2)"
+                border-color="#fff"
+                text-color="text-gold"
+                label="Revenue VAT"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($returnReport->getCustomersCount, 2)"
+                border-color="#fff"
+                text-color="text-blue"
+                label="Customers"
+            />
+        </div>
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->getSalesTransactionCount(), 2)"
+                :amount="number_format($salesCount, 2)"
                 border-color="#fff"
                 text-color="text-green"
                 label="Number Of Sales"
@@ -57,9 +93,9 @@
         <div class="column is-6 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($salesReturnReport->getReturnTransactionCount(), 2)"
+                :amount="number_format($returnReport->getReturnsCount, 2)"
                 border-color="#fff"
-                text-color="text-gold"
+                text-color="text-purple"
                 label="Number Of Returns"
             />
         </div>
@@ -68,7 +104,7 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-tags"></i>
+                            <i class="fas fa-th"></i>
                         </span>
                         <span>Most Returned Products</span>
                     </h1>
@@ -85,13 +121,15 @@
                         <th><abbr> # </abbr></th>
                         <th><abbr> Product </abbr></th>
                         <th class="has-text-right"><abbr> Quantity </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($salesReturnReport->getMostReturnedProducts() as $returnedProduct)
+                        @foreach ($returnReport->getReturnsByProducts as $product)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $returnedProduct['product'] }} </td>
-                                <td class="has-text-right"> {{ quantity($returnedProduct['quantity']) }} </td>
+                                <td> {{ $product->product_name }} </td>
+                                <td class="has-text-right"> {{ quantity($product->quantity) }} </td>
+                                <td class="has-text-right"> {{ number_format($product->revenue * 1.15, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -119,14 +157,53 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Customer </abbr></th>
-                        <th class="has-text-right"><abbr> Return </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Returns </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($salesReturnReport->getHighestReturningCustomers() as $customerReturn)
+                        @foreach ($returnReport->getReturnsByCustomers as $customer)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $customerReturn['customer'] }} </td>
-                                <td class="has-text-right"> {{ quantity($customerReturn['quantity']) }} </td>
+                                <td> {{ $customer->customer_name ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ number_format($customer->revenue * 1.15, 2) }} </td>
+                                <td class="has-text-right"> {{ $customer->returns }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Top Returning Branches</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Returns </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($returnReport->getReturnsByBranches as $branch)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $branch->branch_name }} </td>
+                                <td class="has-text-right"> {{ number_format($branch->revenue, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($branch->returns, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

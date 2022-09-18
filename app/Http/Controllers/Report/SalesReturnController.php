@@ -21,13 +21,12 @@ class SalesReturnController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $salesReturnReport = new SalesReturnReport(
-            ReportSource::getSalesReturnReportInput($request->validated('branches'), $request->validated('period')));
+        $returnReport = new SalesReturnReport($request->validated('branches'), $request->validated('period'));
 
-        $transactionReport = new TransactionReport(
+        $salesCount = (new TransactionReport(
             ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))
-        );
+        ))->transactionCount;
 
-        return view('reports.sales-return', compact('warehouses', 'salesReturnReport', 'transactionReport'));
+        return view('reports.sales-return', compact('warehouses', 'returnReport', 'salesCount'));
     }
 }

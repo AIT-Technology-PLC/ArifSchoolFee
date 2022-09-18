@@ -6,41 +6,75 @@ class SalesReturnReport
 {
     private $source;
 
-    public function __construct($source)
+    public function __construct($branches, $period)
     {
-        $this->source = $source;
+        $this->source = ReportSource::getSalesReturnReportInput($branches, $period);
     }
 
-    public function getReturnTransactionCount()
+    public function __get($name)
     {
-        return $this->source->count();
-    }
-
-    public function getMostReturnedProducts()
-    {
-        $mostReturnedProducts = collect();
-
-        foreach ($this->source->pluck('details')->flatten(1)->unique('product_name') as $value) {
-            $mostReturnedProducts->push([
-                'product' => $value['product_name'],
-                'quantity' => $this->source->pluck('details')->flatten(1)->where('product_name', $value['product_name'])->sum('quantity'),
-            ]);
+        if (!isset($this->$name)) {
+            $this->$name = $this->$name();
         }
 
-        return $mostReturnedProducts->sortByDesc('quantity');
+        return $this->$name;
     }
 
-    public function getHighestReturningCustomers()
+    public function getReturnsCount()
     {
-        $highestReturningCustomer = collect();
+        return (clone $this->source)->count();
+    }
 
-        foreach ($this->source->unique('customer_name') as $value) {
-            $highestReturningCustomer->push([
-                'customer' => $value['customer_name'],
-                'quantity' => $this->source->where('customer_name', $value['customer_name'])->pluck('details')->flatten(1)->sum('quantity'),
-            ]);
-        }
+    public function getTotalRevenueBeforeTax()
+    {
+        return (clone $this->source)
+            ->selectRaw('SUM(quantity*unit_price) AS revenue')
+            ->first()->revenue;
+    }
 
-        return $highestReturningCustomer->sortByDesc('quantity');
+    public function getTotalRevenueAfterTax()
+    {
+        return $this->getTotalRevenueBeforeTax * 1.15;
+    }
+
+    public function getTotalRevenueTax()
+    {
+        return $this->getTotalRevenueBeforeTax * 0.15;
+    }
+
+    public function getCustomersCount()
+    {
+        return (clone $this->source)
+            ->selectRaw('customers.company_name AS customer_name')
+            ->groupBy('customer_name')
+            ->having('customer_name', '<>', '')
+            ->count();
+    }
+
+    public function getReturnsByProducts()
+    {
+        return (clone $this->source)
+            ->selectRaw('products.name AS product_name, SUM(quantity) AS quantity, SUM(quantity*unit_price) AS revenue')
+            ->groupBy('product_name')
+            ->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getReturnsByCustomers()
+    {
+        return (clone $this->source)
+            ->selectRaw('customers.company_name AS customer_name, SUM(quantity*unit_price) AS revenue, COUNT(return_id) AS returns')
+            ->groupBy('customer_name')
+            ->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getReturnsByBranches()
+    {
+        return (clone $this->source)
+            ->selectRaw('warehouses.name AS branch_name, SUM(quantity*unit_price) AS revenue, COUNT(return_id) AS returns')
+            ->groupBy('branch_name')
+            ->orderByDesc('revenue')
+            ->get();
     }
 }

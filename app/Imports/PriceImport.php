@@ -4,7 +4,6 @@ namespace App\Imports;
 
 use App\Models\Price;
 use App\Models\Product;
-use App\Rules\MustBelongToCompany;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -55,25 +54,19 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     public function rules(): array
     {
         return [
-            'product_name' => ['required', 'string', 'max:255', 'distinct', new MustBelongToCompany('products', 'name')],
+            'product_name' => ['required', 'string', 'max:255', 'distinct', Rule::in($this->products->pluck('name'))],
             'type' => ['required', 'string', 'max:255', Rule::in(['fixed', 'range'])],
-            'min_price' => ['nullable', 'numeric', 'required_if:type,range', 'prohibited_if:type,fixed', 'gt:0',
-                'lt:*.max_price', 'max:99999999999999999999.99',
-            ],
-            'max_price' => ['nullable', 'numeric', 'required_if:type,range', 'prohibited_if:type,fixed', 'gt:0',
-                'gt:*.min_price', 'max:99999999999999999999.99',
-            ],
-            'fixed_price' => [
-                'nullable', 'numeric', 'required_if:type,fixed', 'prohibited_if:type,range', 'gt:0', 'max:99999999999999999999.99',
-            ],
+            'min_price' => ['nullable', 'numeric', 'required_if:*.type,range', 'prohibited_if:*.type,fixed', 'gt:0', 'lt:*.max_price', 'max:99999999999999999999.99'],
+            'max_price' => ['nullable', 'numeric', 'required_if:*.type,range', 'prohibited_if:*.type,fixed', 'gt:0', 'gt:*.min_price', 'max:99999999999999999999.99'],
+            'fixed_price' => ['nullable', 'numeric', 'required_if:*.type,fixed', 'prohibited_if:*.type,range', 'gt:0', 'max:99999999999999999999.99'],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_name'] = str()->squish($data['product_name']);
+        $data['product_name'] = str()->squish($data['product_name'] ?? '');
 
-        $data['type'] = str()->lower($data['type']);
+        $data['type'] = str($data['type'] ?? '')->lower()->squish()->toString();
 
         return $data;
     }
