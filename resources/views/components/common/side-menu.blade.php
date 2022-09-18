@@ -1075,6 +1075,17 @@
                                     />
                                 </li>
                             @endcan
+                            @can('Read Sales Return Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.sales_return') }}"
+                                        label="Sales Return"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
                         @endif
 
                         @if (isFeatureEnabled('Expense Report'))

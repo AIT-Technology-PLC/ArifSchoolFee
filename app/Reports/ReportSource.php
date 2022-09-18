@@ -3,6 +3,7 @@
 namespace App\Reports;
 
 use App\Models\Expense;
+use App\Models\Returnn;
 use Illuminate\Support\Facades\DB;
 
 class ReportSource
@@ -62,7 +63,7 @@ class ReportSource
 
             foreach ($transaction->details() as $transactionDetail) {
                 $data['details'][] =
-                    [
+                [
                     'transaction_type' => 'approved_expense',
                     'expense_category_name' => $transactionDetail->expenseCategory->name,
                     'unit_price' => $transactionDetail->unit_price,

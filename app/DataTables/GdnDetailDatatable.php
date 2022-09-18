@@ -26,7 +26,7 @@ class GdnDetailDatatable extends DataTable
                 return quantity($gdnDetail->quantity, $gdnDetail->product->unit_of_measurement);
             })
             ->editColumn('unit_price', fn ($gdnDetail) => money($gdnDetail->unit_price))
-            ->editColumn('discount', fn ($gdnDetail) => number_format($gdnDetail->discount * 100, 2).'%')
+            ->editColumn('discount', fn ($gdnDetail) => $gdnDetail->discount.'%')
             ->editColumn('total', fn ($gdnDetail) => money($gdnDetail->totalPrice))
             ->editColumn('description', fn ($gdnDetail) => nl2br(e($gdnDetail->description)))
             ->editColumn('actions', function ($gdnDetail) {
