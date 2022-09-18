@@ -1015,7 +1015,7 @@
         @endif
 
         @if (isFeatureEnabled('Sales Report', 'Expense Report'))
-            @canany(['Read Sales Performance Report', 'Read Expense Report'])
+            @canany(['Read Sales Performance Report', 'Read Sales Return Report', 'Read Expense Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
