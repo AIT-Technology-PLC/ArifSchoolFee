@@ -212,6 +212,10 @@ class Features extends Seeder
                 ['name' => 'Expense Management'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Expense Report'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
@@ -241,6 +245,7 @@ class Features extends Seeder
                         'Return Management',
                         'Push Notification',
                         'Sales Report',
+                        'Expense Report',
                     ])
                     ->pluck('id')
                     ->toArray()

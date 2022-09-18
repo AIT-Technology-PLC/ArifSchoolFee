@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Sales Performance')
+@section('title', 'Expense')
 
 @section('content')
-    <x-common.report-filter action="{{ route('reports.sales_performance') }}">
+    <x-common.report-filter action="{{ route('reports.expense') }}">
         <div class="columns is-marginless is-vcentered">
             <div class="column is-3 p-lr-0 pt-0">
                 <x-forms.field class="has-text-centered">
@@ -48,73 +48,64 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                amount="{{ number_format($revenueReport->getTotalRevenueAfterTax, 2) }}"
+                amount="{{ number_format($expenseReport->getTotalExpenseAfterTax(), 2) }}"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Revenue After VAT"
+                label="Expense After VAT"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getTotalRevenueBeforeTax, 2)"
+                :amount="number_format($expenseReport->getTotalExpenseBeforeTax(), 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Revenue Before VAT"
+                label="Expense Before VAT"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getTotalRevenueTax, 2)"
+                :amount="number_format($expenseReport->getTotalExpenseTax(), 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Revenue VAT"
+                label="Expense Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getDailyAverageRevenue, 2)"
+                :amount="number_format($expenseReport->getDailyAverageExpense(), 2)"
                 border-color="#fff"
                 text-color="text-blue"
-                label="Daily Average Revenue"
+                label="Daily Average Expense"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->getAverageTransactionValue, 2)"
+                :amount="number_format($expenseTransactionReport->getAverageTransactionValue(), 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Average Sale Value"
+                label="Average Purchase Value"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->transactionCount)"
+                :amount="number_format($expenseTransactionReport->transactionCount)"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Number Of Sales"
+                label="Number Of Purchases"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                amount="{{ number_format($revenueReport->getCashSalesPercentage) }}%"
-                border-color="#fff"
-                text-color="text-blue"
-                label="Cash Sales Percentage"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($transactionReport->getAverageItemsPerTransaction)"
+                :amount="number_format($expenseTransactionReport->getAverageExpensePerTransaction())"
                 border-color="#fff"
                 text-color="text-green"
-                label="Basket Size Analysis"
+                label="Average Expense Per transaction"
             />
         </div>
         <div class="column is-6 p-lr-0">
@@ -124,7 +115,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user"></i>
                         </span>
-                        <span>Top Customers by Revenue</span>
+                        <span>Top Suppliers by Expense</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -137,15 +128,15 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Customer </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th><abbr> Supplier </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getCustomersByRevenue as $customerRevenue)
+                        @foreach ($expenseReport->getSuppliersByExpense() as $supplierExpense)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $customerRevenue->customer_name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ number_format($customerRevenue->revenue, 2) }} </td>
+                                <td> {{ $supplierExpense['supplier'] ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ number_format($supplierExpense['expense'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -159,7 +150,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-warehouse"></i>
                         </span>
-                        <span>Top Performing Branches</span>
+                        <span>Top Branches by Expense</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -173,14 +164,14 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Branch </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getBranchesByRevenue as $branchRevenue)
+                        @foreach ($expenseReport->getBranchesByExpense() as $branchExpense)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $branchRevenue->warehouse_name }} </td>
-                                <td class="has-text-right"> {{ number_format($branchRevenue->revenue, 2) }} </td>
+                                <td> {{ $branchExpense['branch'] }} </td>
+                                <td class="has-text-right"> {{ number_format($branchExpense['expense'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -194,7 +185,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user-tie"></i>
                         </span>
-                        <span>Salesperson Leaderboard</span>
+                        <span>Purchaser board</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -207,52 +198,15 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Salesperson </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th><abbr> Purchaser </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getRepsByRevenue as $salesRevenue)
+                        @foreach ($expenseReport->getPurchaserByExpense() as $purchaseExpense)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $salesRevenue->user_name ?? 'Deleted Salesperson' }} </td>
-                                <td class="has-text-right"> {{ number_format($salesRevenue->revenue, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-*"></i>
-                        </span>
-                        <span>Best-Selling Products</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Product </abbr></th>
-                        <th class="has-text-right"><abbr> Quantity </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($revenueReport->getProductsByRevenue as $productRevenue)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $productRevenue->product_name }} </td>
-                                <td class="has-text-right"> {{ quantity($productRevenue->quantity, $productRevenue->product_unit_of_measurement) }} </td>
-                                <td class="has-text-right"> {{ number_format($productRevenue->revenue, 2) }} </td>
+                                <td> {{ $purchaseExpense['purchaser'] ?? 'Deleted Salesperson' }} </td>
+                                <td class="has-text-right"> {{ number_format($purchaseExpense['expense'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -266,7 +220,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-layer-group"></i>
                         </span>
-                        <span>Best Performing Categories</span>
+                        <span>Top Categories by Expense</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -281,15 +235,15 @@
                         <th><abbr> # </abbr></th>
                         <th><abbr> Category </abbr></th>
                         <th class="has-text-right"><abbr> Quantity </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getProductCategoriesByRevenue as $categoryRevenue)
+                        @foreach ($expenseReport->getExpenseCategoriesByExpense() as $categoryExpense)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $categoryRevenue->product_category_name }} </td>
-                                <td class="has-text-right"> {{ number_format($categoryRevenue->quantity, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($categoryRevenue->revenue, 2) }} </td>
+                                <td> {{ $categoryExpense['category'] }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryExpense['quantity'], 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryExpense['expense'], 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

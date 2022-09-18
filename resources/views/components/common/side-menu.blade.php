@@ -1029,8 +1029,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report'))
-        @canany(['Read Sales Performance Report', 'Read Sales Return Report'])
+    @if (isFeatureEnabled('Sales Report', 'Expense Report'))
+        @canany(['Read Sales Performance Report', 'Read Expense Report'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1082,6 +1082,20 @@
                                         href="{{ route('reports.sales_return') }}"
                                         label="Sales Return"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sales_return') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Expense Report'))
+                            @can('Read Expense Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.expense') }}"
+                                        label="Expense"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
