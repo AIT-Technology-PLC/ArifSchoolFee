@@ -2,99 +2,183 @@
 
 namespace App\Reports;
 
+use App\Models\ExpenseDetail;
+use App\Scopes\BranchScope;
 use Illuminate\Support\Carbon;
 
 class ExpenseReport
 {
-    private $source;
+    private $query;
 
     private $period;
 
     public function __construct($branches, $period)
     {
-        $this->source = ReportSource::getExpenseReportInput($branches, $period);
+        $this->branches = $branches;
 
         $this->period = $period;
+
+        $this->setQuery();
+    }
+
+    public function __get($name)
+    {
+        if (!isset($this->$name)) {
+            $this->$name = $this->$name();
+        }
+
+        return $this->$name;
+    }
+
+    private function setQuery()
+    {
+        $this->query = ExpenseDetail::query()
+            ->whereHas('expense', function ($q) {
+                return $q->whereIn('warehouse_id', $this->branches)
+                    ->whereDate('issued_on', '>=', $this->period[0])->whereDate('issued_on', '<=', $this->period[1])
+                    ->approved()
+                    ->withoutGlobalScopes([BranchScope::class]);
+            })
+            ->join('expense_categories', 'expense_details.expense_category_id', '=', 'expense_categories.id')
+            ->join('expenses', 'expense_details.expense_id', '=', 'expenses.id')
+            ->join('warehouses', 'expenses.warehouse_id', '=', 'warehouses.id')
+            ->leftJoin('users', 'expenses.created_by', '=', 'users.id')
+            ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id');
+    }
+
+    public function getExpenseTransactionCount()
+    {
+        return (clone $this->query)->count();
     }
 
     public function getTotalExpenseBeforeTax()
     {
-        return $this->source->sum('subtotal_price');
+        return (clone $this->query)
+            ->selectRaw('SUM(quantity*unit_price) AS expense_before_tax')
+            ->first()
+            ->expense_before_tax;
     }
 
     public function getTotalExpenseAfterTax()
     {
-        return $this->source->sum('grand_total_price_after_discount');
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense_after_tax
+            ')
+            ->first()
+            ->expense_after_tax;
     }
 
-    public function getTotalExpenseTax()
+    public function getTotalExpenseVat()
     {
-        return $this->source->sum('tax_amount');
+        return (clone $this->query)
+            ->selectRaw('SUM(quantity*unit_price*0.15) AS expense_vat')
+            ->where('tax_type', 'VAT')
+            ->first()
+            ->expense_vat;
     }
 
-    public function getBranchesByExpense()
+    public function getTotalExpenseTot()
     {
-        $branchesByExpense = collect();
-
-        foreach ($this->source->unique('branch_name') as $value) {
-            $branchesByExpense->push([
-                'branch' => $value['branch_name'],
-                'expense' => $this->source->where('branch_name', $value['branch_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $branchesByExpense->sortByDesc('expense');
+        return (clone $this->query)
+            ->selectRaw('SUM(quantity*unit_price*0.02) AS expense_tot')
+            ->where('tax_type', 'TOT')
+            ->first()
+            ->expense_tot;
     }
 
-    public function getSuppliersByExpense()
+    public function getExpenseByBranches()
     {
-        $suppliersByExpense = collect();
-
-        foreach ($this->source->unique('supplier_name') as $value) {
-            $suppliersByExpense->push([
-                'supplier' => $value['supplier_name'],
-                'expense' => $this->source->where('supplier_name', $value['supplier_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $suppliersByExpense->sortByDesc('expense');
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                warehouses.name AS branch_name
+            ')
+            ->groupBy('branch_name')
+            ->orderByDesc('expense')
+            ->get();
     }
 
-    public function getPurchaserByExpense()
+    public function getExpenseBySuppliers()
     {
-        $purchaserByExpense = collect();
-
-        foreach ($this->source->unique('purchaser_name') as $value) {
-            $purchaserByExpense->push([
-                'purchaser' => $value['purchaser_name'],
-                'expense' => $this->source->where('purchaser_name', $value['purchaser_name'])->sum('grand_total_price_after_discount'),
-            ]);
-        }
-
-        return $purchaserByExpense->sortByDesc('expense');
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                suppliers.company_name AS supplier_name
+            ')
+            ->groupBy('supplier_name')
+            ->orderByDesc('expense')
+            ->get();
     }
 
-    public function getExpenseCategoriesByExpense()
+    public function getExpenseByPurchasers()
     {
-        $expenseCategoriesByExpense = collect();
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                users.name AS purchaser_name
+            ')
+            ->groupBy('purchaser_name')
+            ->orderByDesc('expense')
+            ->get();
+    }
 
-        foreach ($this->source->pluck('details')->flatten(1)->unique('expense_category_name') as $value) {
-            $expenseCategoriesByExpense->push([
-                'category' => $value['expense_category_name'],
-                'quantity' => $this->source->pluck('details')->flatten(1)->where('expense_category_name', $value['expense_category_name'])->sum('quantity'),
-                'expense' => $this->source->pluck('details')->flatten(1)->where('expense_category_name', $value['expense_category_name'])->reduce(function ($carry, $item) {
-                    return $carry + ($item['unit_price'] * $item['quantity']);
-                }),
-            ]);
-        }
-
-        return $expenseCategoriesByExpense->sortByDesc('expense');
+    public function getExpenseByCategories()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                expense_categories.name AS category_name,
+                SUM(quantity) AS quantity
+            ')
+            ->groupBy('category_name')
+            ->orderByDesc('expense')
+            ->get();
     }
 
     public function getDailyAverageExpense()
     {
         $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;
 
-        return $this->getTotalExpenseAfterTax() / $days;
+        return $this->getTotalExpenseAfterTax / $days;
+    }
+
+    public function getAverageExpenseValue()
+    {
+        if ($this->getExpenseTransactionCount == 0) {
+            return $this->getExpenseTransactionCount;
+        }
+
+        return $this->getTotalExpenseAfterTax / $this->getExpenseTransactionCount;
     }
 }

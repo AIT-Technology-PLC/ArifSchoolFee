@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Reports\ExpenseReport;
-use App\Reports\ExpenseTransactionReport;
-use App\Reports\ReportSource;
 
 class ExpenseReportController extends Controller
 {
@@ -23,8 +21,6 @@ class ExpenseReportController extends Controller
 
         $expenseReport = new ExpenseReport($request->validated('branches'), $request->validated('period'));
 
-        $expenseTransactionReport = new ExpenseTransactionReport(ReportSource::getExpenseReportInput($request->validated('branches'), $request->validated('period')));
-
-        return view('reports.expense', compact('expenseReport', 'expenseTransactionReport', 'warehouses'));
+        return view('reports.expense', compact('expenseReport', 'warehouses'));
     }
 }
