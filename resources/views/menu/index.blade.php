@@ -1015,7 +1015,7 @@
         @endif
 
         @if (isFeatureEnabled('Sales Report', 'Expense Report'))
-            @canany(['Read Sales Performance Report', 'Read Sales Return Report', 'Read Expense Report'])
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1030,10 +1030,10 @@
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
                             @if (isFeatureEnabled('Sales Report'))
-                                @can('Read Sales Performance Report')
+                                @can('Read Sale Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('reports.sales_performance') }}"
+                                            href="{{ route('reports.sale') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
@@ -1042,14 +1042,14 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Sales Performance
+                                            Sales
                                         </span>
                                     </div>
                                 @endcan
-                                @can('Read Sales Return Report')
+                                @can('Read Return Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('reports.sales_return') }}"
+                                            href="{{ route('reports.return') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">

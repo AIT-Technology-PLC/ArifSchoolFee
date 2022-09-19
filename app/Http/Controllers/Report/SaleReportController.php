@@ -8,7 +8,7 @@ use App\Reports\ReportSource;
 use App\Reports\RevenueReport;
 use App\Reports\TransactionReport;
 
-class SalesPerformanceController extends Controller
+class SaleReportController extends Controller
 {
     public function __construct()
     {
@@ -19,7 +19,7 @@ class SalesPerformanceController extends Controller
 
     public function __invoke(FilterRequest $request)
     {
-        abort_if(authUser()->cannot('Read Sales Performance Report'), 403);
+        abort_if(authUser()->cannot('Read Sale Report'), 403);
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
@@ -29,6 +29,6 @@ class SalesPerformanceController extends Controller
             ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))
         );
 
-        return view('reports.sales-performance', compact('revenueReport', 'transactionReport', 'warehouses'));
+        return view('reports.sale', compact('revenueReport', 'transactionReport', 'warehouses'));
     }
 }

@@ -8,7 +8,7 @@ use App\Reports\ReportSource;
 use App\Reports\SalesReturnReport;
 use App\Reports\TransactionReport;
 
-class SalesReturnController extends Controller
+class ReturnReportController extends Controller
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class SalesReturnController extends Controller
 
     public function __invoke(FilterRequest $request)
     {
-        abort_if(authUser()->cannot('Read Sales Return Report'), 403);
+        abort_if(authUser()->cannot('Read Return Report'), 403);
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
@@ -27,6 +27,6 @@ class SalesReturnController extends Controller
             ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))
         ))->transactionCount;
 
-        return view('reports.sales-return', compact('warehouses', 'returnReport', 'salesCount'));
+        return view('reports.return', compact('warehouses', 'returnReport', 'salesCount'));
     }
 }
