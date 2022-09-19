@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Reports\ReportSource;
-use App\Reports\RevenueReport;
+use App\Reports\SaleReport;
 use App\Reports\TransactionReport;
 
 class SaleReportController extends Controller
@@ -23,7 +23,7 @@ class SaleReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $revenueReport = new RevenueReport($request->validated('branches'), $request->validated('period'));
+        $revenueReport = new SaleReport($request->validated('branches'), $request->validated('period'));
 
         $transactionReport = new TransactionReport(
             ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))

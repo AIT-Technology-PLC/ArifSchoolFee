@@ -4,7 +4,7 @@ namespace App\Reports;
 
 use Illuminate\Support\Carbon;
 
-class RevenueReport
+class SaleReport
 {
     private $period;
 

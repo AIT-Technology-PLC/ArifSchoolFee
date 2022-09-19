@@ -185,7 +185,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user-tie"></i>
                         </span>
-                        <span>Purchaser board</span>
+                        <span>Expenses By Purchasers</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>

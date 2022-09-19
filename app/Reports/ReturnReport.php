@@ -5,7 +5,7 @@ namespace App\Reports;
 use App\Models\ReturnDetail;
 use App\Scopes\BranchScope;
 
-class SalesReturnReport
+class ReturnReport
 {
     private $query;
 
