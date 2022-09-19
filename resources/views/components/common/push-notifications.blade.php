@@ -1,6 +1,8 @@
+@props(['canUpdateSubscription' => false])
+
 <hr class="navbar-divider">
 <div
-    x-data="notification"
+    x-data="notification({{ $canUpdateSubscription }})"
     class="navbar-item"
 >
     <button
@@ -20,16 +22,18 @@
     </button>
 </div>
 
-
-@push('scripts')
+@pushOnce('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data('notification', () => ({
+            Alpine.data('notification', (canUpdateSubscription) => ({
                 loading: false,
                 isPushEnabled: false,
                 pushButtonDisabled: true,
+                canUpdateSubscription: false,
 
                 init() {
+                    this.canUpdateSubscription = canUpdateSubscription;
+
                     window.Laravel = {!! json_encode([
                         'user' => Auth::user(),
                         'vapidPublicKey' => config('webpush.vapid.public_key'),
@@ -65,7 +69,9 @@
                                 if (!subscription) {
                                     return
                                 }
-                                this.updateSubscription(subscription)
+                                if (this.canUpdateSubscription) {
+                                    this.updateSubscription(subscription)
+                                }
                                 this.isPushEnabled = true
                             })
                             .catch(e => {
@@ -173,4 +179,4 @@
             }));
         });
     </script>
-@endpush
+@endPushOnce
