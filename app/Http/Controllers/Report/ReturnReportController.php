@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
-use App\Reports\ReportSource;
 use App\Reports\ReturnReport;
-use App\Reports\TransactionReport;
 
 class ReturnReportController extends Controller
 {
@@ -23,10 +21,6 @@ class ReturnReportController extends Controller
 
         $returnReport = new ReturnReport($request->validated('branches'), $request->validated('period'));
 
-        $salesCount = (new TransactionReport(
-            ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))
-        ))->transactionCount;
-
-        return view('reports.return', compact('warehouses', 'returnReport', 'salesCount'));
+        return view('reports.return', compact('warehouses', 'returnReport'));
     }
 }

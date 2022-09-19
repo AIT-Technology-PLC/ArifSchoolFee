@@ -75,25 +75,16 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($returnReport->getCustomersCount, 2)"
+                :amount="$returnReport->getCustomersCount"
                 border-color="#fff"
                 text-color="text-blue"
                 label="Customers"
             />
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-12 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($salesCount, 2)"
-                border-color="#fff"
-                text-color="text-green"
-                label="Number Of Sales"
-            />
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($returnReport->getReturnsCount, 2)"
+                :amount="$returnReport->getReturnsCount"
                 border-color="#fff"
                 text-color="text-purple"
                 label="Number Of Returns"
