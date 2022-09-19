@@ -10,6 +10,8 @@ class ExpenseReport
 {
     private $query;
 
+    private $branches;
+
     private $period;
 
     public function __construct($branches, $period)
