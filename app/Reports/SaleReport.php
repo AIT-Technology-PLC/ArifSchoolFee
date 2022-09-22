@@ -131,7 +131,7 @@ class SaleReport
 
     public function getAverageRevenuePerCustomer()
     {
-        $customers = (clone $this->master)->selectRaw('customer_name')->groupBy('customer_id')->count();
+        $customers = (clone $this->master)->selectRaw('COUNT(DISTINCT customer_id) AS customer_count')->first()->customer_count;
 
         if ($customers == 0) {
             return $customers;
@@ -142,7 +142,7 @@ class SaleReport
 
     public function getAverageSalesTransactionsPerCustomer()
     {
-        $customers = (clone $this->master)->selectRaw('customer_name')->groupBy('customer_id')->count();
+        $customers = (clone $this->master)->selectRaw('COUNT(DISTINCT customer_id) AS customer_count')->first()->customer_count;
 
         if ($customers == 0) {
             return $customers;
