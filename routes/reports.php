@@ -6,4 +6,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/reports/sales', Report\SaleReportController::class)->name('reports.sale');
 Route::get('/reports/expenses', Report\ExpenseReportController::class)->name('reports.expense');
 Route::get('/reports/returns', Report\ReturnReportController::class)->name('reports.return');
-Route::get('/reports/customers', Report\ReturnReportController::class)->name('reports.customer');
+Route::get('/reports/customers', Report\CustomerReportController::class)->name('reports.customer');
