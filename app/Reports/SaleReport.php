@@ -12,17 +12,21 @@ class SaleReport
 
     private $master;
 
+    private $customer;
+
     private $details;
 
     private $subtotalPrice;
 
-    public function __construct($branches, $period)
+    public function __construct($branches, $period, $customer = null)
     {
         $source = ReportSource::getSalesReportInput($branches, $period);
 
         $this->period = $period;
 
         $this->branches = $branches;
+
+        $this->customer = $customer;
 
         $this->master = $source['master'];
 
@@ -96,5 +100,94 @@ class SaleReport
         }
 
         return $cashPaymentTransactionCount / (clone $this->master)->count() * 100;
+    }
+
+    public function getLifetimeValue()
+    {
+        return (clone $this->master)->where('customer_id', $this->customer->id)->sum('subtotal_price');
+    }
+
+    public function getFavoriteCategory()
+    {
+        return (clone $this->details)
+            ->where('customer_id', $this->customer->id)
+            ->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_category_name')
+            ->groupBy('product_category_id')
+            ->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getFavoriteProducts()
+    {
+        return (clone $this->details)
+            ->where('customer_id', $this->customer->id)
+            ->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')
+            ->groupBy('product_id')
+            ->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getFavoritePaymentMethod()
+    {
+        return (clone $this->master)
+            ->selectRaw('COUNT(payment_type) AS payment_count, payment_type')
+            ->where('customer_id', $this->customer->id)
+            ->groupBy('payment_type')
+            ->orderByDesc('payment_count')
+            ->get();
+    }
+
+    public function getRevenueBySalesRep()
+    {
+        return (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->selectRaw('SUM(subtotal_price)*1.15 AS revenue, user_name')
+            ->groupBy('created_by')->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getRevenueByBranch()
+    {
+        return (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->selectRaw('SUM(subtotal_price)*1.15 AS revenue, warehouse_name')
+            ->groupBy('warehouse_id')->orderByDesc('revenue')
+            ->get();
+    }
+
+    public function getLastPurchaseDateAndValue()
+    {
+        return (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->selectRaw('(subtotal_price)*1.15 AS value, issued_on')
+            ->latest('issued_on')
+            ->first();
+    }
+
+    public function getTotalTransactions()
+    {
+        return (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->count();
+    }
+
+    public function getAverageTransactionValue()
+    {
+        $transactionCount = (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->count();
+
+        if ($transactionCount == 0) {
+            return $transactionCount;
+        }
+
+        return (clone $this->master)
+            ->where('customer_id', $this->customer->id)
+            ->sum('subtotal_price') * 1.15 / $transactionCount;
+    }
+
+    public function getPurchaseFrequency()
+    {
+
     }
 }

@@ -162,6 +162,10 @@ class PermissionCategorization
             'label' => 'Expense Report',
             'feature' => 'Expense Report',
         ],
+        'customer report' => [
+            'label' => 'Customer Report',
+            'feature' => 'Customer Report',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
