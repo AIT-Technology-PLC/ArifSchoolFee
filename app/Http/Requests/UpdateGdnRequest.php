@@ -54,7 +54,7 @@ class UpdateGdnRequest extends FormRequest
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($this->get('payment_type') != 'Credit Payment' && $value != 'percent') {
-                    $fail('When payment type is "Not Credit Payment", the type should be "Percent".');
+                    $fail('When payment type is not "Credit Payment", the type should be "Percent".');
                 }
             },
             ],

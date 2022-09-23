@@ -63,7 +63,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
-            $this->message = 'When payment type is "NOt Credit Payment" and type is "Percent", the percentage must be 100';
+            $this->message = 'When payment type is not "Credit Payment" and type is "Percent", the percentage must be 100';
 
             return false;
         }
