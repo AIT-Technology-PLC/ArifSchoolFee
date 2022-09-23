@@ -57,7 +57,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
-            $this->message = '"Cash Received" must be equal to the "Grand Total Price"';
+            $this->message = '"Paid Amount" must be equal to the "Grand Total Price"';
 
             return false;
         }
