@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <x-common.content-wrapper x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}','{{ old('bank_name') }}','{{ old('reference_number') }}')">
+                <x-common.content-wrapper x-data="cashReceivedType('{{ old('payment_type') }}', '{{ old('cash_received_type') }}', '{{ old('cash_received') }}', '{{ old('due_date') }}', '{{ old('bank_name') }}', '{{ old('reference_number') }}')">
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
@@ -260,7 +260,6 @@
                                             class="is-fullwidth"
                                             id="bank_name"
                                             name="bank_name"
-                                            x-ref="bankName"
                                             x-model="bankName"
                                         >
                                             <option
@@ -298,8 +297,6 @@
                                             name="reference_number"
                                             type="text"
                                             placeholder="Reference No"
-                                            value="{{ old('reference_number') ?? '' }}"
-                                            x-ref="referenceNumber"
                                             x-model="referenceNumber"
                                         />
                                         <x-common.icon

@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('gdns', function (Blueprint $table) {
-            $table->string('bank_name')->nullable()->after('due_date');
+        Schema::table('sales', function (Blueprint $table) {
+            $table->string('bank_name')->nullable()->after('description');
             $table->string('reference_number')->nullable()->after('bank_name');
         });
     }
 
     public function down()
     {
-        Schema::table('gdns', function (Blueprint $table) {
+        Schema::table('sales', function (Blueprint $table) {
             $table->dropColumn('bank_name');
             $table->dropColumn('reference_number');
         });
