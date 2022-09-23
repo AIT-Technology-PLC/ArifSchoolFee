@@ -51,7 +51,7 @@ class NotificationDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::computed('notification'),
+            Column::make('notification', 'data->message'),
             Column::make('status')->orderable(false),
             Column::make('read_at')->className('has-text-right')->visible(false),
             Column::make('created_at')->className('has-text-right')->title('Received On'),
