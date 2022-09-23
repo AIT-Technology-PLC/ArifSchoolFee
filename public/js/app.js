@@ -416,29 +416,39 @@ document.addEventListener("alpine:init", () => {
             paymentType = "",
             cashReceivedType = "",
             cashReceived = "",
-            dueDate = ""
+            dueDate = "",
+            bankName = "",
+            referenceNumber = "",
         ) => ({
             paymentType: "",
             cashReceivedType: "",
             cashReceived: "",
             dueDate: "",
+            bankName: "",
+            referenceNumber: "",
 
             init() {
                 this.paymentType = paymentType;
                 this.cashReceivedType = cashReceivedType;
                 this.cashReceived = cashReceived;
                 this.dueDate = dueDate;
+                this.bankName = bankName;
+                this.referenceNumber = referenceNumber;
             },
             changePaymentMethod() {
-                if (this.paymentType === "Cash Payment") {
+                if (this.paymentType != "Credit Payment") {
                     this.cashReceivedType = "percent";
                     this.cashReceived = 100;
                     this.dueDate = "";
+                    this.bankName = "";
+                    this.referenceNumber = "";
                 }
                 if (this.paymentType === "Credit Payment") {
                     this.cashReceivedType = "";
                     this.cashReceived = "";
                     this.dueDate = "";
+                    this.bankName = "";
+                    this.referenceNumber = "";
                 }
             },
 
@@ -446,6 +456,20 @@ document.addEventListener("alpine:init", () => {
                 return (
                     this.paymentType === "" ||
                     this.paymentType === "Cash Payment"
+                );
+            },
+
+            isPaymentInCredit() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType === "Credit Payment"
+                );
+            },
+
+            isPaymentNotCredit() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType != "Credit Payment"
                 );
             },
         })
