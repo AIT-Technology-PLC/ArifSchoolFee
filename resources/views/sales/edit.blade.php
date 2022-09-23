@@ -228,10 +228,6 @@
                                                 selected
                                                 value=""
                                             > Select Bank </option>
-                                            <option
-                                                value="{{ $sale->bank_name }}"
-                                                selected
-                                            > {{ $sale->bank_name }} </option>
                                             @include('lists.banks')
                                         </x-forms.select>
                                         <x-common.icon
