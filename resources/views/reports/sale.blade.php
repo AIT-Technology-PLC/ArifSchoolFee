@@ -227,7 +227,7 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-*"></i>
+                            <i class="fas fa-th"></i>
                         </span>
                         <span>Best-Selling Products</span>
                     </h1>
