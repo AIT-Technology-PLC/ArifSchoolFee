@@ -452,17 +452,11 @@ document.addEventListener("alpine:init", () => {
                 }
             },
 
-            isPaymentInCash() {
-                return (
-                    this.paymentType === "" ||
-                    this.paymentType === "Cash Payment"
-                );
-            },
-
             isPaymentInCredit() {
                 return (
                     this.paymentType === "" ||
-                    this.paymentType === "Credit Payment"
+                    this.paymentType === "Credit Payment" ||
+                    this.paymentType === "Cash Payment"
                 );
             },
 

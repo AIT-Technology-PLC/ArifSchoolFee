@@ -130,7 +130,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCash() || isPaymentNotCredit() }"
+                                x-bind:class="{ 'is-hidden': isPaymentNotCredit() }"
                             >
                                 <x-forms.label for="cash_received">
                                     Cash Received <sup class="has-text-danger">*</sup>
@@ -170,7 +170,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCash() || isPaymentNotCredit() }"
+                                x-bind:class="{ 'is-hidden': isPaymentNotCredit() }"
                             >
                                 <x-forms.field>
                                     <x-forms.label for="due_date">
@@ -195,7 +195,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCredit() || isPaymentInCash() }"
+                                x-bind:class="{ 'is-hidden': isPaymentInCredit() }"
                             >
                                 <x-forms.field>
                                     <x-forms.label for="bank_name">
@@ -231,7 +231,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCredit() || isPaymentInCash() }"
+                                x-bind:class="{ 'is-hidden': isPaymentInCredit() }"
                             >
                                 <x-forms.label for="reference_number">
                                     Reference No <sup class="has-text-danger">*</sup>
