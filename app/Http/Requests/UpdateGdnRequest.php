@@ -72,8 +72,8 @@ class UpdateGdnRequest extends FormRequest
 
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'bank_name' => ['nullable', 'string', 'required_unless:payment_type,Cash Payment,Credit Payment'],
-            'reference_number' => ['nullable', 'string', 'required_unless:payment_type,Cash Payment,Credit Payment'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
         ];
     }
 }
