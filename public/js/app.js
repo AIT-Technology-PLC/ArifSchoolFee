@@ -440,9 +440,13 @@ document.addEventListener("alpine:init", () => {
                     this.cashReceivedType = "percent";
                     this.cashReceived = 100;
                     this.dueDate = "";
+                }
+
+                if (this.paymentType === "Cash Payment") {
                     this.bankName = "";
                     this.referenceNumber = "";
                 }
+
                 if (this.paymentType === "Credit Payment") {
                     this.cashReceivedType = "";
                     this.cashReceived = "";
