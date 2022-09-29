@@ -125,38 +125,75 @@
             </x-content.footer>
         </div>
 
-        <div>
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-circle-exclamation"></i>
-                        </span>
-                        <span>Warnings</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="true"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> Warning No </abbr></th>
-                        <th><abbr> Type </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($employee->warnings as $warning)
-                            <tr>
-                                <td> {{ $warning->code }} </td>
-                                <td> {{ $warning->type }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
+        <div class="columns">
+            <div class="column is-6 ">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-circle-exclamation"></i>
+                            </span>
+                            <span>Warnings</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> Warning No </abbr></th>
+                            <th><abbr> Type </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($employee->warnings as $warning)
+                                <tr>
+                                    <td> {{ $warning->code }} </td>
+                                    <td> {{ $warning->type }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+            <div class="column is-6">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </span>
+                            <span>Expense Claims</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> Claim No </abbr></th>
+                            <th><abbr> Status </abbr></th>
+                            <th class="has-text-right"><abbr> Price </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($employee->expenseClaims as $expenseClaim)
+                                <tr>
+                                    <td> {{ $expenseClaim->code }} </td>
+                                    <td> {{ view('components.datatables.expense-claim-status', compact('expenseClaim')) }} </td>
+                                    <td class="has-text-right"> {{ $expenseClaim->totalPrice }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
         </div>
     </section>
 @endsection
