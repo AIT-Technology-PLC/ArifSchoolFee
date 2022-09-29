@@ -54,8 +54,8 @@ class UpdateReservationRequest extends FormRequest
             ],
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
-                if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
+                if ($this->get('payment_type') != 'Credit Payment' && $value != 'percent') {
+                    $fail('When payment type is not "Credit Payment", the type should be "Percent".');
                 }
             },
             ],
@@ -73,6 +73,8 @@ class UpdateReservationRequest extends FormRequest
 
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
         ];
     }
 }

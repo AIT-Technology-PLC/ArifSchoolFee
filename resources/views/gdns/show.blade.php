@@ -23,6 +23,24 @@
                         />
                     </div>
                 @endif
+                @if ($gdn->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$gdn->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($gdn->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$gdn->reference_number"
+                            label="Reference No"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-credit-card"
