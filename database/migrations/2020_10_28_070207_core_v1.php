@@ -1351,6 +1351,7 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->string('tax_type')->nullable();
             $table->dateTime('issued_on')->nullable();
+            $table->bigInteger('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

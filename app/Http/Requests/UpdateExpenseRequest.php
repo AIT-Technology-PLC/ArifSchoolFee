@@ -21,6 +21,7 @@ class UpdateExpenseRequest extends FormRequest
             'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date'],
+            'reference_number' => ['nullable', 'integer'],
             'expense' => ['required', 'array'],
             'expense.*.name' => ['required', 'string'],
             'expense.*.expense_category_id' => ['required', 'integer', new MustBelongToCompany('expense_categories')],
