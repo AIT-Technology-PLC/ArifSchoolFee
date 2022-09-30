@@ -56,8 +56,8 @@
                             > All </option>
                             @foreach ($users as $user)
                                 <option
-                                    value="{{ $user->employee->id }}"
-                                    @selected(request('employee') == $user->employee->id)
+                                    value="{{ $user->id }}"
+                                    @selected(request('employee') == $user->id)
                                 >{{ $user->name }}</option>
                             @endforeach
                         </x-forms.select>

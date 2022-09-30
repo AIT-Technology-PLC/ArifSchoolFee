@@ -21,7 +21,7 @@ class FilterRequest extends FormRequest
             'branches.*' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transactions')->pluck('id'))],
             'period' => ['required', 'array'],
             'period.*' => ['required', 'date'],
-            'employee.*' => ['required', 'integer', new MustBelongToCompany('employees')],
+            'employee.*' => ['required', 'integer', new MustBelongToCompany('users')],
         ];
     }
 
