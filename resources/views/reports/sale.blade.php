@@ -41,6 +41,29 @@
                     </x-forms.control>
                 </x-forms.field>
             </div>
+            <div class="column is-3 p-lr-0 pt-0">
+                <x-forms.field class="has-text-centered">
+                    <x-forms.control>
+                        <x-forms.select
+                            id="employee"
+                            name="employee"
+                            class="is-size-7-mobile is-fullwidth"
+                        >
+                            <option disabled> Employees </option>
+                            <option
+                                value=""
+                                @selected(request('employee') == '')
+                            > All </option>
+                            @foreach ($users as $user)
+                                <option
+                                    value="{{ $user->employee->id }}"
+                                    @selected(request('employee') == $user->employee->id)
+                                >{{ $user->name }}</option>
+                            @endforeach
+                        </x-forms.select>
+                    </x-forms.control>
+                </x-forms.field>
+            </div>
         </div>
     </x-common.report-filter>
 

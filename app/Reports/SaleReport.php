@@ -10,19 +10,23 @@ class SaleReport
 
     private $branches;
 
+    private $employee;
+
     private $master;
 
     private $details;
 
     private $subtotalPrice;
 
-    public function __construct($branches, $period)
+    public function __construct($branches, $period, $employee)
     {
-        $source = ReportSource::getSalesReportInput($branches, $period);
+        $source = ReportSource::getSalesReportInput($branches, $period, $employee);
 
         $this->period = $period;
 
         $this->branches = $branches;
+
+        $this->employee = $employee;
 
         $this->master = $source['master'];
 

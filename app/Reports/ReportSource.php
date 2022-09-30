@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportSource
 {
-    public static function getSalesReportInput($branches, $period)
+    public static function getSalesReportInput($branches, $period, $employee)
     {
         [$masterTable, $detailsTable, $status] = match(userCompany()->sales_report_source) {
             'All Delivery Orders' => ['gdn_master_reports', 'gdn_detail_reports', null],
@@ -21,7 +21,8 @@ class ReportSource
                 ->where('company_id', userCompany()->id)
                 ->whereIn($masterTable . '.warehouse_id', $branches)
                 ->whereDate($masterTable . '.issued_on', '>=', $period[0])->whereDate($masterTable . '.issued_on', '<=', $period[1])
-                ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status)),
+                ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
+                ->when(!is_null($employee), fn($query) => $query->where($masterTable . '.created_by', $employee)),
 
             'details' => DB::table($detailsTable)
                 ->join(
@@ -31,7 +32,8 @@ class ReportSource
                 ->where('company_id', userCompany()->id)
                 ->whereIn($masterTable . '.warehouse_id', $branches)
                 ->whereDate($masterTable . '.issued_on', '>=', $period[0])->whereDate($masterTable . '.issued_on', '<=', $period[1])
-                ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status)),
+                ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
+                ->when(!is_null($employee), fn($query) => $query->where($masterTable . '.created_by', $employee)),
         ];
     }
 }
