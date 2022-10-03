@@ -13,11 +13,11 @@ class ReturnReport
 
     private $period;
 
-    public function __construct($branches, $period)
+    public function __construct($filters)
     {
-        $this->branches = $branches;
+        $this->branches = $filters['branches'] ?? null;
 
-        $this->period = $period;
+        $this->period = $filters['period'] ?? null;
 
         $this->setQuery();
     }

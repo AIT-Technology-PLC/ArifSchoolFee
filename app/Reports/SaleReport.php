@@ -18,15 +18,15 @@ class SaleReport
 
     private $subtotalPrice;
 
-    public function __construct($branches, $period, $userId)
+    public function __construct($filters)
     {
-        $source = ReportSource::getSalesReportInput($branches, $period, $userId);
+        $source = ReportSource::getSalesReportInput($filters);
 
-        $this->period = $period;
+        $this->period = $filters['period'] ?? null;
 
-        $this->branches = $branches;
+        $this->branches = $filters['branches'] ?? null;
 
-        $this->userId = $userId;
+        $this->userId = $filters['userId'] ?? null;
 
         $this->master = $source['master'];
 

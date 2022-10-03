@@ -19,7 +19,7 @@ class ReturnReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $returnReport = new ReturnReport($request->validated('branches'), $request->validated('period'));
+        $returnReport = new ReturnReport($request->validated());
 
         return view('reports.return', compact('warehouses', 'returnReport'));
     }

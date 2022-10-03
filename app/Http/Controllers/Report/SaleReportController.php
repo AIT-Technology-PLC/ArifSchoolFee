@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Models\Employee;
 use App\Reports\ReportSource;
 use App\Reports\SaleReport;
 use App\Reports\TransactionReport;
@@ -23,15 +24,11 @@ class SaleReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $users = ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'))['master']
-            ->get(['user_name', 'created_by'])
-            ->unique();
+        $users = Employee::with('user:id,name')->get()->pluck('user')->sortBy('name');
 
-        $revenueReport = new SaleReport($request->validated('branches'), $request->validated('period'), $request->validated('user_id'));
+        $revenueReport = new SaleReport($request->validated());
 
-        $transactionReport = new TransactionReport(
-            ReportSource::getSalesReportInput($request->validated('branches'), $request->validated('period'), $request->validated('user_id'))
-        );
+        $transactionReport = new TransactionReport(ReportSource::getSalesReportInput($request->validated()));
 
         return view('reports.sale', compact('revenueReport', 'transactionReport', 'warehouses', 'users'));
     }

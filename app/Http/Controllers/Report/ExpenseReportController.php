@@ -19,7 +19,7 @@ class ExpenseReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $expenseReport = new ExpenseReport($request->validated('branches'), $request->validated('period'));
+        $expenseReport = new ExpenseReport($request->validated());
 
         return view('reports.expense', compact('expenseReport', 'warehouses'));
     }
