@@ -22,7 +22,7 @@ class ReportSource
                 ->whereIn($masterTable . '.warehouse_id', $filters['branches'])
                 ->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1])
                 ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
-                ->when($filters['userId'] ?? false, fn($query) => $query->where($masterTable . '.created_by', $filters['userId'])),
+                ->when($filters['user_id'] ?? false, fn($query) => $query->where($masterTable . '.created_by', $filters['user_id'])),
 
             'details' => DB::table($detailsTable)
                 ->join(
@@ -33,7 +33,7 @@ class ReportSource
                 ->whereIn($masterTable . '.warehouse_id', $filters['branches'])
                 ->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1])
                 ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
-                ->when($filters['userId'] ?? false, fn($query) => $query->where($masterTable . '.created_by', $filters['userId'])),
+                ->when($filters['user_id'] ?? false, fn($query) => $query->where($masterTable . '.created_by', $filters['user_id'])),
         ];
     }
 }

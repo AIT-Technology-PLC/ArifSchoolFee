@@ -26,7 +26,7 @@ class SaleReport
 
         $this->branches = $filters['branches'] ?? null;
 
-        $this->userId = $filters['userId'] ?? null;
+        $this->userId = $filters['user_id'] ?? null;
 
         $this->master = $source['master'];
 
