@@ -37,7 +37,7 @@
                         <x-common.show-data-section
                             icon="fas fa-hashtag"
                             :data="$gdn->reference_number"
-                            label="Reference No"
+                            label="Bank Reference No"
                         />
                     </div>
                 @endif

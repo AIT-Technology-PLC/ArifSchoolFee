@@ -243,7 +243,7 @@
                             >
                                 <x-forms.field>
                                     <x-forms.label for="bank_name">
-                                        Bank <sup class="has-text-danger">*</sup>
+                                        Bank <sup class="has-text-danger"></sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.select
@@ -278,7 +278,7 @@
                                 x-bind:class="{ 'is-hidden': isPaymentInCredit() }"
                             >
                                 <x-forms.label for="reference_number">
-                                    Reference No <sup class="has-text-danger">*</sup>
+                                    Reference No <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field>
                                     <x-forms.control class="has-icons-left">
