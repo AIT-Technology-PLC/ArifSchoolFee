@@ -45,20 +45,20 @@
                 <x-forms.field class="has-text-centered">
                     <x-forms.control>
                         <x-forms.select
-                            id="employee"
-                            name="employee"
+                            id="user_id"
+                            name="user_id"
                             class="is-size-7-mobile is-fullwidth"
                         >
                             <option disabled> Employees </option>
                             <option
                                 value=""
-                                @selected(request('employee') == '')
+                                @selected(request('user_id') == '')
                             > All </option>
                             @foreach ($users as $user)
                                 <option
-                                    value="{{ $user->id }}"
-                                    @selected(request('employee') == $user->id)
-                                >{{ $user->name }}</option>
+                                    value="{{ $user->created_by }}"
+                                    @selected(request('user_id') == $user->created_by)
+                                >{{ $user->user_name }}</option>
                             @endforeach
                         </x-forms.select>
                     </x-forms.control>
