@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Warning;
 use App\Notifications\WarningApproved;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class WarningController extends Controller
@@ -36,5 +37,18 @@ class WarningController extends Controller
         );
 
         return back()->with('successMessage', $message);
+    }
+
+    public function printed(Warning $warning)
+    {
+        $this->authorize('view', $warning);
+
+        if (!$warning->isApproved()) {
+            return back()->with('failedMessage', 'This warning is not approve yet.');
+        }
+
+        $warning->load('employee.user');
+
+        return Pdf::loadView('warnings.print', compact('warning'))->stream();
     }
 }

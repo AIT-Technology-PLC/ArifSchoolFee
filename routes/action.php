@@ -283,6 +283,10 @@ Route::post('/warnings/{warning}/approve',
     [Action\WarningController::class, 'approve'])
     ->name('warnings.approve');
 
+Route::get('/warnings/{warning}/print',
+    [Action\WarningController::class, 'printed'])
+    ->name('warnings.print');
+
 // Attendance
 Route::post('/attendances/{attendance}/approve',
     [Action\AttendanceController::class, 'approve'])
