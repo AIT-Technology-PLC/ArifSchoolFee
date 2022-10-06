@@ -90,7 +90,7 @@
                                         </option>
                                         <option value="all"> All </option>
                                         @foreach (authUser()->getAllowedWarehouses('transactions')
-        as $warehouse)
+                as $warehouse)
                                             <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} </option>
                                         @endforeach
                                     </x-forms.select>
