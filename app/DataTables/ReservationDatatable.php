@@ -59,12 +59,13 @@ class ReservationDatatable extends DataTable
         return $reservation
             ->newQuery()
             ->select('reservations.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('reservations.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved()->notCancelled())
-            ->when(request('status') == 'approved', fn ($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
-            ->when(request('status') == 'cancelled', fn ($query) => $query->cancelled())
-            ->when(request('status') == 'reserved', fn ($query) => $query->reserved()->notConverted()->notCancelled())
-            ->when(request('status') == 'converted', fn ($query) => $query->converted()->notCancelled())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('reservations.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('paymentType'), fn($query) => $query->where('reservations.payment_type', request('paymentType')))
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
+            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
+            ->when(request('status') == 'reserved', fn($query) => $query->reserved()->notConverted()->notCancelled())
+            ->when(request('status') == 'converted', fn($query) => $query->converted()->notCancelled())
             ->with([
                 'reservationDetails',
                 'createdBy:id,name',
@@ -98,6 +99,6 @@ class ReservationDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Reservations_'.date('YmdHis');
+        return 'Reservations_' . date('YmdHis');
     }
 }
