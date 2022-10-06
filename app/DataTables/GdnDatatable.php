@@ -59,7 +59,7 @@ class GdnDatatable extends DataTable
             ->newQuery()
             ->select('gdns.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('gdns.warehouse_id', request('branch')))
-            ->when(!is_null(request('paymentType')), fn($query) => $query->where('gdns.payment_type', request('paymentType')))
+            ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('gdns.payment_type', request('paymentType')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())

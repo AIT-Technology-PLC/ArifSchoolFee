@@ -60,7 +60,7 @@ class ReservationDatatable extends DataTable
             ->newQuery()
             ->select('reservations.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('reservations.warehouse_id', request('branch')))
-            ->when(!is_null(request('paymentType')), fn($query) => $query->where('reservations.payment_type', request('paymentType')))
+            ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('reservations.payment_type', request('paymentType')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
             ->when(request('status') == 'approved', fn($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
             ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
