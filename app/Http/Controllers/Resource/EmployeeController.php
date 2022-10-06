@@ -65,6 +65,8 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
+        $employee->load(['user.roles', 'department', 'leaves', 'attendanceDetails', 'warnings', 'expenseClaims']);
+
         return view('employees.show', compact('employee'));
     }
 
