@@ -46,31 +46,40 @@
             class="is-pulled-left"
             style="width: 33% !important"
         >
-            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-size-7">
-                Date: {{ $warning->issued_on->toFormattedDateString() }}
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                Reference No
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $warning->code }}
             </h1>
         </aside>
         <aside
             class="is-pulled-left"
             style="width: 33% !important"
         >
-            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-size-7">
-                Employee Name: {{ $warning->employee->user->name }}
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                Date
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $warning->issued_on->toFormattedDateString() }}
             </h1>
         </aside>
         <aside
             class="is-pulled-left"
             style="width: 33% !important"
         >
-            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-size-7">
-                Type: {{ $warning->type }}
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                Employee Name
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $warning->employee->user->name }}
             </h1>
         </aside>
     </section>
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-            Letter of Warning
+            {{ $warning->type }}
         </h1>
     </section>
 
@@ -85,17 +94,6 @@
         :approved-by="$warning->createdBy ?? null"
     />
 
-    <div style="position:absolute;bottom: 10%;left: 15%;right: 0;margin-left: 40%">
-        <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
-            <div>
-                Signature
-            </div>
-            <div
-                class="mt-6"
-                style="border: 1px solid lightgrey;width: 70%"
-            ></div>
-        </h1>
-    </div>
 </body>
 
 </html>
