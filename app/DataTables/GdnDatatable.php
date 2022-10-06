@@ -82,6 +82,8 @@ class GdnDatatable extends DataTable
             isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
             Column::make('status')->orderable(false),
             Column::make('payment_type')->visible(false),
+            Column::make('bank_name')->visible(false)->content('N/A'),
+            Column::make('reference_number')->visible(false)->content('N/A'),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),

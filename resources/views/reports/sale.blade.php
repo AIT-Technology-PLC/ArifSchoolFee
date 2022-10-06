@@ -319,5 +319,42 @@
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-credit-card"></i>
+                        </span>
+                        <span>Sales by Payment Methods</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Payment Method </abbr></th>
+                        <th class="has-text-right"><abbr> Transactions </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($revenueReport->getPaymentTypesByRevenue as $paymentTypeRevenue)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $paymentTypeRevenue->payment_type }} </td>
+                                <td class="has-text-right"> {{ $paymentTypeRevenue->transactions }} </td>
+                                <td class="has-text-right"> {{ number_format($paymentTypeRevenue->revenue, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
     </div>
 @endsection
