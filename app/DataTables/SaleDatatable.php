@@ -26,11 +26,10 @@ class SaleDatatable extends DataTable
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
-                    ->when($keyword == 'approved', fn($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
+                    ->when($keyword == 'approved', fn($query) => $query->approved()->notCancelled())
                     ->when($keyword == 'cancelled', fn($query) => $query->cancelled());
             })
             ->editColumn('fs_number', fn($sale) => !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
-            ->editColumn('status', fn($sale) => view('components.datatables.sale-status', compact('sale')))
             ->editColumn('total price', function ($sale) {
                 return userCompany()->isDiscountBeforeVAT() ?
                 userCompany()->currency . '. ' . number_format($sale->grandTotalPrice, 2) :
@@ -58,10 +57,10 @@ class SaleDatatable extends DataTable
             ->newQuery()
             ->select('sales.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('sales.warehouse_id', request('branch')))
+            ->when(!is_null(request('paymentType')), fn($query) => $query->where('sales.payment_type', request('paymentType')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
             ->when(request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
             ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
-            ->when(request('paymentType'), fn($query) => $query->where('sales.payment_type', request('paymentType')))
             ->with([
                 'saleDetails',
                 'createdBy:id,name',
