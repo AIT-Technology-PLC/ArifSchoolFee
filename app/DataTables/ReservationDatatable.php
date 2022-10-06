@@ -17,33 +17,33 @@ class ReservationDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($reservation) => route('reservations.show', $reservation->id),
+                'data-url' => fn($reservation) => route('reservations.show', $reservation->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($reservation) => $reservation->warehouse->name)
-            ->editColumn('status', fn ($reservation) => view('components.datatables.reservation-status', compact('reservation')))
+            ->editColumn('branch', fn($reservation) => $reservation->warehouse->name)
+            ->editColumn('status', fn($reservation) => view('components.datatables.reservation-status', compact('reservation')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting approval', fn ($query) => $query->notApproved()->notCancelled())
-                    ->when($keyword == 'approved', fn ($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
-                    ->when($keyword == 'cancelled', fn ($query) => $query->cancelled())
-                    ->when($keyword == 'reserved', fn ($query) => $query->reserved()->notConverted()->notCancelled())
-                    ->when($keyword == 'converted', fn ($query) => $query->converted()->notCancelled());
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+                    ->when($keyword == 'approved', fn($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
+                    ->when($keyword == 'cancelled', fn($query) => $query->cancelled())
+                    ->when($keyword == 'reserved', fn($query) => $query->reserved()->notConverted()->notCancelled())
+                    ->when($keyword == 'converted', fn($query) => $query->converted()->notCancelled());
             })
             ->editColumn('total price', function ($reservation) {
                 return userCompany()->isDiscountBeforeVAT()
                 ? money($reservation->grandTotalPrice)
                 : money($reservation->grandTotalPriceAfterDiscount);
             })
-            ->editColumn('customer', fn ($reservation) => $reservation->customer->company_name ?? 'N/A')
-            ->editColumn('customer_tin', fn ($reservation) => $reservation->customer->tin ?? 'N/A')
-            ->editColumn('description', fn ($reservation) => view('components.datatables.searchable-description', ['description' => $reservation->description]))
-            ->editColumn('issued_on', fn ($reservation) => $reservation->issued_on->toFormattedDateString())
-            ->editColumn('expires_on', fn ($reservation) => $reservation->expires_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($reservation) => $reservation->createdBy->name)
-            ->editColumn('approved by', fn ($reservation) => $reservation->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($reservation) => $reservation->updatedBy->name)
+            ->editColumn('customer', fn($reservation) => $reservation->customer->company_name ?? 'N/A')
+            ->editColumn('customer_tin', fn($reservation) => $reservation->customer->tin ?? 'N/A')
+            ->editColumn('description', fn($reservation) => view('components.datatables.searchable-description', ['description' => $reservation->description]))
+            ->editColumn('issued_on', fn($reservation) => $reservation->issued_on->toFormattedDateString())
+            ->editColumn('expires_on', fn($reservation) => $reservation->expires_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($reservation) => $reservation->createdBy->name)
+            ->editColumn('approved by', fn($reservation) => $reservation->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($reservation) => $reservation->updatedBy->name)
             ->editColumn('actions', function ($reservation) {
                 return view('components.common.action-buttons', [
                     'model' => 'reservations',
@@ -59,12 +59,13 @@ class ReservationDatatable extends DataTable
         return $reservation
             ->newQuery()
             ->select('reservations.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('reservations.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved()->notCancelled())
-            ->when(request('status') == 'approved', fn ($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
-            ->when(request('status') == 'cancelled', fn ($query) => $query->cancelled())
-            ->when(request('status') == 'reserved', fn ($query) => $query->reserved()->notConverted()->notCancelled())
-            ->when(request('status') == 'converted', fn ($query) => $query->converted()->notCancelled())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('reservations.warehouse_id', request('branch')))
+            ->when(!is_null(request('paymentType')), fn($query) => $query->where('reservations.payment_type', request('paymentType')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notReserved()->notConverted()->notCancelled())
+            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
+            ->when(request('status') == 'reserved', fn($query) => $query->reserved()->notConverted()->notCancelled())
+            ->when(request('status') == 'converted', fn($query) => $query->converted()->notCancelled())
             ->with([
                 'reservationDetails',
                 'createdBy:id,name',
@@ -98,6 +99,6 @@ class ReservationDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Reservations_'.date('YmdHis');
+        return 'Reservations_' . date('YmdHis');
     }
 }
