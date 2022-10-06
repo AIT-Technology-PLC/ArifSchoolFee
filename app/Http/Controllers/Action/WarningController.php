@@ -44,7 +44,7 @@ class WarningController extends Controller
         $this->authorize('view', $warning);
 
         if (!$warning->isApproved()) {
-            return back()->with('failedMessage', 'This warning is not approve yet.');
+            return back()->with('failedMessage', 'This warning is not approved yet.');
         }
 
         $warning->load('employee.user');
