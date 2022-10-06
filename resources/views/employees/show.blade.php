@@ -196,8 +196,8 @@
                                         Leave Status
                                     </span>
                                 </p>
-                                <p class="has-text-weight-bold text-green ml-1">
-                                    {{ now()->diffInDays($employee->leaves->last()->ending_period ?? now()) == 0 ? 'On Duty' : 'On Leave' }}
+                                <p class="has-text-weight-bold {{ $employee->isOnLeave ? 'text-purple' : 'text-green' }} ml-1">
+                                    {{ $employee->isOnLeave ? 'On Leave' : 'On Duty' }}
                                 </p>
                             </div>
                             <div class="column is-4">
@@ -206,11 +206,11 @@
                                         <i class="fas fa-umbrella-beach"></i>
                                     </span>
                                     <span>
-                                        Leave Days Left
+                                        Leave {{ userCompany()->paid_time_off_type }} Left
                                     </span>
                                 </p>
                                 <p class="has-text-weight-bold text-green ml-1">
-                                    {{ now()->diffInDays($employee->leaves->last()->ending_period ?? now()) }}
+                                    {{ $employee->paid_time_off_amount }} {{ userCompany()->paid_time_off_type }}
                                 </p>
                             </div>
                             <div class="column is-4">
@@ -219,11 +219,11 @@
                                         <i class="fas fa-clipboard-user"></i>
                                     </span>
                                     <span>
-                                        Absent Days
+                                        Absent Days <sup>(LAST ATTENDANCE LIST)</sup>
                                     </span>
                                 </p>
                                 <p class="has-text-weight-bold text-green ml-1">
-                                    {{ $employee->attendanceDetails->last()->days ?? 0 }}
+                                    {{ !is_null($employee->absentDays) ? str($employee->absentDays)->append(' Days') : 'N/A' }}
                                 </p>
                             </div>
                             <div class="column is-4">
