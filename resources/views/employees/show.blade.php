@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Employee Profile - {{ $employee->user->name }}
+    {{ authUser()->is($employee->user) ? 'My' : str($employee->user->name)->append('\'s') }} Profile
 @endsection
 
 @section('content')
