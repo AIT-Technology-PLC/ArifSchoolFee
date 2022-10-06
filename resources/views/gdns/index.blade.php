@@ -134,7 +134,7 @@
                                     >
                                         Payment Type
                                     </option>
-                                    <option value="all"> All </option>
+                                    <option value=""> All </option>
                                     @foreach (['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Cheque'] as $paymentType)
                                         <option value="{{ str()->lower($paymentType) }}"> {{ $paymentType }} </option>
                                     @endforeach
