@@ -745,8 +745,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Product Management', 'Price Management'))
-                @can('Create Product', 'Create Price')
+            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
+                @can('Create Product', 'Create Price', 'Create Price Increment')
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -793,6 +793,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Price </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Price Increment'))
+                                @can('Create Price Increment')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('price-increments.create') }}"
+                                            icon="fas fa-tags"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Price Increment </span>
                                         </span>
                                     </div>
                                 @endcan

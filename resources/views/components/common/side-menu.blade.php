@@ -891,8 +891,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Product Management', 'Price Management'))
-        @can('Read Product', 'Read Price')
+    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
+        @can('Read Product', 'Read Price', 'Read Price Increment')
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -952,6 +952,19 @@
                                         label="Prices"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('prices.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('prices.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Price Increment'))
+                            @can('Read Price Increment')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('price-increments.index') }}"
+                                        label="Price Increments"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('price-increments.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('price-increments.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
