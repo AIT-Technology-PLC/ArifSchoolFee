@@ -15,7 +15,9 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
-            $table->decimal('amount', 22);
+            $table->string('target_product');
+            $table->string('price_type');
+            $table->decimal('price_increment', 22);
             $table->timestamps();
             $table->softDeletes();
 
