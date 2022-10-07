@@ -496,8 +496,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management'))
+            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -620,25 +620,6 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Credits
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Price Management'))
-                                @can('Read Price')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('prices.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-tags"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Prices
                                         </span>
                                     </div>
                                 @endcan
@@ -907,8 +888,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Product Management'))
-            @can('Read Product')
+        @if (isFeatureEnabled('Product Management', 'Price Management'))
+            @can('Read Product', 'Read Price')
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -950,6 +931,24 @@
                                     Products
                                 </span>
                             </div>
+                            @if (isFeatureEnabled('Price Management'))
+                                @can('Read Price')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('prices.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-tags"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Prices
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 </section>
