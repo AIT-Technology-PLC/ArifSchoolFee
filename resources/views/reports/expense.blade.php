@@ -7,7 +7,7 @@
         <div class="quickview-body">
             <div class="quickview-block">
                 <div class="columns is-marginless is-vcentered is-multiline">
-                    <div class="column is-6 p-lr-20 pt-4">
+                    <div class="column is-6 p-lr-20">
                         <x-forms.label>
                             Branch
                         </x-forms.label>
@@ -33,7 +33,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 p-lr-20 pt-4">
+                    <div class="column is-6 p-lr-20">
                         <x-forms.label>
                             Period
                         </x-forms.label>
