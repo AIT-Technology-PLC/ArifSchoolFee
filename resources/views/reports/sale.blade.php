@@ -4,65 +4,78 @@
 
 @section('content')
     <x-common.report-filter action="{{ route('reports.sale') }}">
-        <div class="columns is-marginless is-vcentered">
-            <div class="column is-3 p-lr-0 pt-0">
-                <x-forms.field class="has-text-centered">
-                    <x-forms.control>
-                        <x-forms.select
-                            id="branches"
-                            name="branches"
-                            class="is-size-7-mobile is-fullwidth"
-                        >
-                            <option disabled> Branches </option>
-                            <option
-                                value=""
-                                @selected(request('branches') == '')
-                            > All </option>
-                            @foreach ($warehouses as $warehouse)
-                                <option
-                                    value="{{ $warehouse->id }}"
-                                    @selected(request('branches') == $warehouse->id)
-                                > {{ $warehouse->name }} </option>
-                            @endforeach
-                        </x-forms.select>
-                    </x-forms.control>
-                </x-forms.field>
-            </div>
-            <div class="column is-3 p-lr-0 pt-0">
-                <x-forms.field class="has-text-centered">
-                    <x-forms.control>
-                        <x-forms.input
-                            type="text"
-                            id="period"
-                            name="period"
-                            class="is-size-7-mobile is-fullwidth"
-                            value="{{ request('period') }}"
-                        />
-                    </x-forms.control>
-                </x-forms.field>
-            </div>
-            <div class="column is-3 p-lr-0 pt-0">
-                <x-forms.field class="has-text-centered">
-                    <x-forms.control>
-                        <x-forms.select
-                            id="user_id"
-                            name="user_id"
-                            class="is-size-7-mobile is-fullwidth"
-                        >
-                            <option disabled> Employees </option>
-                            <option
-                                value=""
-                                @selected(request('user_id') == '')
-                            > All </option>
-                            @foreach ($users as $user)
-                                <option
-                                    value="{{ $user->id }}"
-                                    @selected(request('user_id') == $user->id)
-                                >{{ $user->name }}</option>
-                            @endforeach
-                        </x-forms.select>
-                    </x-forms.control>
-                </x-forms.field>
+        <div class="quickview-body">
+            <div class="quickview-block">
+                <div class="columns is-marginless is-vcentered is-multiline">
+                    <div class="column is-6 p-lr-20 pt-4">
+                        <x-forms.label>
+                            Branch
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="branches"
+                                    name="branches"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Branches </option>
+                                    <option
+                                        value=""
+                                        @selected(request('branches') == '')
+                                    > All </option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            @selected(request('branches') == $warehouse->id)
+                                        > {{ $warehouse->name }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6 p-lr-20 pt-4">
+                        <x-forms.label>
+                            Period
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.input
+                                    type="text"
+                                    id="period"
+                                    name="period"
+                                    class="is-size-7-mobile is-fullwidth"
+                                    value="{{ request('period') }}"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6 p-lr-20 pt-0">
+                        <x-forms.label>
+                            Salesperson
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="user_id"
+                                    name="user_id"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Employees </option>
+                                    <option
+                                        value=""
+                                        @selected(request('user_id') == '')
+                                    > All </option>
+                                    @foreach ($users as $user)
+                                        <option
+                                            value="{{ $user->id }}"
+                                            @selected(request('user_id') == $user->id)
+                                        >{{ $user->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
             </div>
         </div>
     </x-common.report-filter>

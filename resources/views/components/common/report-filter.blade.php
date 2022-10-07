@@ -8,63 +8,65 @@
         action="{{ $action }}"
     >
         @method('GET')
-        <div class="box">
-            <div class="level mb-2">
-                <div class="level-left">
-                    <div class="level-item">
-                        <div>
-                            <h6 class="text-green has-text-centered has-text-weight-bold">
-                                <span class="icon">
-                                    <i class="fas fa-filter"></i>
-                                </span>
-                                <span> Filters </span>
-                            </h6>
-                        </div>
-                    </div>
+        <div
+            id="quickviewDefault"
+            class="quickview"
+        >
+            <header class="quickview-header">
+                <div>
+                    <h6 class="text-green has-text-centered has-text-weight-bold">
+                        <span class="icon">
+                            <i class="fas fa-filter"></i>
+                        </span>
+                        <span> Filters </span>
+                    </h6>
                 </div>
-                <div class="level-right">
-                    <div class="level-item">
-                        <div class="is-hidden-mobile">
-                            <x-common.button
-                                tag="button"
-                                mode="button"
-                                type="reset"
-                                label="Clear Filters"
-                                x-on:click="location.search=''"
-                                class="is-small btn-green is-outlined is-rounded"
-                            />
-                            <x-common.button
-                                tag="button"
-                                mode="button"
-                                label="Apply"
-                                class="is-small bg-green has-text-white is-rounded"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <span
+                    class="delete"
+                    data-dismiss="quickview"
+                ></span>
+            </header>
             {{ $slot }}
-            <div class="buttons is-centered my-4 is-hidden-tablet">
-                <x-common.button
-                    tag="button"
-                    mode="button"
-                    type="reset"
-                    label="Clear Filters"
-                    class="is-small btn-green is-outlined is-rounded"
-                />
-                <x-common.button
-                    tag="button"
-                    mode="button"
-                    label="Apply"
-                    class="is-small bg-green has-text-white is-rounded"
-                />
-            </div>
+            <footer class="quickview-footer is-justify-content-end">
+                <div>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        type="reset"
+                        label="Clear Filters"
+                        x-on:click="location.search=''"
+                        class="is-small btn-green is-outlined is-rounded"
+                    />
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        label="Apply"
+                        class="is-small bg-green has-text-white is-rounded"
+                    />
+                </div>
+            </footer>
         </div>
     </form>
 </div>
+<div class="ml-3">
+    <x-common.button
+        tag="button"
+        mode="button"
+        data-show="quickview"
+        data-target="quickviewDefault"
+        label="Filters"
+        icon="fas fa-filter"
+        class="button btn-green is-outlined has-text-weight-medium"
+    />
+</div>
 
 @push('scripts')
+    <script
+        type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bulma-quickview@2.0.0/dist/js/bulma-quickview.min.js"
+    ></script>
     <script type="text/javascript">
+        var quickviews = bulmaQuickview.attach();
         $('#period').daterangepicker({
             "autoApply": true,
             "showDropdowns": true,
