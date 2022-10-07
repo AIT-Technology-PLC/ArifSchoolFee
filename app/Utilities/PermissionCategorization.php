@@ -155,6 +155,10 @@ class PermissionCategorization
             'feature' => 'Expense Management',
             'exclude' => ['Expense Claim'],
         ],
+        'price increment' => [
+            'label' => 'Price Increment',
+            'feature' => 'Price Increment',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
