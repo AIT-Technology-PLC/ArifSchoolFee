@@ -405,3 +405,8 @@ Route::post('/expenses/{expense}/approve',
 Route::post('/prices/import',
     [Action\PriceController::class, 'import'])
     ->name('prices.import');
+
+// Price Increment
+Route::post('/price-increments/{price_increment}/approve',
+    [Action\PriceIncrementController::class, 'approve'])
+    ->name('price-increments.approve');
