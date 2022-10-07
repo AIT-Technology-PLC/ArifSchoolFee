@@ -42,6 +42,11 @@ class Sale extends Model
         return $this->hasMany(Gdn::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function details()
     {
         return $this->saleDetails;

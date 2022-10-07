@@ -43,6 +43,11 @@ class Purchase extends Model
         return $this->hasOne(Debt::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function purchasedBy()
     {
         return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);
