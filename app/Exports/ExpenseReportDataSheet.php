@@ -53,10 +53,10 @@ class ExpenseReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     'expenses.issued_on',
                 ])->selectRaw(
                     <<<'QUERY'
-                        (SELECT SUM(ed.unit_price*ed.quantity)
+                        ROUND((SELECT SUM(ed.unit_price*ed.quantity)
                         FROM expense_details ed
                         WHERE ed.expense_id = expenses.id AND ed.deleted_at IS NULL
-                        GROUP BY ed.expense_id) AS subtotal_price
+                        GROUP BY ed.expense_id), 2) AS subtotal_price
                     QUERY
                 );
             })
