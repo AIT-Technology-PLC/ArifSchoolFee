@@ -89,7 +89,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                amount="{{ number_format($revenueReport->getTotalRevenueAfterTax, 2) }}"
+                amount="{{ number_format($saleReport->getTotalRevenueAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-purple"
                 label="Revenue After VAT"
@@ -98,7 +98,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getTotalRevenueBeforeTax, 2)"
+                :amount="number_format($saleReport->getTotalRevenueBeforeTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
                 label="Revenue Before VAT"
@@ -107,7 +107,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getTotalRevenueTax, 2)"
+                :amount="number_format($saleReport->getTotalRevenueTax, 2)"
                 border-color="#fff"
                 text-color="text-gold"
                 label="Revenue VAT"
@@ -116,7 +116,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($revenueReport->getDailyAverageRevenue, 2)"
+                :amount="number_format($saleReport->getDailyAverageRevenue, 2)"
                 border-color="#fff"
                 text-color="text-blue"
                 label="Daily Average Revenue"
@@ -125,7 +125,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->getAverageTransactionValue, 2)"
+                :amount="number_format($saleReport->getAverageSaleValue, 2)"
                 border-color="#fff"
                 text-color="text-gold"
                 label="Average Sale Value"
@@ -134,7 +134,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->transactionCount)"
+                :amount="number_format($saleReport->getSalesCount)"
                 border-color="#fff"
                 text-color="text-purple"
                 label="Number Of Sales"
@@ -143,7 +143,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                amount="{{ number_format($revenueReport->getCashSalesPercentage) }}%"
+                amount="{{ number_format($saleReport->getCashSalesPercentage) }}%"
                 border-color="#fff"
                 text-color="text-blue"
                 label="Cash Sales Percentage"
@@ -152,7 +152,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($transactionReport->getAverageItemsPerTransaction)"
+                :amount="number_format($saleReport->getAverageItemsPerSale)"
                 border-color="#fff"
                 text-color="text-green"
                 label="Basket Size Analysis"
@@ -182,7 +182,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getCustomersByRevenue as $customerRevenue)
+                        @foreach ($saleReport->getCustomersByRevenue as $customerRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customerRevenue->customer_name ?? 'N/A' }} </td>
@@ -217,7 +217,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getBranchesByRevenue as $branchRevenue)
+                        @foreach ($saleReport->getBranchesByRevenue as $branchRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $branchRevenue->warehouse_name }} </td>
@@ -252,7 +252,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getRepsByRevenue as $salesRevenue)
+                        @foreach ($saleReport->getRepsByRevenue as $salesRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $salesRevenue->user_name ?? 'Deleted Salesperson' }} </td>
@@ -288,7 +288,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getProductsByRevenue as $productRevenue)
+                        @foreach ($saleReport->getProductsByRevenue as $productRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $productRevenue->product_name }} </td>
@@ -325,7 +325,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getProductCategoriesByRevenue as $categoryRevenue)
+                        @foreach ($saleReport->getProductCategoriesByRevenue as $categoryRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $categoryRevenue->product_category_name }} </td>
@@ -362,7 +362,7 @@
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($revenueReport->getPaymentTypesByRevenue as $paymentTypeRevenue)
+                        @foreach ($saleReport->getPaymentTypesByRevenue as $paymentTypeRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $paymentTypeRevenue->payment_type }} </td>

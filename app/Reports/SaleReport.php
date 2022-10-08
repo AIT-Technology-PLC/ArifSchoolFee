@@ -44,9 +44,27 @@ class SaleReport
         return $this->$name;
     }
 
-    public function transactionCount()
+    public function getSalesCount()
     {
         return (clone $this->master)->count();
+    }
+
+    public function getAverageSaleValue()
+    {
+        if ($this->getSalesCount == 0) {
+            return $this->getSalesCount;
+        }
+
+        return $this->getTotalRevenueAfterTax / $this->getSalesCount;
+    }
+
+    public function getAverageItemsPerSale()
+    {
+        if ($this->getSalesCount == 0) {
+            return $this->getSalesCount;
+        }
+
+        return (clone $this->details)->count() / $this->getSalesCount;
     }
 
     public function getTotalRevenueBeforeTax()
@@ -109,6 +127,6 @@ class SaleReport
             return $cashPaymentTransactionCount;
         }
 
-        return $cashPaymentTransactionCount / (clone $this->master)->count() * 100;
+        return $cashPaymentTransactionCount / $this->getSalesCount * 100;
     }
 }

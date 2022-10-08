@@ -8,7 +8,6 @@ use App\Http\Requests\FilterRequest;
 use App\Models\Employee;
 use App\Reports\ReportSource;
 use App\Reports\SaleReport;
-use App\Reports\TransactionReport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SaleReportController extends Controller
@@ -28,20 +27,18 @@ class SaleReportController extends Controller
 
         $users = Employee::with('user:id,name')->get()->pluck('user')->sortBy('name');
 
-        $revenueReport = new SaleReport($request->validated());
+        $saleReport = new SaleReport($request->validated());
 
-        $transactionReport = new TransactionReport(ReportSource::getSalesReportInput($request->validated()));
-
-        return view('reports.sale', compact('revenueReport', 'transactionReport', 'warehouses', 'users'));
+        return view('reports.sale', compact('saleReport', 'warehouses', 'users'));
     }
 
     public function export(FilterRequest $request)
     {
         abort_if(authUser()->cannot('Read Sale Report'), 403);
 
-        $revenueReport = new SaleReport($request->validated());
+        $saleReport = new SaleReport($request->validated());
 
-        if (!$revenueReport->transactionCount) {
+        if (!$saleReport->getSalesCount) {
             return back()->with('failedMessage', 'No report available to be exported.');
         }
 
