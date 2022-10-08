@@ -45,6 +45,6 @@ class SaleReportController extends Controller
             return back()->with('failedMessage', 'No report available to be exported.');
         }
 
-        return Excel::download(new SaleReportExport(ReportSource::getSalesReportInput($request->validated())), 'Sales Report');
+        return Excel::download(new SaleReportExport(ReportSource::getSalesReportInput($request->validated())), 'Sales Report.xlsx');
     }
 }

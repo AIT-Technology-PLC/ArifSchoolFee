@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Exports\ExpenseReportExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Reports\ExpenseReport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExpenseReportController extends Controller
 {
@@ -13,7 +15,7 @@ class ExpenseReportController extends Controller
         $this->middleware('isFeatureAccessible:Expense Report');
     }
 
-    public function __invoke(FilterRequest $request)
+    public function index(FilterRequest $request)
     {
         abort_if(authUser()->cannot('Read Expense Report'), 403);
 
@@ -22,5 +24,18 @@ class ExpenseReportController extends Controller
         $expenseReport = new ExpenseReport($request->validated());
 
         return view('reports.expense', compact('expenseReport', 'warehouses'));
+    }
+
+    public function export(FilterRequest $request)
+    {
+        abort_if(authUser()->cannot('Read Sale Report'), 403);
+
+        $expenseReport = new ExpenseReport($request->validated());
+
+        if (!$expenseReport->getExpenseTransactionCount) {
+            return back()->with('failedMessage', 'No report available to be exported.');
+        }
+
+        return Excel::download(new ExpenseReportExport($expenseReport->query), 'Expenses Report.xlsx');
     }
 }

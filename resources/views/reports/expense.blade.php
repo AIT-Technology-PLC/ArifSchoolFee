@@ -7,7 +7,7 @@
 
     <x-common.report-filter
         action="{{ route('reports.expense') }}"
-        buttons="all"
+        export-route="reports.expense_export"
     >
         <div class="quickview-body">
             <div class="quickview-block">

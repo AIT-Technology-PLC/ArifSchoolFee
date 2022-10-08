@@ -1,4 +1,4 @@
-@props(['action', 'buttons' => 'none'])
+@props(['action', 'exportRoute' => null])
 
 <div class="mx-3 m-lr-0">
     <form
@@ -59,13 +59,13 @@
         class="button btn-green is-outlined has-text-weight-medium is-size-7-mobile"
     />
 
-    @if ($buttons == 'all' || (is_array($buttons) && in_array('export', $buttons)))
+    @if (!is_null($exportRoute))
         <x-common.button
             tag="a"
             mode="button"
             label="Export"
             icon="fas fa-download"
-            href="{{ route('reports.sale_export', request()->query()) }}"
+            href="{{ route($exportRoute, request()->query()) }}"
             class="button btn-purple is-outlined has-text-weight-medium is-size-7-mobile"
         />
     @endif

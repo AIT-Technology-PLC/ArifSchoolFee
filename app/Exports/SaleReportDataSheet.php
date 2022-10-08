@@ -67,7 +67,7 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     $query->from . '.line_price',
                 ]);
             })
-            ->when(str($query->from)->contains(['gdn', 'reports']), function ($q) use ($query) {
+            ->when(str($query->from)->startsWith('gdn'), function ($q) use ($query) {
                 $q->addSelect([
                     $query->from . '.warehouse_name',
                     $query->from . '.discount',
