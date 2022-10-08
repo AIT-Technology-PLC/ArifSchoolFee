@@ -1,6 +1,6 @@
 @props(['action', 'exportRoute' => null])
 
-<div class="mx-3 m-lr-0">
+<div class="mx-3">
     <form
         method="GET"
         enctype="multipart/form-data"
@@ -12,7 +12,7 @@
             id="quickviewDefault"
             class="quickview"
         >
-            <header class="quickview-header">
+            <header class="quickview-header px-2">
                 <div>
                     <h6 class="text-green has-text-centered has-text-weight-bold">
                         <span class="icon">

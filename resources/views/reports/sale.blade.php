@@ -11,8 +11,8 @@
     >
         <div class="quickview-body">
             <div class="quickview-block">
-                <div class="columns is-marginless is-vcentered is-multiline">
-                    <div class="column is-12 p-lr-20">
+                <div class="columns is-marginless is-vcentered is-multiline is-mobile">
+                    <div class="column is-12">
                         <x-forms.label>
                             Period
                         </x-forms.label>
@@ -28,7 +28,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 p-lr-20">
+                    <div class="column is-6">
                         <x-forms.label>
                             Branch
                         </x-forms.label>
@@ -54,7 +54,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 p-lr-20">
+                    <div class="column is-6">
                         <x-forms.label>
                             Salesperson
                         </x-forms.label>
