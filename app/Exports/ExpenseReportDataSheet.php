@@ -44,10 +44,10 @@ class ExpenseReportDataSheet implements FromQuery, WithTitle, WithHeadings
             ->orderBy('expenses.id')
             ->when(str($this->sheet)->is('master'), function ($q) {
                 $q->select([
-                    'warehouses.name AS branch',
-                    'suppliers.company_name AS supplier',
-                    'users.name AS user_name',
                     'expenses.code AS expense_no',
+                    'warehouses.name AS branch',
+                    'users.name AS user_name',
+                    'suppliers.company_name AS supplier',
                     'expenses.tax_type',
                     'expenses.reference_number',
                     'expenses.issued_on',

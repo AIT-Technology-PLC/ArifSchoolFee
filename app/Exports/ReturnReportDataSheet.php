@@ -62,6 +62,7 @@ class ReturnReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     'returns.code AS return_no',
                     'products.name AS product',
                     'return_details.quantity',
+                    'products.unit_of_measurement AS unit',
                     'return_details.unit_price',
                     'warehouses.name AS from',
                 ]);

@@ -35,7 +35,7 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
 
     public function headings(): array
     {
-        return collect($this->columns)->map(fn($column) => str($column)->after('.')->toString())->toArray();
+        return collect($this->columns)->map(fn($column) => str($column)->after('.')->after('AS ')->toString())->toArray();
     }
 
     private function build($query)
@@ -44,11 +44,11 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
             ->orderBy('id')
             ->when(str($this->sheet)->is('master'), function ($q) use ($query) {
                 $q->select([
-                    $query->from . '.warehouse_name',
-                    $query->from . '.user_name',
-                    $query->from . '.status',
-                    $query->from . '.code',
+                    $query->from . '.code AS ref_no',
+                    $query->from . '.warehouse_name AS branch',
+                    $query->from . '.user_name AS salesperson',
                     $query->from . '.customer_name',
+                    $query->from . '.status',
                     $query->from . '.payment_type',
                     $query->from . '.cash_received',
                     $query->from . '.cash_received_type',
@@ -58,18 +58,18 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
             })
             ->when(str($this->sheet)->is('details'), function ($q) use ($query) {
                 $q->select([
-                    'code',
-                    $query->from . '.product_category_name',
-                    $query->from . '.product_name',
-                    $query->from . '.product_unit_of_measurement',
+                    'code AS ref_no',
+                    $query->from . '.product_category_name AS category',
+                    $query->from . '.product_name AS product',
                     $query->from . '.quantity',
+                    $query->from . '.product_unit_of_measurement AS unit',
                     $query->from . '.unit_price',
                     $query->from . '.line_price',
                 ]);
             })
             ->when(str($query->from)->containsAll(['gdn', 'detail']), function ($q) use ($query) {
                 $q->addSelect([
-                    $query->from . '.warehouse_name',
+                    $query->from . '.warehouse_name AS from',
                     $query->from . '.discount',
                 ]);
             });
