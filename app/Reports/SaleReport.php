@@ -44,6 +44,11 @@ class SaleReport
         return $this->$name;
     }
 
+    public function transactionCount()
+    {
+        return (clone $this->master)->count();
+    }
+
     public function getTotalRevenueBeforeTax()
     {
         return $this->subtotalPrice;

@@ -1,4 +1,4 @@
-@props(['action'])
+@props(['action', 'buttons' => 'none'])
 
 <div class="mx-3 m-lr-0">
     <form
@@ -48,7 +48,7 @@
         </div>
     </form>
 </div>
-<div class="ml-3">
+<div class="mx-3 m-lr-0">
     <x-common.button
         tag="button"
         mode="button"
@@ -56,8 +56,19 @@
         data-target="quickviewDefault"
         label="Filters"
         icon="fas fa-filter"
-        class="button btn-green is-outlined has-text-weight-medium"
+        class="button btn-green is-outlined has-text-weight-medium is-size-7-mobile"
     />
+
+    @if ($buttons == 'all' || in_array('export', $buttons))
+        <x-common.button
+            tag="a"
+            mode="button"
+            label="Export"
+            icon="fas fa-download"
+            href="{{ route('reports.sale_export', request()->query()) }}"
+            class="button btn-purple is-outlined has-text-weight-medium is-size-7-mobile"
+        />
+    @endif
 </div>
 
 @push('scripts')
