@@ -28,7 +28,7 @@ class ExpenseReportController extends Controller
 
     public function export(FilterRequest $request)
     {
-        abort_if(authUser()->cannot('Read Sale Report'), 403);
+        abort_if(authUser()->cannot('Read Expense Report'), 403);
 
         $expenseReport = new ExpenseReport($request->validated());
 

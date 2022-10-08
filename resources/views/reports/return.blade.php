@@ -5,7 +5,10 @@
 @section('content')
     <x-common.fail-message :message="session('failedMessage')" />
 
-    <x-common.report-filter action="{{ route('reports.return') }}">
+    <x-common.report-filter
+        action="{{ route('reports.return') }}"
+        export-route="reports.return_export"
+    >
         <div class="quickview-body">
             <div class="quickview-block">
                 <div class="columns is-marginless is-vcentered is-multiline">
