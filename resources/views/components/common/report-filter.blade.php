@@ -59,7 +59,7 @@
         class="button btn-green is-outlined has-text-weight-medium is-size-7-mobile"
     />
 
-    @if ($buttons == 'all' || in_array('export', $buttons))
+    @if ($buttons == 'all' || (is_array($buttons) && in_array('export', $buttons)))
         <x-common.button
             tag="a"
             mode="button"

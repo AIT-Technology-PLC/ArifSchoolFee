@@ -3,10 +3,31 @@
 @section('title', 'Expense Report')
 
 @section('content')
-    <x-common.report-filter action="{{ route('reports.expense') }}">
+    <x-common.fail-message :message="session('failedMessage')" />
+
+    <x-common.report-filter
+        action="{{ route('reports.expense') }}"
+        buttons="all"
+    >
         <div class="quickview-body">
             <div class="quickview-block">
                 <div class="columns is-marginless is-vcentered is-multiline">
+                    <div class="column is-12 p-lr-20">
+                        <x-forms.label>
+                            Period
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.input
+                                    type="text"
+                                    id="period"
+                                    name="period"
+                                    class="is-size-7-mobile is-fullwidth has-text-centered"
+                                    value="{{ request('period') }}"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6 p-lr-20">
                         <x-forms.label>
                             Branch
@@ -30,22 +51,6 @@
                                         > {{ $warehouse->name }} </option>
                                     @endforeach
                                 </x-forms.select>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6 p-lr-20">
-                        <x-forms.label>
-                            Period
-                        </x-forms.label>
-                        <x-forms.field class="has-text-centered">
-                            <x-forms.control>
-                                <x-forms.input
-                                    type="text"
-                                    id="period"
-                                    name="period"
-                                    class="is-size-7-mobile is-fullwidth"
-                                    value="{{ request('period') }}"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
