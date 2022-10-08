@@ -58,7 +58,7 @@ class ExpenseReportDataSheet implements FromQuery, WithTitle, WithHeadings
                         WHERE ed.expense_id = expenses.id AND ed.deleted_at IS NULL
                         GROUP BY ed.expense_id), 2) AS subtotal_price
                     QUERY
-                );
+                )->distinct('expense_id');
             })
             ->when(str($this->sheet)->is('details'), function ($q) {
                 $q->select([
