@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FilterRequest;
+use App\Http\Requests\CustomerProfileFilterRequest;
 use App\Models\Customer;
-use App\Reports\CustomerProfileReport;
 use App\Reports\SaleReport;
 
 class CustomerProfileReportController extends Controller
@@ -15,16 +14,33 @@ class CustomerProfileReportController extends Controller
         $this->middleware('isFeatureAccessible:Customer Report');
     }
 
-    public function __invoke(FilterRequest $request, Customer $customer = null)
+    public function __invoke(CustomerProfileFilterRequest $request, Customer $customer)
     {
         abort_if(authUser()->cannot('Read Customer Profile Report'), 403);
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $revenueReport = new SaleReport($request->validated('branches'), $request->validated('period'), $customer);
+        $saleReport = new SaleReport($request->validated());
 
-        $customerProfileReport = new CustomerProfileReport($request->validated('branches'), $request->validated('period'), $customer);
+        $totalCreditAmountProvided = $customer->credits()->sum('credit_amount');
 
-        return view('reports.profile', compact('warehouses', 'customer', 'customerProfileReport', 'revenueReport'));
+        $currentCreditBalance = $totalCreditAmountProvided - $customer->credits()->sum('credit_amount_settled');
+
+        $averageCreditSettlementDays = $customer->credits()->settled()->averageCreditSettlementDays();
+
+        $currentCreditLimit = $customer->credit_amount_limit > 0 ? ($customer->credit_amount_limit - $currentCreditBalance) : $customer->credit_amount_limit;
+
+        $lifetimeSalesReport = (new SaleReport($request->only('customer_id')));
+
+        return view('reports.customer-profile', compact(
+            'warehouses',
+            'customer',
+            'saleReport',
+            'totalCreditAmountProvided',
+            'currentCreditBalance',
+            'averageCreditSettlementDays',
+            'currentCreditLimit',
+            'lifetimeSalesReport'
+        ));
     }
 }
