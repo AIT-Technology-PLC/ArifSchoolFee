@@ -3,43 +3,58 @@
 @section('title', 'Expense Report')
 
 @section('content')
-    <x-common.report-filter action="{{ route('reports.expense') }}">
-        <div class="columns is-marginless is-vcentered">
-            <div class="column is-3 p-lr-0 pt-0">
-                <x-forms.field class="has-text-centered">
-                    <x-forms.control>
-                        <x-forms.select
-                            id="branches"
-                            name="branches"
-                            class="is-size-7-mobile is-fullwidth"
-                        >
-                            <option disabled> Branches </option>
-                            <option
-                                value=""
-                                @selected(request('branches') == '')
-                            > All </option>
-                            @foreach ($warehouses as $warehouse)
-                                <option
-                                    value="{{ $warehouse->id }}"
-                                    @selected(request('branches') == $warehouse->id)
-                                > {{ $warehouse->name }} </option>
-                            @endforeach
-                        </x-forms.select>
-                    </x-forms.control>
-                </x-forms.field>
-            </div>
-            <div class="column is-3 p-lr-0 pt-0">
-                <x-forms.field class="has-text-centered">
-                    <x-forms.control>
-                        <x-forms.input
-                            type="text"
-                            id="period"
-                            name="period"
-                            class="is-size-7-mobile is-fullwidth"
-                            value="{{ request('period') }}"
-                        />
-                    </x-forms.control>
-                </x-forms.field>
+    <x-common.fail-message :message="session('failedMessage')" />
+
+    <x-common.report-filter
+        action="{{ route('reports.expense') }}"
+        export-route="reports.expense_export"
+    >
+        <div class="quickview-body">
+            <div class="quickview-block">
+                <div class="columns is-marginless is-vcentered is-multiline is-mobile">
+                    <div class="column is-12">
+                        <x-forms.label>
+                            Period
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.input
+                                    type="text"
+                                    id="period"
+                                    name="period"
+                                    class="is-size-7-mobile is-fullwidth has-text-centered"
+                                    value="{{ request('period') }}"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label>
+                            Branch
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="branches"
+                                    name="branches"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Branches </option>
+                                    <option
+                                        value=""
+                                        @selected(request('branches') == '')
+                                    > All </option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            @selected(request('branches') == $warehouse->id)
+                                        > {{ $warehouse->name }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
             </div>
         </div>
     </x-common.report-filter>

@@ -11,7 +11,14 @@
                     <x-common.show-data-section
                         icon="fa-solid fa-money-bill-trend-up"
                         :data="$expense->code"
-                        label="Reference No"
+                        label="Expense No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="$expense->issued_on->toFormattedDateString()"
+                        label="Issued On"
                     />
                 </div>
                 <div class="column is-6">
@@ -23,9 +30,9 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-calendar-day"
-                        :data="$expense->issued_on->toFormattedDateString()"
-                        label="Issued On"
+                        icon="fas fa-hashtag"
+                        :data="$expense->reference_number"
+                        label="Reference No"
                     />
                 </div>
                 <div class="column is-6">

@@ -21,6 +21,24 @@
                         label="FS No"
                     />
                 </div>
+                @if ($sale->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$sale->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($sale->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$sale->reference_number"
+                            label="Bank Reference No"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-credit-card"
@@ -28,11 +46,11 @@
                         label="Payment Type"
                     />
                 </div>
-                @if (!$sale->isPaymentInCash())
+                @if ($sale->isPaymentInCredit())
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-calendar-day"
-                            :data="$sale->due_date->toFormattedDateString()"
+                            :data="$sale->due_date?->toFormattedDateString()"
                             label="Credit Due Date"
                         />
                     </div>

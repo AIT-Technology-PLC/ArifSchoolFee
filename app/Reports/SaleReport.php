@@ -10,6 +10,8 @@ class SaleReport
 
     private $branches;
 
+    private $userId;
+
     private $master;
 
     private $customer;
@@ -18,15 +20,17 @@ class SaleReport
 
     private $subtotalPrice;
 
-    public function __construct($branches, $period, $customer = null)
+    public function __construct($filters)
     {
-        $source = ReportSource::getSalesReportInput($branches, $period);
+        $source = ReportSource::getSalesReportInput($filters);
 
-        $this->period = $period;
+        $this->period = $filters['period'] ?? null;
 
-        $this->branches = $branches;
+        $this->branches = $filters['branches'] ?? null;
 
-        $this->customer = $customer;
+        $this->userId = $filters['user_id'] ?? null;
+
+        $this->customerId = $filters['customer_id'] ?? null;
 
         $this->master = $source['master'];
 
@@ -42,6 +46,29 @@ class SaleReport
         }
 
         return $this->$name;
+    }
+
+    public function getSalesCount()
+    {
+        return (clone $this->master)->count();
+    }
+
+    public function getAverageSaleValue()
+    {
+        if ($this->getSalesCount == 0) {
+            return $this->getSalesCount;
+        }
+
+        return $this->getTotalRevenueAfterTax / $this->getSalesCount;
+    }
+
+    public function getAverageItemsPerSale()
+    {
+        if ($this->getSalesCount == 0) {
+            return $this->getSalesCount;
+        }
+
+        return (clone $this->details)->count() / $this->getSalesCount;
     }
 
     public function getTotalRevenueBeforeTax()
@@ -84,6 +111,11 @@ class SaleReport
         return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_category_name')->groupBy('product_category_id')->orderByDesc('revenue')->get();
     }
 
+    public function getPaymentTypesByRevenue()
+    {
+        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, COUNT(payment_type) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
+    }
+
     public function getDailyAverageRevenue()
     {
         $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;
@@ -99,7 +131,7 @@ class SaleReport
             return $cashPaymentTransactionCount;
         }
 
-        return $cashPaymentTransactionCount / (clone $this->master)->count() * 100;
+        return $cashPaymentTransactionCount / $this->getSalesCount * 100;
     }
 
     public function getLifetimeValue()

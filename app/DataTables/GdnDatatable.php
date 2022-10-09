@@ -58,10 +58,11 @@ class GdnDatatable extends DataTable
         return $gdn
             ->newQuery()
             ->select('gdns.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('gdns.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn ($query) => $query->notSubtracted()->approved())
-            ->when(request('status') == 'subtracted', fn ($query) => $query->subtracted())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('gdns.warehouse_id', request('branch')))
+            ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('gdns.payment_type', request('paymentType')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',
@@ -82,6 +83,8 @@ class GdnDatatable extends DataTable
             isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
             Column::make('status')->orderable(false),
             Column::make('payment_type')->visible(false),
+            Column::make('bank_name')->visible(false)->content('N/A'),
+            Column::make('reference_number')->visible(false)->content('N/A'),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
@@ -93,11 +96,11 @@ class GdnDatatable extends DataTable
             Column::computed('actions')->className('actions'),
         ];
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
     protected function filename()
     {
-        return 'Delivery Orders_'.date('YmdHis');
+        return 'Delivery Orders_' . date('YmdHis');
     }
 }
