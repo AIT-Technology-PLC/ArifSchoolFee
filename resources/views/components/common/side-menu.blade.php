@@ -548,8 +548,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Contact Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Contact Customer'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -682,6 +682,19 @@
                                         label="Customers"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customers.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('customers.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Contact Management'))
+                            @can('Read Contact')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('contacts.index') }}"
+                                        label="Contacts"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('contacts.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('contacts.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

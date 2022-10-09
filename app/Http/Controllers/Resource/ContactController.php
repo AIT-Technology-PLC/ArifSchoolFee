@@ -2,84 +2,63 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\ContactDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
+use App\Models\Contact;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Contact Management');
+
+        $this->authorizeResource(Contact::class, 'contact');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(ContactDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('contacts-datatable')->orderBy(1, 'asc');
+
+        $totalContacts = Contact::count();
+
+        return $datatable->render('contacts.index', compact('totalContacts'));
+    }
+
     public function create()
     {
-        //
+        return view('contacts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            foreach ($request->validated('Contact') as $contact) {
+                Contact::create($contact);
+            }
+        });
+
+        return redirect()->route('contacts.index')->with('successMessage', 'New Contact are added.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Contact $contact)
     {
-        //
+        return view('contacts.edit', compact('contact'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        //
+        $contact->update($request->validated());
+
+        return redirect()->route('contacts.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Contact $contact)
     {
-        //
-    }
+        $contact->forceDelete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
