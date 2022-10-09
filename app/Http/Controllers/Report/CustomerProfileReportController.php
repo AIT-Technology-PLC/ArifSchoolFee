@@ -12,6 +12,8 @@ class CustomerProfileReportController extends Controller
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Customer Report');
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
     }
 
     public function __invoke(CustomerProfileFilterRequest $request, Customer $customer)
