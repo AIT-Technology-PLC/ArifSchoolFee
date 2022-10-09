@@ -3,6 +3,7 @@
 use App\Http\Controllers\Report as Report;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/reports/{customer}/profiles', Report\CustomerProfileReportController::class)->name('reports.profile');
 Route::get('/reports/sales', [Report\SaleReportController::class, 'index'])->name('reports.sale');
 Route::get('/reports/sales/export', [Report\SaleReportController::class, 'export'])->name('reports.sale_export');
 Route::get('/reports/expenses', [Report\ExpenseReportController::class, 'index'])->name('reports.expense');
