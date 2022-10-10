@@ -10,3 +10,4 @@ Route::get('/reports/expenses', [Report\ExpenseReportController::class, 'index']
 Route::get('/reports/expenses/export', [Report\ExpenseReportController::class, 'export'])->name('reports.expense_export');
 Route::get('/reports/returns', [Report\ReturnReportController::class, 'index'])->name('reports.return');
 Route::get('/reports/returns/export', [Report\ReturnReportController::class, 'export'])->name('reports.return_export');
+Route::get('/reports/customers', Report\CustomerReportController::class)->name('reports.customer');
