@@ -37,9 +37,16 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-address-card"
-                        :data="$expense->supplier?->name"
+                        icon="fas fa-user"
+                        :data="$expense->supplier?->company_name"
                         label="Supplier"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$expense->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 <div class="column is-6">

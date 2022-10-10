@@ -79,7 +79,7 @@ class ExpenseController extends Controller
             return back()->with('failedMessage', 'You can not modify an expense that is approved.');
         }
 
-        $expense->load(['expenseDetails']);
+        $expense->load(['expenseDetails', 'contact']);
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
