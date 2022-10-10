@@ -41,6 +41,7 @@ class StoreReservationRequest extends FormRequest
                 ),
             ],
 
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['required', 'date', 'after_or_equal:issued_on'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {

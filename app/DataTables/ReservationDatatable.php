@@ -38,6 +38,7 @@ class ReservationDatatable extends DataTable
             })
             ->editColumn('customer', fn($reservation) => $reservation->customer->company_name ?? 'N/A')
             ->editColumn('customer_tin', fn($reservation) => $reservation->customer->tin ?? 'N/A')
+            ->editColumn('contact', fn($reservation) => $reservation->contact->name ?? 'N/A')
             ->editColumn('description', fn($reservation) => view('components.datatables.searchable-description', ['description' => $reservation->description]))
             ->editColumn('issued_on', fn($reservation) => $reservation->issued_on->toFormattedDateString())
             ->editColumn('expires_on', fn($reservation) => $reservation->expires_on->toFormattedDateString())
@@ -72,6 +73,7 @@ class ReservationDatatable extends DataTable
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'customer:id,company_name,tin',
+                'contact:id,name',
                 'warehouse:id,name',
             ]);
     }
@@ -87,6 +89,7 @@ class ReservationDatatable extends DataTable
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
+            Column::make('contact', 'contact.name'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),
             Column::make('expires_on'),
