@@ -30,6 +30,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$proformaInvoice->contact->name ?? 'N/A'"
+                        label="Contact"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-calendar-day"
                         :data="$proformaInvoice->expires_on->toFormattedDateString() ?? 'N/A'"
                         label="Expiry Date"
