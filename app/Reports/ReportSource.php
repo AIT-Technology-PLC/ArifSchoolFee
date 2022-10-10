@@ -17,6 +17,10 @@ class ReportSource
         };
 
         return [
+            'base' => DB::table($masterTable)
+                ->where('company_id', userCompany()->id)
+                ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status)),
+
             'master' => DB::table($masterTable)
                 ->where('company_id', userCompany()->id)
                 ->when(isset($filters['branches']), fn($q) => $q->whereIn($masterTable . '.warehouse_id', $filters['branches']))

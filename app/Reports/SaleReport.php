@@ -12,7 +12,7 @@ class SaleReport
 
     private $details;
 
-    private $subtotalPrice;
+    private $base;
 
     public function __construct($filters)
     {
@@ -24,7 +24,7 @@ class SaleReport
 
         $this->details = $source['details'];
 
-        $this->subtotalPrice = (clone $this->master)->sum('subtotal_price');
+        $this->base = $source['base'];
     }
 
     public function __get($name)
@@ -57,6 +57,11 @@ class SaleReport
         }
 
         return (clone $this->details)->count() / $this->getSalesCount;
+    }
+
+    public function subtotalPrice()
+    {
+        return (clone $this->master)->sum('subtotal_price');
     }
 
     public function getTotalRevenueBeforeTax()
@@ -148,86 +153,5 @@ class SaleReport
             ->selectRaw('(subtotal_price)*1.15 AS value, issued_on')
             ->latest('issued_on')
             ->first();
-    }
-
-    public function getCustomersBySalesTransactionsCount()
-    {
-        return (clone $this->master)
-            ->selectRaw('COUNT(customer_name) AS transactions, customer_name')
-            ->groupBy('customer_id')
-            ->orderByDesc('transactions')
-            ->get();
-    }
-
-    public function getCustomerByPaymentMethod()
-    {
-        return (clone $this->master)
-            ->selectRaw('
-                COUNT(CASE WHEN payment_type = "Cash Payment" THEN  payment_type END) AS cash_payment,
-                COUNT(CASE WHEN payment_type = "Credit Payment" THEN  payment_type END) AS credit_payment,
-                customer_name')
-            ->groupBy('customer_id')
-            ->orderByDesc('customer_name')
-            ->get();
-    }
-
-    public function getCustomersByPurchaseFrequency()
-    {
-        return (clone $this->master)
-        //  selectRaw query require some modification
-            ->selectRaw('COUNT(issued_on) AS purchase_frequency, customer_name')
-            ->groupBy('customer_id')
-            ->orderByDesc('purchase_frequency')
-            ->get();
-    }
-
-    public function getAverageRevenuePerCustomer()
-    {
-        $customers = (clone $this->master)->selectRaw('COUNT(DISTINCT customer_id) AS customer_count')->first()->customer_count;
-
-        if ($customers == 0) {
-            return $customers;
-        }
-
-        return $this->getTotalRevenueAfterTax / $customers;
-    }
-
-    public function getAverageSalesTransactionsPerCustomer()
-    {
-        $customers = (clone $this->master)->selectRaw('COUNT(DISTINCT customer_id) AS customer_count')->first()->customer_count;
-
-        if ($customers == 0) {
-            return $customers;
-        }
-
-        return (clone $this->master)->count() / $customers;
-    }
-
-    public function getTotalRetainedCustomers()
-    {
-        $customerAtBeginning = (clone $this->master)
-            ->selectRaw('COUNT(DISTINCT customer_name) AS customer_at_beginning')
-            ->whereDate('issued_on', '<=', $this->period[0])
-            ->first()
-            ->customer_at_beginning;
-
-        $customerAtEnding = (clone $this->master)
-            ->selectRaw('COUNT(DISTINCT customer_name) AS customer_at_ending')
-            ->whereDate('issued_on', '<=', $this->period[1])
-            ->first()
-            ->customer_at_ending;
-
-        $customerWithInPeriod = $customerAtBeginning - $customerAtEnding;
-
-        if ($customerAtBeginning == 0) {
-            return $customerAtBeginning;
-        }
-
-        return (($customerAtEnding - $customerWithInPeriod) / $customerAtBeginning) * 100;
-    }
-
-    public function getTotalChurnedCustomers()
-    {
-        return 100 - $this->getTotalRetainedCustomers;
     }
 }
