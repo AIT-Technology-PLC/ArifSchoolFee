@@ -21,20 +21,26 @@ class SaleDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($sale) => $sale->warehouse->name)
-            ->editColumn('fs_number', fn ($sale) => ! is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
-            ->editColumn('status', fn ($sale) => view('components.datatables.sale-status', compact('sale')))
+            ->editColumn('branch', fn($sale) => $sale->warehouse->name)
+            ->editColumn('status', fn($sale) => view('components.datatables.sale-status', compact('sale')))
+            ->filterColumn('status', function ($query, $keyword) {
+                $query
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+                    ->when($keyword == 'approved', fn($query) => $query->approved()->notCancelled())
+                    ->when($keyword == 'cancelled', fn($query) => $query->cancelled());
+            })
+            ->editColumn('fs_number', fn($sale) => !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
             ->editColumn('total price', function ($sale) {
                 return userCompany()->isDiscountBeforeVAT() ?
-                userCompany()->currency.'. '.number_format($sale->grandTotalPrice, 2) :
-                userCompany()->currency.'. '.number_format($sale->grandTotalPriceAfterDiscount, 2);
+                userCompany()->currency . '. ' . number_format($sale->grandTotalPrice, 2) :
+                userCompany()->currency . '. ' . number_format($sale->grandTotalPriceAfterDiscount, 2);
             })
-            ->editColumn('customer', fn ($sale) => $sale->customer->company_name ?? 'N/A')
-            ->editColumn('customer_tin', fn ($sale) => $sale->customer->tin ?? 'N/A')
-            ->editColumn('description', fn ($sale) => view('components.datatables.searchable-description', ['description' => $sale->description]))
-            ->editColumn('issued_on', fn ($sale) => $sale->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($sale) => $sale->createdBy->name)
-            ->editColumn('edited by', fn ($sale) => $sale->updatedBy->name)
+            ->editColumn('customer', fn($sale) => $sale->customer->company_name ?? 'N/A')
+            ->editColumn('customer_tin', fn($sale) => $sale->customer->tin ?? 'N/A')
+            ->editColumn('description', fn($sale) => view('components.datatables.searchable-description', ['description' => $sale->description]))
+            ->editColumn('issued_on', fn($sale) => $sale->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($sale) => $sale->createdBy->name)
+            ->editColumn('edited by', fn($sale) => $sale->updatedBy->name)
             ->editColumn('actions', function ($sale) {
                 return view('components.common.action-buttons', [
                     'model' => 'sales',
@@ -50,7 +56,11 @@ class SaleDatatable extends DataTable
         return $sale
             ->newQuery()
             ->select('sales.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('sales.warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('sales.warehouse_id', request('branch')))
+            ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('sales.payment_type', request('paymentType')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
+            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
             ->with([
                 'saleDetails',
                 'createdBy:id,name',
@@ -82,6 +92,6 @@ class SaleDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Sales Invoice_'.date('YmdHis');
+        return 'Sales Invoice_' . date('YmdHis');
     }
 }

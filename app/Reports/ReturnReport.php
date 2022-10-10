@@ -13,11 +13,11 @@ class ReturnReport
 
     private $period;
 
-    public function __construct($branches, $period)
+    public function __construct($filters)
     {
-        $this->branches = $branches;
+        $this->branches = $filters['branches'] ?? null;
 
-        $this->period = $period;
+        $this->period = $filters['period'] ?? null;
 
         $this->setQuery();
     }
@@ -48,7 +48,7 @@ class ReturnReport
 
     public function getReturnsCount()
     {
-        return (clone $this->query)->count();
+        return (clone $this->query)->distinct('return_id')->count();
     }
 
     public function getTotalRevenueBeforeTax()
@@ -73,7 +73,7 @@ class ReturnReport
     {
         return (clone $this->query)
             ->selectRaw('customers.company_name AS customer_name')
-            ->groupBy('customer_name')
+            ->distinct('customer_name')
             ->having('customer_name', '<>', '')
             ->count();
     }
@@ -90,7 +90,7 @@ class ReturnReport
     public function getReturnsByCustomers()
     {
         return (clone $this->query)
-            ->selectRaw('customers.company_name AS customer_name, SUM(quantity*unit_price) AS revenue, COUNT(return_id) AS returns')
+            ->selectRaw('customers.company_name AS customer_name, SUM(quantity*unit_price) AS revenue, COUNT(DISTINCT return_id) AS returns')
             ->groupBy('customer_name')
             ->orderByDesc('revenue')
             ->get();
@@ -99,7 +99,7 @@ class ReturnReport
     public function getReturnsByBranches()
     {
         return (clone $this->query)
-            ->selectRaw('warehouses.name AS branch_name, SUM(quantity*unit_price) AS revenue, COUNT(return_id) AS returns')
+            ->selectRaw('warehouses.name AS branch_name, SUM(quantity*unit_price) AS revenue, COUNT(DISTINCT return_id) AS returns')
             ->groupBy('branch_name')
             ->orderByDesc('revenue')
             ->get();

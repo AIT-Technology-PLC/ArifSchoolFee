@@ -322,6 +322,8 @@ return new class extends Migration
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
             $table->longText('description')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -383,6 +385,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -807,6 +811,8 @@ return new class extends Migration
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('due_date')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -1345,6 +1351,7 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->string('tax_type')->nullable();
             $table->dateTime('issued_on')->nullable();
+            $table->bigInteger('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

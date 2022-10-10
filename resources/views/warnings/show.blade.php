@@ -23,6 +23,19 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+                @if ($warning->isApproved())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('warnings.print', $warning->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

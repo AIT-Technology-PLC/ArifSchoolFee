@@ -14,6 +14,24 @@
                         label="Reservation No"
                     />
                 </div>
+                @if ($reservation->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$reservation->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($reservation->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$reservation->reference_number"
+                            label="Bank Reference No"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-credit-card"

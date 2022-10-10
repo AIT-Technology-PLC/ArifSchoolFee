@@ -88,7 +88,7 @@
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-            {{ $sale->isPaymentInCash() ? 'Cash' : 'Credit' }} Sales Attachment
+            {{ !$sale->isPaymentInCredit() ? 'Cash' : 'Credit' }} Sales Attachment
         </h1>
     </section>
 

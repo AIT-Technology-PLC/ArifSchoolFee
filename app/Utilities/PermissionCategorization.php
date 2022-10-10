@@ -8,6 +8,7 @@ class PermissionCategorization
         'gdn' => [
             'label' => 'Delivery Order',
             'feature' => 'Gdn Management',
+            'include' => ['Read Sale Report'],
         ],
         'grn' => [
             'label' => 'Goods Received Note',
@@ -185,6 +186,10 @@ class PermissionCategorization
                     return str($permission)->containsAll(static::PERMISSION_CATEGORIES[$key]['exclude']);
                 })
                 ->toArray();
+
+            if (isset(static::PERMISSION_CATEGORIES[$key]['include'])) {
+                array_push($permissionsByCategory[$key], ...static::PERMISSION_CATEGORIES[$key]['include']);
+            }
         }
 
         return $permissionsByCategory;

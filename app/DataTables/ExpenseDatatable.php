@@ -33,6 +33,7 @@ class ExpenseDatatable extends DataTable
             })
             ->editColumn('supplier', fn($expense) => $expense->supplier->company_name ?? 'N/A')
             ->editColumn('tax_type', fn($expense) => $expense->tax_type)
+            ->editColumn('reference_no', fn($expense) => $expense->reference_number ?? 'N/A')
             ->editColumn('issued_on', fn($expense) => $expense->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($expense) => $expense->createdBy->name)
             ->editColumn('edited by', fn($expense) => $expense->updatedBy->name)
@@ -69,11 +70,13 @@ class ExpenseDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
-            Column::make('code')->className('has-text-centered')->title('Reference No'),
+            Column::make('code')->className('has-text-centered')->title('Expense No'),
+            Column::make('reference_no')->visible(false),
             Column::computed('status'),
             Column::computed('total price'),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('tax_type'),
+            Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),

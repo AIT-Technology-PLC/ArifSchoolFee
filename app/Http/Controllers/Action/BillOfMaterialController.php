@@ -18,6 +18,10 @@ class BillOfMaterialController extends Controller
     {
         $this->authorize('approve', $billOfMaterial);
 
+        if (!$billOfMaterial->billOfMaterialDetails()->count()) {
+            return back()->with('failedMessage', 'This bill of material has no details therefore it cannot be approved.');
+        }
+
         [$isExecuted, $message] = $action->execute($billOfMaterial);
 
         if (!$isExecuted) {
