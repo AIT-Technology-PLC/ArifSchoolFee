@@ -9,27 +9,27 @@ return new class extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('customer_id');
+            $table->foreignId('contact_id')->after('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('gdns', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('customer_id');
+            $table->foreignId('contact_id')->after('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('proforma_invoices', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('customer_id');
+            $table->foreignId('contact_id')->after('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('reservations', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('customer_id');
+            $table->foreignId('contact_id')->after('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('purchases', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('supplier_id');
+            $table->foreignId('contact_id')->after('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
 
         Schema::table('expenses', function (Blueprint $table) {
-            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade')->after('supplier_id');
+            $table->foreignId('contact_id')->after('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
         });
     }
 
