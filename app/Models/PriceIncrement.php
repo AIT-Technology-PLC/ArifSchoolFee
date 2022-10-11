@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
+use App\Traits\MultiTenancy;
 use App\Traits\HasUserstamps;
-use Dyrynda\Database\Support\CascadeSoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PriceIncrement extends Model
 {
-    use HasFactory, SoftDeletes, HasUserstamps, Approvable, CascadeSoftDeletes;
+    use MultiTenancy, HasFactory, SoftDeletes, HasUserstamps, Approvable, CascadeSoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -23,5 +24,10 @@ class PriceIncrement extends Model
     public function isUploadExcel()
     {
         return $this->target_product == 'Upload Excel';
+    }
+
+    public function isSpecificProducts()
+    {
+        return $this->target_product == 'Specific Products';
     }
 }

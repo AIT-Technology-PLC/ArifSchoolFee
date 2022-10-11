@@ -37,7 +37,7 @@ class PriceIncrementController extends Controller
     {
         $currentPriceIncrementCode = nextReferenceNumber('price_increments');
 
-        $products = Price::all();
+        $products = Price::get(['product_id']);
 
         return view('price-increments.create', compact('currentPriceIncrementCode', 'products'));
     }
@@ -84,7 +84,7 @@ class PriceIncrementController extends Controller
 
     public function edit(PriceIncrement $priceIncrement)
     {
-        $products = Price::all();
+        $products = Price::get(['product_id']);
 
         $priceIncrement->load(['priceIncrementDetails']);
 
@@ -94,9 +94,9 @@ class PriceIncrementController extends Controller
     public function update(UpdatePriceIncrementRequest $request, PriceIncrement $priceIncrement)
     {
         DB::transaction(function () use ($request, $priceIncrement) {
-            $priceIncrement->update($request->safe());
+            $priceIncrement->update($request->validated());
 
-            $priceIncrement->proformaInvoiceDetails()->forceDelete();
+            $priceIncrement->priceIncrementDetails()->forceDelete();
 
             if ($request->validated(['target_product']) == "Upload Excel") {
                 return $priceIncrement;
