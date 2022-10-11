@@ -89,6 +89,10 @@ class PriceIncrementController extends Controller
 
     public function edit(PriceIncrement $priceIncrement)
     {
+        if ($priceIncrement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a price increment that is approved.');
+        }
+
         $products = Price::get(['product_id']);
 
         $priceIncrement->load(['priceIncrementDetails']);
@@ -98,6 +102,10 @@ class PriceIncrementController extends Controller
 
     public function update(UpdatePriceIncrementRequest $request, PriceIncrement $priceIncrement)
     {
+        if ($priceIncrement->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a price increment that is approved.');
+        }
+
         DB::transaction(function () use ($request, $priceIncrement) {
             $priceIncrement->update($request->validated());
 
