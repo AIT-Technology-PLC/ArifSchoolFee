@@ -132,7 +132,7 @@
             </x-content.header>
             <x-content.footer>
                 <x-common.success-message :message="session('deleted') ?? null" />
-                <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+                <x-common.fail-message :message="session('failedMessage')" />
                 @if (!$priceIncrement->isApproved())
                     <x-common.fail-message message="This Price Increment has not been approved yet." />
                 @endif

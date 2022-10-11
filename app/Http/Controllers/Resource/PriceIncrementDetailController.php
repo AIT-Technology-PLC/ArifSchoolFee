@@ -16,7 +16,9 @@ class PriceIncrementDetailController extends Controller
     {
         $this->authorize('delete', $priceIncrementDetail->priceIncrement);
 
-        abort_if($priceIncrementDetail->priceIncrement->isApproved(), 403);
+        if ($priceIncrementDetail->priceIncrement->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a price increment that is approved.');
+        }
 
         $priceIncrementDetail->forceDelete();
 
