@@ -41,7 +41,7 @@ class PriceIncrementDetailDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'product.name'),
-            Column::computed('actions'),
+            Column::computed('actions')->className('actions')->addClass('has-text-right'),
         ];
     }
 
