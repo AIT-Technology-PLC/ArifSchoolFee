@@ -31,6 +31,7 @@ class PriceIncrementDetailDatatable extends DataTable
         return $priceIncrementDetail
             ->newQuery()
             ->select('price_increment_details.*')
+            ->where('price_increment_id', request()->route('price_increment')->id)
             ->with([
                 'product',
             ]);
