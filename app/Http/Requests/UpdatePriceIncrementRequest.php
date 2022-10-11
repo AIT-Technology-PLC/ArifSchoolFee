@@ -17,12 +17,11 @@ class UpdatePriceIncrementRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('price_increments', $this->route('price_increment')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('price_increments', $this->route('price_increment')->id)],
             'target_product' => ['required', 'string', Rule::In(['All Products', 'Specific Products', 'Upload Excel'])],
             'price_type' => ['required', 'string', Rule::In(['percent', 'amount'])],
-            'price_increment' => ['required', 'numeric', 'gt:0', 'max:99999999999999999999.99'],
-            'priceIncrement' => ['required', 'array'],
-            'priceIncrement.*.product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
+            'price_increment' => ['required', 'numeric', 'gt:0'],
+            'product_id' => ['required', 'array', new MustBelongToCompany('products')],
         ];
     }
 }
