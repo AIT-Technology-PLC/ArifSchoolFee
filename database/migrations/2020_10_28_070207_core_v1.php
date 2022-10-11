@@ -1374,6 +1374,32 @@ return new class extends Migration
             $table->index('expense_id');
         });
 
+        Schema::create('price_increments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('target_product');
+            $table->string('price_type');
+            $table->decimal('price_increment', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+        });
+
+        Schema::create('price_increment_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('price_increment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('price_increment_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1466,5 +1492,7 @@ return new class extends Migration
         Schema::drop('expense_details');
         Schema::drop('expenses');
         Schema::drop('expense_categories');
+        Schema::drop('price_increment_details');
+        Schema::drop('price_increments');
     }
 };
