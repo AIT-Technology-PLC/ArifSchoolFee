@@ -9,7 +9,10 @@ use App\Http\Requests\StorePriceIncrementRequest;
 use App\Http\Requests\UpdatePriceIncrementRequest;
 use App\Models\Price;
 use App\Models\PriceIncrement;
+use App\Notifications\PriceIncrementCreated;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PriceIncrementController extends Controller
 {
@@ -66,6 +69,8 @@ class PriceIncrementController extends Controller
 
                 $priceIncrement->priceIncrementDetails()->create($product);
             }
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Price Increment'), new PriceIncrementCreated($priceIncrement));
 
             return $priceIncrement;
         });

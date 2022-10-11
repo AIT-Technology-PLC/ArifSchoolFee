@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\PriceIncrementImport;
 use App\Models\PriceIncrement;
+use App\Notifications\PriceIncrementApproved;
 use App\Services\Models\PriceIncrementService;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PriceIncrementController extends Controller
 {
@@ -22,11 +25,14 @@ class PriceIncrementController extends Controller
     public function approve(PriceIncrement $priceIncrement)
     {
         $this->authorize('approve', $priceIncrement);
+
         [$isExecuted, $message] = $this->priceIncrementService->approve($priceIncrement);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(Notifiables::byNextActionPermission('Read Price Increment'), new PriceIncrementApproved($priceIncrement));
 
         return back()->with('successMessage', $message);
     }
