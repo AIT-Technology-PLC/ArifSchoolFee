@@ -362,7 +362,7 @@
                                 Unit Price Method <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -372,7 +372,7 @@
                                     >
                                     Before VAT
                                 </label>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="is_price_before_vat"
@@ -391,7 +391,7 @@
                                 Discount Method <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -402,7 +402,7 @@
                                     Before VAT & Per Product
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="is_discount_before_vat"
@@ -421,7 +421,7 @@
                                 Convert to SIV as <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -432,7 +432,7 @@
                                     Approved
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="is_convert_to_siv_as_approved"
@@ -451,7 +451,7 @@
                                 Editing Reference Numbers <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="is_editing_reference_number_enabled"
@@ -462,7 +462,7 @@
                                     Enabled
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="is_editing_reference_number_enabled"
@@ -481,7 +481,7 @@
                                 Can Show Branch Detail On Print <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-normal">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -492,7 +492,7 @@
                                     Yes
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="can_show_branch_detail_on_print"
@@ -511,7 +511,7 @@
                                 Backorder <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control>
-                                <label class="radio has-text-grey has-text-weight-light">
+                                <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="is_backorder_enabled"
@@ -522,7 +522,7 @@
                                     Enabled
                                 </label>
                                 <br>
-                                <label class="radio has-text-grey has-text-weight-light mt-2">
+                                <label class="radio has-text-grey mt-2">
                                     <input
                                         type="radio"
                                         name="is_backorder_enabled"
@@ -532,6 +532,36 @@
                                     Disabled
                                 </label>
                                 <x-common.validation-error property="is_backorder_enabled" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="can_check_inventory_on_forms">
+                                Allow Inventory Checking On Forms <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey">
+                                    <input
+                                        type="radio"
+                                        name="can_check_inventory_on_forms"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($company->isInventoryCheckerEnabled())
+                                    >
+                                    Enabled
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey mt-2">
+                                    <input
+                                        type="radio"
+                                        name="can_check_inventory_on_forms"
+                                        value="0"
+                                        @checked(!$company->isInventoryCheckerEnabled())
+                                    >
+                                    Disabled
+                                </label>
+                                <x-common.validation-error property="can_check_inventory_on_forms" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

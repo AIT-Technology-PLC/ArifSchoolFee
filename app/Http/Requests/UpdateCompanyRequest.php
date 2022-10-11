@@ -48,6 +48,7 @@ class UpdateCompanyRequest extends FormRequest
             'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
             'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
             'is_backorder_enabled' => ['required', 'boolean'],
+            'can_check_inventory_on_forms' => ['required', 'boolean'],
         ];
     }
 }

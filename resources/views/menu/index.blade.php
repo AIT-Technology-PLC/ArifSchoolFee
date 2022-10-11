@@ -1033,8 +1033,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Expense Report'))
-            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report'])
+        @if (isFeatureEnabled('Sales Report', 'Expense Report', 'Customer Report'))
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1097,6 +1097,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Expense
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Customer Report'))
+                                @can('Read Customer Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.customer') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chalkboard-user"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Customers
                                         </span>
                                     </div>
                                 @endcan

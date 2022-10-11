@@ -1,3 +1,16 @@
+@if (isFeatureEnabled('Customer Report'))
+    @can('Read Customer Profile Report')
+        <x-common.button
+            tag="a"
+            href="{{ route('reports.profile', $customer->id) }}"
+            mode="button"
+            data-title="Profile"
+            icon="fas fa-user"
+            class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+        />
+    @endcan
+@endif
+
 @if (isFeatureEnabled('Credit Management') && $customer->credits()->sum('credit_amount') != $customer->credits()->sum('credit_amount_settled'))
     @can('Settle Credit')
         <x-common.button

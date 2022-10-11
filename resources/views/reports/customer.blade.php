@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Expense Report')
+@section('title', 'Customers Report')
 
 @section('content')
     <x-common.fail-message :message="session('failedMessage')" />
 
-    <x-common.report-filter
-        action="{{ route('reports.expense') }}"
-        export-route="reports.expense_export"
-    >
+    <x-common.report-filter action="{{ route('reports.customer') }}">
         <div class="quickview-body">
             <div class="quickview-block">
                 <div class="columns is-marginless is-vcentered is-multiline is-mobile">
@@ -59,68 +56,98 @@
         </div>
     </x-common.report-filter>
 
-    <div class="columns is-marginless is-multiline mt-3">
-        <div class="column is-3 p-lr-0">
+    <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
+        <span class="icon">
+            <i class="fas fa-user"></i>
+        </span>
+        <span>
+            Customers Summary
+        </span>
+    </h1>
+
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
-                border-color="#fff"
-                text-color="text-purple"
-                label="Expense After VAT/TOT"
-            ></x-common.index-insight>
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseBeforeTax, 2)"
+                :amount="number_format($customerReport->getTotalCustomers)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Expense Before VAT/TOT"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseVat, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Expense VAT"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseTot, 2)"
-                border-color="#fff"
-                text-color="text-blue"
-                label="Expense TOT"
+                label="Total Customers"
             />
         </div>
         <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getDailyAverageExpense, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Daily Average Expense"
-            />
-        </div>
-        <div class="column is-4 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getAverageExpenseValue, 2)"
+                :amount="number_format($customerReport->getTotalActiveCustomers)"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Average Transaction Value"
+                label="Active Customers"
             />
         </div>
         <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getExpenseTransactionCount)"
+                :amount="number_format($customerReport->getTotalInactiveCustomers)"
+                border-color="#fff"
+                text-color="text-gold"
+                label="Inactive Customers"
+            />
+        </div>
+    </div>
+
+    <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
+        <span class="icon">
+            <i class="fas fa-filter"></i>
+        </span>
+        <span>
+            Filtered Customers Report
+        </span>
+    </h1>
+
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($customerReport->getTotalNewCustomers)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Number of Transactions"
+                label="New Customers"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                amount="{{ number_format($customerReport->getTotalRetainedCustomers['amount']) }} ({{ number_format($customerReport->getTotalRetainedCustomers['percent'], 2) }}%)"
+                border-color="#fff"
+                text-color="text-purple"
+                label="Retained Customers"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                amount="{{ number_format($customerReport->getTotalChurnedCustomers['amount']) }} ({{ number_format($customerReport->getTotalChurnedCustomers['percent'], 2) }}%)"
+                border-color="#fff"
+                text-color="text-gold"
+                label="Churned Customers"
+            />
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($customerReport->getAverageRevenuePerCustomer, 2)"
+                border-color="#fff"
+                text-color="text-green"
+                label="Average Revenue Per Customer"
+            />
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($customerReport->getAverageSalesTransactionsPerCustomer)"
+                border-color="#fff"
+                text-color="text-purple"
+                label="Average Sales Transactions Per Customer"
             />
         </div>
         <div class="column is-6 p-lr-0">
@@ -130,7 +157,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user"></i>
                         </span>
-                        <span>Top Suppliers by Expense</span>
+                        <span>Top Customers by Revenue</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -143,15 +170,15 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Supplier </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                        <th><abbr> Customer </abbr></th>
+                        <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseBySuppliers as $supplier)
+                        @foreach ($customerReport->saleReport->getCustomersByRevenue as $customerRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $supplier->supplier_name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ number_format($supplier->expense, 2) }} </td>
+                                <td> {{ $customerRevenue->customer_name ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ number_format($customerRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -163,9 +190,9 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-warehouse"></i>
+                            <i class="fas fa-cash-register"></i>
                         </span>
-                        <span>Top Branches by Expense</span>
+                        <span>Top Customers by Sales</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -178,15 +205,15 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Branch </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                        <th><abbr> Customer </abbr></th>
+                        <th class="has-text-right"><abbr> Transactions </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByBranches as $branch)
+                        @foreach ($customerReport->getCustomersBySalesTransactionsCount as $customerSales)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $branch->branch_name }} </td>
-                                <td class="has-text-right"> {{ number_format($branch->expense, 2) }} </td>
+                                <td> {{ $customerSales->customer_name ?? 'N/A' }} </td>
+                                <td class="has-text-right"> {{ $customerSales->transactions }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -198,9 +225,9 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-user-tie"></i>
+                            <i class="fas fa-credit-card"></i>
                         </span>
-                        <span>Expenses By Purchasers</span>
+                        <span>Customers Payment Method Preferences</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -213,15 +240,23 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Purchaser </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                        <th><abbr> Customer </abbr></th>
+                        <th class="has-text-right"><abbr> Cash Payment </abbr></th>
+                        <th class="has-text-right"><abbr> Credit Payment </abbr></th>
+                        <th class="has-text-right"><abbr> Bank Deposit </abbr></th>
+                        <th class="has-text-right"><abbr> Bank Transfer </abbr></th>
+                        <th class="has-text-right"><abbr> Cheque </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByPurchasers as $purchaser)
+                        @foreach ($customerReport->getCustomersByPaymentMethod as $paymentMethod)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $purchaser->purchaser_name ?? 'Deleted Purchaser' }} </td>
-                                <td class="has-text-right"> {{ number_format($purchaser->expense, 2) }} </td>
+                                <td> {{ $paymentMethod->customer_name }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->cash_payment }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->credit_payment }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->bank_deposit }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->bank_transfer }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->cheque }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -233,9 +268,9 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-credit-card"></i>
                         </span>
-                        <span>Top Categories by Expense</span>
+                        <span>Most Used Payment Methods</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -248,17 +283,15 @@
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
-                        <th><abbr> Category </abbr></th>
-                        <th class="has-text-right"><abbr> Quantity </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                        <th><abbr> Payment Method </abbr></th>
+                        <th class="has-text-right"><abbr> Transactions </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByCategories as $category)
+                        @foreach ($customerReport->saleReport->getPaymentTypesByRevenue as $paymentMethod)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $category->category_name }} </td>
-                                <td class="has-text-right"> {{ number_format($category->quantity, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($category->expense, 2) }} </td>
+                                <td> {{ $paymentMethod->payment_type }} </td>
+                                <td class="has-text-right"> {{ $paymentMethod->transactions }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

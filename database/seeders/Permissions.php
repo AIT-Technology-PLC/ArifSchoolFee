@@ -319,10 +319,6 @@ class Permissions extends Seeder
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Debt']);
 
-            // Sales Report
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
-
             //Finance Expense
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense']);
@@ -330,15 +326,19 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
 
+            //Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+
             // Contact
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Contact']);
-
-            //Expense Report
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
 
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();

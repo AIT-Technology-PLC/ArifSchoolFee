@@ -217,6 +217,10 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
+                ['name' => 'Customer Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
                 ['name' => 'Contact Management'],
                 ['is_enabled' => 1]
             );

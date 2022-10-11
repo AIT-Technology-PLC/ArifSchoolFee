@@ -50,7 +50,7 @@ class ExpenseReport
 
     public function getExpenseTransactionCount()
     {
-        return (clone $this->query)->count();
+        return (clone $this->query)->distinct('expense_id')->count();
     }
 
     public function getTotalExpenseBeforeTax()
