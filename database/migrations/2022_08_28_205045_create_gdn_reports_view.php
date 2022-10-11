@@ -70,6 +70,7 @@ return new class extends Migration
                 gdns.customer_id,
                 customers.company_name AS customer_name,
                 customers.address AS customer_address,
+                (SELECT MIN(gdns_two.issued_on) FROM gdns gdns_two WHERE gdns_two.customer_id = gdns.customer_id AND gdns_two.deleted_at IS NULL) AS customer_created_at,
                 gdns.payment_type,
                 gdns.cash_received_type,
                 gdns.cash_received,

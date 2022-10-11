@@ -319,10 +319,6 @@ class Permissions extends Seeder
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Debt']);
 
-            // Sales Report
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
-
             //Finance Expense
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense']);
@@ -330,8 +326,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
 
-            //Expense Report
+            //Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
+
+            //Customer Profile Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
 
             //Price Increment
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Price Increment']);
