@@ -41,7 +41,10 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-    <x-print.customer :customer="$sale->customer ?? ''" />
+    <x-print.customer
+        :customer="$sale->customer ?? ''"
+        :contact="$sale->contact"
+    />
 
     <section class="is-clearfix py-3">
         <aside

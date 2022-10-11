@@ -41,8 +41,10 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-
-    <x-print.customer :customer="$proformaInvoice->customer ?? ''" />
+    <x-print.customer
+        :customer="$proformaInvoice->customer ?? ''"
+        :contact="$proformaInvoice->contact"
+    />
 
     <section class="is-clearfix py-3">
         <aside
