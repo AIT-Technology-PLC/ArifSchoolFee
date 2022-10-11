@@ -139,7 +139,9 @@ class PriceIncrementController extends Controller
 
     public function destroy(PriceIncrement $priceIncrement)
     {
-        abort_if($priceIncrement->isApproved(), 403);
+        if ($priceIncrement->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a price increment that is approved.');
+        }
 
         $priceIncrement->forceDelete();
 
