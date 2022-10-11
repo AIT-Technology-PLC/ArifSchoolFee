@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\PriceIncrementDatatable;
+use App\DataTables\PriceIncrementDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePriceIncrementRequest;
 use App\Http\Requests\UpdatePriceIncrementRequest;
+use App\Models\Price;
 use App\Models\PriceIncrement;
+use Illuminate\Support\Facades\DB;
 
 class PriceIncrementController extends Controller
 {
@@ -16,38 +20,116 @@ class PriceIncrementController extends Controller
         $this->authorizeResource(PriceIncrement::class);
     }
 
-    public function index()
+    public function index(PriceIncrementDatatable $datatable)
     {
-        //
+        $datatable->builder()->setTableId('price-increments-datatable')->orderBy(1, 'asc');
+
+        $totalPriceIncrements = PriceIncrement::count();
+
+        $totalApproved = PriceIncrement::approved()->count();
+
+        $totalNotApproved = $totalPriceIncrements - $totalApproved;
+
+        return $datatable->render('price-increments.index', compact('totalPriceIncrements', 'totalApproved', 'totalNotApproved'));
     }
 
     public function create()
     {
-        //
+        $currentPriceIncrementCode = nextReferenceNumber('price_increments');
+
+        $products = Price::all();
+
+        return view('price-increments.create', compact('currentPriceIncrementCode', 'products'));
     }
 
     public function store(StorePriceIncrementRequest $request)
     {
-        //
+        $priceIncrement = DB::transaction(function () use ($request) {
+            $priceIncrement = PriceIncrement::create($request->validated());
+
+            if ($request->validated(['target_product']) == "Upload Excel") {
+                return $priceIncrement;
+            }
+
+            if ($request->validated(['target_product']) == "All Products") {
+                $products = Price::all();
+                foreach ($products as $product) {
+                    $productId['product_id'] = $product->product_id;
+                    $priceIncrement->priceIncrementDetails()->create($productId);
+                }
+
+                return $priceIncrement;
+            }
+
+            foreach ($request->validated(['product_id']) as $incrementDetail) {
+                $product['product_id'] = $incrementDetail;
+
+                $priceIncrement->priceIncrementDetails()->create($product);
+            }
+
+            return $priceIncrement;
+        });
+
+        return redirect()->route('price-increments.show', $priceIncrement->id);
     }
 
-    public function show($id)
+    public function show(PriceIncrement $priceIncrement, PriceIncrementDetailDatatable $datatable)
     {
-        //
+        $datatable->builder()->setTableId('price-increment-details-datatable');
+
+        $priceIncrement->load(['priceIncrementDetails']);
+
+        return $datatable->render('price-increments.show', compact('priceIncrement'));
     }
 
     public function edit(PriceIncrement $priceIncrement)
     {
-        //
+        $products = Price::all();
+
+        $priceIncrement->load(['priceIncrementDetails']);
+
+        return view('price-increments.edit', compact('priceIncrement', 'products'));
     }
 
     public function update(UpdatePriceIncrementRequest $request, PriceIncrement $priceIncrement)
     {
-        //
+        DB::transaction(function () use ($request, $priceIncrement) {
+            $priceIncrement->update($request->safe());
+
+            $priceIncrement->proformaInvoiceDetails()->forceDelete();
+
+            if ($request->validated(['target_product']) == "Upload Excel") {
+                return $priceIncrement;
+            }
+
+            if ($request->validated(['target_product']) == "All Products") {
+                $products = Price::all();
+                foreach ($products as $product) {
+                    $productId['product_id'] = $product->product_id;
+                    $priceIncrement->priceIncrementDetails()->create($productId);
+                }
+
+                return $priceIncrement;
+            }
+
+            foreach ($request->validated(['product_id']) as $incrementDetail) {
+                $product['product_id'] = $incrementDetail;
+
+                $priceIncrement->priceIncrementDetails()->create($product);
+            }
+
+            return $priceIncrement;
+        });
+
+        return redirect()->route('price-increments.show', $priceIncrement->id);
     }
 
     public function destroy(PriceIncrement $priceIncrement)
     {
-        //
+        abort_if($priceIncrement->isApproved(), 403);
+
+        $priceIncrement->forceDelete();
+
+        return back()->with('deleted', 'Deleted successfully.');
     }
 }
