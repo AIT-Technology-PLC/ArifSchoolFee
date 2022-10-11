@@ -116,9 +116,11 @@ class PriceIncrementController extends Controller
             }
 
             if ($request->validated(['target_product']) == "All Products") {
-                $products = Price::all();
+                $products = Price::get(['product_id']);
+
                 foreach ($products as $product) {
                     $productId['product_id'] = $product->product_id;
+
                     $priceIncrement->priceIncrementDetails()->create($productId);
                 }
 
