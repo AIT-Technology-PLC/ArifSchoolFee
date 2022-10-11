@@ -187,3 +187,17 @@ const Supplier = {
         );
     },
 };
+
+const Merchandise = {
+    merchandise: {},
+
+    async init(productId, warehouseId) {
+        const response = await axios.get(
+            `/api/merchandises/products/${productId}/warehouses/${warehouseId}`
+        );
+
+        this.merchandise = response.data;
+
+        this.merchandise;
+    },
+};
