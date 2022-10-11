@@ -144,7 +144,7 @@
         </x-common.content-wrapper>
     @endif
 
-    @can('Import Product')
+    @can('Import Price Increment')
         <x-common.import
             title="Import Products"
             action="{{ route('price-increments.import', $priceIncrement->id) }}"
