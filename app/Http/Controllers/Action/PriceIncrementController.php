@@ -22,6 +22,7 @@ class PriceIncrementController extends Controller
 
         $this->priceIncrementService = $priceIncrementService;
     }
+
     public function approve(PriceIncrement $priceIncrement)
     {
         $this->authorize('approve', $priceIncrement);
