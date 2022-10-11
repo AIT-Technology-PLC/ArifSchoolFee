@@ -39,4 +39,9 @@ class PriceIncrementPolicy
     {
         return $user->can('Approve Price Increment');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Price Increment');
+    }
 }
