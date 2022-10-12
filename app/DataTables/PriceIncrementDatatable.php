@@ -24,8 +24,7 @@ class PriceIncrementDatatable extends DataTable
             ])
             ->editColumn('code', fn($priceIncrement) => $priceIncrement->code)
             ->editColumn('status', fn($priceIncrement) => view('components.datatables.price-increment-status', compact('priceIncrement')))
-            ->editColumn('price_type', fn($priceIncrement) => $priceIncrement->price_type)
-            ->editColumn('price_increment', fn($priceIncrement) => $priceIncrement->price_increment)
+            ->editColumn('price_increment', fn($priceIncrement) => str($priceIncrement->price_increment)->when($priceIncrement->isTypePercent(), fn($s) => $s->append('%'), fn($s) => $s->prepend(userCompany()->currency, '. ')))
             ->editColumn('target_product', fn($priceIncrement) => $priceIncrement->target_product)
             ->editColumn('prepared by', fn($priceIncrement) => $priceIncrement->createdBy->name)
             ->editColumn('approved by', fn($priceIncrement) => $priceIncrement->approvedBy->name ?? 'N/A')
@@ -61,8 +60,7 @@ class PriceIncrementDatatable extends DataTable
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
             Column::make('target_product'),
-            Column::computed('price_type'),
-            Column::make('price_increment'),
+            Column::make('price_increment')->addClass('has-text-right'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

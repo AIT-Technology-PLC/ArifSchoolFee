@@ -68,7 +68,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-money-bill"
-                        :data="$priceIncrement->price_increment"
+                        data="{{ str($priceIncrement->price_increment)->when($priceIncrement->isTypePercent(), fn($s) => $s->append('%'), fn($s) => $s->prepend(userCompany()->currency, '. ')) }}"
                         label="Price Increment"
                     />
                 </div>

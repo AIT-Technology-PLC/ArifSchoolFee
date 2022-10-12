@@ -30,4 +30,9 @@ class PriceIncrement extends Model
     {
         return $this->target_product == 'All Products';
     }
+
+    public function isTypePercent()
+    {
+        return $this->price_type == 'percent';
+    }
 }

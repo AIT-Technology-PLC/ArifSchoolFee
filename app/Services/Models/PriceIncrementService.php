@@ -11,6 +11,12 @@ class PriceIncrementService
     public function approve($priceIncrement)
     {
         return DB::transaction(function () use ($priceIncrement) {
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($priceIncrement);
+
+            if (!$isExecuted) {
+                DB::rollBack();
+                return [$isExecuted, $message];
+            }
 
             $priceList = Price::whereIn('product_id', $priceIncrement->priceIncrementDetails->pluck('product_id'))->get();
 
@@ -40,9 +46,9 @@ class PriceIncrementService
                 $price->save();
             }
 
-            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($priceIncrement);
 
-            return [$isExecuted, $message];
+
+            return [true, $message];
         });
     }
 }
