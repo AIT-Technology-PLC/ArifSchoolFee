@@ -155,6 +155,10 @@ class PermissionCategorization
             'feature' => 'Expense Management',
             'exclude' => ['Expense Claim'],
         ],
+        'contact' => [
+            'label' => 'Contact',
+            'feature' => 'Contact Management',
+        ],
         'price increment' => [
             'label' => 'Price Increment',
             'feature' => 'Price Increment',

@@ -406,6 +406,11 @@ Route::post('/prices/import',
     [Action\PriceController::class, 'import'])
     ->name('prices.import');
 
+//Contacts
+Route::post('/contacts/import',
+    [Action\ContactController::class, 'import'])
+    ->name('contacts.import');
+
 // Price Increment
 Route::post('/price-increments/{price_increment}/approve',
     [Action\PriceIncrementController::class, 'approve'])

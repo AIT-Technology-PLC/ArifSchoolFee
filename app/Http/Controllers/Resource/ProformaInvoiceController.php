@@ -63,21 +63,21 @@ class ProformaInvoiceController extends Controller
     {
         $datatable->builder()->setTableId('proforma-invoice-details-datatable');
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'contact']);
 
         return $datatable->render('proforma-invoices.show', compact('proformaInvoice'));
     }
 
     public function edit(ProformaInvoice $proformaInvoice)
     {
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'contact']);
 
         return view('proforma-invoices.edit', compact('proformaInvoice'));
     }
 
     public function update(UpdateProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
-        if (! $proformaInvoice->isPending()) {
+        if (!$proformaInvoice->isPending()) {
             return redirect()->route('proforma-invoices.show', $proformaInvoice->id)
                 ->with('failedMessage', 'Confirmed or cancelled proforma inovices cannot be edited.');
         }
@@ -97,7 +97,7 @@ class ProformaInvoiceController extends Controller
     {
         abort_if($proformaInvoice->isConverted(), 403);
 
-        abort_if($proformaInvoice->isCancelled() && ! authUser()->can('Delete Cancelled Proforma Invoice'), 403);
+        abort_if($proformaInvoice->isCancelled() && !authUser()->can('Delete Cancelled Proforma Invoice'), 403);
 
         $proformaInvoice->forceDelete();
 

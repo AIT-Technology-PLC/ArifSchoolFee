@@ -331,9 +331,17 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
 
             //Customer Profile Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+
+            // Contact
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Contact']);
 
             //Price Increment
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Price Increment']);
@@ -441,11 +449,14 @@ class Permissions extends Seeder
             $purchaseManager->syncPermissions([
                 'Create Purchase',
                 'Create Supplier',
+                'Create Contact',
                 'Read Purchase',
                 'Read Supplier',
+                'Read Contact',
                 'Read Product',
                 'Update Purchase',
                 'Update Supplier',
+                'Update Contact',
             ]);
 
             $salesOfficer->syncPermissions([
@@ -453,12 +464,14 @@ class Permissions extends Seeder
                 'Create Sale',
                 'Create Proforma Invoice',
                 'Create Customer',
+                'Create Contact',
                 'Create Return',
                 'Create Reservation',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
+                'Read Contact',
                 'Read Return',
                 'Read Product',
                 'Read Reservation',
@@ -466,6 +479,7 @@ class Permissions extends Seeder
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
+                'Update Contact',
                 'Update Return',
                 'Update Reservation',
                 'Convert Proforma Invoice',

@@ -45,12 +45,12 @@ class ReservationService
 
     public function reserve($reservation, $user)
     {
-        if (! $user->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permissions to reserve from one or more of the warehouses.'];
         }
 
-        if (! $reservation->isApproved()) {
+        if (!$reservation->isApproved()) {
             return [false, 'This reservation is not approved yet.'];
         }
 
@@ -77,7 +77,7 @@ class ReservationService
 
     public function cancel($reservation)
     {
-        if (! $reservation->isApproved()) {
+        if (!$reservation->isApproved()) {
             return [false, 'This reservation is not approved yet.'];
         }
 
@@ -89,7 +89,7 @@ class ReservationService
             return [false, 'This reservation cannot be cancelled, it has been converted to DO.'];
         }
 
-        if (! $reservation->isConverted() && ! $reservation->isReserved()) {
+        if (!$reservation->isConverted() && !$reservation->isReserved()) {
             $reservation->cancel();
 
             return [true, ''];
@@ -102,7 +102,7 @@ class ReservationService
         }
 
         DB::transaction(function () use ($reservation) {
-            if ($reservation->isConverted() && ! $reservation->reservable->isSubtracted()) {
+            if ($reservation->isConverted() && !$reservation->reservable->isSubtracted()) {
                 $reservation->reservable()->forceDelete();
                 $reservation->reservable()->dissociate();
             }
@@ -119,12 +119,12 @@ class ReservationService
 
     public function convertToGdn($reservation, $user)
     {
-        if (! $user->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permissions to convert to one or more of the warehouses.'];
         }
 
-        if (! $reservation->isReserved()) {
+        if (!$reservation->isReserved()) {
             return [false, 'This reservation is not reserved yet.'];
         }
 
@@ -137,6 +137,7 @@ class ReservationService
 
             $gdn = Gdn::create([
                 'customer_id' => $reservation->customer_id ?? null,
+                'contact_id' => $reservation->contact_id ?? null,
                 'code' => nextReferenceNumber('gdns'),
                 'discount' => $reservation->discount * 100,
                 'payment_type' => $reservation->payment_type,

@@ -49,6 +49,11 @@ class Gdn extends Model
         return $this->hasOne(Credit::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function details()
     {
         return $this->gdnDetails;

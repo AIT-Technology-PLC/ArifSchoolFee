@@ -71,6 +71,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$sale->contact->name ?? 'N/A'"
+                        label="Contact"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-hand-holding-usd"
                         data="{{ number_format($sale->paymentInCash, 2) }} ({{ number_format($sale->cashReceivedInPercentage, 2) }}%)"
                         label="In Cash ({{ userCompany()->currency }})"

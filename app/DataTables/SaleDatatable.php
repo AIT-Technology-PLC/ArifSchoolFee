@@ -17,7 +17,7 @@ class SaleDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($sale) => route('sales.show', $sale->id),
+                'data-url' => fn($sale) => route('sales.show', $sale->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
@@ -37,6 +37,7 @@ class SaleDatatable extends DataTable
             })
             ->editColumn('customer', fn($sale) => $sale->customer->company_name ?? 'N/A')
             ->editColumn('customer_tin', fn($sale) => $sale->customer->tin ?? 'N/A')
+            ->editColumn('contact', fn($sale) => $sale->contact->name ?? 'N/A')
             ->editColumn('description', fn($sale) => view('components.datatables.searchable-description', ['description' => $sale->description]))
             ->editColumn('issued_on', fn($sale) => $sale->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($sale) => $sale->createdBy->name)
@@ -66,6 +67,7 @@ class SaleDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'customer:id,company_name,tin',
+                'contact:id,name',
                 'warehouse:id,name',
             ]);
     }
@@ -82,6 +84,7 @@ class SaleDatatable extends DataTable
             Column::computed('total price'),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
+            Column::make('contact', 'contact.name'),
             Column::make('description')->visible(false),
             Column::make('issued_on')->title('Issued On'),
             Column::make('prepared by', 'createdBy.name')->visible(false),

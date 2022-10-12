@@ -44,6 +44,11 @@ class Reservation extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function reservable()
     {
         return $this->morphTo();

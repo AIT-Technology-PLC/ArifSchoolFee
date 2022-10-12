@@ -43,6 +43,7 @@ class UpdateGdnRequest extends FormRequest
                 ),
             ],
 
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
