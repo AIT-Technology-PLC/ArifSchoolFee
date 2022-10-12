@@ -19,24 +19,22 @@ class PriceIncrementService
                 $minInitialPrice = $price->min_price;
                 $maxInitialPrice = $price->max_price;
 
-                if ($priceIncrement->price_type == "amount") {
-                    if ($price->type == "fixed") {
-                        $price->fixed_price = $intialPrice + $priceIncrement->price_increment;
-                    }
-                    if ($price->type == "range") {
-                        $price->min_price = $minInitialPrice + $priceIncrement->price_increment;
-                        $price->max_price = $maxInitialPrice + $priceIncrement->price_increment;
-                    }
+                if ($priceIncrement->price_type == "amount" && $price->type == "fixed") {
+                    $price->fixed_price = $intialPrice + $priceIncrement->price_increment;
                 }
 
-                if ($priceIncrement->price_type == "percent") {
-                    if ($price->type == "fixed") {
-                        $price->fixed_price = $intialPrice + (($intialPrice * $priceIncrement->price_increment) / 100);
-                    }
-                    if ($price->type == "range") {
-                        $price->min_price = $minInitialPrice + (($minInitialPrice * $priceIncrement->price_increment) / 100);
-                        $price->max_price = $maxInitialPrice + (($maxInitialPrice * $priceIncrement->price_increment) / 100);
-                    }
+                if ($priceIncrement->price_type == "amount" && $price->type == "range") {
+                    $price->min_price = $minInitialPrice + $priceIncrement->price_increment;
+                    $price->max_price = $maxInitialPrice + $priceIncrement->price_increment;
+                }
+
+                if ($priceIncrement->price_type == "percent" && $price->type == "fixed") {
+                    $price->fixed_price = $intialPrice + (($intialPrice * $priceIncrement->price_increment) / 100);
+                }
+
+                if ($priceIncrement->price_type == "percent" && $price->type == "range") {
+                    $price->min_price = $minInitialPrice + (($minInitialPrice * $priceIncrement->price_increment) / 100);
+                    $price->max_price = $maxInitialPrice + (($maxInitialPrice * $priceIncrement->price_increment) / 100);
                 }
 
                 $price->save();
