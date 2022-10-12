@@ -16,7 +16,7 @@ class PriceIncrement extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function PriceIncrementDetails()
+    public function priceIncrementDetails()
     {
         return $this->hasMany(PriceIncrementDetail::class);
     }

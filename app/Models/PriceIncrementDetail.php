@@ -17,11 +17,6 @@ class PriceIncrementDetail extends Model
         return $this->belongsTo(PriceIncrement::class);
     }
 
-    public function PriceIncrementDetails()
-    {
-        return $this->hasMany(PriceIncrementDetail::class);
-    }
-
     public function product()
     {
         return $this->belongsTo(Product::class);
