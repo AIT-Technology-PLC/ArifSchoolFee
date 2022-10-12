@@ -40,7 +40,7 @@
         <x-content.footer>
             @if ($priceIncrement->isAllProducts())
                 <div>
-                    <x-common.success-message :message="session('deleted') ?? session('imported')" />
+                    <x-common.success-message :message="session('deleted') ?? null" />
                     <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
                     @if (!$priceIncrement->isApproved())
                         <x-common.fail-message message="This Price Increment has not been approved yet." />
@@ -131,7 +131,7 @@
                 </x-common.dropdown>
             </x-content.header>
             <x-content.footer>
-                <x-common.success-message :message="session('deleted') ?? null" />
+                <x-common.success-message :message="session('deleted') ?? session('imported')" />
                 <x-common.fail-message :message="session('failedMessage')" />
                 @if (!$priceIncrement->isApproved())
                     <x-common.fail-message message="This Price Increment has not been approved yet." />
