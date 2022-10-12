@@ -666,9 +666,9 @@
                                     <x-common.button
                                         tag="a"
                                         href="{{ route('contacts.index') }}"
-                                        label="Contacts"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('contacts.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('contacts.*') ? 'activateAccordion' : '' }}"
+                                        label="Customers"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('customers.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
