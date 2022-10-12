@@ -46,7 +46,7 @@ class ExpenseController extends Controller
 
         $currentExpenseCode = nextReferenceNumber('expenses');
 
-        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+        $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
         return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories', 'expenseNames'));
     }
@@ -85,7 +85,7 @@ class ExpenseController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+        $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
         return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories', 'expenseNames'));
     }

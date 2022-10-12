@@ -18,8 +18,6 @@ class PriceIncrementImport implements WithHeadingRow, ToModel, WithValidation, W
 
     private $products;
 
-    private $priceIncrementDetails;
-
     private $priceIncrement;
 
     public function __construct($priceIncrement)
@@ -27,24 +25,14 @@ class PriceIncrementImport implements WithHeadingRow, ToModel, WithValidation, W
         $this->products = Product::all();
 
         $this->priceIncrement = $priceIncrement;
-
-        $this->priceIncrementDetails = PriceIncrementDetail::all();
     }
 
     public function model(array $row)
     {
-        if ($this->priceIncrementDetails->where('price_increment_id', $this->priceIncrement->id)->count()) {
-            return null;
-        }
-
-        $product = $this->products->firstWhere('name', $row['product_name']);
-
         $priceIncrementDetails = new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
-            'product_id' => $product->id,
+            'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
         ]);
-
-        $this->priceIncrementDetails->push($priceIncrementDetails);
 
         return $priceIncrementDetails;
     }
