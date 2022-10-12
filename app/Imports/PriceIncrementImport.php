@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Price;
 use App\Models\PriceIncrementDetail;
 use App\Models\Product;
 use Illuminate\Validation\Rule;
@@ -18,11 +19,15 @@ class PriceIncrementImport implements WithHeadingRow, ToModel, WithValidation, W
 
     private $products;
 
+    private $productWithPrice;
+
     private $priceIncrement;
 
     public function __construct($priceIncrement)
     {
-        $this->products = Product::all();
+        $this->productWithPrice = Price::get('product_id');
+
+        $this->products = Product::whereIn('id', $this->productWithPrice)->get();
 
         $this->priceIncrement = $priceIncrement;
     }
