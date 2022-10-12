@@ -39,6 +39,7 @@ class Product extends Model
         'jobExtras',
         'billOfMaterials',
         'billOfMaterialDetails',
+        'priceIncrementDetails',
     ];
 
     public function merchandises()
