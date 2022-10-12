@@ -783,4 +783,23 @@ document.addEventListener("alpine:init", () => {
             this.isTypeService = false;
         },
     }));
+
+    Alpine.data("targetProducts", (targetProduct = "") => ({
+        targetProduct: "",
+        isNotSpecificProduct: false,
+
+        init() {
+            this.targetProduct = targetProduct;
+            this.changeTargetProduct();
+        },
+
+        changeTargetProduct() {
+            if (this.targetProduct != "Specific Products") {
+                this.isNotSpecificProduct = true;
+                return;
+            }
+
+            this.isNotSpecificProduct = false;
+        },
+    }));
 });

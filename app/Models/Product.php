@@ -196,4 +196,9 @@ class Product extends Model
     {
         return $this->is_batchable == 1;
     }
+
+    public function priceIncrementDetails()
+    {
+        return $this->hasMany(priceIncrementDetail::class);
+    }
 }

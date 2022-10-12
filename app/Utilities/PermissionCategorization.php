@@ -159,6 +159,10 @@ class PermissionCategorization
             'label' => 'Contact',
             'feature' => 'Contact Management',
         ],
+        'price increment' => [
+            'label' => 'Price Increment',
+            'feature' => 'Price Increment',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)

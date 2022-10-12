@@ -548,8 +548,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management', 'Contact Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer', 'Contact Customer'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Contact Customer'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -660,28 +660,15 @@
                                 </li>
                             @endcan
                         @endif
-                        @if (isFeatureEnabled('Price Management'))
-                            @can('Read Price')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('prices.index') }}"
-                                        label="Prices"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('prices.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('prices.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
                         @if (isFeatureEnabled('Customer Management'))
                             @can('Read Customer')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('customers.index') }}"
-                                        label="Customers"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customers.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('customers.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('contacts.index') }}"
+                                        label="Contacts"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('contacts.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('contacts.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
@@ -917,8 +904,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Product Management'))
-        @can('Read Product')
+    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
+        @can('Read Product', 'Read Price', 'Read Price Increment')
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -969,6 +956,32 @@
                                 x-init="{{ request()->routeIs('categories.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
+                        @if (isFeatureEnabled('Price Management'))
+                            @can('Read Price')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('prices.index') }}"
+                                        label="Prices"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('prices.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('prices.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Price Increment'))
+                            @can('Read Price Increment')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('price-increments.index') }}"
+                                        label="Price Increments"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('price-increments.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('price-increments.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
                     </ul>
                 </li>
             </ul>

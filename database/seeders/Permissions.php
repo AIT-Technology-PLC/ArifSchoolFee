@@ -333,12 +333,23 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
 
+            //Customer Profile Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+
             // Contact
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Contact']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Contact']);
+
+            //Price Increment
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Price Increment']);
 
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
