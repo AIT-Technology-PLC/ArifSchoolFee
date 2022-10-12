@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Price;
 use App\Models\PriceIncrementDetail;
 use App\Models\Product;
 use Illuminate\Validation\Rule;
@@ -13,33 +12,27 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class PriceIncrementImport implements WithHeadingRow, ToModel, WithValidation, WithChunkReading, WithBatchInserts
+class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
     use Importable;
 
     private $products;
 
-    private $productWithPrice;
-
     private $priceIncrement;
 
     public function __construct($priceIncrement)
     {
-        $this->productWithPrice = Price::get('product_id');
-
-        $this->products = Product::whereIn('id', $this->productWithPrice)->get();
-
         $this->priceIncrement = $priceIncrement;
+
+        $this->products = Product::whereHas('price')->get(['id', 'name']);
     }
 
     public function model(array $row)
     {
-        $priceIncrementDetails = new PriceIncrementDetail([
+        return new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
             'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
         ]);
-
-        return $priceIncrementDetails;
     }
 
     public function rules(): array

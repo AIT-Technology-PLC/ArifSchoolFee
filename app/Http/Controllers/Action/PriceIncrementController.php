@@ -9,7 +9,6 @@ use App\Models\PriceIncrement;
 use App\Notifications\PriceIncrementApproved;
 use App\Services\Models\PriceIncrementService;
 use App\Utilities\Notifiables;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class PriceIncrementController extends Controller
@@ -44,9 +43,7 @@ class PriceIncrementController extends Controller
 
         ini_set('max_execution_time', '-1');
 
-        DB::transaction(function () use ($request, $priceIncrement) {
-            (new PriceIncrementImport($priceIncrement))->import($request->validated('file'));
-        });
+        (new PriceIncrementImport($priceIncrement))->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
     }

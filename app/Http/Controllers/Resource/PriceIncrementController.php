@@ -9,6 +9,7 @@ use App\Http\Requests\StorePriceIncrementRequest;
 use App\Http\Requests\UpdatePriceIncrementRequest;
 use App\Models\Price;
 use App\Models\PriceIncrement;
+use App\Models\Product;
 use App\Notifications\PriceIncrementCreated;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class PriceIncrementController extends Controller
 
     public function index(PriceIncrementDatatable $datatable)
     {
-        $datatable->builder()->setTableId('price-increments-datatable')->orderBy(1, 'asc');
+        $datatable->builder()->setTableId('price-increments-datatable')->orderBy(1, 'desc');
 
         $totalPriceIncrements = PriceIncrement::count();
 
@@ -40,7 +41,7 @@ class PriceIncrementController extends Controller
     {
         $currentPriceIncrementCode = nextReferenceNumber('price_increments');
 
-        $products = Price::get(['product_id']);
+        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name']);
 
         return view('price-increments.create', compact('currentPriceIncrementCode', 'products'));
     }
@@ -50,31 +51,19 @@ class PriceIncrementController extends Controller
         $priceIncrement = DB::transaction(function () use ($request) {
             $priceIncrement = PriceIncrement::create($request->validated());
 
-            if ($request->validated(['target_product']) == "Upload Excel") {
-                return $priceIncrement;
-            }
-
             if ($request->validated(['target_product']) == "All Products") {
-                $products = Price::all();
-                foreach ($products as $product) {
-                    $productId['product_id'] = $product->product_id;
-                    $priceIncrement->priceIncrementDetails()->create($productId);
+                foreach (Price::pluck('product_id') as $productId) {
+                    $priceIncrement->priceIncrementDetails()->create(['product_id' => $productId]);
                 }
-
-                return $priceIncrement;
             }
 
             if ($request->validated(['target_product']) == "Specific Products") {
-                foreach ($request->validated(['product_id']) as $incrementDetail) {
-                    $product['product_id'] = $incrementDetail;
-
-                    $priceIncrement->priceIncrementDetails()->create($product);
-                }
-
-                Notification::send(Notifiables::byNextActionPermission('Approve Price Increment'), new PriceIncrementCreated($priceIncrement));
-
-                return $priceIncrement;
+                $priceIncrement->priceIncrementDetails()->createMany($request->validated(['product_id']));
             }
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Price Increment'), new PriceIncrementCreated($priceIncrement));
+
+            return $priceIncrement;
         });
 
         return redirect()->route('price-increments.show', $priceIncrement->id);
@@ -95,7 +84,7 @@ class PriceIncrementController extends Controller
             return back()->with('failedMessage', 'You can not modify a price increment that is approved.');
         }
 
-        $products = Price::get(['product_id']);
+        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name']);
 
         $priceIncrement->load(['priceIncrementDetails']);
 
@@ -113,30 +102,14 @@ class PriceIncrementController extends Controller
 
             $priceIncrement->priceIncrementDetails()->forceDelete();
 
-            if ($request->validated(['target_product']) == "Upload Excel") {
-                return $priceIncrement;
-            }
-
             if ($request->validated(['target_product']) == "All Products") {
-                $products = Price::get(['product_id']);
-
-                foreach ($products as $product) {
-                    $productId['product_id'] = $product->product_id;
-
-                    $priceIncrement->priceIncrementDetails()->create($productId);
+                foreach (Price::pluck('product_id') as $productId) {
+                    $priceIncrement->priceIncrementDetails()->create(['product_id' => $productId]);
                 }
-
-                return $priceIncrement;
             }
 
             if ($request->validated(['target_product']) == "Specific Products") {
-                foreach ($request->validated(['product_id']) as $incrementDetail) {
-                    $product['product_id'] = $incrementDetail;
-
-                    $priceIncrement->priceIncrementDetails()->create($product);
-                }
-
-                return $priceIncrement;
+                $priceIncrement->priceIncrementDetails()->createMany($request->validated(['product_id']));
             }
         });
 

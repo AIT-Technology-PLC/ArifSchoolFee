@@ -25,7 +25,7 @@ class PriceIncrementApproved extends Notification
     {
         return [
             'icon' => 'tags',
-            'message' => 'Price Increment has been approved by ' . ucfirst($this->priceIncrement->approvedBy->name),
+            'message' => 'New prices changes approved by ' . ucfirst($this->priceIncrement->approvedBy->name),
             'endpoint' => '/price-increments/' . $this->priceIncrement->id,
         ];
     }
@@ -35,7 +35,7 @@ class PriceIncrementApproved extends Notification
         return (new WebPushMessage)
             ->title('Price Increment Approved')
             ->icon(asset('pwa/pwa-512x512.png'))
-            ->body('Price Increment has been approved by ' . ucfirst($this->priceIncrement->approvedBy->name))
+            ->body('New prices changes approved by ' . ucfirst($this->priceIncrement->approvedBy->name))
             ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);

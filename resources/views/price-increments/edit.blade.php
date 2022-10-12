@@ -118,16 +118,16 @@
                                 <x-forms.select
                                     class="is-fullwidth is-multiple"
                                     id="product_id"
-                                    name="product_id[]"
+                                    name="product_id[][product_id]"
                                     multiple
                                     size="2"
                                 >
                                     @foreach ($products as $product)
                                         <option
-                                            value="{{ $product->product_id }}"
-                                            @selected(in_array($product->product_id, $priceIncrement->priceIncrementDetails->pluck('product_id')->toArray()))
+                                            value="{{ $product->id }}"
+                                            @selected(in_array($product->id, old('product_id.' . $loop->index . '.product_id', $priceIncrement->priceIncrementDetails->pluck('product_id')->toArray())))
                                         >
-                                            {{ str($product->product->name)->title()->singular() }}
+                                            {{ str($product->name)->title()->singular() }}
                                         </option>
                                     @endforeach
                                 </x-forms.select>
@@ -135,7 +135,7 @@
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="product_id" />
+                                <x-common.validation-error property="product_id.*.product_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

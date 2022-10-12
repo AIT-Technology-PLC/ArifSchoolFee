@@ -48,8 +48,14 @@
                                         disabled
                                         value=""
                                     >Price Type</option>
-                                    <option value="amount">Amount</option>
-                                    <option value="percent">Percent</option>
+                                    <option
+                                        value="amount"
+                                        @selected(old('price_type') == 'amount')
+                                    >Amount</option>
+                                    <option
+                                        value="percent"
+                                        @selected(old('price_type') == 'percent')
+                                    >Percent</option>
                                 </x-forms.select>
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -58,6 +64,7 @@
                                     name="price_increment"
                                     id="price_increment"
                                     placeholder="Increment Amount"
+                                    value="{{ old('price_increment') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"
@@ -111,16 +118,16 @@
                                 <x-forms.select
                                     class="is-fullwidth is-multiple"
                                     id="product_id"
-                                    name="product_id[]"
+                                    name="product_id[][product_id]"
                                     multiple
                                     size="2"
                                 >
                                     @foreach ($products as $product)
                                         <option
-                                            value="{{ $product->product_id }}"
-                                            @selected(in_array($product->product_id, old('product_id', [])))
+                                            value="{{ $product->id }}"
+                                            @selected(in_array($product->id, old('product_id.' . $loop->index . '.product_id', [])))
                                         >
-                                            {{ str($product->product->name)->title()->singular() }}
+                                            {{ str($product->name)->title()->singular() }}
                                         </option>
                                     @endforeach
                                 </x-forms.select>
@@ -128,7 +135,7 @@
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="product_id" />
+                                <x-common.validation-error property="product_id.*.product_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
