@@ -549,7 +549,7 @@
     @endif
 
     @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Contact Customer'])
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Read Contact'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
