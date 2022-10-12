@@ -638,7 +638,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Contacts
+                                            Customers
                                         </span>
                                     </div>
                                 @endcan

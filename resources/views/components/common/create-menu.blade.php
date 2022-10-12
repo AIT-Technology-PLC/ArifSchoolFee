@@ -538,7 +538,7 @@
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Contact </span>
+                                        <span class="is-size-7"> New Customer </span>
                                     </div>
                                 @endcan
                             @endif
