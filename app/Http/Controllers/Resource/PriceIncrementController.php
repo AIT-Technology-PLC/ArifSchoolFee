@@ -127,13 +127,15 @@ class PriceIncrementController extends Controller
                 return $priceIncrement;
             }
 
-            foreach ($request->validated(['product_id']) as $incrementDetail) {
-                $product['product_id'] = $incrementDetail;
+            if ($request->validated(['target_product']) == "Specific Products") {
+                foreach ($request->validated(['product_id']) as $incrementDetail) {
+                    $product['product_id'] = $incrementDetail;
 
-                $priceIncrement->priceIncrementDetails()->create($product);
+                    $priceIncrement->priceIncrementDetails()->create($product);
+                }
+
+                return $priceIncrement;
             }
-
-            return $priceIncrement;
         });
 
         return redirect()->route('price-increments.show', $priceIncrement->id);

@@ -22,14 +22,18 @@ class PriceIncrementService
                 if ($priceIncrement->price_type == "amount") {
                     if ($price->type == "fixed") {
                         $price->fixed_price = $intialPrice + $priceIncrement->price_increment;
-                    } else {
+                    }
+                    if ($price->type == "range") {
                         $price->min_price = $minInitialPrice + $priceIncrement->price_increment;
                         $price->max_price = $maxInitialPrice + $priceIncrement->price_increment;
                     }
-                } else {
+                }
+
+                if ($priceIncrement->price_type == "percent") {
                     if ($price->type == "fixed") {
                         $price->fixed_price = $intialPrice + (($intialPrice * $priceIncrement->price_increment) / 100);
-                    } else {
+                    }
+                    if ($price->type == "range") {
                         $price->min_price = $minInitialPrice + (($minInitialPrice * $priceIncrement->price_increment) / 100);
                         $price->max_price = $maxInitialPrice + (($maxInitialPrice * $priceIncrement->price_increment) / 100);
                     }
