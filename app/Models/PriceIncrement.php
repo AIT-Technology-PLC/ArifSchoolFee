@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Traits\Approvable;
-use App\Traits\MultiTenancy;
 use App\Traits\HasUserstamps;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PriceIncrement extends Model
 {
@@ -26,8 +26,8 @@ class PriceIncrement extends Model
         return $this->target_product == 'Upload Excel';
     }
 
-    public function isSpecificProducts()
+    public function isAllProducts()
     {
-        return $this->target_product == 'Specific Products';
+        return $this->target_product == 'All Products';
     }
 }
