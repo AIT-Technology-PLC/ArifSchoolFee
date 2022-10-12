@@ -62,6 +62,13 @@
                         label="Issued On"
                     />
                 </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$gdn->contact->name ?? 'N/A'"
+                        label="Contact"
+                    />
+                </div>
                 @if ($gdn->payment_in_credit > 0)
                     <div class="column is-6">
                         <x-common.show-data-section

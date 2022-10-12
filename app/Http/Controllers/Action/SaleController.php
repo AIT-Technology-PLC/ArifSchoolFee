@@ -25,7 +25,7 @@ class SaleController extends Controller
 
         [$isExecuted, $message] = $this->saleService->approve($sale);
 
-        if (! $isExecuted) {
+        if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -38,7 +38,7 @@ class SaleController extends Controller
 
         [$isExecuted, $message] = $this->saleService->cancel($sale);
 
-        if (! $isExecuted) {
+        if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -55,7 +55,7 @@ class SaleController extends Controller
             $sale->update(['fs_number' => $fsNumber]);
         }
 
-        $sale->load(['saleDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
+        $sale->load(['saleDetails.product', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return Pdf::loadView('sales.print', compact('sale'))->stream();
     }

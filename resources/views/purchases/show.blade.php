@@ -37,9 +37,16 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-address-card"
+                        icon="fas fa-user"
                         :data="$purchase->supplier->company_name ?? 'N/A'"
                         label="Supplier"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$purchase->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 @if (!$purchase->isImported())

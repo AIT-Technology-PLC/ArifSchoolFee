@@ -220,6 +220,10 @@ class Features extends Seeder
                 ['name' => 'Customer Report'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Contact Management'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
@@ -239,6 +243,7 @@ class Features extends Seeder
                         'Siv Management',
                         'Proforma Invoice',
                         'Customer Management',
+                        'Contact Management',
                         'Purchase Management',
                         'Supplier Management',
                         'Product Management',
@@ -279,6 +284,7 @@ class Features extends Seeder
                     ->whereIn('name', [
                         'Proforma Invoice',
                         'Customer Management',
+                        'Contact Management',
                         'Product Management',
                         'Warehouse Management',
                         'User Management',

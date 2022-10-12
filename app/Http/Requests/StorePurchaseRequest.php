@@ -29,6 +29,7 @@ class StorePurchaseRequest extends FormRequest
                     $this->get('cash_paid_type'),
                     $this->get('cash_paid')
                 )],
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Cash Payment', 'Credit Payment'])), function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('supplier_id'))) {

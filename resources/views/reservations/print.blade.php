@@ -41,7 +41,10 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-    <x-print.customer :customer="$reservation->customer ?? ''" />
+    <x-print.customer
+        :customer="$reservation->customer ?? ''"
+        :contact="$reservation->contact"
+    />
 
     <section class="is-clearfix py-3">
         <aside

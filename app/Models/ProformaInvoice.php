@@ -38,6 +38,11 @@ class ProformaInvoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function proformaInvoiceDetails()
     {
         return $this->hasMany(ProformaInvoiceDetail::class);

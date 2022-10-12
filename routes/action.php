@@ -405,3 +405,8 @@ Route::post('/expenses/{expense}/approve',
 Route::post('/prices/import',
     [Action\PriceController::class, 'import'])
     ->name('prices.import');
+
+//Contacts
+Route::post('/contacts/import',
+    [Action\ContactController::class, 'import'])
+    ->name('contacts.import');

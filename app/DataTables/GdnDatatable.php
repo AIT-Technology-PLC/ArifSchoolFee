@@ -18,31 +18,32 @@ class GdnDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($gdn) => route('gdns.show', $gdn->id),
+                'data-url' => fn($gdn) => route('gdns.show', $gdn->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($gdn) => $gdn->warehouse->name)
-            ->editColumn('invoice no', fn ($gdn) => $gdn->sale->code ?? 'N/A')
-            ->editColumn('status', fn ($gdn) => view('components.datatables.gdn-status', compact('gdn')))
+            ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
+            ->editColumn('invoice no', fn($gdn) => $gdn->sale->code ?? 'N/A')
+            ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting approval', fn ($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn ($query) => $query->notSubtracted()->approved())
-                    ->when($keyword == 'subtracted', fn ($query) => $query->subtracted());
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted());
             })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeVAT() ?
-                userCompany()->currency.'. '.number_format($gdn->grandTotalPrice, 2) :
-                userCompany()->currency.'. '.number_format($gdn->grandTotalPriceAfterDiscount, 2);
+                userCompany()->currency . '. ' . number_format($gdn->grandTotalPrice, 2) :
+                userCompany()->currency . '. ' . number_format($gdn->grandTotalPriceAfterDiscount, 2);
             })
-            ->editColumn('customer', fn ($gdn) => $gdn->customer->company_name ?? 'N/A')
-            ->editColumn('customer_tin', fn ($gdn) => $gdn->customer->tin ?? 'N/A')
-            ->editColumn('description', fn ($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
-            ->editColumn('issued_on', fn ($gdn) => $gdn->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($gdn) => $gdn->createdBy->name)
-            ->editColumn('approved by', fn ($gdn) => $gdn->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($gdn) => $gdn->updatedBy->name)
+            ->editColumn('customer', fn($gdn) => $gdn->customer->company_name ?? 'N/A')
+            ->editColumn('contact', fn($gdn) => $gdn->contact->name ?? 'N/A')
+            ->editColumn('customer_tin', fn($gdn) => $gdn->customer->tin ?? 'N/A')
+            ->editColumn('description', fn($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
+            ->editColumn('issued_on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
+            ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
             ->editColumn('actions', function ($gdn) {
                 return view('components.common.action-buttons', [
                     'model' => 'gdns',
@@ -70,6 +71,7 @@ class GdnDatatable extends DataTable
                 'approvedBy:id,name',
                 'sale:id,code',
                 'customer:id,company_name,tin',
+                'contact:id,name',
                 'warehouse:id,name',
             ]);
     }
@@ -87,6 +89,7 @@ class GdnDatatable extends DataTable
             Column::make('reference_number')->visible(false)->content('N/A'),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'customer.company_name'),
+            Column::make('contact', 'contact.name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),

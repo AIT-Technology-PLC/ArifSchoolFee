@@ -168,3 +168,5 @@ Route::resource('expense-categories', Resource\ExpenseCategoryController::class)
 Route::resource('expenses', Resource\ExpenseController::class);
 
 Route::resource('expense-details', Resource\ExpenseDetailController::class)->only(['destroy']);
+
+Route::resource('contacts', Resource\ContactController::class)->except('show');

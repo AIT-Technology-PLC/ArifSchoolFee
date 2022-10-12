@@ -155,6 +155,10 @@ class PermissionCategorization
             'feature' => 'Expense Management',
             'exclude' => ['Expense Claim'],
         ],
+        'contact' => [
+            'label' => 'Contact',
+            'feature' => 'Contact Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
