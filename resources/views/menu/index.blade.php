@@ -629,7 +629,7 @@
                                 @can('Read Customer')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('contacts.index') }}"
+                                            href="{{ route('customers.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">

@@ -533,7 +533,7 @@
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('contacts.create') }}"
+                                            href="{{ route('customers.create') }}"
                                             icon="fas fa-address-card"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
