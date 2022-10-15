@@ -72,7 +72,7 @@
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    x-init="$nextTick(() => { return.warehouse_id = $el.value })"
+                                    x-init="$nextTick(() => { returnn.warehouse_id = $el.value })"
                                     x-bind:id="`return[${index}][warehouse_id]`"
                                     x-bind:name="`return[${index}][warehouse_id]`"
                                     x-model="returnn.warehouse_id"
