@@ -168,6 +168,25 @@ class ExpenseReport
             ->get();
     }
 
+    public function getExpenseByItems()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                expense_details.name AS name,
+                SUM(quantity) AS quantity
+            ')
+            ->groupBy('name')
+            ->orderByDesc('expense')
+            ->get();
+    }
+
     public function getDailyAverageExpense()
     {
         $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;

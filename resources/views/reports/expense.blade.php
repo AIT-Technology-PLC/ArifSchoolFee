@@ -198,41 +198,6 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-user-tie"></i>
-                        </span>
-                        <span>Expenses By Purchasers</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Purchaser </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByPurchasers as $purchaser)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $purchaser->purchaser_name ?? 'Deleted Purchaser' }} </td>
-                                <td class="has-text-right"> {{ number_format($purchaser->expense, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
                             <i class="fas fa-layer-group"></i>
                         </span>
                         <span>Top Categories by Expense</span>
@@ -259,6 +224,78 @@
                                 <td> {{ $category->category_name }} </td>
                                 <td class="has-text-right"> {{ number_format($category->quantity, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($category->expense, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-th"></i>
+                        </span>
+                        <span>Top Items by Expense</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Item </abbr></th>
+                        <th class="has-text-right"><abbr> Quantity </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($expenseReport->getExpenseByItems as $item)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $item->name }} </td>
+                                <td class="has-text-right"> {{ number_format($item->quantity, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($item->expense, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-user-tie"></i>
+                        </span>
+                        <span>Expenses By Purchasers</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Purchaser </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($expenseReport->getExpenseByPurchasers as $purchaser)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $purchaser->purchaser_name ?? 'Deleted Purchaser' }} </td>
+                                <td class="has-text-right"> {{ number_format($purchaser->expense, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
