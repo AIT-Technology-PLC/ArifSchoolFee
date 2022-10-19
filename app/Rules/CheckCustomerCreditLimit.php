@@ -53,7 +53,7 @@ class CheckCustomerCreditLimit implements Rule
             return true;
         }
 
-        if (is_null($this->details) || is_null($this->cashReceivedType) || is_null($this->cashReceived)) {
+        if (empty($this->details) || is_null($this->cashReceivedType) || is_null($this->cashReceived)) {
             $this->message = 'Please provide all payment details information.';
             return false;
         }

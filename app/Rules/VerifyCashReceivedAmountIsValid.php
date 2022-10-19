@@ -42,6 +42,10 @@ class VerifyCashReceivedAmountIsValid implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (empty(this->details)) {
+            return false;
+        }
+
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPrice($this->details);
         }
