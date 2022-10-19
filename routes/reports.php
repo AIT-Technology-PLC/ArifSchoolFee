@@ -11,3 +11,4 @@ Route::get('/reports/expenses/export', [Report\ExpenseReportController::class, '
 Route::get('/reports/returns', [Report\ReturnReportController::class, 'index'])->name('reports.return');
 Route::get('/reports/returns/export', [Report\ReturnReportController::class, 'export'])->name('reports.return_export');
 Route::get('/reports/customers', Report\CustomerReportController::class)->name('reports.customer');
+Route::get('/reports/{supplier}/supplier-profile', Report\SupplierProfileReportController::class)->name('reports.supplier_profile');
