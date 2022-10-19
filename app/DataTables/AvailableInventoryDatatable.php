@@ -6,6 +6,7 @@ use App\Models\Merchandise;
 use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class AvailableInventoryDatatable extends DataTable
@@ -27,6 +28,7 @@ class AvailableInventoryDatatable extends DataTable
                     'code' => $row['code'],
                 ]);
             })
+            ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
@@ -82,6 +84,7 @@ class AvailableInventoryDatatable extends DataTable
                 'products.type as type',
                 'products.unit_of_measurement as unit',
                 'products.min_on_hand as min_on_hand',
+                'products.description as description',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
             ])
@@ -99,6 +102,7 @@ class AvailableInventoryDatatable extends DataTable
                 'unit' => $merchandiseValue->first()->unit,
                 'type' => $merchandiseValue->first()->type,
                 'min_on_hand' => $merchandiseValue->first()->min_on_hand,
+                'description' => $merchandiseValue->first()->description,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('available'),
             ];
@@ -126,7 +130,10 @@ class AvailableInventoryDatatable extends DataTable
             'category',
             ...$warehouses,
             'total balance',
-        ])->filter()->toArray();
+        ])
+            ->push(Column::make('description')->visible(false))
+            ->filter()
+            ->toArray();
     }
 
     protected function filename()

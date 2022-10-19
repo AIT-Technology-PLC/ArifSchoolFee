@@ -37,6 +37,22 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             return null;
         }
 
+        $mergedDescription = '';
+
+        foreach ($row as $key => $value) {
+            $description = '';
+
+            if (str($key)->startsWith('description_')) {
+                $description = str($description)->append($key, ': ', $value, '<br/>')->remove('description_')->toString();
+            }
+
+            if (str($key)->exactly('description')) {
+                $description = str($description)->append($value, '<br/>')->remove('description_')->toString();
+            }
+
+            $mergedDescription .= $description;
+        }
+
         $product = new Product([
             'company_id' => userCompany()->id,
             'created_by' => authUser()->id,
@@ -47,6 +63,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'type' => str()->title($row['product_type']),
             'unit_of_measurement' => str()->title($row['product_unit_of_measurement']),
             'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
+            'description' => strlen($mergedDescription) ? $mergedDescription : null,
         ]);
 
         $this->products->push($product);
@@ -71,6 +88,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
+        $data['product_type'] = str($data['product_type'] ?? '')->squish()->title()->toString();
 
         return $data;
     }

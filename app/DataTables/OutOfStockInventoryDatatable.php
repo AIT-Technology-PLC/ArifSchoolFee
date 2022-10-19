@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class OutOfStockInventoryDatatable extends DataTable
@@ -31,6 +32,7 @@ class OutOfStockInventoryDatatable extends DataTable
                     'code' => $row['code'],
                 ]);
             })
+            ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'product',
@@ -71,6 +73,7 @@ class OutOfStockInventoryDatatable extends DataTable
                 'product' => $outOfStockProduct->name,
                 'code' => $outOfStockProduct->code ?? '',
                 'type' => $outOfStockProduct->type,
+                'description' => $outOfStockProduct->description,
                 'product_id' => $outOfStockProduct->id,
                 'category' => $outOfStockProduct->productCategory->name,
             ]);
@@ -91,7 +94,10 @@ class OutOfStockInventoryDatatable extends DataTable
             userCompany()->plan->isPremium() ? 'type' : null,
             'category',
             ...$warehouses,
-        ])->filter()->toArray();
+        ])
+            ->push(Column::make('description')->visible(false))
+            ->filter()
+            ->toArray();
     }
 
     protected function filename()
