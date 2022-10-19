@@ -142,7 +142,7 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($customer->currentCreditBalance, 2)"
+                :amount="number_format($currentCreditBalance, 2)"
                 border-color="#fff"
                 text-color="text-gold"
                 label="Unsettled Credit Amount"
