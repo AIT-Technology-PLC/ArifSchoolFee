@@ -223,6 +223,14 @@ const initializeSelect2 = (element) => {
                 return data;
             }
 
+            if (
+                data.element.dataset.productDescription
+                    ?.toLowerCase()
+                    .indexOf(params.term.toLowerCase()) > -1
+            ) {
+                return data;
+            }
+
             return null;
         },
     });

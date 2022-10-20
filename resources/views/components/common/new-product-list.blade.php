@@ -10,12 +10,14 @@
         <option
             data-code=""
             data-product-category-name=""
+            data-product-description=""
         ></option>
         @foreach ($products as $product)
             <option
                 value="{{ $product->id }}"
                 data-code="{{ $product->code ?? '' }}"
                 data-product-category-name="{{ $product->productCategory->name }}"
+                data-product-description="{{ $product->description ?? '' }}"
             >
                 {{ $product->name }}
 
