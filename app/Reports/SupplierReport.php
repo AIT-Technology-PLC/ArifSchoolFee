@@ -114,6 +114,22 @@ class SupplierReport
             ->get();
     }
 
+    public function getPurchasesByType()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense, COUNT(purchases.type) AS transactions, purchases.type')
+            ->groupBy('purchases.type')
+            ->orderByDesc('expense')
+            ->get();
+    }
+
     public function getProductsByPurchaseExpense()
     {
         return (clone $this->query)
