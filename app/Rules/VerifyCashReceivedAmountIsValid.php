@@ -42,7 +42,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (empty(this->details)) {
+        if (empty($this->details)) {
             return false;
         }
 
