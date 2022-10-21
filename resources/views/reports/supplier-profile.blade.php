@@ -90,7 +90,7 @@
             <i class="fas fa-calendar"></i>
         </span>
         <span>
-            Lifetime Expense Summary
+            Lifetime Expenses Summary
         </span>
     </h1>
 
@@ -412,7 +412,7 @@
             <i class="fas fa-filter"></i>
         </span>
         <span>
-            Filtered Expense Report
+            Filtered Expenses Report
         </span>
     </h1>
 
