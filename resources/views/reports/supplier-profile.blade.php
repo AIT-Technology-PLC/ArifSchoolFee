@@ -131,16 +131,7 @@
                 label="Expense TOT"
             />
         </div>
-        <div class="column is-4 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getDailyAverageExpense, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Daily Average Expense"
-            />
-        </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-6 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
                 :amount="number_format($lifetimeExpenseReport->getAverageExpenseValue, 2)"
@@ -149,7 +140,7 @@
                 label="Average Transaction Value"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column is-6 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
                 :amount="number_format($lifetimeExpenseReport->getExpenseTransactionCount)"
