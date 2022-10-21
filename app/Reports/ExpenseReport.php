@@ -12,11 +12,15 @@ class ExpenseReport
 
     private $branches;
 
+    private $supplierID;
+
     private $period;
 
     public function __construct($filters)
     {
         $this->branches = $filters['branches'] ?? null;
+
+        $this->supplierID = $filters ?? null;
 
         $this->period = $filters['period'] ?? null;
 
@@ -36,8 +40,8 @@ class ExpenseReport
     {
         $this->query = ExpenseDetail::query()
             ->whereHas('expense', function ($q) {
-                return $q->whereIn('warehouse_id', $this->branches)
-                    ->whereDate('issued_on', '>=', $this->period[0])->whereDate('issued_on', '<=', $this->period[1])
+                return $q->when(isset($this->branches), fn($q) => $q->whereIn('warehouse_id', $this->branches))->
+                    when(isset($this->period), fn($q) => $q->whereDate('issued_on', '>=', $this->period[0])->whereDate('issued_on', '<=', $this->period[1]))
                     ->approved()
                     ->withoutGlobalScopes([BranchScope::class]);
             })
@@ -45,7 +49,8 @@ class ExpenseReport
             ->join('expenses', 'expense_details.expense_id', '=', 'expenses.id')
             ->join('warehouses', 'expenses.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('users', 'expenses.created_by', '=', 'users.id')
-            ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id');
+            ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id')
+            ->when(isset($this->supplierID), fn($query) => $query->where('expenses.supplier_id', $this->supplierID));
     }
 
     public function getExpenseTransactionCount()
@@ -189,6 +194,10 @@ class ExpenseReport
 
     public function getDailyAverageExpense()
     {
+        if (!isset($this->period)) {
+            return 0;
+        }
+
         $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;
 
         return $this->getTotalExpenseAfterTax / $days;

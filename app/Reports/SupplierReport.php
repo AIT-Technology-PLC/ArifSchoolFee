@@ -10,13 +10,9 @@ class SupplierReport
 
     private $filters;
 
-    private $supplier;
-
-    public function __construct($filters, $supplier)
+    public function __construct($filters)
     {
         $this->filters = $filters ?? null;
-
-        $this->supplier = $supplier;
 
         $this->setQuery();
     }
@@ -32,31 +28,16 @@ class SupplierReport
 
     private function setQuery()
     {
-        if (isset($this->filters['period'])) {
-            $this->query = PurchaseDetail::query()
-                ->whereHas('purchase', function ($q) {
-                    return $q->where('supplier_id', $this->supplier->id)
-                        ->whereDate('purchased_on', '>=', $this->filters['period'][0])
-                        ->whereDate('purchased_on', '<=', $this->filters['period'][1])
-                        ->purchased();
-                })
-                ->join('products', 'purchase_details.product_id', '=', 'products.id')
-                ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
-                ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
-                ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id');
-        }
-
-        if (!isset($this->filters['period'])) {
-            $this->query = PurchaseDetail::query()
-                ->whereHas('purchase', function ($q) {
-                    return $q->where('supplier_id', $this->supplier->id)
-                        ->purchased();
-                })
-                ->join('products', 'purchase_details.product_id', '=', 'products.id')
-                ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
-                ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
-                ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id');
-        }
+        $this->query = PurchaseDetail::query()
+            ->whereHas('purchase', function ($q) {
+                return $q->where('supplier_id', $this->filters)
+                    ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchased_on', '>=', $this->filters['period'][0])->whereDate('purchased_on', '<=', $this->filters['period'][1]))
+                    ->purchased();
+            })
+            ->join('products', 'purchase_details.product_id', '=', 'products.id')
+            ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
+            ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
+            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id');
     }
 
     public function getPurchaseCount()
@@ -108,7 +89,8 @@ class SupplierReport
                         WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
                         ELSE quantity*unit_price
                     END
-                ) AS expense, COUNT(payment_type) AS transactions, payment_type')
+                ) AS expense,
+                COUNT(payment_type) AS transactions, payment_type')
             ->groupBy('payment_type')
             ->orderByDesc('expense')
             ->get();
@@ -124,7 +106,8 @@ class SupplierReport
                         WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
                         ELSE quantity*unit_price
                     END
-                ) AS expense, COUNT(purchases.type) AS transactions, purchases.type')
+                ) AS expense,
+                COUNT(purchases.type) AS transactions, purchases.type')
             ->groupBy('purchases.type')
             ->orderByDesc('expense')
             ->get();
