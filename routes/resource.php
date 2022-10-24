@@ -163,4 +163,16 @@ Route::resource('suppliers.debts', Resource\SupplierDebtController::class)->only
 
 Route::resource('payables', Resource\PayableController::class)->only(['index']);
 
+Route::resource('expense-categories', Resource\ExpenseCategoryController::class)->except(['show']);
+
+Route::resource('expenses', Resource\ExpenseController::class);
+
+Route::resource('expense-details', Resource\ExpenseDetailController::class)->only(['destroy']);
+
+Route::resource('contacts', Resource\ContactController::class)->except('show');
+
+Route::resource('price-increments', Resource\PriceIncrementController::class);
+
+Route::resource('price-increment-details', Resource\PriceIncrementDetailController::class)->only('destroy');
+
 Route::resource('payrolls', Resource\PayrollController::class);

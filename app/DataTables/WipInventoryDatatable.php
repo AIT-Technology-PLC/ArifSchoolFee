@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Merchandise;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class WipInventoryDatatable extends DataTable
@@ -26,6 +27,7 @@ class WipInventoryDatatable extends DataTable
                     'code' => $row['code'],
                 ]);
             })
+            ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total balance',
@@ -73,6 +75,7 @@ class WipInventoryDatatable extends DataTable
                 'products.code as code',
                 'products.type as type',
                 'products.unit_of_measurement as unit',
+                'products.description as description',
                 'product_categories.name as category',
                 'warehouses.name as warehouse',
             ])
@@ -89,6 +92,7 @@ class WipInventoryDatatable extends DataTable
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'type' => $merchandiseValue->first()->type,
+                'description' => $merchandiseValue->first()->description,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('wip'),
             ];
@@ -116,7 +120,10 @@ class WipInventoryDatatable extends DataTable
             'category',
             ...$warehouses,
             'total balance',
-        ])->filter()->toArray();
+        ])
+            ->push(Column::make('description')->visible(false))
+            ->filter()
+            ->toArray();
     }
 
     protected function filename()

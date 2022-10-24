@@ -37,6 +37,7 @@ class JobService
                 }
 
                 if (!$this->isQuantityValid($job->jobDetails[$i]->quantity, $job->jobDetails[$i]->available, $job->jobDetails[$i]->wip + $data[$i]['wip'])) {
+                    DB::rollBack();
                     return [false, 'The quantity provided is inaccurate.'];
                 }
 
@@ -69,6 +70,7 @@ class JobService
             $billOfMaterialdetails = Arr::flatten($details, 1);
 
             if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                DB::rollBack();
                 return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
             }
 
@@ -161,17 +163,16 @@ class JobService
                 }
             }
 
-            if (!isset($details) || !count($details)) {
-                return false;
+            if (isset($details) && count($details)) {
+                $billOfMaterialdetails = Arr::flatten($details, 1);
+
+                if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
+                    DB::rollBack();
+                    return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
+                }
+
+                InventoryOperationService::subtract($billOfMaterialdetails);
             }
-
-            $billOfMaterialdetails = Arr::flatten($details, 1);
-
-            if (InventoryOperationService::unavailableProducts($billOfMaterialdetails)->isNotEmpty()) {
-                return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
-            }
-
-            InventoryOperationService::subtract($billOfMaterialdetails);
 
             if (isset($wipDetails) && count($wipDetails)) {
                 InventoryOperationService::subtract($wipDetails, 'wip');

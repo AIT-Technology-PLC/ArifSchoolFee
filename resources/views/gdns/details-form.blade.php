@@ -72,9 +72,11 @@
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
+                                    x-init="$nextTick(() => { gdn.warehouse_id = $el.value })"
                                     x-bind:id="`gdn[${index}][warehouse_id]`"
                                     x-bind:name="`gdn[${index}][warehouse_id]`"
                                     x-model="gdn.warehouse_id"
+                                    x-on:change="getInventoryLevel(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -99,6 +101,18 @@
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <x-forms.control>
+                                    <x-common.button
+                                        tag="button"
+                                        type="button"
+                                        mode="button"
+                                        class="bg-lightgreen text-green"
+                                        x-show="gdn.availableQuantity"
+                                        x-text="gdn.availableQuantity"
+                                    />
+                                </x-forms.control>
+                            @endif
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][quantity]`"
@@ -267,10 +281,10 @@
 
                     Pace.restart();
                 },
-                select2(index) {
+                async select2(index) {
                     let select2 = initializeSelect2(this.$el);
 
-                    select2.on("change", (event, haveData = false) => {
+                    select2.on("change", async (event, haveData = false) => {
                         this.gdns[index].product_id = event.target.value;
 
                         this.gdns[index].product_category_id =
@@ -285,10 +299,18 @@
                                 this.gdns[index].product_id
                             );
                         }
+
+                        this.getInventoryLevel(index)
                     });
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                async getInventoryLevel(index) {
+                    if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {
+                        await Merchandise.init(this.gdns[index].product_id, this.gdns[index].warehouse_id);
+                        this.gdns[index].availableQuantity = Merchandise.merchandise;
+                    }
                 }
             }));
         });

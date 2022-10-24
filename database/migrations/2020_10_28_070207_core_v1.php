@@ -95,10 +95,12 @@ return new class extends Migration
             $table->boolean('is_price_before_vat')->default(1);
             $table->boolean('is_discount_before_vat')->default(1);
             $table->boolean('is_convert_to_siv_as_approved')->default(1);
+            $table->boolean('is_editing_reference_number_enabled')->default(1);
             $table->boolean('can_show_branch_detail_on_print')->default(1);
             $table->decimal('paid_time_off_amount', 22)->default(0);
             $table->string('paid_time_off_type')->default('Days');
             $table->bigInteger('working_days')->default(26);
+            $table->boolean('is_backorder_enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();
 
@@ -240,6 +242,7 @@ return new class extends Migration
             $table->foreignId('purchased_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
             $table->string('type');
@@ -312,6 +315,7 @@ return new class extends Migration
             $table->foreignId('cancelled_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->bigInteger('code');
             $table->bigInteger('fs_number')->nullable();
             $table->string('payment_type');
@@ -320,6 +324,8 @@ return new class extends Migration
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
             $table->longText('description')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -366,6 +372,7 @@ return new class extends Migration
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('sale_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
@@ -381,6 +388,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('due_date')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -656,6 +665,7 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('converted_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('prefix')->nullable();
             $table->bigInteger('code');
             $table->boolean('is_closed')->default(0);
@@ -788,6 +798,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
@@ -805,6 +816,8 @@ return new class extends Migration
             $table->dateTime('issued_on')->nullable();
             $table->dateTime('expires_on')->nullable();
             $table->dateTime('due_date')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('reference_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -1317,6 +1330,98 @@ return new class extends Migration
             $table->index('debt_id');
         });
 
+        Schema::create('expense_categories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+            $table->unique(['warehouse_id', 'name']);
+        });
+
+        Schema::create('expenses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('contact_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('tax_type')->nullable();
+            $table->dateTime('issued_on')->nullable();
+            $table->bigInteger('reference_number')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->index('warehouse_id');
+            $table->unique(['company_id', 'warehouse_id', 'code']);
+        });
+
+        Schema::create('expense_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('expense_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('expense_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->string('name');
+            $table->decimal('quantity', 22);
+            $table->decimal('unit_price');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('expense_category_id');
+            $table->index('expense_id');
+        });
+
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->string('tin')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->unique(['company_id', 'tin']);
+        });
+
+        Schema::create('price_increments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('target_product');
+            $table->string('price_type');
+            $table->decimal('price_increment', 22);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+        });
+
+        Schema::create('price_increment_details', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('price_increment_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('price_increment_id');
+        });
+
         Schema::create('payrolls', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -1427,6 +1532,12 @@ return new class extends Migration
         Schema::drop('employee_compensation_histories');
         Schema::drop('debt_settlements');
         Schema::drop('debts');
+        Schema::drop('expense_details');
+        Schema::drop('expenses');
+        Schema::drop('expense_categories');
+        Schema::drop('contacts');
+        Schema::drop('price_increment_details');
+        Schema::drop('price_increments');
         Schema::drop('payrolls');
     }
 };

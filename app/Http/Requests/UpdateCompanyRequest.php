@@ -20,12 +20,11 @@ class UpdateCompanyRequest extends FormRequest
             'email' => ['nullable', 'string', 'email'],
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where(function ($query) {
-                return $query->where('id', '<>', $this->route('company')->id);
-            })],
+            'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where('id', '<>', $this->route('company')->id)->withoutTrashed()],
             'proforma_invoice_prefix' => ['nullable', 'string', 'max:255'],
             'is_price_before_vat' => ['required', 'boolean'],
             'is_convert_to_siv_as_approved' => ['required', 'boolean'],
+            'is_editing_reference_number_enabled' => ['required', 'boolean'],
             'can_show_branch_detail_on_print' => ['required', 'boolean'],
             'income_tax_region' => ['required', 'string', Rule::in(['Ethiopia'])],
 
@@ -47,7 +46,9 @@ class UpdateCompanyRequest extends FormRequest
             'paid_time_off_amount' => ['nullable', 'numeric'],
             'paid_time_off_type' => ['nullable', 'string', Rule::in(['Days', 'Hours'])],
             'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
-            'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
+            'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
+            'is_backorder_enabled' => ['required', 'boolean'],
+            'can_check_inventory_on_forms' => ['required', 'boolean'],
         ];
     }
 }

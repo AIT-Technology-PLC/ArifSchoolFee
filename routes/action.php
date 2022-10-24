@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Action as Action;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Action as Action;
+
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -282,6 +283,10 @@ Route::post('/warnings/{warning}/approve',
     [Action\WarningController::class, 'approve'])
     ->name('warnings.approve');
 
+Route::get('/warnings/{warning}/print',
+    [Action\WarningController::class, 'printed'])
+    ->name('warnings.print');
+
 // Attendance
 Route::post('/attendances/{attendance}/approve',
     [Action\AttendanceController::class, 'approve'])
@@ -390,6 +395,30 @@ Route::post('/compensation-adjustments/{compensation_adjustment}/approve',
 Route::post('/compensation-adjustments/{compensation_adjustment}/cancel',
     [Action\CompensationAdjustmentController::class, 'cancel'])
     ->name('compensation-adjustments.cancel');
+
+//Expense
+Route::post('/expenses/{expense}/approve',
+    [Action\ExpenseController::class, 'approve'])
+    ->name('expenses.approve');
+
+//Price
+Route::post('/prices/import',
+    [Action\PriceController::class, 'import'])
+    ->name('prices.import');
+
+//Contacts
+Route::post('/contacts/import',
+    [Action\ContactController::class, 'import'])
+    ->name('contacts.import');
+
+// Price Increment
+Route::post('/price-increments/{price_increment}/approve',
+    [Action\PriceIncrementController::class, 'approve'])
+    ->name('price-increments.approve');
+
+Route::post('/price-increments/{price_increment}/import',
+    [Action\PriceIncrementController::class, 'import'])
+    ->name('price-increments.import');
 
 // Payroll
 Route::post('/payrolls/{payroll}/approve',

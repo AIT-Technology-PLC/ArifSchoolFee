@@ -496,8 +496,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Price', 'Read Customer'])
+        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
+            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Read Contact'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -625,25 +625,6 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Price Management'))
-                                @can('Read Price')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('prices.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-tags"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Prices
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
                             @if (isFeatureEnabled('Customer Management'))
                                 @can('Read Customer')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
@@ -652,12 +633,31 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-user"></i>
+                                                <i class="fas fa-address-card"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Customers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Contact Management'))
+                                @can('Read Contact')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('contacts.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-address-card"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Contacts
                                         </span>
                                     </div>
                                 @endcan
@@ -778,8 +778,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management'))
-            @canany(['Read Purchase', 'Read Supplier', 'Read Debt'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -850,6 +850,39 @@
                                 @endcan
                             @endif
 
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Read Expense')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expense-categories.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense Categories
+                                        </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expenses.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expenses
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
                             @foreach (pads('Purchases & Suppliers') as $pad)
                                 @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
@@ -874,8 +907,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Product Management'))
-            @can('Read Product')
+        @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
+            @can('Read Product', 'Read Price', 'Read Price Increment')
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -917,6 +950,43 @@
                                     Products
                                 </span>
                             </div>
+                            @if (isFeatureEnabled('Price Management'))
+                                @can('Read Price')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('prices.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-tags"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Prices
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Price Increment'))
+                                @can('Read Price Increment')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('price-increments.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-tags"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Price Increments
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 </section>
@@ -1000,8 +1070,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report'))
-            @canany(['Read Sales Performance Report'])
+        @if (isFeatureEnabled('Sales Report', 'Expense Report', 'Customer Report'))
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1016,10 +1086,10 @@
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
                             @if (isFeatureEnabled('Sales Report'))
-                                @can('Read Sales Performance Report')
+                                @can('Read Sale Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('reports.sales_performance') }}"
+                                            href="{{ route('reports.sale') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
@@ -1028,7 +1098,61 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Sales Performance
+                                            Sales
+                                        </span>
+                                    </div>
+                                @endcan
+                                @can('Read Return Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.return') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-file-circle-xmark"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales Return
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Report'))
+                                @can('Read Expense Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.expense') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart-column"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Customer Report'))
+                                @can('Read Customer Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.customer') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chalkboard-user"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Customers
                                         </span>
                                     </div>
                                 @endcan

@@ -24,7 +24,7 @@ class LeaveCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'icon' => 'user-slash',
+            'icon' => 'umbrella-beach',
             'message' => 'New leave has been created by ' . ucfirst($this->leaf->createdBy->name),
             'endpoint' => '/leaves/' . $this->leaf->id,
         ];

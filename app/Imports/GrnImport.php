@@ -55,7 +55,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_name'] = str()->squish($data['product_name']);
+        $data['product_name'] = str()->squish($data['product_name'] ?? '');
 
         return $data;
     }

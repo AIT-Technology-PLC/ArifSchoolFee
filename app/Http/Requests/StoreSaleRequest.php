@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -19,7 +20,7 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('sales')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('sales'), new CanEditReferenceNumber('sales')],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
@@ -36,6 +37,7 @@ class StoreSaleRequest extends FormRequest
                 ),
             ],
 
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
@@ -45,8 +47,8 @@ class StoreSaleRequest extends FormRequest
             ],
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
-                if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
+                if ($this->get('payment_type') != 'Credit Payment' && $value != 'percent') {
+                    $fail('When payment type is not "Credit Payment", the type should be "Percent".');
                 }
             },
             ],
@@ -63,6 +65,8 @@ class StoreSaleRequest extends FormRequest
             ],
 
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
         ];
     }
 }

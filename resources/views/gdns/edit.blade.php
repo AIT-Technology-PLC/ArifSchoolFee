@@ -26,6 +26,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $gdn->code }}"
                                 />
                                 <x-common.icon
@@ -104,6 +105,20 @@
                                 </x-forms.cont>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="contact_id">
+                                Contact <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.contact-list :selected-id="$gdn->contact_id ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-address-card"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
@@ -124,7 +139,7 @@
                     </div>
                 </div>
 
-                <x-common.content-wrapper x-data="cashReceivedType('{{ $gdn->payment_type }}', '{{ $gdn->cash_received_type }}', {{ $gdn->cash_received }}, '{{ $gdn->due_date?->toDateString() }}')">
+                <x-common.content-wrapper x-data="cashReceivedType('{{ $gdn->payment_type }}', '{{ $gdn->cash_received_type }}', {{ $gdn->cash_received }}, '{{ $gdn->due_date?->toDateString() }}', '{{ $gdn->bank_name }}', '{{ $gdn->reference_number }}')">
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
@@ -165,6 +180,9 @@
                                             <option disabled>Select Payment</option>
                                             <option value="Cash Payment">Cash Payment</option>
                                             <option value="Credit Payment">Credit Payment</option>
+                                            <option value="Bank Deposit">Bank Deposit</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="Cheque">Cheque</option>
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-credit-card"
@@ -177,7 +195,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                                x-bind:class="{ 'is-hidden': isPaymentNotCredit() }"
                             >
                                 <x-forms.label for="cash_received">
                                     Cash Received <sup class="has-text-danger">*</sup>
@@ -216,7 +234,7 @@
                             <div
                                 class="column"
                                 x-cloak
-                                x-bind:class="{ 'is-hidden': isPaymentInCash() }"
+                                x-bind:class="{ 'is-hidden': isPaymentNotCredit() }"
                             >
                                 <x-forms.field>
                                     <x-forms.label for="due_date">
@@ -235,6 +253,61 @@
                                             class="is-small is-left"
                                         />
                                         <x-common.validation-error property="due_date" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCredit() }"
+                            >
+                                <x-forms.field>
+                                    <x-forms.label for="bank_name">
+                                        Bank <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.select
+                                            class="is-fullwidth"
+                                            id="bank_name"
+                                            name="bank_name"
+                                            x-model="bankName"
+                                        >
+                                            <option
+                                                selected
+                                                value=""
+                                            > Select Bank </option>
+                                            @include('lists.banks')
+                                        </x-forms.select>
+                                        <x-common.icon
+                                            name="fas fa-university"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="bank_name" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div
+                                class="column"
+                                x-cloak
+                                x-bind:class="{ 'is-hidden': isPaymentInCredit() }"
+                            >
+                                <x-forms.label for="reference_number">
+                                    Reference No <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="reference_number"
+                                            name="reference_number"
+                                            type="text"
+                                            placeholder="Reference No"
+                                            x-model="referenceNumber"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-hashtag"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="reference_number" />
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>

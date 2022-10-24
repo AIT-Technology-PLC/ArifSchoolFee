@@ -204,6 +204,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Price']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Price']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Price']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Price']);
 
             // Pad
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Pad']);
@@ -318,8 +319,37 @@ class Permissions extends Seeder
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Debt']);
 
-            // Sales Report
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sales Performance Report']);
+            //Finance Expense
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
+
+            //Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Return Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+
+            //Customer Profile Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+
+            // Contact
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Contact']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Contact']);
+
+            //Price Increment
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Price Increment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Price Increment']);
 
             //Payroll
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Payroll']);
@@ -333,29 +363,7 @@ class Permissions extends Seeder
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
             // Assign permissions to role
-            $analyst->syncPermissions([
-                'Read GDN',
-                'Read GRN',
-                'Read Job',
-                'Read Purchase',
-                'Read Sale',
-                'Read Proforma Invoice',
-                'Read Damage',
-                'Read SIV',
-                'Read Adjustment',
-                'Read Return',
-                'Read Available Inventory',
-                'Read Reserved Inventory',
-                'Read Work In Process Inventory',
-                'Read On Hand Inventory',
-                'Read Out Of Stock Inventory',
-                'Read Product',
-                'Read Supplier',
-                'Read Customer',
-                'Read Reservation',
-                'Read BOM',
-                'Read Department',
-            ]);
+            $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));
 
             $humanResourceManager->syncPermissions([
                 'Create Department',
@@ -449,11 +457,14 @@ class Permissions extends Seeder
             $purchaseManager->syncPermissions([
                 'Create Purchase',
                 'Create Supplier',
+                'Create Contact',
                 'Read Purchase',
                 'Read Supplier',
+                'Read Contact',
                 'Read Product',
                 'Update Purchase',
                 'Update Supplier',
+                'Update Contact',
             ]);
 
             $salesOfficer->syncPermissions([
@@ -461,12 +472,14 @@ class Permissions extends Seeder
                 'Create Sale',
                 'Create Proforma Invoice',
                 'Create Customer',
+                'Create Contact',
                 'Create Return',
                 'Create Reservation',
                 'Read GDN',
                 'Read Sale',
                 'Read Proforma Invoice',
                 'Read Customer',
+                'Read Contact',
                 'Read Return',
                 'Read Product',
                 'Read Reservation',
@@ -474,6 +487,7 @@ class Permissions extends Seeder
                 'Update Sale',
                 'Update Proforma Invoice',
                 'Update Customer',
+                'Update Contact',
                 'Update Return',
                 'Update Reservation',
                 'Convert Proforma Invoice',

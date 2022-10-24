@@ -17,7 +17,8 @@ class UpdateAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('adjustments', $this->route('adjustment')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('adjustments', $this->route('adjustment')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'adjustment' => ['required', 'array'],
             'adjustment.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('adjustment')->pluck('id'))],
             'adjustment.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],

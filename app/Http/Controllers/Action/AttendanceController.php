@@ -22,7 +22,7 @@ class AttendanceController extends Controller
     {
         $this->authorize('approve', $attendance);
 
-        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $attendance->attendanceDetails->pluck('employee_id')))->pluck('warehouse_id'))) {
+        if (!authUser()->hasWarehousePermission('hr', User::whereHas('employee', fn($q) => $q->whereIn('id', $attendance->attendanceDetails->pluck('employee_id')))->pluck('warehouse_id')->values()->all())) {
             return back()->with('failedMessage', 'You do not have permission to approve this attendance request.');
         }
 

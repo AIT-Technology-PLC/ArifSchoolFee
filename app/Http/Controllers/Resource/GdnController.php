@@ -69,7 +69,7 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'sale']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'contact', 'sale']);
 
         $sivs = Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->get();
 
@@ -119,7 +119,7 @@ class GdnController extends Controller
 
         abort_if($gdn->isSubtracted(), 403);
 
-        abort_if($gdn->isApproved() && ! authUser()->can('Delete Approved GDN'), 403);
+        abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
         $gdn->forceDelete();
 

@@ -4,33 +4,45 @@ namespace App\Reports;
 
 class TransactionReport
 {
-    private $source;
+    private $master;
+
+    private $details;
+
+    private $transactionCount;
 
     public function __construct($source)
     {
-        $this->source = $source;
+        $this->master = $source['master'];
+
+        $this->details = $source['details'];
+
+        $this->transactionCount = (clone $this->master)->count();
+    }
+
+    public function __get($name)
+    {
+        if (!isset($this->$name)) {
+            $this->$name = $this->$name();
+        }
+
+        return $this->$name;
     }
 
     public function getAverageTransactionValue()
     {
-        if ($this->source->count() == 0) {
-            return 0;
+        if ($this->transactionCount == 0) {
+            return $this->transactionCount;
         }
 
-        return $this->source->sum('grand_total_price_after_discount') / $this->source->count();
-    }
-
-    public function getTotalTransactionCount()
-    {
-        return $this->source->count();
+        return (clone $this->master)->sum('subtotal_price') * 1.15 / $this->transactionCount;
     }
 
     public function getAverageItemsPerTransaction()
     {
-        if ($this->source->count() == 0) {
-            return 0;
+        if ($this->transactionCount == 0) {
+            return $this->transactionCount;
         }
 
-        return $this->source->pluck('details')->flatten(1)->count() / $this->source->count();
+        return $this->details->count() / $this->transactionCount;
     }
 }

@@ -6,7 +6,6 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateCreditPayment;
 use App\Traits\Closable;
-use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gdn extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, Approvable, PricingTicket, Discountable, HasUserstamps, Subtractable, CalculateCreditPayment, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Subtractable, CalculateCreditPayment, Closable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -48,6 +47,11 @@ class Gdn extends Model
     public function credit()
     {
         return $this->hasOne(Credit::class);
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
     }
 
     public function details()

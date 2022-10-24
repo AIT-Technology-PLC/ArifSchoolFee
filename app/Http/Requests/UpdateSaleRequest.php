@@ -21,8 +21,8 @@ class UpdateSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id)],
-            'fs_number' => ['sometimes', Rule::when(! is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
+            'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
+            'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
@@ -31,7 +31,7 @@ class UpdateSaleRequest extends FormRequest
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
-                    ! $this->route('sale')->isApproved() && ! $this->route('sale')->isCancelled(),
+                    !$this->route('sale')->isApproved() && !$this->route('sale')->isCancelled(),
                     new CheckCustomerCreditLimit(
                         $this->get('discount'),
                         $this->get('sale'),
@@ -42,6 +42,7 @@ class UpdateSaleRequest extends FormRequest
                 ),
             ],
 
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
@@ -51,8 +52,8 @@ class UpdateSaleRequest extends FormRequest
             ],
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
-                if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
+                if ($this->get('payment_type') != 'Credit Payment' && $value != 'percent') {
+                    $fail('When payment type is not "Credit Payment", the type should be "Percent".');
                 }
             },
             ],
@@ -69,6 +70,8 @@ class UpdateSaleRequest extends FormRequest
             ],
 
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
         ];
     }
 }

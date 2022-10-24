@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,8 +18,9 @@ class StoreProformaInvoiceRequest extends FormRequest
     {
         return [
             'prefix' => ['nullable', 'string'],
-            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices')],
+            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices'), new CanEditReferenceNumber('proforma_invoices')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['nullable', 'date', 'after_or_equal:issued_on'],
             'terms' => ['nullable', 'string'],

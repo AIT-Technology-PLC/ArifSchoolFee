@@ -37,9 +37,16 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-address-card"
+                        icon="fas fa-user"
                         :data="$purchase->supplier->company_name ?? 'N/A'"
                         label="Supplier"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$purchase->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 @if (!$purchase->isImported())
@@ -83,8 +90,8 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-balance-scale"
-                            :data="$purchase->freight_unit"
-                            label="Freight Unit"
+                            :data="quantity($purchase->purchaseDetails->sum('amount'), $purchase->freight_unit)"
+                            label="Freight Volume"
                         />
                     </div>
                 @endif

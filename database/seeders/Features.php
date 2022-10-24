@@ -149,32 +149,32 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Department Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Employee Transfer'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Warning Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Attendance Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Leave Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Advancement Management'],
@@ -182,11 +182,11 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Expense Claim'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Announcement Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Management'],
@@ -206,6 +206,26 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Sales Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Expense Management'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Expense Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Customer Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Contact Management'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Price Increment'],
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
@@ -231,6 +251,7 @@ class Features extends Seeder
                         'Siv Management',
                         'Proforma Invoice',
                         'Customer Management',
+                        'Contact Management',
                         'Purchase Management',
                         'Supplier Management',
                         'Product Management',
@@ -240,6 +261,7 @@ class Features extends Seeder
                         'Notification Management',
                         'Return Management',
                         'Push Notification',
+                        'Sales Report',
                     ])
                     ->pluck('id')
                     ->toArray()
@@ -270,6 +292,7 @@ class Features extends Seeder
                     ->whereIn('name', [
                         'Proforma Invoice',
                         'Customer Management',
+                        'Contact Management',
                         'Product Management',
                         'Warehouse Management',
                         'User Management',

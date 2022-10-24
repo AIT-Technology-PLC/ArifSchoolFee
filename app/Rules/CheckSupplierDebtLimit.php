@@ -37,7 +37,7 @@ class CheckSupplierDebtLimit implements Rule
             return true;
         }
 
-        if (is_null($this->details) || is_null($this->cashPaidType) || is_null($this->cashPaid)) {
+        if (empty($this->details) || is_null($this->cashPaidType) || is_null($this->cashPaid)) {
             $this->message = 'Please provide all payment details information.';
             return false;
         }

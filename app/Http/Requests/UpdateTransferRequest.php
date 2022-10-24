@@ -17,7 +17,8 @@ class UpdateTransferRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'transfer' => ['required', 'array'],
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0'],

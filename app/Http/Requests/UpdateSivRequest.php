@@ -17,7 +17,8 @@ class UpdateSivRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('sivs', $this->route('siv')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],

@@ -17,7 +17,8 @@ class UpdateGrnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('grns', $this->route('grn')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('grns', $this->route('grn')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'grn' => ['required', 'array'],
             'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

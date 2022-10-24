@@ -15,9 +15,7 @@ class UpdateDepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id)->where('id', '<>', $this->route('department')->id);
-            })],
+            'name' => ['required', 'string', 'max:255', Rule::unique('departments')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('department')->id)->withoutTrashed()],
             'description' => ['nullable', 'string'],
         ];
     }

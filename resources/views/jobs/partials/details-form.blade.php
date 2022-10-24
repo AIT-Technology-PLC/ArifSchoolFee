@@ -47,6 +47,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-common.new-product-list
+                                    :type="['Finished Goods']"
                                     class="product-list"
                                     x-bind:id="`job[${index}][product_id]`"
                                     x-bind:name="`job[${index}][product_id]`"

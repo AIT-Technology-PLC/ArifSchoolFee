@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,7 +18,7 @@ class StoreReturnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('returns')],
+            'code' => ['required', 'string', new UniqueReferenceNum('returns'), new CanEditReferenceNumber('returns')],
             'return' => ['required', 'array'],
             'return.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],

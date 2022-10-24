@@ -26,7 +26,7 @@ class ReservationDetailDatatable extends DataTable
                 return quantity($reservationDetail->quantity, $reservationDetail->product->unit_of_measurement);
             })
             ->editColumn('unit_price', fn ($reservationDetail) => money($reservationDetail->unit_price))
-            ->editColumn('discount', fn ($reservationDetail) => number_format($reservationDetail->discount * 100, 2).'%')
+            ->editColumn('discount', fn ($reservationDetail) => ($reservationDetail->discount ?? 0).'%')
             ->editColumn('total', fn ($reservationDetail) => money($reservationDetail->totalPrice))
             ->editColumn('description', fn ($reservationDetail) => nl2br(e($reservationDetail->description)))
             ->editColumn('actions', function ($reservationDetail) {
@@ -59,7 +59,7 @@ class ReservationDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_price')->addClass('has-text-right'),
-            userCompany()->isDiscountBeforeVAT() ? Column::computed('discount') : null,
+            userCompany()->isDiscountBeforeVAT() ? Column::computed('discount')->addClass('has-text-right') : null,
             Column::computed('total')->addClass('has-text-right'),
             Column::make('description')->visible(false),
             Column::computed('actions'),

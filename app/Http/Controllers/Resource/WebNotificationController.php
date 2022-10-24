@@ -22,8 +22,6 @@ class WebNotificationController extends Controller
             $request->authToken,
             $request->contentEncoding
         );
-
-        return back()->with('success', 'Notification send successfully.');
     }
 
     public function destroy(Request $request)
@@ -31,7 +29,5 @@ class WebNotificationController extends Controller
         $this->validate($request, ['endpoint' => 'required']);
 
         authUser()->deletePushSubscription($request->endpoint);
-
-        return back()->with('delete', 'Notification delete successfully.');
     }
 }

@@ -3,7 +3,19 @@
 @section('title', 'Edit Purchase')
 
 @section('content')
-    <x-common.content-wrapper x-data="purchaseInformation('{{ $purchase->type }}', '{{ $purchase->tax_type }}', '{{ $purchase->currency }}', '{{ $purchase->exchange_rate }}', '{{ $purchase->payment_type }}', '{{ $purchase->cash_paid_type }}', '{{ $purchase->cash_paid }}', '{{ $purchase->due_date?->toDateString() }}', '{{ $purchase->freight_cost }}', '{{ $purchase->freight_insurance_cost }}', '{{ $purchase->freight_unit }}', '{{ $purchase->freight_amount }}')">
+    <x-common.content-wrapper x-data="purchaseInformation(
+        '{{ $purchase->type }}',
+        '{{ $purchase->tax_type }}',
+        '{{ $purchase->currency }}',
+        '{{ $purchase->exchange_rate }}',
+        '{{ $purchase->payment_type }}',
+        '{{ $purchase->cash_paid_type }}',
+        '{{ $purchase->cash_paid }}',
+        '{{ $purchase->due_date?->toDateString() }}',
+        '{{ $purchase->freight_cost }}',
+        '{{ $purchase->freight_insurance_cost }}',
+        '{{ $purchase->freight_unit }}',
+        '{{ $purchase->isImported() ? $purchase->purchaseDetails->sum('amount') : '' }}')">
         <x-content.header title="Edit Purchase" />
         <form
             id="formOne"
@@ -26,6 +38,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $purchase->code }}"
                                 />
                                 <x-common.icon
@@ -230,6 +243,20 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="contact_id">
+                                Contact <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="select is-fullwidth has-icons-left">
+                                <x-common.contact-list :selected-id="$purchase->contact_id ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-address-card"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div
                         class="column is-6"
                         x-cloak
@@ -292,6 +319,7 @@
                                     <option value="USD">USD - US Dollar</option>
                                     <option value="">None</option>
                                 </x-forms.select>
+                                <x-common.validation-error property="currency" />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
@@ -305,7 +333,6 @@
                                     name="fas fa-dollar-sign"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="currency" />
                                 <x-common.validation-error property="exchange_rate" />
                             </x-forms.control>
                         </x-forms.field>
@@ -366,9 +393,23 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.label for="freight_amount">
-                            Freight Amount <sup class="has-text-danger">*</sup>
+                            Freight Volume <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="freight_amount"
+                                    id="freight_amount"
+                                    placeholder="Total Freight Volume"
+                                    x-model="freightAmount"
+                                />
+                                <x-common.icon
+                                    name="fas fa-balance-scale"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="freight_amount" />
+                            </x-forms.control>
                             <x-forms.control>
                                 <x-forms.select
                                     name="freight_unit"
@@ -377,20 +418,6 @@
                                     <x-common.measurement-unit-options />
                                     <option value="">None</option>
                                 </x-forms.select>
-                            </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
-                                <x-forms.input
-                                    type="number"
-                                    name="freight_amount"
-                                    id="freight_amount"
-                                    placeholder="Total Freight Amount"
-                                    x-model="freightAmount"
-                                />
-                                <x-common.icon
-                                    name="fas fa-balance-scale"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="freight_amount" />
                                 <x-common.validation-error property="freight_unit" />
                             </x-forms.control>
                         </x-forms.field>

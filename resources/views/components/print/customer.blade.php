@@ -1,5 +1,6 @@
 @props([
     'customer' => $customer,
+    'contact' => $contact ?? '',
 ])
 
 @if ($customer)
@@ -28,7 +29,7 @@
                 </p>
             </aside>
         @endif
-        @if ($customer->contact_name)
+        @if ($contact || $customer->contact_name)
             <aside
                 class="is-pulled-left"
                 style="width: 25% !important"
@@ -37,7 +38,7 @@
                     Contact
                 </h1>
                 <p class="has-text-black is-size-6 pr-2">
-                    {{ $customer->contact_name }}
+                    {{ $contact->name ?? $customer->contact_name }}
                 </p>
             </aside>
         @endif

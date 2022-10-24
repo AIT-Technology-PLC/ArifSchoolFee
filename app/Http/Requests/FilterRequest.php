@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -15,16 +16,19 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'branch' => ['nullable', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
-            'period' => ['nullable', 'array'],
-            'period.*' => ['nullable', 'date'],
+            'branches' => ['required', 'array'],
+            'branches.*' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transactions')->pluck('id'))],
+            'period' => ['required', 'array'],
+            'period.*' => ['required', 'date'],
+            'user_id' => ['nullable', 'integer', new MustBelongToCompany('users')],
         ];
     }
 
     public function prepareForValidation()
     {
         $this->merge([
-            'period' => is_null($this->input('period')) ? null : dateRangePicker($this->input('period')),
+            'branches' => is_null($this->input('branches')) ? authUser()->getAllowedWarehouses('transactions')->pluck('id')->toArray() : [$this->input('branches')],
+            'period' => is_null($this->input('period')) ? [today(), today()] : dateRangePicker($this->input('period')),
         ]);
     }
 }

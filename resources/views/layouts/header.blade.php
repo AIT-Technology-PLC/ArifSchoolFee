@@ -209,7 +209,7 @@
                             </span>
                         </a>
                         @if (isFeatureEnabled('Push Notification'))
-                            <x-common.push-notifications />
+                            <x-common.push-notifications can-update-subscription />
                         @endif
                         <hr class="navbar-divider">
                         <form

@@ -25,6 +25,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $currentTransferCode }}"
                                 />
                                 <x-common.icon
@@ -132,7 +133,7 @@
             </x-content.main>
 
             @include('transfers.details-form', ['data' => session()->getOldInput()])
-            
+
             <x-content.footer>
                 <x-common.save-button />
             </x-content.footer>

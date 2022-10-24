@@ -16,9 +16,7 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'department' => ['required', 'array'],
-            'department.*.name' => ['required', 'string', 'distinct', 'max:255', Rule::unique('departments', 'name')->where(function ($query) {
-                return $query->where('company_id', userCompany()->id);
-            })],
+            'department.*.name' => ['required', 'string', 'distinct', 'max:255', Rule::unique('departments', 'name')->where('company_id', userCompany()->id)->withoutTrashed()],
             'department.*.description' => ['nullable', 'string'],
         ];
     }

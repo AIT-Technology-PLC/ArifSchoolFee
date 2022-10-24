@@ -1,6 +1,6 @@
 const d = document;
 
-const addKeyValueInputFields = (function () {
+const addKeyValueInputFields = (function() {
     let index = 0;
     const newForm = d.getElementById("newForm");
 
@@ -10,7 +10,7 @@ const addKeyValueInputFields = (function () {
 
     newForm.classList.remove("is-hidden");
 
-    return function () {
+    return function() {
         const keyValueFieldPair = `
             <div class="column is-6">
                 <div class="field">
@@ -123,7 +123,7 @@ function initiateDataTables() {
             {
                 extend: "pdfHtml5",
                 orientation: "landscape",
-                customize: function (doc) {
+                customize: function(doc) {
                     doc.content[1].margin = [0, 0, 0, 0];
                 },
                 exportOptions: {
@@ -148,7 +148,7 @@ function initializeSummernote() {
             ["forecolor", ["forecolor"]],
         ],
         callbacks: {
-            onPaste: function (e) {
+            onPaste: function(e) {
                 var bufferText = (
                     (e.originalEvent || e).clipboardData || window.clipboardData
                 ).getData("Text");
@@ -156,7 +156,7 @@ function initializeSummernote() {
                 e.preventDefault();
 
                 // Firefox fix
-                setTimeout(function () {
+                setTimeout(function() {
                     document.execCommand("insertText", false, bufferText);
                 }, 10);
             },
@@ -416,36 +416,58 @@ document.addEventListener("alpine:init", () => {
             paymentType = "",
             cashReceivedType = "",
             cashReceived = "",
-            dueDate = ""
+            dueDate = "",
+            bankName = "",
+            referenceNumber = "",
         ) => ({
             paymentType: "",
             cashReceivedType: "",
             cashReceived: "",
             dueDate: "",
+            bankName: "",
+            referenceNumber: "",
 
             init() {
                 this.paymentType = paymentType;
                 this.cashReceivedType = cashReceivedType;
                 this.cashReceived = cashReceived;
                 this.dueDate = dueDate;
+                this.bankName = bankName;
+                this.referenceNumber = referenceNumber;
             },
             changePaymentMethod() {
-                if (this.paymentType === "Cash Payment") {
+                if (this.paymentType != "Credit Payment") {
                     this.cashReceivedType = "percent";
                     this.cashReceived = 100;
                     this.dueDate = "";
                 }
+
+                if (this.paymentType === "Cash Payment") {
+                    this.bankName = "";
+                    this.referenceNumber = "";
+                }
+
                 if (this.paymentType === "Credit Payment") {
                     this.cashReceivedType = "";
                     this.cashReceived = "";
                     this.dueDate = "";
+                    this.bankName = "";
+                    this.referenceNumber = "";
                 }
             },
 
-            isPaymentInCash() {
+            isPaymentInCredit() {
                 return (
                     this.paymentType === "" ||
+                    this.paymentType === "Credit Payment" ||
                     this.paymentType === "Cash Payment"
+                );
+            },
+
+            isPaymentNotCredit() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType != "Credit Payment"
                 );
             },
         })
@@ -737,22 +759,47 @@ document.addEventListener("alpine:init", () => {
         },
     });
 
-    Alpine.data("productType", (type = "") => ({
+    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "") => ({
         type: "",
+        isBatchable: "0",
+        batchPriority: "",
         isTypeService: false,
 
         init() {
             this.type = type;
+            this.isBatchable = isBatchable;
+            this.batchPriority = batchPriority;
             this.changeProductType();
         },
 
         changeProductType() {
             if (this.type === "Services") {
+                this.isBatchable = "0";
+                this.batchPriority = "";
                 this.isTypeService = true;
                 return;
             }
 
             this.isTypeService = false;
+        },
+    }));
+
+    Alpine.data("targetProducts", (targetProduct = "") => ({
+        targetProduct: "",
+        isNotSpecificProduct: false,
+
+        init() {
+            this.targetProduct = targetProduct;
+            this.changeTargetProduct();
+        },
+
+        changeTargetProduct() {
+            if (this.targetProduct != "Specific Products") {
+                this.isNotSpecificProduct = true;
+                return;
+            }
+
+            this.isNotSpecificProduct = false;
         },
     }));
 });

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\BranchScope;
-use App\Traits\Discountable;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ReservationDetail extends Model
 {
-    use HasFactory, SoftDeletes, PricingProduct, Discountable, TouchParentUserstamp;
+    use HasFactory, SoftDeletes, PricingProduct, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -67,7 +66,7 @@ class ReservationDetail extends Model
             ->load([
                 'reservation' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }, ]
+                }]
             );
     }
 }
