@@ -532,6 +532,7 @@
                                     No
                                 </label>
                                 <x-common.validation-error property="allow_chassis_tracker" />
+                            </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
