@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProformaInvoiceRequest extends FormRequest
 {
@@ -17,8 +18,10 @@ class UpdateProformaInvoiceRequest extends FormRequest
     {
         return [
             'prefix' => ['nullable', 'string'],
-            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices', $this->route('proforma_invoice')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices', $this->route('proforma_invoice')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'expires_on' => ['nullable', 'date', 'after_or_equal:issued_on'],
             'terms' => ['nullable', 'string'],

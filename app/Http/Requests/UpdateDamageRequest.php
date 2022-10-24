@@ -17,7 +17,8 @@ class UpdateDamageRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('damages', $this->route('damage')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('damages', $this->route('damage')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'damage' => ['required', 'array'],
             'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'damage.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('subtract')->pluck('id'))],

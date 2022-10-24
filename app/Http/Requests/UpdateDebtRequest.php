@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateDebtRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class UpdateDebtRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
             'debt_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date'],

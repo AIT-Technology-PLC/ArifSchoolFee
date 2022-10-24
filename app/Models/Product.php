@@ -40,6 +40,7 @@ class Product extends Model
         'jobExtras',
         'billOfMaterials',
         'billOfMaterialDetails',
+        'priceIncrementDetails',
     ];
 
     public function merchandises()
@@ -206,5 +207,10 @@ class Product extends Model
     public function hasChassisTracker()
     {
         return $this->has_chassis_tracker;
+    }
+
+    public function priceIncrementDetails()
+    {
+        return $this->hasMany(priceIncrementDetail::class);
     }
 }

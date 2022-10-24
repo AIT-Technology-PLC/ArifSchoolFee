@@ -24,7 +24,7 @@
             ({{ number_format($model->cashReceivedInPercentage, 2) }}%)
         </h1>
     </aside>
-    @if (!$model->isPaymentInCash())
+    @if ($model->isPaymentInCredit())
         <aside
             class="is-pulled-left"
             style="width: 25% !important"

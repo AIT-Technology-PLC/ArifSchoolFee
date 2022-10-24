@@ -66,7 +66,7 @@ class PurchaseController extends Controller
     {
         $datatable->builder()->setTableId('purchase-details-datatable');
 
-        $purchase->load(['purchaseDetails.purchase', 'supplier', 'grns']);
+        $purchase->load(['purchaseDetails.purchase', 'supplier', 'contact', 'grns']);
 
         return $datatable->render('purchases.show', compact('purchase'));
     }

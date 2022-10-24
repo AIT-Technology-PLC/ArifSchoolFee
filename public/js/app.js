@@ -416,36 +416,58 @@ document.addEventListener("alpine:init", () => {
             paymentType = "",
             cashReceivedType = "",
             cashReceived = "",
-            dueDate = ""
+            dueDate = "",
+            bankName = "",
+            referenceNumber = "",
         ) => ({
             paymentType: "",
             cashReceivedType: "",
             cashReceived: "",
             dueDate: "",
+            bankName: "",
+            referenceNumber: "",
 
             init() {
                 this.paymentType = paymentType;
                 this.cashReceivedType = cashReceivedType;
                 this.cashReceived = cashReceived;
                 this.dueDate = dueDate;
+                this.bankName = bankName;
+                this.referenceNumber = referenceNumber;
             },
             changePaymentMethod() {
-                if (this.paymentType === "Cash Payment") {
+                if (this.paymentType != "Credit Payment") {
                     this.cashReceivedType = "percent";
                     this.cashReceived = 100;
                     this.dueDate = "";
                 }
+
+                if (this.paymentType === "Cash Payment") {
+                    this.bankName = "";
+                    this.referenceNumber = "";
+                }
+
                 if (this.paymentType === "Credit Payment") {
                     this.cashReceivedType = "";
                     this.cashReceived = "";
                     this.dueDate = "";
+                    this.bankName = "";
+                    this.referenceNumber = "";
                 }
             },
 
-            isPaymentInCash() {
+            isPaymentInCredit() {
                 return (
                     this.paymentType === "" ||
+                    this.paymentType === "Credit Payment" ||
                     this.paymentType === "Cash Payment"
+                );
+            },
+
+            isPaymentNotCredit() {
+                return (
+                    this.paymentType === "" ||
+                    this.paymentType != "Credit Payment"
                 );
             },
         })
@@ -762,6 +784,25 @@ document.addEventListener("alpine:init", () => {
             }
 
             this.isTypeService = false;
+        },
+    }));
+
+    Alpine.data("targetProducts", (targetProduct = "") => ({
+        targetProduct: "",
+        isNotSpecificProduct: false,
+
+        init() {
+            this.targetProduct = targetProduct;
+            this.changeTargetProduct();
+        },
+
+        changeTargetProduct() {
+            if (this.targetProduct != "Specific Products") {
+                this.isNotSpecificProduct = true;
+                return;
+            }
+
+            this.isNotSpecificProduct = false;
         },
     }));
 });

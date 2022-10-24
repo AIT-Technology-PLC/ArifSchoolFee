@@ -11,14 +11,7 @@
                     <x-common.show-data-section
                         icon="fa-solid fa-money-bill-trend-up"
                         :data="$expense->code"
-                        label="Reference No"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-file-invoice-dollar"
-                        :data="$expense->tax_type"
-                        label="Tax Type"
+                        label="Expense No"
                     />
                 </div>
                 <div class="column is-6">
@@ -30,9 +23,30 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-address-card"
-                        :data="$expense->supplier?->name"
+                        icon="fas fa-file-invoice-dollar"
+                        :data="$expense->tax_type"
+                        label="Tax Type"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-hashtag"
+                        :data="$expense->reference_number"
+                        label="Reference No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-user"
+                        :data="$expense->supplier?->company_name"
                         label="Supplier"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$expense->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 <div class="column is-6">

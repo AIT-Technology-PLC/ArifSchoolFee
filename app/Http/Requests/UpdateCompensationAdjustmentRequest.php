@@ -18,7 +18,8 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id),
+                Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', Rule::unique('compensation_adjustments')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('compensation_adjustment')->id)->withoutTrashed()],
             'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('compensation_adjustments')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('compensation_adjustment')->id)->withoutTrashed()],

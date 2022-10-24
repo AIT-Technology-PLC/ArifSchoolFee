@@ -46,7 +46,7 @@ class ExpenseController extends Controller
 
         $currentExpenseCode = nextReferenceNumber('expenses');
 
-        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+        $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
         return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories', 'expenseNames'));
     }
@@ -79,13 +79,13 @@ class ExpenseController extends Controller
             return back()->with('failedMessage', 'You can not modify an expense that is approved.');
         }
 
-        $expense->load(['expenseDetails']);
+        $expense->load(['expenseDetails', 'contact']);
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        $expenseNames = ExpenseDetail::whereHas('expense')->orderBy('name')->pluck('name');
+        $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
         return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories', 'expenseNames'));
     }

@@ -39,6 +39,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Prices">
+            @can('Import Price')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Price"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create Price')
                 <x-common.button
                     tag="a"
@@ -51,10 +61,17 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted') ?? session('successMessage')" />
+            <x-common.success-message :message="session('deleted') ?? (session('successMessage') ?? session('imported'))" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Price')
+        <x-common.import
+            title="Import Price"
+            action="{{ route('prices.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

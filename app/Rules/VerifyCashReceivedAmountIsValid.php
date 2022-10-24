@@ -42,11 +42,15 @@ class VerifyCashReceivedAmountIsValid implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (empty($this->details)) {
+            return false;
+        }
+
         if (userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPrice($this->details);
         }
 
-        if (! userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeVAT()) {
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
@@ -56,14 +60,14 @@ class VerifyCashReceivedAmountIsValid implements Rule
             return false;
         }
 
-        if ($this->paymentType == 'Cash Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
-            $this->message = '"Cash Received" must be equal to the "Grand Total Price"';
+        if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
+            $this->message = '"Paid Amount" must be equal to the "Grand Total Price"';
 
             return false;
         }
 
-        if ($this->paymentType == 'Cash Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
-            $this->message = 'When payment type is "Cash Payment" and type is "Percent", the percentage must be 100';
+        if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
+            $this->message = 'When payment type is not "Credit Payment" and type is "Percent", the percentage must be 100';
 
             return false;
         }

@@ -60,6 +60,7 @@ return new class extends Migration
                 sales.customer_id,
                 customers.company_name AS customer_name,
                 customers.address AS customer_address,
+                (SELECT MIN(sales_two.issued_on) FROM sales sales_two WHERE sales_two.customer_id = sales.customer_id AND sales_two.deleted_at IS NULL AND sales_two.cancelled_by IS NULL) AS customer_created_at,
                 sales.fs_number,
                 sales.payment_type,
                 sales.cash_received_type,

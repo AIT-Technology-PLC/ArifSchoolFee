@@ -32,6 +32,11 @@ class Expense extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function getVatAttribute()
     {
         return number_format(

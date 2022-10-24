@@ -27,6 +27,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $debt->code }}"
                                 />
                                 <x-common.icon

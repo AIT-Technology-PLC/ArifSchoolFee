@@ -33,7 +33,8 @@ trait PricingTicket
 
     public function getGrandTotalPriceAfterDiscountAttribute()
     {
-        $discountAmount = number_format($this->grandTotalPrice * $this->discount, 2, thousands_separator:'');
+        $discount = ($this->discount ?? 0.00) / 100;
+        $discountAmount = number_format($this->grandTotalPrice * $discount, 2, thousands_separator:'');
 
         return number_format(
             $this->grandTotalPrice - $discountAmount,

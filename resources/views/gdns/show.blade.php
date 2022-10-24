@@ -23,6 +23,24 @@
                         />
                     </div>
                 @endif
+                @if ($gdn->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$gdn->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($gdn->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$gdn->reference_number"
+                            label="Bank Reference No"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-credit-card"
@@ -42,6 +60,13 @@
                         icon="fas fa-calendar-day"
                         :data="$gdn->issued_on->toFormattedDateString() ?? 'N/A'"
                         label="Issued On"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$gdn->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 @if ($gdn->payment_in_credit > 0)
@@ -85,7 +110,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            data="{{ number_format($gdn->discount * 100, 2) }}%"
+                            data="{{ $gdn->discount }}%"
                             label="Discount"
                         />
                     </div>

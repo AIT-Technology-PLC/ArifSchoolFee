@@ -1,4 +1,6 @@
-{!! is_null($description) ? 'N/A' : substr(strip_tags($description), 0, 20) . '...' !!}
-<span class="is-hidden">
+<div>
+    {!! is_null($description) ? 'N/A' : substr($description, 0, 20) . '...' !!}
+</div>
+<div class="is-hidden">
     {!! $description ?? '' !!}
-</span>
+</div>

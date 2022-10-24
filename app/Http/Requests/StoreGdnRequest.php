@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,9 +22,9 @@ class StoreGdnRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('gdns'), new CanEditReferenceNumber('gdns')],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
@@ -39,6 +41,7 @@ class StoreGdnRequest extends FormRequest
                 ),
             ],
 
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
             'issued_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
@@ -49,8 +52,8 @@ class StoreGdnRequest extends FormRequest
             ],
 
             'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) {
-                if ($this->get('payment_type') == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
+                if ($this->get('payment_type') != 'Credit Payment' && $value != 'percent') {
+                    $fail('When payment type is not "Credit Payment", the type should be "Percent".');
                 }
             },
             ],
@@ -68,6 +71,8 @@ class StoreGdnRequest extends FormRequest
 
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
         ];
     }
 }

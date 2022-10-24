@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\Branchable;
 use App\Traits\Closable;
-use App\Traits\Discountable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -15,7 +14,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use MultiTenancy, Branchable, HasFactory, SoftDeletes, PricingTicket, Discountable, HasUserstamps, Closable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, PricingTicket, HasUserstamps, Closable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -39,6 +38,11 @@ class ProformaInvoice extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
     public function proformaInvoiceDetails()
     {
         return $this->hasMany(ProformaInvoiceDetail::class);
@@ -48,7 +52,7 @@ class ProformaInvoice extends Model
     {
         $prefix = $this->prefix;
 
-        if (! $prefix) {
+        if (!$prefix) {
             return $this->code;
         }
 
@@ -109,16 +113,16 @@ class ProformaInvoice extends Model
 
     public function isConverted()
     {
-        return ! $this->is_pending && $this->converted_by;
+        return !$this->is_pending && $this->converted_by;
     }
 
     public function isPending()
     {
-        return $this->is_pending && ! $this->converted_by;
+        return $this->is_pending && !$this->converted_by;
     }
 
     public function isCancelled()
     {
-        return ! $this->is_pending && ! $this->converted_by;
+        return !$this->is_pending && !$this->converted_by;
     }
 }

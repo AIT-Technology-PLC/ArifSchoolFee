@@ -18,6 +18,9 @@ class Company extends Model
         'is_price_before_vat' => 'boolean',
         'is_convert_to_siv_as_approved' => 'boolean',
         'can_show_branch_detail_on_print' => 'boolean',
+        'is_editing_reference_number_enabled' => 'boolean',
+        'is_backorder_enabled' => 'boolean',
+        'can_check_inventory_on_forms' => 'boolean',
         'allow_chassis_tracker' => 'boolean',
     ];
 
@@ -240,5 +243,20 @@ class Company extends Model
     public function allowChassisTracker()
     {
         return $this->allow_chassis_tracker;
+    }
+
+    public function isEditingReferenceNumberEnabled()
+    {
+        return $this->is_editing_reference_number_enabled;
+    }
+
+    public function isBackorderEnabled()
+    {
+        return $this->is_backorder_enabled;
+    }
+
+    public function isInventoryCheckerEnabled()
+    {
+        return $this->can_check_inventory_on_forms;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,6 +20,7 @@ class FilterRequest extends FormRequest
             'branches.*' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transactions')->pluck('id'))],
             'period' => ['required', 'array'],
             'period.*' => ['required', 'date'],
+            'user_id' => ['nullable', 'integer', new MustBelongToCompany('users')],
         ];
     }
 

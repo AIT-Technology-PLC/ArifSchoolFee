@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\BranchScope;
-use App\Traits\Discountable;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GdnDetail extends Model
 {
-    use SoftDeletes, PricingProduct, Discountable, TouchParentUserstamp;
+    use SoftDeletes, PricingProduct, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -52,7 +51,7 @@ class GdnDetail extends Model
             ->load([
                 'gdn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }, ]
+                }]
             );
     }
 }

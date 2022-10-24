@@ -417,8 +417,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Price Management', 'Customer Management'))
-                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Credit', 'Create Price', 'Create Customer'])
+            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
+                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Credit', 'Create Customer', 'Create Contact'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -527,23 +527,6 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Price Management'))
-                                @can('Create Price')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('prices.create') }}"
-                                            icon="fas fa-tags"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Price </span>
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
                             @if (isFeatureEnabled('Customer Management'))
                                 @can('Create Customer')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
@@ -551,11 +534,27 @@
                                             tag="a"
                                             mode="button"
                                             href="{{ route('customers.create') }}"
-                                            icon="fas fa-user"
+                                            icon="fas fa-address-card"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
                                         <span class="is-size-7"> New Customer </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Contact Management'))
+                                @can('Create Contact')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('contacts.create') }}"
+                                            icon="fas fa-address-card"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Contact </span>
                                     </div>
                                 @endcan
                             @endif
@@ -762,8 +761,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Product Management'))
-                @can('Create Product')
+            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
+                @can('Create Product', 'Create Price', 'Create Price Increment')
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -797,6 +796,40 @@
                                 <br>
                                 <span class="is-size-7"> New Product </span>
                             </div>
+
+                            @if (isFeatureEnabled('Price Management'))
+                                @can('Create Price')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('prices.create') }}"
+                                            icon="fas fa-tags"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Price </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Price Increment'))
+                                @can('Create Price Increment')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('price-increments.create') }}"
+                                            icon="fas fa-tags"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Price Increment </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 @endcan

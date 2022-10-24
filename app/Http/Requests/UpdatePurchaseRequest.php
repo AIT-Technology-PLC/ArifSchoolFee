@@ -19,7 +19,7 @@ class UpdatePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('purchases', $this->route('purchase')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('purchases', $this->route('purchase')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers'),
                 new CheckSupplierDebtLimit(
@@ -28,6 +28,7 @@ class UpdatePurchaseRequest extends FormRequest
                     $this->get('cash_paid_type'),
                     $this->get('cash_paid')
                 )],
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Cash Payment', 'Credit Payment'])), function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('supplier_id'))) {

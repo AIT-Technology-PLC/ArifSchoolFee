@@ -34,4 +34,9 @@ class PricePolicy
     {
         return $user->can('Delete Price');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Price');
+    }
 }

@@ -33,7 +33,7 @@ return new class extends Migration
                 IF(
                     gdn_details.discount IS NULL,
                     (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id),
-                    (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) - ROUND((SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) * gdn_details.discount, 2)
+                    (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) - ROUND((SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id) * (gdn_details.discount / 100), 2)
                 ) AS line_price
             FROM
                 gdn_details
@@ -70,6 +70,7 @@ return new class extends Migration
                 gdns.customer_id,
                 customers.company_name AS customer_name,
                 customers.address AS customer_address,
+                (SELECT MIN(gdns_two.issued_on) FROM gdns gdns_two WHERE gdns_two.customer_id = gdns.customer_id AND gdns_two.deleted_at IS NULL) AS customer_created_at,
                 gdns.payment_type,
                 gdns.cash_received_type,
                 gdns.cash_received,
@@ -78,7 +79,7 @@ return new class extends Migration
                 IF(
                     gdns.discount IS NULL,
                     (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id),
-                    (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) - ROUND((SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) * gdns.discount, 2)
+                    (SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) - ROUND((SELECT ROUND(SUM(gdn_detail_reports.line_price), 2) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) * (gdns.discount / 100), 2)
                 ) AS subtotal_price
             FROM
                 gdns

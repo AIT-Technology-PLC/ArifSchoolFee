@@ -14,6 +14,24 @@
                         label="Reservation No"
                     />
                 </div>
+                @if ($reservation->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$reservation->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($reservation->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$reservation->reference_number"
+                            label="Bank Reference No"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-credit-card"
@@ -33,6 +51,13 @@
                         icon="fas fa-calendar-day"
                         :data="$reservation->issued_on->toFormattedDateString() ?? 'N/A'"
                         label="Issued On"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-address-card"
+                        :data="$reservation->contact->name ?? 'N/A'"
+                        label="Contact"
                     />
                 </div>
                 <div class="column is-6">
@@ -83,7 +108,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            data="{{ number_format($reservation->discount * 100, 2) }}%"
+                            data="{{ $reservation->discount }}%"
                             label="Discount"
                         />
                     </div>

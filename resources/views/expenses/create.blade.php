@@ -18,13 +18,14 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">
-                                Reference No <sup class="has-text-danger">*</sup>
+                                Expense No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $currentExpenseCode }}"
                                 />
                                 <x-common.icon
@@ -36,10 +37,10 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="tax_type">
-                                Tax Type <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
+                        <x-forms.label for="tax_type">
+                            Tax Type <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left ">
                                 <x-forms.select
                                     class="is-fullwidth"
@@ -71,6 +72,19 @@
                                 />
                                 <x-common.validation-error property="tax_type" />
                             </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    type="number"
+                                    name="reference_number"
+                                    id="reference_number"
+                                    placeholder="Reference Number"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="reference_number" />
+                            </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
@@ -100,6 +114,21 @@
                                     name="fas fa-address-card"
                                     class="is-small is-left"
                                 />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="contact_id">
+                                Contact <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left select is-fullwidth">
+                                <x-common.contact-list :selected-id="old('contact_id') ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-address-card"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="contact_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

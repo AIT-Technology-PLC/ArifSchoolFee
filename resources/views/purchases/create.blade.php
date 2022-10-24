@@ -37,6 +37,7 @@
                                     type="number"
                                     name="code"
                                     id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                     value="{{ $currentPurchaseNo }}"
                                 />
                                 <x-common.icon
@@ -238,6 +239,21 @@
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="supplier_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="contact_id">
+                                Contact <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left select is-fullwidth">
+                                <x-common.contact-list :selected-id="old('contact_id') ?? ''" />
+                                <x-common.icon
+                                    name="fas fa-address-card"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="contact_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

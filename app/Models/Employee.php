@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\EmployeeCompensationHistory;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -99,5 +100,19 @@ class Employee extends Model
     public function employeeCompensationHistories()
     {
         return $this->hasMany(EmployeeCompensationHistory::class);
+    }
+
+    public function isOnLeave(): Attribute
+    {
+        return Attribute::make(
+            get:fn() => $this->leaves()->approved()->where('ending_period', '>', now())->exists()
+        )->shouldCache();
+    }
+
+    public function absentDays(): Attribute
+    {
+        return Attribute::make(
+            get:fn() => $this->attendanceDetails()->whereHas('attendance', fn($q) => $q->approved()->latest('ending_period'))->first()->days ?? null
+        )->shouldCache();
     }
 }

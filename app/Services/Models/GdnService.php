@@ -32,7 +32,7 @@ class GdnService
         return DB::transaction(function () use ($gdn) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
-            if (! $isExecuted) {
+            if (!$isExecuted) {
                 DB::rollBack();
                 return [$isExecuted, $message];
             }
@@ -45,12 +45,12 @@ class GdnService
 
     public function subtract($gdn, $user)
     {
-        if (! $user->hasWarehousePermission('sales',
+        if (!$user->hasWarehousePermission('sales',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to sell from one or more of the warehouses.'];
         }
 
-        if (! $gdn->isApproved()) {
+        if (!$gdn->isApproved()) {
             return [false, 'This Delivery Order is not approved yet.'];
         }
 
@@ -77,7 +77,7 @@ class GdnService
 
     public function convertToCredit($gdn)
     {
-        if (! $gdn->isApproved()) {
+        if (!$gdn->isApproved()) {
             return [false, 'Creating a credit for delivery order that is not approved is not allowed.'];
         }
 
@@ -85,11 +85,11 @@ class GdnService
             return [false, 'A credit for this delivery order was already created.'];
         }
 
-        if ($gdn->payment_type == 'Cash Payment') {
+        if ($gdn->payment_type != 'Credit Payment') {
             return [false, 'Creating a credit for delivery order with 0.00 credit amount is not allowed.'];
         }
 
-        if (! $gdn->customer()->exists()) {
+        if (!$gdn->customer()->exists()) {
             return [false, 'Creating a credit for delivery order that has no customer is not allowed.'];
         }
 
@@ -112,12 +112,12 @@ class GdnService
 
     public function convertToSiv($gdn, $user)
     {
-        if (! $user->hasWarehousePermission('siv',
+        if (!$user->hasWarehousePermission('siv',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if (! $gdn->isSubtracted()) {
+        if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.', ''];
         }
 
@@ -138,7 +138,7 @@ class GdnService
 
     public function close($gdn)
     {
-        if (! $gdn->isSubtracted()) {
+        if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.'];
         }
 
@@ -241,7 +241,7 @@ class GdnService
             return [false, 'This Delivery Order is already converted to invoice.', ''];
         }
 
-        if (! $gdn->isSubtracted()) {
+        if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.', ''];
         }
 
@@ -252,6 +252,7 @@ class GdnService
         $sale = DB::transaction(function () use ($gdn) {
             $sale = Sale::create([
                 'customer_id' => $gdn->customer_id ?? null,
+                'contact_id' => $gdn->contact_id ?? null,
                 'code' => nextReferenceNumber('sales'),
                 'payment_type' => $gdn->payment_type,
                 'cash_received_type' => $gdn->cash_received_type,

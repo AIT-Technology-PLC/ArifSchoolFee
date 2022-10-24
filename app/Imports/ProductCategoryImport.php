@@ -46,7 +46,7 @@ class ProductCategoryImport implements ToModel, WithHeadingRow, WithValidation, 
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_category_name'] = str()->squish($data['product_category_name']);
+        $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
 
         return $data;
     }

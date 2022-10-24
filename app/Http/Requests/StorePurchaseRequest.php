@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -19,7 +20,7 @@ class StorePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('purchases')],
+            'code' => ['required', 'string', new UniqueReferenceNum('purchases'), new CanEditReferenceNumber('purchases')],
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers'),
                 new CheckSupplierDebtLimit(
@@ -28,6 +29,7 @@ class StorePurchaseRequest extends FormRequest
                     $this->get('cash_paid_type'),
                     $this->get('cash_paid')
                 )],
+            'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'purchased_on' => ['required', 'date'],
             'payment_type' => ['required', 'string', Rule::when($this->input('type') == 'Import', Rule::in(['LC', 'TT', 'CAD']), Rule::in(['Cash Payment', 'Credit Payment'])), function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('supplier_id'))) {
