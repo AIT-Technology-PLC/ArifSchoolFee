@@ -419,3 +419,8 @@ Route::post('/price-increments/{price_increment}/approve',
 Route::post('/price-increments/{price_increment}/import',
     [Action\PriceIncrementController::class, 'import'])
     ->name('price-increments.import');
+
+// Brand
+Route::post('/brands/import',
+    [Action\BrandController::class, 'import'])
+    ->name('brands.import');
