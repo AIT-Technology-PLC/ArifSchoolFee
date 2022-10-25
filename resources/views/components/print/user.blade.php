@@ -6,7 +6,8 @@
             Prepared & Approved By
         </h1>
         <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-            {{ $createdBy->name }}
+            {{ $createdBy->name }},
+            {{ $createdBy->employee->position }}
         </h1>
     </footer>
 @else
@@ -20,7 +21,9 @@
                     Prepared By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $createdBy->name }}
+                    {{ $createdBy->name }},
+                    {{ $createdBy->employee->position }}
+
                 </h1>
             </aside>
         @endif
@@ -33,7 +36,9 @@
                     Approved By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $approvedBy->name }}
+                    {{ $approvedBy->name }},
+                    {{ $approvedBy->employee->position }}
+
                 </h1>
             </aside>
         @endif
