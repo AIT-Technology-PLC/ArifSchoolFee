@@ -84,6 +84,7 @@ class PermissionCategorization
         'price' => [
             'label' => 'Price',
             'feature' => 'Price Management',
+            'exclude' => ['Price Increment'],
         ],
         'tender' => [
             'label' => 'Tender',
