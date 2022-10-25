@@ -3,8 +3,9 @@
 namespace App\Reports;
 
 use App\Models\PurchaseDetail;
+use App\Scopes\BranchScope;
 
-class SupplierReport
+class PurchaseReport
 {
     private $query;
 
@@ -12,7 +13,7 @@ class SupplierReport
 
     public function __construct($filters)
     {
-        $this->filters = $filters ?? null;
+        $this->filters = $filters;
 
         $this->setQuery();
     }
@@ -29,15 +30,15 @@ class SupplierReport
     private function setQuery()
     {
         $this->query = PurchaseDetail::query()
-            ->whereHas('purchase', function ($q) {
-                return $q->where('supplier_id', $this->filters)
-                    ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchased_on', '>=', $this->filters['period'][0])->whereDate('purchased_on', '<=', $this->filters['period'][1]))
-                    ->purchased();
-            })
+            ->whereHas('purchase', fn($q) => $q->purchased()->withoutGlobalScopes([BranchScope::class]))
             ->join('products', 'purchase_details.product_id', '=', 'products.id')
             ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
+            ->join('warehouses', 'purchases.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
-            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id');
+            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('purchases.warehouse_id', $this->filters['branches']))
+            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchases.purchased_on', '>=', $this->filters['period'][0])->whereDate('purchases.purchased_on', '<=', $this->filters['period'][1]))
+            ->when(isset($this->filters['supplier_id']), fn($q) => $q->where('purchases.supplier_id', $this->filters['supplier_id']));
     }
 
     public function getPurchaseCount()
@@ -45,7 +46,7 @@ class SupplierReport
         return (clone $this->query)->distinct('purchase_id')->count();
     }
 
-    public function getTotalPurchaseExpenseAfterTax()
+    public function getTotalPurchaseAfterTax()
     {
         return (clone $this->query)
             ->selectRaw('
@@ -70,13 +71,13 @@ class SupplierReport
         return (clone $this->query)->count() / $this->getPurchaseCount;
     }
 
-    public function getAveragePurchaseExpenseValue()
+    public function getAveragePurchaseValue()
     {
         if ($this->getPurchaseCount == 0) {
             return $this->getPurchaseCount;
         }
 
-        return $this->getTotalPurchaseExpenseAfterTax / $this->getPurchaseCount;
+        return $this->getTotalPurchaseAfterTax / $this->getPurchaseCount;
     }
 
     public function getPaymentTypesByPurchase()
@@ -113,7 +114,7 @@ class SupplierReport
             ->get();
     }
 
-    public function getProductsByPurchaseExpense()
+    public function getProductsByPurchase()
     {
         return (clone $this->query)
             ->selectRaw('
@@ -129,7 +130,7 @@ class SupplierReport
             ->get();
     }
 
-    public function getProductCategoriesByPurchaseExpense()
+    public function getProductCategoriesByPurchase()
     {
         return (clone $this->query)
             ->selectRaw('
@@ -142,6 +143,23 @@ class SupplierReport
                 ) AS expense, product_categories.name AS product_category_name, SUM(quantity) AS quantity')
             ->groupBy('product_category_name')
             ->orderByDesc('quantity')
+            ->get();
+    }
+
+    public function getBranchesByPurchase()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                warehouses.name AS branch_name')
+            ->groupBy('branch_name')
+            ->orderByDesc('expense')
             ->get();
     }
 }

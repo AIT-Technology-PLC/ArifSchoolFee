@@ -32,6 +32,32 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.label>
+                            Branch
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="branches"
+                                    name="branches"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Branches </option>
+                                    <option
+                                        value=""
+                                        @selected(request('branches') == '')
+                                    > All </option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option
+                                            value="{{ $warehouse->id }}"
+                                            @selected(request('branches') == $warehouse->id)
+                                        > {{ $warehouse->name }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,25 +76,25 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($lifeTimeSupplierReport->getTotalPurchaseExpenseAfterTax, 2)"
+                :amount="number_format($lifeTimePurchaseReport->getTotalPurchaseAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Purchase Expense (After VAT)"
+                label="Purchase (After VAT/TOT)"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="$lifeTimeSupplierReport->getPurchaseCount"
+                :amount="$lifeTimePurchaseReport->getPurchaseCount"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Number of Purchases"
+                label="Number of Transactions"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($lifeTimeSupplierReport->getAverageItemsPerPurchase)"
+                :amount="number_format($lifeTimePurchaseReport->getAverageItemsPerPurchase)"
                 border-color="#fff"
                 text-color="text-gold"
                 label="Basket Size Analysis"
@@ -100,17 +126,17 @@
                 label-text-size="is-size-6"
                 amount="{{ number_format($lifetimeExpenseReport->getTotalExpenseAfterTax, 2) }}"
                 border-color="#fff"
-                text-color="text-purple"
-                label="Expense After VAT/TOT"
-            ></x-common.index-insight>
+                text-color="text-green"
+                label="Expense (After VAT/TOT)"
+            />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getTotalExpenseBeforeTax, 2)"
+                :amount="number_format($lifetimeExpenseReport->getExpenseTransactionCount)"
                 border-color="#fff"
-                text-color="text-green"
-                label="Expense Before VAT/TOT"
+                text-color="text-purple"
+                label="Number of Transactions"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -129,24 +155,6 @@
                 border-color="#fff"
                 text-color="text-blue"
                 label="Expense TOT"
-            />
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getAverageExpenseValue, 2)"
-                border-color="#fff"
-                text-color="text-purple"
-                label="Average Transaction Value"
-            />
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getExpenseTransactionCount)"
-                border-color="#fff"
-                text-color="text-green"
-                label="Number of Transactions"
             />
         </div>
     </div>
@@ -212,34 +220,34 @@
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($supplierReport->getTotalPurchaseExpenseAfterTax, 2)"
+                :amount="number_format($purchaseReport->getTotalPurchaseAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Purchase Expense (After VAT)"
+                label="Purchase (After VAT/TOT)"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="$supplierReport->getPurchaseCount"
+                :amount="$purchaseReport->getPurchaseCount"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Number of Purchases"
+                label="Number of Transactions"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($supplierReport->getAveragePurchaseExpenseValue, 2)"
+                :amount="number_format($purchaseReport->getAveragePurchaseValue, 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Average Purchase Expense Value"
+                label="Average Purchase Value"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($supplierReport->getAverageItemsPerPurchase)"
+                :amount="number_format($purchaseReport->getAverageItemsPerPurchase)"
                 border-color="#fff"
                 text-color="text-blue"
                 label="Basket Size Analysis"
@@ -253,9 +261,44 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Highest Purchasing Branches</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($purchaseReport->getBranchesByPurchase as $branchPurchase)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $branchPurchase->branch_name }} </td>
+                                <td class="has-text-right"> {{ number_format($branchPurchase->expense, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
                             <i class="fas fa-th"></i>
                         </span>
-                        <span>Best-Purchasing Products</span>
+                        <span>Most Purchased Products</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -273,12 +316,12 @@
                         <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($supplierReport->getProductsByPurchaseExpense as $productPurchaseExpense)
+                        @foreach ($purchaseReport->getProductsByPurchase as $productPurchase)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $productPurchaseExpense->product_name }} </td>
-                                <td class="has-text-right"> {{ quantity($productPurchaseExpense->quantity, $productPurchaseExpense->product_unit_of_measurement) }} </td>
-                                <td class="has-text-right"> {{ number_format($productPurchaseExpense->expense, 2) }} </td>
+                                <td> {{ $productPurchase->product_name }} </td>
+                                <td class="has-text-right"> {{ quantity($productPurchase->quantity, $productPurchase->product_unit_of_measurement) }} </td>
+                                <td class="has-text-right"> {{ number_format($productPurchase->expense, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -292,7 +335,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-layer-group"></i>
                         </span>
-                        <span>Best Performing Categories</span>
+                        <span>Most Purchased By Categories</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -310,12 +353,12 @@
                         <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($supplierReport->getProductCategoriesByPurchaseExpense as $categoryPurchaseExpense)
+                        @foreach ($purchaseReport->getProductCategoriesByPurchase as $categoryPurchase)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $categoryPurchaseExpense->product_category_name }} </td>
-                                <td class="has-text-right"> {{ number_format($categoryPurchaseExpense->quantity, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($categoryPurchaseExpense->expense, 2) }} </td>
+                                <td> {{ $categoryPurchase->product_category_name }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryPurchase->quantity, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($categoryPurchase->expense, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -347,7 +390,7 @@
                         <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($supplierReport->getPaymentTypesByPurchase as $paymentTypeByPurchase)
+                        @foreach ($purchaseReport->getPaymentTypesByPurchase as $paymentTypeByPurchase)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $paymentTypeByPurchase->payment_type }} </td>
@@ -384,7 +427,7 @@
                         <th class="has-text-right"><abbr> Expense </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($supplierReport->getPurchasesByType as $purchasesByType)
+                        @foreach ($purchaseReport->getPurchasesByType as $purchasesByType)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $purchasesByType->type }} </td>
@@ -413,17 +456,17 @@
                 label-text-size="is-size-6"
                 amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
                 border-color="#fff"
-                text-color="text-purple"
-                label="Expense After VAT/TOT"
-            ></x-common.index-insight>
+                text-color="text-green"
+                label="Expense (After VAT/TOT)"
+            />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseBeforeTax, 2)"
+                :amount="number_format($expenseReport->getExpenseTransactionCount)"
                 border-color="#fff"
-                text-color="text-green"
-                label="Expense Before VAT/TOT"
+                text-color="text-purple"
+                label="Number of Transactions"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -444,33 +487,6 @@
                 label="Expense TOT"
             />
         </div>
-        <div class="column is-4 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getDailyAverageExpense, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Daily Average Expense"
-            />
-        </div>
-        <div class="column is-4 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getAverageExpenseValue, 2)"
-                border-color="#fff"
-                text-color="text-purple"
-                label="Average Transaction Value"
-            />
-        </div>
-        <div class="column is-4 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getExpenseTransactionCount)"
-                border-color="#fff"
-                text-color="text-green"
-                label="Number of Transactions"
-            />
-        </div>
     </div>
 
     <div class="columns is-marginless is-multiline">
@@ -481,7 +497,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-warehouse"></i>
                         </span>
-                        <span>Top Branches by Expense</span>
+                        <span>Highest Spending Branches</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -590,7 +606,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user-tie"></i>
                         </span>
-                        <span>Expenses By Purchasers</span>
+                        <span>Purchasers By Expense</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>

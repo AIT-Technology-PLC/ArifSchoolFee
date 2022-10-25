@@ -10,19 +10,11 @@ class ExpenseReport
 {
     private $query;
 
-    private $branches;
-
-    private $supplierID;
-
-    private $period;
+    private $filters;
 
     public function __construct($filters)
     {
-        $this->branches = $filters['branches'] ?? null;
-
-        $this->supplierID = $filters ?? null;
-
-        $this->period = $filters['period'] ?? null;
+        $this->filters = $filters;
 
         $this->setQuery();
     }
@@ -39,18 +31,15 @@ class ExpenseReport
     private function setQuery()
     {
         $this->query = ExpenseDetail::query()
-            ->whereHas('expense', function ($q) {
-                return $q->when(isset($this->branches), fn($q) => $q->whereIn('warehouse_id', $this->branches))->
-                    when(isset($this->period), fn($q) => $q->whereDate('issued_on', '>=', $this->period[0])->whereDate('issued_on', '<=', $this->period[1]))
-                    ->approved()
-                    ->withoutGlobalScopes([BranchScope::class]);
-            })
+            ->whereHas('expense', fn($q) => $q->approved()->withoutGlobalScopes([BranchScope::class]))
             ->join('expense_categories', 'expense_details.expense_category_id', '=', 'expense_categories.id')
             ->join('expenses', 'expense_details.expense_id', '=', 'expenses.id')
             ->join('warehouses', 'expenses.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('users', 'expenses.created_by', '=', 'users.id')
             ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id')
-            ->when(isset($this->supplierID), fn($query) => $query->where('expenses.supplier_id', $this->supplierID));
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('expenses.warehouse_id', $this->filters['branches']))
+            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('expenses.issued_on', '>=', $this->filters['period'][0])->whereDate('expenses.issued_on', '<=', $this->filters['period'][1]))
+            ->when(isset($this->filters['supplier_id']), fn($query) => $query->where('expenses.supplier_id', $this->filters['supplier_id']));
     }
 
     public function getExpenseTransactionCount()
@@ -194,11 +183,11 @@ class ExpenseReport
 
     public function getDailyAverageExpense()
     {
-        if (!isset($this->period)) {
+        if (!isset($this->filters['period'])) {
             return 0;
         }
 
-        $days = Carbon::parse($this->period[0])->diffInDays(Carbon::parse($this->period[1])) + 1;
+        $days = Carbon::parse($this->filters['period'][0])->diffInDays(Carbon::parse($this->filters['period'][1])) + 1;
 
         return $this->getTotalExpenseAfterTax / $days;
     }

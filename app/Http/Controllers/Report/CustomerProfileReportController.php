@@ -32,7 +32,7 @@ class CustomerProfileReportController extends Controller
 
         $currentCreditLimit = $customer->credit_amount_limit > 0 ? ($customer->credit_amount_limit - $currentCreditBalance) : $customer->credit_amount_limit;
 
-        $lifetimeSalesReport = (new SaleReport($request->only('customer_id')));
+        $lifetimeSalesReport = new SaleReport($request->safe()->only('customer_id'));
 
         return view('reports.customer-profile', compact(
             'warehouses',
