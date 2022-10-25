@@ -32,13 +32,14 @@ class PurchaseReport
         $this->query = PurchaseDetail::query()
             ->whereHas('purchase', fn($q) => $q->purchased()->withoutGlobalScopes([BranchScope::class]))
             ->join('products', 'purchase_details.product_id', '=', 'products.id')
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
             ->join('warehouses', 'purchases.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
-            ->leftJoin('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('purchases.warehouse_id', $this->filters['branches']))
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchases.purchased_on', '>=', $this->filters['period'][0])->whereDate('purchases.purchased_on', '<=', $this->filters['period'][1]))
-            ->when(isset($this->filters['supplier_id']), fn($q) => $q->where('purchases.supplier_id', $this->filters['supplier_id']));
+            ->when(isset($this->filters['supplier_id']), fn($q) => $q->where('purchases.supplier_id', $this->filters['supplier_id']))
+            ->where('purchases.type', 'Local Purchase');
     }
 
     public function getPurchaseCount()
@@ -58,6 +59,7 @@ class PurchaseReport
                     END
                 ) AS expense
                ')
+            ->where('purchases.type', 'Local Purchase')
             ->first()
             ->expense;
     }
@@ -91,7 +93,9 @@ class PurchaseReport
                         ELSE quantity*unit_price
                     END
                 ) AS expense,
-                COUNT(payment_type) AS transactions, payment_type')
+                COUNT(DISTINCT purchase_id) AS transactions,
+                purchases.payment_type AS payment_type
+            ')
             ->groupBy('payment_type')
             ->orderByDesc('expense')
             ->get();
@@ -108,8 +112,10 @@ class PurchaseReport
                         ELSE quantity*unit_price
                     END
                 ) AS expense,
-                COUNT(purchases.type) AS transactions, purchases.type')
-            ->groupBy('purchases.type')
+                COUNT(DISTINCT purchase_id) AS transactions,
+                purchases.type AS type
+            ')
+            ->groupBy('type')
             ->orderByDesc('expense')
             ->get();
     }
@@ -124,7 +130,10 @@ class PurchaseReport
                         WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
                         ELSE quantity*unit_price
                     END
-                ) AS expense, products.name AS product_name, SUM(quantity) AS quantity')
+                ) AS expense,
+                products.name AS product_name,
+                SUM(quantity) AS quantity
+            ')
             ->groupBy('product_name')
             ->orderByDesc('expense')
             ->get();
@@ -140,7 +149,10 @@ class PurchaseReport
                         WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
                         ELSE quantity*unit_price
                     END
-                ) AS expense, product_categories.name AS product_category_name, SUM(quantity) AS quantity')
+                ) AS expense,
+                product_categories.name AS product_category_name,
+                SUM(quantity) AS quantity
+            ')
             ->groupBy('product_category_name')
             ->orderByDesc('quantity')
             ->get();
