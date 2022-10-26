@@ -767,17 +767,20 @@ document.addEventListener("alpine:init", () => {
         },
     });
 
-    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "") => ({
+    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({
         type: "",
         isBatchable: "0",
         batchPriority: "",
         isTypeService: false,
+        isActive: "1",
 
         init() {
             this.type = type;
             this.isBatchable = isBatchable;
             this.batchPriority = batchPriority;
+            this.isActive = isActive;
             this.changeProductType();
+            this.changeActiveStatus();
         },
 
         changeProductType() {
@@ -789,6 +792,12 @@ document.addEventListener("alpine:init", () => {
             }
 
             this.isTypeService = false;
+        },
+
+        changeActiveStatus() {
+            if (this.isActive === "0") {
+                return;
+            }
         },
     }));
 
