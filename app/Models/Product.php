@@ -204,7 +204,7 @@ class Product extends Model
 
     public function priceIncrementDetails()
     {
-        return $this->hasMany(priceIncrementDetail::class);
+        return $this->hasMany(PriceIncrementDetail::class);
     }
 
     public function isActiveForSale()
