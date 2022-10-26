@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('purchases', function (Blueprint $table) {
-            $table->decimal('other_costs', 22)->default(0)->after('freight_insurance_cost');
+            $table->decimal('other_costs', 22)->default(0.00)->after('freight_unit');
         });
     }
 
