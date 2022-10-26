@@ -57,6 +57,7 @@
                                                 x-bind:id="`brand[${index}][name]`"
                                                 x-bind:name="`brand[${index}][name]`"
                                                 x-model="brand.name"
+                                                placeholder="Brand Name"
                                             />
                                             <x-common.icon
                                                 name="fas fa-trademark"

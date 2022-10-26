@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
@@ -20,11 +21,15 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
 
     private $productCategories;
 
+    private $brands;
+
     public function __construct()
     {
         $this->products = Product::all();
 
         $this->productCategories = ProductCategory::all();
+
+        $this->brands = Brand::all();
     }
 
     public function model(array $row)
@@ -32,6 +37,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $productName = $row['product_name'];
         $code = $row['product_code'] ?? null;
         $productCategory = $this->productCategories->firstWhere('name', $row['product_category_name']);
+        $productBrand = $this->brands->firstWhere('name', $row['product_brand']) ?? null;
 
         if ($this->products->where('name', $productName)->where('code', $code)->where('product_category_id', $productCategory->id)->count()) {
             return null;
@@ -64,6 +70,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'unit_of_measurement' => str()->title($row['product_unit_of_measurement']),
             'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
             'description' => strlen($mergedDescription) ? $mergedDescription : null,
+            'brand_id' => $productBrand->id ?? null,
         ]);
 
         $this->products->push($product);
@@ -80,6 +87,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'product_unit_of_measurement' => ['required', 'string', 'max:255'],
             'product_min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
+            'product_brand' => ['nullable', 'string', 'max:255', Rule::in($this->brands->pluck('name'))],
         ];
     }
 
@@ -89,6 +97,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
         $data['product_type'] = str($data['product_type'] ?? '')->squish()->title()->toString();
+        $data['product_brand'] = str()->squish($data['product_brand'] ?? '');
 
         return $data;
     }

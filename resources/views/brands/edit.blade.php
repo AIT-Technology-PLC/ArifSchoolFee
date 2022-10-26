@@ -26,7 +26,7 @@
                                     id="name"
                                     name="name"
                                     type="text"
-                                    placeholder="Department Name"
+                                    placeholder="Brand Name"
                                     value="{{ $brand->name }}"
                                 />
                                 <x-common.icon
@@ -47,7 +47,7 @@
                                     name="description"
                                     id="description"
                                     class="pl-6"
-                                    placeholder="Description or note about the new department"
+                                    placeholder="Description or note about the new brand"
                                 >
                                     {{ $brand->description }}
                                 </x-forms.textarea>

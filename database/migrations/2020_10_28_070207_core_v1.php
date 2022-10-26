@@ -216,6 +216,7 @@ return new class extends Migration
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('product_category_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('brand_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->string('name');
             $table->string('type');
             $table->string('code')->nullable();
@@ -1422,6 +1423,20 @@ return new class extends Migration
             $table->index('price_increment_id');
         });
 
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('company_id');
+            $table->unique(['company_id', 'name']);
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1517,5 +1532,6 @@ return new class extends Migration
         Schema::drop('contacts');
         Schema::drop('price_increment_details');
         Schema::drop('price_increments');
+        Schema::drop('brands');
     }
 };

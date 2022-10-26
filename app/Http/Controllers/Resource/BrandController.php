@@ -57,7 +57,7 @@ class BrandController extends Controller
 
     public function destroy(Brand $brand)
     {
-        $brand->forceDelete();
+        $brand->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }
