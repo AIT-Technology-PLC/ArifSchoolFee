@@ -174,3 +174,5 @@ Route::resource('contacts', Resource\ContactController::class)->except('show');
 Route::resource('price-increments', Resource\PriceIncrementController::class);
 
 Route::resource('price-increment-details', Resource\PriceIncrementDetailController::class)->only('destroy');
+
+Route::resource('brands', Resource\BrandController::class)->except(['show']);

@@ -136,6 +136,11 @@ class Product extends Model
         return $this->hasOne(Price::class);
     }
 
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     public function jobDetails()
     {
         return $this->hasMany(JobDetail::class);

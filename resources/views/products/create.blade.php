@@ -254,6 +254,43 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="brand_id">
+                                Brand <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="brand_id"
+                                    name="brand_id"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Brands</option>
+                                    @foreach ($brands as $brand)
+                                        <option
+                                            value="{{ $brand->id }}"
+                                            {{ old('brand_id') == $brand->id ? 'selected' : '' }}
+                                        >
+                                            {{ $brand->name }}
+                                        </option>
+                                    @endforeach
+                                    <option value="">None</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-trademark"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="brand_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="is_active">
