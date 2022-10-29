@@ -6,9 +6,11 @@
             Prepared & Approved By
         </h1>
         <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-            {{ $createdBy->name }},
-            {{ $createdBy->employee->position }}
+            {{ $createdBy->name }}
         </h1>
+        <h2>
+            {{ $createdBy->employee->position }}
+        </h2>
     </footer>
 @else
     <footer class="is-clearfix">
@@ -21,10 +23,11 @@
                     Prepared By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $createdBy->name }},
-                    {{ $createdBy->employee->position }}
-
+                    {{ $createdBy->name }}
                 </h1>
+                <h2>
+                    {{ $createdBy->employee->position }}
+                </h2>
             </aside>
         @endif
         @if (!is_null($approvedBy))
@@ -36,10 +39,11 @@
                     Approved By
                 </h1>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $approvedBy->name }},
-                    {{ $approvedBy->employee->position }}
-
+                    {{ $approvedBy->name }}
                 </h1>
+                <h2>
+                    {{ $approvedBy->employee->position }}
+                </h2>
             </aside>
         @endif
     </footer>
