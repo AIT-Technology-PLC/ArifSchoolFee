@@ -30,6 +30,10 @@ class ProductController extends Controller
                 'product_category_name' => $product->productCategory->name,
                 'price' => $product->price,
                 'is_batchable' => $product->is_batchable,
+                'is_active' => $product->is_active,
+                'is_active_for_sale' => $product->is_active_for_sale,
+                'is_active_for_purchase' => $product->is_active_for_purchase,
+                'is_active_for_job' => $product->is_active_for_job,
             ];
         });
     }
