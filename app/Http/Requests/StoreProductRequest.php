@@ -27,6 +27,10 @@ class StoreProductRequest extends FormRequest
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'is_batchable' => ['nullable', 'boolean'],
             'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,1', 'prohibited_unless:is_batchable,1'],
+            'is_active' => ['required', 'boolean'],
+            'is_active_for_sale' => ['required', 'boolean'],
+            'is_active_for_purchase' => ['required', 'boolean'],
+            'is_active_for_job' => ['required', 'boolean'],
         ];
     }
 }
