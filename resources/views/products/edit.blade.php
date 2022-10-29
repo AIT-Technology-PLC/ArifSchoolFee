@@ -258,7 +258,6 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
                     >
                         <x-forms.field>
                             <x-forms.label for="brand_id">
