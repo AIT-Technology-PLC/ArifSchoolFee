@@ -6,6 +6,7 @@ use App\DataTables\ProductDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
@@ -34,7 +35,9 @@ class ProductController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('products.create', compact('categories', 'suppliers'));
+        $brands = Brand::orderBy('name')->get(['id', 'name']);
+
+        return view('products.create', compact('categories', 'suppliers', 'brands'));
     }
 
     public function store(StoreProductRequest $request)
@@ -53,7 +56,9 @@ class ProductController extends Controller
 
         $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('products.edit', compact('product', 'categories', 'suppliers'));
+        $brands = Brand::orderBy('name')->get(['id', 'name']);
+
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)

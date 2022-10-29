@@ -84,6 +84,7 @@ class PermissionCategorization
         'price' => [
             'label' => 'Price',
             'feature' => 'Price Management',
+            'exclude' => ['Price Increment'],
         ],
         'tender' => [
             'label' => 'Tender',
@@ -162,6 +163,10 @@ class PermissionCategorization
         'price increment' => [
             'label' => 'Price Increment',
             'feature' => 'Price Increment',
+        ],
+        'brand' => [
+            'label' => 'Brand',
+            'feature' => 'Brand Management',
         ],
         'payroll' => [
             'label' => 'Payroll',

@@ -761,8 +761,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
-                @can('Create Product', 'Create Price', 'Create Price Increment')
+            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
+                @can('Create Product', 'Create Price', 'Create Price Increment', 'Create Brand')
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -826,6 +826,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Price Increment </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Brand Management'))
+                                @can('Create Brand')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('brands.create') }}"
+                                            icon="fas fa-trademark"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Brand </span>
                                         </span>
                                     </div>
                                 @endcan
