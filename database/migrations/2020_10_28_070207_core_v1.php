@@ -256,6 +256,7 @@ return new class extends Migration
             $table->decimal('freight_cost', 22)->nullable();
             $table->decimal('freight_insurance_cost', 22)->nullable();
             $table->string('freight_unit')->nullable();
+            $table->decimal('other_costs', 22)->default(0.00);
             $table->dateTime('purchased_on')->nullable();
             $table->longText('description')->nullable();
             $table->timestamps();
