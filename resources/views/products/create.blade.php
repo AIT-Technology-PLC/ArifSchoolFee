@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="productType('{{ old('type') }}', '{{ old('is_batchable', 0) }}', '{{ old('batch_priority') }}')">
+            <x-content.main x-data="productType('{{ old('type') }}', '{{ old('is_batchable', 0) }}', '{{ old('batch_priority') }}', '{{ old('is_active', 1) }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
@@ -287,6 +287,127 @@
                                     name="fas fa-trademark"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="brand_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_active">
+                                Is Active <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_active"
+                                    name="is_active"
+                                    x-model="isActive"
+                                    x-on:change="changeActiveStatus"
+                                >
+                                    <option value="1"> Active </option>
+                                    <option value="0"> Inactive </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_active" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isActive == 0 }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="is_active_for_sale">
+                                Is Active For Sales <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_active_for_sale"
+                                    name="is_active_for_sale"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected(old('is_active_for_sale') == '1')
+                                    > Active </option>
+                                    <option
+                                        value="0"
+                                        @selected(old('is_active_for_sale') == '0')
+                                    > Inactive </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_active_for_sale" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isActive == 0 }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="is_active_for_purchase">
+                                Is Active For Purchase<sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_active_for_purchase"
+                                    name="is_active_for_purchase"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected(old('is_active_for_purchase') == '1')
+                                    > Active </option>
+                                    <option
+                                        value="0"
+                                        @selected(old('is_active_for_purchase') == '0')
+                                    > Inactive </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_active_for_purchase" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isActive == 0 }"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="is_active_for_job">
+                                Is Active For Job <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_active_for_job"
+                                    name="is_active_for_job"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected(old('is_active_for_job') == '1')
+                                    > Active </option>
+                                    <option
+                                        value="0"
+                                        @selected(old('is_active_for_job') == '0')
+                                    > Inactive </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_active_for_job" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

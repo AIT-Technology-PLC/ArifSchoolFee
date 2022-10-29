@@ -38,6 +38,7 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'email' => $row['email'] ?? '',
             'phone' => $row['phone'] ?? '',
             'country' => $row['country'] ?? '',
+            'debt_amount_limit' => $row['debt_amount_limit'] ?? 0.00,
         ]);
     }
 
@@ -51,6 +52,7 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
+            'debt_amount_limit' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 
