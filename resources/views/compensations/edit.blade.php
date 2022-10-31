@@ -27,7 +27,7 @@
                                     name="name"
                                     type="text"
                                     placeholder="Name"
-                                    value="{{ $compensation->name }}"
+                                    value="{{ old('name', $compensation->name) }}"
                                 />
                                 <x-common.icon
                                     name="fa-solid fa-circle-dollar-to-slot"
@@ -50,11 +50,11 @@
                                     >
                                         <option
                                             value="earning"
-                                            @selected($compensation->isEarning())
+                                            @selected(old('type', $compensation->type) == 'earning')
                                         > Earning </option>
                                         <option
                                             value="deduction"
-                                            @selected(!$compensation->isEarning())
+                                            @selected(old('type', $compensation->type) == 'deduction')
                                         > Deduction </option>
                                     </x-forms.select>
                                     <x-common.icon
@@ -76,24 +76,17 @@
                                     id="depends_on"
                                     name="depends_on"
                                 >
-                                    <option
-                                        disabled
-                                        selected
-                                    >
-                                        Select Compensation
-                                    </option>
-                                    @foreach ($compensationNames as $compensationName)
+                                    <option disabled>Select Compensation</option>
+                                    @foreach ($compensations as $compensation)
                                         <option
                                             value="{{ $compensation->id }}"
-                                            @selected($compensationName->id == $compensation->depends_on)
+                                            @selected(old('depends_on', $compensation->depends_on) == $compensation->id)
                                         >{{ $compensation->name }}</option>
                                     @endforeach
                                     <option
                                         value=""
-                                        @selected(is_null($compensation->depends_on))
-                                    >
-                                        None
-                                    </option>
+                                        @selected(is_null(old('depends_on', $compensation->depends_on)))
+                                    >None</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-sort"
@@ -114,7 +107,7 @@
                                     name="percentage"
                                     type="number"
                                     placeholder="Percentage"
-                                    value="{{ $compensation->percentage }}"
+                                    value="{{ old('percentage', $compensation->percentage) }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-percent"
@@ -135,7 +128,7 @@
                                     name="default_value"
                                     type="number"
                                     placeholder="Default Value"
-                                    value="{{ $compensation->default_value }}"
+                                    value="{{ old('default_value', $compensation->default_value) }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

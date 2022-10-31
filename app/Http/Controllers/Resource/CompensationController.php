@@ -51,9 +51,9 @@ class CompensationController extends Controller
 
     public function edit(Compensation $compensation)
     {
-        $compensationNames = Compensation::orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::orderBy('name')->get(['id', 'name']);
 
-        return view('compensations.edit', compact('compensation', 'compensationNames'));
+        return view('compensations.edit', compact('compensation', 'compensations'));
     }
 
     public function update(UpdateCompensationRequest $request, Compensation $compensation)
