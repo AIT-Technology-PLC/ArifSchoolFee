@@ -354,6 +354,13 @@ class Permissions extends Seeder
             //Supplier Profile Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Supplier Profile Report']);
 
+            // Brand
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Brand']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Brand']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Brand']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Brand']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Brand']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -457,6 +464,7 @@ class Permissions extends Seeder
                 'Read Supplier',
                 'Read Contact',
                 'Read Product',
+                'Read Brand',
                 'Update Purchase',
                 'Update Supplier',
                 'Update Contact',
@@ -477,6 +485,7 @@ class Permissions extends Seeder
                 'Read Contact',
                 'Read Return',
                 'Read Product',
+                'Read Brand',
                 'Read Reservation',
                 'Update GDN',
                 'Update Sale',
@@ -508,6 +517,7 @@ class Permissions extends Seeder
                 'Read Return',
                 'Read SIV',
                 'Read Product',
+                'Read Brand',
                 'Read Warehouse',
                 'Read GDN',
                 'Read Reservation',

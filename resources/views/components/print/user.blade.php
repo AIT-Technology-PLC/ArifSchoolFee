@@ -8,6 +8,9 @@
         <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
             {{ $createdBy->name }}
         </h1>
+        <h2>
+            {{ $createdBy->employee->position }}
+        </h2>
     </footer>
 @else
     <footer class="is-clearfix">
@@ -22,6 +25,9 @@
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
                     {{ $createdBy->name }}
                 </h1>
+                <h2>
+                    {{ $createdBy->employee->position }}
+                </h2>
             </aside>
         @endif
         @if (!is_null($approvedBy))
@@ -35,6 +41,9 @@
                 <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
                     {{ $approvedBy->name }}
                 </h1>
+                <h2>
+                    {{ $approvedBy->employee->position }}
+                </h2>
             </aside>
         @endif
     </footer>

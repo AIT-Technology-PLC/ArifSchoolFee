@@ -33,6 +33,9 @@ class ProductDatatable extends DataTable
             ->editColumn('supplier', function ($product) {
                 return $product->supplier->company_name ?? 'N/A';
             })
+            ->editColumn('brand', function ($product) {
+                return $product->brand->name ?? 'N/A';
+            })
             ->editColumn('description', fn($product) => view('components.datatables.searchable-description', ['description' => $product->description]))
             ->editColumn('min_on_hand', function ($product) {
                 return Str::of($product->min_on_hand ?? 0.0)->append(' ', $product->unit_of_measurement);
@@ -64,6 +67,7 @@ class ProductDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'supplier:id,company_name',
+                'brand:id,name',
                 'price',
             ]);
     }
@@ -78,6 +82,7 @@ class ProductDatatable extends DataTable
             Column::computed('price')->addClass('has-text-centered')->visible(false),
             Column::make('type'),
             Column::make('supplier', 'supplier.company_name')->visible(false),
+            Column::make('brand', 'brand.name')->visible(false),
             Column::make('description')->visible(false),
             Column::make('min_on_hand')->title('Reorder Level'),
             Column::make('added by', 'createdBy.name')->visible(false),

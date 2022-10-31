@@ -18,6 +18,10 @@ class Product extends Model
     protected $casts = [
         'properties' => 'array',
         'is_batchable' => 'int',
+        'is_active' => 'int',
+        'is_active_for_sale' => 'int',
+        'is_active_for_purchase' => 'int',
+        'is_active_for_job' => 'int',
     ];
 
     protected $cascadeDeletes = [
@@ -132,6 +136,11 @@ class Product extends Model
         return $this->hasOne(Price::class);
     }
 
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     public function jobDetails()
     {
         return $this->hasMany(JobDetail::class);
@@ -201,5 +210,20 @@ class Product extends Model
     public function priceIncrementDetails()
     {
         return $this->hasMany(PriceIncrementDetail::class);
+    }
+
+    public function isActiveForSale()
+    {
+        return $this->is_active_for_sale == 1;
+    }
+
+    public function isActiveForPurchase()
+    {
+        return $this->is_active_for_purchase == 1;
+    }
+
+    public function isActiveForJob()
+    {
+        return $this->is_active_for_job == 1;
     }
 }

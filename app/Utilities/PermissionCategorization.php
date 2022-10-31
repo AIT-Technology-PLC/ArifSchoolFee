@@ -164,6 +164,10 @@ class PermissionCategorization
             'label' => 'Price Increment',
             'feature' => 'Price Increment',
         ],
+        'brand' => [
+            'label' => 'Brand',
+            'feature' => 'Brand Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
