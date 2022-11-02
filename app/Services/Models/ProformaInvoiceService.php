@@ -25,7 +25,7 @@ class ProformaInvoiceService
         $data = [
             'customer_id' => $proformaInvoice->customer_id ?? '',
             'contact_id' => $proformaInvoice->contact_id ?? '',
-            'discount' => $proformaInvoice->discount * 100,
+            'discount' => $proformaInvoice->discount,
             'gdn' => $proformaInvoiceDetails,
         ];
 
