@@ -237,6 +237,10 @@ class Features extends Seeder
                 ['name' => 'Brand Management'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Payroll Management'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');

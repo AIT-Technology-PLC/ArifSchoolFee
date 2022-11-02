@@ -424,3 +424,12 @@ Route::post('/price-increments/{price_increment}/import',
 Route::post('/brands/import',
     [Action\BrandController::class, 'import'])
     ->name('brands.import');
+
+// Payroll
+Route::post('/payrolls/{payroll}/approve',
+    [Action\PayrollController::class, 'approve'])
+    ->name('payrolls.approve');
+
+Route::post('/payrolls/{payroll}/pay',
+    [Action\PayrollController::class, 'pay'])
+    ->name('payrolls.pay');

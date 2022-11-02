@@ -168,6 +168,10 @@ class PermissionCategorization
             'label' => 'Brand',
             'feature' => 'Brand Management',
         ],
+        'payroll' => [
+            'label' => 'Payroll',
+            'feature' => 'Payroll Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
