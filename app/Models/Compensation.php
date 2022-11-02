@@ -60,6 +60,11 @@ class Compensation extends Model
         return $query->where('is_adjustable', 1);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+
     public function employeeCompensationHistories()
     {
         return $this->hasMany(EmployeeCompensationHistory::class);

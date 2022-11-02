@@ -22,8 +22,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @endif
-                @if (!$payroll->isPaid())
+                @else
                     @can('Pay Payroll')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -53,14 +52,14 @@
             <div>
                 <x-common.fail-message :message="session('failedMessage')" />
                 <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
-                @if (!$payroll->isApproved())
-                    <x-common.fail-message message="This Payroll has not been approved yet." />
-                @endif
-                @if ($payroll->isApproved() && !$payroll->isPaid())
-                    <x-common.success-message message="Payroll successfully approved." />
-                @endif
-                @if ($payroll->isPaid())
-                    <x-common.success-message message="Payroll successfully paid." />
+                @if (!$payroll->isPaid())
+                    <x-common.fail-message message="This Payroll is not paid yet." />
+                @elseif (!$payroll->isApproved())
+                    <x-common.fail-message message="This Payroll is not approved yet." />
+                @elseif ($payroll->isApproved())
+                    <x-common.fail-message message="This Payroll is approved but not paid yet." />
+                @else
+                    <x-common.success-message message="This Payroll is paid." />
                 @endif
             </div>
             <div class="columns is-marginless is-multiline">

@@ -59,7 +59,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Sale Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
@@ -178,7 +178,7 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Advancement Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Expense Claim'],
@@ -190,11 +190,11 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Adjustment'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Push Notification'],
