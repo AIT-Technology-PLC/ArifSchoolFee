@@ -178,6 +178,11 @@ class Company extends Model
         return $this->hasMany(BillOfMaterial::class);
     }
 
+    public function compensations()
+    {
+        return $this->hasMany(Compensation::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
