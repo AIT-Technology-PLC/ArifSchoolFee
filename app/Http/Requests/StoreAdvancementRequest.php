@@ -21,7 +21,7 @@ class StoreAdvancementRequest extends FormRequest
             'type' => ['required', 'string', 'max:255', Rule::in(['Promotion', 'Demotion'])],
             'description' => ['nullable', 'string'],
             'advancement' => ['required', 'array'],
-            'advancement.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
+            'advancement.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
                 if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {
                     $fail('You do not have permission to create an advancement request for this employee.');
                 }
