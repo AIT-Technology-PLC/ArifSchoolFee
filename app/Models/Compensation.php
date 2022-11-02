@@ -69,4 +69,9 @@ class Compensation extends Model
     {
         return $this->hasMany(EmployeeCompensationHistory::class);
     }
+
+    public function payrollDetails()
+    {
+        return $this->hasMany(PayrollDetail::class);
+    }
 }

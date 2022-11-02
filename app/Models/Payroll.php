@@ -26,6 +26,11 @@ class Payroll extends Model
         return $this->belongsTo(User::class, 'paid_by')->withDefault(['name' => 'N/A']);
     }
 
+    public function payrollDetails()
+    {
+        return $this->hasMany(PayrollDetail::class);
+    }
+
     public function pay()
     {
         $this->paid_by = authUser()->id;
