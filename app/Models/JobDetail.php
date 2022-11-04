@@ -55,7 +55,7 @@ class JobDetail extends Model
 
         $totalQuantity = $this->quantity ?? 0.00;
 
-        if (! $totalQuantity) {
+        if (!$totalQuantity) {
             return 100.00;
         }
 
@@ -112,11 +112,16 @@ class JobDetail extends Model
             ->load([
                 'job' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }, ]
+                }]
             );
 
         $jobDetailsBillOfMaterials->push(...$jobDetails);
 
         return $jobDetailsBillOfMaterials;
+    }
+
+    public function jobDetailHistories()
+    {
+        return $this->hasMany(JobDetailHistory::class);
     }
 }
