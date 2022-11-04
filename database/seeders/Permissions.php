@@ -361,6 +361,9 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Brand']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Brand']);
 
+            //Inventory Level Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Level Report']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 

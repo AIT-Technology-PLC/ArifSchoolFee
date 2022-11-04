@@ -1157,6 +1157,25 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Inventory Level'))
+                                @can('Read Inventory Level Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.inventory_level') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-warehouse"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Inventory Level
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 </section>
