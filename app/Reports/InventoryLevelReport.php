@@ -68,7 +68,7 @@ class InventoryLevelReport
                 'available' => $merchandiseDetail->available,
             ];
 
-            if (isset($filters['date'])) {
+            if (isset($this->filters['date'])) {
                 foreach ($this->getGdnDetail as $gdnDetail) {
                     if (($merchandiseDetail->warehouse_id == $gdnDetail->warehouse_id) && ($merchandiseDetail->product_id == $gdnDetail->product_id)) {
                         $currentMerchandiseItem['available'] = $merchandiseDetail->available + $gdnDetail->quantity;
@@ -82,11 +82,11 @@ class InventoryLevelReport
                 }
 
                 foreach ($this->getTransferDetail as $transferDetail) {
-                    if (!is_null($transferDetail->transfer->subtracted_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_from) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
+                    if (($transferDetail->transfer->isSubtracted()) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_from) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
                         $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $transferDetail->quantity;
                     }
 
-                    if (!is_null($transferDetail->transfer->added_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_to) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
+                    if (($transferDetail->transfer->isAdded()) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_to) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
                         $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $transferDetail->quantity;
                     }
                 }
