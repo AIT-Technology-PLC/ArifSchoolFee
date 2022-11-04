@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\PayrollDatatable;
+use App\DataTables\PayrollSheetDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePayrollRequest;
 use App\Http\Requests\UpdatePayrollRequest;
@@ -56,9 +57,11 @@ class PayrollController extends Controller
         return redirect()->route('payrolls.show', $payroll->id);
     }
 
-    public function show(Payroll $payroll)
+    public function show(Payroll $payroll, PayrollSheetDatatable $datatable)
     {
-        return view('payrolls.show', compact('payroll'));
+        $datatable->builder()->setTableId('payroll-sheet-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+
+        return $datatable->render('payrolls.show', compact('payroll'));
     }
 
     public function edit(Payroll $payroll)

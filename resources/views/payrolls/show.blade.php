@@ -9,20 +9,21 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$payroll->isApproved())
+                @if (!$payroll->isPaid())
                     @can('Approve Payroll')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('payrolls.approve', $payroll->id)"
-                                action="approve"
-                                intention="approve this payroll"
+                                action="{{ $payroll->isApproved() ? 'rerun' : 'Run' }}"
+                                intention="{{ $payroll->isApproved() ? 'rerun' : 'Run' }} this payroll"
                                 icon="fas fa-signature"
-                                label="Approve"
+                                label="{{ $payroll->isApproved() ? 'Rerun' : 'Run' }}"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @else
+                @endif
+                @if ($payroll->isApproved())
                     @can('Pay Payroll')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -30,7 +31,7 @@
                                 action="pay"
                                 intention="pay this payroll"
                                 icon="fa-solid fa-circle-check"
-                                label="pay"
+                                label="Pay"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
@@ -101,4 +102,16 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+
+    @if ($payroll->isApproved())
+        <x-common.content-wrapper class="mt-5">
+            <x-content.header title="Payroll Sheet" />
+            <x-content.footer> {{ $dataTable->table() }} </x-content.footer>
+        </x-common.content-wrapper>
+    @endif
+
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

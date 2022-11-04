@@ -180,6 +180,30 @@
                                     </x-forms.field>
                                 </div>
                                 <div class="column is-6">
+                                    <x-forms.label x-bind:for="`compensation[${index}][maximum_amount]`">
+                                        Maximum Amount <sup class="has-text-danger"></sup>
+                                    </x-forms.label>
+                                    <x-forms.field class="has-addons">
+                                        <x-forms.control class="has-icons-left is-expanded">
+                                            <x-forms.input
+                                                type="number"
+                                                x-bind:id="`compensation[${index}][maximum_amount]`"
+                                                x-bind:name="`compensation[${index}][maximum_amount]`"
+                                                x-model="compensation.maximum_amount"
+                                                placeholder="Default Value"
+                                            />
+                                            <x-common.icon
+                                                name="fas fa-th"
+                                                class="is-small is-left"
+                                            />
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`compensation.${index}.maximum_amount`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`compensation[${index}][is_active]`">
                                             Active or not <sup class="has-text-danger">*</sup>

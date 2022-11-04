@@ -22,7 +22,6 @@ class PayrollDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('branch', fn($payroll) => $payroll->warehouse->name)
             ->editColumn('status', fn($payroll) => view('components.datatables.payroll-status', compact('payroll')))
             ->editColumn('bank_name', fn($payroll) => $payroll->bank_name)
             ->editColumn('issued_on', fn($payroll) => $payroll->issued_on->toFormattedDateString())
@@ -55,7 +54,6 @@ class PayrollDatatable extends DataTable
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'paidBy:id,name',
-                'warehouse:id,name',
             ]);
     }
 
@@ -63,7 +61,6 @@ class PayrollDatatable extends DataTable
     {
         $columns = [
             Column::computed('#'),
-            Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
             Column::make('bank_name'),

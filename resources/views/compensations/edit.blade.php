@@ -77,11 +77,11 @@
                                     name="depends_on"
                                 >
                                     <option disabled>Select Compensation</option>
-                                    @foreach ($compensations as $compensation)
+                                    @foreach ($compensations as $item)
                                         <option
-                                            value="{{ $compensation->id }}"
-                                            @selected(old('depends_on', $compensation->depends_on) == $compensation->id)
-                                        >{{ $compensation->name }}</option>
+                                            value="{{ $item->id }}"
+                                            @selected(old('depends_on', $compensation->depends_on) == $item->id)
+                                        >{{ $item->name }}</option>
                                     @endforeach
                                     <option
                                         value=""
@@ -135,6 +135,27 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="default_value" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="maximum_amount">
+                                Maximum Amount <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="maximum_amount"
+                                    name="maximum_amount"
+                                    type="number"
+                                    placeholder="Maximum Amount"
+                                    value="{{ old('maximum_amount', $compensation->maximum_amount) }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="maximum_amount" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

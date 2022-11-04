@@ -65,6 +65,11 @@ class Compensation extends Model
         return $query->where('is_active', 1);
     }
 
+    public function scopeDerived($query)
+    {
+        return $query->whereNotNull('depends_on')->whereNotNull('percentage');
+    }
+
     public function employeeCompensationHistories()
     {
         return $this->hasMany(EmployeeCompensationHistory::class);

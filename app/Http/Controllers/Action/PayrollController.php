@@ -2,35 +2,29 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
-use App\Notifications\PayrollApproved;
 use App\Notifications\PayrollPaid;
+use App\Services\Models\PayrollService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\Notification;
 
 class PayrollController extends Controller
 {
-    public function __construct()
+    private $payrollService;
+
+    public function __construct(PayrollService $payrollService)
     {
         $this->middleware('isFeatureAccessible:Payroll Management');
+
+        $this->payrollService = $payrollService;
     }
 
-    public function approve(Payroll $payroll, ApproveTransactionAction $action)
+    public function approve(Payroll $payroll)
     {
         $this->authorize('approve', $payroll);
 
-        [$isExecuted, $message] = $action->execute($payroll);
-
-        if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
-        }
-
-        Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Payroll', $payroll->warehouse_id, $payroll->createdBy),
-            new PayrollApproved($payroll)
-        );
+        [$isExecuted, $message] = $this->payrollService->approve($payroll);
 
         return back()->with('successMessage', $message);
     }
@@ -50,7 +44,7 @@ class PayrollController extends Controller
         $payroll->pay();
 
         Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Payroll', $payroll->warehouse_id, $payroll->createdBy),
+            Notifiables::byPermission('Read Payroll', $payroll->createdBy),
             new PayrollPaid($payroll)
         );
 
