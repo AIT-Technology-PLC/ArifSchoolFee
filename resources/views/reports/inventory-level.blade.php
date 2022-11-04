@@ -37,7 +37,7 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-warehouse"></i>
                         </span>
                         <span>Inventory Level</span>
                     </h1>
@@ -45,10 +45,10 @@
             </x-content.header>
             <x-content.footer>
                 <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
+                    has-filter="true"
+                    has-length-change="true"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu=[10]
                 >
                     <x-slot name="headings">
                         <th>Product</th>
