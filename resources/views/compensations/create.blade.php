@@ -109,8 +109,9 @@
                                                 x-model="compensation.depends_on"
                                             >
                                                 <option
-                                                    disabled
+                                                    value=""
                                                     selected
+                                                    hidden
                                                 >
                                                     Select Compensation
                                                 </option>

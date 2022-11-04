@@ -24,13 +24,13 @@ class AdvancementService
                 $advancementDetail->employee->save();
 
                 $emlpoyeeCompensation = EmployeeCompensation::where('employee_id', $advancementDetail->employee_id)->where('compensation_id', $advancementDetail->compensation_id)->first();
-                $changeCount = EmployeeCompensationHistory::where('employee_id', $advancementDetail->employee_id)->count();
 
-                $emlpoyeeCompensation->change_count = $changeCount;
-
-                EmployeeCompensationHistory::create($emlpoyeeCompensation->toArray());
-
-                $emlpoyeeCompensation->forceDelete();
+                if ($emlpoyeeCompensation) {
+                    $changeCount = EmployeeCompensationHistory::where('employee_id', $advancementDetail->employee_id)->count();
+                    $emlpoyeeCompensation->change_count = $changeCount;
+                    EmployeeCompensationHistory::create($emlpoyeeCompensation->toArray());
+                    $emlpoyeeCompensation->forceDelete();
+                }
 
                 EmployeeCompensation::create(Arr::only($advancementDetail->toArray(), ['employee_id', 'compensation_id', 'amount']));
             });

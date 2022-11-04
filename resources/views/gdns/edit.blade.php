@@ -154,7 +154,7 @@
                                             name="discount"
                                             type="number"
                                             placeholder="Discount in Percentage"
-                                            value="{{ $gdn->discount * 100 ?? '' }}"
+                                            value="{{ $gdn->discount ?? '' }}"
                                         />
                                         <x-common.icon
                                             name="fas fa-percent"

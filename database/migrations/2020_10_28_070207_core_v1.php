@@ -1442,6 +1442,27 @@ return new class extends Migration
             $table->unique(['company_id', 'name']);
         });
 
+        Schema::create('payrolls', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('paid_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->bigInteger('code');
+            $table->string('bank_name');
+            $table->dateTime('issued_on')->nullable();
+            $table->date('starting_period')->nullable();
+            $table->date('ending_period')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->unique(['starting_period', 'ending_period', 'warehouse_id']);
+            $table->index('company_id');
+            $table->index('warehouse_id');
+        });
+
         Schema::create('job_detail_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('job_detail_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
@@ -1551,6 +1572,7 @@ return new class extends Migration
         Schema::drop('price_increment_details');
         Schema::drop('price_increments');
         Schema::drop('brands');
+        Schema::drop('payrolls');
         Schema::drop('job_detail_histories');
     }
 };

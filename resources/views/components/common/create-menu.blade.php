@@ -852,6 +852,39 @@
                 @endcan
             @endif
 
+            @if (isFeatureEnabled('Payroll Management'))
+                @canany('Create Payroll')
+                    <x-content.header>
+                        <x-slot name="header">
+                            <x-common.icon
+                                name="fas fa-chart-line"
+                                class="is-size-6 text-green"
+                            />
+                            <span class="ml-2 is-size-6 text-green"> Finance </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Payroll Management'))
+                                @can('Create Payroll')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('payrolls.create') }}"
+                                            icon="fa-solid fa-coins"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Payroll </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                @endcan
+            @endif
+
             @if (isFeatureEnabled('Pad Management', 'User Management'))
                 @canany(['Create Pad', 'Create Employee'])
                     <x-content.header>

@@ -46,7 +46,9 @@
                                     x-init="select2(index)"
                                 >
                                     @foreach ($users as $user)
-                                        <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
+                                        @if ($user->employee->employeeCompensations->count())
+                                            <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
+                                        @endif
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon
@@ -179,7 +181,7 @@
 
                 async init() {
                     if (compensationAdjustment) {
-                        Promise.resolve(this.compensationAdjustments = compensationAdjustment);
+                        await Promise.resolve(this.compensationAdjustments = compensationAdjustment);
 
                         await Promise.resolve($(".employee-list").trigger("change"));
 
@@ -194,7 +196,14 @@
                     });
                 },
                 addEmployeeAdjustments(index) {
-                    this.compensationAdjustments[index].employeeAdjustments.push({});
+                    if (this.compensationAdjustments[index].employeeAdjustments) {
+                        this.compensationAdjustments[index].employeeAdjustments.push({});
+                        return;
+                    }
+
+                    this.compensationAdjustments[index] = {
+                        employeeAdjustments: []
+                    };
                 },
                 async remove(index) {
                     if (this.compensationAdjustments.length <= 0) {

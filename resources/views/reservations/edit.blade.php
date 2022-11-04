@@ -145,7 +145,7 @@
                                                 name="discount"
                                                 type="number"
                                                 placeholder="Discount in Percentage"
-                                                value="{{ $reservation->discount * 100 ?? '' }}"
+                                                value="{{ $reservation->discount ?? '' }}"
                                             />
                                             <x-common.icon
                                                 name="fas fa-percent"

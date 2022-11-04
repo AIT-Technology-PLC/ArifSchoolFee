@@ -24,6 +24,7 @@ class CompensationDatatable extends DataTable
             ->editColumn('can_be_inputted_manually', fn($compensation) => $compensation->canBeInputtedManually() ? 'Yes' : 'No')
             ->editColumn('percentage', fn($compensation) => $compensation->percentage ?? 'N/A')
             ->editColumn('default_value', fn($compensation) => $compensation->default_value ?? 'N/A')
+            ->editColumn('maximum_amount', fn($compensation) => $compensation->maximum_amount ?? 'N/A')
             ->editColumn('created by', fn($compensation) => $compensation->createdBy->name)
             ->editColumn('edited by', fn($compensation) => $compensation->updatedBy->name)
             ->editColumn('actions', function ($compensation) {
@@ -59,6 +60,7 @@ class CompensationDatatable extends DataTable
             Column::make('can_be_inputted_manually'),
             Column::make('percentage'),
             Column::make('default_value')->visible(false),
+            Column::make('maximum_amount')->visible(false),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

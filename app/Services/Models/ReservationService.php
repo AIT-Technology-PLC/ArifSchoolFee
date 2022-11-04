@@ -139,7 +139,7 @@ class ReservationService
                 'customer_id' => $reservation->customer_id ?? null,
                 'contact_id' => $reservation->contact_id ?? null,
                 'code' => nextReferenceNumber('gdns'),
-                'discount' => $reservation->discount * 100,
+                'discount' => $reservation->discount,
                 'payment_type' => $reservation->payment_type,
                 'cash_received_type' => $reservation->cash_received_type,
                 'cash_received' => $reservation->cash_received,
