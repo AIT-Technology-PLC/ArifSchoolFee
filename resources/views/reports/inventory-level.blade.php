@@ -48,7 +48,6 @@
                     has-filter="true"
                     has-length-change="true"
                     paging-type="simple"
-                    length-menu=[10]
                 >
                     <x-slot name="headings">
                         <th>Product</th>
@@ -67,7 +66,7 @@
                                 <td> {{ $inventoryLevel['category'] }} </td>
                                 @foreach (authUser()->getAllowedWarehouses('read') as $warehouse)
                                     <th>
-                                        <span class='tag is-small @if ($inventoryLevel[$warehouse->name]??0 > $inventoryLevel["min_on_hand"]) btn-green is-outlined @elseif($inventoryLevel[$warehouse->name]??0 == 0) btn-purple is-outlined @else btn bg-gold has-text-white @endif'>
+                                        <span class='tag is-small @if ($inventoryLevel[$warehouse->name] ?? 0 > $inventoryLevel['min_on_hand']) btn-green is-outlined @elseif($inventoryLevel[$warehouse->name] ?? 0 == 0) btn-purple is-outlined @else btn bg-gold has-text-white @endif'>
                                             {{ $inventoryLevel[$warehouse->name] ?? 0.0 }} {{ $inventoryLevel['unit'] }}
                                         </span>
                                     </th>
