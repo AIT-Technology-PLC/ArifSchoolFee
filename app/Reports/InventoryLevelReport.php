@@ -68,84 +68,86 @@ class InventoryLevelReport
                 'available' => $merchandiseDetail->available,
             ];
 
-            foreach ($this->getGdnDetail as $gdnDetail) {
-                if (($merchandiseDetail->warehouse_id == $gdnDetail->warehouse_id) && ($merchandiseDetail->product_id == $gdnDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $merchandiseDetail->available + $gdnDetail->quantity;
-                }
-            }
-
-            foreach ($this->getGrnDetail as $grnDetail) {
-                if (($merchandiseDetail->warehouse_id == $grnDetail->warehouse_id) && ($merchandiseDetail->product_id == $grnDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $grnDetail->quantity;
-                }
-            }
-
-            foreach ($this->getTransferDetail as $transferDetail) {
-                if (!is_null($transferDetail->transfer->subtracted_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_from) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $transferDetail->quantity;
-                }
-
-                if (!is_null($transferDetail->transfer->added_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_to) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $transferDetail->quantity;
-                }
-            }
-
-            foreach ($this->getAdjustmentDetail as $adjustmentDetail) {
-                if (($merchandiseDetail->warehouse_id == $adjustmentDetail->warehouse_id) && ($merchandiseDetail->product_id == $adjustmentDetail->product_id)) {
-                    if ($adjustmentDetail->is_subtract == 1) {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $adjustmentDetail->quantity;
-                    }
-
-                    if ($adjustmentDetail->is_subtract == 0) {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $adjustmentDetail->quantity;
+            if (isset($filters['date'])) {
+                foreach ($this->getGdnDetail as $gdnDetail) {
+                    if (($merchandiseDetail->warehouse_id == $gdnDetail->warehouse_id) && ($merchandiseDetail->product_id == $gdnDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $merchandiseDetail->available + $gdnDetail->quantity;
                     }
                 }
-            }
 
-            foreach ($this->getDamageDetail as $damageDetail) {
-                if (($merchandiseDetail->warehouse_id == $damageDetail->warehouse_id) && ($merchandiseDetail->product_id == $damageDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $damageDetail->quantity;
-                }
-            }
-
-            foreach ($this->getReturnDetail as $returnDetail) {
-                if (($merchandiseDetail->warehouse_id == $returnDetail->warehouse_id) && ($merchandiseDetail->product_id == $returnDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $returnDetail->quantity;
-                }
-            }
-
-            foreach ($this->getReservationDetail as $reservationDetail) {
-                if (($merchandiseDetail->warehouse_id == $reservationDetail->warehouse_id) && ($merchandiseDetail->product_id == $reservationDetail->product_id)) {
-                    $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $reservationDetail->quantity;
-                }
-            }
-
-            foreach ($this->getJobExtraDetail as $jobExtraDetail) {
-                if (($merchandiseDetail->warehouse_id == $jobExtraDetail->factory_id) && ($merchandiseDetail->product_id == $jobExtraDetail->product_id)) {
-                    if ($jobExtraDetail->status == "added") {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobExtraDetail->quantity;
-                    }
-
-                    if ($jobExtraDetail->status == "subtracted") {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobExtraDetail->quantity;
+                foreach ($this->getGrnDetail as $grnDetail) {
+                    if (($merchandiseDetail->warehouse_id == $grnDetail->warehouse_id) && ($merchandiseDetail->product_id == $grnDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $grnDetail->quantity;
                     }
                 }
-            }
 
-            foreach ($this->getJobDetailHistory as $jobDetailHistory) {
-                if (($merchandiseDetail->warehouse_id == $jobDetailHistory->jobDetail->job->factory_id) && ($merchandiseDetail->product_id == $jobDetailHistory->product_id)) {
-                    if ($jobDetailHistory->type == "added") {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobDetailHistory->quantity;
+                foreach ($this->getTransferDetail as $transferDetail) {
+                    if (!is_null($transferDetail->transfer->subtracted_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_from) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $transferDetail->quantity;
                     }
 
-                    if ($jobDetailHistory->type == "subtracted") {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobDetailHistory->quantity;
+                    if (!is_null($transferDetail->transfer->added_by) && ($merchandiseDetail->warehouse_id == $transferDetail->transferred_to) && ($merchandiseDetail->product_id == $transferDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $transferDetail->quantity;
                     }
                 }
-            }
 
-            if ($currentMerchandiseItem['available'] < 0) {
-                $currentMerchandiseItem['available'] = 0;
+                foreach ($this->getAdjustmentDetail as $adjustmentDetail) {
+                    if (($merchandiseDetail->warehouse_id == $adjustmentDetail->warehouse_id) && ($merchandiseDetail->product_id == $adjustmentDetail->product_id)) {
+                        if ($adjustmentDetail->is_subtract == 1) {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $adjustmentDetail->quantity;
+                        }
+
+                        if ($adjustmentDetail->is_subtract == 0) {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $adjustmentDetail->quantity;
+                        }
+                    }
+                }
+
+                foreach ($this->getDamageDetail as $damageDetail) {
+                    if (($merchandiseDetail->warehouse_id == $damageDetail->warehouse_id) && ($merchandiseDetail->product_id == $damageDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $damageDetail->quantity;
+                    }
+                }
+
+                foreach ($this->getReturnDetail as $returnDetail) {
+                    if (($merchandiseDetail->warehouse_id == $returnDetail->warehouse_id) && ($merchandiseDetail->product_id == $returnDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $returnDetail->quantity;
+                    }
+                }
+
+                foreach ($this->getReservationDetail as $reservationDetail) {
+                    if (($merchandiseDetail->warehouse_id == $reservationDetail->warehouse_id) && ($merchandiseDetail->product_id == $reservationDetail->product_id)) {
+                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $reservationDetail->quantity;
+                    }
+                }
+
+                foreach ($this->getJobExtraDetail as $jobExtraDetail) {
+                    if (($merchandiseDetail->warehouse_id == $jobExtraDetail->factory_id) && ($merchandiseDetail->product_id == $jobExtraDetail->product_id)) {
+                        if ($jobExtraDetail->status == "added") {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobExtraDetail->quantity;
+                        }
+
+                        if ($jobExtraDetail->status == "subtracted") {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobExtraDetail->quantity;
+                        }
+                    }
+                }
+
+                foreach ($this->getJobDetailHistory as $jobDetailHistory) {
+                    if (($merchandiseDetail->warehouse_id == $jobDetailHistory->jobDetail->job->factory_id) && ($merchandiseDetail->product_id == $jobDetailHistory->product_id)) {
+                        if ($jobDetailHistory->type == "added") {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobDetailHistory->quantity;
+                        }
+
+                        if ($jobDetailHistory->type == "subtracted") {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobDetailHistory->quantity;
+                        }
+                    }
+                }
+
+                if ($currentMerchandiseItem['available'] < 0) {
+                    $currentMerchandiseItem['available'] = 0;
+                }
             }
 
             $availableMerchandiseData->push($currentMerchandiseItem);
