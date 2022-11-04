@@ -66,9 +66,16 @@
                                 <td> {{ $inventoryLevel['type'] }} </td>
                                 <td> {{ $inventoryLevel['category'] }} </td>
                                 @foreach (authUser()->getAllowedWarehouses('read') as $warehouse)
-                                    <th>{{ $inventoryLevel[$warehouse->name] ?? 0.0 }} {{ $inventoryLevel['unit'] }} </th>
+                                    <th>
+                                        <span class='tag is-small @if ($inventoryLevel[$warehouse->name]??0 > $inventoryLevel["min_on_hand"]) btn-green is-outlined @elseif($inventoryLevel[$warehouse->name]??0 == 0) btn-purple is-outlined @else btn bg-gold has-text-white @endif'>
+                                            {{ $inventoryLevel[$warehouse->name] ?? 0.0 }} {{ $inventoryLevel['unit'] }}
+                                        </span>
+                                    </th>
                                 @endforeach
-                                <td> {{ $inventoryLevel['total_balance'] }} {{ $inventoryLevel['unit'] }} </td>
+                                <td> {{ view('components.datatables.green-solid-tag', [
+                                    'amount' => $inventoryLevel['total_balance'],
+                                    'unit' => $inventoryLevel['unit'],
+                                ]) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

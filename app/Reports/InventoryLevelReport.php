@@ -51,6 +51,7 @@ class InventoryLevelReport
                 'products.name as product',
                 'products.type as type',
                 'products.unit_of_measurement as unit',
+                'products.min_on_hand as min_on_hand',
                 'product_categories.name as category',
                 'warehouses.id as warehouse_id',
                 'warehouses.name as warehouse',
@@ -65,6 +66,7 @@ class InventoryLevelReport
                 'category' => $merchandiseDetail->category,
                 'warehouse' => $merchandiseDetail->warehouse,
                 'unit' => $merchandiseDetail->unit,
+                'min_on_hand' => $merchandiseDetail->min_on_hand,
                 'available' => $merchandiseDetail->available,
             ];
 
@@ -168,6 +170,7 @@ class InventoryLevelReport
                 'type' => $merchandiseValue->first()['type'],
                 'category' => $merchandiseValue->first()['category'],
                 'unit' => $merchandiseValue->first()['unit'],
+                'min_on_hand' => $merchandiseValue->first()['min_on_hand'],
                 'total_balance' => $merchandiseValue->sum('available'),
             ];
 
