@@ -95,11 +95,12 @@ class InventoryLevelReport
 
                 foreach ($this->getAdjustmentDetail as $adjustmentDetail) {
                     if (($merchandiseDetail->warehouse_id == $adjustmentDetail->warehouse_id) && ($merchandiseDetail->product_id == $adjustmentDetail->product_id)) {
-                        if ($adjustmentDetail->is_subtract == 1) {
+                        if ($adjustmentDetail->isSubtracted()) {
+
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $adjustmentDetail->quantity;
                         }
 
-                        if ($adjustmentDetail->is_subtract == 0) {
+                        if (!$adjustmentDetail->isSubtracted()) {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $adjustmentDetail->quantity;
                         }
                     }
