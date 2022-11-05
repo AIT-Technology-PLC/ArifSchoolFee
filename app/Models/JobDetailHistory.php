@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\HasUserstamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JobDetailHistory extends Model
 {
@@ -21,5 +19,15 @@ class JobDetailHistory extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function isTypeAdded()
+    {
+        return $this->type == "added";
+    }
+
+    public function isTypeSubtracted()
+    {
+        return $this->type == "subtracted";
     }
 }

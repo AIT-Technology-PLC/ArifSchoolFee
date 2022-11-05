@@ -126,11 +126,11 @@ class InventoryLevelReport
 
                 foreach ($this->getJobExtraDetail as $jobExtraDetail) {
                     if (($merchandiseDetail->warehouse_id == $jobExtraDetail->job->factory_id) && ($merchandiseDetail->product_id == $jobExtraDetail->product_id)) {
-                        if ($jobExtraDetail->status == "added") {
+                        if ($jobExtraDetail->isAdded()) {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobExtraDetail->quantity;
                         }
 
-                        if ($jobExtraDetail->status == "subtracted") {
+                        if ($jobExtraDetail->isSubtracted()) {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobExtraDetail->quantity;
                         }
                     }
@@ -138,11 +138,11 @@ class InventoryLevelReport
 
                 foreach ($this->getJobDetailHistory as $jobDetailHistory) {
                     if (($merchandiseDetail->warehouse_id == $jobDetailHistory->jobDetail->job->factory_id) && ($merchandiseDetail->product_id == $jobDetailHistory->product_id)) {
-                        if ($jobDetailHistory->type == "added") {
+                        if ($jobDetailHistory->isTypeAdded()) {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobDetailHistory->quantity;
                         }
 
-                        if ($jobDetailHistory->type == "subtracted") {
+                        if ($jobDetailHistory->isTypeSubtracted()) {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $jobDetailHistory->quantity;
                         }
                     }
