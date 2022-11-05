@@ -125,7 +125,7 @@ class InventoryLevelReport
                 }
 
                 foreach ($this->getJobExtraDetail as $jobExtraDetail) {
-                    if (($merchandiseDetail->warehouse_id == $jobExtraDetail->factory_id) && ($merchandiseDetail->product_id == $jobExtraDetail->product_id)) {
+                    if (($merchandiseDetail->warehouse_id == $jobExtraDetail->job->factory_id) && ($merchandiseDetail->product_id == $jobExtraDetail->product_id)) {
                         if ($jobExtraDetail->status == "added") {
                             $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $jobExtraDetail->quantity;
                         }
