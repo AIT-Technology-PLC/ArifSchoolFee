@@ -50,6 +50,7 @@
                     paging-type="simple"
                 >
                     <x-slot name="headings">
+                        <th>#</th>
                         <th>Product</th>
                         <th>Type</th>
                         <th>Category</th>
@@ -61,6 +62,7 @@
                     <x-slot name="body">
                         @foreach ($inventoryLevelReport->getInventoryLevels as $inventoryLevel)
                             <tr>
+                                <td> {{ $loop->iteration }} </td>
                                 <td> {{ $inventoryLevel['product'] }} </td>
                                 <td> {{ $inventoryLevel['type'] }} </td>
                                 <td> {{ $inventoryLevel['category'] }} </td>
