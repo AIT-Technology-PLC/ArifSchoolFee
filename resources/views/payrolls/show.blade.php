@@ -14,10 +14,10 @@
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('payrolls.approve', $payroll->id)"
-                                action="{{ $payroll->isApproved() ? 'rerun' : 'Run' }}"
-                                intention="{{ $payroll->isApproved() ? 'rerun' : 'Run' }} this payroll"
+                                action="{{ $payroll->isApproved() ? 're-process' : 'Process' }}"
+                                intention="{{ $payroll->isApproved() ? 're-process' : 'Process' }} this payroll"
                                 icon="fas fa-signature"
-                                label="{{ $payroll->isApproved() ? 'Rerun' : 'Run' }}"
+                                label="{{ $payroll->isApproved() ? 'Re-process' : 'Process' }}"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>

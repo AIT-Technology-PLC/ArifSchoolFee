@@ -19,7 +19,7 @@ class StorePayrollRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('payrolls')],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
-                if (Payroll::where('warehouse_id', authUser()->warehouse_id)->where('ending_period', '>=', $value)->exists()) {
+                if (Payroll::where('ending_period', '>=', $value)->exists()) {
                     $fail('This starting period is already taken.');
                 }
             }],
