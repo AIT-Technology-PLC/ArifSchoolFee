@@ -107,8 +107,8 @@
                         <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                         <td> {{ $employee['employee']->user->name }} </td>
                         <td class="has-text-right"> {{ money($employee['net_payable_after_absenteeism']) }} </td>
-                        <td> {{ $employee['employee']->account_no }} </td>
-                        <td> {{ $employee['employee']->phone }} </td>
+                        <td class="has-text-centered"> {{ $employee['employee']->bank_account }} </td>
+                        <td class="has-text-centered"> {{ $employee['employee']->phone }} </td>
                     </tr>
                 @endforeach
                 <tr>
