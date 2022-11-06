@@ -24,9 +24,6 @@ class PayrollSheetDatatable extends DataTable
             ->editColumn('absence_days', fn($row) => $row['absence_days'] . ' Days')
             ->editColumn('absence_deduction', fn($row) => money($row['absence_deduction']))
             ->editColumn('net_payable_after_absenteeism', fn($row) => money($row['net_payable_after_absenteeism']))
-            ->editColumn('amount', fn($row) => money($row['net_payable_after_absenteeism']))
-            ->editColumn('account_number', fn($row) => $row['employee']->bank_account ?? 'N/A')
-            ->editColumn('phone_number', fn($row) => $row['employee']->phone ?? 'N/A')
 
             ->addIndexColumn();
     }
@@ -50,9 +47,6 @@ class PayrollSheetDatatable extends DataTable
             Column::make('absence_days')->addClass('has-text-right text-gold'),
             Column::make('absence_deduction')->addClass('has-text-right text-gold'),
             Column::make('net_payable_after_absenteeism')->addClass('has-text-right text-green'),
-            Column::make('amount')->addClass('has-text-right'),
-            Column::make('account_number')->addClass('has-text-centered'),
-            Column::make('phone_number')->addClass('has-text-centered'),
         ];
     }
 
