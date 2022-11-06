@@ -41,7 +41,7 @@ class AdvancementController extends Controller
     {
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
-        $compensations = Compensation::orderBy('name')->get();
+        $compensations = Compensation::orderBy('name')->canBeInputtedManually()->earnings()->get(['id', 'name']);
 
         return view('advancements.create', compact('users', 'compensations'));
     }
@@ -76,7 +76,7 @@ class AdvancementController extends Controller
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
 
-        $compensations = Compensation::orderBy('name')->get();
+        $compensations = Compensation::orderBy('name')->canBeInputtedManually()->earnings()->get(['id', 'name']);
 
         $advancement->load(['advancementDetails']);
 
