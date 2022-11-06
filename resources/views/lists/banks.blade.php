@@ -1,5 +1,7 @@
 <option value="Abay Bank"> Abay Bank </option>
 <option value="Addis Bank SC"> Addis Bank SC </option>
+<option value="Ahadu Bank"> Ahadu Bank </option>
+<option value="Amhara Bank"> Amhara Bank </option>
 <option value="Awash International Bank"> Awash International Bank </option>
 <option value="Bank of Abyssinia"> Bank of Abyssinia </option>
 <option value="Berhan International Bank"> Berhan International Bank </option>
@@ -13,7 +15,9 @@
 <option value="Lion International Bank"> Lion International Bank </option>
 <option value="Nib International Bank"> Nib International Bank </option>
 <option value="Oromia International Bank"> Oromia International Bank </option>
-<option value="United Bank"> United Bank </option>
+<option value="Siinqee Bank"> Siinqee Bank </option>
+<option value="Tsehay Bank"> Tsehay Bank </option>
+<option value="United (Hibret) Bank"> United Bank </option>
 <option value="Wegagen Bank"> Wegagen Bank </option>
 <option value="ZamZam Bank"> ZamZam Bank </option>
 <option value="Zemen Bank"> Zemen Bank </option>
