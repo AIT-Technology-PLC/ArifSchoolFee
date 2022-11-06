@@ -46,8 +46,7 @@ class ProcessPayrollAction
 
         $this->employees = Employee::whereHas('payrollDetails')->get();
 
-        $this->derivedCompensations = Compensation::active()
-            ->derived()
+        $this->derivedCompensations = Compensation::derived()
             ->whereNotIn('id', $this->payrollDetails->pluck('compensation_id'))
             ->orderBy('id', 'DESC')
             ->get();
