@@ -66,12 +66,12 @@ class PayrollController extends Controller
 
     public function edit(Payroll $payroll)
     {
-        if ($payroll->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a payroll that is approved.');
-        }
-
         if ($payroll->isPaid()) {
             return back()->with('failedMessage', 'You can not modify a payroll that is paid.');
+        }
+
+        if ($payroll->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a payroll that is approved.');
         }
 
         return view('payrolls.edit', compact('payroll'));
@@ -79,12 +79,12 @@ class PayrollController extends Controller
 
     public function update(UpdatePayrollRequest $request, Payroll $payroll)
     {
-        if ($payroll->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a payroll that is approved.');
-        }
-
         if ($payroll->isPaid()) {
             return back()->with('failedMessage', 'You can not modify a payroll that is paid.');
+        }
+
+        if ($payroll->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify a payroll that is approved.');
         }
 
         $payroll->update($request->validated());
@@ -94,12 +94,12 @@ class PayrollController extends Controller
 
     public function destroy(Payroll $payroll)
     {
-        if ($payroll->isApproved()) {
-            return back()->with('failedMessage', 'You can not delete a payroll that is approved.');
-        }
-
         if ($payroll->isPaid()) {
             return back()->with('failedMessage', 'You can not delete a payroll that is paid.');
+        }
+
+        if ($payroll->isApproved()) {
+            return back()->with('failedMessage', 'You can not delete a payroll that is approved.');
         }
 
         $payroll->forceDelete();

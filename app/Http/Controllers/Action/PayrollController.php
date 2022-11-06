@@ -35,12 +35,12 @@ class PayrollController extends Controller
     {
         $this->authorize('pay', $payroll);
 
-        if (!$payroll->isApproved()) {
-            return back()->with('failedMessage', 'You can not pay a payroll that is not approved.');
+        if ($payroll->isPaid()) {
+            return back()->with('failedMessage', 'You can not pay a payroll that is already paid.');
         }
 
-        if ($payroll->isPaid()) {
-            return back()->with('failedMessage', 'This transaction is already paid.');
+        if (!$payroll->isApproved()) {
+            return back()->with('failedMessage', 'You can not pay a payroll that is not approved.');
         }
 
         $payroll->pay();
