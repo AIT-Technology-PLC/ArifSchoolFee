@@ -17,4 +17,9 @@ class EmployeeCompensation extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function compensation()
+    {
+        return $this->belongsTo(Compensation::class);
+    }
 }

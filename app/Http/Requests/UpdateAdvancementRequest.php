@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Compensation;
 use App\Models\Employee;
 use App\Rules\MustBelongToCompany;
 use App\Rules\ValidateCompensationAmountIsValid;
@@ -28,7 +29,7 @@ class UpdateAdvancementRequest extends FormRequest
                 }
             }],
             'advancement.*.job_position' => ['required', 'string'],
-            'advancement.*.compensation_id' => ['required', 'string', new MustBelongToCompany('compensations')],
+            'advancement.*.compensation_id' => ['required', 'string', Rule::in(Compensation::active()->canBeInputtedManually()->earnings()->pluck('id'))],
             'advancement.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
         ];
     }

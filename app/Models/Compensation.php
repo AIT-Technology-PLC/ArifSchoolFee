@@ -15,29 +15,29 @@ class Compensation extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function isEarning()
+    public function employeeCompensationHistories()
     {
-        return $this->type == 'earning';
+        return $this->hasMany(EmployeeCompensationHistory::class);
     }
 
-    public function isActive()
+    public function employeeCompensations()
     {
-        return $this->is_active == 1;
+        return $this->hasMany(EmployeeCompensation::class);
     }
 
-    public function isTaxable()
+    public function advancementDetails()
     {
-        return $this->is_taxable == 1;
+        return $this->hasMany(AdvancementDetail::class);
     }
 
-    public function isAdjustable()
+    public function compensationAdjustmentDetails()
     {
-        return $this->is_adjustable == 1;
+        return $this->hasMany(CompensationAdjustmentDetail::class);
     }
 
-    public function canBeInputtedManually()
+    public function payrollDetails()
     {
-        return $this->can_be_inputted_manually == 1;
+        return $this->hasMany(PayrollDetail::class);
     }
 
     public function scopeDeductions($query)
@@ -70,13 +70,28 @@ class Compensation extends Model
         return $query->whereNotNull('depends_on')->whereNotNull('percentage');
     }
 
-    public function employeeCompensationHistories()
+    public function isEarning()
     {
-        return $this->hasMany(EmployeeCompensationHistory::class);
+        return $this->type == 'earning';
     }
 
-    public function payrollDetails()
+    public function isActive()
     {
-        return $this->hasMany(PayrollDetail::class);
+        return $this->is_active == 1;
+    }
+
+    public function isTaxable()
+    {
+        return $this->is_taxable == 1;
+    }
+
+    public function isAdjustable()
+    {
+        return $this->is_adjustable == 1;
+    }
+
+    public function canBeInputtedManually()
+    {
+        return $this->can_be_inputted_manually == 1;
     }
 }

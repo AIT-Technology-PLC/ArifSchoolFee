@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Compensation;
 use App\Models\CompensationAdjustment;
 use App\Models\Employee;
 use App\Rules\MustBelongToCompany;
@@ -36,7 +37,7 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
                     $fail('You do not have permission to modify an adjustment request of this employee.');
                 }
             }],
-            'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('compensations')],
+            'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', Rule::in(Compensation::active()->canBeInputtedManually()->adjustable()->pluck('id'))],
             'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
         ];
     }

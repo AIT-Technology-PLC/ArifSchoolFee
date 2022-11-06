@@ -43,7 +43,7 @@ class CompensationAdjustmentController extends Controller
     {
         $adjustmentCode = nextReferenceNumber('compensation_adjustments');
 
-        $compensations = Compensation::adjustable()->orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::active()->canBeInputtedManually()->adjustable()->orderBy('name')->get(['id', 'name']);
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
 
@@ -94,7 +94,7 @@ class CompensationAdjustmentController extends Controller
 
         $compensationAdjustment->load(['compensationAdjustmentDetails']);
 
-        $compensations = Compensation::adjustable()->orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::active()->canBeInputtedManually()->adjustable()->orderBy('name')->get(['id', 'name']);
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
 
