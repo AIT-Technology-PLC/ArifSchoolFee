@@ -33,7 +33,7 @@
 
 <body class="{{ userCompany()->hasPrintTemplate() ? 'company-background company-y-padding company-x-padding' : 'px-6' }}">
     @if (!userCompany()->hasPrintTemplate())
-        <x-print.header :warehouse="$payroll->warehouse" />
+        <x-print.header />
     @endif
 
     <hr
