@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCompensationAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,7 +38,7 @@ class StoreCompensationAdjustmentRequest extends FormRequest
                 }
             }],
             'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', new MustBelongToCompany('compensations')],
-            'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric'],
+            'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
         ];
     }
 }

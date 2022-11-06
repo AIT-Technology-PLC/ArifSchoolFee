@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Employee;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCompensationAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,7 @@ class StoreAdvancementRequest extends FormRequest
             }],
             'advancement.*.job_position' => ['required', 'string'],
             'advancement.*.compensation_id' => ['required', 'string', new MustBelongToCompany('compensations')],
-            'advancement.*.amount' => ['required', 'numeric'],
+            'advancement.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
         ];
     }
 }
