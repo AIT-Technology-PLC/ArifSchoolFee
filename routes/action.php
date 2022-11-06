@@ -433,3 +433,7 @@ Route::post('/payrolls/{payroll}/approve',
 Route::post('/payrolls/{payroll}/pay',
     [Action\PayrollController::class, 'pay'])
     ->name('payrolls.pay');
+
+Route::get('/payrolls/{payroll}/print',
+    [Action\PayrollController::class, 'printed'])
+    ->name('payrolls.print');

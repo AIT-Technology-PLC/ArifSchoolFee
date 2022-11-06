@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ProcessPayrollAction;
 use App\Http\Controllers\Controller;
 use App\Models\Payroll;
 use App\Notifications\PayrollPaid;
 use App\Services\Models\PayrollService;
 use App\Utilities\Notifiables;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class PayrollController extends Controller
@@ -49,5 +51,18 @@ class PayrollController extends Controller
         );
 
         return back()->with('successMessage', 'You have paid this transaction successfully.');
+    }
+
+    public function printed(Payroll $payroll, ProcessPayrollAction $action)
+    {
+        $this->authorize('view', $payroll);
+
+        if (!$payroll->isApproved()) {
+            return back()->with('failedMessage', 'This Payroll is not approved yet.');
+        }
+
+        $employees = $action->execute($payroll);
+
+        return Pdf::loadView('payrolls.print', compact('payroll', 'employees'))->stream();
     }
 }

@@ -32,7 +32,7 @@
         @endif
         @if (!is_null($approvedBy))
             <aside
-                class="is-pulled-right"
+                class="is-pulled-left"
                 style="width: 50%"
             >
                 <h1 class="is-size-7 is-uppercase has-text-black-lighter has-text-weight-bold">

@@ -59,41 +59,6 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label>
-                                Bank <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="bank_name"
-                                    name="bank_name"
-                                >
-                                    <option
-                                        disabled
-                                        selected
-                                    >
-                                        Select Bank
-                                    </option>
-                                    @if (old('bank_name', $payroll->bank_name))
-                                        <option
-                                            value="{{ old('bank_name', $payroll->bank_name) }}"
-                                            selected
-                                        >
-                                            {{ old('bank_name', $payroll->bank_name) }}
-                                        </option>
-                                    @endif
-                                    @include('lists.banks')
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-university"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="bank_name" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
                             <x-forms.label for="starting_period">
                                 Starting Period <sup class="has-text-danger">*</sup>
                             </x-forms.label>

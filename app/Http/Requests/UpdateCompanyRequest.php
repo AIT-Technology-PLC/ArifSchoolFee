@@ -27,6 +27,8 @@ class UpdateCompanyRequest extends FormRequest
             'is_editing_reference_number_enabled' => ['required', 'boolean'],
             'can_show_branch_detail_on_print' => ['required', 'boolean'],
             'income_tax_region' => ['required', 'string', Rule::in(['Ethiopia'])],
+            'payroll_bank_name' => ['nullable', 'string'],
+            'payroll_bank_account_number' => ['nullable', 'string', 'required_unless:payroll_bank_name,null'],
 
             'is_discount_before_vat' => [
                 'required',

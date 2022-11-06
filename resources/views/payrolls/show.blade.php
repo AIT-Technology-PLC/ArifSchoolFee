@@ -36,6 +36,19 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
+                    @can('Read Payroll')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('payrolls.print', $payroll->id) }}"
+                                target="_blank"
+                                mode="button"
+                                icon="fas fa-print"
+                                label="Bank Print"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
                 <x-common.dropdown-item>
                     <x-common.button
@@ -76,13 +89,6 @@
                         icon="fas fa-calendar-day"
                         :data="$payroll->issued_on->toFormattedDateString()"
                         label="Issued On"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-university"
-                        :data="$payroll->bank_name"
-                        label="Bank"
                     />
                 </div>
                 <div class="column is-6">

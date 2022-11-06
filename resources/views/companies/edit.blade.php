@@ -594,6 +594,56 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
+                        <x-forms.label>
+                            Payroll Bank Details <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="payroll_bank_name"
+                                    name="payroll_bank_name"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Bank
+                                    </option>
+                                    @if (old('payroll_bank_name', $company->payroll_bank_name))
+                                        <option
+                                            value="{{ old('payroll_bank_name', $company->payroll_bank_name) }}"
+                                            selected
+                                        >
+                                            {{ old('payroll_bank_name', $company->payroll_bank_name) }}
+                                        </option>
+                                    @endif
+                                    @include('lists.banks')
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-university"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="payroll_bank_name" />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="payroll_bank_account_number"
+                                    name="payroll_bank_account_number"
+                                    type="text"
+                                    placeholder="Bank Account"
+                                    value="{{ old('payroll_bank_account_number', $company->payroll_bank_account_number) }}"
+                                    autocomplete="payroll_bank_account_number"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="payroll_bank_account_number" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="paid_time_off_amount">
                                 Paid Time Off Amount <sup class="has-text-danger"></sup>
