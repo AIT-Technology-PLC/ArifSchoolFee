@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->after('income_tax_region', function () use ($table) {
+            $table->after('income_tax_region', function ($table) {
                 $table->string('payroll_bank_name')->nullable();
                 $table->string('payroll_bank_account_number')->nullable();
             });
