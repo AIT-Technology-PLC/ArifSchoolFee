@@ -21,7 +21,7 @@
                                     name="date"
                                     id="date"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ old('date') ?? now()->toDateString() }}"
+                                    value="{{ request('date') ?? now()->toDateString() }}"
                                 />
                             </x-forms.control>
                         </x-forms.field>
