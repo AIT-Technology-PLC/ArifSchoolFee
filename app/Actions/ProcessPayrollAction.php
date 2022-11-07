@@ -46,10 +46,7 @@ class ProcessPayrollAction
 
         $this->employees = Employee::whereHas('payrollDetails')->get();
 
-        $this->derivedCompensations = Compensation::derived()
-            ->whereNotIn('id', $this->payrollDetails->pluck('compensation_id'))
-            ->orderBy('id', 'DESC')
-            ->get();
+        $this->derivedCompensations = Compensation::derived()->orderBy('id', 'DESC')->get();
 
         $this->attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) {
@@ -83,10 +80,14 @@ class ProcessPayrollAction
     {
         foreach ($this->employees as $employee) {
             foreach ($this->derivedCompensations as $compensation) {
-                $derivedAmount = $this->employeesCompensations
-                    ->where('employee_id', $employee->id)
-                    ->where('compensation_id', $compensation->depends_on)
-                    ->first()['amount'] * ($compensation->percentage / 100);
+                if ($this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->count()) {
+                    $derivedAmount = $this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->first()->amount;
+                } else {
+                    $derivedAmount = $this->employeesCompensations
+                        ->where('employee_id', $employee->id)
+                        ->where('compensation_id', $compensation->depends_on)
+                        ->first()['amount'] * ($compensation->percentage / 100);
+                }
 
                 $this->employeesCompensations->push([
                     'employee' => $employee,
