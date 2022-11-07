@@ -47,7 +47,7 @@ class EmployeeController extends Controller
 
         $departments = Department::orderBy('name')->get(['id', 'name']);
 
-        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->earnings()->get(['id', 'name']);
+        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->get(['id', 'name']);
 
         return view('employees.create', compact('roles', 'warehouses', 'departments', 'compensations'));
     }
@@ -80,7 +80,7 @@ class EmployeeController extends Controller
 
         $departments = Department::orderBy('name')->get(['id', 'name']);
 
-        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->earnings()->get(['id', 'name']);
+        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->get(['id', 'name']);
 
         $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
 
