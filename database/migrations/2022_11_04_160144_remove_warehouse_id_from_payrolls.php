@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('payrolls', function (Blueprint $table) {
-            $table->dropUnique(['starting_period', 'ending_period', 'warehouse_id']);
-            $table->dropIndex(['warehouse_id']);
+            // $table->dropUnique(['starting_period', 'ending_period', 'warehouse_id']);
+            // $table->dropIndex(['warehouse_id']);
             $table->dropForeign(['warehouse_id']);
             $table->dropColumn('warehouse_id');
 
