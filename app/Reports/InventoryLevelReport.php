@@ -61,6 +61,7 @@ class InventoryLevelReport
 
         foreach ($availableMerchandises as $merchandiseDetail) {
             $currentMerchandiseItem = [
+                'code' => $merchandiseDetail->code,
                 'product' => $merchandiseDetail->product,
                 'type' => $merchandiseDetail->type,
                 'category' => $merchandiseDetail->category,
@@ -167,6 +168,7 @@ class InventoryLevelReport
 
         foreach ($inventoryReport as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
+                'code' => $merchandiseValue->first()['code'],
                 'product' => $merchandiseValue->first()['product'],
                 'type' => $merchandiseValue->first()['type'],
                 'category' => $merchandiseValue->first()['category'],
