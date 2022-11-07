@@ -124,7 +124,7 @@ if (!function_exists('numberToWords')) {
         $number = number_format($number, 2, thousands_separator:'');
 
         if (str($number)->after('.')->toString() != '00') {
-            $decimals = str($number)->after('.')->append(' ', '/100')->toString();
+            $decimals = str($number)->after('.')->append('/100')->prepend(' ')->toString();
         }
 
         return str(
