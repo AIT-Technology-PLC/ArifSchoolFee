@@ -14,18 +14,18 @@ return new class extends Migration
      */
     public function up()
     {
-        // Schema::table('companies', function (Blueprint $table) {
-        //     $table->after('income_tax_region', function ($table) {
-        //         $table->string('payroll_bank_name')->nullable();
-        //         $table->string('payroll_bank_account_number')->nullable();
-        //     });
-        // });
+        Schema::table('companies', function (Blueprint $table) {
+            $table->after('income_tax_region', function ($table) {
+                $table->string('payroll_bank_name')->nullable();
+                $table->string('payroll_bank_account_number')->nullable();
+            });
+        });
 
-        // Schema::table('payrolls', function (Blueprint $table) {
-        //     $table->dropColumn('bank_name');
-        // });
+        Schema::table('payrolls', function (Blueprint $table) {
+            $table->dropColumn('bank_name');
+        });
 
-        Company::query()->update(['paid_time_off_amount' => 16, 'paid_time_off_type' => 'Days']);
+        Company::query()->update(['paid_time_off_amount' => 16, 'paid_time_off_type', 'Days']);
         Employee::query()->update(['paid_time_off_amount' => 16]);
     }
 
