@@ -44,6 +44,7 @@ class Product extends Model
         'billOfMaterials',
         'billOfMaterialDetails',
         'priceIncrementDetails',
+        'jobDetailHistories',
     ];
 
     public function merchandises()
@@ -210,6 +211,11 @@ class Product extends Model
     public function priceIncrementDetails()
     {
         return $this->hasMany(PriceIncrementDetail::class);
+    }
+
+    public function jobDetailHistories()
+    {
+        return $this->hasMany(JobDetailHistory::class);
     }
 
     public function isActiveForSale()

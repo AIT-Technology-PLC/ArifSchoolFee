@@ -1463,6 +1463,19 @@ return new class extends Migration
             $table->index('warehouse_id');
         });
 
+        Schema::create('job_detail_histories', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_detail_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->decimal('quantity', 22)->default(0.00);
+            $table->string('type');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('job_detail_id');
+            $table->index('product_id');
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
@@ -1560,5 +1573,6 @@ return new class extends Migration
         Schema::drop('price_increments');
         Schema::drop('brands');
         Schema::drop('payrolls');
+        Schema::drop('job_detail_histories');
     }
 };

@@ -56,6 +56,13 @@ class JobService
                     return $detail;
                 });
 
+                foreach ($details as $detail) {
+                    foreach ($detail as $detaill) {
+                        $detaill['type'] = "subtracted";
+                        $job->jobDetails[$i]->jobDetailHistories()->create($detaill);
+                    }
+                }
+
                 $addDetails[] = [
                     'product_id' => $data[$i]['product_id'],
                     'quantity' => $data[$i]['wip'],
@@ -128,6 +135,7 @@ class JobService
                         'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
+                        'type' => 'added',
                     ];
 
                     $wipDetails[$i] = [
@@ -137,6 +145,7 @@ class JobService
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($availableDetails[$i], ['product_id', 'wip', 'available']));
+                    $job->jobDetails[$i]->jobDetailHistories()->create(Arr::only($availableDetails[$i], ['product_id', 'type']) + ['quantity' => $data[$i]['available']]);
 
                     $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
                     $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
@@ -146,6 +155,11 @@ class JobService
 
                         return $detail;
                     });
+
+                    foreach ($details[$i] as $detail) {
+                        $detail['type'] = "subtracted";
+                        $job->jobDetails[$i]->jobDetailHistories()->create($detail);
+                    }
                 }
 
                 if ($data[$i]['available'] <= $job->jobDetails[$i]->wip) {
@@ -157,9 +171,11 @@ class JobService
                         'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
+                        'type' => 'added',
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));
+                    $job->jobDetails[$i]->jobDetailHistories()->create($wipDetails[$i]);
                 }
             }
 
