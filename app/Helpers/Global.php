@@ -115,15 +115,20 @@ if (!function_exists('turnOffMysqlStictMode')) {
 if (!function_exists('numberToWords')) {
     function numberToWords($number)
     {
+        $decimals = '';
+
         if (!is_numeric($number)) {
             return 'N/A';
         }
 
         $number = number_format($number, 2, thousands_separator:'');
-        $decimals = str($number)->after('.')->append('/100')->toString();
+
+        if (str($number)->after('.')->toString() != '00') {
+            $decimals = str($number)->after('.')->append(' ', '/100')->toString();
+        }
 
         return str(
             (new NumberFormatter('en', NumberFormatter::SPELLOUT))->format((int) $number)
-        )->append(' ', $decimals);
+        )->append($decimals);
     }
 }
