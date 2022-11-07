@@ -10,12 +10,12 @@ class InventoryLevelReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Inventory Level');
+        $this->middleware('isFeatureAccessible:Daily Inventory Level Report');
     }
 
     public function index(InventoryReportRequest $request)
     {
-        abort_if(authUser()->cannot('Read Inventory Level Report'), 403);
+        abort_if(authUser()->cannot('Read Daily Inventory Report'), 403);
 
         $inventoryLevelReport = new InventoryLevelReport($request->validated());
 

@@ -1169,8 +1169,8 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Inventory Level'))
-                            @can('Read Inventory Level Report')
+                        @if (isFeatureEnabled('Daily Inventory Level Report'))
+                            @can('Read Daily Inventory Report')
                                 <li>
                                     <x-common.button
                                         tag="a"

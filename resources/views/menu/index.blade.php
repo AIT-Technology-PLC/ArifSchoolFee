@@ -1177,8 +1177,8 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Inventory Level'))
-                                @can('Read Inventory Level Report')
+                            @if (isFeatureEnabled('Daily Inventory Level Report'))
+                                @can('Read Daily Inventory Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
                                             href="{{ route('reports.inventory_level') }}"
