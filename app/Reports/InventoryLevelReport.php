@@ -61,6 +61,7 @@ class InventoryLevelReport
 
         foreach ($availableMerchandises as $merchandiseDetail) {
             $currentMerchandiseItem = [
+                'code' => $merchandiseDetail->code,
                 'product' => $merchandiseDetail->product,
                 'type' => $merchandiseDetail->type,
                 'category' => $merchandiseDetail->category,
@@ -68,6 +69,7 @@ class InventoryLevelReport
                 'unit' => $merchandiseDetail->unit,
                 'min_on_hand' => $merchandiseDetail->min_on_hand,
                 'available' => $merchandiseDetail->available,
+                'description' => $merchandiseDetail->description,
             ];
 
             if (isset($this->filters['date'])) {
@@ -167,12 +169,14 @@ class InventoryLevelReport
 
         foreach ($inventoryReport as $merchandiseKey => $merchandiseValue) {
             $currentMerchandiseItem = [
+                'code' => $merchandiseValue->first()['code'],
                 'product' => $merchandiseValue->first()['product'],
                 'type' => $merchandiseValue->first()['type'],
                 'category' => $merchandiseValue->first()['category'],
                 'unit' => $merchandiseValue->first()['unit'],
                 'min_on_hand' => $merchandiseValue->first()['min_on_hand'],
                 'total_balance' => $merchandiseValue->sum('available'),
+                'description' => $merchandiseValue->first()['description'],
             ];
 
             foreach ($merchandiseValue as $key => $value) {
