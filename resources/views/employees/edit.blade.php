@@ -498,7 +498,7 @@
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="paid_time_off_amount">
-                                        Paid Time Off {{ userCompany()->paid_time_off_type }} <sup class="has-text-danger"></sup>
+                                        Paid Time Off {{ userCompany()->paid_time_off_type }} <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.control class="has-icons-left">
                                         <x-forms.input

@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -23,6 +23,9 @@ return new class extends Migration
         Schema::table('payrolls', function (Blueprint $table) {
             $table->dropColumn('bank_name');
         });
+
+        Company::query()->update(['paid_time_off_amount' => 16, 'paid_time_off_type', 'Days']);
+        Employee::query()->update(['paid_time_off_amount' => 16]);
     }
 
     /**

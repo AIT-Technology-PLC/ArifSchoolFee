@@ -57,7 +57,7 @@ class UpdateEmployeeRequest extends FormRequest
             'employeeCompensation' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'array'],
             'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', Rule::in(Compensation::active()->canBeInputtedManually()->earnings()->pluck('id'))],
             'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric', new ValidateCompensationAmountIsValid],
-            'paid_time_off_amount' => ['nullable', 'numeric'],
+            'paid_time_off_amount' => ['required', 'numeric'],
         ];
     }
 }

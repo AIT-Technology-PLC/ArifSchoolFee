@@ -23,6 +23,7 @@ class CreateCompanyAction
             'currency' => 'ETB',
             'enabled' => 0,
             'plan_id' => Plan::firstWhere('name', 'professional')->id,
+            'paid_time_off_amount' => 16,
         ]);
 
         $warehouse = Warehouse::create([
@@ -45,6 +46,7 @@ class CreateCompanyAction
             'address' => 'Gerji, Taxi Tera',
             'job_type' => 'remote',
             'phone' => '0976006522',
+            'paid_time_off_amount' => $company->paid_time_off_amount,
         ]);
 
         $user->employee->company()->associate($company)->save();
