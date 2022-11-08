@@ -22,7 +22,7 @@
                     href="{{ route('expense-categories.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Expense"
+                    label="Create Category"
                     class="btn-green is-outlined is-small"
                 />
             @endcan
