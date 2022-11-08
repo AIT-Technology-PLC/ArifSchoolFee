@@ -43,8 +43,11 @@
                                     x-bind:id="`advancement[${index}][employee_id]`"
                                     x-bind:name="`advancement[${index}][employee_id]`"
                                     x-model="advancement.employee_id"
-                                    x-init="select2(index)"
                                 >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Employee</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
                                     @endforeach

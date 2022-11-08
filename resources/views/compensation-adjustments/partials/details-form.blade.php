@@ -43,8 +43,11 @@
                                     x-bind:id="`compensationAdjustment[${index}][employee_id]`"
                                     x-bind:name="`compensationAdjustment[${index}][employee_id]`"
                                     x-model="compensationAdjustment.employee_id"
-                                    x-init="select2(index)"
                                 >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select Employee</option>
                                     @foreach ($users as $user)
                                         @if ($user->employee->employeeCompensations->count())
                                             <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
