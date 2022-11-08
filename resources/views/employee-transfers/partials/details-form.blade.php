@@ -135,7 +135,7 @@
                     Pace.restart();
                 },
                 select2(index) {
-                    let select2 = initializeSelect2(this.$el);
+                    let select2 = initializeSelect2(this.$el, "Select Employee");
 
                     select2.on("change", (event) => {
                         this.employeeTransfers[index].employee_id = event.target.value;

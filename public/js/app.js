@@ -186,10 +186,10 @@ function disableInputTypeNumberMouseWheel() {
     }
 }
 
-const initializeSelect2 = (element) => {
+const initializeSelect2 = (element, placeholder = "Select a product") => {
     return $(element).select2({
         dropdownParent: $(element).parent(),
-        placeholder: "Select a product",
+        placeholder: placeholder,
         allowClear: true,
         tags: $(element).attr("data-tags"),
         matcher: (params, data) => {
@@ -426,7 +426,7 @@ document.addEventListener("alpine:init", () => {
             cashReceived = "",
             dueDate = "",
             bankName = "",
-            referenceNumber = "",
+            referenceNumber = ""
         ) => ({
             paymentType: "",
             cashReceivedType: "",
@@ -496,7 +496,7 @@ document.addEventListener("alpine:init", () => {
             freightInsuranceCost = "",
             freightUnit = "",
             otherCosts = "",
-            freightAmount = "",
+            freightAmount = ""
         ) => ({
             purchaseType: "",
             taxType: "",
@@ -771,39 +771,42 @@ document.addEventListener("alpine:init", () => {
         },
     });
 
-    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({
-        type: "",
-        isBatchable: "0",
-        batchPriority: "",
-        isTypeService: false,
-        isActive: "1",
+    Alpine.data(
+        "productType",
+        (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({
+            type: "",
+            isBatchable: "0",
+            batchPriority: "",
+            isTypeService: false,
+            isActive: "1",
 
-        init() {
-            this.type = type;
-            this.isBatchable = isBatchable;
-            this.batchPriority = batchPriority;
-            this.isActive = isActive;
-            this.changeProductType();
-            this.changeActiveStatus();
-        },
+            init() {
+                this.type = type;
+                this.isBatchable = isBatchable;
+                this.batchPriority = batchPriority;
+                this.isActive = isActive;
+                this.changeProductType();
+                this.changeActiveStatus();
+            },
 
-        changeProductType() {
-            if (this.type === "Services") {
-                this.isBatchable = "0";
-                this.batchPriority = "";
-                this.isTypeService = true;
-                return;
-            }
+            changeProductType() {
+                if (this.type === "Services") {
+                    this.isBatchable = "0";
+                    this.batchPriority = "";
+                    this.isTypeService = true;
+                    return;
+                }
 
-            this.isTypeService = false;
-        },
+                this.isTypeService = false;
+            },
 
-        changeActiveStatus() {
-            if (this.isActive === "0") {
-                return;
-            }
-        },
-    }));
+            changeActiveStatus() {
+                if (this.isActive === "0") {
+                    return;
+                }
+            },
+        })
+    );
 
     Alpine.data("targetProducts", (targetProduct = "") => ({
         targetProduct: "",

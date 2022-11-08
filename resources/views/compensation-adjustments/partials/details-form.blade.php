@@ -43,11 +43,8 @@
                                     x-bind:id="`compensationAdjustment[${index}][employee_id]`"
                                     x-bind:name="`compensationAdjustment[${index}][employee_id]`"
                                     x-model="compensationAdjustment.employee_id"
+                                    x-init="select2(index)"
                                 >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Employee</option>
                                     @foreach ($users as $user)
                                         @if ($user->employee->employeeCompensations->count())
                                             <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
@@ -223,7 +220,7 @@
                     await Promise.resolve(this.compensationAdjustments[index].employeeAdjustments.splice(employeeAdjustmentIndex, 1));
                 },
                 select2(index) {
-                    let select2 = initializeSelect2(this.$el);
+                    let select2 = initializeSelect2(this.$el, "Select Employee");
 
                     select2.on("change", (event) => {
                         this.compensationAdjustments[index].employee_id = event.target.value;

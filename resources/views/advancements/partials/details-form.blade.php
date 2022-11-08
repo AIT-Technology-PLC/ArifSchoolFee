@@ -43,11 +43,8 @@
                                     x-bind:id="`advancement[${index}][employee_id]`"
                                     x-bind:name="`advancement[${index}][employee_id]`"
                                     x-model="advancement.employee_id"
+                                    x-init="select2(index)"
                                 >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Employee</option>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
                                     @endforeach
@@ -185,7 +182,7 @@
                     Pace.restart();
                 },
                 select2(index) {
-                    let select2 = initializeSelect2(this.$el);
+                    let select2 = initializeSelect2(this.$el, "Select Employee");
 
                     select2.on("change", (event) => {
                         this.advancements[index].employee_id = event.target.value;
