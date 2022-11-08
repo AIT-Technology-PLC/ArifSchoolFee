@@ -30,6 +30,7 @@ return new class extends Migration
                 gdn_details.quantity,
                 gdn_details.unit_price,
                 gdn_details.discount,
+                brands.name AS brand_name,
                 IF(
                     gdn_details.discount IS NULL,
                     (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(gd.unit_price, 2), ROUND(gd.unit_price/1.15, 2))*gd.quantity), 2) FROM gdn_details gd WHERE gd.id = gdn_details.id),
@@ -47,6 +48,8 @@ return new class extends Migration
                 ON products.product_category_id = product_categories.id
             INNER JOIN warehouses
                 ON gdn_details.warehouse_id = warehouses.id AND warehouses.is_active = 1
+            LEFT JOIN brands
+                ON products.brand_id = brands.id
             WHERE
                 gdn_details.deleted_at IS NULL
             "

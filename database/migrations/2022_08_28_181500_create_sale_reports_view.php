@@ -27,6 +27,7 @@ return new class extends Migration
                 products.unit_of_measurement AS product_unit_of_measurement,
                 sale_details.quantity,
                 sale_details.unit_price,
+                brands.name AS brand_name,
                 (SELECT ROUND(SUM(IF(companies.is_price_before_vat=1, ROUND(sd.unit_price, 2), ROUND(sd.unit_price/1.15, 2))*sd.quantity), 2) FROM sale_details sd WHERE sd.id = sale_details.id) AS line_price
             FROM
                 sale_details
@@ -38,6 +39,8 @@ return new class extends Migration
                 ON sale_details.product_id = products.id
             INNER JOIN product_categories
                 ON products.product_category_id = product_categories.id
+            LEFT JOIN brands
+                ON products.brand_id = brands.id
             WHERE
                 sale_details.deleted_at IS NULL
             "
