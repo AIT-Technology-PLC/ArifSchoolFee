@@ -401,7 +401,7 @@
                         @foreach ($saleReport->getBrandsByRevenue as $brandRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $brandRevenue->brand_name ?? 'Unknown' }} </td>
+                                <td> {{ $brandRevenue->brand_name ?? 'N/A' }} </td>
                                 <td class="has-text-right"> {{ number_format($brandRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
