@@ -46,6 +46,18 @@
         >
             <x-common.dropdown name="Actions">
                 @if (!$billOfMaterial->isApproved())
+                    @can('Import BOM')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-import-modal') "
+                                icon="fas fa-upload"
+                                label="Import Bill Of Materials"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                     @can('Approve BOM')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -75,13 +87,22 @@
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
+            <x-common.success-message :message="session('successMessage') ?? (session('deleted') ?? session('imported'))" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             @if (!$billOfMaterial->isApproved())
                 <x-common.fail-message message="This Bill of material has not been approved yet." />
             @endif
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    @if (!$billOfMaterial->isApproved())
+        @can('Import BOM')
+            <x-common.import
+                title="Import Bill Of Materials"
+                action="{{ route('bill-of-materials.import', $billOfMaterial->id) }}"
+            />
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')

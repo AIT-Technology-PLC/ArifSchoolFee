@@ -933,7 +933,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bill_of_material_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('quantity', 22);
+            $table->decimal('quantity', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
