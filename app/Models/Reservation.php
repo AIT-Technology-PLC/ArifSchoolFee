@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateCreditPayment;
+use App\Traits\Cancellable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
-    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, CalculateCreditPayment;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, Cancellable, PricingTicket, HasUserstamps, CalculateCreditPayment;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -27,11 +28,6 @@ class Reservation extends Model
     public function reservedBy()
     {
         return $this->belongsTo(User::class, 'reserved_by')->withDefault(['name' => 'N/A']);
-    }
-
-    public function cancelledBy()
-    {
-        return $this->belongsTo(User::class, 'cancelled_by')->withDefault(['name' => 'N/A']);
     }
 
     public function convertedBy()
@@ -77,16 +73,6 @@ class Reservation extends Model
     public function scopeNotReserved($query)
     {
         return $query->whereNull('reserved_by');
-    }
-
-    public function scopeCancelled($query)
-    {
-        return $query->whereNotNull('cancelled_by');
-    }
-
-    public function scopeNotCancelled($query)
-    {
-        return $query->whereNull('cancelled_by');
     }
 
     public function scopeExpired($query)
@@ -142,14 +128,5 @@ class Reservation extends Model
         }
 
         $this->save();
-    }
-
-    public function isCancelled()
-    {
-        if (is_null($this->cancelled_by)) {
-            return false;
-        }
-
-        return true;
     }
 }
