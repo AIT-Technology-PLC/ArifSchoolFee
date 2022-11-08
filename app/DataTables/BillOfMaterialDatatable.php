@@ -27,7 +27,7 @@ class BillOfMaterialDatatable extends DataTable
             ->editColumn('product', fn($billOfMaterial) => $billOfMaterial->product->name)
             ->editColumn('customer', fn($billOfMaterial) => $billOfMaterial->customer->company_name ?? 'N/A')
             ->editColumn('prepared by', fn($billOfMaterial) => $billOfMaterial->createdBy->name)
-            ->editColumn('approved by', fn($billOfMaterial) => $billOfMaterial->approvedBy->name)
+            ->editColumn('approved by', fn($billOfMaterial) => $billOfMaterial->approvedBy->name ?? 'N/A')
             ->editColumn('active status', fn($billOfMaterial) => view('components.datatables.bill-of-material-is-active-status', compact('billOfMaterial')))
             ->editColumn('status', fn($billOfMaterial) => view('components.datatables.bill-of-material-status', compact('billOfMaterial')))
             ->editColumn('edited by', fn($billOfMaterial) => $billOfMaterial->updatedBy->name)

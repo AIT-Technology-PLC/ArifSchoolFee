@@ -8,7 +8,7 @@ trait Cancellable
 {
     public function cancelledBy()
     {
-        return $this->belongsTo(User::class, 'cancelled_by')->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(User::class, 'cancelled_by');
     }
 
     public function cancel()

@@ -27,7 +27,7 @@ class WarningDatatable extends DataTable
             ->editColumn('branch', fn($warning) => $warning->warehouse->name)
             ->editColumn('issued_on', fn($warning) => $warning->issued_on->toFormattedDateString())
             ->editColumn('created by', fn($warning) => $warning->createdBy->name)
-            ->editColumn('approved by', fn($warning) => $warning->approvedBy->name)
+            ->editColumn('approved by', fn($warning) => $warning->approvedBy->name ?? 'N/A')
             ->editColumn('actions', function ($warning) {
                 return view('components.common.action-buttons', [
                     'model' => 'warnings',
