@@ -27,7 +27,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
     {
         $history = $this->history
             ->filter(function ($transferDetail) {
-                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && ! $transferDetail->transfer->isAdded()) {
+                if ($transferDetail->transfer->transferred_to == $this->warehouse->id && !$transferDetail->transfer->isAdded()) {
                     return false;
                 }
 
@@ -36,7 +36,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
             ->map(function ($transferDetail) {
                 return [
                     'type' => 'TRANSFER',
-                    'url' => '/transfers/'.$transferDetail->transfer_id,
+                    'url' => '/transfers/' . $transferDetail->transfer_id,
                     'code' => $transferDetail->transfer->code,
                     'date' => $transferDetail->transfer->issued_on,
                     'quantity' => $transferDetail->quantity,
@@ -45,7 +45,7 @@ class TransferDetailHistoryService implements DetailHistoryServiceInterface
 
                     'details' => $transferDetail->transfer->transferred_from == $this->warehouse->id ?
                     Str::of('Transferred')->append(' to ', $transferDetail->transfer->transferredTo->name) :
-                    Str::of('Transferred')->append(' from ', $this->warehouse->name),
+                    Str::of('Transferred')->append(' from ', $transferDetail->transfer->transferredFrom->name),
 
                     'function' => $transferDetail->transfer->transferred_from == $this->warehouse->id ? 'subtract' : 'add',
                 ];
