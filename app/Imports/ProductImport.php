@@ -71,6 +71,12 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
             'description' => strlen($mergedDescription) ? $mergedDescription : null,
             'brand_id' => $productBrand->id ?? null,
+            'is_batchable' => $row['is_batchable'] == 'yes' ? '1' : '0',
+            'batch_priority' => $row['batch_priority'] ?? null,
+            'is_active' => $row['is_active'] == 'no' ? '0' : '1',
+            'is_active_for_sale' => $row['used_for_sale'] == 'no' ? '0' : '1',
+            'is_active_for_purchase' => $row['used_for_purchase'] == 'no' ? '0' : '1',
+            'is_active_for_job' => $row['used_for_job'] == 'no' ? '0' : '1',
         ]);
 
         $this->products->push($product);
@@ -88,6 +94,12 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'product_min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_brand' => ['nullable', 'string', 'max:255', Rule::in($this->brands->pluck('name'))],
+            'is_batchable' => ['nullable', 'string', Rule::in(['yes', 'no'])],
+            'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,yes', 'prohibited_unless:is_batchable,yes'],
+            'is_active' => ['nullable', 'string', Rule::in(['yes', 'no'])],
+            'used_for_sale' => ['nullable', 'string', Rule::in(['yes', 'no']), 'required_if:is_active,yes', 'prohibited_unless:is_active,yes'],
+            'used_for_purchase' => ['nullable', 'string', Rule::in(['yes', 'no']), 'required_if:is_active,yes', 'prohibited_unless:is_active,yes'],
+            'used_for_job' => ['nullable', 'string', Rule::in(['yes', 'no']), 'required_if:is_active,yes', 'prohibited_unless:is_active,yes'],
         ];
     }
 
@@ -98,6 +110,12 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
         $data['product_type'] = str($data['product_type'] ?? '')->squish()->title()->toString();
         $data['product_brand'] = str()->squish($data['product_brand'] ?? '');
+        $data['is_batchable'] = str($data['is_batchable'] ?? '')->lower()->squish()->toString();
+        $data['batch_priority'] = str($data['batch_priority'] ?? '')->lower()->squish()->toString();
+        $data['is_active'] = str($data['is_active'] ?? '')->lower()->squish()->toString();
+        $data['used_for_sale'] = str($data['used_for_sale'] ?? '')->lower()->squish()->toString();
+        $data['used_for_purchase'] = str($data['used_for_purchase'] ?? '')->lower()->squish()->toString();
+        $data['used_for_job'] = str($data['used_for_job'] ?? '')->lower()->squish()->toString();
 
         return $data;
     }
