@@ -218,6 +218,11 @@ class Product extends Model
         return $this->hasMany(JobDetailHistory::class);
     }
 
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
+
     public function isActiveForSale()
     {
         return $this->is_active_for_sale == 1;
