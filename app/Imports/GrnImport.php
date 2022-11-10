@@ -40,6 +40,8 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'quantity' => $row['quantity'] ?? 0.00,
             'description' => $row['description'] ?? '',
+            'batch_no' => $row['batch_no'] ?? null,
+            'expiry_date' => $row['expiry_date'] ?? null,
         ]);
     }
 
@@ -50,6 +52,8 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
             'quantity' => ['nullable', 'numeric', 'gt:0'],
             'description' => ['nullable', 'string'],
+            'batch_no' => ['nullable', 'string'],
+            'expiry_date' => ['nullable', 'date'],
         ];
     }
 

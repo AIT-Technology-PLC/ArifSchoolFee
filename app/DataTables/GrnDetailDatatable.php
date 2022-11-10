@@ -26,7 +26,7 @@ class GrnDetailDatatable extends DataTable
                 return quantity($grnDetail->quantity, $grnDetail->product->unit_of_measurement);
             })
             ->editColumn('batch_no', fn($grnDetail) => $grnDetail->batch_no)
-            ->editColumn('expiry_date', fn($grnDetail) => $grnDetail->expiry_date)
+            ->editColumn('expiry_date', fn($grnDetail) => $grnDetail->expiry_date?->toFormattedDateString())
             ->editColumn('description', fn($grnDetail) => nl2br(e($grnDetail->description)))
             ->editColumn('actions', function ($grnDetail) {
                 return view('components.common.action-buttons', [
