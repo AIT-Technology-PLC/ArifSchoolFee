@@ -61,7 +61,7 @@
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
                             :data="$expense->vat"
-                            :label="$expense->tax_type"
+                            :label="$expense->tax_type ?: 'None'"
                         />
                     </div>
                 @endif
