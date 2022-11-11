@@ -17,6 +17,8 @@ return new class extends Migration
             $table->boolean('is_subtract');
             $table->decimal('quantity', 22);
             $table->dateTime('issued_on')->nullable();
+            $table->dateTime('created')->nullable();
+            $table->dateTime('updated')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
