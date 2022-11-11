@@ -19,6 +19,7 @@ return new class extends Migration
 {
     public function up()
     {
+        //Grn
         $grnDetails = (new GrnDetail)->query()
             ->whereHas('grn', function ($q) {
                 return $q->added();
@@ -46,30 +47,30 @@ return new class extends Migration
         InventoryHistory::insert($gdnDetails->toArray());
 
         //Transfer Subtracted
-        $transferDetails = (new TransferDetail)->query()
+        $subtractedTransferDetails = (new TransferDetail)->query()
             ->whereHas('transfer', function ($q) {
                 return $q->subtracted();
             })
             ->join('transfers', 'transfer_details.transfer_id', '=', 'transfers.id')
-            ->get(['transfers.transferred_from AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'transfer_id AS model_id', 'transfer_details.created_at AS created', 'transfer_details.updated_at AS updated']);
+            ->get(['transferred_from AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'transfer_id AS model_id', 'transfer_details.created_at AS created', 'transfer_details.updated_at AS updated']);
 
-        data_set($transferDetails, '*.model_type', 'App\Models\Transfer');
-        data_set($transferDetails, '*.is_subtract', '1');
+        data_set($subtractedTransferDetails, '*.model_type', 'App\Models\Transfer');
+        data_set($subtractedTransferDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($transferDetails->toArray());
+        InventoryHistory::insert($subtractedTransferDetails->toArray());
 
         //Transfer Add
-        $transferDetails = (new TransferDetail)->query()
+        $addedTransferDetails = (new TransferDetail)->query()
             ->whereHas('transfer', function ($q) {
                 return $q->added();
             })
             ->join('transfers', 'transfer_details.transfer_id', '=', 'transfers.id')
-            ->get(['transfers.transferred_to AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'transfer_id AS model_id', 'transfer_details.created_at AS created', 'transfer_details.updated_at AS updated']);
+            ->get(['transferred_to AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'transfer_id AS model_id', 'transfer_details.created_at AS created', 'transfer_details.updated_at AS updated']);
 
-        data_set($transferDetails, '*.model_type', 'App\Models\Transfer');
-        data_set($transferDetails, '*.is_subtract', '0');
+        data_set($addedTransferDetails, '*.model_type', 'App\Models\Transfer');
+        data_set($addedTransferDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($transferDetails->toArray());
+        InventoryHistory::insert($addedTransferDetails->toArray());
 
         //Damage
         $damageDetails = (new DamageDetail)->query()
@@ -110,33 +111,33 @@ return new class extends Migration
         InventoryHistory::insert($adjustmentDetails->toArray());
 
         //Reservation Reserveved
-        $reservationDetails = (new ReservationDetail)->query()
+        $reservedReservationDetails = (new ReservationDetail)->query()
             ->whereHas('reservation', function ($q) {
                 return $q->reserved();
             })
             ->join('reservations', 'reservation_details.reservation_id', '=', 'reservations.id')
             ->get(['reservation_details.warehouse_id', 'product_id', 'quantity', 'issued_on', 'reservation_id AS model_id', 'reservation_details.created_at AS created', 'reservation_details.updated_at AS updated']);
 
-        data_set($reservationDetails, '*.model_type', 'App\Models\Reservation');
-        data_set($reservationDetails, '*.is_subtract', '1');
+        data_set($reservedReservationDetails, '*.model_type', 'App\Models\Reservation');
+        data_set($reservedReservationDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($reservationDetails->toArray());
+        InventoryHistory::insert($reservedReservationDetails->toArray());
 
         //Reservation Cancelled
-        $reservationDetails = (new ReservationDetail)->query()
+        $cancelledReservationDetails = (new ReservationDetail)->query()
             ->whereHas('reservation', function ($q) {
                 return $q->cancelled();
             })
             ->join('reservations', 'reservation_details.reservation_id', '=', 'reservations.id')
             ->get(['reservation_details.warehouse_id', 'product_id', 'quantity', 'issued_on', 'reservation_id AS model_id', 'reservation_details.created_at AS created', 'reservation_details.updated_at AS updated']);
 
-        data_set($reservationDetails, '*.model_type', 'App\Models\Reservation');
-        data_set($reservationDetails, '*.is_subtract', '0');
+        data_set($cancelledReservationDetails, '*.model_type', 'App\Models\Reservation');
+        data_set($cancelledReservationDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($reservationDetails->toArray());
+        InventoryHistory::insert($cancelledReservationDetails->toArray());
 
         //JobExtra Add
-        $jobExtraDetails = (new JobExtra)->query()
+        $addJobExtraDetails = (new JobExtra)->query()
             ->whereHas('job', function ($q) {
                 return $q->approved();
             })
@@ -144,13 +145,13 @@ return new class extends Migration
             ->where('job_extras.status', '=', 'added')
             ->get(['factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
-        data_set($jobExtraDetails, '*.model_type', 'App\Models\JobExtra');
-        data_set($jobExtraDetails, '*.is_subtract', '0');
+        data_set($addJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
+        data_set($addJobExtraDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($jobExtraDetails->toArray());
+        InventoryHistory::insert($addJobExtraDetails->toArray());
 
         //JobExtra Subtracted
-        $jobExtraDetails = (new JobExtra)->query()
+        $subtractedJobExtraDetails = (new JobExtra)->query()
             ->whereHas('job', function ($q) {
                 return $q->approved();
             })
@@ -158,36 +159,36 @@ return new class extends Migration
             ->where('job_extras.status', '=', 'subtracted')
             ->get(['factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
-        data_set($jobExtraDetails, '*.model_type', 'App\Models\JobExtra');
-        data_set($jobExtraDetails, '*.is_subtract', '1');
+        data_set($subtractedJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
+        data_set($subtractedJobExtraDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($jobExtraDetails->toArray());
+        InventoryHistory::insert($subtractedJobExtraDetails->toArray());
 
         //JobDetailHistory
-        $JobHistoryDetails = (new JobDetailHistory)->query()
+        $subtractedJobHistoryDetails = (new JobDetailHistory)->query()
             ->whereHas('jobDetail')
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'subtracted')
-            ->get(['job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'job_orders.factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
-        data_set($JobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
-        data_set($JobHistoryDetails, '*.is_subtract', '1');
+        data_set($subtractedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
+        data_set($subtractedJobHistoryDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($JobHistoryDetails->toArray());
+        InventoryHistory::insert($subtractedJobHistoryDetails->toArray());
 
         //JobDetailHistory
-        $JobHistoryDetails = (new JobDetailHistory)->query()
+        $addedJobHistoryDetails = (new JobDetailHistory)->query()
             ->whereHas('jobDetail')
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'added')
-            ->get(['job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'job_orders.factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
-        data_set($JobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
-        data_set($JobHistoryDetails, '*.is_subtract', '0');
+        data_set($addedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
+        data_set($addedJobHistoryDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($JobHistoryDetails->toArray());
+        InventoryHistory::insert($addedJobHistoryDetails->toArray());
 
         DB::update('update inventory_histories set created_at = created, updated_at = updated');
 

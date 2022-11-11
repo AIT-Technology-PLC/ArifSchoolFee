@@ -121,7 +121,13 @@ class InventoryLevelReport
 
                 foreach ($this->getReservationDetail as $reservationDetail) {
                     if (($merchandiseDetail->warehouse_id == $reservationDetail->warehouse_id) && ($merchandiseDetail->product_id == $reservationDetail->product_id)) {
-                        $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $reservationDetail->quantity;
+                        if ($reservationDetail->reserved()) {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] + $reservationDetail->quantity;
+                        }
+
+                        if ($reservationDetail->cancelled()) {
+                            $currentMerchandiseItem['available'] = $currentMerchandiseItem['available'] - $reservationDetail->quantity;
+                        }
                     }
                 }
 
