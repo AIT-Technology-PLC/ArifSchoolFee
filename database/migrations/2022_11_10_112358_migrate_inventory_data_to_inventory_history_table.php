@@ -164,7 +164,7 @@ return new class extends Migration
 
         InventoryHistory::insert($subtractedJobExtraDetails->toArray());
 
-        //JobDetailHistory
+        //JobDetailHistory Subtracted
         $subtractedJobHistoryDetails = (new JobDetailHistory)->query()
             ->whereHas('jobDetail')
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
@@ -177,7 +177,7 @@ return new class extends Migration
 
         InventoryHistory::insert($subtractedJobHistoryDetails->toArray());
 
-        //JobDetailHistory
+        //JobDetailHistory Add
         $addedJobHistoryDetails = (new JobDetailHistory)->query()
             ->whereHas('jobDetail')
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
