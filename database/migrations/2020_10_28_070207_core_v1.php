@@ -1478,6 +1478,7 @@ return new class extends Migration
 
         Schema::create('inventory_histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('model_type');
@@ -1490,6 +1491,7 @@ return new class extends Migration
 
             $table->index('product_id');
             $table->index('warehouse_id');
+            $table->index('company_id');
         });
 
         Schema::enableForeignKeyConstraints();

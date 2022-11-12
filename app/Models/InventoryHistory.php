@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InventoryHistory extends Model
 {
-    use SoftDeletes;
+    use MultiTenancy, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -15,12 +16,12 @@ class InventoryHistory extends Model
         'issued_on' => 'datetime',
     ];
 
-    public function Merchandise()
+    public function merchandise()
     {
         return $this->belongsTo(Merchandise::class);
     }
 
-    public function Warehouse()
+    public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
     }
