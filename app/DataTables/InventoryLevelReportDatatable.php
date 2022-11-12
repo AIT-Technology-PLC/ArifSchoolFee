@@ -2,11 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Http\Requests\InventoryReportRequest;
-use App\Reports\InventoryLevelReport;
-use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
+use Yajra\DataTables\Html\Column;
+use App\Traits\DataTableHtmlBuilder;
+use App\Reports\InventoryLevelReport;
 use Yajra\DataTables\Services\DataTable;
+use App\Http\Requests\InventoryReportRequest;
 
 class InventoryLevelReportDatatable extends DataTable
 {
@@ -27,6 +28,7 @@ class InventoryLevelReportDatatable extends DataTable
                     'code' => $row['code'],
                 ]);
             })
+            ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total_balance',
@@ -78,6 +80,7 @@ class InventoryLevelReportDatatable extends DataTable
             ...$warehouses,
             'total_balance',
         ])
+            ->push(Column::make('description')->visible(false))
             ->filter()
             ->toArray();
     }
