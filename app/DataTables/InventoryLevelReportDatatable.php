@@ -27,7 +27,6 @@ class InventoryLevelReportDatatable extends DataTable
                     'code' => $row['code'],
                 ]);
             })
-            ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total_balance',

@@ -64,7 +64,6 @@ class InventoryLevelReport
                 'unit' => $inventoryHistoryValue->first()->unit,
                 'type' => $inventoryHistoryValue->first()->type,
                 'min_on_hand' => $inventoryHistoryValue->first()->min_on_hand,
-                'description' => $inventoryHistoryValue->first()->description,
                 'category' => $inventoryHistoryValue->first()->category,
                 'total_balance' => $inventoryHistoryValue->sum('quantity'),
             ];
