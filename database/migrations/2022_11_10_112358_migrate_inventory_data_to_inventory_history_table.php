@@ -110,10 +110,10 @@ return new class extends Migration
 
         InventoryHistory::insert($adjustmentDetails->toArray());
 
-        //Reservation Reserveved
+        //Reservation
         $reservedReservationDetails = (new ReservationDetail)->query()
             ->whereHas('reservation', function ($q) {
-                return $q->reserved();
+                return $q->reserved()->notCancelled();
             })
             ->join('reservations', 'reservation_details.reservation_id', '=', 'reservations.id')
             ->get(['reservation_details.warehouse_id', 'product_id', 'quantity', 'issued_on', 'reservation_id AS model_id', 'reservation_details.created_at AS created', 'reservation_details.updated_at AS updated']);
@@ -122,19 +122,6 @@ return new class extends Migration
         data_set($reservedReservationDetails, '*.is_subtract', '1');
 
         InventoryHistory::insert($reservedReservationDetails->toArray());
-
-        //Reservation Cancelled
-        $cancelledReservationDetails = (new ReservationDetail)->query()
-            ->whereHas('reservation', function ($q) {
-                return $q->cancelled();
-            })
-            ->join('reservations', 'reservation_details.reservation_id', '=', 'reservations.id')
-            ->get(['reservation_details.warehouse_id', 'product_id', 'quantity', 'issued_on', 'reservation_id AS model_id', 'reservation_details.created_at AS created', 'reservation_details.updated_at AS updated']);
-
-        data_set($cancelledReservationDetails, '*.model_type', 'App\Models\Reservation');
-        data_set($cancelledReservationDetails, '*.is_subtract', '0');
-
-        InventoryHistory::insert($cancelledReservationDetails->toArray());
 
         //JobExtra Add
         $addJobExtraDetails = (new JobExtra)->query()
