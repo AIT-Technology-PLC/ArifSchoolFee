@@ -67,7 +67,7 @@ class GdnService
         }
 
         DB::transaction(function () use ($gdn, $from) {
-            InventoryOperationService::subtract($gdn->gdnDetails, $from);
+            InventoryOperationService::subtract($gdn->gdnDetails, $gdn, $from);
 
             $gdn->subtract();
         });

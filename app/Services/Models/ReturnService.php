@@ -9,12 +9,12 @@ class ReturnService
 {
     public function add($return, $user)
     {
-        if (! $user->hasWarehousePermission('add',
+        if (!$user->hasWarehousePermission('add',
             $return->returnDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if (! $return->isApproved()) {
+        if (!$return->isApproved()) {
             return [false, 'This transaction is not approved yet.'];
         }
 
@@ -23,7 +23,7 @@ class ReturnService
         }
 
         DB::transaction(function () use ($return) {
-            InventoryOperationService::add($return->returnDetails);
+            InventoryOperationService::add($return->returnDetails, $return);
 
             $return->add();
         });

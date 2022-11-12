@@ -10,11 +10,11 @@ class TransferService
 {
     public function subtract($transfer, $user)
     {
-        if (! $user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
+        if (!$user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
-        if (! $transfer->isApproved()) {
+        if (!$transfer->isApproved()) {
             return [false, 'This Transfer is not approved yet.'];
         }
 
@@ -33,7 +33,7 @@ class TransferService
         }
 
         DB::transaction(function () use ($transfer) {
-            InventoryOperationService::subtract($transfer->transferDetails);
+            InventoryOperationService::subtract($transfer->transferDetails, $transfer);
 
             $transfer->subtract();
         });
@@ -43,15 +43,15 @@ class TransferService
 
     public function add($transfer, $user)
     {
-        if (! $user->hasWarehousePermission('add', $transfer->transferred_to)) {
+        if (!$user->hasWarehousePermission('add', $transfer->transferred_to)) {
             return [false, 'You do not have permission to add to one or more of the warehouses.'];
         }
 
-        if (! $transfer->isApproved()) {
+        if (!$transfer->isApproved()) {
             return [false, 'This Transfer is not approved yet.'];
         }
 
-        if (! $transfer->isSubtracted()) {
+        if (!$transfer->isSubtracted()) {
             return [false, "This Transfer is not subtracted from {$transfer->transferredFrom->name} yet."];
         }
 
@@ -62,7 +62,7 @@ class TransferService
         data_fill($transfer->transferDetails, '*.warehouse_id', $transfer->transferred_to);
 
         DB::transaction(function () use ($transfer) {
-            InventoryOperationService::add($transfer->transferDetails);
+            InventoryOperationService::add($transfer->transferDetails, $transfer);
 
             $transfer->add();
         });
@@ -72,11 +72,11 @@ class TransferService
 
     public function convertToSiv($transfer, $user)
     {
-        if (! $user->hasWarehousePermission('siv', $transfer->transferred_from)) {
+        if (!$user->hasWarehousePermission('siv', $transfer->transferred_from)) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if (! $transfer->isSubtracted()) {
+        if (!$transfer->isSubtracted()) {
             return [false, 'This transfer is not subtracted yet.', ''];
         }
 
@@ -101,7 +101,7 @@ class TransferService
 
     public function close($transfer)
     {
-        if (! $transfer->isAdded()) {
+        if (!$transfer->isAdded()) {
             return [false, 'This transfer is not added to destination yet.'];
         }
 
