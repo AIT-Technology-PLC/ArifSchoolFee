@@ -61,6 +61,10 @@
     {{ $selectedUnitType == 'Piece' ? 'selected' : '' }}
 >Piece</option>
 <option
+    value="Punch"
+    {{ $selectedUnitType == 'Punch' ? 'selected' : '' }}
+>Punch</option>
+<option
     value="Quintal"
     {{ $selectedUnitType == 'Quintal' ? 'selected' : '' }}
 >Quintal</option>
