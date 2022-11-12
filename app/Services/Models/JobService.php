@@ -82,11 +82,12 @@ class JobService
             }
 
             if (isset($billOfMaterialdetails) && count($billOfMaterialdetails)) {
-                InventoryOperationService::subtract($billOfMaterialdetails);
+                InventoryOperationService::subtract($billOfMaterialdetails, $job);
             }
 
             if (isset($addDetails) && count($addDetails)) {
-                InventoryOperationService::add($addDetails, 'wip');
+
+                InventoryOperationService::add($addDetails, null, 'wip');
             }
 
             return [true, ''];
@@ -187,16 +188,16 @@ class JobService
                     return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
                 }
 
-                InventoryOperationService::subtract($billOfMaterialdetails);
+                InventoryOperationService::subtract($billOfMaterialdetails, $job);
             }
 
             if (isset($wipDetails) && count($wipDetails)) {
-                InventoryOperationService::subtract($wipDetails, 'wip');
-                InventoryOperationService::add($wipDetails);
+                InventoryOperationService::subtract($wipDetails, null, 'wip');
+                InventoryOperationService::add($wipDetails, $job);
             }
 
             if (isset($availableDetails) && count($availableDetails)) {
-                InventoryOperationService::add($availableDetails);
+                InventoryOperationService::add($availableDetails, $job);
             }
 
             return [true, ''];
@@ -222,7 +223,7 @@ class JobService
         $detail['warehouse_id'] = $jobExtra->job->factory_id;
 
         DB::transaction(function () use ($jobExtra, $detail) {
-            InventoryOperationService::add($detail);
+            InventoryOperationService::add($detail, $jobExtra->job);
 
             $jobExtra->add();
         });
@@ -259,7 +260,7 @@ class JobService
         }
 
         DB::transaction(function () use ($jobExtra, $detail) {
-            InventoryOperationService::subtract($detail);
+            InventoryOperationService::subtract($detail, $jobExtra->job);
 
             $jobExtra->subtract();
         });
