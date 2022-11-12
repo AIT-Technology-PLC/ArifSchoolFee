@@ -130,7 +130,7 @@ return new class extends Migration
             })
             ->join('job_orders', 'job_extras.job_order_id', '=', 'job_orders.id')
             ->where('job_extras.status', '=', 'added')
-            ->get(['job_orders.company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
+            ->get(['company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
         data_set($addJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
         data_set($addJobExtraDetails, '*.is_subtract', '0');
@@ -144,7 +144,7 @@ return new class extends Migration
             })
             ->join('job_orders', 'job_extras.job_order_id', '=', 'job_orders.id')
             ->where('job_extras.status', '=', 'subtracted')
-            ->get(['job_orders.company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
+            ->get(['company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
         data_set($subtractedJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
         data_set($subtractedJobExtraDetails, '*.is_subtract', '1');
@@ -157,7 +157,7 @@ return new class extends Migration
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'subtracted')
-            ->get(['job_orders.company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
         data_set($subtractedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
         data_set($subtractedJobHistoryDetails, '*.is_subtract', '1');
@@ -170,7 +170,7 @@ return new class extends Migration
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'added')
-            ->get(['job_orders.company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
         data_set($addedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
         data_set($addedJobHistoryDetails, '*.is_subtract', '0');
