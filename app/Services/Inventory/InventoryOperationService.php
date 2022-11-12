@@ -48,7 +48,7 @@ class InventoryOperationService
             static::addToBatch($detail, $merchandise);
 
             if (isset($inventoryHistoryDetail)) {
-                InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail + ['is_subtract' => 0]);
+                InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
             }
         }
     }

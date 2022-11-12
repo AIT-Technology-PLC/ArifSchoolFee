@@ -2,14 +2,17 @@
 
 use App\Models\AdjustmentDetail;
 use App\Models\DamageDetail;
+use App\Models\Gdn;
 use App\Models\GdnDetail;
 use App\Models\GrnDetail;
 use App\Models\InventoryHistory;
 use App\Models\JobDetailHistory;
 use App\Models\JobExtra;
+use App\Models\Reservation;
 use App\Models\ReservationDetail;
 use App\Models\ReturnDetail;
 use App\Models\TransferDetail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +34,9 @@ return new class extends Migration
         data_set($grnDetails, '*.model_type', 'App\Models\Grn');
         data_set($grnDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($grnDetails->toArray());
+        foreach (array_chunk($grnDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Gdn
         $gdnDetails = (new GdnDetail)->query()
@@ -44,7 +49,9 @@ return new class extends Migration
         data_set($gdnDetails, '*.model_type', 'App\Models\Gdn');
         data_set($gdnDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($gdnDetails->toArray());
+        foreach (array_chunk($gdnDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Transfer Subtracted
         $subtractedTransferDetails = (new TransferDetail)->query()
@@ -57,7 +64,9 @@ return new class extends Migration
         data_set($subtractedTransferDetails, '*.model_type', 'App\Models\Transfer');
         data_set($subtractedTransferDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($subtractedTransferDetails->toArray());
+        foreach (array_chunk($subtractedTransferDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Transfer Add
         $addedTransferDetails = (new TransferDetail)->query()
@@ -70,7 +79,9 @@ return new class extends Migration
         data_set($addedTransferDetails, '*.model_type', 'App\Models\Transfer');
         data_set($addedTransferDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($addedTransferDetails->toArray());
+        foreach (array_chunk($addedTransferDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Damage
         $damageDetails = (new DamageDetail)->query()
@@ -83,7 +94,9 @@ return new class extends Migration
         data_set($damageDetails, '*.model_type', 'App\Models\Damage');
         data_set($damageDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($damageDetails->toArray());
+        foreach (array_chunk($damageDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Return
         $returnDetails = (new ReturnDetail)->query()
@@ -96,7 +109,9 @@ return new class extends Migration
         data_set($returnDetails, '*.model_type', 'App\Models\Returnn');
         data_set($returnDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($returnDetails->toArray());
+        foreach (array_chunk($returnDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Adjustment
         $adjustmentDetails = (new AdjustmentDetail)->query()
@@ -108,12 +123,22 @@ return new class extends Migration
 
         data_set($adjustmentDetails, '*.model_type', 'App\Models\Adjustment');
 
-        InventoryHistory::insert($adjustmentDetails->toArray());
+        foreach (array_chunk($adjustmentDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //Reservation
         $reservedReservationDetails = (new ReservationDetail)->query()
             ->whereHas('reservation', function ($q) {
-                return $q->reserved()->notCancelled();
+                return $q->reserved()->notCancelled()->whereNotIn('id',
+                    Reservation::whereHasMorph(
+                        'reservable',
+                        [Gdn::class],
+                        function (Builder $query) {
+                            $query->whereNotNull('subtracted_by');
+                        })
+                        ->pluck('id')
+                );
             })
             ->join('reservations', 'reservation_details.reservation_id', '=', 'reservations.id')
             ->get(['company_id', 'reservation_details.warehouse_id', 'product_id', 'quantity', 'issued_on', 'reservation_id AS model_id', 'reservation_details.created_at AS created', 'reservation_details.updated_at AS updated']);
@@ -121,7 +146,9 @@ return new class extends Migration
         data_set($reservedReservationDetails, '*.model_type', 'App\Models\Reservation');
         data_set($reservedReservationDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($reservedReservationDetails->toArray());
+        foreach (array_chunk($reservedReservationDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //JobExtra Add
         $addJobExtraDetails = (new JobExtra)->query()
@@ -135,7 +162,9 @@ return new class extends Migration
         data_set($addJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
         data_set($addJobExtraDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($addJobExtraDetails->toArray());
+        foreach (array_chunk($addJobExtraDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //JobExtra Subtracted
         $subtractedJobExtraDetails = (new JobExtra)->query()
@@ -149,7 +178,9 @@ return new class extends Migration
         data_set($subtractedJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
         data_set($subtractedJobExtraDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($subtractedJobExtraDetails->toArray());
+        foreach (array_chunk($subtractedJobExtraDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //JobDetailHistory Subtracted
         $subtractedJobHistoryDetails = (new JobDetailHistory)->query()
@@ -162,7 +193,9 @@ return new class extends Migration
         data_set($subtractedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
         data_set($subtractedJobHistoryDetails, '*.is_subtract', '1');
 
-        InventoryHistory::insert($subtractedJobHistoryDetails->toArray());
+        foreach (array_chunk($subtractedJobHistoryDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         //JobDetailHistory Add
         $addedJobHistoryDetails = (new JobDetailHistory)->query()
@@ -175,7 +208,9 @@ return new class extends Migration
         data_set($addedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
         data_set($addedJobHistoryDetails, '*.is_subtract', '0');
 
-        InventoryHistory::insert($addedJobHistoryDetails->toArray());
+        foreach (array_chunk($addedJobHistoryDetails->toArray(), 1000) as $item) {
+            InventoryHistory::insert($item);
+        }
 
         DB::update('update inventory_histories set created_at = created, updated_at = updated');
 

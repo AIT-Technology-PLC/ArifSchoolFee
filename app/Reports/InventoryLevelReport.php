@@ -35,10 +35,11 @@ class InventoryLevelReport
             ->join('warehouses', 'inventory_histories.warehouse_id', '=', 'warehouses.id')
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->where('products.type', '!=', 'Services')
-            ->when(isset($this->filters['date']), fn($q) => $q->whereDate('issued_on', '<=', $this->filters['date']))
-            ->groupBy(['product_id', 'warehouse_id', 'product', 'type', 'unit', 'min_on_hand', 'category', 'warehouse'])
+            ->whereDate('issued_on', $this->getSign(), $this->filters['date'])
+            ->groupBy(['product_id', 'warehouse_id', 'product', 'code', 'type', 'unit', 'min_on_hand', 'category', 'warehouse'])
             ->selectRaw('
                 products.name AS product,
+                products.code as code,
                 products.type as type,
                 products.unit_of_measurement as unit,
                 products.min_on_hand as min_on_hand,
@@ -46,13 +47,13 @@ class InventoryLevelReport
                 warehouses.name as warehouse,
                 inventory_histories.warehouse_id,
                 inventory_histories.product_id,
-                SUM(CASE WHEN inventory_histories.is_subtract = "1" THEN quantity*(-1) ELSE quantity END) AS quantity')
+                SUM(CASE WHEN inventory_histories.is_subtract = 1 THEN quantity*(-1) ELSE quantity END) AS quantity')
             ->get();
     }
 
     public function getInventoryLevels()
     {
-        $inventoryHistory = (clone $this->query)->groupBy('product_id')->map->keyBy('warehouse');
+        $inventoryHistory = $this->query->groupBy('product_id')->map->keyBy('warehouse');
 
         $organizedInventoryHistory = collect();
 
@@ -76,5 +77,14 @@ class InventoryLevelReport
         }
 
         return $organizedInventoryHistory;
+    }
+
+    private function getSign()
+    {
+        if (isset($this->filters['period_type']) && $this->filters['period_type'] == 'beginning') {
+            return '<';
+        }
+
+        return '<=';
     }
 }

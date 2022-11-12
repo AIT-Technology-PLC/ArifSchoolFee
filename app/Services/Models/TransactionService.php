@@ -85,7 +85,7 @@ class TransactionService
         }
 
         DB::transaction(function () use ($transaction, $transactionDetails, $line) {
-            InventoryOperationService::subtract($transactionDetails);
+            InventoryOperationService::subtract($transactionDetails, $transaction);
 
             if (!is_null($line)) {
                 TransactionField::subtract($transaction, $line);
@@ -127,7 +127,7 @@ class TransactionService
         }
 
         DB::transaction(function () use ($transaction, $transactionDetails, $line) {
-            InventoryOperationService::add($transactionDetails);
+            InventoryOperationService::add($transactionDetails, $transaction);
 
             if (!is_null($line)) {
                 TransactionField::add($transaction, $line);

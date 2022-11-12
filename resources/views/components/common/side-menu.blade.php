@@ -1175,8 +1175,8 @@
                                     <x-common.button
                                         tag="a"
                                         href="{{ route('reports.inventory_level') }}"
-                                        label="Inventory Level"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory-level') ? 'text-green has-text-weight-bold' : '' }}"
+                                        label="Daily Inventory Level"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_level') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
