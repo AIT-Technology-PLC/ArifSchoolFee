@@ -18,4 +18,7 @@
         Track History
     </span>
 @endif
-</a>
+
+@if (isset($productId) && isset($warehouseId))
+    </a>
+@endif

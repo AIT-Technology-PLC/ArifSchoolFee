@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inventory Level Report')
+@section('title', 'Daily Inventory Level Report')
 
 @section('content')
     <x-common.fail-message :message="session('failedMessage')" />
