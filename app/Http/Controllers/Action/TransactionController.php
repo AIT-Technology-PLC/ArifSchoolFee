@@ -13,7 +13,6 @@ use App\Notifications\TransactionStatusUpdated;
 use App\Notifications\TransactionSubtracted;
 use App\Services\Models\TransactionService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
 
 class TransactionController extends Controller
@@ -97,9 +96,11 @@ class TransactionController extends Controller
             return back()->with('failedMessage', 'This transaction is not applicable for printing.');
         }
 
-        $columns = array_keys($transaction->transactionDetails->first());
-
-        Arr::forget($columns, [0, 1]);
+        $columns = collect($transaction->transactionDetails->first())
+            ->keys()
+            ->diff(['id', 'transaction'])
+            ->reject(fn($value) => str($value)->endsWith('_id'))
+            ->toArray();
 
         return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
     }

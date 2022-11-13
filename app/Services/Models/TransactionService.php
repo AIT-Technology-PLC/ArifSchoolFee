@@ -197,7 +197,7 @@ class TransactionService
             ->transactionDetails
             ->map(function ($detail) {
                 return [
-                    'product_id' => Product::firstWhere('name', $detail['product'])->id,
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id,
                     'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
                     'quantity' => $detail['quantity'],
                     'line' => $detail['line'],

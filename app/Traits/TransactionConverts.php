@@ -38,7 +38,7 @@ trait TransactionConverts
                 return [
                     'grn' => [
                         [
-                            'product_id' => Product::firstWhere('name', $detail['product'])->id ?? null,
+                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
@@ -60,7 +60,7 @@ trait TransactionConverts
                 return [
                     'siv' => [
                         [
-                            'product_id' => Product::firstWhere('name', $detail['product'])->id ?? null,
+                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
@@ -85,7 +85,7 @@ trait TransactionConverts
                 return [
                     'sale' => [
                         [
-                            'product_id' => Product::firstWhere('name', $detail['product'])->id ?? null,
+                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
@@ -112,7 +112,7 @@ trait TransactionConverts
                 return [
                     'gdn' => [
                         [
-                            'product_id' => Product::firstWhere('name', $detail['product'])->id ?? null,
+                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'quantity' => $detail['quantity'] ?? null,
@@ -142,7 +142,7 @@ trait TransactionConverts
                 return [
                     'proformaInvoice' => [
                         [
-                            'product_id' => Product::firstWhere('name', $detail['product'])->id ?? null,
+                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'discount' => $detail['discount'] ?? null,

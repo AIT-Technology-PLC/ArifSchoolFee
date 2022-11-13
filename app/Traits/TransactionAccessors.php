@@ -88,6 +88,7 @@ trait TransactionAccessors
 
                             if ($transactionField->padField->hasRelation()) {
                                 $value = $transactionField->relationValue;
+                                $data[str($transactionField->padField->label)->snake()->append('_id')->toString()] = $transactionField->value;
                             }
 
                             $data[str()->snake($transactionField->padField->label)] = $value;

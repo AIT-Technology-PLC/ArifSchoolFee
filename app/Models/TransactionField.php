@@ -81,7 +81,7 @@ class TransactionField extends Model
                         ->transactionDetails
                         ->whereIn('line', $transaction->transactionFields->pluck('line')->unique())
                         ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
-                            if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
+                            if ($transactionDetail['product_id'] == $product->id && $transactionDetail['warehouse'] == $warehouse->name) {
                                 $data->push($transactionDetail);
                             }
                         });
