@@ -6,6 +6,7 @@ use App\Models\Gdn;
 use App\Models\GdnDetail;
 use App\Models\GrnDetail;
 use App\Models\InventoryHistory;
+use App\Models\JobDetail;
 use App\Models\JobDetailHistory;
 use App\Models\JobExtra;
 use App\Models\Reservation;
@@ -22,6 +23,44 @@ return new class extends Migration
 {
     public function up()
     {
+        $jobDetails = JobDetail::query()->with('billOfMaterial.billOfMaterialDetails')->where('available', '>', 0)->orWhere('wip', '>', 0)->get();
+
+        foreach ($jobDetails as $jobDetail) {
+            $data = [];
+
+            foreach ($jobDetail->billOfMaterial->billOfMaterialDetails as $billOfMaterialDetail) {
+                if ($jobDetail->available > 0) {
+                    $data['available'][] = [
+                        'product_id' => $billOfMaterialDetail->product_id,
+                        'quantity' => $jobDetail->available * $billOfMaterialDetail->quantity,
+                        'type' => 'subtracted',
+                    ];
+                }
+
+                if ($jobDetail->wip > 0) {
+                    $data['wip'][] = [
+                        'product_id' => $billOfMaterialDetail->product_id,
+                        'quantity' => $jobDetail->wip * $billOfMaterialDetail->quantity,
+                        'type' => 'subtracted',
+                    ];
+                }
+            }
+
+            if (isset($data['available'])) {
+                $jobDetail->jobDetailHistories()->createMany($data['available']);
+
+                $jobDetail->jobDetailHistories()->create([
+                    'product_id' => $jobDetail->product_id,
+                    'quantity' => $jobDetail->available,
+                    'type' => 'added',
+                ]);
+            }
+
+            if (isset($data['wip'])) {
+                $jobDetail->jobDetailHistories()->createMany($data['wip']);
+            }
+        };
+
         //Grn
         $grnDetails = (new GrnDetail)->query()
             ->whereHas('grn', function ($q) {
@@ -159,7 +198,7 @@ return new class extends Migration
             ->where('job_extras.status', '=', 'added')
             ->get(['company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
-        data_set($addJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
+        data_set($addJobExtraDetails, '*.model_type', 'App\Models\Job');
         data_set($addJobExtraDetails, '*.is_subtract', '0');
 
         foreach (array_chunk($addJobExtraDetails->toArray(), 1000) as $item) {
@@ -175,7 +214,7 @@ return new class extends Migration
             ->where('job_extras.status', '=', 'subtracted')
             ->get(['company_id', 'factory_id AS warehouse_id', 'product_id', 'quantity', 'issued_on', 'job_order_id AS model_id', 'job_extras.created_at AS created', 'job_extras.updated_at AS updated']);
 
-        data_set($subtractedJobExtraDetails, '*.model_type', 'App\Models\JobExtra');
+        data_set($subtractedJobExtraDetails, '*.model_type', 'App\Models\Job');
         data_set($subtractedJobExtraDetails, '*.is_subtract', '1');
 
         foreach (array_chunk($subtractedJobExtraDetails->toArray(), 1000) as $item) {
@@ -188,9 +227,9 @@ return new class extends Migration
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'subtracted')
-            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_order_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
-        data_set($subtractedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
+        data_set($subtractedJobHistoryDetails, '*.model_type', 'App\Models\Job');
         data_set($subtractedJobHistoryDetails, '*.is_subtract', '1');
 
         foreach (array_chunk($subtractedJobHistoryDetails->toArray(), 1000) as $item) {
@@ -203,9 +242,9 @@ return new class extends Migration
             ->join('job_details', 'job_detail_histories.job_detail_id', '=', 'job_details.id')
             ->join('job_orders', 'job_details.job_order_id', '=', 'job_orders.id')
             ->where('job_detail_histories.type', '=', 'added')
-            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_detail_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
+            ->get(['company_id', 'job_detail_histories.product_id', 'job_detail_histories.quantity', 'job_order_id AS model_id', 'issued_on', 'factory_id AS warehouse_id', 'job_detail_histories.created_at AS created', 'job_detail_histories.updated_at AS updated']);
 
-        data_set($addedJobHistoryDetails, '*.model_type', 'App\Models\JobDetail');
+        data_set($addedJobHistoryDetails, '*.model_type', 'App\Models\Job');
         data_set($addedJobHistoryDetails, '*.is_subtract', '0');
 
         foreach (array_chunk($addedJobHistoryDetails->toArray(), 1000) as $item) {
@@ -222,6 +261,6 @@ return new class extends Migration
 
     public function down()
     {
-
+        JobDetailHistory::query()->forceDelete();
     }
 };
