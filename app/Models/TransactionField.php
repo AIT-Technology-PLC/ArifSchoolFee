@@ -46,8 +46,9 @@ class TransactionField extends Model
             get:function () {
                 return is_numeric($this->value)
                 ? DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
+                    ->whereNull('deleted_at')
                     ->find($this->value)
-                    ->{$this->padField->padRelation->representative_column}
+                    ->{$this->padField->padRelation->representative_column} ?? 'N/A'
                 : null;
             }
         );
