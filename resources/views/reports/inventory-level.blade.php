@@ -58,14 +58,28 @@
             </div>
         </div>
     </x-common.report-filter>
-    <section class="mx-3 m-lr-0 mt-3">
-        <div class="box radius-top-0">
-            <div>
+
+    <div class="columns is-marginless is-multiline mt-3">
+        <div class="column is-12 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-chart-bar"></i>
+                        </span>
+                        <span>
+                            {{ str(request('period_type') ?? 'ending')->title() }} Inventory Level of {{ carbon(request('date') ?? today())->toFormattedDateString() }}
+                        </span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
                 {{ $dataTable->table() }}
-            </div>
+            </x-content.footer>
         </div>
-    </section>
-    @push('scripts')
-        {{ $dataTable->scripts() }}
-    @endpush
+    </div>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush
