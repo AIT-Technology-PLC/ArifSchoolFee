@@ -113,7 +113,7 @@ trait TransactionConverts
                     'gdn' => [
                         [
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
+                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'] ?? null)->id ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
@@ -124,7 +124,7 @@ trait TransactionConverts
             })->toArray() + $this->transactionMasters;
 
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
-        $data['payment_type'] = ($data['payment_method'] . ' Payment') ?? null;
+        $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
         $data['due_date'] = $data['credit_due_date'] ?? null;
