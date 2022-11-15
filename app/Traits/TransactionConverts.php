@@ -124,7 +124,7 @@ trait TransactionConverts
             })->toArray() + $this->transactionMasters;
 
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
-        $data['payment_type'] = ($data['payment_method'] . ' Payment') ?? null;
+        $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
         $data['due_date'] = $data['credit_due_date'] ?? null;
