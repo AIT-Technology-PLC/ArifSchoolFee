@@ -183,6 +183,11 @@ class Company extends Model
         return $this->hasMany(Compensation::class);
     }
 
+    public function leaveCategories()
+    {
+        return $this->hasMany(LeaveCategory::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
