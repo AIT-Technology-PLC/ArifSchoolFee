@@ -35,6 +35,8 @@ class EditTransaction extends Component
 
     public function mount(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->transaction = $transaction;
 
         $this->pad = $this->transaction->pad;

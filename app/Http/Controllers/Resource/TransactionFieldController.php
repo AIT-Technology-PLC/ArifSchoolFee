@@ -7,13 +7,10 @@ use App\Models\TransactionField;
 
 class TransactionFieldController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('isFeatureAccessible:Pad Management');
-    }
-
     public function destroy(TransactionField $transactionField)
     {
+        abort_if(!$transactionField->transaction->pad->isEnabled(), 403);
+
         $this->authorize('delete', $transactionField->transaction);
 
         abort_if(!$transactionField->transaction->canBeDeleted(), 403);

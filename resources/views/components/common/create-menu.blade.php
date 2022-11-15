@@ -885,7 +885,7 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Pad Management', 'User Management'))
+            @if (isFeatureEnabled('Pad Management') || (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management')))
                 @canany(['Create Pad', 'Create Employee'])
                     <x-content.header>
                         <x-slot name="header">

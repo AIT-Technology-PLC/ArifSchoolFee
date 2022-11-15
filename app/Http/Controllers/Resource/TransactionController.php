@@ -10,11 +10,6 @@ use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('isFeatureAccessible:Pad Management');
-    }
-
     public function index(Pad $pad, TransactionDatatable $datatable)
     {
         abort_if(!$pad->isEnabled(), 403);
@@ -82,6 +77,8 @@ class TransactionController extends Controller
 
     public function create(Pad $pad)
     {
+        abort_if(!$pad->isEnabled(), 403);
+
         $this->authorize('create', [Transaction::class, $pad]);
 
         return view('transactions.create', compact('pad'));
@@ -89,6 +86,8 @@ class TransactionController extends Controller
 
     public function show(Transaction $transaction, TransactionFieldDatatable $datatable)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('view', $transaction);
 
         $transaction->load(['pad.padStatuses', 'transactionFields']);
@@ -104,6 +103,8 @@ class TransactionController extends Controller
 
     public function edit(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('update', $transaction);
 
         abort_if(!$transaction->canBeEdited(), 403);
@@ -115,6 +116,8 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('delete', $transaction);
 
         abort_if(!$transaction->canBeDeleted(), 403);

@@ -59,7 +59,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Sale Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
@@ -244,7 +244,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Daily Inventory Level Report'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             $standard = Plan::firstWhere('name', 'standard');

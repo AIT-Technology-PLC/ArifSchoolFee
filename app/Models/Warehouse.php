@@ -147,4 +147,9 @@ class Warehouse extends Model
     {
         return $this->belongsToMany(Announcement::class);
     }
+
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
 }

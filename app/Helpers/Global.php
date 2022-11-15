@@ -4,6 +4,7 @@ use App\Models\Feature;
 use App\Models\Limit;
 use App\Models\Pad;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -130,5 +131,16 @@ if (!function_exists('numberToWords')) {
         return str(
             (new NumberFormatter('en', NumberFormatter::SPELLOUT))->format((int) $number)
         )->append($decimals);
+    }
+}
+
+if (!function_exists('carbon')) {
+    function carbon($value)
+    {
+        if (is_null($value) || !strtotime($value)) {
+            return null;
+        }
+
+        return Carbon::parse($value);
     }
 }

@@ -85,7 +85,7 @@ class TransactionService
         }
 
         DB::transaction(function () use ($transaction, $transactionDetails, $line) {
-            InventoryOperationService::subtract($transactionDetails);
+            InventoryOperationService::subtract($transactionDetails, $transaction);
 
             if (!is_null($line)) {
                 TransactionField::subtract($transaction, $line);
@@ -127,7 +127,7 @@ class TransactionService
         }
 
         DB::transaction(function () use ($transaction, $transactionDetails, $line) {
-            InventoryOperationService::add($transactionDetails);
+            InventoryOperationService::add($transactionDetails, $transaction);
 
             if (!is_null($line)) {
                 TransactionField::add($transaction, $line);
@@ -197,7 +197,7 @@ class TransactionService
             ->transactionDetails
             ->map(function ($detail) {
                 return [
-                    'product_id' => Product::firstWhere('name', $detail['product'])->id,
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id,
                     'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
                     'quantity' => $detail['quantity'],
                     'line' => $detail['line'],
