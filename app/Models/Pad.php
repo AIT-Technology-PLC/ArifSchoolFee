@@ -180,7 +180,7 @@ class Pad extends Model
             'proforma-invoices' => 'Proforma Invoice',
         ];
 
-        if (array_key_exists($feature, $featureNames)) {
+        if (!array_key_exists($feature, $featureNames)) {
             return 'None';
         }
 
