@@ -57,6 +57,8 @@ class PayrollService
         DB::transaction(function () use ($payroll) {
             $payroll->pay();
 
+            $payroll->paidAt();
+
             $expenseCategory = ExpenseCategory::firstOrCreate([
                 'name' => 'Salary Expenses',
             ]);

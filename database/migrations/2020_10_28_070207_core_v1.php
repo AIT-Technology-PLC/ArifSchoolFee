@@ -1453,6 +1453,7 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->string('bank_name');
             $table->dateTime('issued_on')->nullable();
+            $table->dateTime('paid_at')->nullable();
             $table->date('starting_period')->nullable();
             $table->date('ending_period')->nullable();
             $table->timestamps();
