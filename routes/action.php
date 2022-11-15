@@ -352,6 +352,10 @@ Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
     ->name('bill-of-materials.approve');
 
+Route::post('/bill-of-materials/{bill_of_material}/import',
+    [Action\BillOfMaterialController::class, 'import'])
+    ->name('bill-of-materials.import');
+
 // Expense Claim
 Route::post('/expense-claims/{expense_claim}/approve',
     [Action\ExpenseClaimController::class, 'approve'])

@@ -221,6 +221,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update BOM']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete BOM']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve BOM']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import BOM']);
 
             //Job
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Job']);

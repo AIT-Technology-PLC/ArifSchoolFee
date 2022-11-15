@@ -20,8 +20,8 @@ class UpdateBillOfMaterialRequest extends FormRequest
             'product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'billOfMaterial' => ['required', 'array'],
-            'billOfMaterial.*.product_id' => ['required', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
-            'billOfMaterial.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'billOfMaterial.*.product_id' => ['nullable', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
+            'billOfMaterial.*.quantity' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
 }
