@@ -113,7 +113,7 @@ trait TransactionConverts
                     'gdn' => [
                         [
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
+                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'] ?? null)->id ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
