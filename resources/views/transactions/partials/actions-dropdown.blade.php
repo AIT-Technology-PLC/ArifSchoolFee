@@ -76,7 +76,7 @@
                     href="{{ route('transactions.convert_to', [$transaction->id, 'target' => $feature]) }}"
                     mode="button"
                     icon="fas fa-file-invoice"
-                    label="Issue {{ str($feature)->singular()->title() }}"
+                    label="Issue {{ $pad->featureNames($feature) }}"
                     class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                 />
             </x-common.dropdown-item>

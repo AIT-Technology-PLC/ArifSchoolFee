@@ -169,4 +169,21 @@ class Pad extends Model
                 'proforma-invoices',
             ]);
     }
+
+    public function featureNames($feature)
+    {
+        $featureNames = [
+            'grns' => 'GRN',
+            'sivs' => 'SIV',
+            'sales' => 'Invoice',
+            'gdns' => 'Delivery Order',
+            'proforma-invoices' => 'Proforma Invoice',
+        ];
+
+        if (array_key_exists($feature, $featureNames)) {
+            return 'None';
+        }
+
+        return $featureNames[$feature];
+    }
 }
