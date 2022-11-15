@@ -38,13 +38,6 @@ class Payroll extends Model
         $this->save();
     }
 
-    public function paidAt()
-    {
-        $this->paid_at = now();
-
-        $this->save();
-    }
-
     public function isPaid()
     {
         if (is_null($this->paid_by)) {
