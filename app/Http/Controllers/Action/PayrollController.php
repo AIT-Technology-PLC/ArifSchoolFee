@@ -35,22 +35,18 @@ class PayrollController extends Controller
     {
         $this->authorize('pay', $payroll);
 
-        if ($payroll->isPaid()) {
-            return back()->with('failedMessage', 'You can not pay a payroll that is already paid.');
-        }
+        [$isExecuted, $message] = $this->payrollService->pay($payroll);
 
-        if (!$payroll->isApproved()) {
-            return back()->with('failedMessage', 'You can not pay a payroll that is not approved.');
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        $payroll->pay();
 
         Notification::send(
             Notifiables::byPermission('Read Payroll', $payroll->createdBy),
             new PayrollPaid($payroll)
         );
 
-        return back()->with('successMessage', 'You have paid this transaction successfully.');
+        return back()->with('successMessage', $message);
     }
 
     public function printed(Payroll $payroll, ProcessPayrollAction $action)
