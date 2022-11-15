@@ -6,6 +6,8 @@ use App\Actions\ApproveTransactionAction;
 use App\Models\Compensation;
 use App\Models\CompensationAdjustmentDetail;
 use App\Models\EmployeeCompensation;
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Notifications\PayrollApproved;
 use Illuminate\Support\Facades\DB;
 
@@ -40,5 +42,46 @@ class PayrollService
 
             return [true, $message];
         });
+    }
+
+    public function pay($payroll)
+    {
+        if ($payroll->isPaid()) {
+            return [false, 'You can not pay a payroll that is already paid.'];
+        }
+
+        if (!$payroll->isApproved()) {
+            return [false, 'You can not pay a payroll that is not approved.'];
+        }
+
+        DB::transaction(function () use ($payroll) {
+            $payroll->pay();
+
+            $expenseCategory = ExpenseCategory::firstOrCreate([
+                'name' => 'Salary Expenses',
+            ]);
+
+            $expense = Expense::create([
+                'code' => nextReferenceNumber('expenses'),
+                'expense_category_id' => $expenseCategory,
+                'reference_number' => $payroll->code,
+                'tax_type' => 'None',
+                'issued_on' => now(),
+            ]);
+
+            $expense->expenseDetails()->createMany([
+                [
+                    'expense_id' => $expense->id,
+                    'name' => 'Salary Expenses',
+                    'expense_category_id' => $expenseCategory->id,
+                    'quantity' => 1,
+                    'unit_price' => $payroll->payrollDetails->sum('amount'),
+                ],
+            ]);
+
+            $expense->approve();
+        });
+
+        return [true, 'You have paid this transaction successfully.'];
     }
 }
