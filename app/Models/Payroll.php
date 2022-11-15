@@ -34,6 +34,7 @@ class Payroll extends Model
     public function pay()
     {
         $this->paid_by = authUser()->id;
+        $this->paid_at = now();
 
         $this->save();
     }

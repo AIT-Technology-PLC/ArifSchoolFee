@@ -55,8 +55,6 @@ class PayrollService
         }
 
         DB::transaction(function () use ($payroll) {
-            $payroll->paid_at = now();
-
             $payroll->pay();
 
             $expenseCategory = ExpenseCategory::firstOrCreate([
