@@ -12,7 +12,10 @@ class PadService
     {
         return DB::transaction(function () use ($data) {
             $pad = Pad::create(Arr::except($data, ['field']));
-            $pad->padStatuses()->createMany($data['status']);
+
+            if (isset($data['status'])) {
+                $pad->padStatuses()->createMany($data['status']);
+            }
 
             collect($data['field'])
                 ->each(function ($field) use ($pad) {
