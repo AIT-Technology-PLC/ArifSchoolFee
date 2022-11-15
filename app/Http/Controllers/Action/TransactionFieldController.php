@@ -17,13 +17,13 @@ class TransactionFieldController extends Controller
 
     public function __construct(TransactionService $transactionService)
     {
-        $this->middleware('isFeatureAccessible:Pad Management');
-
         $this->transactionService = $transactionService;
     }
 
     public function subtract(TransactionField $transactionField)
     {
+        abort_if(!$transactionField->transaction->pad->isEnabled(), 403);
+
         $this->authorize('subtract', $transactionField->transaction);
 
         [$isExecuted, $message] = $this->transactionService->subtract($transactionField->transaction, authUser(), $transactionField->line);
@@ -42,6 +42,8 @@ class TransactionFieldController extends Controller
 
     public function add(TransactionField $transactionField)
     {
+        abort_if(!$transactionField->transaction->pad->isEnabled(), 403);
+
         $this->authorize('add', $transactionField->transaction);
 
         [$isExecuted, $message] = $this->transactionService->add($transactionField->transaction, authUser(), $transactionField->line);

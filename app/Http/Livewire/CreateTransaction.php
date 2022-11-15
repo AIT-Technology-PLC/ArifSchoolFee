@@ -39,6 +39,8 @@ class CreateTransaction extends Component
 
     public function mount(Pad $pad, $master, $details)
     {
+        abort_if(!$pad->isEnabled(), 403);
+
         $this->pad = $pad;
 
         $this->currentReferenceCode = $this->pad->transactions()->max('code') + 1;

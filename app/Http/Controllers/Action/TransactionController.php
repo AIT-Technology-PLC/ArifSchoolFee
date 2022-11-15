@@ -21,13 +21,13 @@ class TransactionController extends Controller
 
     public function __construct(TransactionService $transactionService)
     {
-        $this->middleware('isFeatureAccessible:Pad Management');
-
         $this->transactionService = $transactionService;
     }
 
     public function approve(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('approve', $transaction);
 
         [$isExecuted, $message] = $this->transactionService->approve($transaction);
@@ -46,6 +46,8 @@ class TransactionController extends Controller
 
     public function subtract(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('subtract', $transaction);
 
         [$isExecuted, $message] = $this->transactionService->subtract($transaction, authUser());
@@ -64,6 +66,8 @@ class TransactionController extends Controller
 
     public function add(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('add', $transaction);
 
         [$isExecuted, $message] = $this->transactionService->add($transaction, authUser());
@@ -82,6 +86,8 @@ class TransactionController extends Controller
 
     public function printed(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('view', $transaction);
 
         if (!$transaction->pad->isPrintable()) {
@@ -107,6 +113,8 @@ class TransactionController extends Controller
 
     public function convertTo(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('convert', $transaction);
 
         [$route, $data] = $this->transactionService->convertTo($transaction, request('target'));
@@ -116,6 +124,8 @@ class TransactionController extends Controller
 
     public function convertFrom(Transaction $transaction)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('convert', $transaction);
 
         [$route, $data] = $this->transactionService->convertFrom($transaction, request('target'), request('id'));
@@ -125,6 +135,8 @@ class TransactionController extends Controller
 
     public function updateStatus(Transaction $transaction, UpdateTransactionStatusRequest $request)
     {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
         $this->authorize('update', $transaction);
 
         $transaction->status = $request->validated('status');
