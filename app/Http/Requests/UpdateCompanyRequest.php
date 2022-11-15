@@ -40,8 +40,8 @@ class UpdateCompanyRequest extends FormRequest
                 },
             ],
 
-            'logo' => ['sometimes', 'file', 'mimes:jpg,jpeg,png'],
-            'print_template_image' => ['sometimes', 'file', 'mimes:jpg,jpeg,png'],
+            'logo' => ['sometimes', 'file', 'mimes:jpg,jpeg,png', 'max:5000'],
+            'print_template_image' => ['sometimes', 'file', 'mimes:jpg,jpeg,png', 'max:5000'],
             'print_padding_top' => ['required', 'numeric', 'between:0,100'],
             'print_padding_bottom' => ['required', 'numeric', 'between:0,100'],
             'print_padding_horizontal' => ['required', 'numeric', 'between:0,100'],
@@ -51,6 +51,14 @@ class UpdateCompanyRequest extends FormRequest
             'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
             'is_backorder_enabled' => ['required', 'boolean'],
             'can_check_inventory_on_forms' => ['required', 'boolean'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'logo.max' => 'The Logo must be less than 5 megabytes',
+            'print_template_image.max' => 'The Template must be less than 5 megabytes',
         ];
     }
 }
