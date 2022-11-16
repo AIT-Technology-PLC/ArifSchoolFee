@@ -40,6 +40,10 @@ class ProductDatatable extends DataTable
             ->editColumn('min_on_hand', function ($product) {
                 return Str::of($product->min_on_hand ?? 0.0)->append(' ', $product->unit_of_measurement);
             })
+            ->editColumn('is_batchable', fn($product) => $product->is_batchable ? 'Yes' : 'No')
+            ->editColumn('used_for_sale', fn($product) => $product->is_active_for_sale ? 'Yes' : 'No')
+            ->editColumn('used_for_purchase', fn($product) => $product->is_active_for_purchase ? 'Yes' : 'No')
+            ->editColumn('used_for_job', fn($product) => $product->is_active_for_job ? 'Yes' : 'No')
             ->editColumn('added by', function ($product) {
                 return $product->createdBy->name;
             })
@@ -85,6 +89,10 @@ class ProductDatatable extends DataTable
             Column::make('brand', 'brand.name')->visible(false),
             Column::make('description')->visible(false),
             Column::make('min_on_hand')->title('Reorder Level'),
+            Column::make('is_batchable')->searchable(false)->addClass('has-text-centered')->visible(false),
+            Column::make('used_for_sale')->searchable(false)->addClass('has-text-centered')->visible(false),
+            Column::make('used_for_purchase')->searchable(false)->addClass('has-text-centered')->visible(false),
+            Column::make('used_for_job')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('added by', 'createdBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions'),

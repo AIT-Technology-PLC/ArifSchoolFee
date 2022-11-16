@@ -15,7 +15,7 @@ class GrnDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('to', fn ($grnDetail) => $grnDetail->warehouse->name)
+            ->editColumn('to', fn($grnDetail) => $grnDetail->warehouse->name)
             ->editColumn('product', function ($grnDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $grnDetail->product->name,
@@ -25,7 +25,9 @@ class GrnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($grnDetail) {
                 return quantity($grnDetail->quantity, $grnDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn ($grnDetail) => nl2br(e($grnDetail->description)))
+            ->editColumn('batch_no', fn($grnDetail) => $grnDetail->batch_no)
+            ->editColumn('expiry_date', fn($grnDetail) => $grnDetail->expiry_date?->toFormattedDateString())
+            ->editColumn('description', fn($grnDetail) => nl2br(e($grnDetail->description)))
             ->editColumn('actions', function ($grnDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'grn-details',
@@ -55,6 +57,8 @@ class GrnDetailDatatable extends DataTable
             Column::make('to', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
+            Column::make('batch_no')->content('N/A')->visible(false),
+            Column::make('expiry_date')->content('N/A')->visible(false),
             Column::make('description')->visible(false),
             Column::computed('actions'),
         ];
@@ -62,6 +66,6 @@ class GrnDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'GRN Details_'.date('YmdHis');
+        return 'GRN Details_' . date('YmdHis');
     }
 }
