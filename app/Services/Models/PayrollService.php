@@ -3,6 +3,7 @@
 namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
+use App\Actions\ProcessPayrollAction;
 use App\Models\Compensation;
 use App\Models\CompensationAdjustmentDetail;
 use App\Models\EmployeeCompensation;
@@ -75,7 +76,7 @@ class PayrollService
                     'name' => 'Salary Expenses',
                     'expense_category_id' => $expenseCategory->id,
                     'quantity' => 1,
-                    'unit_price' => $payroll->payrollDetails->sum('amount'),
+                    'unit_price' => (new ProcessPayrollAction)->execute($payroll)->sum('gross_salary'),
                 ],
             ]);
 
