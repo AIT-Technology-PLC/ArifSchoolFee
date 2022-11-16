@@ -17,8 +17,8 @@ class ExpenseDetailDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('name', fn($expenseDetail) => $expenseDetail->name)
             ->editColumn('category', fn($expenseDetail) => $expenseDetail->expenseCategory->name)
-            ->editColumn('quantity', fn($expenseDetail) => $expenseDetail->quantity)
-            ->editColumn('unit_price', fn($expenseDetail) => $expenseDetail->unit_price)
+            ->editColumn('quantity', fn($expenseDetail) => number_format($expenseDetail->quantity, 2))
+            ->editColumn('unit_price', fn($expenseDetail) => number_format($expenseDetail->unit_price, 2))
             ->editColumn('actions', function ($expenseDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'expense-details',

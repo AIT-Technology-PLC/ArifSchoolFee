@@ -108,7 +108,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            data="{{ $reservation->discount }}%"
+                            data="{{ $reservation->discount ?? 0 }}%"
                             label="Discount"
                         />
                     </div>

@@ -25,7 +25,7 @@ class ProformaInvoiceDetailDatatable extends DataTable
                 return quantity($proformaInvoiceDetail->quantity, $proformaInvoiceDetail->product->unit_of_measurement ?? null);
             })
             ->editColumn('unit_price', fn ($proformaInvoiceDetail) => money($proformaInvoiceDetail->unit_price))
-            ->editColumn('discount', fn ($proformaInvoiceDetail) => $proformaInvoiceDetail->discount.'%')
+            ->editColumn('discount', fn ($proformaInvoiceDetail) => ($proformaInvoiceDetail->discount ?? 0).'%')
             ->editColumn('total', fn ($proformaInvoiceDetail) => money($proformaInvoiceDetail->totalPrice))
             ->editColumn('actions', function ($proformaInvoiceDetail) {
                 return view('components.common.action-buttons', [

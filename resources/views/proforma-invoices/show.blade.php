@@ -60,7 +60,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            data="{{ $proformaInvoice->discount }}%"
+                            data="{{ $proformaInvoice->discount ?? 0 }}%"
                             label="Discount"
                         />
                     </div>
