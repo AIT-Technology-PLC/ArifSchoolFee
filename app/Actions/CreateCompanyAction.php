@@ -57,6 +57,8 @@ class CreateCompanyAction
 
         $this->createCompensations($company);
 
+        $this->createLeaveCategories($company);
+
         return $user;
     }
 
@@ -118,6 +120,24 @@ class CreateCompanyAction
                 'is_adjustable' => 0,
                 'can_be_inputted_manually' => 0,
                 'percentage' => 18,
+            ],
+        ]);
+    }
+
+    private function createLeaveCategories($company)
+    {
+        $company->leaveCategories()->createMany([
+            [
+                'name' => 'Sick Leave',
+            ],
+            [
+                'name' => 'Casual Leave',
+            ],
+            [
+                'name' => 'Maternity Leave',
+            ],
+            [
+                'name' => 'Paternity Leave',
             ],
         ]);
     }

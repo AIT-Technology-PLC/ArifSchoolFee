@@ -249,6 +249,7 @@
                                     </span>
                                 </label>
                             </div>
+                            <x-common.validation-error property="logo" />
                         </x-forms.field>
                     </div>
                     <div
@@ -284,6 +285,7 @@
                                     </span>
                                 </label>
                             </div>
+                            <x-common.validation-error property="print_template_image" />
                         </x-forms.field>
                     </div>
                     <div class="column is-6">

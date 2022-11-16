@@ -933,7 +933,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bill_of_material_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->decimal('quantity', 22);
+            $table->decimal('quantity', 22)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -1453,6 +1453,7 @@ return new class extends Migration
             $table->bigInteger('code');
             $table->string('bank_name');
             $table->dateTime('issued_on')->nullable();
+            $table->dateTime('paid_at')->nullable();
             $table->date('starting_period')->nullable();
             $table->date('ending_period')->nullable();
             $table->timestamps();

@@ -18,6 +18,7 @@ class Payroll extends Model
         'issued_on' => 'datetime',
         'starting_period' => 'date',
         'ending_period' => 'date',
+        'paid_at' => 'datetime',
     ];
 
     public function paidBy()
@@ -33,6 +34,7 @@ class Payroll extends Model
     public function pay()
     {
         $this->paid_by = authUser()->id;
+        $this->paid_at = now();
 
         $this->save();
     }
