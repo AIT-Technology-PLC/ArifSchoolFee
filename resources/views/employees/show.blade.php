@@ -164,6 +164,71 @@
                             <div class="column is-4">
                                 <p class="has-text-grey is-size-7 is-uppercase">
                                     <span class="icon">
+                                        <i class="fas fa-warehouse"></i>
+                                    </span>
+                                    <span>
+                                        Work Place
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-green ml-1">
+                                    {{ $employee->user->warehouse->name ?? 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
+                                        <i class="fas fa-id-card"></i>
+                                    </span>
+                                    <span>
+                                        ID Info
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-green ml-1">
+                                    {{ $employee->id_number ? str($employee->id_type)->append(' (', $employee->id_number, ')') : 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
+                                        <i class="fas fa-university"></i>
+                                    </span>
+                                    <span>
+                                        Bank Account
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-green ml-1">
+                                    {{ $employee->bank_account ? str($employee->bank_name)->append(' (', $employee->bank_account, ')') : 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
+                                        <i class="fas fa-hashtag"></i>
+                                    </span>
+                                    <span>
+                                        TIN Number
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-green ml-1">
+                                    {{ $employee->tin_number ?? 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
+                                        <i class="fas fa-th"></i>
+                                    </span>
+                                    <span>
+                                        Paid Time off Amount
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-green ml-1">
+                                    {{ $employee->paid_time_off_amount ?? 'N/A' }}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
                                         <i class="fas fa-calendar-alt"></i>
                                     </span>
                                     <span>
@@ -262,10 +327,10 @@
             </x-content.footer>
         </div>
     </div>
-    <section class="m-3">
-        <div class="columns">
+    <section class="mt-3">
+        <div class="columns is-marginless is-multiline">
             @if (isFeatureEnabled('Warning Management'))
-                <div class="column is-6">
+                <div class="column is-6 p-lr-0">
                     <x-content.header bg-color="has-background-white">
                         <x-slot:header>
                             <h1 class="title text-green has-text-weight-medium is-size-6">
@@ -309,7 +374,7 @@
                 </div>
             @endif
             @if (isFeatureEnabled('Expense Claim'))
-                <div class="column is-6">
+                <div class="column is-6 p-lr-0">
                     <x-content.header bg-color="has-background-white">
                         <x-slot:header>
                             <h1 class="title text-green has-text-weight-medium is-size-6">
@@ -346,7 +411,44 @@
                                             </a>
                                         </td>
                                         <td> {{ view('components.datatables.expense-claim-status', compact('expenseClaim')) }} </td>
-                                        <td class="has-text-right"> {{ $expenseClaim->totalPrice }} </td>
+                                        <td class="has-text-right"> {{ money($expenseClaim->totalPrice) }} </td>
+                                    </tr>
+                                @endforeach
+                            </x-slot>
+                        </x-common.client-datatable>
+                    </x-content.footer>
+                </div>
+            @endif
+            @if (isFeatureEnabled('Compensation Management'))
+                <div class="column is-6 p-lr-0">
+                    <x-content.header bg-color="has-background-white">
+                        <x-slot:header>
+                            <h1 class="title text-green has-text-weight-medium is-size-6">
+                                <span class="icon mr-1">
+                                    <i class="fas fa-circle-dollar-to-slot"></i>
+                                </span>
+                                <span>Compensations</span>
+                            </h1>
+                        </x-slot:header>
+                    </x-content.header>
+                    <x-content.footer>
+                        <x-common.client-datatable
+                            has-filter="false"
+                            has-length-change="false"
+                            paging-type="simple"
+                            length-menu=[5]
+                        >
+                            <x-slot name="headings">
+                                <th><abbr> # </abbr></th>
+                                <th><abbr> Compensation Name </abbr></th>
+                                <th class="has-text-right"><abbr> Amount </abbr></th>
+                            </x-slot>
+                            <x-slot name="body">
+                                @foreach ($employee->employeeCompensations as $employeeCompensation)
+                                    <tr>
+                                        <td> {{ $loop->iteration }} </td>
+                                        <td>{{ $employeeCompensation->compensation->name }}</td>
+                                        <td class="has-text-right"> {{ money($employeeCompensation->amount) }} </td>
                                     </tr>
                                 @endforeach
                             </x-slot>
