@@ -180,24 +180,11 @@
                                         <i class="fas fa-id-card"></i>
                                     </span>
                                     <span>
-                                        ID Type
+                                        ID Info
                                     </span>
                                 </p>
                                 <p class="has-text-weight-bold text-green ml-1">
-                                    {{ $employee->id_type ?? 'N/A' }}
-                                </p>
-                            </div>
-                            <div class="column is-4">
-                                <p class="has-text-grey is-size-7 is-uppercase">
-                                    <span class="icon">
-                                        <i class="fas fa-hashtag"></i>
-                                    </span>
-                                    <span>
-                                        ID Number
-                                    </span>
-                                </p>
-                                <p class="has-text-weight-bold text-green ml-1">
-                                    {{ $employee->id_number ?? 'N/A' }}
+                                    {{ $employee->id_number ? str($employee->id_type)->append(' (', $employee->id_number, ')') : 'N/A' }}
                                 </p>
                             </div>
                             <div class="column is-4">
@@ -206,24 +193,11 @@
                                         <i class="fas fa-university"></i>
                                     </span>
                                     <span>
-                                        Bank Name
-                                    </span>
-                                </p>
-                                <p class="has-text-weight-bold text-green ml-1">
-                                    {{ $employee->bank_name ?? 'N/A' }}
-                                </p>
-                            </div>
-                            <div class="column is-4">
-                                <p class="has-text-grey is-size-7 is-uppercase">
-                                    <span class="icon">
-                                        <i class="fas fa-hashtag"></i>
-                                    </span>
-                                    <span>
                                         Bank Account
                                     </span>
                                 </p>
                                 <p class="has-text-weight-bold text-green ml-1">
-                                    {{ $employee->bank_account ?? 'N/A' }}
+                                    {{ $employee->bank_account ? str($employee->bank_name)->append(' (', $employee->bank_account, ')') : 'N/A' }}
                                 </p>
                             </div>
                             <div class="column is-4">
@@ -470,11 +444,11 @@
                                 <th class="has-text-right"><abbr> Amount </abbr></th>
                             </x-slot>
                             <x-slot name="body">
-                                @foreach ($employee->employeeCompensations as $expenseCompensation)
+                                @foreach ($employee->employeeCompensations as $employeeCompensation)
                                     <tr>
                                         <td> {{ $loop->iteration }} </td>
-                                        <td>{{ $expenseCompensation->compensation->name }}</td>
-                                        <td class="has-text-right"> {{ money($expenseCompensation->amount) }} </td>
+                                        <td>{{ $employeeCompensation->compensation->name }}</td>
+                                        <td class="has-text-right"> {{ money($employeeCompensation->amount) }} </td>
                                     </tr>
                                 @endforeach
                             </x-slot>
