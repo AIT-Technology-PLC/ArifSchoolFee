@@ -87,6 +87,15 @@
                         label="Issued On"
                     />
                 </div>
+                @if ($payroll->isPaid())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-calendar-day"
+                            :data="$payroll->paid_at->toFormattedDateString()"
+                            label="Paid On"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"

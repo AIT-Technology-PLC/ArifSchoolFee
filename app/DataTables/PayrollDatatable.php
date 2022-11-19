@@ -23,8 +23,9 @@ class PayrollDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('status', fn($payroll) => view('components.datatables.payroll-status', compact('payroll')))
-            ->editColumn('bank_name', fn($payroll) => $payroll->bank_name)
+            ->editColumn('bank_name', fn($payroll) => $payroll->company->payroll_bank_name ?? 'N/A')
             ->editColumn('issued_on', fn($payroll) => $payroll->issued_on->toFormattedDateString())
+            ->editColumn('paid_at', fn($payroll) => $payroll->paid_at?->toFormattedDateString() ?? 'Not Paid')
             ->editColumn('starting_period', fn($payroll) => $payroll->starting_period->toDateString())
             ->editColumn('ending_period', fn($payroll) => $payroll->ending_period->toDateString())
             ->editColumn('prepared by', fn($payroll) => $payroll->createdBy->name)
@@ -50,6 +51,7 @@ class PayrollDatatable extends DataTable
             ->when(request('status') == 'paid', fn($query) => $query->paid())
             ->select('payrolls.*')
             ->with([
+                'company',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
@@ -63,8 +65,9 @@ class PayrollDatatable extends DataTable
             Column::computed('#'),
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::computed('status'),
-            Column::make('bank_name'),
+            Column::make('bank_name', 'company.payroll_bank_name'),
             Column::make('issued_on'),
+            Column::make('paid_at')->title('Paid On'),
             Column::make('starting_period')->visible(false),
             Column::make('ending_period')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
