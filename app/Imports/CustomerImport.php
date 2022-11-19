@@ -32,7 +32,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
             'company_name' => $row['company_name'],
-            'tin' => $row['tin'] ?? '',
+            'tin' => $row['tin'] ?? null,
             'address' => $row['address'] ?? '',
             'contact_name' => $row['contact_name'] ?? '',
             'email' => $row['email'] ?? '',
