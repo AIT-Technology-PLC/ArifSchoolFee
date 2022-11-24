@@ -15,15 +15,6 @@ class InventoryOperationService
 
     public static function add($details, $model, $to = 'available')
     {
-        if (!is_null($model)) {
-            $inventoryHistoryDetail = [
-                'model_type' => get_class($model),
-                'model_id' => $model->id,
-                'issued_on' => $model->issued_on,
-                'is_subtract' => 0,
-            ];
-        }
-
         $details = static::formatData($details);
 
         if (is_null($details)) {
@@ -47,40 +38,12 @@ class InventoryOperationService
 
             static::addToBatch($detail, $merchandise);
 
-            if (isset($inventoryHistoryDetail)) {
-                InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
-            }
-        }
-    }
-
-    public static function addToBatch($detail, $merchandise)
-    {
-        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
-            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
-                [
-                    'merchandise_id' => $merchandise->id,
-                    'batch_no' => $detail['batch_no'],
-                ],
-            );
-
-            $merchandiseBatch->expiry_date = $detail['expiry_date'];
-            $merchandiseBatch->quantity += $detail['quantity'];
-
-            $merchandiseBatch->save();
+            static::createInventoryHistory($model, $detail, false);
         }
     }
 
     public static function subtract($details, $model, $from = 'available')
     {
-        if (!is_null($model)) {
-            $inventoryHistoryDetail = [
-                'model_type' => get_class($model),
-                'model_id' => $model->id,
-                'issued_on' => $model->issued_on,
-                'is_subtract' => 1,
-            ];
-        }
-
         $details = static::formatData($details);
 
         if (is_null($details)) {
@@ -98,9 +61,24 @@ class InventoryOperationService
 
             static::subtractFromBatch($detail, $merchandise);
 
-             if (isset($inventoryHistoryDetail)) {
-                InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
-            }
+            static::createInventoryHistory($model, $detail);
+        }
+    }
+
+    public static function addToBatch($detail, $merchandise)
+    {
+        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
+            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
+                [
+                    'merchandise_id' => $merchandise->id,
+                    'batch_no' => $detail['batch_no'],
+                ],
+            );
+
+            $merchandiseBatch->expiry_date = $detail['expiry_date'];
+            $merchandiseBatch->quantity += $detail['quantity'];
+
+            $merchandiseBatch->save();
         }
     }
 
@@ -131,6 +109,22 @@ class InventoryOperationService
                 $merchandiseBatch->save();
             }
         }
+    }
+
+    public static function createInventoryHistory($model, $detail, $isSubtract = true)
+    {
+        if (is_null($model)) {
+            return;
+        }
+
+        $inventoryHistoryDetail = [
+            'model_type' => get_class($model),
+            'model_id' => $model->id,
+            'issued_on' => $model->issued_on,
+            'is_subtract' => $isSubtract ? 1 : 0,
+        ];
+
+        InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
     }
 
     public static function unavailableProducts($details, $in = 'available')
