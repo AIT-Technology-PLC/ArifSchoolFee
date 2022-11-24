@@ -91,7 +91,7 @@ class ExpiredInventoryDatatable extends DataTable
         $organizedExpiredMerchandise = collect();
 
         foreach ($expiredMerchandises as $merchandiseKey => $merchandiseValue) {
-            $currentMerchandiseItem = [
+            $currentExpiredMerchandiseItem = [
                 'product' => $merchandiseValue->first()->product,
                 'product_id' => $merchandiseValue->first()->product_id,
                 'code' => $merchandiseValue->first()->code ?? '',
@@ -102,10 +102,10 @@ class ExpiredInventoryDatatable extends DataTable
             ];
 
             foreach ($merchandiseValue as $key => $value) {
-                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->quantity);
+                $currentExpiredMerchandiseItem = Arr::add($currentExpiredMerchandiseItem, $key, $value->quantity);
             }
 
-            $organizedExpiredMerchandise->push($currentMerchandiseItem);
+            $organizedExpiredMerchandise->push($currentExpiredMerchandiseItem);
         }
 
         return $organizedExpiredMerchandise;
