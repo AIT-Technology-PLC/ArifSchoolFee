@@ -108,6 +108,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Work In Process Inventory']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read On Hand Inventory']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Out Of Stock Inventory']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Expired Inventory']);
 
             // Sale
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Sale']);
@@ -523,6 +524,7 @@ class Permissions extends Seeder
                 'Read Work In Process Inventory',
                 'Read On Hand Inventory',
                 'Read Out Of Stock Inventory',
+                'Read Expired Inventory',
                 'Read Transfer',
                 'Read Damage',
                 'Read Adjustment',

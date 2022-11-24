@@ -17,6 +17,7 @@ class MerchandisePolicy
             'Read Work In Process Inventory',
             'Read On Hand Inventory',
             'Read Out Of Stock Inventory',
+            'Read Expired Inventory',
         ]);
     }
 
@@ -43,5 +44,10 @@ class MerchandisePolicy
     public function outOfStock(User $user)
     {
         return $user->can('Read Out Of Stock Inventory');
+    }
+
+    public function expired(User $user)
+    {
+        return $user->can('Read Expired Inventory');
     }
 }
