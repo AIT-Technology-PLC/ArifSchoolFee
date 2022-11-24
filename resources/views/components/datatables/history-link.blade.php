@@ -5,7 +5,7 @@
 @if (isset($productId) && isset($warehouseId) && isset($expired))
     <a
         href="/history/products/{{ $productId }}/warehouses/{{ $warehouseId }}/{{ $expired }}"
-        data-title="View Batch History"
+        data-title="View Expired Batch History"
     >
 
     <span class='tag is-small  btn-purple is-outlined'>
