@@ -1,0 +1,136 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Models\MerchandiseBatch;
+use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
+use Yajra\DataTables\Services\DataTable;
+
+class ExpiredInventoryDatatable extends DataTable
+{
+    use DataTableHtmlBuilder;
+
+    public function __construct()
+    {
+        $this->warehouses = authUser()->getAllowedWarehouses('read');
+    }
+
+    public function dataTable($query)
+    {
+        return $this
+            ->editWarehouses(datatables()->collection($query->all()))
+            ->editColumn('product', function ($row) {
+                return view('components.datatables.product-code', [
+                    'product' => $row['product'],
+                    'code' => $row['code'],
+                ]);
+            })
+            ->rawColumns([
+                ...$this->warehouses->pluck('name')->toArray(),
+                'total_balance',
+                'product',
+            ])
+            ->addIndexColumn();
+    }
+
+    private function editWarehouses($datatable)
+    {
+        $this->warehouses->each(function ($warehouse) use ($datatable) {
+            $datatable
+                ->editColumn($warehouse->name, function ($row) use ($warehouse) {
+                    return view('components.datatables.history-link', [
+                        'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
+                        'productId' => $row['product_id'],
+                        'warehouseId' => $warehouse->id,
+                        'unit' => $row['unit'],
+                        'expired' => 'expired',
+                    ]);
+                })
+                ->editColumn('total_balance', function ($row) {
+                    return view('components.datatables.green-solid-tag', [
+                        'amount' => $row['total_balance'] ?: 0.00,
+                        'unit' => $row['unit'],
+                    ]);
+                });
+        });
+
+        return $datatable;
+    }
+
+    public function query()
+    {
+        $expiredMerchandises = MerchandiseBatch::query()
+            ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
+            ->join('products', 'merchandises.product_id', '=', 'products.id')
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
+            ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
+            ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
+            ->where(function ($query) {
+                $query->where('merchandise_batches.quantity', '>', 0)
+                    ->whereDate('merchandise_batches.expiry_date', '<', now());
+            })
+            ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
+            ->where('products.type', '!=', 'Services')
+            ->groupBy(['merchandise_id', 'product_id', 'warehouse_id', 'product', 'code', 'type', 'unit', 'category', 'warehouse'])
+            ->select([
+                'merchandises.product_id as product_id',
+                'products.name as product',
+                'products.code as code',
+                'products.type as type',
+                'products.unit_of_measurement as unit',
+                'product_categories.name as category',
+                'warehouses.name as warehouse',
+            ])
+            ->selectRaw('SUM(merchandise_batches.quantity) AS quantity')
+            ->get();
+
+        $expiredMerchandises = $expiredMerchandises->groupBy('product_id')->map->keyBy('warehouse');
+
+        $organizedExpiredMerchandise = collect();
+
+        foreach ($expiredMerchandises as $merchandiseKey => $merchandiseValue) {
+            $currentMerchandiseItem = [
+                'product' => $merchandiseValue->first()->product,
+                'product_id' => $merchandiseValue->first()->product_id,
+                'code' => $merchandiseValue->first()->code ?? '',
+                'unit' => $merchandiseValue->first()->unit,
+                'type' => $merchandiseValue->first()->type,
+                'category' => $merchandiseValue->first()->category,
+                'total_balance' => $merchandiseValue->sum('quantity'),
+            ];
+
+            foreach ($merchandiseValue as $key => $value) {
+                $currentMerchandiseItem = Arr::add($currentMerchandiseItem, $key, $value->quantity);
+            }
+
+            $organizedExpiredMerchandise->push($currentMerchandiseItem);
+        }
+
+        return $organizedExpiredMerchandise;
+    }
+
+    protected function getColumns()
+    {
+        $warehouses = $this->warehouses->pluck('name');
+
+        return collect([
+            '#' => [
+                'sortable' => false,
+            ],
+            'product',
+            userCompany()->plan->isPremium() ? 'type' : null,
+            'category',
+            ...$warehouses,
+            'total_balance',
+        ])
+            ->filter()
+            ->toArray();
+    }
+
+    protected function filename()
+    {
+        return 'ExpiredInventory_' . date('YmdHis');
+    }
+}
