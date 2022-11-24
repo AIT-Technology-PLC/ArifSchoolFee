@@ -95,7 +95,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_brand' => ['nullable', 'string', 'max:255', Rule::in($this->brands->pluck('name'))],
             'is_batchable' => ['required', 'boolean'],
-            'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,1', 'prohibited_unless:is_batchable,1'],
+            'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,1'],
             'is_active' => ['required', 'boolean'],
             'used_for_sale' => ['required', 'boolean'],
             'used_for_purchase' => ['required', 'boolean'],
@@ -111,7 +111,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['product_type'] = str($data['product_type'] ?? '')->squish()->title()->toString();
         $data['product_brand'] = str()->squish($data['product_brand'] ?? '');
         $data['is_batchable'] = str()->lower($data['is_batchable'] ?? '') == 'yes' ? 1 : 0;
-        $data['batch_priority'] = str($data['batch_priority'] ?? '')->lower()->squish()->toString();
+        $data['batch_priority'] = $data['is_batchable'] == 1 ? str($data['batch_priority'] ?? '')->lower()->squish()->toString() : null;
         $data['is_active'] = str()->lower($data['is_active'] ?? '') == 'no' ? 0 : 1;
         $data['used_for_sale'] = str()->lower($data['used_for_sale'] ?? '') == 'no' ? 0 : 1;
         $data['used_for_purchase'] = str()->lower($data['used_for_purchase'] ?? '') == 'no' ? 0 : 1;
