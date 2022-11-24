@@ -110,7 +110,7 @@
                             </h1>
                             <div></div>
                             <h2 class="subtitle has-text-grey is-size-7">
-                                Available, Reserved, On hand, Limited and Out of Stock
+                                Available, Reserved, On hand, Limited, Out of Stock and Expired
                             </h2>
                         </div>
                     </div>
@@ -251,6 +251,13 @@
                     <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
                         <a href="{{ route('merchandises.index', 'out-of-stock') }}">
                             <span>Out of Stock</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('Read Expired Inventory')
+                    <li class="expired {{ request()->is('merchandises/expired') ? 'is-active' : '' }}">
+                        <a href="{{ route('merchandises.index', 'expired') }}">
+                            <span>Expired</span>
                         </a>
                     </li>
                 @endcan

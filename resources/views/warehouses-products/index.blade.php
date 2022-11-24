@@ -3,13 +3,14 @@
 @section('title', 'History of ' . $product->name . ' in ' . $warehouse->name)
 
 @section('content')
-    <x-common.content-wrapper>
-        <x-content.header title="History of {{ $product->name }} in {{ $warehouse->name }}" />
-        <x-content.footer>
-            {{ $dataTable->table() }}
-        </x-content.footer>
-    </x-common.content-wrapper>
-
+    @if (!isset($expired))
+        <x-common.content-wrapper>
+            <x-content.header title="History of {{ $product->name }} in {{ $warehouse->name }}" />
+            <x-content.footer>
+                {{ $dataTable->table() }}
+            </x-content.footer>
+        </x-common.content-wrapper>
+    @endif
     @if ($merchandiseBatches->isNotEmpty())
         <x-common.content-wrapper>
             <x-content.header title="{{ $product->name }} in {{ $warehouse->name }} by Batches" />
