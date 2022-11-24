@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Supplier;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -46,7 +47,7 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric'],
+            'tin' => ['nullable', 'numeric', 'distinct', Rule::unique('suppliers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255'],

@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Contact;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -42,7 +43,7 @@ class ContactImport implements ToModel, WithHeadingRow, WithValidation, WithChun
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10'],
+            'tin' => ['nullable', 'numeric', 'digits:10', 'distinct', Rule::unique('contacts')->where('company_id', userCompany()->id)->withoutTrashed()],
             'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
         ];
