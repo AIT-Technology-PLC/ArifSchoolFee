@@ -446,3 +446,7 @@ Route::get('/payrolls/{payroll}/print',
 Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
     [Action\MerchandiseBatchController::class, 'convertToDamage'])
     ->name('merchandise-batches.convert_to_damage');
+
+Route::get('/merchandise-batches',
+    [Action\MerchandiseBatchController::class, 'productBatch'])
+    ->name('merchandise-batches');
