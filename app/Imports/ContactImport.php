@@ -24,10 +24,6 @@ class ContactImport implements ToModel, WithHeadingRow, WithValidation, WithChun
 
     public function model(array $row)
     {
-        if ($this->contacts->where('tin', $row['tin'])->count()) {
-            return null;
-        }
-
         return new Contact([
             'company_id' => userCompany()->id,
             'created_by' => authUser()->id,
@@ -43,7 +39,7 @@ class ContactImport implements ToModel, WithHeadingRow, WithValidation, WithChun
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric', 'digits:10', 'distinct', Rule::unique('contacts')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'tin' => ['nullable', 'numeric', 'distinct', Rule::unique('contacts')->where('company_id', userCompany()->id)->withoutTrashed()],
             'email' => ['nullable', 'string', 'email', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
         ];
