@@ -15,6 +15,14 @@
         <x-common.content-wrapper>
             <x-content.header title="{{ $product->name }} in {{ $warehouse->name }} by Batches" />
             <x-content.footer>
+                <x-common.button
+                    tag="a"
+                    href="{{ route('merchandise-batches.convert_to_damage', $merchandiseBatches->pluck('merchandise_id')->first()) }}"
+                    mode="button"
+                    icon="fas fa-bolt"
+                    label="Convert to Damage"
+                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-right"
+                />
                 <x-common.bulma-table>
                     <x-slot name="headings">
                         <th class="pl-5"> # </th>
