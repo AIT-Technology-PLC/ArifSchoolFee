@@ -22,7 +22,7 @@ class MerchandiseBatchController extends Controller
     {
         $this->authorize('create', Damage::class);
 
-        [$isExecuted, $message, $damage] = $this->merchandiseBatchService->convertToDamage($merchandiseBatch, authUser());
+        [$isExecuted, $message, $damage] = $this->merchandiseBatchService->convertToDamage($merchandiseBatch);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -40,6 +40,7 @@ class MerchandiseBatchController extends Controller
             ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('companies', 'merchandises.company_id', '=', 'companies.id')
+            ->where('merchandise_batches.quantity', '>', 0)
             ->whereRaw('CASE
                         WHEN companies.expiry_time_type = "Days" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in
                         WHEN companies.expiry_time_type = "Months" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in*30

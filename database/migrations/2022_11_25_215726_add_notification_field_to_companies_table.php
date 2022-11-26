@@ -9,8 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('expiry_time_type')->nullable()->after('can_check_inventory_on_forms');
-            $table->integer('expired_in')->nullable()->after('expiry_time_type');
+            $table->string('expiry_time_type')->nullable()->after('can_check_inventory_on_forms')->default("Months");
+            $table->integer('expired_in')->nullable()->after('expiry_time_type')->default(3);
         });
     }
 
