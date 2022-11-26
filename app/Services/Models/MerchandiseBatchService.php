@@ -9,13 +9,19 @@ class MerchandiseBatchService
 {
     public function convertToDamage($merchandiseBatch)
     {
-        if ($merchandiseBatch->isConvertedToDamage()) {
+        $merchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
+            ->where('is_converted_to_damage', '=', 0)
+            ->whereDate('expiry_date', '<', now())
+            ->get();
+
+        if ($merchandiseBatches->isEmpty()) {
             return [false, 'This Batch is already converted to damage .', ''];
         }
 
         $merchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
             ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
             ->where('merchandise_batches.quantity', '>', 0)
+            ->where('is_converted_to_damage', '=', 0)
             ->whereDate('expiry_date', '<', now())
             ->groupBy(['merchandise_id', 'product_id', 'warehouse_id'])
             ->selectRaw('warehouse_id,product_id,SUM(quantity) AS quantity')

@@ -20,11 +20,6 @@ class MerchandiseBatch extends Model
         return $this->belongsTo(Merchandise::class);
     }
 
-    public function isConvertedToDamage()
-    {
-        return $this->is_converted_to_damage == 1;
-    }
-
     public function convert()
     {
         $this->is_converted_to_damage = 1;
