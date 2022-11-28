@@ -41,11 +41,7 @@ class MerchandiseBatchController extends Controller
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('companies', 'merchandises.company_id', '=', 'companies.id')
             ->where('merchandise_batches.quantity', '>', 0)
-            ->whereRaw('CASE
-                        WHEN companies.expiry_time_type = "Days" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in
-                        WHEN companies.expiry_time_type = "Months" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in*30
-                        ELSE DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in*365
-                    END')
+            ->whereRaw('DATEDIFF(expiry_date, CURRENT_DATE) = companies.expiry_in_days')
             ->select(['merchandise_batches.batch_no', 'merchandise_batches.quantity', 'merchandise_batches.expiry_date', 'products.name'])
             ->get();
 

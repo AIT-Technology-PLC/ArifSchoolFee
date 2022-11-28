@@ -28,7 +28,7 @@ class ProductExpiryDateClose extends Notification
     {
         return [
             'icon' => 'fas fa-th',
-            'message' => $this->merchandiseBatches->count() . ' ' . Str::plural('Product batch', $this->merchandiseBatches->count()) . ' ' . ($this->merchandiseBatches->count() == 1 ? 'has ' : 'have ') . $this->company->expired_in . ' ' . $this->company->expiry_time_type . ' remaining to be expired',
+            'message' => $this->merchandiseBatches->count() . ' ' . Str::plural('Product batch', $this->merchandiseBatches->count()) . ' ' . ($this->merchandiseBatches->count() == 1 ? 'has ' : 'have ') . $this->company->expiry_in_days . ' days remaining to be expired',
             'endpoint' => '/merchandise-batches',
         ];
     }
@@ -38,7 +38,7 @@ class ProductExpiryDateClose extends Notification
         return (new WebPushMessage)
             ->title('Product Batch Expiration Date Close')
             ->icon(asset('pwa/pwa-512x512.png'))
-            ->body($this->merchandiseBatches->count() . ' ' . Str::plural('Product batch', $this->merchandiseBatches->count()) . ' ' . ($this->merchandiseBatches->count() == 1 ? 'has ' : 'have ') . $this->company->expired_in . ' ' . $this->company->expiry_time_type . ' remaining to be expired')
+            ->body($this->merchandiseBatches->count() . ' ' . Str::plural('Product batch', $this->merchandiseBatches->count()) . ' ' . ($this->merchandiseBatches->count() == 1 ? 'has ' : 'have ') . $this->company->expiry_in_days . ' days remaining to be expired')
             ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);

@@ -51,8 +51,7 @@ class UpdateCompanyRequest extends FormRequest
             'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
             'is_backorder_enabled' => ['required', 'boolean'],
             'can_check_inventory_on_forms' => ['required', 'boolean'],
-            'expiry_time_type' => ['nullable', 'string', Rule::in(['Days', 'Months', 'Years']), 'required_unless:expired_in,null'],
-            'expired_in' => ['nullable', 'numeric', 'required_unless:expiry_time_type,null'],
+            'expiry_in_days' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
 

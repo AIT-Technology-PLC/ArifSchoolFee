@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'History of expired product batches')
+@section('title', 'History of product batches expired after {{ userCompany()->expiry_in_days }} days')
 
 @section('content')
     @if ($merchandiseBatches->isNotEmpty())
         <x-common.content-wrapper>
-            <x-content.header title="Product Batches Expired After {{ userCompany()->expired_in }} {{ userCompany()->expiry_time_type }}" />
+            <x-content.header title="Product Batches Expired After {{ userCompany()->expiry_in_days }}  Days" />
             <x-content.footer>
                 <x-common.bulma-table>
                     <x-slot name="headings">

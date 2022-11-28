@@ -9,16 +9,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('expiry_time_type')->nullable()->after('can_check_inventory_on_forms')->default("Months");
-            $table->integer('expired_in')->nullable()->after('expiry_time_type')->default(3);
+            $table->integer('expiry_in_days')->nullable()->after('can_check_inventory_on_forms')->default(30);
         });
     }
 
     public function down()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('expiry_time_type');
-            $table->dropColumn('expired_in');
+            $table->dropColumn('expiry_in_days');
         });
     }
 };

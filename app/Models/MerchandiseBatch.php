@@ -20,10 +20,13 @@ class MerchandiseBatch extends Model
         return $this->belongsTo(Merchandise::class);
     }
 
-    public function convert()
+    public function damage()
     {
-        $this->is_converted_to_damage = 1;
+        return $this->belongsTo(Damage::class);
+    }
 
-        $this->save();
+    public function scopeNotConverted($query)
+    {
+        return $query->whereNull('damage_id');
     }
 }

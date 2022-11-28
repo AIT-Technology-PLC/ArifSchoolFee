@@ -766,52 +766,23 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label>
-                            Notify Product Expiry Time In <sup class="has-text-danger"></sup>
-                        </x-forms.label>
-                        <x-forms.field class="has-addons">
+                        <x-forms.field>
+                            <x-forms.label>
+                                Notify Product Expiry In Days<sup class="has-text-danger"></sup>
+                            </x-forms.label>
                             <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="expiry_time_type"
-                                    name="expiry_time_type"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Time Format</option>
-                                    <option
-                                        value="Days"
-                                        @selected($company->expiry_time_type == 'Days')
-                                    >Days</option>
-                                    <option
-                                        value="Months"
-                                        @selected($company->expiry_time_type == 'Months')
-                                    >Months</option>
-                                    <option
-                                        value="Years"
-                                        @selected($company->expiry_time_type == 'Years')
-                                    >Years</option>
-                                </x-forms.select>
+                                <x-forms.input
+                                    id="expiry_in_days"
+                                    name="expiry_in_days"
+                                    type="number"
+                                    placeholder="Days"
+                                    value="{{ $company->expiry_in_days ?? '' }}"
+                                />
                                 <x-common.icon
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="expiry_time_type" />
-                            </x-forms.control>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="expired_in"
-                                    name="expired_in"
-                                    type="number"
-                                    placeholder="Amount"
-                                    value="{{ old('expired_in', $company->expired_in) }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-hashtag"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="expired_in" />
+                                <x-common.validation-error property="expiry_in_days" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

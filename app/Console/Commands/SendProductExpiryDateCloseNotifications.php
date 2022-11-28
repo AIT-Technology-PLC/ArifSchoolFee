@@ -34,11 +34,7 @@ class SendProductExpiryDateCloseNotifications extends Command
                 ->whereRelation('merchandise', 'company_id', $company->id)
                 ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
                 ->join('companies', 'merchandises.company_id', '=', 'companies.id')
-                ->whereRaw('CASE
-                        WHEN companies.expiry_time_type = "Days" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in
-                        WHEN companies.expiry_time_type = "Months" THEN DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in*30
-                        ELSE DATEDIFF(expiry_date, CURRENT_DATE) = companies.expired_in*365
-                    END')
+                ->whereRaw('DATEDIFF(expiry_date, CURRENT_DATE) = companies.expiry_in_days')
                 ->get();
 
             if ($merchandiseBatches->isEmpty()) {

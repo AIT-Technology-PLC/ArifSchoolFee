@@ -9,14 +9,15 @@ return new class extends Migration
     public function up()
     {
         Schema::table('merchandise_batches', function (Blueprint $table) {
-            $table->boolean('is_converted_to_damage')->after('batch_no')->default(0);
+            $table->foreignId('damage_id')->nullable()->after('merchandise_id')->constrained()->onDelete('set null')->onUpdate('cascade');
         });
     }
 
     public function down()
     {
         Schema::table('merchandise_batches', function (Blueprint $table) {
-            $table->dropColumn('is_converted_to_damage');
+            $table->dropForeign('damage_id');
+            $table->dropColumn('damage_id');
         });
     }
 };
