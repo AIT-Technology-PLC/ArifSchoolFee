@@ -33,7 +33,7 @@ class MerchandiseBatchController extends Controller
 
     public function merchandiseBatch(MerchandiseBatch $merchandiseBatch)
     {
-        $this->authorize('Read Expired Inventory', Merchandise::class);
+        $this->authorize('Read Expired Inventory', MerchandiseBatch::class);
 
         $merchandiseBatches = MerchandiseBatch::query()
             ->whereRelation('merchandise', 'company_id', userCompany()->id)
