@@ -82,7 +82,7 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
             'emergency_name' => ['nullable', 'string', 'max:255', 'required_unless:*.emergency_phone,null'],
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:*.emergency_name,null'],
             'department_name' => ['nullable', 'string', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments', 'name')],
-            'paid_time_off_day'=>['required','string','max:255'],
+            'paid_time_off_day' => ['required', 'string', 'max:255'],
         ];
     }
 
