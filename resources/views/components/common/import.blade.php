@@ -1,8 +1,8 @@
-@props(['title', 'action'])
+@props(['title', 'action', 'button' => 'open-import-modal'])
 
 <div
     x-data="toggler"
-    @open-import-modal.window="toggle"
+    {{ '@' . $button }}.window="toggle"
     class="modal is-active"
     x-cloak
     x-show="!isHidden"
