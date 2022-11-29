@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Models\Damage;
 use App\Models\MerchandiseBatch;
+use Illuminate\Support\Facades\DB;
 
 class MerchandiseBatchService
 {
@@ -27,25 +28,27 @@ class MerchandiseBatchService
             ->selectRaw('warehouse_id, product_id, SUM(quantity) AS quantity')
             ->get();
 
-        $damage = Damage::create([
-            'code' => nextReferenceNumber('damages'),
-            'issued_on' => now(),
-        ]);
+        return DB::transaction(function () use ($merchandiseBatches, $merchandiseBatch) {
+            $damage = Damage::create([
+                'code' => nextReferenceNumber('damages'),
+                'issued_on' => now(),
+            ]);
 
-        $damage->damageDetails()->createMany($merchandiseBatches->toArray());
+            $damage->damageDetails()->createMany($merchandiseBatches->toArray());
 
-        $convertedMerchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
-            ->where('merchandise_batches.quantity', '>', 0)
-            ->where('merchandise_batches.damage_id', '=', null)
-            ->whereDate('expiry_date', '<', now())
-            ->get();
+            $convertedMerchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
+                ->where('merchandise_batches.quantity', '>', 0)
+                ->where('merchandise_batches.damage_id', '=', null)
+                ->whereDate('expiry_date', '<', now())
+                ->get();
 
-        foreach ($convertedMerchandiseBatches as $merchandiseBatch) {
-            $merchandiseBatch->damage_id = $damage->id;
+            foreach ($convertedMerchandiseBatches as $merchandiseBatch) {
+                $merchandiseBatch->damage_id = $damage->id;
 
-            $merchandiseBatch->save();
-        }
+                $merchandiseBatch->save();
+            }
 
-        return [true, '', $damage];
+            return [true, '', $damage];
+        });
     }
 }
