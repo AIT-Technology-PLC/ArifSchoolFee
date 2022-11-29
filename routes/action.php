@@ -448,5 +448,5 @@ Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
     ->name('merchandise-batches.convert_to_damage');
 
 Route::get('/merchandise-batches',
-    [Action\MerchandiseBatchController::class, 'productBatch'])
+    [Action\MerchandiseBatchController::class, 'merchandiseBatch'])
     ->name('merchandise-batches');

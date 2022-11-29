@@ -31,7 +31,7 @@ class MerchandiseBatchController extends Controller
         return redirect()->route('damages.show', $damage->id);
     }
 
-    public function productBatch(MerchandiseBatch $merchandiseBatch)
+    public function merchandiseBatch(MerchandiseBatch $merchandiseBatch)
     {
         $this->authorize('Read Expired Inventory', Merchandise::class);
 
