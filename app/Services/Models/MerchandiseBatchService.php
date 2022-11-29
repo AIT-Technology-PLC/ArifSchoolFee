@@ -34,13 +34,13 @@ class MerchandiseBatchService
 
         $damage->damageDetails()->createMany($merchandiseBatches->toArray());
 
-        $merchandiseBatchesId = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
+        $convertedMerchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch->merchandise_id)
             ->where('merchandise_batches.quantity', '>', 0)
             ->where('merchandise_batches.damage_id', '=', null)
             ->whereDate('expiry_date', '<', now())
             ->get();
 
-        foreach ($merchandiseBatchesId as $merchandiseBatch) {
+        foreach ($convertedMerchandiseBatches as $merchandiseBatch) {
             $merchandiseBatch->damage_id = $damage->id;
 
             $merchandiseBatch->save();
