@@ -31,11 +31,23 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Employees">
+            @if (isFeatureEnabled('Compensation Management'))
+                @can('Create Employee')
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        @click="$dispatch('open-employee-compensation-import-modal')"
+                        icon="fas fa-upload"
+                        label="Import Employees Compensation"
+                        class="btn-green is-outlined is-small"
+                    />
+                @endcan
+            @endif
             @can('Import Employee')
                 <x-common.button
                     tag="button"
                     mode="button"
-                    @click="$dispatch('open-import-modal') "
+                    @click="$dispatch('open-import-modal')"
                     icon="fas fa-upload"
                     label="Import Employees"
                     class="btn-green is-outlined is-small"
@@ -122,6 +134,16 @@
             action="{{ route('employees.import') }}"
         />
     @endcan
+
+    @if (isFeatureEnabled('Compensation Management'))
+        @can('Create Employee')
+            <x-common.import
+                title="Import Employees Compensation"
+                action="{{ route('employee-compensations.import') }}"
+                button="open-employee-compensation-import-modal"
+            />
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')
