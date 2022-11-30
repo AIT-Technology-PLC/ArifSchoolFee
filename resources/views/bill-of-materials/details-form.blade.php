@@ -33,7 +33,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`billOfMaterial[${index}][product_id]`">
-                            Product <sup class="has-text-danger">*</sup>
+                            Product <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control
@@ -67,7 +67,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`billOfMaterial[${index}][quantity]`">
-                            Quantity <sup class="has-text-danger">*</sup>
+                            Quantity <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">

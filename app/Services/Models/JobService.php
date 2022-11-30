@@ -56,6 +56,13 @@ class JobService
                     return $detail;
                 });
 
+                foreach ($details as $detail) {
+                    foreach ($detail as $detaill) {
+                        $detaill['type'] = "subtracted";
+                        $job->jobDetails[$i]->jobDetailHistories()->create($detaill);
+                    }
+                }
+
                 $addDetails[] = [
                     'product_id' => $data[$i]['product_id'],
                     'quantity' => $data[$i]['wip'],
@@ -75,11 +82,12 @@ class JobService
             }
 
             if (isset($billOfMaterialdetails) && count($billOfMaterialdetails)) {
-                InventoryOperationService::subtract($billOfMaterialdetails);
+                InventoryOperationService::subtract($billOfMaterialdetails, $job);
             }
 
             if (isset($addDetails) && count($addDetails)) {
-                InventoryOperationService::add($addDetails, 'wip');
+
+                InventoryOperationService::add($addDetails, null, 'wip');
             }
 
             return [true, ''];
@@ -128,6 +136,7 @@ class JobService
                         'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
+                        'type' => 'added',
                     ];
 
                     $wipDetails[$i] = [
@@ -137,6 +146,7 @@ class JobService
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($availableDetails[$i], ['product_id', 'wip', 'available']));
+                    $job->jobDetails[$i]->jobDetailHistories()->create(Arr::only($availableDetails[$i], ['product_id', 'type']) + ['quantity' => $data[$i]['available']]);
 
                     $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
                     $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
@@ -146,6 +156,11 @@ class JobService
 
                         return $detail;
                     });
+
+                    foreach ($details[$i] as $detail) {
+                        $detail['type'] = "subtracted";
+                        $job->jobDetails[$i]->jobDetailHistories()->create($detail);
+                    }
                 }
 
                 if ($data[$i]['available'] <= $job->jobDetails[$i]->wip) {
@@ -157,9 +172,11 @@ class JobService
                         'available' => $data[$i]['available'] + $job->jobDetails[$i]->available,
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
+                        'type' => 'added',
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));
+                    $job->jobDetails[$i]->jobDetailHistories()->create($wipDetails[$i]);
                 }
             }
 
@@ -171,16 +188,16 @@ class JobService
                     return [false, InventoryOperationService::unavailableProducts($billOfMaterialdetails)];
                 }
 
-                InventoryOperationService::subtract($billOfMaterialdetails);
+                InventoryOperationService::subtract($billOfMaterialdetails, $job);
             }
 
             if (isset($wipDetails) && count($wipDetails)) {
-                InventoryOperationService::subtract($wipDetails, 'wip');
-                InventoryOperationService::add($wipDetails);
+                InventoryOperationService::subtract($wipDetails, null, 'wip');
+                InventoryOperationService::add($wipDetails, $job);
             }
 
             if (isset($availableDetails) && count($availableDetails)) {
-                InventoryOperationService::add($availableDetails);
+                InventoryOperationService::add($availableDetails, $job);
             }
 
             if (userCompany()->allowChassisTracker()) {
@@ -224,7 +241,7 @@ class JobService
         $detail['warehouse_id'] = $jobExtra->job->factory_id;
 
         DB::transaction(function () use ($jobExtra, $detail) {
-            InventoryOperationService::add($detail);
+            InventoryOperationService::add($detail, $jobExtra->job);
 
             $jobExtra->add();
         });
@@ -261,7 +278,7 @@ class JobService
         }
 
         DB::transaction(function () use ($jobExtra, $detail) {
-            InventoryOperationService::subtract($detail);
+            InventoryOperationService::subtract($detail, $jobExtra->job);
 
             $jobExtra->subtract();
         });

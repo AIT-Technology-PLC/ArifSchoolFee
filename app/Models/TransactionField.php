@@ -46,8 +46,9 @@ class TransactionField extends Model
             get:function () {
                 return is_numeric($this->value)
                 ? DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
+                    ->whereNull('deleted_at')
                     ->find($this->value)
-                    ->{$this->padField->padRelation->representative_column}
+                    ->{$this->padField->padRelation->representative_column} ?? 'N/A'
                 : null;
             }
         );
@@ -81,7 +82,7 @@ class TransactionField extends Model
                         ->transactionDetails
                         ->whereIn('line', $transaction->transactionFields->pluck('line')->unique())
                         ->each(function ($transactionDetail) use ($warehouse, $product, $data) {
-                            if ($transactionDetail['product'] == $product->name && $transactionDetail['warehouse'] == $warehouse->name) {
+                            if ($transactionDetail['product_id'] == $product->id && $transactionDetail['warehouse'] == $warehouse->name) {
                                 $data->push($transactionDetail);
                             }
                         });

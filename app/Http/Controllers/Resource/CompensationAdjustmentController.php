@@ -43,9 +43,9 @@ class CompensationAdjustmentController extends Controller
     {
         $adjustmentCode = nextReferenceNumber('compensation_adjustments');
 
-        $compensations = Compensation::orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::active()->canBeInputtedManually()->adjustable()->orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
 
         return view('compensation-adjustments.create', compact('adjustmentCode', 'compensations', 'users'));
     }
@@ -92,11 +92,18 @@ class CompensationAdjustmentController extends Controller
             return back()->with('failedMessage', 'You can not modify an adjustment that is cancelled.');
         }
 
-        $compensations = Compensation::orderBy('name')->get(['id', 'name']);
+        $compensationAdjustment->load(['compensationAdjustmentDetails']);
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $compensations = Compensation::active()->canBeInputtedManually()->adjustable()->orderBy('name')->get(['id', 'name']);
 
-        $compensationAdjustmentDetails = array_values($compensationAdjustment->load(['compensationAdjustmentDetails'])->compensationAdjustmentDetails->groupBy('employee_id')->toArray());
+        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
+
+        $compensationAdjustmentDetails = $compensationAdjustment->compensationAdjustmentDetails->groupBy('employee_id')->map(function ($detail, $key) {
+            return [
+                'employee_id' => $key,
+                'employeeAdjustments' => $detail->toArray(),
+            ];
+        })->values()->all();
 
         return view('compensation-adjustments.edit', compact('compensationAdjustment', 'compensations', 'users', 'compensationAdjustmentDetails'));
     }

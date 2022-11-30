@@ -78,6 +78,7 @@
                                     name="reference_number"
                                     id="reference_number"
                                     placeholder="Reference Number"
+                                    value="{{ old('reference_number') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"

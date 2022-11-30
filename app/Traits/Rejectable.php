@@ -8,7 +8,7 @@ trait Rejectable
 {
     public function rejectedBy()
     {
-        return $this->belongsTo(User::class, 'rejected_by')->withDefault(['name' => 'N/A']);
+        return $this->belongsTo(User::class, 'rejected_by');
     }
 
     public function reject()

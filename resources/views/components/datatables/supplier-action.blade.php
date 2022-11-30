@@ -1,3 +1,15 @@
+@if (isFeatureEnabled('Supplier Report'))
+    @can('Read Supplier Profile Report')
+        <x-common.button
+            tag="a"
+            href="{{ route('reports.supplier_profile', $supplier->id) }}"
+            mode="button"
+            data-title="Profile"
+            icon="fas fa-user"
+            class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+        />
+    @endcan
+@endif
 @if (isFeatureEnabled('Debt Management') && $supplier->debts()->sum('debt_amount') != $supplier->debts()->sum('debt_amount_settled'))
     @can('Settle Debt')
         <x-common.button

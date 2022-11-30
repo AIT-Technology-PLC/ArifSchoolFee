@@ -25,9 +25,14 @@ class StoreProductRequest extends FormRequest
             'properties' => ['nullable', 'array'],
             'product_category_id' => ['required', 'integer', new MustBelongToCompany('product_categories')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
+            'brand_id' => ['nullable', 'integer', new MustBelongToCompany('brands')],
             'is_batchable' => ['nullable', 'boolean'],
             'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,1', 'prohibited_unless:is_batchable,1'],
             'has_chassis_tracker' => ['required', 'boolean', Rule::prohibitedIf(!userCompany()->allowChassisTracker())],
+            'is_active' => ['required', 'boolean'],
+            'is_active_for_sale' => ['required', 'boolean'],
+            'is_active_for_purchase' => ['required', 'boolean'],
+            'is_active_for_job' => ['required', 'boolean'],
         ];
     }
 }

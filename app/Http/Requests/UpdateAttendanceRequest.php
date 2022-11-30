@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Attendance;
 use App\Models\Employee;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -22,8 +23,12 @@ class UpdateAttendanceRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances', $this->route('attendance')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'issued_on' => ['required', 'date'],
-            'starting_period' => ['required', 'date', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)->withoutTrashed()],
-            'ending_period' => ['required', 'date', 'after:starting_period', Rule::unique('attendances')->where('warehouse_id', authUser()->warehouse_id)->whereNot('id', $this->route('attendance')->id)->withoutTrashed()],
+            'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
+                if (Attendance::where('warehouse_id', authUser()->warehouse_id)->where('ending_period', '>=', $value)->whereNot('id', $this->route('attendance')->id)->exists()) {
+                    $fail('This starting period is already taken.');
+                }
+            }],
+            'ending_period' => ['required', 'date', 'after:starting_period'],
             'attendance' => ['required', 'array'],
             'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
                 if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {

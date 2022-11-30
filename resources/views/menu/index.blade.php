@@ -987,14 +987,33 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Brand Management'))
+                                @can('Read Brand')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('brands.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-trademark"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Brands
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 </section>
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Credit Management', 'Debt Management'))
-            @canany(['Read Credit', 'Read Debt'])
+        @if (isFeatureEnabled('Credit Management', 'Debt Management', 'Payroll Management'))
+            @canany(['Read Credit', 'Read Debt', 'Read Payroll'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1008,6 +1027,25 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Payroll Management'))
+                                @can('Read Payroll')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('payrolls.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-coins"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Payrolls
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
                             @if (isFeatureEnabled('Credit Management'))
                                 @can('Read Credit')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
@@ -1134,6 +1172,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Customers
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Daily Inventory Level Report'))
+                                @can('Read Daily Inventory Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.inventory_level') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-warehouse"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Inventory Level
                                         </span>
                                     </div>
                                 @endcan

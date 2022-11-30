@@ -186,10 +186,10 @@ function disableInputTypeNumberMouseWheel() {
     }
 }
 
-const initializeSelect2 = (element) => {
+const initializeSelect2 = (element, placeholder = "Select a product") => {
     return $(element).select2({
         dropdownParent: $(element).parent(),
-        placeholder: "Select a product",
+        placeholder: placeholder,
         allowClear: true,
         tags: $(element).attr("data-tags"),
         matcher: (params, data) => {
@@ -217,6 +217,14 @@ const initializeSelect2 = (element) => {
 
             if (
                 data.element.dataset.productCategoryName
+                    ?.toLowerCase()
+                    .indexOf(params.term.toLowerCase()) > -1
+            ) {
+                return data;
+            }
+
+            if (
+                data.element.dataset.productDescription
                     ?.toLowerCase()
                     .indexOf(params.term.toLowerCase()) > -1
             ) {
@@ -418,7 +426,7 @@ document.addEventListener("alpine:init", () => {
             cashReceived = "",
             dueDate = "",
             bankName = "",
-            referenceNumber = "",
+            referenceNumber = ""
         ) => ({
             paymentType: "",
             cashReceivedType: "",
@@ -487,7 +495,8 @@ document.addEventListener("alpine:init", () => {
             freightCost = "",
             freightInsuranceCost = "",
             freightUnit = "",
-            freightAmount = "",
+            otherCosts = "",
+            freightAmount = ""
         ) => ({
             purchaseType: "",
             taxType: "",
@@ -500,6 +509,7 @@ document.addEventListener("alpine:init", () => {
             freightCost: "",
             freightInsuranceCost: "",
             freightUnit: "",
+            othertCosts: "",
             freightAmount: "",
 
             init() {
@@ -514,6 +524,7 @@ document.addEventListener("alpine:init", () => {
                 this.freightCost = freightCost;
                 this.freightInsuranceCost = freightInsuranceCost;
                 this.freightUnit = freightUnit;
+                this.otherCosts = otherCosts;
                 this.freightAmount = freightAmount;
             },
             changePurchaseInformation() {
@@ -525,6 +536,7 @@ document.addEventListener("alpine:init", () => {
                 this.freightUnit = "";
                 this.freightAmount = "";
                 this.paymentType = "";
+                this.otherCosts = "";
             },
             changePaymentMethod() {
                 if (this.paymentType != "Credit Payment") {
@@ -782,10 +794,45 @@ document.addEventListener("alpine:init", () => {
                 this.isTypeService = true;
                 return;
             }
-
-            this.isTypeService = false;
         },
     }));
+
+    Alpine.data(
+        "productType",
+        (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({
+            type: "",
+            isBatchable: "0",
+            batchPriority: "",
+            isTypeService: false,
+            isActive: "1",
+
+            init() {
+                this.type = type;
+                this.isBatchable = isBatchable;
+                this.batchPriority = batchPriority;
+                this.isActive = isActive;
+                this.changeProductType();
+                this.changeActiveStatus();
+            },
+
+            changeProductType() {
+                if (this.type === "Services") {
+                    this.isBatchable = "0";
+                    this.batchPriority = "";
+                    this.isTypeService = true;
+                    return;
+                }
+
+                this.isTypeService = false;
+            },
+
+            changeActiveStatus() {
+                if (this.isActive === "0") {
+                    return;
+                }
+            },
+        })
+    );
 
     Alpine.data("targetProducts", (targetProduct = "") => ({
         targetProduct: "",

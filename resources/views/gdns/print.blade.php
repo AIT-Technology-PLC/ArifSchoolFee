@@ -124,7 +124,7 @@
                         <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
                         @if (userCompany()->isDiscountBeforeVAT())
-                            <td class="has-text-right"> {{ number_format($gdnDetail->discount * 100, 2) }}% </td>
+                            <td class="has-text-right"> {{ number_format($gdnDetail->discount, 2) }}% </td>
                         @endif
                         <td class="has-text-right"> {{ number_format($gdnDetail->totalPrice, 2) }} </td>
                     </tr>
@@ -160,7 +160,7 @@
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Discount</td>
-                        <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->discount * 100, 2) }}%</td>
+                        <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->discount, 2) }}%</td>
                     </tr>
                     <tr>
                         <td

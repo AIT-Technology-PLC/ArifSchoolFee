@@ -89,6 +89,13 @@
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="$purchase->other_costs"
+                            label="Other Costs ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
                             icon="fas fa-balance-scale"
                             :data="quantity($purchase->purchaseDetails->sum('amount'), $purchase->freight_unit)"
                             label="Freight Volume"

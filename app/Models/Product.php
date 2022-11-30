@@ -19,6 +19,10 @@ class Product extends Model
         'properties' => 'array',
         'is_batchable' => 'int',
         'has_chassis_tracker' => 'boolean',
+        'is_active' => 'int',
+        'is_active_for_sale' => 'int',
+        'is_active_for_purchase' => 'int',
+        'is_active_for_job' => 'int',
     ];
 
     protected $cascadeDeletes = [
@@ -41,6 +45,8 @@ class Product extends Model
         'billOfMaterials',
         'billOfMaterialDetails',
         'priceIncrementDetails',
+        'jobDetailHistories',
+        'inventoryHistories',
     ];
 
     public function merchandises()
@@ -133,6 +139,11 @@ class Product extends Model
         return $this->hasOne(Price::class);
     }
 
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     public function jobDetails()
     {
         return $this->hasMany(JobDetail::class);
@@ -211,6 +222,31 @@ class Product extends Model
 
     public function priceIncrementDetails()
     {
-        return $this->hasMany(priceIncrementDetail::class);
+        return $this->hasMany(PriceIncrementDetail::class);
+    }
+
+    public function jobDetailHistories()
+    {
+        return $this->hasMany(JobDetailHistory::class);
+    }
+
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
+
+    public function isActiveForSale()
+    {
+        return $this->is_active_for_sale == 1;
+    }
+
+    public function isActiveForPurchase()
+    {
+        return $this->is_active_for_purchase == 1;
+    }
+
+    public function isActiveForJob()
+    {
+        return $this->is_active_for_job == 1;
     }
 }

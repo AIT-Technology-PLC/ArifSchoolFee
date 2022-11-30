@@ -22,9 +22,9 @@ class ReservationService
 
         DB::transaction(function () use ($updatedReservation, $updatedReservationDetails, $reservation) {
             if ($reservation->isReserved()) {
-                InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
+                InventoryOperationService::subtract($reservation->reservationDetails, null, 'reserved', );
 
-                InventoryOperationService::add($reservation->reservationDetails);
+                InventoryOperationService::add($reservation->reservationDetails, $reservation);
 
                 $reservation->reserved_by = null;
             }
@@ -65,9 +65,9 @@ class ReservationService
         }
 
         DB::transaction(function () use ($reservation) {
-            InventoryOperationService::subtract($reservation->reservationDetails);
+            InventoryOperationService::subtract($reservation->reservationDetails, $reservation);
 
-            InventoryOperationService::add($reservation->reservationDetails, 'reserved');
+            InventoryOperationService::add($reservation->reservationDetails, null, 'reserved');
 
             $reservation->reserve();
         });
@@ -107,9 +107,9 @@ class ReservationService
                 $reservation->reservable()->dissociate();
             }
 
-            InventoryOperationService::subtract($reservation->reservationDetails, 'reserved');
+            InventoryOperationService::subtract($reservation->reservationDetails, null, 'reserved');
 
-            InventoryOperationService::add($reservation->reservationDetails);
+            InventoryOperationService::add($reservation->reservationDetails, $reservation);
 
             $reservation->cancel();
         });
@@ -139,7 +139,7 @@ class ReservationService
                 'customer_id' => $reservation->customer_id ?? null,
                 'contact_id' => $reservation->contact_id ?? null,
                 'code' => nextReferenceNumber('gdns'),
-                'discount' => $reservation->discount * 100,
+                'discount' => $reservation->discount,
                 'payment_type' => $reservation->payment_type,
                 'cash_received_type' => $reservation->cash_received_type,
                 'cash_received' => $reservation->cash_received,

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Compensation;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCompensationAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -53,9 +55,9 @@ class UpdateEmployeeRequest extends FormRequest
             'emergency_phone' => ['nullable', 'string', 'max:255', 'required_unless:emergency_name,null'],
             'department_id' => ['nullable', 'integer', Rule::when(!isFeatureEnabled('Department Management'), 'prohibited'), new MustBelongToCompany('departments')],
             'employeeCompensation' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'array'],
-            'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', new MustBelongToCompany('compensations')],
-            'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric'],
-            'paid_time_off_amount' => ['nullable', 'numeric'],
+            'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', Rule::in(Compensation::active()->canBeInputtedManually()->pluck('id'))],
+            'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric', new ValidateCompensationAmountIsValid],
+            'paid_time_off_amount' => ['required', 'numeric'],
         ];
     }
 }

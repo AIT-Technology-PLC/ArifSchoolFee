@@ -40,4 +40,9 @@ class BillOfMaterialPolicy
     {
         return $user->can('Approve BOM');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import BOM');
+    }
 }

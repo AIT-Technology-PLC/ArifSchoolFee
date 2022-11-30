@@ -124,4 +124,9 @@ class JobDetail extends Model
 
         return $jobDetailsBillOfMaterials;
     }
+
+    public function jobDetailHistories()
+    {
+        return $this->hasMany(JobDetailHistory::class);
+    }
 }

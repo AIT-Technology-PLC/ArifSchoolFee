@@ -761,8 +761,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
-                @can('Create Product', 'Create Price', 'Create Price Increment')
+            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
+                @can('Create Product', 'Create Price', 'Create Price Increment', 'Create Brand')
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -830,12 +830,62 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Brand Management'))
+                                @can('Create Brand')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('brands.create') }}"
+                                            icon="fas fa-trademark"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Brand </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Pad Management', 'User Management'))
+            @if (isFeatureEnabled('Payroll Management'))
+                @canany('Create Payroll')
+                    <x-content.header>
+                        <x-slot name="header">
+                            <x-common.icon
+                                name="fas fa-chart-line"
+                                class="is-size-6 text-green"
+                            />
+                            <span class="ml-2 is-size-6 text-green"> Finance </span>
+                        </x-slot>
+                    </x-content.header>
+                    <x-content.footer>
+                        <div class="columns is-marginless is-multiline is-mobile">
+                            @if (isFeatureEnabled('Payroll Management'))
+                                @can('Create Payroll')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('payrolls.create') }}"
+                                            icon="fa-solid fa-coins"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Payroll </span>
+                                    </div>
+                                @endcan
+                            @endif
+                        </div>
+                    </x-content.footer>
+                @endcan
+            @endif
+
+            @if (isFeatureEnabled('Pad Management') || (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management')))
                 @canany(['Create Pad', 'Create Employee'])
                     <x-content.header>
                         <x-slot name="header">

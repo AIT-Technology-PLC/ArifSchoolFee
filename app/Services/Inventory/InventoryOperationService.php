@@ -2,6 +2,7 @@
 
 namespace App\Services\Inventory;
 
+use App\Models\InventoryHistory;
 use App\Models\Merchandise;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
@@ -12,7 +13,7 @@ class InventoryOperationService
 {
     private static $properties = ['product_id', 'warehouse_id', 'quantity'];
 
-    public static function add($details, $to = 'available')
+    public static function add($details, $model, $to = 'available')
     {
         $details = static::formatData($details);
 
@@ -36,27 +37,12 @@ class InventoryOperationService
             $merchandise->save();
 
             static::addToBatch($detail, $merchandise);
+
+            static::createInventoryHistory($model, $detail, false);
         }
     }
 
-    public static function addToBatch($detail, $merchandise)
-    {
-        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
-            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
-                [
-                    'merchandise_id' => $merchandise->id,
-                    'batch_no' => $detail['batch_no'],
-                ],
-            );
-
-            $merchandiseBatch->expiry_date = $detail['expiry_date'];
-            $merchandiseBatch->quantity += $detail['quantity'];
-
-            $merchandiseBatch->save();
-        }
-    }
-
-    public static function subtract($details, $from = 'available')
+    public static function subtract($details, $model, $from = 'available')
     {
         $details = static::formatData($details);
 
@@ -74,6 +60,25 @@ class InventoryOperationService
             $merchandise->save();
 
             static::subtractFromBatch($detail, $merchandise);
+
+            static::createInventoryHistory($model, $detail);
+        }
+    }
+
+    public static function addToBatch($detail, $merchandise)
+    {
+        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
+            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
+                [
+                    'merchandise_id' => $merchandise->id,
+                    'batch_no' => $detail['batch_no'],
+                ],
+            );
+
+            $merchandiseBatch->expiry_date = $detail['expiry_date'];
+            $merchandiseBatch->quantity += $detail['quantity'];
+
+            $merchandiseBatch->save();
         }
     }
 
@@ -104,6 +109,22 @@ class InventoryOperationService
                 $merchandiseBatch->save();
             }
         }
+    }
+
+    public static function createInventoryHistory($model, $detail, $isSubtract = true)
+    {
+        if (is_null($model)) {
+            return;
+        }
+
+        $inventoryHistoryDetail = [
+            'model_type' => get_class($model),
+            'model_id' => $model->id,
+            'issued_on' => $model->issued_on,
+            'is_subtract' => $isSubtract ? 1 : 0,
+        ];
+
+        InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
     }
 
     public static function unavailableProducts($details, $in = 'available')

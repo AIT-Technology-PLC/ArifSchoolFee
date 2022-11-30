@@ -356,6 +356,10 @@ Route::post('/bill-of-materials/{bill_of_material}/approve',
     [Action\BillOfMaterialController::class, 'approve'])
     ->name('bill-of-materials.approve');
 
+Route::post('/bill-of-materials/{bill_of_material}/import',
+    [Action\BillOfMaterialController::class, 'import'])
+    ->name('bill-of-materials.import');
+
 // Expense Claim
 Route::post('/expense-claims/{expense_claim}/approve',
     [Action\ExpenseClaimController::class, 'approve'])
@@ -423,3 +427,21 @@ Route::post('/price-increments/{price_increment}/approve',
 Route::post('/price-increments/{price_increment}/import',
     [Action\PriceIncrementController::class, 'import'])
     ->name('price-increments.import');
+
+// Brand
+Route::post('/brands/import',
+    [Action\BrandController::class, 'import'])
+    ->name('brands.import');
+
+// Payroll
+Route::post('/payrolls/{payroll}/approve',
+    [Action\PayrollController::class, 'approve'])
+    ->name('payrolls.approve');
+
+Route::post('/payrolls/{payroll}/pay',
+    [Action\PayrollController::class, 'pay'])
+    ->name('payrolls.pay');
+
+Route::get('/payrolls/{payroll}/print',
+    [Action\PayrollController::class, 'printed'])
+    ->name('payrolls.print');

@@ -127,7 +127,7 @@
                                     name="discount"
                                     type="number"
                                     placeholder="Discount in Percentage"
-                                    value="{{ $proformaInvoice->discount * 100 ?? '' }}"
+                                    value="{{ $proformaInvoice->discount ?? '' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-percent"

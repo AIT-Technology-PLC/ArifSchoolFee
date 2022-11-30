@@ -71,7 +71,7 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
             'address' => ['required', 'string', 'max:255'],
             'bank_name' => ['nullable', 'string', 'max:255', 'required_unless:*.bank_account,null'],
             'bank_account' => ['nullable', 'string', 'max:255', 'required_unless:*.bank_name,null'],
-            'tin_number' => ['nullable', 'string', 'max:255'],
+            'tin_number' => ['nullable', 'string', 'max:255', 'distinct', Rule::unique('employees')->where('company_id', userCompany()->id)->withoutTrashed()],
             'job_type' => ['required', 'string', 'max:255', Rule::in(['full time', 'part time', 'contractual', 'remote', 'internship'])],
             'phone' => ['required', 'string', 'max:255'],
             'id_type' => ['nullable', 'string', 'max:255', Rule::in(['passport', 'drivers license', 'employee id', 'kebele id', 'student id'])],

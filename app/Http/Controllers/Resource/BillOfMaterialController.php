@@ -50,7 +50,11 @@ class BillOfMaterialController extends Controller
         $billOfMaterial = DB::transaction(function () use ($request) {
             $billOfMaterial = BillOfMaterial::create($request->safe()->except('billOfMaterial'));
 
-            $billOfMaterial->billOfMaterialDetails()->createMany($request->validated('billOfMaterial'));
+            foreach ($request->validated('billOfMaterial') as $billOfMaterialDetail) {
+                if (isset($billOfMaterialDetail['product_id']) && isset($billOfMaterialDetail['quantity'])) {
+                    $billOfMaterial->billOfMaterialDetails()->create($billOfMaterialDetail);
+                }
+            }
 
             Notification::send(Notifiables::byNextActionPermission('Read BOM'), new BillOfMaterialCreated($billOfMaterial));
 
@@ -100,7 +104,11 @@ class BillOfMaterialController extends Controller
 
             $billOfMaterial->billOfMaterialDetails()->forceDelete();
 
-            $billOfMaterial->billOfMaterialDetails()->createMany($request->validated('billOfMaterial'));
+            foreach ($request->validated('billOfMaterial') as $billOfMaterialDetail) {
+                if (isset($billOfMaterialDetail['product_id']) && isset($billOfMaterialDetail['quantity'])) {
+                    $billOfMaterial->billOfMaterialDetails()->create($billOfMaterialDetail);
+                }
+            }
 
             Notification::send(Notifiables::byNextActionPermission('Read BOM'), new BillOfMaterialUpdated($billOfMaterial));
         });

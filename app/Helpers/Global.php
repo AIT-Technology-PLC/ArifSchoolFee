@@ -4,6 +4,7 @@ use App\Models\Feature;
 use App\Models\Limit;
 use App\Models\Pad;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -109,5 +110,37 @@ if (!function_exists('turnOffMysqlStictMode')) {
     function turnOffMysqlStictMode()
     {
         Config::set('database.connections.mysql.strict', false);
+    }
+}
+
+if (!function_exists('numberToWords')) {
+    function numberToWords($number)
+    {
+        $decimals = '';
+
+        if (!is_numeric($number)) {
+            return 'N/A';
+        }
+
+        $number = number_format($number, 2, thousands_separator:'');
+
+        if (str($number)->after('.')->toString() != '00') {
+            $decimals = str($number)->after('.')->append('/100')->prepend(' ')->toString();
+        }
+
+        return str(
+            (new NumberFormatter('en', NumberFormatter::SPELLOUT))->format((int) $number)
+        )->append($decimals);
+    }
+}
+
+if (!function_exists('carbon')) {
+    function carbon($value)
+    {
+        if (is_null($value) || !strtotime($value)) {
+            return null;
+        }
+
+        return Carbon::parse($value);
     }
 }

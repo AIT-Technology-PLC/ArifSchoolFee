@@ -31,6 +31,10 @@ class ProductController extends Controller
                 'price' => $product->price,
                 'is_batchable' => $product->is_batchable,
                 'has_chassis_tracker' => $product->has_chassis_tracker,
+                'is_active' => $product->is_active,
+                'is_active_for_sale' => $product->is_active_for_sale,
+                'is_active_for_purchase' => $product->is_active_for_purchase,
+                'is_active_for_job' => $product->is_active_for_job,
             ];
         });
     }

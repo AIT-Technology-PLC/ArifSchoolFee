@@ -25,6 +25,7 @@ class UpdateCompensationRequest extends FormRequest
             'can_be_inputted_manually' => ['required', 'boolean'],
             'percentage' => ['nullable', 'numeric', 'required_unless:depends_on,null'],
             'default_value' => ['nullable', 'numeric'],
+            'maximum_amount' => ['nullable', 'numeric'],
         ];
     }
 }

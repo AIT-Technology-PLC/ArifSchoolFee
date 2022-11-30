@@ -178,7 +178,7 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Advancement Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Expense Claim'],
@@ -190,11 +190,11 @@ class Features extends Seeder
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Compensation Adjustment'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
                 ['name' => 'Push Notification'],
@@ -228,6 +228,24 @@ class Features extends Seeder
                 ['name' => 'Price Increment'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Supplier Report'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Brand Management'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Payroll Management'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Daily Inventory Level Report'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
@@ -251,6 +269,7 @@ class Features extends Seeder
                         'Purchase Management',
                         'Supplier Management',
                         'Product Management',
+                        'Brand Management',
                         'Warehouse Management',
                         'User Management',
                         'General Settings',
@@ -290,6 +309,7 @@ class Features extends Seeder
                         'Customer Management',
                         'Contact Management',
                         'Product Management',
+                        'Brand Management',
                         'Warehouse Management',
                         'User Management',
                         'General Settings',

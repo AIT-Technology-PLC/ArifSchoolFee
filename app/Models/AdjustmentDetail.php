@@ -35,6 +35,11 @@ class AdjustmentDetail extends Model
         return $this->adjustment;
     }
 
+    public function isSubtracted()
+    {
+        return $this->is_subtract == 1;
+    }
+
     public function getByWarehouseAndProduct($warehouse, $product)
     {
         return $this->where([
@@ -51,7 +56,7 @@ class AdjustmentDetail extends Model
             ->load([
                 'adjustment' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class]);
-                }, ]
+                }]
             );
     }
 }

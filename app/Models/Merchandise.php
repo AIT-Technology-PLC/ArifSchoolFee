@@ -35,4 +35,9 @@ class Merchandise extends Model
     {
         return $this->hasMany(MerchandiseBatch::class);
     }
+
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
 }

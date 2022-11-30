@@ -110,7 +110,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
-                            data="{{ $gdn->discount }}%"
+                            data="{{ $gdn->discount ?? 0 }}%"
                             label="Discount"
                         />
                     </div>

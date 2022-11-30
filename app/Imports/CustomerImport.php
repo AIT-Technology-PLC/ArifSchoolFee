@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Customer;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -32,7 +33,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
             'company_name' => $row['company_name'],
-            'tin' => $row['tin'] ?? '',
+            'tin' => $row['tin'] ?? null,
             'address' => $row['address'] ?? '',
             'contact_name' => $row['contact_name'] ?? '',
             'email' => $row['email'] ?? '',
@@ -46,7 +47,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'tin' => ['nullable', 'numeric'],
+            'tin' => ['nullable', 'numeric', 'distinct', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255'],
