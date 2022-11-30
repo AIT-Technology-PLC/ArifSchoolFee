@@ -59,7 +59,7 @@ class EmployeeCompensationImport implements WithHeadingRow, ToModel, WithValidat
         return [
             'employee_name' => ['required', 'string', 'max:255', Rule::in($this->users->pluck('name'))],
             'compensation_name' => ['required', 'string', 'max:255', Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), Rule::in(Compensation::active()->canBeInputtedManually()->pluck('name'))],
-            'amount' => ['required', 'numeric', 'gt:0', Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited')],
+            'amount' => ['required', 'numeric', 'min:0', Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited')],
         ];
     }
 
@@ -67,6 +67,7 @@ class EmployeeCompensationImport implements WithHeadingRow, ToModel, WithValidat
     {
         $data['employee_name'] = str()->squish($data['employee_name'] ?? '');
         $data['compensation_name'] = str()->squish($data['compensation_name'] ?? '');
+        $data['amount'] = $data['amount'] > $this->compensations->firstWhere('name', $data['compensation_name'])->maximum_amount ? null : $data['amount'];
 
         return $data;
     }
