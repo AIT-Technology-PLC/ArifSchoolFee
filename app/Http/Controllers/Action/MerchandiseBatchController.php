@@ -18,7 +18,7 @@ class MerchandiseBatchController extends Controller
         $this->merchandiseBatchService = $merchandiseBatchService;
     }
 
-    public function convertToDamage(MerchandiseBatch $merchandiseBatch)
+    public function convertToDamage($merchandiseBatch)
     {
         $this->authorize('create', Damage::class);
 

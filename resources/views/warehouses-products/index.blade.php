@@ -17,16 +17,18 @@
                 title="{{ $product->name }} in {{ $warehouse->name }} by Batches"
                 is-mobile
             >
-                @if (isset($expired))
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('merchandise-batches.convert_to_damage', $merchandiseBatches->pluck('merchandise_id')->first()) }}"
-                        mode="button"
-                        icon="fas fa-bolt"
-                        label="Convert to Damage"
-                        class="has-text-weight-medium is-small text-green is-transparent-color  has-text-left"
-                    />
-                @endif
+                @can('Create Damage')
+                    @if (isset($expired))
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('merchandise-batches.convert_to_damage', $merchandiseBatches->pluck('merchandise_id')->first()) }}"
+                            mode="button"
+                            icon="fas fa-bolt"
+                            label="Convert to Damage"
+                            class="has-text-weight-medium is-small text-green is-transparent-color has-text-left"
+                        />
+                    @endif
+                @endcan
             </x-content.header>
             <x-content.footer>
                 <x-common.fail-message :message="session('failedMessage')" />
