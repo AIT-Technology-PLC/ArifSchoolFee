@@ -21,6 +21,7 @@ class Company extends Model
         'is_editing_reference_number_enabled' => 'boolean',
         'is_backorder_enabled' => 'boolean',
         'can_check_inventory_on_forms' => 'boolean',
+        'allow_chassis_tracker' => 'boolean',
     ];
 
     public function plan()
@@ -247,6 +248,11 @@ class Company extends Model
     public function hasPrintTemplate()
     {
         return $this->print_template_image;
+    }
+
+    public function allowChassisTracker()
+    {
+        return $this->allow_chassis_tracker;
     }
 
     public function isEditingReferenceNumberEnabled()

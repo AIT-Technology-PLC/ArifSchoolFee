@@ -264,6 +264,10 @@ Route::post('/jobs/{job}/close',
     [Action\JobController::class, 'close'])
     ->name('jobs.close');
 
+Route::post('/jobs/{job}/import-chassis-numbers',
+    [Action\JobController::class, 'importChassisNumbers'])
+    ->name('jobs.import_chassis_numbers');
+
 // JobExtra
 Route::post('/job-extras/{job_extra}/add',
     [Action\JobExtraController::class, 'add'])

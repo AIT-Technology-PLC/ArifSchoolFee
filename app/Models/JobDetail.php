@@ -27,6 +27,11 @@ class JobDetail extends Model
         return $this->belongsTo(BillOfMaterial::class);
     }
 
+    public function chassisNumbers()
+    {
+        return $this->hasMany(ChassisNumber::class);
+    }
+
     public function parentModel()
     {
         return $this->job;

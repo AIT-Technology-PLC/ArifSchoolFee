@@ -200,6 +200,24 @@ class JobService
                 InventoryOperationService::add($availableDetails, $job);
             }
 
+            if (userCompany()->allowChassisTracker()) {
+                foreach ($data as &$chassisTracker) {
+                    data_set($chassisTracker, 'chassisTracker.*.product_id', $chassisTracker['product_id']);
+                    data_set($chassisTracker, 'chassisTracker.*.warehouse_id', $job->factory_id);
+                }
+
+                $chassisTrackers = data_get($data, '*.chassisTracker');
+
+                foreach ($job->jobDetails as $jobDetail) {
+                    $chassisTrackers = collect($chassisTrackers)
+                        ->flatten(1)
+                        ->where('product_id', $jobDetail['product_id'])
+                        ->all();
+
+                    $jobDetail->chassisNumbers()->createMany($chassisTrackers);
+                }
+            }
+
             return [true, ''];
         });
     }
