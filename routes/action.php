@@ -238,6 +238,10 @@ Route::post('/employees/import',
     [Action\EmployeeController::class, 'import'])
     ->name('employees.import');
 
+Route::post('/employee-compensations/import',
+    [Action\EmployeeController::class, 'importEmployeeCompensation'])
+    ->name('employee-compensations.import');
+
 Route::post('/warehouses/import',
     [Action\WarehouseController::class, 'import'])
     ->name('warehouses.import');
