@@ -771,32 +771,6 @@ document.addEventListener("alpine:init", () => {
         },
     });
 
-    Alpine.data("productType", (type = "", isBatchable = "0", batchPriority = "", hasChassisTracker = "") => ({
-        type: "",
-        isBatchable: "0",
-        batchPriority: "",
-        hasChassisTracker: "0",
-        isTypeService: false,
-
-        init() {
-            this.type = type;
-            this.isBatchable = isBatchable;
-            this.batchPriority = batchPriority;
-            this.hasChassisTracker = hasChassisTracker;
-            this.changeProductType();
-        },
-
-        changeProductType() {
-            if (this.type === "Services") {
-                this.isBatchable = "0";
-                this.batchPriority = "";
-                this.hasChassisTracker = "0";
-                this.isTypeService = true;
-                return;
-            }
-        },
-    }));
-
     Alpine.data(
         "productType",
         (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({

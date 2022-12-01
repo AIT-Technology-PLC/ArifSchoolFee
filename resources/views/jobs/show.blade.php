@@ -150,20 +150,6 @@
                         </x-common.dropdown-item>
                     @endcanany
                 @endif
-                @if (userCompany()->allowChassisTracker())
-                    @can('Import Chassis')
-                        <x-common.dropdown-item>
-                            <x-common.button
-                                tag="button"
-                                mode="button"
-                                @click="$dispatch('open-import-modal') "
-                                icon="fas fa-upload"
-                                label="Import Chassis"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
@@ -177,8 +163,8 @@
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
-            <x-common.fail-message :message="session('failedMessage') ?? count($errors->all()) ? $errors->all() : null" />
-            <x-common.success-message :message="session('successMessage') ?? (session('deleted') ?? session('imported'))" />
+            <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
             @if ($job->isClosed())
                 <x-common.success-message message="The Job is completed and closed." />
             @elseif (!$job->isApproved())
@@ -280,12 +266,6 @@
         @endcanany
     @endif
 
-    @can('Import Chassis')
-        <x-common.import
-            title="Import Chassis And Engine Numbers"
-            action="{{ route('jobs.import_chassis_numbers', $job->id) }}"
-        />
-    @endcan
 
 @endsection
 

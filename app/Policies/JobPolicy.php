@@ -69,9 +69,4 @@ class JobPolicy
     {
         return $user->can('Update Available Job');
     }
-
-    public function import(User $user)
-    {
-        return $user->can('Import Chassis');
-    }
 }
