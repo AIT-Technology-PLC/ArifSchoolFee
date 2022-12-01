@@ -33,11 +33,6 @@ class GrnDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function chassisNumbers()
-    {
-        return $this->hasMany(ChassisNumber::class);
-    }
-
     public function parentModel()
     {
         return $this->grn;

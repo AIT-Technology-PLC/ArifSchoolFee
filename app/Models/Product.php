@@ -18,7 +18,6 @@ class Product extends Model
     protected $casts = [
         'properties' => 'array',
         'is_batchable' => 'int',
-        'has_chassis_tracker' => 'boolean',
         'is_active' => 'int',
         'is_active_for_sale' => 'int',
         'is_active_for_purchase' => 'int',
@@ -154,11 +153,6 @@ class Product extends Model
         return $this->hasMany(JobExtra::class);
     }
 
-    public function chassisNumbers()
-    {
-        return $this->hasMany(ChassisNumber::class);
-    }
-
     public function setPropertiesAttribute($array)
     {
         $properties = [];
@@ -213,11 +207,6 @@ class Product extends Model
     public function isBatchable()
     {
         return $this->is_batchable == 1;
-    }
-
-    public function hasChassisTracker()
-    {
-        return $this->has_chassis_tracker;
     }
 
     public function priceIncrementDetails()

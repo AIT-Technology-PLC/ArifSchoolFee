@@ -6,8 +6,6 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateJobAvailableRequest;
 use App\Http\Requests\UpdateJobWipRequest;
-use App\Http\Requests\UploadImportFileRequest;
-use App\Imports\ChassisImport;
 use App\Models\Job;
 use App\Notifications\JobProgress;
 use App\Services\Models\JobService;
@@ -31,7 +29,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $action->execute($job, JobApproved::class);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -44,7 +42,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->addToWorkInProcess($request->validated('job'), $job, auth()->user());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -59,7 +57,7 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->addToAvailable($request->validated('job'), $job, auth()->user());
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -72,21 +70,10 @@ class JobController extends Controller
 
         [$isExecuted, $message] = $this->jobService->close($job);
 
-        if (!$isExecuted) {
+        if (! $isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
         return back();
-    }
-
-    public function importChassisNumbers(UploadImportFileRequest $request, Job $job)
-    {
-        $this->authorize('import', Job::class);
-
-        ini_set('max_execution_time', '-1');
-
-        (new ChassisImport($job))->import($request->validated('file'));
-
-        return back()->with('imported', __('messages.file_imported'));
     }
 }
