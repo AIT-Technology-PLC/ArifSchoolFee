@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('price_increment_details', function (Blueprint $table) {
-            $table->text('product_code')->after('product_id');
+            $table->string('product_code')->after('product_id');
         });
     }
 
