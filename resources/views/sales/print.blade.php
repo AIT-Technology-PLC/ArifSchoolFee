@@ -179,6 +179,14 @@
         :created-by="$sale->createdBy ?? null"
         :approved-by="$sale->approvedBy ?? null"
     />
+
+    <div style="position:absolute;bottom: 10%;left: 20%;right: 0;margin-left: 40%">
+        <aside class="pl-6">
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
+                <div>Powered by Onrica SmartWork</div>
+            </h1>
+        </aside>
+    </div>
 </body>
 
 </html>
