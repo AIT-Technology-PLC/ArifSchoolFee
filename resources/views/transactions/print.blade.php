@@ -195,9 +195,9 @@
         :approved-by="$transaction->approvedBy ?? null"
     />
 
-    <div style="position:absolute;bottom: 10%;left: 20%;right: 0;margin-left: 40%">
+    <div style="position:absolute;bottom: 1%;left:0;right: 20%;margin-right: 40%">
         <aside class="pl-6">
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
+            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mt-1">
                 <div>Powered by Onrica SmartWork</div>
             </h1>
         </aside>
