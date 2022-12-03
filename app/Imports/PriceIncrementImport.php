@@ -32,7 +32,6 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
         return new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
             'product_id' => $this->products->firstWhere('name', $row['product_name'])->firstWhere('code', $row['product_code'])->id,
-            'product_code' => $row['product_code'] ?? null,
         ]);
     }
 
