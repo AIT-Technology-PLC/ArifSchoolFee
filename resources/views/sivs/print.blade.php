@@ -210,6 +210,8 @@
         :created-by="$siv->createdBy ?? null"
         :approved-by="$siv->approvedBy ?? null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

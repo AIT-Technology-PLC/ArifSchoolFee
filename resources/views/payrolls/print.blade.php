@@ -136,6 +136,8 @@
             :approved-by="$payroll->approvedBy ?? null"
         />
     </section>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

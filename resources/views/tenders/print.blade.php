@@ -89,6 +89,8 @@
             style="border-bottom: 1px solid lightgrey;width: 20%;"
         >&nbsp;</div>
     </footer>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

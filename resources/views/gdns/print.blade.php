@@ -195,6 +195,8 @@
         :created-by="$gdn->createdBy ?? null"
         :approved-by="$gdn->approvedBy ?? null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>
