@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
 
-
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -239,7 +238,7 @@ Route::post('/employees/import',
     ->name('employees.import');
 
 Route::post('/employee-compensations/import',
-    [Action\EmployeeController::class, 'importEmployeeCompensation'])
+    [Action\EmployeeCompensationController::class, 'import'])
     ->name('employee-compensations.import');
 
 Route::post('/warehouses/import',
