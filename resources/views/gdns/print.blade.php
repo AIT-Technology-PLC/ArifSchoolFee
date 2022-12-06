@@ -196,13 +196,7 @@
         :approved-by="$gdn->approvedBy ?? null"
     />
 
-    <div style="position:absolute;bottom: 1%;left:0;right: 20%;margin-right: 40%">
-        <aside class="pl-6">
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mt-1">
-                <div>Powered by Onrica SmartWork</div>
-            </h1>
-        </aside>
-    </div>
+    <x-print.footer-marketing />
 </body>
 
 </html>
