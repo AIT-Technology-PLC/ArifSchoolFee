@@ -208,6 +208,8 @@
         :created-by="$proformaInvoice->createdBy ?? null"
         :approved-by="null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

@@ -187,6 +187,8 @@
             :approved-by="$reservation->approvedBy ?? null"
         />
     </section>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>
