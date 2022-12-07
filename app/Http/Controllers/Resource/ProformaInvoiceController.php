@@ -70,6 +70,10 @@ class ProformaInvoiceController extends Controller
 
     public function edit(ProformaInvoice $proformaInvoice)
     {
+        if (!$proformaInvoice->isPending()) {
+            return back()->with('failedMessage', 'Confirmed or cancelled proforma inovices cannot be edited.');
+        }
+
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'contact']);
 
         return view('proforma-invoices.edit', compact('proformaInvoice'));
