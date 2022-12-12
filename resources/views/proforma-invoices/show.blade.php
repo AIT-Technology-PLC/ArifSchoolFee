@@ -182,6 +182,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <x-common.fail-message message="This Proforma Invoice has been cancelled." />
             @elseif ($proformaInvoice->isConverted())

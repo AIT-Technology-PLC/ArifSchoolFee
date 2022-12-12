@@ -94,6 +94,7 @@
         :approved-by="$warning->createdBy ?? null"
     />
 
+    <x-print.footer-marketing />
 </body>
 
 </html>

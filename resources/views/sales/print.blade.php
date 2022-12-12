@@ -179,6 +179,8 @@
         :created-by="$sale->createdBy ?? null"
         :approved-by="$sale->approvedBy ?? null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

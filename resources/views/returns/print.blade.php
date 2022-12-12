@@ -145,6 +145,8 @@
             :approved-by="$return->approvedBy ?? null"
         />
     </section>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

@@ -194,6 +194,8 @@
         :created-by="$transaction->createdBy ?? null"
         :approved-by="$transaction->approvedBy ?? null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

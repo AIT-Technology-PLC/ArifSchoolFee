@@ -8,6 +8,7 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Pad extends Model
 {
@@ -180,10 +181,6 @@ class Pad extends Model
             'proforma-invoices' => 'Proforma Invoice',
         ];
 
-        if (!array_key_exists($feature, $featureNames)) {
-            return 'None';
-        }
-
-        return $featureNames[$feature];
+        return $featureNames[$feature] ?? Arr::first($this->convert_to, fn($item) => $item == $feature) ?? null;
     }
 }
