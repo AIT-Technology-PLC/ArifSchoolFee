@@ -16,7 +16,7 @@ trait PricingTicket
     public function getVatAttribute()
     {
         return number_format(
-            $this->subtotalPrice * 0.15,
+            $this->details()->sum->totalVat,
             2,
             thousands_separator:''
         );

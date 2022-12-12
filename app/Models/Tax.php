@@ -15,4 +15,9 @@ class Tax extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function isVat()
+    {
+        return $this->type == 'VAT';
+    }
 }

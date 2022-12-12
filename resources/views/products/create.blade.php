@@ -179,7 +179,7 @@
                                     @foreach ($taxs as $tax)
                                         <option
                                             value="{{ $tax->id }}"
-                                            @selected(old('type') == $tax->id)
+                                            @selected(old('tax_id') == $tax->id)
                                         >
                                             {{ $tax->type }}
                                         </option>
