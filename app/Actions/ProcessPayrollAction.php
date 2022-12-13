@@ -19,17 +19,13 @@ class ProcessPayrollAction
 
     private $employees;
 
-    private $derivedCompensations;
-
     private $attendanceDetails;
 
     public function execute($payroll)
     {
-        $this->setUp($payroll);
+        $this->setup($payroll);
 
-        $this->generateStaticCompensations();
-
-        $this->generateDerivedCompensations();
+        $this->generateCompensations();
 
         $this->generatePayrollSheet();
 
@@ -44,9 +40,7 @@ class ProcessPayrollAction
 
         $this->payrollDetails = $this->payroll->payrollDetails()->with(['employee', 'compensation'])->get();
 
-        $this->employees = Employee::whereHas('payrollDetails')->get();
-
-        $this->derivedCompensations = Compensation::derived()->orderBy('id', 'DESC')->get();
+        $this->employees = $this->payrollDetails->pluck('employee')->unique();
 
         $this->attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) {
@@ -58,7 +52,7 @@ class ProcessPayrollAction
             ->get(['employee_id', 'days']);
     }
 
-    private function generateStaticCompensations()
+    private function generateCompensations()
     {
         foreach ($this->employees as $employee) {
             foreach ($this->payrollDetails->where('employee_id', $employee->id) as $payrollDetail) {
@@ -74,35 +68,6 @@ class ProcessPayrollAction
                 ]);
             }
         }
-    }
-
-    private function generateDerivedCompensations()
-    {
-        foreach ($this->employees as $employee) {
-            foreach ($this->derivedCompensations as $compensation) {
-                if ($this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->count()) {
-                    $derivedAmount = $this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->first()->amount;
-                } else {
-                    $derivedAmount = $this->employeesCompensations
-                        ->where('employee_id', $employee->id)
-                        ->where('compensation_id', $compensation->depends_on)
-                        ->first()['amount'] * ($compensation->percentage / 100);
-                }
-
-                $this->employeesCompensations->push([
-                    'employee' => $employee,
-                    'compensation' => $compensation,
-                    'employee_id' => $employee->id,
-                    'compensation_id' => $compensation->id,
-                    'compensation_name' => $compensation->name,
-                    'compensation_is_taxable' => $compensation->is_taxable,
-                    'compensation_type' => $compensation->type,
-                    'amount' => !is_null($compensation->maximum_amount) && $derivedAmount >= $compensation->maximum_amount ? $compensation->maximum_amount : $derivedAmount,
-                ]);
-            }
-        }
-
-        $this->employeesCompensations;
     }
 
     private function generatePayrollSheet()

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompensationRequest;
 use App\Http\Requests\UpdateCompensationRequest;
 use App\Models\Compensation;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class CompensationController extends Controller
@@ -30,7 +29,7 @@ class CompensationController extends Controller
 
     public function create()
     {
-        $compensations = Compensation::orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::active()->orderBy('name')->get(['id', 'name']);
 
         return view('compensations.create', compact('compensations'));
     }
@@ -39,10 +38,7 @@ class CompensationController extends Controller
     {
         DB::transaction(function () use ($request) {
             foreach ($request->validated('compensation') as $compensation) {
-                Compensation::firstOrCreate(
-                    Arr::only($compensation, 'name') + ['company_id' => userCompany()->id],
-                    Arr::except($compensation, 'name') + ['company_id' => userCompany()->id],
-                );
+                Compensation::create($compensation);
             }
         });
 
@@ -51,7 +47,7 @@ class CompensationController extends Controller
 
     public function edit(Compensation $compensation)
     {
-        $compensations = Compensation::orderBy('name')->get(['id', 'name']);
+        $compensations = Compensation::active()->orderBy('name')->get(['id', 'name']);
 
         return view('compensations.edit', compact('compensation', 'compensations'));
     }
