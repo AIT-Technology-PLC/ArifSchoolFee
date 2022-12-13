@@ -69,7 +69,7 @@ class Price
     public static function getGrandTotalPriceAfterDiscount($discount, $details)
     {
         return number_format(
-            static::getGrandTotalPrice($details)-static::getDiscountAmount($discount, static::getGrandTotalPrice($details)),
+            static::getGrandTotalPrice($details) - static::getDiscountAmount($discount, static::getGrandTotalPrice($details)),
             2,
             thousands_separator:''
         );
