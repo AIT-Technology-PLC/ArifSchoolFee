@@ -66,19 +66,6 @@
                 {{ $transaction->issued_on->toFormattedDateString() }}
             </h1>
         </aside>
-        @if ($transaction->payment_type)
-            <aside
-                class="is-pulled-left"
-                style="width: 25% !important"
-            >
-                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
-                    Payment Type
-                </h1>
-                <h1 class="has-text-black is-size-6 pr-2">
-                    {{ $transaction->payment_type }}
-                </h1>
-            </aside>
-        @endif
     </section>
 
     <section class="pt-5 has-text-centered">
@@ -87,96 +74,125 @@
         </h1>
     </section>
 
-    <section class="table-breaked">
-        <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
+    <section class="table-breaked mt-5">
+        <table class="table is-borderless is-fullwidth is-narrow is-size-7 is-transparent-color">
             <thead>
-                <tr class="is-borderless">
-                    <td
-                        colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) + 1 : count($columns) }}"
-                        class="is-borderless"
-                    >&nbsp;</td>
-                </tr>
-                <tr class="is-borderless">
-                    <td
-                        colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) + 1 : count($columns) }}"
-                        class="is-borderless"
-                    >&nbsp;</td>
-                </tr>
                 <tr>
-                    <th>#</th>
-                    @foreach ($columns as $column)
-                        @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
-                        <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+                    @foreach ($columns['master'] as $column)
+                        @continue($column == 'description')
+
+                        @if ($transaction->pad->padFields()->printable()->where('label', str()->headline($column))->exists())
+                            <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+                        @endif
                     @endforeach
                 </tr>
             </thead>
             <tbody>
-                @foreach ($transaction->transactionDetails as $detail)
-                    <tr>
-                        <th>
-                            {{ $loop->iteration }}
-                        </th>
-                        @foreach ($columns as $column)
-                            @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
-                            <td>
-                                {{ $detail[$column] }}
-                            </td>
-                        @endforeach
-                    </tr>
-                @endforeach
-                @if ($transaction->pad->hasPrices())
-                    <tr>
-                        <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
-                            class="is-borderless"
-                        ></td>
-                        <td class="has-text-weight-bold">Sub-Total</td>
-                        <td class="has-text-right">{{ number_format($transaction->subtotalPrice, 2) }}</td>
-                    </tr>
-                    <tr>
-                        <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
-                            class="is-borderless"
-                        ></td>
-                        <td class="has-text-weight-bold">VAT 15%</td>
-                        <td class="has-text-right">{{ number_format($transaction->vat, 2) }}</td>
-                    </tr>
-                    <tr>
-                        <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
-                            class="is-borderless"
-                        ></td>
-                        <td class="has-text-weight-bold">Grand Total</td>
-                        <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPrice, 2) }}</td>
-                    </tr>
-                    @if (!userCompany()->isDiscountBeforeVAT())
-                        <tr>
-                            <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
-                                class="is-borderless"
-                            ></td>
-                            <td class="has-text-weight-bold">Discount</td>
-                            <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->discount * 100, 2) }}%</td>
-                        </tr>
-                        <tr>
-                            <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns) - 1 : count($columns) - 2 }}"
-                                class="is-borderless"
-                            ></td>
-                            <td class="has-text-weight-bold">
-                                Grand Total
-                                <br>
-                                <span class="has-text-grey">
-                                    After Discount
-                                </span>
-                            </td>
-                            <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPriceAfterDiscount, 2) }}</td>
-                        </tr>
+                @foreach ($columns['master'] as $column)
+                    @continue($column == 'description')
+
+                    @if ($transaction->pad->padFields()->printable()->where('label', str()->headline($column))->exists())
+                        <td class="has-text-centered">
+                            {{ $transaction->transactionMasters->toArray()[$column] }}
+                        </td>
                     @endif
-                @endif
+                @endforeach
             </tbody>
         </table>
     </section>
+
+    @if ($transaction->transactionDetails->isNotEmpty())
+        <section class="table-breaked">
+            <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
+                <thead>
+                    <tr class="is-borderless">
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
+                    </tr>
+                    <tr class="is-borderless">
+                        <td
+                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            class="is-borderless"
+                        >&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        @foreach ($columns['detail'] as $column)
+                            @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
+                            <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($transaction->transactionDetails as $detail)
+                        <tr>
+                            <th>
+                                {{ $loop->iteration }}
+                            </th>
+                            @foreach ($columns['detail'] as $column)
+                                @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
+                                <td>
+                                    {{ $detail[$column] }}
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                    @if ($transaction->pad->hasPrices())
+                        <tr>
+                            <td
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                class="is-borderless"
+                            ></td>
+                            <td class="has-text-weight-bold">Sub-Total</td>
+                            <td class="has-text-right">{{ number_format($transaction->subtotalPrice, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                class="is-borderless"
+                            ></td>
+                            <td class="has-text-weight-bold">VAT 15%</td>
+                            <td class="has-text-right">{{ number_format($transaction->vat, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td
+                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                class="is-borderless"
+                            ></td>
+                            <td class="has-text-weight-bold">Grand Total</td>
+                            <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPrice, 2) }}</td>
+                        </tr>
+                        @if (!userCompany()->isDiscountBeforeVAT())
+                            <tr>
+                                <td
+                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                    class="is-borderless"
+                                ></td>
+                                <td class="has-text-weight-bold">Discount</td>
+                                <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->discount * 100, 2) }}%</td>
+                            </tr>
+                            <tr>
+                                <td
+                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                    class="is-borderless"
+                                ></td>
+                                <td class="has-text-weight-bold">
+                                    Grand Total
+                                    <br>
+                                    <span class="has-text-grey">
+                                        After Discount
+                                    </span>
+                                </td>
+                                <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPriceAfterDiscount, 2) }}</td>
+                            </tr>
+                        @endif
+                    @endif
+                </tbody>
+            </table>
+        </section>
+    @endif
 
     <footer class="my-6">
         @if ($transaction->pad->isInventoryOperationSubtract() || $transaction->customer)
@@ -189,6 +205,22 @@
             </h1>
         @endif
     </footer>
+
+    <section
+        class="page-break my-6"
+        style="width: 60% !important"
+    >
+        @if (array_search('description', $columns['master']))
+            <aside>
+                <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized is-underlined">
+                    Description
+                </h1>
+                <div class="is-size-7 summernote-table mt-3">
+                    {!! $transaction->transactionMasters->toArray()['description'] !!}
+                </div>
+            </aside>
+        @endif
+    </section>
 
     <x-print.user
         :created-by="$transaction->createdBy ?? null"

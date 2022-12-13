@@ -45,7 +45,7 @@ trait TransactionConverts
                         ],
                     ],
                 ];
-            })->toArray() + $this->transactionMasters;
+            })->toArray() + $this->transactionMasters->toArray();
 
         $data['supplier_id'] = Supplier::firstWhere('company_name', $data['supplier'] ?? '')->id ?? null;
 
@@ -67,7 +67,7 @@ trait TransactionConverts
                         ],
                     ],
                 ];
-            })->toArray() + $this->transactionMasters;
+            })->toArray() + $this->transactionMasters->toArray();
 
         $data['received_by'] = $data['received_by'] ?? null;
         $data['delivered_by'] = $data['delivered_by'] ?? null;
@@ -92,7 +92,7 @@ trait TransactionConverts
                         ],
                     ],
                 ];
-            })->toArray() + $this->transactionMasters;
+            })->toArray() + $this->transactionMasters->toArray();
 
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
         $data['payment_type'] = $data['payment_method'] ?? null;
@@ -121,7 +121,7 @@ trait TransactionConverts
                         ],
                     ],
                 ];
-            })->toArray() + $this->transactionMasters;
+            })->toArray() + $this->transactionMasters->toArray();
 
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
         $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
@@ -150,7 +150,7 @@ trait TransactionConverts
                         ],
                     ],
                 ];
-            })->toArray() + $this->transactionMasters;
+            })->toArray() + $this->transactionMasters->toArray();
 
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
         $data['terms'] = $data['terms'] ?? null;

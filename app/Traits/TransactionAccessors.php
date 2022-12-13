@@ -135,7 +135,7 @@ trait TransactionAccessors
                         $data[str()->snake($transactionField->padField->label)] = $value;
                     });
 
-                return $data;
+                return collect($data);
             }
         );
     }
