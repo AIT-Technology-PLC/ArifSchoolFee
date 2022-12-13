@@ -14,8 +14,6 @@ class ProcessPayrollAction
 
     private $employeesCompensations;
 
-    private $payrollDetails;
-
     private $employees;
 
     private $attendanceDetails;

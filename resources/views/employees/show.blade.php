@@ -321,6 +321,21 @@
                                     {{ $employee->emergency_name ?? 'N/A' }}
                                 </p>
                             </div>
+                            @if ($employee->employeeCompensations->count())
+                                <div class="column is-4">
+                                    <p class="has-text-grey is-size-7 is-uppercase">
+                                        <span class="icon">
+                                            <i class="fas fa-dollar"></i>
+                                        </span>
+                                        <span>
+                                            Net Salary
+                                        </span>
+                                    </p>
+                                    <p class="has-text-weight-bold text-green ml-1">
+                                        {{ money($payroll['net_payable']) ?? 'N/A' }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -419,42 +434,44 @@
                     </x-content.footer>
                 </div>
             @endif
-            @if (isFeatureEnabled('Compensation Management'))
-                <div class="column is-6 p-lr-0">
-                    <x-content.header bg-color="has-background-white">
-                        <x-slot:header>
-                            <h1 class="title text-green has-text-weight-medium is-size-6">
-                                <span class="icon mr-1">
-                                    <i class="fas fa-circle-dollar-to-slot"></i>
-                                </span>
-                                <span>Compensations</span>
-                            </h1>
-                        </x-slot:header>
-                    </x-content.header>
-                    <x-content.footer>
-                        <x-common.client-datatable
-                            has-filter="false"
-                            has-length-change="false"
-                            paging-type="simple"
-                            length-menu=[5]
-                        >
-                            <x-slot name="headings">
-                                <th><abbr> # </abbr></th>
-                                <th><abbr> Compensation Name </abbr></th>
-                                <th class="has-text-right"><abbr> Amount </abbr></th>
-                            </x-slot>
-                            <x-slot name="body">
-                                @foreach ($employee->employeeCompensations as $employeeCompensation)
-                                    <tr>
-                                        <td> {{ $loop->iteration }} </td>
-                                        <td>{{ $employeeCompensation->compensation->name }}</td>
-                                        <td class="has-text-right"> {{ money($employeeCompensation->amount) }} </td>
-                                    </tr>
-                                @endforeach
-                            </x-slot>
-                        </x-common.client-datatable>
-                    </x-content.footer>
-                </div>
+            @if (isFeatureEnabled('Compensation Management') && $employee->employeeCompensations->count())
+                @can('Read Compensation')
+                    <div class="column is-6 p-lr-0">
+                        <x-content.header bg-color="has-background-white">
+                            <x-slot:header>
+                                <h1 class="title text-green has-text-weight-medium is-size-6">
+                                    <span class="icon mr-1">
+                                        <i class="fas fa-circle-dollar-to-slot"></i>
+                                    </span>
+                                    <span>Compensations</span>
+                                </h1>
+                            </x-slot:header>
+                        </x-content.header>
+                        <x-content.footer>
+                            <x-common.client-datatable
+                                has-filter="false"
+                                has-length-change="false"
+                                paging-type="simple"
+                                length-menu=[5]
+                            >
+                                <x-slot name="headings">
+                                    <th><abbr> # </abbr></th>
+                                    <th><abbr> Compensation Name </abbr></th>
+                                    <th class="has-text-right"><abbr> Amount </abbr></th>
+                                </x-slot>
+                                <x-slot name="body">
+                                    @foreach ($payroll as $key => $value)
+                                        <tr>
+                                            <td> {{ $loop->iteration }} </td>
+                                            <td>{{ str()->headline($key) }}</td>
+                                            <td class="has-text-right"> {{ money($value) }} </td>
+                                        </tr>
+                                    @endforeach
+                                </x-slot>
+                            </x-common.client-datatable>
+                        </x-content.footer>
+                    </div>
+                @endcan
             @endif
         </div>
     </section>
