@@ -3,8 +3,7 @@
 namespace App\Actions;
 
 use App\Models\AttendanceDetail;
-use App\Models\Compensation;
-use App\Models\Employee;
+use App\Models\Payroll;
 use App\Utilities\IncomeTaxCalculator;
 
 class ProcessPayrollAction
@@ -34,13 +33,9 @@ class ProcessPayrollAction
 
     private function setup($payroll)
     {
-        $this->payroll = $payroll;
+        $this->payroll = $payroll->load('payrollDetails.employee');
 
-        $this->employeesCompensations = collect();
-
-        $this->payrollDetails = $this->payroll->payrollDetails()->with(['employee', 'compensation'])->get();
-
-        $this->employees = $this->payrollDetails->pluck('employee')->unique();
+        $this->employees = $this->payroll->payrollDetails->pluck('employee')->unique();
 
         $this->attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) {
@@ -54,20 +49,22 @@ class ProcessPayrollAction
 
     private function generateCompensations()
     {
-        foreach ($this->employees as $employee) {
-            foreach ($this->payrollDetails->where('employee_id', $employee->id) as $payrollDetail) {
-                $this->employeesCompensations->push([
-                    'employee' => $payrollDetail->employee,
-                    'compensation' => $payrollDetail->compensation,
-                    'employee_id' => $payrollDetail->employee_id,
-                    'compensation_id' => $payrollDetail->compensation_id,
-                    'compensation_name' => $payrollDetail->compensation->name,
-                    'compensation_is_taxable' => $payrollDetail->compensation->is_taxable,
-                    'compensation_type' => $payrollDetail->compensation->type,
-                    'amount' => $payrollDetail->amount,
-                ]);
-            }
-        }
+        $this->employeesCompensations = Payroll::query()
+            ->join('payroll_details', 'payrolls.id', '=', 'payroll_details.payroll_id')
+            ->join('employees', 'payroll_details.employee_id', '=', 'employees.id')
+            ->join('users', 'employees.user_id', '=', 'users.id')
+            ->join('compensations', 'payroll_details.compensation_id', '=', 'compensations.id')
+            ->where('payrolls.id', $this->payroll->id)
+            ->select([
+                'payroll_details.employee_id',
+                'payroll_details.compensation_id',
+                'compensations.name AS compensation_name',
+                'compensations.is_taxable AS compensation_is_taxable',
+                'compensations.type AS compensation_type',
+                'users.name',
+                'payroll_details.amount',
+            ])
+            ->get();
     }
 
     private function generatePayrollSheet()
@@ -75,8 +72,7 @@ class ProcessPayrollAction
         $this->payrollSheet = $this->employees->map(function ($employee) {
             $employeeCompensations = $this->employeesCompensations->where('employee_id', $employee->id);
 
-            $data['employee'] = $employee;
-            $data['employee_id'] = $employee->id;
+            $data['employee_name'] = $employee->user->name;
             $data['gross_salary'] = $employeeCompensations->where('compensation_type', 'earning')->sum('amount');
             $data['taxable_income'] = $employeeCompensations->where('compensation_type', 'earning')->where('compensation_is_taxable', 1)->sum('amount');
             $data['income_tax'] = IncomeTaxCalculator::calculate($data['taxable_income'])['tax_amount'];
