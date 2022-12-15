@@ -7,6 +7,7 @@ use App\Models\Merchandise;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Warehouse;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 class InventoryOperationService
@@ -124,7 +125,13 @@ class InventoryOperationService
             'is_subtract' => $isSubtract ? 1 : 0,
         ];
 
-        InventoryHistory::create(Arr::only(is_array($detail) ? $detail : $detail->toArray(), ['product_id', 'warehouse_id', 'quantity']) + $inventoryHistoryDetail);
+        if ($detail instanceof Model) {
+            $detail = $detail->only(static::$properties);
+        }
+
+        InventoryHistory::create(
+            Arr::only($detail, static::$properties) + $inventoryHistoryDetail
+        );
     }
 
     public static function unavailableProducts($details, $in = 'available')
