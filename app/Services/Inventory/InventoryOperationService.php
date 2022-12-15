@@ -157,6 +157,10 @@ class InventoryOperationService
                 ->where('warehouse_id', $detail['warehouse_id'])
                 ->where($in, '>=', $detail['quantity']);
 
+            if ($availableMerchandises->isNotEmpty()) {
+                $availableMerchandises->first()[$in] -= $detail['quantity'];
+            }
+
             if ($availableMerchandises->isEmpty()) {
                 $unavailableProducts->push(
                     "'{$product->name}' is not available or not enough in '{$warehouse->name}'"
@@ -190,16 +194,15 @@ class InventoryOperationService
                 ->where('warehouse_id', $detail['warehouse_id'])
                 ->where($in, '>=', $detail['quantity']);
 
+            if ($availableMerchandises->isNotEmpty()) {
+                $availableMerchandises->first()[$in] -= $detail['quantity'];
+            }
+
             if ($availableMerchandises->isEmpty()) {
                 $unavailableProducts->push([
                     'product' => $product,
                     'warehouse' => $warehouse,
                     'quantity' => $detail['quantity'],
-                    $in => $merchandises
-                        ->where('product_id', $detail['product_id'])
-                        ->where('warehouse_id', $detail['warehouse_id'])
-                        ->first()
-                        ->$in ?? 0.00,
                 ]);
             }
         }
