@@ -16,6 +16,7 @@ class PriceIncrementDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', fn($priceIncrementDetail) => $priceIncrementDetail->product->name)
+            ->editColumn('code', fn($priceIncrementDetail) => $priceIncrementDetail->product->code ?? 'N/A')
             ->editColumn('actions', function ($priceIncrementDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'price-increment-details',
@@ -42,6 +43,7 @@ class PriceIncrementDetailDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'product.name'),
+            Column::make('code'),
             Column::computed('actions')->className('actions')->addClass('has-text-right'),
         ];
     }
