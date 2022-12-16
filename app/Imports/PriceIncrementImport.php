@@ -31,7 +31,11 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     {
         return new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
-            'product_id' => $this->products->firstWhere('name', $row['product_name'])->firstWhere('code', $row['product_code'])->id,
+            'product_id' => $this->products
+                ->where('name', $row['product_name'])
+                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+                ->first()
+                ->id,
         ]);
     }
 
@@ -39,14 +43,14 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
-            'product_code' => ['nullable', 'string', 'max:255', Rule::notIn('no')],
+            'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_name'] = str()->squish($data['product_name'] ?? '');
-        $data['product_code'] = $this->products->where('name', $data['product_name'])->where('code', $data['product_code'] ?? null)->count() ? str()->squish($data['product_code'] ?? '') : 'no';
+        $data['product_name'] = str()->squish($data['product_name'] ?? null);
+        $data['product_code'] = str()->squish($data['product_code'] ?? null);
 
         return $data;
     }
