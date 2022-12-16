@@ -17,7 +17,7 @@ class LeavePolicy
 
     public function view(User $user, Leave $leave)
     {
-        return $user->can('Read Leave') || $leave->employee_id == authUser()->employee_id;
+        return $user->can('Read Leave') || $leave->employee->is(authUser()->employee);
     }
 
     public function create(User $user)

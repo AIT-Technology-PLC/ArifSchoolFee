@@ -17,7 +17,7 @@ class ExpenseClaimPolicy
 
     public function view(User $user, ExpenseClaim $expenseClaim)
     {
-        return $user->can('Read Expense Claim') || $expenseClaim->employee_id == authUser()->employee_id;
+        return $user->can('Read Expense Claim') || $expenseClaim->employee->is(authUser()->employee);
     }
 
     public function create(User $user)
