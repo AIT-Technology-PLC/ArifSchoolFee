@@ -17,7 +17,6 @@ class ProformaInvoiceService
         $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails->toArray())
             ->map(function ($item) {
                 $item['unit_price'] = $item['originalUnitPrice'];
-                $item['discount'] = $item['discount'] * 100;
 
                 return $item;
             });
