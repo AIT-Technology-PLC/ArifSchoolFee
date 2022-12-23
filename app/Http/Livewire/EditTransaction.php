@@ -6,12 +6,15 @@ use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
+use App\Traits\PadFileUploads;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditTransaction extends Component
 {
-    use AuthorizesRequests;
+    use AuthorizesRequests, WithFileUploads, PadFileUploads;
 
     public $transaction;
 
@@ -49,6 +52,10 @@ class EditTransaction extends Component
 
         $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray();
 
+        $this->masterPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->masterFields()->get(['id'])->toArray());
+
+        $this->detailPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->detailFields()->get(['id'])->toArray());
+
         $this->code = $this->transaction->code;
 
         $this->excludedTransactions = Transaction::query()
@@ -81,7 +88,14 @@ class EditTransaction extends Component
 
         $this->authorize('update', $this->transaction);
 
-        (new TransactionService)->update($this->transaction, $this->validate());
+        DB::transaction(function () {
+            (new TransactionService)->update($this->transaction, $this->validate());
+
+            (new TransactionService)->updateFileUploads(
+                $this->transaction,
+                $this->validatedUploads($this->getDataForValidation($this->rules())['master'], $this->getDataForValidation($this->rules())['details'])
+            );
+        });
 
         return redirect()->route('transactions.show', $this->transaction->id);
     }
@@ -99,6 +113,10 @@ class EditTransaction extends Component
         ];
 
         foreach ($this->masterPadFields as $masterPadField) {
+            if ($this->masterPadFieldsTypeFile->where('id', $masterPadField->id)->count()) {
+                continue;
+            }
+
             $key = 'master.' . $masterPadField->id;
 
             $rules[$key][] = $masterPadField->isRequired() ? 'required' : 'nullable';
@@ -112,6 +130,10 @@ class EditTransaction extends Component
         }
 
         foreach ($this->detailPadFields as $detailPadField) {
+            if ($this->detailPadFieldsTypeFile->where('id', $detailPadField->id)->count()) {
+                continue;
+            }
+
             $key = 'details.*.' . $detailPadField->id;
 
             $rules[$key][] = $detailPadField->isRequired() ? 'required' : 'nullable';

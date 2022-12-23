@@ -53,6 +53,11 @@ class PadField extends Model
         return $query->where('is_printable', 1);
     }
 
+    public function scopeInputTypeFile($query)
+    {
+        return $query->where('tag_type', 'file');
+    }
+
     public function isMasterField()
     {
         return $this->is_master_field;
@@ -101,5 +106,10 @@ class PadField extends Model
     public function hasRelation()
     {
         return $this->padRelation ? true : false;
+    }
+
+    public function isInputTypeFile()
+    {
+        return str($this->tag_type)->lower() == 'file';
     }
 }

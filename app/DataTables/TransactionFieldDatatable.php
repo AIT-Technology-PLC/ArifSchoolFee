@@ -22,6 +22,17 @@ class TransactionFieldDatatable extends DataTable
     public function dataTable($query)
     {
         $datatable = datatables()->collection($query->all());
+        $padFields = PadField::inputTypeFile()->where('pad_id', request()->route('transaction')->pad_id)->get();
+
+        foreach ($padFields as $padField) {
+            $datatable->editColumn(str()->snake($padField->label), function ($row) use ($padField) {
+                return view('components.datatables.link', [
+                    'url' => asset('/storage/' . $row[str()->snake($padField->label)]),
+                    'label' => $padField->label,
+                    'target' => '_blank'
+                ]);
+            });
+        }
 
         if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
             $datatable
