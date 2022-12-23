@@ -741,7 +741,7 @@
                                 @endcan
                             @endif
 
-                            @foreach (pads('Purchases & Suppliers') as $pad)
+                            @foreach (pads('Purchase & Suppliers') as $pad)
                                 @canpad('Create', $pad)
                                 <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                     <x-common.button

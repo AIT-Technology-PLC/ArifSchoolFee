@@ -885,7 +885,7 @@
                                 </li>
                             @endcan
                         @endif
-                        @foreach (pads('Purchases & Suppliers') as $pad)
+                        @foreach (pads('Purchase & Suppliers') as $pad)
                             @canpad('Read', $pad)
                             <li>
                                 <x-common.button

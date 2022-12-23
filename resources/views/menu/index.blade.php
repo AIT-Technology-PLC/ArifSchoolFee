@@ -883,7 +883,7 @@
                                 @endcan
                             @endif
 
-                            @foreach (pads('Purchases & Suppliers') as $pad)
+                            @foreach (pads('Purchase & Suppliers') as $pad)
                                 @canpad('Read', $pad)
                                 <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                     <a
