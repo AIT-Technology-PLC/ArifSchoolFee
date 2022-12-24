@@ -86,6 +86,10 @@
                                         {{ $company->currency == 'CNY' ? 'selected' : '' }}
                                     >CNY - China Yuan</option>
                                     <option
+                                        value="DJF"
+                                        {{ $company->currency == 'DJF' ? 'selected' : '' }}
+                                    >DJF - Djibouti Franc</option>
+                                    <option
                                         value="ETB"
                                         {{ $company->currency == 'ETB' ? 'selected' : '' }}
                                     >ETB - Ethiopian Birr</option>
