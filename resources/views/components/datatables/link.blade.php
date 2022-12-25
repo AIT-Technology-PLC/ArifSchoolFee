@@ -1,4 +1,4 @@
-@if (\Storage::exists('public\\' . $url))
+@if (\Storage::exists($url))
     <x-common.button
         tag="a"
         href="{{ $url }}"
