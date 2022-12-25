@@ -27,8 +27,8 @@ class TransactionFieldDatatable extends DataTable
         foreach ($padFields as $padField) {
             $datatable->editColumn(str()->snake($padField->label), function ($row) use ($padField) {
                 return view('components.datatables.link', [
-                    'url' => asset('/storage/' . ($row[str()->snake($padField->label)] ?? '')),
-                    'label' => $padField->label,
+                    'url' => isset($row[str()->snake($padField->label)]) ? asset('/storage/' . $row[str()->snake($padField->label)]) : '#',
+                    'label' => isset($row[str()->snake($padField->label)]) ? $padField->label : ('No ' . $padField->label),
                     'target' => '_blank',
                 ]);
             });
