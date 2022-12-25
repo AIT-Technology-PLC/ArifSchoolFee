@@ -50,7 +50,7 @@ class EditTransaction extends Component
 
         $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
 
-        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray();
+        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->values()->all();
 
         $this->masterPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->masterFields()->get(['id'])->toArray());
 
