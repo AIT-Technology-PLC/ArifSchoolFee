@@ -59,6 +59,8 @@ class CreateCompanyAction
 
         $this->createLeaveCategories($company);
 
+        $this->createTax($company);
+
         return $user;
     }
 
@@ -141,4 +143,31 @@ class CreateCompanyAction
             ],
         ]);
     }
+    private function createTax($company)
+    {
+        $company->taxes()->createMany([
+            [
+                'type' => 'VAT',
+                'amount' => '0.15',
+            ],
+            [
+                'type' => 'TOT2',
+                'amount' => '0.02',
+            ],
+            [
+                'type' => 'TOT5',
+                'amount' => '0.05',
+            ],
+            [
+                'type' => 'TOT10',
+                'amount' => '0.10',
+            ],
+            [
+                'type' => 'NONE',
+                'amount' => '0',
+            ],
+
+        ]);
+    }
+
 }
