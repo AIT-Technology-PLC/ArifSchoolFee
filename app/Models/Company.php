@@ -21,6 +21,7 @@ class Company extends Model
         'is_editing_reference_number_enabled' => 'boolean',
         'is_backorder_enabled' => 'boolean',
         'can_check_inventory_on_forms' => 'boolean',
+        'can_show_employee_job_title_on_print' => 'boolean',
     ];
 
     public function plan()
@@ -233,6 +234,11 @@ class Company extends Model
     public function canShowBranchDetailOnPrint()
     {
         return $this->can_show_branch_detail_on_print;
+    }
+
+    public function canShowEmployeeJobTitleOnPrint()
+    {
+        return $this->can_show_employee_job_title_on_print;
     }
 
     public function hasIntegration($integrationName)
