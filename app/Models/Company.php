@@ -189,6 +189,11 @@ class Company extends Model
         return $this->hasMany(LeaveCategory::class);
     }
 
+    public function taxes()
+    {
+        return $this->hasMany(Tax::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

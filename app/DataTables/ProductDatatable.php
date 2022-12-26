@@ -40,6 +40,9 @@ class ProductDatatable extends DataTable
             ->editColumn('min_on_hand', function ($product) {
                 return Str::of($product->min_on_hand ?? 0.0)->append(' ', $product->unit_of_measurement);
             })
+            ->editColumn('tax_type', function ($product) {
+                return $product->tax->type;
+            })
             ->editColumn('is_batchable', fn($product) => $product->is_batchable ? 'Yes' : 'No')
             ->editColumn('used_for_sale', fn($product) => $product->is_active_for_sale ? 'Yes' : 'No')
             ->editColumn('used_for_purchase', fn($product) => $product->is_active_for_purchase ? 'Yes' : 'No')
@@ -73,6 +76,7 @@ class ProductDatatable extends DataTable
                 'supplier:id,company_name',
                 'brand:id,name',
                 'price',
+                'tax:id,type',
             ]);
     }
 
@@ -89,6 +93,7 @@ class ProductDatatable extends DataTable
             Column::make('brand', 'brand.name')->visible(false),
             Column::make('description')->visible(false),
             Column::make('min_on_hand')->title('Reorder Level'),
+            Column::make('tax_type', 'tax.type')->visible(false),
             Column::make('is_batchable')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_sale')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_purchase')->searchable(false)->addClass('has-text-centered')->visible(false),

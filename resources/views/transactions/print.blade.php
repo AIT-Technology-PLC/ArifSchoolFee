@@ -148,14 +148,14 @@
                             <td class="has-text-weight-bold">Sub-Total</td>
                             <td class="has-text-right">{{ number_format($transaction->subtotalPrice, 2) }}</td>
                         </tr>
-                        {{-- <tr>
+                        <tr>
                             <td
                                 colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">VAT 15%</td>
                             <td class="has-text-right">{{ number_format($transaction->vat, 2) }}</td>
-                        </tr> --}}
+                        </tr>
                         <tr>
                             <td
                                 colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"

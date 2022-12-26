@@ -163,7 +163,7 @@ trait TransactionAccessors
     {
         return Attribute::make(
             get:fn() => number_format(
-                $this->subtotalPrice * 0,
+                $this->subtotalPrice * 0.15,
                 2,
                 thousands_separator:''
             )

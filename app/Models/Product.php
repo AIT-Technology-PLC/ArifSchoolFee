@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tax;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -151,6 +152,11 @@ class Product extends Model
     public function jobExtras()
     {
         return $this->hasMany(JobExtra::class);
+    }
+
+    public function tax()
+    {
+        return $this->belongsTo(Tax::class);
     }
 
     public function setPropertiesAttribute($array)
