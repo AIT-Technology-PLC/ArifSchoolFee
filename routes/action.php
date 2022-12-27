@@ -100,6 +100,10 @@ Route::post('/gdns/{gdn}/convert-to-credit',
     [Action\GdnController::class, 'convertToCredit'])
     ->name('gdns.convert_to_credit');
 
+Route::post('/gdns/{gdn}/cancel',
+    [Action\GdnController::class, 'cancel'])
+    ->name('gdns.cancel');
+
 // Sivs
 Route::get('/sivs/{siv}/print',
     [Action\SivController::class, 'printed'])

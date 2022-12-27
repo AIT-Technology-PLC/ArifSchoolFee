@@ -54,6 +54,10 @@ class GdnService
             return [false, 'This Delivery Order is not approved yet.'];
         }
 
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.'];
+        }
+
         if ($gdn->isSubtracted()) {
             return [false, 'This Delivery Order is already subtracted from inventory'];
         }
@@ -79,6 +83,10 @@ class GdnService
     {
         if (!$gdn->isApproved()) {
             return [false, 'Creating a credit for delivery order that is not approved is not allowed.'];
+        }
+
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.'];
         }
 
         if ($gdn->credit()->exists()) {
@@ -117,6 +125,10 @@ class GdnService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.', ''];
+        }
+
         if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.', ''];
         }
@@ -138,6 +150,10 @@ class GdnService
 
     public function close($gdn)
     {
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.'];
+        }
+
         if (!$gdn->isSubtracted()) {
             return [false, 'This Delivery Order is not subtracted yet.'];
         }
@@ -237,6 +253,10 @@ class GdnService
 
     public function convertToSale($gdn)
     {
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.', ''];
+        }
+
         if ($gdn->isConvertedToSale()) {
             return [false, 'This Delivery Order is already converted to invoice.', ''];
         }
@@ -282,5 +302,36 @@ class GdnService
         });
 
         return [true, '', $sale];
+    }
+
+    public function cancel($gdn)
+    {
+        if (!$gdn->isApproved()) {
+            return [false, 'This Delivery Order is not approved yet.'];
+        }
+
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is already cancelled'];
+        }
+
+        if ($gdn->isClosed()) {
+            return [false, 'This Delivery Order is already closed.'];
+        }
+
+        if ($gdn->isSubtracted()) {
+            DB::transaction(function () use ($gdn) {
+                InventoryOperationService::add($gdn->gdnDetails, $gdn);
+
+                $gdn->add();
+            });
+        }
+
+        if ($gdn->credit()->exists()) {
+            $gdn->credit()->forceDelete();
+        }
+
+        $gdn->cancel();
+
+        return [true, ''];
     }
 }

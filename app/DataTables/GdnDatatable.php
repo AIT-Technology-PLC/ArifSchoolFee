@@ -27,9 +27,10 @@ class GdnDatatable extends DataTable
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
-                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted());
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+                    ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
+                    ->when($keyword == 'void', fn($query) => $query->cancelled());
             })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeVAT() ?
@@ -44,6 +45,7 @@ class GdnDatatable extends DataTable
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
             ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
+            ->editColumn('void by', fn($gdn) => $gdn->cancelledBy->name ?? 'N/A')
             ->editColumn('actions', function ($gdn) {
                 return view('components.common.action-buttons', [
                     'model' => 'gdns',
@@ -61,14 +63,16 @@ class GdnDatatable extends DataTable
             ->select('gdns.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('gdns.warehouse_id', request('branch')))
             ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('gdns.payment_type', request('paymentType')))
-            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
-            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
+            ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
+            ->when(request('status') == 'void', fn($query) => $query->cancelled())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'cancelledBy:id,name',
                 'sale:id,code',
                 'customer:id,company_name,tin',
                 'contact:id,name',
@@ -96,6 +100,7 @@ class GdnDatatable extends DataTable
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
+            Column::make('void by', 'cancelledBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
 
