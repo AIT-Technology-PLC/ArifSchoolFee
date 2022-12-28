@@ -28,14 +28,14 @@ class GdnDetailHistoryService implements DetailHistoryServiceInterface
         $this->history->transform(function ($gdnDetail) {
             return [
                 'type' => 'DO',
-                'url' => '/gdns/'.$gdnDetail->gdn_id,
+                'url' => '/gdns/' . $gdnDetail->gdn_id,
                 'code' => $gdnDetail->gdn->code,
                 'date' => $gdnDetail->gdn->issued_on,
                 'quantity' => $gdnDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
-                'function' => 'subtract',
+                'details' => $gdnDetail->gdn->added_by ? 'Returned to ' . $this->warehouse->name . ' when DO Cancelled' : Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
+                'function' => $gdnDetail->gdn->added_by ? 'add' : 'subtract',
             ];
         });
     }

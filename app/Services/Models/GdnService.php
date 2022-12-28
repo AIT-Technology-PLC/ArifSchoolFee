@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
@@ -324,6 +325,14 @@ class GdnService
 
                 $gdn->add();
             });
+
+            if ($gdn->isConvertedToSale()) {
+                $gdn->sale()->forceDelete();
+            }
+
+            if (Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->count()) {
+                Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->forceDelete();
+            }
         }
 
         if ($gdn->credit()->exists()) {
