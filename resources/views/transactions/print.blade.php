@@ -153,7 +153,7 @@
                                 colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                 class="is-borderless"
                             ></td>
-                            <td class="has-text-weight-bold">TAX</td>
+                            <td class="has-text-weight-bold">Tax</td>
                             <td class="has-text-right">{{ number_format($transaction->tax, 2) }}</td>
                         </tr>
                         <tr>
