@@ -206,11 +206,11 @@
         @endif
     </footer>
 
-    <section
-        class="page-break my-6"
-        style="width: 60% !important"
-    >
-        @if (array_search('description', $columns['master']))
+    @if (array_search('description', $columns['master']))
+        <section
+            class="page-break my-6"
+            style="width: 60% !important"
+        >
             <aside>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized is-underlined">
                     Description
@@ -219,8 +219,8 @@
                     {!! $transaction->transactionMasters->toArray()['description'] !!}
                 </div>
             </aside>
-        @endif
-    </section>
+        </section>
+    @endif
 
     <x-print.user
         :created-by="$transaction->createdBy ?? null"
