@@ -207,7 +207,7 @@
     </footer>
 
     @if (array_search('description', $columns['master']) &&
-        str($columns['master'])->squish()->length())
+        str($transaction->transactionMasters->toArray()['description'])->stripTags()->squish()->length())
         <section
             class="page-break my-6"
             style="width: 60% !important"
