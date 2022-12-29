@@ -180,7 +180,7 @@
                                     @foreach ($taxs as $tax)
                                         <option
                                             value="{{ $tax->id }}"
-                                            @selected( $product->tax_id == $tax->id)
+                                            @selected($product->tax_id == $tax->id)
                                         >
                                             {{ $tax->type }}
                                         </option>
@@ -278,8 +278,8 @@
                                     <option disabled>
                                         Select Batch Priority
                                     </option>
-                                    <option value="fifo"> First In First Out </option>
-                                    <option value="lifo"> Last In First Out </option>
+                                    <option value="fifo"> First Expire First Out </option>
+                                    <option value="lifo"> Last Expire First Out </option>
                                     <option value=""> None</option>
                                 </x-forms.select>
                                 <x-common.icon
