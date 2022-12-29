@@ -79,7 +79,7 @@
                 :amount="number_format($lifeTimePurchaseReport->getTotalPurchaseAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Purchase (After VAT/TOT)"
+                label="Purchase (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -127,7 +127,7 @@
                 amount="{{ number_format($lifetimeExpenseReport->getTotalExpenseAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-green"
-                label="Expense (After VAT/TOT)"
+                label="Expense (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -223,7 +223,7 @@
                 :amount="number_format($purchaseReport->getTotalPurchaseAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Purchase (After VAT/TOT)"
+                label="Purchase (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -457,7 +457,7 @@
                 amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-green"
-                label="Expense (After VAT/TOT)"
+                label="Expense (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">

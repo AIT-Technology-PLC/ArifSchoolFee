@@ -41,6 +41,7 @@ class ReturnReport
                     ->withoutGlobalScopes([BranchScope::class]);
             })
             ->join('products', 'return_details.product_id', '=', 'products.id')
+            ->join('taxes', 'products.tax_id', '=', 'taxes.id')
             ->join('returns', 'return_details.return_id', '=', 'returns.id')
             ->join('warehouses', 'returns.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('customers', 'returns.customer_id', '=', 'customers.id');
@@ -61,12 +62,18 @@ class ReturnReport
 
     public function getTotalRevenueAfterTax()
     {
-        return $this->getTotalRevenueBeforeTax * 1.15;
+        return (clone $this->query)
+            ->selectRaw('SUM(quantity*unit_price*(1+taxes.amount)) AS revenue')
+            ->first()
+            ->revenue;
     }
 
     public function getTotalRevenueTax()
     {
-        return $this->getTotalRevenueBeforeTax * 0.15;
+        return (clone $this->query)
+            ->selectRaw('SUM(quantity*unit_price*taxes.amount) AS revenue')
+            ->first()
+            ->revenue;
     }
 
     public function getCustomersCount()
@@ -81,7 +88,7 @@ class ReturnReport
     public function getReturnsByProducts()
     {
         return (clone $this->query)
-            ->selectRaw('products.name AS product_name, SUM(quantity) AS quantity, SUM(quantity*unit_price) AS revenue')
+            ->selectRaw('products.name AS product_name, SUM(quantity) AS quantity, SUM(quantity*unit_price*(1+taxes.amount)) AS revenue')
             ->groupBy('product_name')
             ->orderByDesc('revenue')
             ->get();
@@ -90,7 +97,7 @@ class ReturnReport
     public function getReturnsByCustomers()
     {
         return (clone $this->query)
-            ->selectRaw('customers.company_name AS customer_name, SUM(quantity*unit_price) AS revenue, COUNT(DISTINCT return_id) AS returns')
+            ->selectRaw('customers.company_name AS customer_name, SUM(quantity*unit_price*(1+taxes.amount)) AS revenue, COUNT(DISTINCT return_id) AS returns')
             ->groupBy('customer_name')
             ->orderByDesc('revenue')
             ->get();
@@ -99,7 +106,7 @@ class ReturnReport
     public function getReturnsByBranches()
     {
         return (clone $this->query)
-            ->selectRaw('warehouses.name AS branch_name, SUM(quantity*unit_price) AS revenue, COUNT(DISTINCT return_id) AS returns')
+            ->selectRaw('warehouses.name AS branch_name, SUM(quantity*unit_price*(1+taxes.amount)) AS revenue, COUNT(DISTINCT return_id) AS returns')
             ->groupBy('branch_name')
             ->orderByDesc('revenue')
             ->get();

@@ -70,11 +70,11 @@ class CheckCustomerCreditLimit implements Rule
 
         $currentCreditLimit = $customer->credit_amount_limit - $currentCreditBalance;
 
-        if (userCompany()->isDiscountBeforeVAT()) {
+        if (userCompany()->isDiscountBeforeTax()) {
             $price = Price::getGrandTotalPrice($this->details);
         }
 
-        if (!userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeTax()) {
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 

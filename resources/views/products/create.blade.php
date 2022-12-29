@@ -176,7 +176,7 @@
                                         selected
                                         disabled
                                     >Tax Type</option>
-                                    @foreach ($taxs as $tax)
+                                    @foreach ($taxes as $tax)
                                         <option
                                             value="{{ $tax->id }}"
                                             @selected(old('tax_id') == $tax->id)

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('tax_id')->default(1)->after('brand_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('tax_id')->nullable()->after('brand_id')->constrained()->onDelete('set null')->onUpdate('cascade');
         });
     }
 

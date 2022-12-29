@@ -38,9 +38,9 @@ class ProductController extends Controller
 
         $brands = Brand::orderBy('name')->get(['id', 'name']);
 
-        $taxs = Tax::orderBy('id')->get(['id', 'type']);
+        $taxes = Tax::orderBy('id')->get(['id', 'type']);
 
-        return view('products.create', compact('categories', 'suppliers', 'brands', 'taxs'));
+        return view('products.create', compact('categories', 'suppliers', 'brands', 'taxes'));
     }
 
     public function store(StoreProductRequest $request)
@@ -61,9 +61,9 @@ class ProductController extends Controller
 
         $brands = Brand::orderBy('name')->get(['id', 'name']);
 
-        $taxs = Tax::orderBy('id')->get(['id', 'type']);
+        $taxes = Tax::orderBy('id')->get(['id', 'type']);
 
-        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands', 'taxs'));
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands', 'taxes'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)

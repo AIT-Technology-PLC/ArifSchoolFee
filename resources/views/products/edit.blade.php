@@ -177,10 +177,10 @@
                                         selected
                                         disabled
                                     >Tax Type</option>
-                                    @foreach ($taxs as $tax)
+                                    @foreach ($taxes as $tax)
                                         <option
                                             value="{{ $tax->id }}"
-                                            @selected( $product->tax_id == $tax->id)
+                                            @selected($product->tax_id == $tax->id)
                                         >
                                             {{ $tax->type }}
                                         </option>

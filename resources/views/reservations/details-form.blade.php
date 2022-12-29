@@ -143,7 +143,10 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`reservation[${index}][unit_price]`">
-                            Unit Price <sup class="has-text-weight-light"> ({{ userCompany()->getPriceMethod() }})</sup>
+                            Unit Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName({{ userCompany()->isPriceBeforeTax() }}, reservation.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -174,7 +177,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6 {{ userCompany()->isDiscountBeforeVAT() ? '' : 'is-hidden' }}">
+                    <div class="column is-6 {{ userCompany()->isDiscountBeforeTax() ? '' : 'is-hidden' }}">
                         <x-forms.label x-bind:for="`reservation[${index}][discount]`">
                             Discount <sup class="has-text-danger"></sup>
                         </x-forms.label>

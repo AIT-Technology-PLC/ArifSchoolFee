@@ -60,7 +60,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
-                            :data="$expense->vat"
+                            :data="$expense->tax"
                             :label="$expense->tax_type ?: 'None'"
                         />
                     </div>

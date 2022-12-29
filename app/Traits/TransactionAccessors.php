@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
@@ -91,6 +92,10 @@ trait TransactionAccessors
                                 $data[str($transactionField->padField->label)->snake()->append('_id')->toString()] = $transactionField->value;
                             }
 
+                            if ($transactionField->padField->padRelation?->model_name == 'Product') {
+                                $taxAmount = Product::find($transactionField->value)->tax->amount;
+                            }
+
                             $data[str()->snake($transactionField->padField->label)] = $value;
                         }
 
@@ -99,12 +104,13 @@ trait TransactionAccessors
                             $data['unit_price'] = number_format($data['unit_price'], 2, thousands_separator:'');
                             $data['discount'] = (float) ($data['discount'] ?? 0.00);
 
-                            $unitPrice = userCompany()->isPriceBeforeVAT() ? $data['unit_price'] : number_format($data['unit_price'] / 1.15, 2, thousands_separator:'');
+                            $unitPrice = userCompany()->isPriceBeforeTax() ? $data['unit_price'] : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
-                            $discount = userCompany()->isDiscountBeforeVAT() ? $data['discount'] / 100 : 0.00;
+                            $discount = userCompany()->isDiscountBeforeTax() ? $data['discount'] / 100 : 0.00;
                             $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
                             $data['discount'] = number_format($discount * 100, 2) . '%';
                             $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
+                            $data['total_tax'] = number_format($data['total'] * $taxAmount, 2, thousands_separator:'');
                         }
 
                         return $data;
@@ -159,11 +165,11 @@ trait TransactionAccessors
         );
     }
 
-    public function vat(): Attribute
+    public function tax(): Attribute
     {
         return Attribute::make(
             get:fn() => number_format(
-                $this->subtotalPrice * 0.15,
+                $this->transactionDetails->sum('total_tax'),
                 2,
                 thousands_separator:''
             )
@@ -174,7 +180,7 @@ trait TransactionAccessors
     {
         return Attribute::make(
             get:fn() => number_format(
-                $this->subtotalPrice + $this->vat,
+                $this->subtotalPrice + $this->tax,
                 2,
                 thousands_separator:''
             )

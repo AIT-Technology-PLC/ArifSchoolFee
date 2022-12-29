@@ -13,10 +13,10 @@ trait PricingTicket
         );
     }
 
-    public function getVatAttribute()
+    public function getTaxAttribute()
     {
         return number_format(
-            $this->details()->sum->totalVat,
+            $this->details()->sum->totalTax,
             2,
             thousands_separator:''
         );
@@ -25,7 +25,7 @@ trait PricingTicket
     public function getGrandTotalPriceAttribute()
     {
         return number_format(
-            $this->subtotalPrice + $this->vat,
+            $this->subtotalPrice + $this->tax,
             2,
             thousands_separator:''
         );

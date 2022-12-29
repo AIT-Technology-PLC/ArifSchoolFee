@@ -92,7 +92,7 @@
                 amount="{{ number_format($saleReport->getTotalRevenueAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Revenue After VAT"
+                label="Revenue After Tax"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -101,7 +101,7 @@
                 :amount="number_format($saleReport->getTotalRevenueBeforeTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Revenue Before VAT"
+                label="Revenue Before Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -110,7 +110,7 @@
                 :amount="number_format($saleReport->getTotalRevenueTax, 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Revenue VAT"
+                label="Revenue Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">

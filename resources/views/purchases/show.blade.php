@@ -129,7 +129,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
-                            :data="$purchase->vat"
+                            :data="$purchase->tax"
                             :label="$purchase->tax_type"
                         />
                     </div>

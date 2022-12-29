@@ -104,7 +104,7 @@
                         label="Grand Total Price ({{ userCompany()->currency }})"
                     />
                 </div>
-                @if (!userCompany()->isDiscountBeforeVAT())
+                @if (!userCompany()->isDiscountBeforeTax())
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
