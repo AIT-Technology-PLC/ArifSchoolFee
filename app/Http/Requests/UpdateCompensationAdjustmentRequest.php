@@ -39,6 +39,7 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
             }],
             'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', Rule::in(Compensation::active()->canBeInputtedManually()->adjustable()->pluck('id'))],
             'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
+            'compensationAdjustment.*.employeeAdjustments.*.description' => ['nullable', 'string'],
         ];
     }
 }

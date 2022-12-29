@@ -47,6 +47,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
             Column::make('employee', 'employee.user.name'),
             Column::make('compensation', 'compensation.name'),
             Column::make('amount'),
+            Column::make('description')->visible(false)->content('N/A'),
             Column::computed('actions'),
         ];
     }
