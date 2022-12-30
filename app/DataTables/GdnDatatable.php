@@ -33,7 +33,7 @@ class GdnDatatable extends DataTable
                     ->when($keyword == 'void', fn($query) => $query->cancelled());
             })
             ->editColumn('total price', function ($gdn) {
-                return userCompany()->isDiscountBeforeVAT() ?
+                return userCompany()->isDiscountBeforeTax() ?
                 userCompany()->currency . '. ' . number_format($gdn->grandTotalPrice, 2) :
                 userCompany()->currency . '. ' . number_format($gdn->grandTotalPriceAfterDiscount, 2);
             })

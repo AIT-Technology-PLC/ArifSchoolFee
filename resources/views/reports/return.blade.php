@@ -66,7 +66,7 @@
                 amount="{{ number_format($returnReport->getTotalRevenueAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Revenue After VAT"
+                label="Revenue After Tax"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -75,7 +75,7 @@
                 :amount="number_format($returnReport->getTotalRevenueBeforeTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Revenue Before VAT"
+                label="Revenue Before Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -84,7 +84,7 @@
                 :amount="number_format($returnReport->getTotalRevenueTax, 2)"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Revenue VAT"
+                label="Revenue Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -135,7 +135,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $product->product_name }} </td>
                                 <td class="has-text-right"> {{ quantity($product->quantity) }} </td>
-                                <td class="has-text-right"> {{ number_format($product->revenue * 1.15, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($product->revenue, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -171,7 +171,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customer->customer_name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ number_format($customer->revenue * 1.15, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($customer->revenue, 2) }} </td>
                                 <td class="has-text-right"> {{ $customer->returns }} </td>
                             </tr>
                         @endforeach

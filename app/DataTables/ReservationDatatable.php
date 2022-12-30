@@ -32,7 +32,7 @@ class ReservationDatatable extends DataTable
                     ->when($keyword == 'converted', fn($query) => $query->converted()->notCancelled());
             })
             ->editColumn('total price', function ($reservation) {
-                return userCompany()->isDiscountBeforeVAT()
+                return userCompany()->isDiscountBeforeTax()
                 ? money($reservation->grandTotalPrice)
                 : money($reservation->grandTotalPriceAfterDiscount);
             })

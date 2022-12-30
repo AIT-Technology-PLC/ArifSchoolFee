@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('type');
             $table->decimal('amount', 22);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index('company_id');

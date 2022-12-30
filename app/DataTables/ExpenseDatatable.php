@@ -25,7 +25,7 @@ class ExpenseDatatable extends DataTable
             ->editColumn('branch', fn($expense) => $expense->warehouse->name)
             ->editColumn('status', fn($expense) => view('components.datatables.expense-status', compact('expense')))
             ->editColumn('total price', function ($expense) {
-                if (userCompany()->isDiscountBeforeVAT()) {
+                if (userCompany()->isDiscountBeforeTax()) {
                     return money($expense->grandTotalPrice);
                 }
 

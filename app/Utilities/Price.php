@@ -6,23 +6,33 @@ use App\Models\Product;
 
 class Price
 {
-    public static function getTotalVat($totalPrice, $productID)
+    public static function getTotalTax($totalPrice, $productId)
     {
-        $product = Product::where('id', $productID)->first();
+        $product = Product::where('id', $productId)->first();
 
-        $totalVat = number_format($totalPrice * $product->tax->amount, 2, thousands_separator:'');
+        $totalTax = number_format($totalPrice * $product->tax->amount, 2, thousands_separator:'');
 
-        return number_format($totalVat, 2, thousands_separator:'');
+        return number_format($totalTax, 2, thousands_separator:'');
     }
 
-    public static function getVat($details)
+    public static function getTax($details)
     {
         foreach ($details as &$detail) {
-            $detail['total_vat'] = static::getTotalVat(static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'], $detail['product_id'] ?? 0.00), $detail['product_id']);
+            $detail['total_price'] = static::getTotalPrice(
+                $detail['unit_price'],
+                $detail['quantity'],
+                $detail['discount'] ?? 0.00,
+                $detail['product_id']
+            );
+
+            $detail['total_tax'] = static::getTotalTax(
+                $detail['total_price'],
+                $detail['product_id']
+            );
         }
 
         return number_format(
-            collect($details)->sum('total_vat'),
+            collect($details)->sum('total_tax'),
             2,
             thousands_separator:''
         );
@@ -31,7 +41,7 @@ class Price
     public static function getSubtotalPrice($details)
     {
         foreach ($details as &$detail) {
-            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'], $detail['product_id'] ?? 0.00);
+            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00, $detail['product_id']);
         }
 
         return number_format(
@@ -41,11 +51,14 @@ class Price
         );
     }
 
-    public static function getTotalPrice($unitPrice, $quantity, $discount, $productID)
+    public static function getTotalPrice($unitPrice, $quantity, $discount, $productId)
     {
-        $product = Product::where('id', $productID)->first();
-        $unitPrice = userCompany()->isPriceBeforeVAT() ? $unitPrice : $unitPrice / ($product->tax->amount + 1);
+        $product = Product::where('id', $productId)->first();
+
+        $unitPrice = userCompany()->isPriceBeforeTax() ? $unitPrice : $unitPrice / ($product->tax->amount + 1);
+
         $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator:'');
+
         $totalPrice = number_format($totalPrice-static::getDiscountAmount($discount, $totalPrice), 2, thousands_separator:'');
 
         return $totalPrice;
@@ -61,7 +74,7 @@ class Price
     public static function getGrandTotalPrice($details)
     {
         return number_format(
-            static::getSubtotalPrice($details) + (static::getVat($details)),
+            static::getSubtotalPrice($details) + (static::getTax($details)),
             2,
             thousands_separator:''
         );
