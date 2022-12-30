@@ -192,21 +192,19 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if ($gdn->isApproved() && !$gdn->isCancelled())
-                    @if (!$gdn->isClosed())
-                        @can('Cancel GDN')
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('gdns.cancel', $gdn->id)"
-                                    action="void"
-                                    intention="void this delivery order"
-                                    icon="fas fa-times-circle"
-                                    label="Void"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @endif
+                @if ($gdn->isApproved() && !$gdn->isCancelled() && !$gdn->isClosed())
+                    @can('Cancel GDN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.cancel', $gdn->id)"
+                                action="void"
+                                intention="void this delivery order"
+                                icon="fas fa-times-circle"
+                                label="Void"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="a"

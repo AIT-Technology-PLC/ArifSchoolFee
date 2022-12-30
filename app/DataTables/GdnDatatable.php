@@ -30,7 +30,7 @@ class GdnDatatable extends DataTable
                     ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
                     ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
                     ->when($keyword == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
-                    ->when($keyword == 'void', fn($query) => $query->cancelled());
+                    ->when($keyword == 'voided', fn($query) => $query->cancelled());
             })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeTax() ?
@@ -45,7 +45,7 @@ class GdnDatatable extends DataTable
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
             ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
-            ->editColumn('void by', fn($gdn) => $gdn->cancelledBy->name ?? 'N/A')
+            ->editColumn('voided by', fn($gdn) => $gdn->cancelledBy->name ?? 'N/A')
             ->editColumn('actions', function ($gdn) {
                 return view('components.common.action-buttons', [
                     'model' => 'gdns',
@@ -66,7 +66,7 @@ class GdnDatatable extends DataTable
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
             ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
-            ->when(request('status') == 'void', fn($query) => $query->cancelled())
+            ->when(request('status') == 'voided', fn($query) => $query->cancelled())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',
@@ -100,7 +100,7 @@ class GdnDatatable extends DataTable
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
-            Column::make('void by', 'cancelledBy.name')->visible(false),
+            Column::make('voided by', 'cancelledBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
 

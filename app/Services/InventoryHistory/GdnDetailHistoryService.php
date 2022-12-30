@@ -34,8 +34,8 @@ class GdnDetailHistoryService implements DetailHistoryServiceInterface
                 'quantity' => $gdnDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => $gdnDetail->gdn->added_by ? 'Returned to ' . $this->warehouse->name . ' when DO Cancelled' : Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
-                'function' => $gdnDetail->gdn->added_by ? 'add' : 'subtract',
+                'details' => Str::of($gdnDetail->gdn->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
+                'function' => 'subtract',
             ];
         });
     }
