@@ -213,20 +213,20 @@ class Company extends Model
 
     public function getPriceMethod()
     {
-        return $this->is_price_before_vat ? 'Before VAT' : 'After VAT';
+        return $this->is_price_before_vat ? 'Before Tax' : 'After Tax';
     }
 
     public function getDiscountMethod()
     {
-        return $this->is_discount_before_vat ? 'Before VAT' : 'After VAT';
+        return $this->is_discount_before_vat ? 'Before Tax' : 'After Tax';
     }
 
-    public function isDiscountBeforeVAT()
+    public function isDiscountBeforeTax()
     {
         return $this->is_discount_before_vat;
     }
 
-    public function isPriceBeforeVAT()
+    public function isPriceBeforeTax()
     {
         return $this->is_price_before_vat;
     }

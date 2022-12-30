@@ -107,20 +107,20 @@
                 <thead>
                     <tr class="is-borderless">
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
                             class="is-borderless"
                         >&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
                             class="is-borderless"
                         >&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
                         @foreach ($columns['detail'] as $column)
-                            @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
+                            @continue (!userCompany()->isDiscountBeforeTax() && $column == 'discount')
                             <th>{{ str($column)->replace('_', ' ')->title() }}</th>
                         @endforeach
                     </tr>
@@ -132,7 +132,7 @@
                                 {{ $loop->iteration }}
                             </th>
                             @foreach ($columns['detail'] as $column)
-                                @continue (!userCompany()->isDiscountBeforeVAT() && $column == 'discount')
+                                @continue (!userCompany()->isDiscountBeforeTax() && $column == 'discount')
                                 <td>
                                     {{ $detail[$column] }}
                                 </td>
@@ -142,7 +142,7 @@
                     @if ($transaction->pad->hasPrices())
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Sub-Total</td>
@@ -150,24 +150,24 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                 class="is-borderless"
                             ></td>
-                            <td class="has-text-weight-bold">VAT 15%</td>
-                            <td class="has-text-right">{{ number_format($transaction->vat, 2) }}</td>
+                            <td class="has-text-weight-bold">Tax</td>
+                            <td class="has-text-right">{{ number_format($transaction->tax, 2) }}</td>
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Grand Total</td>
                             <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPrice, 2) }}</td>
                         </tr>
-                        @if (!userCompany()->isDiscountBeforeVAT())
+                        @if (!userCompany()->isDiscountBeforeTax())
                             <tr>
                                 <td
-                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                    colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                     class="is-borderless"
                                 ></td>
                                 <td class="has-text-weight-bold">Discount</td>
@@ -175,7 +175,7 @@
                             </tr>
                             <tr>
                                 <td
-                                    colspan="{{ userCompany()->isDiscountBeforeVAT() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                    colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
                                     class="is-borderless"
                                 ></td>
                                 <td class="has-text-weight-bold">
@@ -206,11 +206,12 @@
         @endif
     </footer>
 
-    <section
-        class="page-break my-6"
-        style="width: 60% !important"
-    >
-        @if (array_search('description', $columns['master']))
+    @if (array_search('description', $columns['master']) &&
+        str($transaction->transactionMasters->toArray()['description'])->stripTags()->squish()->length())
+        <section
+            class="page-break my-6"
+            style="width: 60% !important"
+        >
             <aside>
                 <h1 class="has-text-weight-bold has-text-grey-dark is-size-6 is-capitalized is-underlined">
                     Description
@@ -219,8 +220,8 @@
                     {!! $transaction->transactionMasters->toArray()['description'] !!}
                 </div>
             </aside>
-        @endif
-    </section>
+        </section>
+    @endif
 
     <x-print.user
         :created-by="$transaction->createdBy ?? null"

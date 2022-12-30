@@ -30,7 +30,7 @@ class PurchaseDatatable extends DataTable
                     ->when($keyword == 'purchased', fn($query) => $query->purchased());
             })
             ->editColumn('total price', function ($purchase) {
-                if (userCompany()->isDiscountBeforeVAT()) {
+                if (userCompany()->isDiscountBeforeTax()) {
                     return money($purchase->grandTotalPrice);
                 }
 

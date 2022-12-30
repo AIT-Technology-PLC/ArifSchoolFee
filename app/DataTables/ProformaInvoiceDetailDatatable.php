@@ -24,9 +24,9 @@ class ProformaInvoiceDetailDatatable extends DataTable
             ->editColumn('quantity', function ($proformaInvoiceDetail) {
                 return quantity($proformaInvoiceDetail->quantity, $proformaInvoiceDetail->product->unit_of_measurement ?? null);
             })
-            ->editColumn('unit_price', fn ($proformaInvoiceDetail) => money($proformaInvoiceDetail->unit_price))
-            ->editColumn('discount', fn ($proformaInvoiceDetail) => ($proformaInvoiceDetail->discount ?? 0).'%')
-            ->editColumn('total', fn ($proformaInvoiceDetail) => money($proformaInvoiceDetail->totalPrice))
+            ->editColumn('unit_price', fn($proformaInvoiceDetail) => money($proformaInvoiceDetail->unit_price))
+            ->editColumn('discount', fn($proformaInvoiceDetail) => ($proformaInvoiceDetail->discount ?? 0) . '%')
+            ->editColumn('total', fn($proformaInvoiceDetail) => money($proformaInvoiceDetail->totalPrice))
             ->editColumn('actions', function ($proformaInvoiceDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'proforma-invoice-details',
@@ -53,7 +53,7 @@ class ProformaInvoiceDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_price')->addClass('has-text-right'),
-            userCompany()->isDiscountBeforeVAT() ? Column::computed('discount') : null,
+            userCompany()->isDiscountBeforeTax() ? Column::computed('discount') : null,
             Column::computed('total')->addClass('has-text-right'),
             Column::computed('actions'),
         ];
@@ -63,6 +63,6 @@ class ProformaInvoiceDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Proforma Invoice Details_'.date('YmdHis');
+        return 'Proforma Invoice Details_' . date('YmdHis');
     }
 }

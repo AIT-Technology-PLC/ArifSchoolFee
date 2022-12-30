@@ -53,7 +53,7 @@ class Purchase extends Model
         return $this->belongsTo(User::class, 'purchased_by')->withDefault(['name' => 'N/A']);
     }
 
-    public function getVatAttribute()
+    public function getTaxAttribute()
     {
         return number_format(
             $this->subtotalPrice * $this->localTaxRate,

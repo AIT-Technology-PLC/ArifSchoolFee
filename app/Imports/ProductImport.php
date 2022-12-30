@@ -43,7 +43,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $code = $row['product_code'] ?? null;
         $productCategory = $this->productCategories->firstWhere('name', $row['product_category_name']);
         $productBrand = $this->brands->firstWhere('name', $row['product_brand']) ?? null;
-        $productTax = $this->taxes->firstWhere('type', $row['tax_type']) ?? null;
+        $productTax = $this->taxes->firstWhere('type', $row['tax_type']);
 
         if ($this->products->where('name', $productName)->where('code', $code)->where('product_category_id', $productCategory->id)->count()) {
             return null;
@@ -77,7 +77,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'min_on_hand' => $row['product_min_on_hand'] ?? 0.00,
             'description' => strlen($mergedDescription) ? $mergedDescription : null,
             'brand_id' => $productBrand->id ?? null,
-            'tax_id' => $productTax->id ?? null,
+            'tax_id' => $productTax->id,
             'is_batchable' => $row['is_batchable'],
             'batch_priority' => $row['batch_priority'] ?? null,
             'is_active' => $row['is_active'],
@@ -101,7 +101,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'product_min_on_hand' => ['nullable', 'numeric'],
             'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_brand' => ['nullable', 'string', 'max:255', Rule::in($this->brands->pluck('name'))],
-            'tax_type' => ['nullable', 'string', 'max:255', Rule::in($this->taxes->pluck('type'))],
+            'tax_type' => ['required', 'string', 'max:255', Rule::in($this->taxes->pluck('type'))],
             'is_batchable' => ['required', 'boolean'],
             'batch_priority' => ['nullable', 'string', Rule::in(['fifo', 'lifo']), 'required_if:is_batchable,1'],
             'is_active' => ['required', 'boolean'],
@@ -118,7 +118,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
         $data['product_type'] = str($data['product_type'] ?? '')->squish()->title()->toString();
         $data['product_brand'] = str()->squish($data['product_brand'] ?? '');
-        $data['tax_type'] = str($data['tax_type'] ?? '')->upper()->squish()->toString();
+        $data['tax_type'] = str($data['tax_type'] ?? 'VAT')->upper()->squish()->toString();
         $data['is_batchable'] = str()->lower($data['is_batchable'] ?? '') == 'yes' ? 1 : 0;
         $data['batch_priority'] = $data['is_batchable'] == 1 ? str($data['batch_priority'] ?? '')->lower()->squish()->toString() : null;
         $data['is_active'] = str()->lower($data['is_active'] ?? '') == 'no' ? 0 : 1;

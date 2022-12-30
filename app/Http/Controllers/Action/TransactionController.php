@@ -104,7 +104,7 @@ class TransactionController extends Controller
         if ($transaction->transactionDetails->isNotEmpty()) {
             $columns['detail'] = collect($transaction->transactionDetails->first())
                 ->keys()
-                ->diff(['id', 'transaction', 'line'])
+                ->diff(['id', 'transaction', 'line', 'total_tax'])
                 ->reject(fn($value) => str($value)->endsWith('_id'))
                 ->values()
                 ->toArray();

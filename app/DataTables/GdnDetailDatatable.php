@@ -59,7 +59,7 @@ class GdnDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('unit_price')->addClass('has-text-right'),
-            userCompany()->isDiscountBeforeVAT() ? Column::computed('discount')->addClass('has-text-right') : null,
+            userCompany()->isDiscountBeforeTax() ? Column::computed('discount')->addClass('has-text-right') : null,
             Column::computed('total')->addClass('has-text-right'),
             Column::make('description')->visible(false),
             Column::computed('actions'),

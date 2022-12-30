@@ -143,6 +143,7 @@ class CreateCompanyAction
             ],
         ]);
     }
+
     private function createTax($company)
     {
         $company->taxes()->createMany([
@@ -169,5 +170,4 @@ class CreateCompanyAction
 
         ]);
     }
-
 }

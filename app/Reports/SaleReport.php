@@ -71,47 +71,47 @@ class SaleReport
 
     public function getTotalRevenueAfterTax()
     {
-        return $this->subtotalPrice * 1.15;
+        return $this->subtotalPrice + $this->getTotalRevenueTax;
     }
 
     public function getTotalRevenueTax()
     {
-        return $this->subtotalPrice * 0.15;
+        return (clone $this->master)->sum('total_tax');
     }
 
     public function getBranchesByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, warehouse_name')->groupBy('warehouse_id')->orderByDesc('revenue')->get();
+        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, warehouse_name')->groupBy('warehouse_id')->orderByDesc('revenue')->get();
     }
 
     public function getCustomersByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
+        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
     }
 
     public function getRepsByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
+        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
     }
 
     public function getProductsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')->groupBy('product_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')->groupBy('product_id')->orderByDesc('revenue')->get();
     }
 
     public function getProductCategoriesByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, SUM(quantity) AS quantity, product_category_name')->groupBy('product_category_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_category_name')->groupBy('product_category_id')->orderByDesc('revenue')->get();
     }
 
     public function getBrandsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price)*1.15 AS revenue, brand_name')->groupBy('brand_name')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, brand_name')->groupBy('brand_name')->orderByDesc('revenue')->get();
     }
 
     public function getPaymentTypesByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price)*1.15 AS revenue, COUNT(payment_type) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
+        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, COUNT(payment_type) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
     }
 
     public function getDailyAverageRevenue()
@@ -139,7 +139,7 @@ class SaleReport
     public function getRevenueBySalesRep()
     {
         return (clone $this->master)
-            ->selectRaw('SUM(subtotal_price)*1.15 AS revenue, user_name')
+            ->selectRaw('SUM(subtotal_price+total_tax) AS revenue, user_name')
             ->groupBy('created_by')->orderByDesc('revenue')
             ->get();
     }
@@ -147,16 +147,8 @@ class SaleReport
     public function getRevenueByBranch()
     {
         return (clone $this->master)
-            ->selectRaw('SUM(subtotal_price)*1.15 AS revenue, warehouse_name')
+            ->selectRaw('SUM(subtotal_price+total_tax) AS revenue, warehouse_name')
             ->groupBy('warehouse_id')->orderByDesc('revenue')
             ->get();
-    }
-
-    public function getLastPurchaseDateAndValue()
-    {
-        return (clone $this->master)
-            ->selectRaw('(subtotal_price)*1.15 AS value, issued_on')
-            ->latest('issued_on')
-            ->first();
     }
 }

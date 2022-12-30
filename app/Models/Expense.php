@@ -37,7 +37,7 @@ class Expense extends Model
         return $this->belongsTo(Contact::class);
     }
 
-    public function getVatAttribute()
+    public function getTaxAttribute()
     {
         return number_format(
             $this->subtotalPrice * $this->localTaxRate,

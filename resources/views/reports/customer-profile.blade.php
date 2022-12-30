@@ -79,7 +79,7 @@
                 :amount="number_format($lifetimeSalesReport->getTotalRevenueAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Revenue (After VAT)"
+                label="Revenue (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">
@@ -175,7 +175,7 @@
                 :amount="number_format($saleReport->getTotalRevenueAfterTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Revenue (After VAT)"
+                label="Revenue (After Tax)"
             />
         </div>
         <div class="column is-3 p-lr-0">

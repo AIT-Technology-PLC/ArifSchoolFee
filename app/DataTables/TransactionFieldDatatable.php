@@ -75,7 +75,7 @@ class TransactionFieldDatatable extends DataTable
         }
 
         if (request()->route('transaction')->pad->hasPrices()) {
-            $columns[] = userCompany()->isDiscountBeforeVAT() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
+            $columns[] = userCompany()->isDiscountBeforeTax() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
             $columns[] = Column::make('total');
         }
 
