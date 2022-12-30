@@ -583,7 +583,7 @@
                                         name="can_show_employee_job_title_on_print"
                                         value="1"
                                         class="mt-3"
-                                        {{ $company->can_show_employee_job_title_on_print ? 'checked' : '' }}
+                                        @checked($company->canShowEmployeeJobTitleOnPrint())
                                     >
                                     Yes
                                 </label>
@@ -593,7 +593,7 @@
                                         type="radio"
                                         name="can_show_employee_job_title_on_print"
                                         value="0"
-                                        {{ $company->can_show_employee_job_title_on_print ? '' : 'checked' }}
+                                        @checked(!$company->canShowEmployeeJobTitleOnPrint())
                                     >
                                     No
                                 </label>
