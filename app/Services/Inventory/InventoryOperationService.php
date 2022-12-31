@@ -95,6 +95,10 @@ class InventoryOperationService
             $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date');
         }
 
+        if ($merchandise->product->isBatchable() && isset($detail->merchandiseBatch->batch_no)) {
+            $merchandiseBatches = $merchandiseBatches->where('batch_no', $detail->merchandiseBatch->batch_no);
+        }
+
         foreach ($merchandiseBatches as $merchandiseBatch) {
             if ($merchandiseBatch->quantity >= $detail['quantity']) {
                 $merchandiseBatch->quantity -= $detail['quantity'];

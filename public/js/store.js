@@ -142,6 +142,52 @@ const BillOfMaterial = {
     },
 };
 
+const MerchandiseBatch = {
+    merchandiseBatches: [],
+
+    async init() {
+        const response = await axios.get(`/api/merchandise-batches`);
+
+        this.merchandiseBatches = response.data;
+    },
+    all() {
+        return this.merchandiseBatches;
+    },
+    whereProductId(productId) {
+        return this.merchandiseBatches.filter(
+            (merchandiseBatch) => productId == merchandiseBatch.product_id
+        );
+    },
+    appendMerchandiseBatches(
+        select,
+        merchandiseBatchId = null,
+        merchandiseBatches = null
+    ) {
+        merchandiseBatches = merchandiseBatches ?? this.merchandiseBatches;
+
+        select.innerHTML = null;
+
+        select.add(new Option("Select Batch Number", "", false, ""));
+
+        merchandiseBatches.forEach((merchandiseBatch) => {
+            let BatchNo = merchandiseBatch.name;
+
+            if (merchandiseBatch.expiry_date) {
+                BatchNo = `${BatchNo} (Ex. ${merchandiseBatch.expiry_date})`;
+            }
+
+            select.add(
+                new Option(
+                    BatchNo,
+                    merchandiseBatch.id,
+                    false,
+                    (merchandiseBatchId || null) == merchandiseBatch.id
+                )
+            );
+        });
+    },
+};
+
 const Customer = {
     customers: [],
 

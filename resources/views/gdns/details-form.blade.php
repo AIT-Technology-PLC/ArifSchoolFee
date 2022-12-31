@@ -96,6 +96,33 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div
+                        class="column is-6"
+                        x-show="(Product.whereProductId(gdn.product_id)?.is_batchable == 1)"
+                    >
+                        <x-forms.label x-bind:for="`gdn[${index}][merchandise_batch_id]`">
+                            Batch No <sup class="has-text-danger"> </sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    class="merchandise-batches is-fullwidth"
+                                    x-bind:id="`gdn[${index}][merchandise_batch_id]`"
+                                    x-bind:name="`gdn[${index}][merchandise_batch_id]`"
+                                    x-model="gdn.merchandise_batch_id"
+                                >
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.merchandise_batch_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
@@ -247,7 +274,7 @@
                 gdns: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
 
                     if (gdn) {
                         this.gdns = gdn;
@@ -275,6 +302,12 @@
                         this.gdns.forEach((gdn, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), gdn.product_id, gdn.product_category_id);
+
+                                MerchandiseBatch.appendMerchandiseBatches(
+                                    this.getMerchandiseBatchesSelect(i),
+                                    this.gdns[i].merchandise_batch_id,
+                                    MerchandiseBatch.whereProductId(this.gdns[i].product_id)
+                                );
                             }
                         })
                     );
@@ -292,6 +325,12 @@
                                 this.gdns[index].product_id
                             );
 
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.gdns[index].merchandise_batch_id,
+                            MerchandiseBatch.whereProductId(this.gdns[index].product_id)
+                        );
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.gdns[index].product_id, this.gdns[index].product_category_id);
 
@@ -305,6 +344,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
                     if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {

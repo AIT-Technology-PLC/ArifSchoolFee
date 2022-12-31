@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\MerchandiseBatch;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -29,6 +30,12 @@ class UpdateGdnRequest extends FormRequest
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'gdn.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($attribute, $value, $fail) {
+                $merchandiseBatch = MerchandiseBatch::firstwhere('id', $value);
+                if ($merchandiseBatch->merchandise->product_id != $this->input(str_replace('.merchandise_batch_id', '.product_id', $attribute))) {
+                    $fail('Invalid Batch Number!');
+                }
+            }],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(
