@@ -115,7 +115,7 @@
                                 </x-forms.field>
                             </div>
                         @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
-                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeVAT())
+                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeTax())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -282,7 +282,7 @@
                                                 </x-forms.field>
                                             </div>
                                         @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
-                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
@@ -311,7 +311,7 @@
                                                 </x-forms.field>
                                             </div>
                                         @elseif ($detailPadField->isTagInput() && $detailPadField->isInputTypeFile())
-                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">

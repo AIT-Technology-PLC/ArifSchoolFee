@@ -16,11 +16,11 @@ trait CalculateCreditPayment
 
     public function getPaymentInCashAttribute()
     {
-        if (userCompany()->isDiscountBeforeVAT()) {
+        if (userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPrice;
         }
 
-        if (! userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
@@ -37,11 +37,11 @@ trait CalculateCreditPayment
 
     public function getCashReceivedInPercentageAttribute()
     {
-        if (userCompany()->isDiscountBeforeVAT()) {
+        if (userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPrice;
         }
 
-        if (! userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
@@ -62,11 +62,11 @@ trait CalculateCreditPayment
 
     public function getPaymentInCreditAttribute()
     {
-        if (userCompany()->isDiscountBeforeVAT()) {
+        if (userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPrice;
         }
 
-        if (! userCompany()->isDiscountBeforeVAT()) {
+        if (!userCompany()->isDiscountBeforeTax()) {
             $price = $this->grandTotalPriceAfterDiscount;
         }
 

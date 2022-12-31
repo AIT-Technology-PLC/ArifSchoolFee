@@ -376,7 +376,7 @@
                                         class="mt-3"
                                         {{ $company->is_price_before_vat ? 'checked' : '' }}
                                     >
-                                    Before VAT
+                                    Before Tax
                                 </label>
                                 <label class="radio has-text-grey mt-2">
                                     <input
@@ -385,7 +385,7 @@
                                         value="0"
                                         {{ $company->is_price_before_vat ? '' : 'checked' }}
                                     >
-                                    After VAT
+                                    After Tax
                                 </label>
                                 <x-common.validation-error property="is_price_before_vat" />
                             </x-forms.control>
@@ -405,7 +405,7 @@
                                         class="mt-3"
                                         {{ $company->is_discount_before_vat ? 'checked' : '' }}
                                     >
-                                    Before VAT & Per Product
+                                    Before Tax & Per Product
                                 </label>
                                 <br>
                                 <label class="radio has-text-grey mt-2">

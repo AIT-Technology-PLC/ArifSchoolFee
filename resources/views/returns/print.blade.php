@@ -124,8 +124,8 @@
                         colspan="5"
                         class="is-borderless"
                     ></td>
-                    <td class="has-text-weight-bold">VAT 15%</td>
-                    <td class="has-text-right">{{ number_format($return->vat, 2) }}</td>
+                    <td class="has-text-weight-bold">Tax</td>
+                    <td class="has-text-right">{{ number_format($return->tax, 2) }}</td>
                 </tr>
                 <tr>
                     <td

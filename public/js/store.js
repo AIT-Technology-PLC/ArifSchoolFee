@@ -50,6 +50,17 @@ const Product = {
 
         return product?.product_category_name;
     },
+    taxName(isPriceBeforeTax, productId) {
+        let product = this.whereProductId(productId);
+
+        if (!product?.tax_name || product?.tax_name == "NONE") {
+            return;
+        }
+
+        return isPriceBeforeTax
+            ? "(Before " + product?.tax_name + ")"
+            : "(After " + product?.tax_name + ")";
+    },
     unitOfMeasurement(productId, prefix = "") {
         let product = this.whereProductId(productId);
 

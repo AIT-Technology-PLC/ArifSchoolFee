@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['productCategory', 'price'])->orderBy('name')->get();
+        $products = Product::with(['productCategory', 'price', 'tax'])->orderBy('name')->get();
 
         return $products->map(function ($product) {
             return [
@@ -34,6 +34,8 @@ class ProductController extends Controller
                 'is_active_for_sale' => $product->is_active_for_sale,
                 'is_active_for_purchase' => $product->is_active_for_purchase,
                 'is_active_for_job' => $product->is_active_for_job,
+
+                'tax_name' => $product->tax->type,
             ];
         });
     }

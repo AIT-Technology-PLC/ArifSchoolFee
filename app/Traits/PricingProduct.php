@@ -8,7 +8,7 @@ trait PricingProduct
     {
         $inputtedUnitPrice = $this->unit_price;
 
-        if (!userCompany()->isPriceBeforeVAT()) {
+        if (!userCompany()->isPriceBeforeTax()) {
             $inputtedUnitPrice = $this->unit_price * ($this->product->tax->amount + 1);
         }
 
@@ -17,7 +17,7 @@ trait PricingProduct
 
     public function getUnitPriceAttribute($value)
     {
-        if (!userCompany()->isPriceBeforeVAT()) {
+        if (!userCompany()->isPriceBeforeTax()) {
             $value = $value / ($this->product->tax->amount + 1);
         }
 
@@ -30,17 +30,17 @@ trait PricingProduct
         $discount = ($this->discount ?? 0.00) / 100;
         $discountAmount = 0.00;
 
-        if (userCompany()->isDiscountBeforeVAT()) {
+        if (userCompany()->isDiscountBeforeTax()) {
             $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
         }
 
         return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
     }
 
-    public function getTotalVatAttribute()
+    public function getTotalTaxAttribute()
     {
-        $totalVat = $this->Product->tax->amount * $this->totalPrice;
+        $totalTax = $this->product->tax->amount * $this->totalPrice;
 
-        return number_format($totalVat, 2, thousands_separator:'');
+        return number_format($totalTax, 2, thousands_separator:'');
     }
 }
