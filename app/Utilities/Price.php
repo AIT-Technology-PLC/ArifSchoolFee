@@ -10,7 +10,9 @@ class Price
     {
         $product = Product::where('id', $productId)->first();
 
-        $totalTax = number_format($totalPrice * $product->tax->amount, 2, thousands_separator:'');
+        $taxAmount = $product?->tax->amount ?? 0;
+
+        $totalTax = number_format($totalPrice * $taxAmount, 2, thousands_separator:'');
 
         return number_format($totalTax, 2, thousands_separator:'');
     }
@@ -55,7 +57,9 @@ class Price
     {
         $product = Product::where('id', $productId)->first();
 
-        $unitPrice = userCompany()->isPriceBeforeTax() ? $unitPrice : $unitPrice / ($product->tax->amount + 1);
+        $taxAmount = $product?->tax->amount ?? 0;
+
+        $unitPrice = userCompany()->isPriceBeforeTax() ? $unitPrice : $unitPrice / ($taxAmount + 1);
 
         $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator:'');
 
