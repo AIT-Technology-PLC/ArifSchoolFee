@@ -202,8 +202,20 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management', 'Compensation Adjustment'))
-        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
+    @if (isFeatureEnabled(
+        'Employee Management',
+        'Department Management',
+        'Employee Transfer',
+        'Attendance Management',
+        'Warning Management',
+        'Advancement Management',
+        'Leave Management',
+        'Expense Claim',
+        'Announcement Management',
+        'Compensation Management',
+        'Compensation Adjustment',
+        'Payroll Management'))
+        @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment', 'Read Payroll'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -398,6 +410,20 @@
                                 </li>
                             @endcan
                         @endif
+
+                        @if (isFeatureEnabled('Payroll Management'))
+                            @can('Read Payroll')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('payrolls.index') }}"
+                                        label="Payrolls"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payrolls.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('payrolls.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
                     </ul>
                 </li>
             </ul>
@@ -548,8 +574,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Read Contact'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -643,19 +669,6 @@
                                         label="Returns"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('returns.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('returns.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @if (isFeatureEnabled('Credit Management'))
-                            @can('Read Credit')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('credits.index') }}"
-                                        label="Credits"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
@@ -790,120 +803,6 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
-        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
-            <ul
-                x-data="sideMenuAccordion"
-                class="menu-list mb-2"
-            >
-                <li>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        class="is-fullwidth is-justify-content-left is-borderless text-green is-size-6-5 ml-0"
-                        ::class="{ 'is-active': isAccordionActive }"
-                        @click="toggleAccordion"
-                    >
-                        <x-common.icon
-                            name="fas fa-shopping-bag"
-                            class="m-0"
-                        />
-                        <span class="ml-2"> Purchases & Suppliers </span>
-                        <span class="icon ml-auto">
-                            <i
-                                class="fas fa-caret-right"
-                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
-                            ></i>
-                        </span>
-                    </x-common.button>
-                </li>
-                <li>
-                    <ul
-                        class="mt-0 ml-5"
-                        x-cloak
-                        x-show="isAccordionOpen"
-                        x-collapse
-                    >
-                        @if (isFeatureEnabled('Purchase Management'))
-                            @can('Read Purchase')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('purchases.index') }}"
-                                        label="Purchases"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('purchases.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('purchases.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @if (isFeatureEnabled('Supplier Management'))
-                            @can('Read Supplier')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('suppliers.index') }}"
-                                        label="Suppliers"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('suppliers.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('suppliers.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @if (isFeatureEnabled('Debt Management'))
-                            @can('Read Debt')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('debts.index') }}"
-                                        label="Debts"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debts.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('debts.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @if (isFeatureEnabled('Expense Management'))
-                            @can('Read Expense')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('expense-categories.index') }}"
-                                        label="Expense Categories"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expense-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('expense-categories.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('expenses.index') }}"
-                                        label="Expenses"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expenses.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('expenses.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
-                        @foreach (pads('Purchase & Suppliers') as $pad)
-                            @canpad('Read', $pad)
-                            <li>
-                                <x-common.button
-                                    tag="a"
-                                    href="{{ route('pads.transactions.index', $pad->id) }}"
-                                    label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
-                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
-                                />
-                            </li>
-                            @endcanpad
-                        @endforeach
-                    </ul>
-                </li>
-            </ul>
-        @endcanany
-    @endif
-
     @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
         @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Brand')
             <ul
@@ -1001,8 +900,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Credit Management', 'Debt Management', 'Payroll Management'))
-        @canany(['Read Credit', 'Read Debt', 'Read Payroll'])
+    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
+        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1035,55 +934,101 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @if (isFeatureEnabled('Payroll Management'))
-                            @can('Read Payroll')
+                        @if (isFeatureEnabled('Purchase Management'))
+                            @can('Read Purchase')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('payrolls.index') }}"
-                                        label="Payrolls"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payrolls.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('payrolls.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('purchases.index') }}"
+                                        label="Purchases"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('purchases.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('purchases.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
                         @endif
-
-                        @if (isFeatureEnabled('Credit Management'))
-                            @can('Read Credit')
+                        @if (isFeatureEnabled('Supplier Management'))
+                            @can('Read Supplier')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('receivables.index') }}"
-                                        label="Receivables & Aging"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('receivables.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('receivables.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('suppliers.index') }}"
+                                        label="Suppliers"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('suppliers.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('suppliers.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
                         @endif
-
                         @if (isFeatureEnabled('Debt Management'))
                             @can('Read Debt')
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('payables.index') }}"
-                                        label="Payables & Aging"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payables.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('payables.*') ? 'activateAccordion' : '' }}"
+                                        href="{{ route('debts.index') }}"
+                                        label="Debts"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('debts.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('debts.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
                         @endif
+                        @if (isFeatureEnabled('Credit Management'))
+                            @can('Read Credit')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('credits.index') }}"
+                                        label="Credits"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Expense Management'))
+                            @can('Read Expense')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('expense-categories.index') }}"
+                                        label="Expense Categories"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expense-categories.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('expense-categories.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('expenses.index') }}"
+                                        label="Expenses"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('expenses.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('expenses.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @foreach (pads('Purchase & Suppliers') as $pad)
+                            @canpad('Read', $pad)
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('pads.transactions.index', $pad->id) }}"
+                                    label="{{ $pad->name }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-green has-text-weight-bold' : '' }}"
+                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                            @endcanpad
+                        @endforeach
                     </ul>
                 </li>
             </ul>
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report'))
-        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
+    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Credit Management', 'Debt Management'))
+        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Credit', 'Read Debt'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1181,6 +1126,34 @@
                                         label="Daily Inventory Level"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_level') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Credit Management'))
+                            @can('Read Credit')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('receivables.index') }}"
+                                        label="Receivables & Aging"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('receivables.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('receivables.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Debt Management'))
+                            @can('Read Debt')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('payables.index') }}"
+                                        label="Payables & Aging"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payables.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('payables.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
