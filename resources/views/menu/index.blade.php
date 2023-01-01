@@ -1089,7 +1089,7 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Expense Report', 'Customer Report'))
+        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report'))
             @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
                 <section class="mb-5">
                     <x-content.header>
@@ -1121,6 +1121,9 @@
                                         </span>
                                     </div>
                                 @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Return Report'))
                                 @can('Read Return Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a

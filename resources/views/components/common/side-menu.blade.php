@@ -1082,7 +1082,7 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report', 'Expense Report', 'Customer Report'))
+    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report'))
         @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
             <ul
                 x-data="sideMenuAccordion"
@@ -1128,6 +1128,9 @@
                                     />
                                 </li>
                             @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Return Report'))
                             @can('Read Return Report')
                                 <li>
                                     <x-common.button
