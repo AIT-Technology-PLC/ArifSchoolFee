@@ -43,6 +43,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Subtract GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Close GDN']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Cancel GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import GDN']);
 

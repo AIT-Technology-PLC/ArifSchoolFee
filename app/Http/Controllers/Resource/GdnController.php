@@ -94,6 +94,10 @@ class GdnController extends Controller
                 ->with('failedMessage', 'Delivery orders issued from reservations cannot be edited.');
         }
 
+        if ($gdn->isCancelled()) {
+            return back()->with('failedMessage', 'You can not modify a Delivery order that is cancelled.');
+        }
+
         if ($gdn->isApproved()) {
             $gdn->update($request->safe()->only('sale_id', 'description'));
 
@@ -117,7 +121,7 @@ class GdnController extends Controller
             return back()->with('failedMessage', 'Delivery orders issued from reservations cannot be deleted.');
         }
 
-        abort_if($gdn->isSubtracted(), 403);
+        abort_if($gdn->isSubtracted() || $gdn->isCancelled(), 403);
 
         abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
