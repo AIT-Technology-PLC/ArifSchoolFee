@@ -319,27 +319,23 @@ class GdnService
             return [false, 'This Delivery Order is already closed.'];
         }
 
-        if ($gdn->isSubtracted()) {
-            DB::transaction(function () use ($gdn) {
-                InventoryOperationService::add($gdn->gdnDetails, $gdn);
-
-                $gdn->add();
-            });
-
-            if ($gdn->isConvertedToSale()) {
-                $gdn->sale()->forceDelete();
-            }
-
-            if (Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->count()) {
-                Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->forceDelete();
-            }
-        }
-
-        if ($gdn->credit()->exists()) {
-            $gdn->credit()->forceDelete();
-        }
+        $gdn->credit()->forceDelete();
 
         $gdn->cancel();
+
+        if (!$gdn->isSubtracted()) {
+            return [true, ''];
+        }
+
+        DB::transaction(function () use ($gdn) {
+            InventoryOperationService::add($gdn->gdnDetails, $gdn);
+
+            $gdn->add();
+        });
+
+        $gdn->sale()->forceDelete();
+
+        Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->forceDelete();
 
         return [true, ''];
     }
