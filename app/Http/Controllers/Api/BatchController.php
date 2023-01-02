@@ -9,7 +9,7 @@ class BatchController extends Controller
 {
     public function index()
     {
-        $merchandiseBatches = MerchandiseBatch::with(['merchandise'])->orderBy('expiry_date')->get();
+        $merchandiseBatches = MerchandiseBatch::with(['merchandise'])->where('quantity', '>', 0)->orderBy('expiry_date')->get();
 
         return $merchandiseBatches->map(function ($merchandiseBatch) {
             return [
