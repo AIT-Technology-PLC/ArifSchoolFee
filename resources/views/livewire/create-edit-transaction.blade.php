@@ -115,7 +115,7 @@
                                 </x-forms.field>
                             </div>
                         @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
-                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeVAT())
+                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeTax())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -281,8 +281,8 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
-                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeVAT())
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
@@ -308,6 +308,52 @@
                                                         />
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
+                                        @elseif ($detailPadField->isTagInput() && $detailPadField->isInputTypeFile())
+                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
+                                            <div class="column is-6">
+                                                <x-forms.field>
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                        {{ $detailPadField->label }}
+                                                        <sup class="has-text-danger">
+                                                            {{ $detailPadField->isRequired() ? '*' : '' }}
+                                                        </sup>
+                                                    </x-forms.label>
+                                                    <div class="file has-name">
+                                                        <label class="file-label">
+                                                            <x-forms.input
+                                                                class="file-input"
+                                                                type="file"
+                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            />
+                                                            <span class="file-cta bg-green has-text-white">
+                                                                <x-common.icon
+                                                                    name="fas fa-upload"
+                                                                    class="file-icon"
+                                                                />
+                                                                <span class="file-label">
+                                                                    Upload {{ $detailPadField->label }}
+                                                                </span>
+                                                            </span>
+                                                            <span class="file-name">
+                                                                {{ $details[$loop->parent->index][$detailPadField->id] ?? '' }}
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        class="mt-3"
+                                                        wire:loading
+                                                        wire:target="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                    >
+                                                        <span class="icon text-gold">
+                                                            <i class="fas fa-spinner fa-spin"></i>
+                                                        </span>
+                                                        <span class="text-gold is-uppercase">
+                                                            Uploading...
+                                                        </span>
+                                                    </div>
+                                                    <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                 </x-forms.field>
                                             </div>
                                         @elseif($detailPadField->isTagTextarea())

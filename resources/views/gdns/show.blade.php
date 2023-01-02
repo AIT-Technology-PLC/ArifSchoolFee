@@ -106,7 +106,7 @@
                         label="Grand Total Price ({{ userCompany()->currency }})"
                     />
                 </div>
-                @if (!userCompany()->isDiscountBeforeVAT())
+                @if (!userCompany()->isDiscountBeforeTax())
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
@@ -152,7 +152,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$gdn->isSubtracted())
+                @elseif(!$gdn->isSubtracted() && !$gdn->isCancelled())
                     @can('Subtract GDN')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -166,7 +166,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->credit()->exists() && $gdn->payment_type == 'Credit Payment' && $gdn->customer()->exists())
+                @if (isFeatureEnabled('Credit Management') && $gdn->isApproved() && !$gdn->isCancelled() && !$gdn->credit()->exists() && $gdn->payment_type == 'Credit Payment' && $gdn->customer()->exists())
                     @can('Convert To Credit')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -180,7 +180,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed())
+                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled())
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('gdns.close', $gdn->id)"
@@ -192,7 +192,19 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if ($gdn->isApproved())
+                @if ($gdn->isApproved() && !$gdn->isCancelled() && !$gdn->isClosed())
+                    @can('Cancel GDN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.cancel', $gdn->id)"
+                                action="void"
+                                intention="void this delivery order"
+                                icon="fas fa-times-circle"
+                                label="Void"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="a"
@@ -205,7 +217,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed())
+                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -219,7 +231,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isConvertedToSale() && isFeatureEnabled('Sale Management'))
+                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && !$gdn->isConvertedToSale() && isFeatureEnabled('Sale Management'))
                     @can('Create Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -248,7 +260,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if ($gdn->isSubtracted())
+            @if ($gdn->isCancelled())
+                <x-common.fail-message message="This Delivery Order has been cancelled." />
+            @elseif ($gdn->isSubtracted())
                 <x-common.success-message message="Products have been subtracted from inventory." />
             @elseif (!$gdn->isApproved())
                 <x-common.fail-message message="This Delivery Order has not been approved yet." />

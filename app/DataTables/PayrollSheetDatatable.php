@@ -15,7 +15,7 @@ class PayrollSheetDatatable extends DataTable
     {
         return datatables()
             ->collection($query)
-            ->editColumn('name', fn($row) => $row['employee']->user->name)
+            ->editColumn('name', fn($row) => $row['employee_name'])
             ->editColumn('gross_salary', fn($row) => money($row['gross_salary']))
             ->editColumn('taxable_income', fn($row) => money($row['taxable_income']))
             ->editColumn('income_tax', fn($row) => money($row['income_tax']))
@@ -38,7 +38,7 @@ class PayrollSheetDatatable extends DataTable
         return
             [
             Column::computed('#'),
-            Column::make('name'),
+            Column::make('employee_name'),
             Column::make('gross_salary')->addClass('has-text-right text-green'),
             Column::make('taxable_income')->addClass('has-text-right'),
             Column::make('income_tax')->addClass('has-text-right'),

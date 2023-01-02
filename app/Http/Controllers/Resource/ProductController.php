@@ -10,6 +10,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Supplier;
+use App\Models\Tax;
 
 class ProductController extends Controller
 {
@@ -37,7 +38,9 @@ class ProductController extends Controller
 
         $brands = Brand::orderBy('name')->get(['id', 'name']);
 
-        return view('products.create', compact('categories', 'suppliers', 'brands'));
+        $taxes = Tax::orderBy('id')->get(['id', 'type']);
+
+        return view('products.create', compact('categories', 'suppliers', 'brands', 'taxes'));
     }
 
     public function store(StoreProductRequest $request)
@@ -58,7 +61,9 @@ class ProductController extends Controller
 
         $brands = Brand::orderBy('name')->get(['id', 'name']);
 
-        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands'));
+        $taxes = Tax::orderBy('id')->get(['id', 'type']);
+
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands', 'taxes'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)

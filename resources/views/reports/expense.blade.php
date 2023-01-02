@@ -66,7 +66,7 @@
                 amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Expense After VAT/TOT"
+                label="Expense After Tax"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -75,7 +75,7 @@
                 :amount="number_format($expenseReport->getTotalExpenseBeforeTax, 2)"
                 border-color="#fff"
                 text-color="text-green"
-                label="Expense Before VAT/TOT"
+                label="Expense Before Tax"
             />
         </div>
         <div class="column is-3 p-lr-0">

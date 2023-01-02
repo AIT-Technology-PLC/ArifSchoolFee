@@ -209,6 +209,10 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
             Feature::updateOrCreate(
+                ['name' => 'Return Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
                 ['name' => 'Expense Management'],
                 ['is_enabled' => 1]
             );
@@ -251,6 +255,12 @@ class Features extends Seeder
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
             $tender = Plan::firstWhere('name', 'tender');
+
+            $v2Standard = Plan::firstWhere('name', 'v2-standard');
+            $v2Professional = Plan::firstWhere('name', 'v2-professional');
+            $v2Premium = Plan::firstWhere('name', 'v2-premium');
+            $v2Production = Plan::firstWhere('name', 'v2-production');
+            $v2Hr = Plan::firstWhere('name', 'v2-hr');
 
             $features = Feature::all();
 
@@ -297,6 +307,138 @@ class Features extends Seeder
                 $features
                     ->whereNotIn('name', [
                         'Tender Management',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Standard->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Warehouse Management',
+                        'Grn Management',
+                        'Transfer Management',
+                        'Product Management',
+                        'Daily Inventory Level Report',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Professional->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Warehouse Management',
+                        'Grn Management',
+                        'Transfer Management',
+                        'Damage Management',
+                        'Siv Management',
+                        'Inventory Adjustment',
+                        'Gdn Management',
+                        'Proforma Invoice',
+                        'Reservation Management',
+                        'Customer Management',
+                        'Product Management',
+                        'Price Management',
+                        'Price Increment',
+                        'Credit Management',
+                        'Sales Report',
+                        'Daily Inventory Level Report',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Premium->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Warehouse Management',
+                        'Grn Management',
+                        'Transfer Management',
+                        'Damage Management',
+                        'Siv Management',
+                        'Inventory Adjustment',
+                        'Gdn Management',
+                        'Proforma Invoice',
+                        'Reservation Management',
+                        'Return Management',
+                        'Customer Management',
+                        'Product Management',
+                        'Price Management',
+                        'Price Increment',
+                        'Credit Management',
+                        'Purchase Management',
+                        'Supplier Management',
+                        'Debt Management',
+                        'Expense Management',
+                        'Sales Report',
+                        'Return Report',
+                        'Customer Report',
+                        'Expense Report',
+                        'Daily Inventory Level Report',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Production->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Job Management',
+                        'Bill Of Material Management',
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Warehouse Management',
+                        'Grn Management',
+                        'Transfer Management',
+                        'Product Management',
+                        'Daily Inventory Level Report',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Hr->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Employee Management',
+                        'Department Management',
+                        'Employee Transfer',
+                        'Warning Management',
+                        'Attendance Management',
+                        'Leave Management',
+                        'Advancement Management',
+                        'Expense Claim',
+                        'Announcement Management',
+                        'Compensation Management',
+                        'Compensation Adjustment',
+                        'Payroll Management',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
                     ])
                     ->pluck('id')
                     ->toArray()

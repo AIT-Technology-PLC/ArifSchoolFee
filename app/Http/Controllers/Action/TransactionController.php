@@ -88,6 +88,9 @@ class TransactionController extends Controller
     {
         abort_if(!$transaction->pad->isEnabled(), 403);
 
+        $columns['detail'] = [];
+        $columns['master'] = [];
+
         $this->authorize('view', $transaction);
 
         if (!$transaction->pad->isPrintable()) {
@@ -98,15 +101,23 @@ class TransactionController extends Controller
             return back()->with('failedMessage', 'This transaction is not approved yet.');
         }
 
-        if ($transaction->transactionDetails->isEmpty()) {
-            return back()->with('failedMessage', 'This transaction is not applicable for printing.');
+        if ($transaction->transactionDetails->isNotEmpty()) {
+            $columns['detail'] = collect($transaction->transactionDetails->first())
+                ->keys()
+                ->diff(['id', 'transaction', 'line', 'total_tax'])
+                ->reject(fn($value) => str($value)->endsWith('_id'))
+                ->values()
+                ->toArray();
         }
 
-        $columns = collect($transaction->transactionDetails->first())
-            ->keys()
-            ->diff(['id', 'transaction'])
-            ->reject(fn($value) => str($value)->endsWith('_id'))
-            ->toArray();
+        if ($transaction->transactionMasters->isNotEmpty()) {
+            $columns['master'] = collect($transaction->transactionMasters)
+                ->keys()
+                ->diff(['id', 'transaction'])
+                ->reject(fn($value) => str($value)->endsWith('_id'))
+                ->values()
+                ->toArray();
+        }
 
         return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
     }

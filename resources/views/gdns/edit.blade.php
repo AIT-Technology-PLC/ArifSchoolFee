@@ -48,6 +48,7 @@
                                     name="fas fa-user"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="customer_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -143,7 +144,7 @@
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
-                            <div class="column is-12 {{ userCompany()->isDiscountBeforeVAT() ? 'is-hidden' : '' }}">
+                            <div class="column is-12 {{ userCompany()->isDiscountBeforeTax() ? 'is-hidden' : '' }}">
                                 <x-forms.label for="discount">
                                     Discount <sup class="has-text-danger"></sup>
                                 </x-forms.label>

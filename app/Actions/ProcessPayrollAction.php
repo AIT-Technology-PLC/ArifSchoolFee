@@ -3,8 +3,7 @@
 namespace App\Actions;
 
 use App\Models\AttendanceDetail;
-use App\Models\Compensation;
-use App\Models\Employee;
+use App\Models\Payroll;
 use App\Utilities\IncomeTaxCalculator;
 
 class ProcessPayrollAction
@@ -15,21 +14,15 @@ class ProcessPayrollAction
 
     private $employeesCompensations;
 
-    private $payrollDetails;
-
     private $employees;
-
-    private $derivedCompensations;
 
     private $attendanceDetails;
 
     public function execute($payroll)
     {
-        $this->setUp($payroll);
+        $this->setup($payroll);
 
-        $this->generateStaticCompensations();
-
-        $this->generateDerivedCompensations();
+        $this->generateCompensations();
 
         $this->generatePayrollSheet();
 
@@ -38,15 +31,9 @@ class ProcessPayrollAction
 
     private function setup($payroll)
     {
-        $this->payroll = $payroll;
+        $this->payroll = $payroll->load('payrollDetails.employee');
 
-        $this->employeesCompensations = collect();
-
-        $this->payrollDetails = $this->payroll->payrollDetails()->with(['employee', 'compensation'])->get();
-
-        $this->employees = Employee::whereHas('payrollDetails')->get();
-
-        $this->derivedCompensations = Compensation::derived()->orderBy('id', 'DESC')->get();
+        $this->employees = $this->payroll->payrollDetails->pluck('employee')->unique();
 
         $this->attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) {
@@ -58,51 +45,24 @@ class ProcessPayrollAction
             ->get(['employee_id', 'days']);
     }
 
-    private function generateStaticCompensations()
+    private function generateCompensations()
     {
-        foreach ($this->employees as $employee) {
-            foreach ($this->payrollDetails->where('employee_id', $employee->id) as $payrollDetail) {
-                $this->employeesCompensations->push([
-                    'employee' => $payrollDetail->employee,
-                    'compensation' => $payrollDetail->compensation,
-                    'employee_id' => $payrollDetail->employee_id,
-                    'compensation_id' => $payrollDetail->compensation_id,
-                    'compensation_name' => $payrollDetail->compensation->name,
-                    'compensation_is_taxable' => $payrollDetail->compensation->is_taxable,
-                    'compensation_type' => $payrollDetail->compensation->type,
-                    'amount' => $payrollDetail->amount,
-                ]);
-            }
-        }
-    }
-
-    private function generateDerivedCompensations()
-    {
-        foreach ($this->employees as $employee) {
-            foreach ($this->derivedCompensations as $compensation) {
-                if ($this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->count()) {
-                    $derivedAmount = $this->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->first()->amount;
-                } else {
-                    $derivedAmount = $this->employeesCompensations
-                        ->where('employee_id', $employee->id)
-                        ->where('compensation_id', $compensation->depends_on)
-                        ->first()['amount'] * ($compensation->percentage / 100);
-                }
-
-                $this->employeesCompensations->push([
-                    'employee' => $employee,
-                    'compensation' => $compensation,
-                    'employee_id' => $employee->id,
-                    'compensation_id' => $compensation->id,
-                    'compensation_name' => $compensation->name,
-                    'compensation_is_taxable' => $compensation->is_taxable,
-                    'compensation_type' => $compensation->type,
-                    'amount' => !is_null($compensation->maximum_amount) && $derivedAmount >= $compensation->maximum_amount ? $compensation->maximum_amount : $derivedAmount,
-                ]);
-            }
-        }
-
-        $this->employeesCompensations;
+        $this->employeesCompensations = Payroll::query()
+            ->join('payroll_details', 'payrolls.id', '=', 'payroll_details.payroll_id')
+            ->join('employees', 'payroll_details.employee_id', '=', 'employees.id')
+            ->join('users', 'employees.user_id', '=', 'users.id')
+            ->join('compensations', 'payroll_details.compensation_id', '=', 'compensations.id')
+            ->where('payrolls.id', $this->payroll->id)
+            ->select([
+                'payroll_details.employee_id',
+                'payroll_details.compensation_id',
+                'compensations.name AS compensation_name',
+                'compensations.is_taxable AS compensation_is_taxable',
+                'compensations.type AS compensation_type',
+                'users.name',
+                'payroll_details.amount',
+            ])
+            ->get();
     }
 
     private function generatePayrollSheet()
@@ -111,7 +71,7 @@ class ProcessPayrollAction
             $employeeCompensations = $this->employeesCompensations->where('employee_id', $employee->id);
 
             $data['employee'] = $employee;
-            $data['employee_id'] = $employee->id;
+            $data['employee_name'] = $employee->user->name;
             $data['gross_salary'] = $employeeCompensations->where('compensation_type', 'earning')->sum('amount');
             $data['taxable_income'] = $employeeCompensations->where('compensation_type', 'earning')->where('compensation_is_taxable', 1)->sum('amount');
             $data['income_tax'] = IncomeTaxCalculator::calculate($data['taxable_income'])['tax_amount'];

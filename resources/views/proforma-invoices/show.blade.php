@@ -56,7 +56,7 @@
                         label=" Grand Total Price ({{ userCompany()->currency }})"
                     />
                 </div>
-                @if (!userCompany()->isDiscountBeforeVAT())
+                @if (!userCompany()->isDiscountBeforeTax())
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-percentage"
@@ -182,6 +182,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <x-common.fail-message message="This Proforma Invoice has been cancelled." />
             @elseif ($proformaInvoice->isConverted())

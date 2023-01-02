@@ -105,7 +105,7 @@
                 @foreach ($employees as $employee)
                     <tr>
                         <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
-                        <td> {{ $employee['employee']->user->name }} </td>
+                        <td> {{ $employee['employee_name'] }} </td>
                         <td class="has-text-right"> {{ money($employee['net_payable_after_absenteeism']) }} </td>
                         <td class="has-text-centered"> {{ $employee['employee']->bank_account }} </td>
                         <td class="has-text-centered"> {{ $employee['employee']->phone }} </td>
@@ -136,6 +136,8 @@
             :approved-by="$payroll->approvedBy ?? null"
         />
     </section>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

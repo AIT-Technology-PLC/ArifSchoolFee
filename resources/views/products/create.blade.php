@@ -161,6 +161,41 @@
                     <div
                         class="column is-6"
                         x-cloak
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="tax_id">
+                                Tax Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="tax_id"
+                                    name="tax_id"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Tax Type</option>
+                                    @foreach ($taxes as $tax)
+                                        <option
+                                            value="{{ $tax->id }}"
+                                            @selected(old('tax_id') == $tax->id)
+                                        >
+                                            {{ $tax->type }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fa fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="tax_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
                         x-bind:class="{ 'is-hidden': isTypeService }"
                     >
                         <x-forms.field>
@@ -242,8 +277,8 @@
                                     <option disabled>
                                         Select Batch Priority
                                     </option>
-                                    <option value="fifo"> First In First Out </option>
-                                    <option value="lifo"> Last In First Out </option>
+                                    <option value="fifo"> First Expire First Out </option>
+                                    <option value="lifo"> Last Expire First Out </option>
                                     <option value=""> None</option>
                                 </x-forms.select>
                                 <x-common.icon

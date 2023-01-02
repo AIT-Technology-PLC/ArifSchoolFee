@@ -191,6 +191,48 @@ class TransactionService
         }
     }
 
+    public function updateFileUploads($transaction, $data)
+    {
+        $line = 0;
+
+        $padFields = $transaction->pad->padFields()->get();
+
+        if (array_key_exists('master', $data)) {
+            foreach ($data['master'] as $key => $value) {
+                $transactionField = $transaction->transactionFields()->create([
+                    'pad_field_id' => $key,
+                    'value' => $value,
+                ]);
+
+                if (is_object($value) && $padFields->firstWhere('id', $key)->isInputTypeFile()) {
+                    $transactionField->update([
+                        'value' => $value->store('pad_transaction_files', 'public'),
+                    ]);
+                }
+            }
+        }
+
+        if (array_key_exists('details', $data)) {
+            foreach ($data['details'] as $detail) {
+                foreach ($detail as $key => $value) {
+                    $transactionField = $transaction->transactionFields()->create([
+                        'pad_field_id' => $key,
+                        'value' => $value,
+                        'line' => $line,
+                    ]);
+
+                    if (is_object($value) && $padFields->firstWhere('id', $key)->isInputTypeFile()) {
+                        $transactionField->update([
+                            'value' => $value->store('pad_transaction_files', 'public'),
+                        ]);
+                    }
+                }
+
+                $line++;
+            }
+        }
+    }
+
     private function formatTransactionDetails($transaction, $line)
     {
         $transactionDetails = $transaction

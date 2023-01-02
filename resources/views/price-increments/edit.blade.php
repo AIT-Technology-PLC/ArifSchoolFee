@@ -127,7 +127,7 @@
                                             value="{{ $product->id }}"
                                             @selected(in_array($product->id, old('product_id.' . $loop->index . '.product_id', $priceIncrement->priceIncrementDetails->pluck('product_id')->toArray())))
                                         >
-                                            {{ str($product->name)->title()->singular() }}
+                                            {{ $product->code? str($product->name)->title()->singular()->append(' (', $product->code, ')'): str($product->name)->title()->singular() }}
                                         </option>
                                     @endforeach
                                 </x-forms.select>

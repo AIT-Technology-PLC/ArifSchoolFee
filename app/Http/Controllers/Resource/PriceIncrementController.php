@@ -41,7 +41,7 @@ class PriceIncrementController extends Controller
     {
         $currentPriceIncrementCode = nextReferenceNumber('price_increments');
 
-        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name']);
+        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name', 'code']);
 
         return view('price-increments.create', compact('currentPriceIncrementCode', 'products'));
     }
@@ -84,7 +84,7 @@ class PriceIncrementController extends Controller
             return back()->with('failedMessage', 'You can not modify a price increment that is approved.');
         }
 
-        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name']);
+        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name', 'code']);
 
         $priceIncrement->load(['priceIncrementDetails']);
 

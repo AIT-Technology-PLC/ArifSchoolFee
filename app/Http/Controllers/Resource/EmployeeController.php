@@ -13,6 +13,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Warehouse;
 use App\Scopes\ActiveWarehouseScope;
+use App\Utilities\PayrollGenerator;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -67,7 +68,9 @@ class EmployeeController extends Controller
     {
         $employee->load(['user.roles', 'user.warehouse', 'department', 'warnings', 'expenseClaims', 'employeeCompensations']);
 
-        return view('employees.show', compact('employee'));
+        $payroll = PayrollGenerator::calculate($employee);
+
+        return view('employees.show', compact('employee', 'payroll'));
     }
 
     public function edit(Employee $employee)

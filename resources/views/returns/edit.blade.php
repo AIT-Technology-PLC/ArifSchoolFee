@@ -103,7 +103,7 @@
                 </div>
             </x-content.main>
 
-            @include('returns.details-form', ['data' => ['returnn' => old('return') ?? $return->returnDetails]])
+            @include('returns.details-form', ['data' => ['return' => old('return') ?? $return->returnDetails]])
 
             <x-content.footer>
                 <x-common.save-button />

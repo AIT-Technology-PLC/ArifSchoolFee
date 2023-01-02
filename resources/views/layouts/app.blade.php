@@ -14,7 +14,6 @@
     <title> @yield('title') - {{ userCompany()->name }} </title>
     @include('assets.css')
     @include('pwa.tags')
-    @larabugJavaScriptClient
 </head>
 
 <body class="has-navbar-fixed-top">

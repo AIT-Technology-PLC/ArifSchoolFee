@@ -135,34 +135,6 @@
         </table>
     </section>
 
-    {{-- <div style="position:absolute;bottom: 14%;left: 15%;right: 0;margin-left: 40%">
-        <aside class="pl-6">
-            <h1 class="is-size-7 is-uppercase has-text-grey-light mt-3">
-                Delivered By
-                @if (!$siv->delivered_by)
-                    : <div
-                        class="is-inline-block"
-                        style="border: 1px solid lightgrey;width: 38%"
-                    ></div>
-                @endif
-            </h1>
-            @if ($siv->delivered_by)
-                <h1 class="has-text-weight-bold has-text-grey-dark is-capitalized">
-                    {{ $siv->delivered_by }}
-                </h1>
-            @endif
-            <h1 class="is-uppercase has-text-grey-light has-text-weight-dark is-size-7 mb-4 mt-3">
-                <div>
-                    Signature
-                </div>
-                <div
-                    class="mt-6"
-                    style="border: 1px solid lightgrey;width: 70%"
-                ></div>
-            </h1>
-        </aside>
-    </div> --}}
-
     <footer class="is-clearfix my-6">
         <aside
             class="is-pulled-left"
@@ -210,6 +182,8 @@
         :created-by="$siv->createdBy ?? null"
         :approved-by="$siv->approvedBy ?? null"
     />
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

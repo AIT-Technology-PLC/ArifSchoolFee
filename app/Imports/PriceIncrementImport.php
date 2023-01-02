@@ -24,27 +24,33 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     {
         $this->priceIncrement = $priceIncrement;
 
-        $this->products = Product::whereHas('price')->get(['id', 'name']);
+        $this->products = Product::whereHas('price')->get(['id', 'name', 'code']);
     }
 
     public function model(array $row)
     {
         return new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
-            'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
+            'product_id' => $this->products
+                ->where('name', $row['product_name'])
+                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+                ->first()
+                ->id,
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'product_name' => ['required', 'string', 'max:255', 'distinct', Rule::in($this->products->pluck('name'))],
+            'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_name'] = str()->squish($data['product_name'] ?? null);
+        $data['product_code'] = str()->squish($data['product_code'] ?? null);
 
         return $data;
     }

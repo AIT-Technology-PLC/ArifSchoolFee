@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
 
-
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
     [Action\PermissionController::class, 'edit'])
@@ -100,6 +99,10 @@ Route::post('/gdns/{gdn}/subtract',
 Route::post('/gdns/{gdn}/convert-to-credit',
     [Action\GdnController::class, 'convertToCredit'])
     ->name('gdns.convert_to_credit');
+
+Route::post('/gdns/{gdn}/cancel',
+    [Action\GdnController::class, 'cancel'])
+    ->name('gdns.cancel');
 
 // Sivs
 Route::get('/sivs/{siv}/print',
@@ -239,7 +242,7 @@ Route::post('/employees/import',
     ->name('employees.import');
 
 Route::post('/employee-compensations/import',
-    [Action\EmployeeController::class, 'importEmployeeCompensation'])
+    [Action\EmployeeCompensationController::class, 'import'])
     ->name('employee-compensations.import');
 
 Route::post('/warehouses/import',
@@ -446,7 +449,7 @@ Route::get('/payrolls/{payroll}/print',
     [Action\PayrollController::class, 'printed'])
     ->name('payrolls.print');
 
-//Merchandise Batch
+// Merchandise Batch
 Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
     [Action\MerchandiseBatchController::class, 'convertToDamage'])
     ->name('merchandise-batches.convert_to_damage');

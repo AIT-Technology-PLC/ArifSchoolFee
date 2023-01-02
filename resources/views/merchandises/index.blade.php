@@ -230,6 +230,13 @@
                             </a>
                         </li>
                     @endcan
+                    @can('Read On Hand Inventory')
+                        <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
+                            <a href="{{ route('merchandises.index', 'on-hand') }}">
+                                <span>On Hand</span>
+                            </a>
+                        </li>
+                    @endcan
                 @endif
                 @if (userCompany()->plan->isPremium())
                     @can('Read Work In Process Inventory')
@@ -240,13 +247,6 @@
                         </li>
                     @endcan
                 @endif
-                @can('Read On Hand Inventory')
-                    <li class="on-hand {{ request()->is('merchandises/on-hand') ? 'is-active' : '' }}">
-                        <a href="{{ route('merchandises.index', 'on-hand') }}">
-                            <span>On Hand</span>
-                        </a>
-                    </li>
-                @endcan
                 @can('Read Out Of Stock Inventory')
                     <li class="out-of-stock {{ request()->is('merchandises/out-of-stock') ? 'is-active' : '' }}">
                         <a href="{{ route('merchandises.index', 'out-of-stock') }}">

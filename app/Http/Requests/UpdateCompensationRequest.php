@@ -17,7 +17,7 @@ class UpdateCompensationRequest extends FormRequest
     {
         return [
             'depends_on' => ['nullable', 'integer', new MustBelongToCompany('compensations')],
-            'name' => ['required', 'string', 'max:255', 'distinct', Rule::unique('compensations')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('compensation')->id)->withoutTrashed()],
+            'name' => ['required', 'string', 'max:255', 'distinct', Rule::unique('compensations')->where('company_id', userCompany()->id)->where('is_active', 1)->whereNot('id', $this->route('compensation')->id)->withoutTrashed()],
             'type' => ['required', 'string', 'max:255', Rule::In(['earning', 'deduction'])],
             'is_active' => ['required', 'boolean'],
             'is_taxable' => ['required', 'boolean'],

@@ -70,16 +70,18 @@
     @endif
     @foreach ($transaction->pad->convert_to as $feature)
         @can('convert', $transaction)
-            <x-common.dropdown-item>
-                <x-common.button
-                    tag="a"
-                    href="{{ route('transactions.convert_to', [$transaction->id, 'target' => $feature]) }}"
-                    mode="button"
-                    icon="fas fa-file-invoice"
-                    label="Issue {{ $transaction->pad->featureNames($feature) }}"
-                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                />
-            </x-common.dropdown-item>
+            @if (!is_null($transaction->pad->featureNames($feature)))
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('transactions.convert_to', [$transaction->id, 'target' => $feature]) }}"
+                        mode="button"
+                        icon="fas fa-file-invoice"
+                        label="Issue {{ $transaction->pad->featureNames($feature) }}"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
+            @endif
         @endcan
     @endforeach
     @if ($transaction->pad->padStatuses->isNotEmpty())

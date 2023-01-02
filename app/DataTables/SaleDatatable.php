@@ -31,7 +31,7 @@ class SaleDatatable extends DataTable
             })
             ->editColumn('fs_number', fn($sale) => !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
             ->editColumn('total price', function ($sale) {
-                return userCompany()->isDiscountBeforeVAT() ?
+                return userCompany()->isDiscountBeforeTax() ?
                 userCompany()->currency . '. ' . number_format($sale->grandTotalPrice, 2) :
                 userCompany()->currency . '. ' . number_format($sale->grandTotalPriceAfterDiscount, 2);
             })

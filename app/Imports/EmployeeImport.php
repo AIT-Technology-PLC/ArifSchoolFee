@@ -86,6 +86,14 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
         ];
     }
 
+    public function prepareForValidation($data, $index)
+    {
+        $data['name'] = str()->squish($data['name'] ?? '');
+        $data['email'] = str()->squish($data['email'] ?? '');
+
+        return $data;
+    }
+
     public function chunkSize(): int
     {
         return 500;

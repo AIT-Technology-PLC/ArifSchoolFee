@@ -22,6 +22,17 @@ class TransactionFieldDatatable extends DataTable
     public function dataTable($query)
     {
         $datatable = datatables()->collection($query->all());
+        $padFields = PadField::inputTypeFile()->where('pad_id', request()->route('transaction')->pad_id)->get();
+
+        foreach ($padFields as $padField) {
+            $datatable->editColumn(str()->snake($padField->label), function ($row) use ($padField) {
+                return view('components.datatables.link', [
+                    'url' => isset($row[str()->snake($padField->label)]) ? asset('/storage/' . $row[str()->snake($padField->label)]) : '#',
+                    'label' => isset($row[str()->snake($padField->label)]) ? $padField->label : ('No ' . $padField->label),
+                    'target' => '_blank',
+                ]);
+            });
+        }
 
         if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
             $datatable
@@ -64,7 +75,7 @@ class TransactionFieldDatatable extends DataTable
         }
 
         if (request()->route('transaction')->pad->hasPrices()) {
-            $columns[] = userCompany()->isDiscountBeforeVAT() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
+            $columns[] = userCompany()->isDiscountBeforeTax() && $padFields->contains('label', 'discount') ? Column::computed('discount') : null;
             $columns[] = Column::make('total');
         }
 

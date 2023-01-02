@@ -92,6 +92,8 @@
             @endif
         @endforeach
     </section>
+
+    <x-print.footer-marketing />
 </body>
 
 </html>

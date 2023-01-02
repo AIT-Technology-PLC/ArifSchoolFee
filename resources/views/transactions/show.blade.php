@@ -43,9 +43,10 @@
                     />
                 </div>
                 @foreach ($masterTransactionFields as $masterTransactionField)
-                    <div class="column {{ $masterTransactionField->padField->isTagTextarea() ? 'is-12' : 'is-6' }}">
+                    @continue($masterTransactionField->padField->isTagTextarea())
+                    <div class="column is-6">
                         <x-common.show-data-section
-                            :type="$masterTransactionField->padField->isTagTextarea() ? 'long' : 'short'"
+                            type="short"
                             :icon="$masterTransactionField->padField->icon"
                             :data="$masterTransactionField->padField->hasRelation() ? $masterTransactionField->relationValue : $masterTransactionField->value"
                             :label="$masterTransactionField->padField->label"
@@ -67,7 +68,7 @@
                             label="Grand Total Price ({{ userCompany()->currency }})"
                         />
                     </div>
-                    @if (!userCompany()->isDiscountBeforeVAT())
+                    @if (!userCompany()->isDiscountBeforeTax())
                         <div class="column is-6">
                             <x-common.show-data-section
                                 icon="fas fa-dollar-sign"
@@ -77,6 +78,17 @@
                         </div>
                     @endif
                 @endif
+                @foreach ($masterTransactionFields as $masterTransactionField)
+                    @continue(!$masterTransactionField->padField->isTagTextarea())
+                    <div class="column is-12">
+                        <x-common.show-data-section
+                            type="long"
+                            :icon="$masterTransactionField->padField->icon"
+                            :data="$masterTransactionField->value"
+                            :label="$masterTransactionField->padField->label"
+                        />
+                    </div>
+                @endforeach
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

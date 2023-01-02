@@ -14,7 +14,6 @@
     <title> @yield('title') </title>
     @include('assets.css')
     @include('pwa.tags')
-    @larabugJavaScriptClient
 </head>
 
 <body>

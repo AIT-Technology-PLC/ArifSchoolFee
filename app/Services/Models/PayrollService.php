@@ -25,13 +25,16 @@ class PayrollService
 
             $payroll->payrollDetails()->forceDelete();
 
-            $employeeCompensations = EmployeeCompensation::whereIn('compensation_id', Compensation::active()->pluck('id'))->with('employee')->get(['employee_id', 'compensation_id', 'amount']);
+            $employeeCompensations = EmployeeCompensation::query()
+                ->whereRelation('employee', 'enabled', '1')
+                ->whereIn('compensation_id', Compensation::active()->pluck('id'))
+                ->with('employee')->get(['employee_id', 'compensation_id', 'amount']);
 
-            $compensationAdjustments = CompensationAdjustmentDetail::whereHas('compensationAdjustment', function ($query) use ($payroll) {
-                return $query->approved()
-                    ->where('starting_period', $payroll->starting_period)
-                    ->where('ending_period', $payroll->ending_period);
-            })->get(['employee_id', 'compensation_id', 'amount']);
+            $compensationAdjustments = CompensationAdjustmentDetail::query()
+                ->whereRelation('employee', 'enabled', '1')
+                ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
+                    return $query->approved()->where('starting_period', $payroll->starting_period)->where('ending_period', $payroll->ending_period);
+                })->get(['employee_id', 'compensation_id', 'amount']);
 
             $employeeCompensations = $employeeCompensations
                 ->whereNotIn('employee_id', $compensationAdjustments->pluck('employee_id'))
@@ -40,6 +43,8 @@ class PayrollService
                 ->toArray();
 
             $payroll->payrollDetails()->createMany($employeeCompensations);
+
+            $this->storeDerivedCompensations($payroll, $compensationAdjustments);
 
             return [true, $message];
         });
@@ -84,5 +89,40 @@ class PayrollService
         });
 
         return [true, 'You have paid this transaction successfully.'];
+    }
+
+    private function storeDerivedCompensations($payroll, $compensationAdjustments)
+    {
+        $employees = $payroll->payrollDetails->pluck('employee')->unique();
+
+        $data = collect();
+
+        $derivedCompensations = Compensation::active()->derived()->orderBy('id', 'DESC')->get();
+
+        foreach ($employees as $employee) {
+            foreach ($derivedCompensations as $compensation) {
+                if ($payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->count()) {
+                    $derivedAmount = $payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->first()->amount;
+                } else {
+                    $derivedAmount = $payroll->payrollDetails
+                        ->where('employee_id', $employee->id)
+                        ->where('compensation_id', $compensation->depends_on)
+                        ->first()['amount'] * ($compensation->percentage / 100);
+                }
+
+                $data->push([
+                    'employee_id' => $employee->id,
+                    'compensation_id' => $compensation->id,
+                    'amount' => !is_null($compensation->maximum_amount) && $derivedAmount >= $compensation->maximum_amount ? $compensation->maximum_amount : $derivedAmount,
+                ]);
+            }
+        }
+
+        $payroll->payrollDetails()->createMany(
+            $data
+                ->whereNotIn('employee_id', $compensationAdjustments->pluck('employee_id'))
+                ->whereNotIn('compensation_id', $compensationAdjustments->pluck('employee_id'))
+                ->toArray()
+        );
     }
 }
