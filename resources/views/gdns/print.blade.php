@@ -69,6 +69,8 @@
                 {{ $gdn->issued_on->toFormattedDateString() }}
             </h1>
         </aside>
+
+        <x-print.payment :model="$gdn" />
     </section>
 
     <hr
@@ -76,11 +78,9 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-    <x-print.payment :model="$gdn" />
-
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
-            Delivery Note
+            {{ !$gdn->isPaymentInCredit() ? 'Cash' : 'Credit' }} Sales Attachment
         </h1>
     </section>
 
@@ -102,7 +102,9 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Code</th>
+                    @if ($gdn->gdnDetails->where())
+                        <th>Code</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
@@ -197,6 +199,7 @@
     />
 
     <x-print.footer-marketing />
+    {{ dd('Print page modification') }}
 </body>
 
 </html>

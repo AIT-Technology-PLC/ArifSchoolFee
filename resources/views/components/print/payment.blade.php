@@ -1,17 +1,19 @@
 @props(['model'])
 
-<section class="is-clearfix py-3">
-    <aside
-        class="is-pulled-left"
-        style="width: 25% !important"
-    >
-        <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
-            Payment Type
-        </h1>
-        <h1 class="has-text-black is-size-6 pr-2">
-            {{ $model->payment_type }}
-        </h1>
-    </aside>
+<section class="is-clearfix">
+    @if (!$model->isPaymentInCredit())
+        <aside
+            class="is-pulled-left"
+            style="width: 25% !important"
+        >
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                Payment Type
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $model->payment_type }}
+            </h1>
+        </aside>
+    @endif
     <aside
         class="is-pulled-left"
         style="width: 25% !important"
