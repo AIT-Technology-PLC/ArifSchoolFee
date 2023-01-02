@@ -81,8 +81,20 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management', 'Compensation Adjustment'))
-            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment'])
+        @if (isFeatureEnabled(
+            'Employee Management',
+            'Department Management',
+            'Employee Transfer',
+            'Attendance Management',
+            'Warning Management',
+            'Advancement Management',
+            'Leave Management',
+            'Expense Claim',
+            'Announcement Management',
+            'Compensation Management',
+            'Compensation Adjustment',
+            'Payroll Management'))
+            @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment', 'Read Payroll'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -318,6 +330,25 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Payroll Management'))
+                                @can('Read Payroll')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('payrolls.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-coins"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Payrolls
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 </section>
@@ -496,8 +527,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Credit', 'Read Customer', 'Read Contact'])
+        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
+            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -601,25 +632,6 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Returns
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Credit Management'))
-                                @can('Read Credit')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('credits.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-money-check"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Credits
                                         </span>
                                     </div>
                                 @endcan
@@ -778,135 +790,6 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
-            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Expense'])
-                <section class="mb-5">
-                    <x-content.header>
-                        <x-slot name="header">
-                            <span class="icon">
-                                <i class="fas fa-shopping-bag"></i>
-                            </span>
-                            <span class="ml-2">
-                                Purchases & Suppliers
-                            </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Purchase Management'))
-                                @can('Read Purchase')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('purchases.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-shopping-bag"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Purchases
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Supplier Management'))
-                                @can('Read Supplier')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('suppliers.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-address-card"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Suppliers
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Debt Management'))
-                                @can('Read Debt')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('debts.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-money-check-dollar"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Debts
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Expense Management'))
-                                @can('Read Expense')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('expense-categories.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fa-solid fa-money-bill-trend-up"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Expense Categories
-                                        </span>
-                                    </div>
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('expenses.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fa-solid fa-money-bill-trend-up"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Expenses
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('Purchase & Suppliers') as $pad)
-                                @canpad('Read', $pad)
-                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                    <a
-                                        href="{{ route('pads.transactions.index', $pad->id) }}"
-                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                    >
-                                        <span class="icon is-size-5">
-                                            <i class="{{ $pad->icon }}"></i>
-                                        </span>
-                                    </a>
-                                    <br>
-                                    <span class="is-size-6 is-size-7-mobile text-green">
-                                        {{ $pad->abbreviation }}
-                                    </span>
-                                </div>
-                                @endcanpad
-                            @endforeach
-                        </div>
-                    </x-content.footer>
-                </section>
-            @endcanany
-        @endif
-
         @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
             @can('Read Product', 'Read Price', 'Read Price Increment')
                 <section class="mb-5">
@@ -1012,8 +895,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Credit Management', 'Debt Management', 'Payroll Management'))
-            @canany(['Read Credit', 'Read Debt', 'Read Payroll'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1027,39 +910,39 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Payroll Management'))
-                                @can('Read Payroll')
+                            @if (isFeatureEnabled('Purchase Management'))
+                                @can('Read Purchase')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('payrolls.index') }}"
+                                            href="{{ route('purchases.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fa-solid fa-coins"></i>
+                                                <i class="fas fa-shopping-bag"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Payrolls
+                                            Purchases
                                         </span>
                                     </div>
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Credit Management'))
-                                @can('Read Credit')
+                            @if (isFeatureEnabled('Supplier Management'))
+                                @can('Read Supplier')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('receivables.index') }}"
+                                            href="{{ route('suppliers.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-hand-holding-dollar"></i>
+                                                <i class="fas fa-address-card"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Receivables & Aging
+                                            Suppliers
                                         </span>
                                     </div>
                                 @endcan
@@ -1069,28 +952,99 @@
                                 @can('Read Debt')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
-                                            href="{{ route('payables.index') }}"
+                                            href="{{ route('debts.index') }}"
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-sack-dollar"></i>
+                                                <i class="fas fa-money-check-dollar"></i>
                                             </span>
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Payables & Aging
+                                            Debts
                                         </span>
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Credit Management'))
+                                @can('Read Credit')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('credits.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-money-check"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Credits
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Read Expense')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expense-categories.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expense Categories
+                                        </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('expenses.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Expenses
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @foreach (pads('Purchase & Suppliers') as $pad)
+                                @canpad('Read', $pad)
+                                <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                    <a
+                                        href="{{ route('pads.transactions.index', $pad->id) }}"
+                                        class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                    >
+                                        <span class="icon is-size-5">
+                                            <i class="{{ $pad->icon }}"></i>
+                                        </span>
+                                    </a>
+                                    <br>
+                                    <span class="is-size-6 is-size-7-mobile text-green">
+                                        {{ $pad->abbreviation }}
+                                    </span>
+                                </div>
+                                @endcanpad
+                            @endforeach
                         </div>
                     </x-content.footer>
                 </section>
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Expense Report', 'Customer Report'))
-            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report'])
+        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Credit Management', 'Debt Management'))
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Credit', 'Read Debt'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1121,6 +1075,9 @@
                                         </span>
                                     </div>
                                 @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Return Report'))
                                 @can('Read Return Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
@@ -1191,6 +1148,44 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Inventory Level
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Credit Management'))
+                                @can('Read Credit')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('receivables.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-hand-holding-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Receivables & Aging
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Read Debt')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('payables.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-sack-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Payables & Aging
                                         </span>
                                     </div>
                                 @endcan
