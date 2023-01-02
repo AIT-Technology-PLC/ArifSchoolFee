@@ -341,27 +341,29 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="proforma_invoice_prefix">
-                                Proforma Invoice Prefix <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="proforma_invoice_prefix"
-                                    name="proforma_invoice_prefix"
-                                    type="text"
-                                    placeholder="eg. AB/21"
-                                    value="{{ $company->proforma_invoice_prefix ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-font"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="proforma_invoice_prefix" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Proforma Invoice'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="proforma_invoice_prefix">
+                                    Proforma Invoice Prefix <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="proforma_invoice_prefix"
+                                        name="proforma_invoice_prefix"
+                                        type="text"
+                                        placeholder="eg. AB/21"
+                                        value="{{ $company->proforma_invoice_prefix ?? '' }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-font"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="proforma_invoice_prefix" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="is_price_before_vat">
@@ -421,36 +423,38 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="is_convert_to_siv_as_approved">
-                                Convert to SIV as <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control>
-                                <label class="radio has-text-grey">
-                                    <input
-                                        type="radio"
-                                        name="is_convert_to_siv_as_approved"
-                                        value="1"
-                                        class="mt-3"
-                                        {{ $company->is_convert_to_siv_as_approved ? 'checked' : '' }}
-                                    >
-                                    Approved
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey mt-2">
-                                    <input
-                                        type="radio"
-                                        name="is_convert_to_siv_as_approved"
-                                        value="0"
-                                        {{ $company->is_convert_to_siv_as_approved ? '' : 'checked' }}
-                                    >
-                                    Not approved
-                                </label>
-                                <x-common.validation-error property="is_convert_to_siv_as_approved" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Siv Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="is_convert_to_siv_as_approved">
+                                    Convert to SIV as <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="is_convert_to_siv_as_approved"
+                                            value="1"
+                                            class="mt-3"
+                                            {{ $company->is_convert_to_siv_as_approved ? 'checked' : '' }}
+                                        >
+                                        Approved
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="is_convert_to_siv_as_approved"
+                                            value="0"
+                                            {{ $company->is_convert_to_siv_as_approved ? '' : 'checked' }}
+                                        >
+                                        Not approved
+                                    </label>
+                                    <x-common.validation-error property="is_convert_to_siv_as_approved" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="is_editing_reference_number_enabled">
@@ -511,264 +515,274 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="is_backorder_enabled">
-                                Backorder <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control>
-                                <label class="radio has-text-grey">
-                                    <input
-                                        type="radio"
-                                        name="is_backorder_enabled"
-                                        value="1"
-                                        class="mt-3"
-                                        @checked($company->isBackorderEnabled())
+                    @if (isFeatureEnabled('Gdn Management') || isFeatureEnabled('Reservation Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="is_backorder_enabled">
+                                    Backorder <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="is_backorder_enabled"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->isBackorderEnabled())
+                                        >
+                                        Enabled
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="is_backorder_enabled"
+                                            value="0"
+                                            @checked(!$company->isBackorderEnabled())
+                                        >
+                                        Disabled
+                                    </label>
+                                    <x-common.validation-error property="is_backorder_enabled" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="can_check_inventory_on_forms">
+                                    Allow Inventory Checking On Forms <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="can_check_inventory_on_forms"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->isInventoryCheckerEnabled())
+                                        >
+                                        Enabled
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="can_check_inventory_on_forms"
+                                            value="0"
+                                            @checked(!$company->isInventoryCheckerEnabled())
+                                        >
+                                        Disabled
+                                    </label>
+                                    <x-common.validation-error property="can_check_inventory_on_forms" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Payroll Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="income_tax_region">
+                                    Income Tax Region <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="income_tax_region"
+                                        name="income_tax_region"
                                     >
-                                    Enabled
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey mt-2">
-                                    <input
-                                        type="radio"
-                                        name="is_backorder_enabled"
-                                        value="0"
-                                        @checked(!$company->isBackorderEnabled())
-                                    >
-                                    Disabled
-                                </label>
-                                <x-common.validation-error property="is_backorder_enabled" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="can_check_inventory_on_forms">
-                                Allow Inventory Checking On Forms <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control>
-                                <label class="radio has-text-grey">
-                                    <input
-                                        type="radio"
-                                        name="can_check_inventory_on_forms"
-                                        value="1"
-                                        class="mt-3"
-                                        @checked($company->isInventoryCheckerEnabled())
-                                    >
-                                    Enabled
-                                </label>
-                                <br>
-                                <label class="radio has-text-grey mt-2">
-                                    <input
-                                        type="radio"
-                                        name="can_check_inventory_on_forms"
-                                        value="0"
-                                        @checked(!$company->isInventoryCheckerEnabled())
-                                    >
-                                    Disabled
-                                </label>
-                                <x-common.validation-error property="can_check_inventory_on_forms" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="income_tax_region">
-                                Income Tax Region <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="income_tax_region"
-                                    name="income_tax_region"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Region</option>
-                                    <option
-                                        value="Ethiopia"
-                                        @selected($company->income_tax_region == 'Ethiopia')
-                                    >Ethiopia</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-city"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="income_tax_region" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.label>
-                            Payroll Bank Details <sup class="has-text-danger"></sup>
-                        </x-forms.label>
-                        <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="payroll_bank_name"
-                                    name="payroll_bank_name"
-                                >
-                                    <option
-                                        disabled
-                                        selected
-                                    >
-                                        Select Bank
-                                    </option>
-                                    @if (old('payroll_bank_name', $company->payroll_bank_name))
                                         <option
-                                            value="{{ old('payroll_bank_name', $company->payroll_bank_name) }}"
+                                            selected
+                                            disabled
+                                        >Select Region</option>
+                                        <option
+                                            value="Ethiopia"
+                                            @selected($company->income_tax_region == 'Ethiopia')
+                                        >Ethiopia</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-city"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="income_tax_region" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.label>
+                                Payroll Bank Details <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="payroll_bank_name"
+                                        name="payroll_bank_name"
+                                    >
+                                        <option
+                                            disabled
                                             selected
                                         >
-                                            {{ old('payroll_bank_name', $company->payroll_bank_name) }}
+                                            Select Bank
                                         </option>
-                                    @endif
-                                    @include('lists.banks')
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-university"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="payroll_bank_name" />
-                            </x-forms.control>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="payroll_bank_account_number"
-                                    name="payroll_bank_account_number"
-                                    type="text"
-                                    placeholder="Bank Account"
-                                    value="{{ old('payroll_bank_account_number', $company->payroll_bank_account_number) }}"
-                                    autocomplete="payroll_bank_account_number"
-                                />
-                                <x-common.icon
-                                    name="fas fa-hashtag"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="payroll_bank_account_number" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="paid_time_off_amount">
-                                Paid Time Off Amount <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="paid_time_off_amount"
-                                    name="paid_time_off_amount"
-                                    type="number"
-                                    placeholder="Paid Time Off Amount"
-                                    value="{{ $company->paid_time_off_amount ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="paid_time_off_amount" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="paid_time_off_type">
-                                Paid Time Off Type <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="paid_time_off_type"
-                                    name="paid_time_off_type"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Paid Time Off Type</option>
-                                    <option
-                                        value="Days"
-                                        @selected($company->paid_time_off_type == 'Days')
-                                    >Days</option>
-                                    <option
-                                        value="Hours"
-                                        @selected($company->paid_time_off_type == 'Hours')
-                                    >Hours</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="paid_time_off_type" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="working_days">
-                                Working Days <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="working_days"
-                                    name="working_days"
-                                    type="number"
-                                    min="1"
-                                    max="30"
-                                    placeholder="Working Days"
-                                    value="{{ $company->working_days ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="working_days" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="sales_report_source">
-                                Sales Report Source <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="sales_report_source"
-                                    name="sales_report_source"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Source</option>
-                                    <option
-                                        value="All Delivery Orders"
-                                        @selected($company->sales_report_source == 'All Delivery Orders')
-                                    >All Delivery Orders</option>
-                                    <option
-                                        value="Approved & Subtracted Delivery Orders"
-                                        @selected($company->sales_report_source == 'Approved & Subtracted Delivery Orders')
-                                    >Approved & Subtracted Delivery Orders</option>
-                                    <option
-                                        value="Subtracted Delivery Orders"
-                                        @selected($company->sales_report_source == 'Subtracted Delivery Orders')
-                                    >Subtracted Delivery Orders</option>
-                                    <option
-                                        value="All Invoices"
-                                        @selected($company->sales_report_source == 'All Invoices')
-                                    >All Invoices</option>
-                                    <option
-                                        value="Approved Invoices"
-                                        @selected($company->sales_report_source == 'Approved Invoices')
-                                    >Approved Invoices</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-sort"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="sales_report_source" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                                        @if (old('payroll_bank_name', $company->payroll_bank_name))
+                                            <option
+                                                value="{{ old('payroll_bank_name', $company->payroll_bank_name) }}"
+                                                selected
+                                            >
+                                                {{ old('payroll_bank_name', $company->payroll_bank_name) }}
+                                            </option>
+                                        @endif
+                                        @include('lists.banks')
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-university"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="payroll_bank_name" />
+                                </x-forms.control>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="payroll_bank_account_number"
+                                        name="payroll_bank_account_number"
+                                        type="text"
+                                        placeholder="Bank Account"
+                                        value="{{ old('payroll_bank_account_number', $company->payroll_bank_account_number) }}"
+                                        autocomplete="payroll_bank_account_number"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-hashtag"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="payroll_bank_account_number" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Leave Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="paid_time_off_amount">
+                                    Paid Time Off Amount <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="paid_time_off_amount"
+                                        name="paid_time_off_amount"
+                                        type="number"
+                                        placeholder="Paid Time Off Amount"
+                                        value="{{ $company->paid_time_off_amount ?? '' }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="paid_time_off_amount" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="paid_time_off_type">
+                                    Paid Time Off Type <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="paid_time_off_type"
+                                        name="paid_time_off_type"
+                                    >
+                                        <option
+                                            selected
+                                            disabled
+                                        >Select Paid Time Off Type</option>
+                                        <option
+                                            value="Days"
+                                            @selected($company->paid_time_off_type == 'Days')
+                                        >Days</option>
+                                        <option
+                                            value="Hours"
+                                            @selected($company->paid_time_off_type == 'Hours')
+                                        >Hours</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="paid_time_off_type" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Payroll Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="working_days">
+                                    Working Days <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="working_days"
+                                        name="working_days"
+                                        type="number"
+                                        min="1"
+                                        max="30"
+                                        placeholder="Working Days"
+                                        value="{{ $company->working_days ?? '' }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="working_days" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Sales Report'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="sales_report_source">
+                                    Sales Report Source <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="sales_report_source"
+                                        name="sales_report_source"
+                                    >
+                                        <option
+                                            selected
+                                            disabled
+                                        >Select Source</option>
+                                        <option
+                                            value="All Delivery Orders"
+                                            @selected($company->sales_report_source == 'All Delivery Orders')
+                                        >All Delivery Orders</option>
+                                        <option
+                                            value="Approved & Subtracted Delivery Orders"
+                                            @selected($company->sales_report_source == 'Approved & Subtracted Delivery Orders')
+                                        >Approved & Subtracted Delivery Orders</option>
+                                        <option
+                                            value="Subtracted Delivery Orders"
+                                            @selected($company->sales_report_source == 'Subtracted Delivery Orders')
+                                        >Subtracted Delivery Orders</option>
+                                        <option
+                                            value="All Invoices"
+                                            @selected($company->sales_report_source == 'All Invoices')
+                                        >All Invoices</option>
+                                        <option
+                                            value="Approved Invoices"
+                                            @selected($company->sales_report_source == 'Approved Invoices')
+                                        >Approved Invoices</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="sales_report_source" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                 </div>
             </x-content.main>
             <x-content.footer>
