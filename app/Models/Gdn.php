@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateCreditPayment;
+use App\Traits\Cancellable;
 use App\Traits\Closable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gdn extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Subtractable, CalculateCreditPayment, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Subtractable, Addable, CalculateCreditPayment, Closable, Cancellable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

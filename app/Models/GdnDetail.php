@@ -50,7 +50,8 @@ class GdnDetail extends Model
                 $query->select('id')
                     ->from('gdns')
                     ->where('company_id', userCompany()->id)
-                    ->whereNotNull('subtracted_by');
+                    ->whereNotNull('subtracted_by')
+                    ->whereNull('cancelled_by');
             })
             ->get()
             ->load([
