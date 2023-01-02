@@ -26,9 +26,9 @@ class PayrollController extends Controller
     {
         $this->authorize('approve', $payroll);
 
-        [$isExecuted, $message] = $this->payrollService->approve($payroll);
+        $this->payrollService->approve($payroll);
 
-        return back()->with('successMessage', $message);
+        return back()->with('successMessage', 'Payroll re-processed successfully.');
     }
 
     public function pay(Payroll $payroll)

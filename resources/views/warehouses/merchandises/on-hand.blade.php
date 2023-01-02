@@ -18,15 +18,15 @@
                     @can('Read Reserved Inventory')
                         <th class="has-text-right text-green"><abbr> Reserved </abbr></th>
                     @endcan
+                    @can('Read On Hand Inventory')
+                        <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
+                    @endcan
                 @endif
                 @if (userCompany()->plan->isPremium())
                     @can('Read Work In Process Inventory')
                         <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
                     @endcan
                 @endif
-                @can('Read On Hand Inventory')
-                    <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
-                @endcan
                 <th><abbr> Level </abbr></th>
                 <th><abbr> Actions </abbr></th>
             </x-slot>

@@ -83,8 +83,20 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Employee Management', 'Department Management', 'Employee Transfer', 'Attendance Management', 'Warning Management', 'Advancement Management', 'Leave Management', 'Expense Claim', 'Announcement Management', 'Compensation Management', 'Compensation Adjustment'))
-                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Announcement', 'Create Compensation', 'Create Compensation Adjustment'])
+            @if (isFeatureEnabled(
+                'Employee Management',
+                'Department Management',
+                'Employee Transfer',
+                'Attendance Management',
+                'Warning Management',
+                'Advancement Management',
+                'Leave Management',
+                'Expense Claim',
+                'Announcement Management',
+                'Compensation Management',
+                'Compensation Adjustment',
+                'Payroll Management'))
+                @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Announcement', 'Create Compensation', 'Create Compensation Adjustment', 'Create Payroll'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -283,6 +295,22 @@
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Payroll Management'))
+                                @can('Create Payroll')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('payrolls.create') }}"
+                                            icon="fa-solid fa-coins"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Payroll </span>
+                                    </div>
+                                @endcan
+                            @endif
                         </div>
                     </x-content.footer>
                 @endcanany
@@ -417,8 +445,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Credit Management', 'Customer Management', 'Contact Management'))
-                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Credit', 'Create Customer', 'Create Contact'])
+            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
+                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Customer', 'Create Contact'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -506,23 +534,6 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Return </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Credit Management'))
-                                @can('Create Credit')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('credits.create') }}"
-                                            icon="fas fa-money-check"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Credit </span>
-                                        </span>
                                     </div>
                                 @endcan
                             @endif
@@ -652,115 +663,6 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Expense Management'))
-                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Expense'])
-                    <x-content.header>
-                        <x-slot name="header">
-                            <x-common.icon
-                                name="fas fa-shopping-bag"
-                                class="is-size-6 text-green"
-                            />
-                            <span class="ml-2 is-size-6 text-green"> Purchases & Suppliers </span>
-                        </x-slot>
-                    </x-content.header>
-                    <x-content.footer>
-                        <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Purchase Management'))
-                                @can('Create Purchase')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('purchases.create') }}"
-                                            icon="fas fa-shopping-bag"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Purchase </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Supplier Management'))
-                                @can('Create Supplier')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('suppliers.create') }}"
-                                            icon="fas fa-address-card"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Supplier </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Debt Management'))
-                                @can('Create Debt')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('debts.create') }}"
-                                            icon="fas fa-money-check-dollar"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Debt </span>
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @if (isFeatureEnabled('Expense Management'))
-                                @can('Create Expense')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('expense-categories.create') }}"
-                                            icon="fa-solid fa-money-bill-trend-up"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Expense Category </span>
-                                    </div>
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('expenses.create') }}"
-                                            icon="fa-solid fa-money-bill-trend-up"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Expense </span>
-                                    </div>
-                                @endcan
-                            @endif
-
-                            @foreach (pads('Purchase & Suppliers') as $pad)
-                                @canpad('Create', $pad)
-                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                    <x-common.button
-                                        tag="a"
-                                        mode="button"
-                                        href="{{ route('pads.transactions.create', $pad->id) }}"
-                                        icon="{{ $pad->icon }}"
-                                        class="text-green bg-lightgreen is-borderless"
-                                    />
-                                    <br>
-                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
-                                </div>
-                                @endcanpad
-                            @endforeach
-                        </div>
-                    </x-content.footer>
-                @endcanany
-            @endif
-
             @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
                 @can('Create Product', 'Create Price', 'Create Price Increment', 'Create Brand')
                     <x-content.header>
@@ -852,8 +754,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Payroll Management'))
-                @canany('Create Payroll')
+            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
+                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Credit', 'Create Expense'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -865,24 +767,117 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Payroll Management'))
-                                @can('Create Payroll')
+                            @if (isFeatureEnabled('Purchase Management'))
+                                @can('Create Purchase')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
                                         <x-common.button
                                             tag="a"
                                             mode="button"
-                                            href="{{ route('payrolls.create') }}"
-                                            icon="fa-solid fa-coins"
+                                            href="{{ route('purchases.create') }}"
+                                            icon="fas fa-shopping-bag"
                                             class="text-green bg-lightgreen is-borderless"
                                         />
                                         <br>
-                                        <span class="is-size-7"> New Payroll </span>
+                                        <span class="is-size-7"> New Purchase </span>
                                     </div>
                                 @endcan
                             @endif
+
+                            @if (isFeatureEnabled('Supplier Management'))
+                                @can('Create Supplier')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('suppliers.create') }}"
+                                            icon="fas fa-address-card"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Supplier </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Debt Management'))
+                                @can('Create Debt')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('debts.create') }}"
+                                            icon="fas fa-money-check-dollar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Debt </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Credit Management'))
+                                @can('Create Credit')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('credits.create') }}"
+                                            icon="fas fa-money-check"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Credit </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Expense Management'))
+                                @can('Create Expense')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expense-categories.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense Category </span>
+                                    </div>
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('expenses.create') }}"
+                                            icon="fa-solid fa-money-bill-trend-up"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Expense </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @foreach (pads('Purchase & Suppliers') as $pad)
+                                @canpad('Create', $pad)
+                                <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                    <x-common.button
+                                        tag="a"
+                                        mode="button"
+                                        href="{{ route('pads.transactions.create', $pad->id) }}"
+                                        icon="{{ $pad->icon }}"
+                                        class="text-green bg-lightgreen is-borderless"
+                                    />
+                                    <br>
+                                    <span class="is-size-7"> New {{ $pad->abbreviation }} </span>
+                                </div>
+                                @endcanpad
+                            @endforeach
                         </div>
                     </x-content.footer>
-                @endcan
+                @endcanany
             @endif
 
             @if (isFeatureEnabled('Pad Management') || (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management')))

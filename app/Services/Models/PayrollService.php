@@ -25,13 +25,16 @@ class PayrollService
 
             $payroll->payrollDetails()->forceDelete();
 
-            $employeeCompensations = EmployeeCompensation::whereIn('compensation_id', Compensation::active()->pluck('id'))->with('employee')->get(['employee_id', 'compensation_id', 'amount']);
+            $employeeCompensations = EmployeeCompensation::query()
+                ->whereRelation('employee', 'enabled', '1')
+                ->whereIn('compensation_id', Compensation::active()->pluck('id'))
+                ->with('employee')->get(['employee_id', 'compensation_id', 'amount']);
 
-            $compensationAdjustments = CompensationAdjustmentDetail::whereHas('compensationAdjustment', function ($query) use ($payroll) {
-                return $query->approved()
-                    ->where('starting_period', $payroll->starting_period)
-                    ->where('ending_period', $payroll->ending_period);
-            })->get(['employee_id', 'compensation_id', 'amount']);
+            $compensationAdjustments = CompensationAdjustmentDetail::query()
+                ->whereRelation('employee', 'enabled', '1')
+                ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
+                    return $query->approved()->where('starting_period', $payroll->starting_period)->where('ending_period', $payroll->ending_period);
+                })->get(['employee_id', 'compensation_id', 'amount']);
 
             $employeeCompensations = $employeeCompensations
                 ->whereNotIn('employee_id', $compensationAdjustments->pluck('employee_id'))
