@@ -51,6 +51,10 @@ class GdnController extends Controller
             return back()->with('failedMessage', 'This Delivery Order is not approved yet.');
         }
 
+        if ($gdn->isCancelled()) {
+            return back()->with('failedMessage', 'This Delivery Order is cancelled.');
+        }
+
         $gdn->load(['gdnDetails.product', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
         return Pdf::loadView('gdns.print', compact('gdn'))->stream();
@@ -139,5 +143,18 @@ class GdnController extends Controller
         }
 
         return redirect()->route('sales.show', $sale->id);
+    }
+
+    public function cancel(Gdn $gdn)
+    {
+        $this->authorize('cancel', $gdn);
+
+        [$isExecuted, $message] = $this->gdnService->cancel($gdn);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return back()->with('successMessage', $message);
     }
 }
