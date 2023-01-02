@@ -84,6 +84,13 @@
         </h1>
     </section>
 
+    @if ($gdn->gdnDetails->contains('code', 'CM12345'))
+        {{ dd('The value Exist') }}
+    @else
+        {{-- {{ dd('The value does not exist') }} --}}
+        {{ dd($gdn->gdnDetails) }}
+    @endif
+
     <section class="table-breaked">
         <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
             <thead>
@@ -102,9 +109,7 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    @if ($gdn->gdnDetails->where())
-                        <th>Code</th>
-                    @endif
+                    <th>Code</th>
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
