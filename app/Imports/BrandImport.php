@@ -30,7 +30,7 @@ class BrandImport implements ToModel, WithHeadingRow, WithValidation, WithChunkR
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
             'name' => $row['brand_name'],
-            'description' => $row['description'],
+            'description' => $row['description'] ?? null,
         ]);
 
         $this->brands->push($brand);

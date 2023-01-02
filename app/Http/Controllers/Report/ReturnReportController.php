@@ -12,7 +12,7 @@ class ReturnReportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Sales Report');
+        $this->middleware('isFeatureAccessible:Return Report');
     }
 
     public function index(FilterRequest $request)
