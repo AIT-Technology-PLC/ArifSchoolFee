@@ -68,9 +68,9 @@
             @if ($payroll->isPaid())
                 <x-common.success-message message="This Payroll is paid." />
             @elseif (!$payroll->isApproved())
-                <x-common.fail-message message="This Payroll is not approved yet." />
+                <x-common.fail-message message="This Payroll is not processed yet." />
             @elseif (!$payroll->isPaid())
-                <x-common.fail-message message="This Payroll is approved but not paid yet." />
+                <x-common.fail-message message="This Payroll is processed but not paid yet." />
             @endif
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
