@@ -106,12 +106,12 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.select
-                                    class="is-fullwidth"
-                                    x-bind:class="`merchandise-batches`"
+                                    class="merchandise-batches is-fullwidth"
                                     x-bind:id="`gdn[${index}][merchandise_batch_id]`"
                                     x-bind:name="`gdn[${index}][merchandise_batch_id]`"
                                     x-model="gdn.merchandise_batch_id"
                                 >
+                                    <option value="">Select Batch Number</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-th"
@@ -350,7 +350,7 @@
                     return $(".product-list").eq(index);
                 },
                 getMerchandiseBatchesSelect(index) {
-                    return $(".merchandise-batches").eq(index);
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
                     if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {

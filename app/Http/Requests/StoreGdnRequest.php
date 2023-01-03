@@ -28,7 +28,11 @@ class StoreGdnRequest extends FormRequest
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
+                if (MerchandiseBatch::where('id', $this->input(str_replace('.quantity', '.merchandise_batch_id', $attribute)))->where('quantity', '<', $value)->exists()) {
+                    $fail('There is no sufficient amount in this batch, please check your inventory.');
+                }
+            }],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'gdn.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($attribute, $value, $fail) {

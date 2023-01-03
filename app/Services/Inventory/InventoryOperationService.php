@@ -95,8 +95,8 @@ class InventoryOperationService
             $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date');
         }
 
-        if ($merchandise->product->isBatchable() && isset($detail->merchandiseBatch->batch_no)) {
-            $merchandiseBatches = $merchandiseBatches->where('batch_no', $detail->merchandiseBatch->batch_no);
+        if ($merchandise->product->isBatchable() && isset($detail->merchandise_batch_id)) {
+            $merchandiseBatches = $merchandiseBatches->where('id', $detail->merchandise_batch_id);
         }
 
         foreach ($merchandiseBatches as $merchandiseBatch) {
