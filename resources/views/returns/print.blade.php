@@ -92,7 +92,9 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Code</th>
+                    @if ($havingCode)
+                        <th>Code</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
@@ -104,7 +106,9 @@
                     <tr>
                         <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                         <td> {{ $returnDetail->product->name }} </td>
-                        <td> {{ $returnDetail->product->code ?? '-' }} </td>
+                        @if ($havingCode)
+                            <td> {{ $returnDetail->product->code ?? '-' }} </td>
+                        @endif
                         <td class="has-text-right"> {{ number_format($returnDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $returnDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($returnDetail->unit_price, 2) }} </td>
@@ -113,7 +117,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -121,7 +125,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -129,7 +133,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>

@@ -113,7 +113,9 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Code</th>
+                    @if ($havingCode)
+                        <th>Code</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
@@ -127,7 +129,9 @@
                         <td>
                             {{ $saleDetail->product->name }}
                         </td>
-                        <td> {{ $saleDetail->product->code ?? '-' }} </td>
+                        @if ($havingCode)
+                            <td> {{ $saleDetail->product->code ?? '-' }} </td>
+                        @endif
                         <td class="has-text-right"> {{ number_format($saleDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $saleDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($saleDetail->unit_price, 2) }} </td>
@@ -136,7 +140,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -144,7 +148,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -152,7 +156,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="5"
+                        colspan="{{ $havingCode ? 5 : 4 }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
