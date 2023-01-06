@@ -61,6 +61,14 @@ const Product = {
             ? "(Before " + product?.tax_name + ")"
             : "(After " + product?.tax_name + ")";
     },
+    taxAmount(productId) {
+        let product = this.whereProductId(productId);
+
+        if (product?.tax_name == "NONE") {
+            return 1;
+        }
+        return product?.tax_amount;
+    },
     unitOfMeasurement(productId, prefix = "") {
         let product = this.whereProductId(productId);
 
