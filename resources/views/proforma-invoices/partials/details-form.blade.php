@@ -132,7 +132,7 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value=" (proformaInvoice.unit_price * proformaInvoice.quantity) || 0"
+                                    x-bind:value=" (proformaInvoice.unit_price * proformaInvoice.quantity - (proformaInvoice.unit_price * proformaInvoice.quantity * (proformaInvoice.discount || 0) / 100)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly
@@ -144,7 +144,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value="(proformaInvoice.unit_price * proformaInvoice.quantity * Product.taxAmount(proformaInvoice.product_id)) || 0"
+                                    x-bind:value="(proformaInvoice.unit_price * proformaInvoice.quantity - (proformaInvoice.unit_price * proformaInvoice.quantity * (proformaInvoice.discount || 0) / 100) * Product.taxAmount(proformaInvoice.product_id)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly

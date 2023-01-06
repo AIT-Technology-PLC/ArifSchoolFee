@@ -175,7 +175,7 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value=" (reservation.unit_price * reservation.quantity) || 0"
+                                    x-bind:value=" (reservation.unit_price * reservation.quantity - (reservation.unit_price * reservation.quantity * (reservation.discount || 0) / 100)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly
@@ -187,7 +187,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value="(reservation.unit_price * reservation.quantity * Product.taxAmount(reservation.product_id)) || 0"
+                                    x-bind:value="(reservation.unit_price * reservation.quantity - (reservation.unit_price * reservation.quantity * (reservation.discount || 0) / 100) * Product.taxAmount(reservation.product_id)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly

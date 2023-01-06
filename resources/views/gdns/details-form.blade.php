@@ -176,7 +176,7 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value=" (gdn.unit_price * gdn.quantity) || 0"
+                                    x-bind:value=" (gdn.unit_price * gdn.quantity - (gdn.unit_price * gdn.quantity * (gdn.discount || 0) / 100)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly
@@ -188,7 +188,7 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:value="(gdn.unit_price * gdn.quantity * Product.taxAmount(gdn.product_id)) || 0"
+                                    x-bind:value="((gdn.unit_price * gdn.quantity - (gdn.unit_price * gdn.quantity * (gdn.discount || 0) / 100)) * Product.taxAmount(gdn.product_id)) || 0"
                                     type="number"
                                     class="bg-lightgreen text-green"
                                     readonly
