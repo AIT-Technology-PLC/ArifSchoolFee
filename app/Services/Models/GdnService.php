@@ -327,7 +327,7 @@ class GdnService
             if ($gdn->isSubtracted()) {
                 InventoryOperationService::add($gdn->gdnDetails, $gdn);
                 $gdn->add();
-                $gdn->sale->cancel();
+                $gdn->sale?->cancel();
                 Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->forceDelete();
             }
         });
