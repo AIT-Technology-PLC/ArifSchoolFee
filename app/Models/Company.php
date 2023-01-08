@@ -240,6 +240,11 @@ class Company extends Model
         return $this->can_show_branch_detail_on_print;
     }
 
+    public function canShowEmployeeJobTitleOnPrint()
+    {
+        return $this->can_show_employee_job_title_on_print;
+    }
+
     public function hasIntegration($integrationName)
     {
         return $this->integrations()
