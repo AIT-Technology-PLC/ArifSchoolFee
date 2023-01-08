@@ -6,8 +6,8 @@
 @if ($customer)
     <section class="is-clearfix py-3">
         <aside
-            class="is-pulled-left"
-            style="width: 25% !important"
+            class="is-pulled-left py-3"
+            style="width: 100% !important"
         >
             <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                 Customer
@@ -45,7 +45,7 @@
         @if ($customer->address)
             <aside
                 class="is-pulled-left"
-                style="width: 25% !important"
+                style="width: 50% !important"
             >
                 <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                     Location
