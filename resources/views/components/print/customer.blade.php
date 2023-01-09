@@ -18,7 +18,7 @@
         </aside>
     </section>
     @if ($customer->tin || ($contact || $customer->contact_name) || $customer->address)
-        <section class="is-clearfix py-3">
+        <section class="is-clearfix py-1">
             @if ($customer->tin)
                 <aside
                     class="is-pulled-left"
