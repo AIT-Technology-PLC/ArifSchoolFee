@@ -21,6 +21,7 @@ class Company extends Model
         'is_editing_reference_number_enabled' => 'integer',
         'is_backorder_enabled' => 'integer',
         'can_check_inventory_on_forms' => 'integer',
+        'can_show_employee_job_title_on_print' => 'integer',
     ];
 
     public function plan()
