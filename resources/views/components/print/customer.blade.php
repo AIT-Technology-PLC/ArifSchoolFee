@@ -6,7 +6,7 @@
 @if ($customer)
     <section class="is-clearfix py-3">
         <aside
-            class="is-pulled-left py-3"
+            class="is-pulled-left"
             style="width: 100% !important"
         >
             <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
@@ -18,7 +18,7 @@
         </aside>
     </section>
     @if ($customer->tin || ($contact || $customer->contact_name) || $customer->address)
-        <section class="is-clearfix py-1">
+        <section class="is-clearfix">
             @if ($customer->tin)
                 <aside
                     class="is-pulled-left"
