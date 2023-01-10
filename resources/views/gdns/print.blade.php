@@ -207,9 +207,8 @@
         :created-by="$gdn->createdBy ?? null"
         :approved-by="$gdn->approvedBy ?? null"
     />
-    {{ dd('chacking print page modifcation regarding batch issues') }}
+
     <x-print.footer-marketing />
-    {{ dd('Print page modification') }}
 </body>
 
 </html>
