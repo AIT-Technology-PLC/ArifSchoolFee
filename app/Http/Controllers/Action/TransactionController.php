@@ -102,21 +102,11 @@ class TransactionController extends Controller
         }
 
         if ($transaction->transactionDetails->isNotEmpty()) {
-            $columns['detail'] = collect($transaction->transactionDetails->first())
-                ->keys()
-                ->diff(['id', 'transaction', 'line', 'total_tax'])
-                ->reject(fn($value) => str($value)->endsWith('_id'))
-                ->values()
-                ->toArray();
+            $columns['detail'] = $transaction->pad->padFields()->detailFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }
 
         if ($transaction->transactionMasters->isNotEmpty()) {
-            $columns['master'] = collect($transaction->transactionMasters)
-                ->keys()
-                ->diff(['id', 'transaction'])
-                ->reject(fn($value) => str($value)->endsWith('_id'))
-                ->values()
-                ->toArray();
+            $columns['master'] = $transaction->pad->padFields()->masterFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }
 
         return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
