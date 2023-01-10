@@ -89,13 +89,13 @@
             <thead>
                 <tr class="is-borderless">
                     <td
-                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
+                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     >&nbsp;</td>
                 </tr>
                 <tr class="is-borderless">
                     <td
-                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
+                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     >&nbsp;</td>
                 </tr>
@@ -104,6 +104,10 @@
                     <th>Product</th>
                     @if ($havingCode)
                         <th>Code</th>
+                    @endif
+                    @if ($havingBatch)
+                        <th>Batch No</th>
+                        <th>Expiry Date</th>
                     @endif
                     <th>Quantity</th>
                     <th>Unit</th>
@@ -124,6 +128,10 @@
                         @if ($havingCode)
                             <td> {{ $gdnDetail->product->code ?? '-' }} </td>
                         @endif
+                        @if ($havingBatch)
+                            <td> {{ $gdnDetail->merchandiseBatch?->batch_no ?? '-' }} </td>
+                            <td> {{ $gdnDetail->merchandiseBatch?->expiry_date?->toFormattedDateString() ?? '-' }} </td>
+                        @endif
                         <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
@@ -135,7 +143,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -143,7 +151,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -151,7 +159,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
@@ -160,7 +168,7 @@
                 @if (!userCompany()->isDiscountBeforeTax())
                     <tr>
                         <td
-                            colspan="{{ 4 + ($havingCode ? 1 : 0) }}"
+                            colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Discount</td>
@@ -168,7 +176,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="{{ 4 + ($havingCode ? 1 : 0) }}"
+                            colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">
@@ -199,7 +207,7 @@
         :created-by="$gdn->createdBy ?? null"
         :approved-by="$gdn->approvedBy ?? null"
     />
-
+    {{ dd('chacking print page modifcation regarding batch issues') }}
     <x-print.footer-marketing />
     {{ dd('Print page modification') }}
 </body>
