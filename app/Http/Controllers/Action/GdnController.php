@@ -57,7 +57,9 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        return Pdf::loadView('gdns.print', compact('gdn'))->stream();
+        $havingCode = $gdn->gdnDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
+
+        return Pdf::loadView('gdns.print', compact('gdn', 'havingCode'))->stream();
     }
 
     public function convertToSiv(Gdn $gdn)

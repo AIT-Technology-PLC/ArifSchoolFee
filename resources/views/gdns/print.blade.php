@@ -89,20 +89,22 @@
             <thead>
                 <tr class="is-borderless">
                     <td
-                        colspan="{{ userCompany()->isDiscountBeforeTax() ? 7 : 6 }}"
+                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
                         class="is-borderless"
                     >&nbsp;</td>
                 </tr>
                 <tr class="is-borderless">
                     <td
-                        colspan="{{ userCompany()->isDiscountBeforeTax() ? 7 : 6 }}"
+                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
                         class="is-borderless"
                     >&nbsp;</td>
                 </tr>
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Code</th>
+                    @if ($havingCode)
+                        <th>Code</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
@@ -119,7 +121,9 @@
                         <td>
                             {{ $gdnDetail->product->name }}
                         </td>
-                        <td> {{ $gdnDetail->product->code ?? '-' }} </td>
+                        @if ($havingCode)
+                            <td> {{ $gdnDetail->product->code ?? '-' }} </td>
+                        @endif
                         <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
@@ -131,7 +135,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ userCompany()->isDiscountBeforeTax() ? 6 : 5 }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -139,7 +143,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ userCompany()->isDiscountBeforeTax() ? 6 : 5 }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -147,7 +151,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ userCompany()->isDiscountBeforeTax() ? 6 : 5 }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
@@ -156,7 +160,7 @@
                 @if (!userCompany()->isDiscountBeforeTax())
                     <tr>
                         <td
-                            colspan="5"
+                            colspan="{{ 4 + ($havingCode ? 1 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Discount</td>
@@ -164,7 +168,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="5"
+                            colspan="{{ 4 + ($havingCode ? 1 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">
@@ -197,6 +201,7 @@
     />
 
     <x-print.footer-marketing />
+    {{ dd('Print page modification') }}
 </body>
 
 </html>

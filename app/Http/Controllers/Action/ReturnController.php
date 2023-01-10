@@ -25,7 +25,7 @@ class ReturnController extends Controller
 
         [$isExecuted, $message] = $action->execute($return, ReturnApproved::class, 'Make Return');
 
-        if (! $isExecuted) {
+        if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
@@ -42,7 +42,9 @@ class ReturnController extends Controller
 
         $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        return Pdf::loadView('returns.print', compact('return'))->stream();
+        $havingCode = $return->returnDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
+
+        return Pdf::loadView('returns.print', compact('return', 'havingCode'))->stream();
     }
 
     public function add(Returnn $return, ReturnService $returnService)
@@ -51,7 +53,7 @@ class ReturnController extends Controller
 
         [$isExecuted, $message] = $returnService->add($return, authUser());
 
-        if (! $isExecuted) {
+        if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 

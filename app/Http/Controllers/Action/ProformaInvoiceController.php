@@ -64,7 +64,9 @@ class ProformaInvoiceController extends Controller
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'warehouse', 'customer', 'contact', 'company']);
 
-        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice'))->stream();
+        $havingCode = $proformaInvoice->proformaInvoiceDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
+
+        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode'))->stream();
     }
 
     public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
