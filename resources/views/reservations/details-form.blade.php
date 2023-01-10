@@ -168,16 +168,15 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label>
-                            Price Before | After Tax <sup class="has-text-danger"></sup>
+                            Price Before Tax <sup class="has-text-danger"></sup>
                         </x-forms.label>
-                        <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left">
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value=" (reservation.unit_price * reservation.quantity - (reservation.unit_price * reservation.quantity * (reservation.discount || 0) / 100)) || 0"
+                                    x-bind:value="(Product.priceBeforeTax(reservation.unit_price, reservation.quantity, reservation.discount))"
                                     type="number"
-                                    class="bg-lightgreen text-green"
                                     readonly
                                 />
                                 <x-common.icon
@@ -185,11 +184,17 @@
                                     class="is-small is-left"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Price After Tax <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(reservation.unit_price * reservation.quantity - (reservation.unit_price * reservation.quantity * (reservation.discount || 0) / 100) * Product.taxAmount(reservation.product_id)) || 0"
+                                    x-bind:value="(Product.priceAfterTax(reservation.unit_price, reservation.quantity, reservation.product_id, reservation.discount))"
                                     type="number"
-                                    class="bg-lightgreen text-green"
                                     readonly
                                 />
                                 <x-common.icon
@@ -252,6 +257,9 @@
             </div>
         </div>
     </template>
+
+    @include('components.content.pricing', ['data' => 'reservations'])
+
     <x-common.button
         tag="button"
         type="button"

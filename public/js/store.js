@@ -61,14 +61,6 @@ const Product = {
             ? "(Before " + product?.tax_name + ")"
             : "(After " + product?.tax_name + ")";
     },
-    taxAmount(productId) {
-        let product = this.whereProductId(productId);
-
-        if (product?.tax_name == "NONE") {
-            return 1;
-        }
-        return product?.tax_amount;
-    },
     unitOfMeasurement(productId, prefix = "") {
         let product = this.whereProductId(productId);
 
@@ -118,6 +110,30 @@ const Product = {
         });
 
         select2.trigger("change.select2");
+    },
+    taxAmount(productId) {
+        let product = this.whereProductId(productId);
+
+        if (product?.tax_name == "NONE") {
+            return 1;
+        }
+        return product?.tax_amount;
+    },
+    priceBeforeTax(unitPrice, quantity, discount = 0) {
+        if (unitPrice != null && quantity != null) {
+            let discountValue = unitPrice * quantity * (discount) / 100;
+
+            return unitPrice * quantity - discountValue;
+        }
+
+        return 0;
+    },
+    priceAfterTax(unitPrice, quantity, productId, discount = 0) {
+        if (productId != null) {
+            return this.priceBeforeTax(unitPrice, quantity, discount) * this.taxAmount(productId);
+        }
+
+        return 0;
     },
 };
 
@@ -218,5 +234,26 @@ const Merchandise = {
         this.merchandise = response.data;
 
         this.merchandise;
+    },
+};
+
+const Pricing = {
+    subTotal(items) {
+        if (!items.length) {
+            return 0;
+        }
+
+        return items.reduce((total, item) => {
+            return total + Product.priceBeforeTax(item.unit_price, item.quantity, item.discount);
+        }, 0)
+    },
+    grandTotal(items) {
+        if (!items.length) {
+            return 0;
+        }
+
+        return items.reduce((total, item) => {
+            return total + Product.priceAfterTax(item.unit_price, item.quantity, item.product_id, item.discount);
+        }, 0)
     },
 };

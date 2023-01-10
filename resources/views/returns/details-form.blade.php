@@ -156,16 +156,15 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label>
-                            Price Before | After Tax <sup class="has-text-danger"></sup>
+                            Price Before Tax <sup class="has-text-danger"></sup>
                         </x-forms.label>
-                        <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left">
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value=" (returnn.unit_price * returnn.quantity) || 0"
+                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity)"
                                     type="number"
-                                    class="bg-lightgreen text-green"
                                     readonly
                                 />
                                 <x-common.icon
@@ -173,11 +172,17 @@
                                     class="is-small is-left"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Price After Tax <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(returnn.unit_price * returnn.quantity * Product.taxAmount(returnn.product_id)) || 0"
+                                    x-bind:value="(Product.priceAfterTax(returnn.unit_price, returnn.quantity, returnn.product_id))"
                                     type="number"
-                                    class="bg-lightgreen text-green"
                                     readonly
                                 />
                                 <x-common.icon
@@ -216,6 +221,9 @@
             </div>
         </div>
     </template>
+
+    @include('components.content.pricing', ['data' => 'returns'])
+
     <x-common.button
         tag="button"
         type="button"
