@@ -374,40 +374,42 @@
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-trademark"></i>
-                        </span>
-                        <span>Best-Selling Brands</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Brand </abbr></th>
-                        <th class="has-text-right"><abbr> Revenue </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($saleReport->getBrandsByRevenue as $brandRevenue)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $brandRevenue->brand_name ?? 'N/A' }} </td>
-                                <td class="has-text-right"> {{ number_format($brandRevenue->revenue, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
+        @if (isFeatureEnabled('Brand Management'))
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-trademark"></i>
+                            </span>
+                            <span>Best-Selling Brands</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Brand </abbr></th>
+                            <th class="has-text-right"><abbr> Revenue </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($saleReport->getBrandsByRevenue as $brandRevenue)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $brandRevenue->brand_name ?? 'N/A' }} </td>
+                                    <td class="has-text-right"> {{ number_format($brandRevenue->revenue, 2) }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+        @endif
     </div>
 @endsection

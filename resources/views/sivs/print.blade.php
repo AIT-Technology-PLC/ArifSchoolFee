@@ -114,7 +114,9 @@
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    <th>Code</th>
+                    @if ($havingCode)
+                        <th>Code</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>From</th>
@@ -125,7 +127,9 @@
                     <tr>
                         <td> {{ $loop->index + 1 }} </td>
                         <td> {{ $sivDetail->product->name }} </td>
-                        <td> {{ $sivDetail->product->code ?? '-' }} </td>
+                        @if ($havingCode)
+                            <td> {{ $sivDetail->product->code ?? '-' }} </td>
+                        @endif
                         <td> {{ number_format($sivDetail->quantity, 2) }} </td>
                         <td> {{ $sivDetail->product->unit_of_measurement }} </td>
                         <td> {{ $sivDetail->warehouse->name }} </td>
