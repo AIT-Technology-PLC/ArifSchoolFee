@@ -36,6 +36,7 @@ class ProductController extends Controller
                 'is_active_for_job' => $product->is_active_for_job,
 
                 'tax_name' => $product->tax->type,
+                'tax_amount' => $product->tax->amount + 1,
             ];
         });
     }
