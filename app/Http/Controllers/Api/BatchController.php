@@ -9,6 +9,10 @@ class BatchController extends Controller
 {
     public function index()
     {
+        if (!userCompany()->canSelectBatchNumberOnForms()) {
+            return false;
+        }
+
         $merchandiseBatches = MerchandiseBatch::with(['merchandise'])->where('quantity', '>', 0)->orderBy('expiry_date')->get();
 
         return $merchandiseBatches->map(function ($merchandiseBatch) {

@@ -22,6 +22,7 @@ class Company extends Model
         'is_backorder_enabled' => 'integer',
         'can_check_inventory_on_forms' => 'integer',
         'can_show_employee_job_title_on_print' => 'integer',
+        'can_select_batch_number_on_forms' => 'integer',
     ];
 
     public function plan()
@@ -273,5 +274,10 @@ class Company extends Model
     public function isInventoryCheckerEnabled()
     {
         return $this->can_check_inventory_on_forms;
+    }
+
+    public function canSelectBatchNumberOnForms()
+    {
+        return $this->can_select_batch_number_on_forms;
     }
 }

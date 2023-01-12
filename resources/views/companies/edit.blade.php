@@ -813,6 +813,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="can_select_batch_number_on_forms">
+                                Can Select Batch Number on Forms <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey">
+                                    <input
+                                        type="radio"
+                                        name="can_select_batch_number_on_forms"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($company->canSelectBatchNumberOnForms())
+                                    >
+                                    Yes
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey mt-2">
+                                    <input
+                                        type="radio"
+                                        name="can_select_batch_number_on_forms"
+                                        value="0"
+                                        @checked(!$company->canSelectBatchNumberOnForms())
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="can_select_batch_number_on_forms" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>
