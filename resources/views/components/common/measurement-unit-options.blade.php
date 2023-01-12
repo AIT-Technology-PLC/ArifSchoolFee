@@ -9,6 +9,10 @@
     {{ $selectedUnitType == 'Barrel' ? 'selected' : '' }}
 >Barrel</option>
 <option
+    value="Bot"
+    {{ $selectedUnitType == 'Bot' ? 'selected' : '' }}
+>Bot</option>
+<option
     value="Box"
     {{ $selectedUnitType == 'Box' ? 'selected' : '' }}
 >Box</option>
@@ -61,6 +65,10 @@
     {{ $selectedUnitType == 'Piece' ? 'selected' : '' }}
 >Piece</option>
 <option
+    value="PK"
+    {{ $selectedUnitType == 'PK' ? 'selected' : '' }}
+>PK</option>
+<option
     value="Punch"
     {{ $selectedUnitType == 'Punch' ? 'selected' : '' }}
 >Punch</option>
@@ -76,6 +84,14 @@
     value="Square Meter"
     {{ $selectedUnitType == 'Square Meter' ? 'selected' : '' }}
 >Square Meter</option>
+<option
+    value="Tube"
+    {{ $selectedUnitType == 'Tube' ? 'selected' : '' }}
+>Tube</option>
+<option
+    value="Vial"
+    {{ $selectedUnitType == 'Vial' ? 'selected' : '' }}
+>Vial</option>
 <option
     value="Week"
     {{ $selectedUnitType == 'Week' ? 'selected' : '' }}
