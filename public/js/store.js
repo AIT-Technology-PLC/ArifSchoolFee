@@ -112,6 +112,10 @@ const Product = {
         select2.trigger("change.select2");
     },
     taxAmount(productId) {
+        if (!productId) {
+            return 1;
+        }
+
         let product = this.whereProductId(productId);
 
         if (product?.tax_name == "NONE") {
@@ -121,19 +125,18 @@ const Product = {
     },
     priceBeforeTax(unitPrice, quantity, discount = 0) {
         if (unitPrice != null && quantity != null) {
-            let discountValue = unitPrice * quantity * (discount) / 100;
+            let discountValue = (unitPrice * quantity * discount) / 100;
 
             return unitPrice * quantity - discountValue;
         }
 
         return 0;
     },
-    priceAfterTax(unitPrice, quantity, productId, discount = 0) {
-        if (productId != null) {
-            return this.priceBeforeTax(unitPrice, quantity, discount) * this.taxAmount(productId);
-        }
-
-        return 0;
+    priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
+        return (
+            this.priceBeforeTax(unitPrice, quantity, discount) *
+            this.taxAmount(productId)
+        );
     },
 };
 
@@ -244,8 +247,15 @@ const Pricing = {
         }
 
         return items.reduce((total, item) => {
-            return total + Product.priceBeforeTax(item.unit_price, item.quantity, item.discount);
-        }, 0)
+            return (
+                total +
+                Product.priceBeforeTax(
+                    item.unit_price,
+                    item.quantity,
+                    item.discount
+                )
+            );
+        }, 0);
     },
     grandTotal(items) {
         if (!items.length) {
@@ -253,7 +263,15 @@ const Pricing = {
         }
 
         return items.reduce((total, item) => {
-            return total + Product.priceAfterTax(item.unit_price, item.quantity, item.product_id, item.discount);
-        }, 0)
+            return (
+                total +
+                Product.priceAfterTax(
+                    item.unit_price,
+                    item.quantity,
+                    item.product_id,
+                    item.discount
+                )
+            );
+        }, 0);
     },
 };
