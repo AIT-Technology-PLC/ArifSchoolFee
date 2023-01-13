@@ -42,6 +42,7 @@ class GdnDatatable extends DataTable
             ->editColumn('customer_tin', fn($gdn) => $gdn->customer->tin ?? 'N/A')
             ->editColumn('description', fn($gdn) => view('components.datatables.searchable-description', ['description' => $gdn->description]))
             ->editColumn('issued_on', fn($gdn) => $gdn->issued_on->toFormattedDateString())
+            ->editColumn('created_at', fn($gdn) => $gdn->created_at->diffForHumans())
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
             ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
@@ -100,6 +101,7 @@ class GdnDatatable extends DataTable
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),
+            Column::make('created_at')->visible(false)->title('Requested'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
