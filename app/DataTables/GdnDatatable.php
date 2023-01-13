@@ -101,7 +101,7 @@ class GdnDatatable extends DataTable
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),
-            Column::make('created_at')->visible(false)->title('Requested'),
+            Column::make('created_at')->visible(false)->title('Prepared on'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
