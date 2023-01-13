@@ -45,6 +45,7 @@ class GdnDatatable extends DataTable
             ->editColumn('prepared by', fn($gdn) => $gdn->createdBy->name)
             ->editColumn('approved by', fn($gdn) => $gdn->approvedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($gdn) => $gdn->updatedBy->name)
+            ->editColumn('subtracted by', fn($gdn) => $gdn->subtractedBy->name ?? 'N/A')
             ->editColumn('voided by', fn($gdn) => $gdn->cancelledBy->name ?? 'N/A')
             ->editColumn('actions', function ($gdn) {
                 return view('components.common.action-buttons', [
@@ -67,12 +68,14 @@ class GdnDatatable extends DataTable
             ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
             ->when(request('status') == 'voided', fn($query) => $query->cancelled())
+            ->when(request('status') == 'closed', fn($query) => $query->closed())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'cancelledBy:id,name',
+                'subtractedBy:id,name',
                 'sale:id,code',
                 'customer:id,company_name,tin',
                 'contact:id,name',
@@ -100,6 +103,7 @@ class GdnDatatable extends DataTable
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
+            Column::make('subtracted by', 'subtractedBy.name')->visible(false),
             Column::make('voided by', 'cancelledBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
