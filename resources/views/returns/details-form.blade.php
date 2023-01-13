@@ -124,6 +124,7 @@
                                     mode="button"
                                     class="bg-green has-text-white"
                                     x-text="Product.unitOfMeasurement(returnn.product_id)"
+                                    tabindex="-1"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -163,9 +164,10 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity)"
+                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
@@ -181,9 +183,10 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(Product.priceAfterTax(returnn.unit_price, returnn.quantity, returnn.product_id))"
+                                    x-bind:value="Product.priceAfterTax(returnn.unit_price, returnn.quantity, returnn.product_id).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"
