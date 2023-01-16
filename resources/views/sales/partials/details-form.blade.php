@@ -128,7 +128,10 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price Before Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(true, sale.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
@@ -147,7 +150,10 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price After Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(false, sale.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">

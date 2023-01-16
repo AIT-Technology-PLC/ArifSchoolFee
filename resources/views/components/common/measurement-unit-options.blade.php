@@ -17,6 +17,10 @@
     {{ $selectedUnitType == 'Box' ? 'selected' : '' }}
 >Box</option>
 <option
+    value="Carton"
+    {{ $selectedUnitType == 'Carton' ? 'selected' : '' }}
+>Carton</option>
+<option
     value="Centimeter"
     {{ $selectedUnitType == 'Centimeter' ? 'selected' : '' }}
 >Centimeter</option>
