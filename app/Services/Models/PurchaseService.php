@@ -18,10 +18,17 @@ class PurchaseService
             return [false, 'This purchase is closed.', ''];
         }
 
+        $purchaseDetails = collect($purchase->purchaseDetails->toArray())
+            ->map(function ($item) {
+                $item['unit_cost'] = $item['unit_price'];
+
+                return $item;
+            });
+
         $data = [
             'purchase_id' => $purchase->id,
             'supplier_id' => $purchase->supplier_id,
-            'grn' => $purchase->purchaseDetails->toArray(),
+            'grn' => $purchaseDetails,
         ];
 
         return [true, '', $data];
