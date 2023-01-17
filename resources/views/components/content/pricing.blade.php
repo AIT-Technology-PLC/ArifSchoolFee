@@ -1,38 +1,31 @@
-<div class="columns is-marginless is-multiline mt-5 mb-0">
-    <div class="column is-6">
-        <x-forms.label>
-            SubTotal Price <sup class="has-text-danger"></sup>
-        </x-forms.label>
-        <x-forms.field>
-            <x-forms.control class="has-icons-left is-expanded">
-                <x-forms.input
-                    x-bind:value="Pricing.subTotal({{ $data }})"
-                    type="number"
-                    readonly
-                />
-                <x-common.icon
-                    name="fas fa-file-invoice-dollar"
-                    class="is-small is-left"
-                />
-            </x-forms.control>
-        </x-forms.field>
-    </div>
-    <div class="column is-6">
-        <x-forms.label>
-            Grand Total Price <sup class="has-text-danger"></sup>
-        </x-forms.label>
-        <x-forms.field>
-            <x-forms.control class="has-icons-left is-expanded">
-                <x-forms.input
-                    x-bind:value="Pricing.grandTotal({{ $data }})"
-                    type="number"
-                    readonly
-                />
-                <x-common.icon
-                    name="fas fa-file-invoice-dollar"
-                    class="is-small is-left"
-                />
-            </x-forms.control>
-        </x-forms.field>
+<div class="columns is-marginless is-multiline mt-3 mb-0">
+    <div class="column is-offset-9 is-3">
+        <div class="table-container">
+            <table class="table is-hoverable is-fullwidth is-size-7">
+                <tbody>
+                    <tr>
+                        <td class="text-green has-text-weight-medium">Sub-Total</td>
+                        <td
+                            class="has-text-right"
+                            x-text="moneyFormat(Pricing.subTotal({{ $data }}))"
+                        ></td>
+                    </tr>
+                    <tr>
+                        <td class="text-green has-text-weight-medium">Tax</td>
+                        <td
+                            class="has-text-right"
+                            x-text="moneyFormat(Pricing.grandTotal({{ $data }})-Pricing.subTotal({{ $data }}))"
+                        ></td>
+                    </tr>
+                    <tr>
+                        <td class="text-green has-text-weight-medium">Grand Total</td>
+                        <td
+                            class="has-text-weight-bold is-underlined has-text-right"
+                            x-text="moneyFormat(Pricing.grandTotal({{ $data }}))"
+                        ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

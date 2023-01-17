@@ -243,6 +243,17 @@ function initSelect2(element, placeholder) {
     });
 }
 
+function moneyFormat(number) {
+    if (isNaN(number)) {
+        return "0.00";
+    }
+
+    return number.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+}
+
 document.addEventListener("alpine:init", () => {
     Alpine.data("inventoryTypeToggler", () => ({
         isOnHand: true,

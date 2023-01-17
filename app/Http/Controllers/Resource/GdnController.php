@@ -32,9 +32,9 @@ class GdnController extends Controller
 
         $totalNotApproved = Gdn::notApproved()->count();
 
-        $totalNotSubtracted = Gdn::notSubtracted()->approved()->count();
+        $totalNotSubtracted = Gdn::notSubtracted()->notCancelled()->approved()->count();
 
-        $totalSubtracted = Gdn::subtracted()->count();
+        $totalSubtracted = Gdn::subtracted()->notCancelled()->count();
 
         return $datatable->render('gdns.index', compact('totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }

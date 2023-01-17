@@ -81,9 +81,7 @@
                     @foreach ($columns['master'] as $column)
                         @continue($column == 'description')
 
-                        @if ($transaction->pad->padFields()->printable()->where('label', str()->headline($column))->exists())
-                            <th>{{ str($column)->replace('_', ' ')->title() }}</th>
-                        @endif
+                        <th>{{ str($column)->replace('_', ' ')->title() }}</th>
                     @endforeach
                 </tr>
             </thead>
@@ -91,11 +89,9 @@
                 @foreach ($columns['master'] as $column)
                     @continue($column == 'description')
 
-                    @if ($transaction->pad->padFields()->printable()->where('label', str()->headline($column))->exists())
-                        <td class="has-text-centered">
-                            {{ $transaction->transactionMasters->toArray()[$column] }}
-                        </td>
-                    @endif
+                    <td class="has-text-centered">
+                        {{ $transaction->transactionMasters->toArray()[$column] ?? '-' }}
+                    </td>
                 @endforeach
             </tbody>
         </table>
@@ -134,7 +130,7 @@
                             @foreach ($columns['detail'] as $column)
                                 @continue (!userCompany()->isDiscountBeforeTax() && $column == 'discount')
                                 <td>
-                                    {{ $detail[$column] }}
+                                    {{ $detail[$column] ?? '-' }}
                                 </td>
                             @endforeach
                         </tr>
@@ -207,7 +203,7 @@
     </footer>
 
     @if (array_search('description', $columns['master']) &&
-        str($transaction->transactionMasters->toArray()['description'])->stripTags()->squish()->length())
+            str($transaction->transactionMasters->toArray()['description'])->stripTags()->squish()->length())
         <section
             class="page-break my-6"
             style="width: 60% !important"

@@ -64,7 +64,7 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     $query->from . '.quantity',
                     $query->from . '.product_unit_of_measurement AS unit',
                     $query->from . '.unit_price',
-                    $query->from . '.line_price',
+                    $query->from . '.line_price_before_tax',
                 ]);
             })
             ->when(str($query->from)->containsAll(['gdn', 'detail']), function ($q) use ($query) {

@@ -129,20 +129,17 @@
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <sup
+                                    class="tag bg-lightpurple text-purple"
+                                    x-show="gdn.availableQuantity"
+                                    x-text="gdn.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(gdn.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(gdn.availableQuantity) > 0 }"
+                                >
+                                </sup>
+                            @endif
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            @if (userCompany()->isInventoryCheckerEnabled())
-                                <x-forms.control>
-                                    <x-common.button
-                                        tag="button"
-                                        type="button"
-                                        mode="button"
-                                        class="bg-lightgreen text-green"
-                                        x-show="gdn.availableQuantity"
-                                        x-text="gdn.availableQuantity"
-                                    />
-                                </x-forms.control>
-                            @endif
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][quantity]`"
@@ -167,6 +164,7 @@
                                     mode="button"
                                     class="bg-green has-text-white"
                                     x-text="Product.unitOfMeasurement(gdn.product_id)"
+                                    tabindex="-1"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -201,14 +199,18 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price Before Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(true, gdn.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(Product.priceBeforeTax(gdn.unit_price, gdn.quantity, gdn.discount))"
+                                    x-bind:value="Product.priceBeforeTax(gdn.unit_price, gdn.quantity, gdn.discount).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
@@ -219,14 +221,18 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price After Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(false, gdn.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(Product.priceAfterTax(gdn.unit_price, gdn.quantity, gdn.product_id, gdn.discount))"
+                                    x-bind:value="Product.priceAfterTax(gdn.unit_price, gdn.quantity, gdn.product_id, gdn.discount).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"

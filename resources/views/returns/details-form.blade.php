@@ -124,6 +124,7 @@
                                     mode="button"
                                     class="bg-green has-text-white"
                                     x-text="Product.unitOfMeasurement(returnn.product_id)"
+                                    tabindex="-1"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -158,14 +159,18 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price Before Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(true, returnn.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity)"
+                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
@@ -176,14 +181,18 @@
                     </div>
                     <div class="column is-3">
                         <x-forms.label>
-                            Price After Tax <sup class="has-text-danger"></sup>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(false, returnn.product_id)"
+                            ></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="(Product.priceAfterTax(returnn.unit_price, returnn.quantity, returnn.product_id))"
+                                    x-bind:value="Product.priceAfterTax(returnn.unit_price, returnn.quantity, returnn.product_id).toFixed(2)"
                                     type="number"
                                     readonly
+                                    disabled
                                 />
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"
