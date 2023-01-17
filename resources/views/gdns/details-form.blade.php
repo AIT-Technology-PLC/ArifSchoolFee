@@ -99,20 +99,16 @@
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <sup
+                                    class="tag bg-lightgreen text-green"
+                                    x-show="gdn.availableQuantity"
+                                    x-text="gdn.availableQuantity"
+                                >
+                                </sup>
+                            @endif
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            @if (userCompany()->isInventoryCheckerEnabled())
-                                <x-forms.control>
-                                    <x-common.button
-                                        tag="button"
-                                        type="button"
-                                        mode="button"
-                                        class="bg-lightgreen text-green"
-                                        x-show="gdn.availableQuantity"
-                                        x-text="gdn.availableQuantity"
-                                    />
-                                </x-forms.control>
-                            @endif
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][quantity]`"
