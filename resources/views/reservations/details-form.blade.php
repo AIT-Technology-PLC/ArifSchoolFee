@@ -101,9 +101,10 @@
                             Quantity <sup class="has-text-danger">*</sup>
                             @if (userCompany()->isInventoryCheckerEnabled())
                                 <sup
-                                    class="tag bg-lightgreen text-green"
+                                    class="tag bg-lightpurple text-purple"
                                     x-show="reservation.availableQuantity"
                                     x-text="reservation.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(reservation.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(reservation.availableQuantity) > 0 }"
                                 >
                                 </sup>
                             @endif

@@ -101,9 +101,10 @@
                             Quantity <sup class="has-text-danger">*</sup>
                             @if (userCompany()->isInventoryCheckerEnabled())
                                 <sup
-                                    class="tag bg-lightgreen text-green"
+                                    class="tag bg-lightpurple text-purple"
                                     x-show="gdn.availableQuantity"
                                     x-text="gdn.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(gdn.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(gdn.availableQuantity) > 0 }"
                                 >
                                 </sup>
                             @endif
