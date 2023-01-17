@@ -129,7 +129,7 @@
                         </x-forms.field>
                     </div>
                     <div
-                        class="column is-6 "
+                        class="column is-6"
                         x-show="(Product.whereProductId(grn.product_id)?.is_batchable ==1)"
                     >
                         <x-forms.label x-bind:for="`grn[${index}][batch_no]`">
@@ -170,6 +170,39 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`grn.${index}.expiry_date`)"
                                 ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label x-bind:for="`grn[${index}][unit_cost]`">
+                            Unit Cost <sup class="has-text-weight-light"> </sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:id="`grn[${index}][unit_cost]`"
+                                    x-bind:name="`grn[${index}][unit_cost]`"
+                                    x-model="grn.unit_cost"
+                                    type="number"
+                                    placeholder="Unit Cost"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`grn.${index}.unit_cost`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control>
+                                <x-common.button
+                                    tag="button"
+                                    type="button"
+                                    mode="button"
+                                    class="bg-green has-text-white"
+                                    x-text="Product.unitOfMeasurement(grn.product_id, 'Per')"
+                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
