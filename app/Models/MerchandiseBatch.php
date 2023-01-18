@@ -20,6 +20,16 @@ class MerchandiseBatch extends Model
         return $this->belongsTo(Merchandise::class);
     }
 
+    public function damage()
+    {
+        return $this->belongsTo(Damage::class);
+    }
+
+    public function scopeNotConverted($query)
+    {
+        return $query->whereNull('damage_id');
+    }
+
     public function gdnDetails()
     {
         return $this->hasMany(GdnDetail::class);

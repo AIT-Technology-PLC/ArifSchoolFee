@@ -785,6 +785,25 @@
                     @endif
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label>
+                                Notify Product Expiry In Days<sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="expiry_in_days"
+                                    name="expiry_in_days"
+                                    type="number"
+                                    placeholder="Days"
+                                    value="{{ $company->expiry_in_days ?? '' }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="expiry_in_days" />
+                            </x-forms.control>
+                        </x-forms.field>
+                        <x-forms.field>
                             <x-forms.label for="can_show_employee_job_title_on_print">
                                 Can Show Employee Job Title On Print <sup class="has-text-danger">*</sup>
                             </x-forms.label>

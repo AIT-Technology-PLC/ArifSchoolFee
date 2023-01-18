@@ -448,3 +448,12 @@ Route::post('/payrolls/{payroll}/pay',
 Route::get('/payrolls/{payroll}/print',
     [Action\PayrollController::class, 'printed'])
     ->name('payrolls.print');
+
+// Merchandise Batch
+Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
+    [Action\MerchandiseBatchController::class, 'convertToDamage'])
+    ->name('merchandise-batches.convert_to_damage');
+
+Route::get('/merchandise-batches',
+    [Action\MerchandiseBatchController::class, 'merchandiseBatch'])
+    ->name('merchandise-batches');

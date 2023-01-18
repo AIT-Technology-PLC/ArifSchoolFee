@@ -24,6 +24,7 @@ class DailyRunCommands extends Command
         'backup:run --disable-notifications',
         'job:behind-schedule-notification',
         'debt:due-date-notification',
+        'product:expiry-date-close-notification',
     ];
 
     public function __construct()

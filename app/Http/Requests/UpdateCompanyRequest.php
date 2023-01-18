@@ -48,11 +48,15 @@ class UpdateCompanyRequest extends FormRequest
             'paid_time_off_amount' => ['sometimes', 'required', 'numeric'],
             'paid_time_off_type' => ['sometimes', 'required', 'string', Rule::in(['Days', 'Hours'])],
             'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
+            'sales_report_source' => ['required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
+            'is_backorder_enabled' => ['required', 'boolean'],
+            'can_check_inventory_on_forms' => ['required', 'boolean'],
             'sales_report_source' => ['sometimes', 'required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
             'is_backorder_enabled' => ['sometimes', 'required', 'boolean'],
             'can_check_inventory_on_forms' => ['sometimes', 'required', 'boolean'],
             'can_show_employee_job_title_on_print' => ['required', 'boolean'],
             'can_select_batch_number_on_forms' => ['required', 'boolean'],
+            'expiry_in_days' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
 

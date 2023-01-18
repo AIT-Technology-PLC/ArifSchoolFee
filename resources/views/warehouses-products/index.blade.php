@@ -3,17 +3,35 @@
 @section('title', 'History of ' . $product->name . ' in ' . $warehouse->name)
 
 @section('content')
-    <x-common.content-wrapper>
-        <x-content.header title="History of {{ $product->name }} in {{ $warehouse->name }}" />
-        <x-content.footer>
-            {{ $dataTable->table() }}
-        </x-content.footer>
-    </x-common.content-wrapper>
-
+    @if (!isset($expired))
+        <x-common.content-wrapper>
+            <x-content.header title="History of {{ $product->name }} in {{ $warehouse->name }}" />
+            <x-content.footer>
+                {{ $dataTable->table() }}
+            </x-content.footer>
+        </x-common.content-wrapper>
+    @endif
     @if ($merchandiseBatches->isNotEmpty())
         <x-common.content-wrapper>
-            <x-content.header title="{{ $product->name }} in {{ $warehouse->name }} by Batches" />
+            <x-content.header
+                title="{{ $product->name }} in {{ $warehouse->name }} by Batches"
+                is-mobile
+            >
+                @can('Create Damage')
+                    @if (isset($expired))
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('merchandise-batches.convert_to_damage', $merchandiseBatches->pluck('merchandise_id')->first()) }}"
+                            mode="button"
+                            icon="fas fa-bolt"
+                            label="Convert to Damage"
+                            class="has-text-weight-medium is-small text-green is-transparent-color has-text-left"
+                        />
+                    @endif
+                @endcan
+            </x-content.header>
             <x-content.footer>
+                <x-common.fail-message :message="session('failedMessage')" />
                 <x-common.bulma-table>
                     <x-slot name="headings">
                         <th class="pl-5"> # </th>

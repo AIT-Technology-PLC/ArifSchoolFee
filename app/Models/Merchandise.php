@@ -4,14 +4,19 @@ namespace App\Models;
 
 use App\Models\MerchandiseBatch;
 use App\Traits\MultiTenancy;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Merchandise extends Model
 {
-    use MultiTenancy, SoftDeletes;
+    use MultiTenancy, SoftDeletes, CascadeSoftDeletes;
 
     protected $guarded = ['id'];
+
+    protected $cascadeDeletes = [
+        'merchandiseBatches',
+    ];
 
     public function product()
     {
