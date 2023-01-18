@@ -20,6 +20,7 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->route('employee')->user->id)],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'position' => ['required', 'string'],
             'enabled' => ['sometimes', 'required', 'integer', 'max:1', Rule::when(authUser()->id == $this->route('employee')->user->id || $this->route('employee')->user->hasRole('System Manager'), 'prohibited')],
             'role' => ['sometimes', 'required', 'string', Rule::notIn(['System Manager']), Rule::when(authUser()->id == $this->route('employee')->user->id || $this->route('employee')->user->hasRole('System Manager'), 'prohibited')],

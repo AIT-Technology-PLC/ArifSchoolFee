@@ -2,8 +2,10 @@
 
 namespace App\Actions;
 
+use App\Actions\SyncWarehousePermissionsAction;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UpdateUserAction
 {
@@ -16,7 +18,14 @@ class UpdateUserAction
 
     private function UpdateUser($employee, $data)
     {
-        $employee->user->update(Arr::only($data, ['name', 'email', 'warehouse_id']));
+        $keys = ['name', 'email', 'warehouse_id'];
+
+        if (isset($data['password']) && !is_null($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+            $keys[] = 'password';
+        }
+
+        $employee->user->update(Arr::only($data, $keys));
 
         return $employee->user;
     }

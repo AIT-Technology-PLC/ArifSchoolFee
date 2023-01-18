@@ -246,6 +246,41 @@
                             @endif
                             <div class="column is-6">
                                 <x-forms.label>
+                                    Change Password <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field class="has-addons">
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            placeholder="New Password"
+                                            autocomplete="new-password"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-unlock"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="password" />
+                                    </x-forms.control>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            id="password-confirm"
+                                            type="password"
+                                            name="password_confirmation"
+                                            placeholder="Confirm Password"
+                                            autocomplete="new-password"
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-unlock"
+                                            class="is-small is-left"
+                                        />
+                                        <x-common.validation-error property="password" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                            <div class="column is-6">
+                                <x-forms.label>
                                     ID Details <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.field class="has-addons">
