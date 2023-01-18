@@ -19,7 +19,7 @@ class BatchController extends Controller
             return [
                 'id' => $merchandiseBatch->id,
                 'name' => $merchandiseBatch->batch_no,
-                'expiry_date' => $merchandiseBatch->expiry_date->toFormattedDateString(),
+                'expiry_date' => $merchandiseBatch->expiry_date?->toFormattedDateString(),
 
                 'product_id' => $merchandiseBatch->merchandise->product_id,
             ];
