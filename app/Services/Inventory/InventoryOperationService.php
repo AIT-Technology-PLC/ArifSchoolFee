@@ -69,12 +69,10 @@ class InventoryOperationService
     public static function addToBatch($detail, $merchandise)
     {
         if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
-            $merchandiseBatch = MerchandiseBatch::firstOrCreate(
-                [
-                    'merchandise_id' => $merchandise->id,
-                    'batch_no' => $detail['batch_no'],
-                ],
-            );
+            $merchandiseBatch = MerchandiseBatch::firstOrCreate([
+                'merchandise_id' => $merchandise->id,
+                'batch_no' => $detail['batch_no'],
+            ]);
 
             $merchandiseBatch->expiry_date = $detail['expiry_date'];
             $merchandiseBatch->quantity += $detail['quantity'];
@@ -85,19 +83,17 @@ class InventoryOperationService
 
     public static function subtractFromBatch($detail, $merchandise)
     {
-        $merchandiseBatches = $merchandise->merchandiseBatches()->where('quantity', '>', 0)->get();
-
-        if ($merchandise->product->isBatchable() && $merchandise->product->isLifo()) {
-            $merchandiseBatches = $merchandiseBatches->sortByDesc('expiry_date');
+        if (!$merchandise->product->isBatchable()) {
+            return;
         }
 
-        if ($merchandise->product->isBatchable() && !$merchandise->product->isLifo()) {
-            $merchandiseBatches = $merchandiseBatches->sortBy('expiry_date');
-        }
-
-        if ($merchandise->product->isBatchable() && isset($detail->merchandise_batch_id)) {
-            $merchandiseBatches = $merchandiseBatches->where('id', $detail->merchandise_batch_id);
-        }
+        $merchandiseBatches = $merchandise
+            ->merchandiseBatches()
+            ->where('quantity', '>', 0)
+            ->when($merchandise->product->isLifo(), fn($q) => $q->orderBy('expiry_date', 'DESC'))
+            ->when(!$merchandise->product->isLifo(), fn($q) => $q->orderBy('expiry_date', 'ASC'))
+            ->when(isset($detail->merchandise_batch_id), fn($q) => $q->where('id', $detail->merchandise_batch_id))
+            ->get();
 
         foreach ($merchandiseBatches as $merchandiseBatch) {
             if ($merchandiseBatch->quantity >= $detail['quantity']) {
