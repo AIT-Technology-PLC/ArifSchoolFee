@@ -25,6 +25,8 @@ class GdnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($gdnDetail) {
                 return quantity($gdnDetail->quantity, $gdnDetail->product->unit_of_measurement);
             })
+            ->editColumn('batch_no', fn($gdnDetail) => $gdnDetail->merchandiseBatch?->batch_no)
+            ->editColumn('expiry_date', fn($gdnDetail) => $gdnDetail->merchandiseBatch?->expiry_date?->toFormattedDateString())
             ->editColumn('unit_price', fn($gdnDetail) => money($gdnDetail->unit_price))
             ->editColumn('discount', fn($gdnDetail) => ($gdnDetail->discount ?? 0) . '%')
             ->editColumn('total', fn($gdnDetail) => money($gdnDetail->totalPrice))
@@ -48,6 +50,7 @@ class GdnDetailDatatable extends DataTable
             ->with([
                 'warehouse',
                 'product',
+                'merchandiseBatch',
             ]);
     }
 
@@ -58,6 +61,8 @@ class GdnDetailDatatable extends DataTable
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
+            Column::make('batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expiry_date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('unit_price')->addClass('has-text-right'),
             userCompany()->isDiscountBeforeTax() ? Column::computed('discount')->addClass('has-text-right') : null,
             Column::computed('total')->addClass('has-text-right'),

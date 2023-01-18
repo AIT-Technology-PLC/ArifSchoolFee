@@ -19,4 +19,9 @@ class MerchandiseBatch extends Model
     {
         return $this->belongsTo(Merchandise::class);
     }
+
+    public function gdnDetails()
+    {
+        return $this->hasMany(GdnDetail::class);
+    }
 }
