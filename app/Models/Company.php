@@ -13,14 +13,16 @@ class Company extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'enabled' => 'boolean',
-        'is_discount_before_vat' => 'boolean',
-        'is_price_before_vat' => 'boolean',
-        'is_convert_to_siv_as_approved' => 'boolean',
-        'can_show_branch_detail_on_print' => 'boolean',
-        'is_editing_reference_number_enabled' => 'boolean',
-        'is_backorder_enabled' => 'boolean',
-        'can_check_inventory_on_forms' => 'boolean',
+        'enabled' => 'integer',
+        'is_discount_before_vat' => 'integer',
+        'is_price_before_vat' => 'integer',
+        'is_convert_to_siv_as_approved' => 'integer',
+        'can_show_branch_detail_on_print' => 'integer',
+        'is_editing_reference_number_enabled' => 'integer',
+        'is_backorder_enabled' => 'integer',
+        'can_check_inventory_on_forms' => 'integer',
+        'can_show_employee_job_title_on_print' => 'integer',
+        'can_select_batch_number_on_forms' => 'integer',
     ];
 
     public function plan()
@@ -240,6 +242,11 @@ class Company extends Model
         return $this->can_show_branch_detail_on_print;
     }
 
+    public function canShowEmployeeJobTitleOnPrint()
+    {
+        return $this->can_show_employee_job_title_on_print;
+    }
+
     public function hasIntegration($integrationName)
     {
         return $this->integrations()
@@ -267,5 +274,10 @@ class Company extends Model
     public function isInventoryCheckerEnabled()
     {
         return $this->can_check_inventory_on_forms;
+    }
+
+    public function canSelectBatchNumberOnForms()
+    {
+        return $this->can_select_batch_number_on_forms;
     }
 }

@@ -7,6 +7,15 @@
             Waiting Approval
         </span>
     </span>
+@elseif ($gdn->isCancelled())
+    <span class="tag is-small bg-purple has-text-white">
+        <span class="icon">
+            <i class="fas fas fa-times-circle"></i>
+        </span>
+        <span>
+            Voided
+        </span>
+    </span>
 @elseif ($gdn->isSubtracted())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
@@ -14,6 +23,15 @@
         </span>
         <span>
             Subtracted
+        </span>
+    </span>
+@elseif ($gdn->isClosed())
+    <span class="tag is-small bg-gold has-text-white">
+        <span class="icon">
+            <i class="fas fa-ban"></i>
+        </span>
+        <span>
+            Closed
         </span>
     </span>
 @else

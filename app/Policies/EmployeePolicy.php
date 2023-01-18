@@ -31,19 +31,7 @@ class EmployeePolicy
 
     public function update(User $user, Employee $employee)
     {
-        if (! $user->can('Update Employee')) {
-            return false;
-        }
-
-        if ($employee->user->hasRole('System Manager') && ! $user->hasRole('System Manager')) {
-            return false;
-        }
-
-        if ($employee->user->id == $user->id && ! $user->hasRole('System Manager')) {
-            return false;
-        }
-
-        return true;
+        return $user->can('Update Employee');
     }
 
     public function delete(User $user, Employee $employee)

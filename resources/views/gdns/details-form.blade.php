@@ -96,23 +96,20 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label x-bind:for="`gdn[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <sup
+                                    class="tag bg-lightpurple text-purple"
+                                    x-show="gdn.availableQuantity"
+                                    x-text="gdn.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(gdn.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(gdn.availableQuantity) > 0 }"
+                                >
+                                </sup>
+                            @endif
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            @if (userCompany()->isInventoryCheckerEnabled())
-                                <x-forms.control>
-                                    <x-common.button
-                                        tag="button"
-                                        type="button"
-                                        mode="button"
-                                        class="bg-lightgreen text-green"
-                                        x-show="gdn.availableQuantity"
-                                        x-text="gdn.availableQuantity"
-                                    />
-                                </x-forms.control>
-                            @endif
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][quantity]`"
@@ -137,18 +134,19 @@
                                     mode="button"
                                     class="bg-green has-text-white"
                                     x-text="Product.unitOfMeasurement(gdn.product_id)"
+                                    tabindex="-1"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label x-bind:for="`gdn[${index}][unit_price]`">
                             Unit Price <sup
                                 class="has-text-weight-light"
                                 x-text="Product.taxName({{ userCompany()->isPriceBeforeTax() }}, gdn.product_id)"
                             ></sup>
                         </x-forms.label>
-                        <x-forms.field class="has-addons">
+                        <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][unit_price]`"
@@ -167,17 +165,82 @@
                                     x-text="$store.errors.getErrors(`gdn.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(gdn.product_id, 'Per')"
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(true, gdn.product_id)"
+                            ></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:value="Product.priceBeforeTax(gdn.unit_price, gdn.quantity, gdn.discount).toFixed(2)"
+                                    type="number"
+                                    readonly
+                                    disabled
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-check"
+                                    class="is-small is-left"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(false, gdn.product_id)"
+                            ></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:value="Product.priceAfterTax(gdn.unit_price, gdn.quantity, gdn.product_id, gdn.discount).toFixed(2)"
+                                    type="number"
+                                    readonly
+                                    disabled
+                                />
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-6"
+                            x-show="(Product.whereProductId(gdn.product_id)?.is_batchable == 1)"
+                        >
+                            <x-forms.label x-bind:for="`gdn[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`gdn[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`gdn[${index}][merchandise_batch_id]`"
+                                        x-model="gdn.merchandise_batch_id"
+                                    >
+                                        <option value="">Select Batch Number</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`gdn.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6 {{ userCompany()->isDiscountBeforeTax() ? '' : 'is-hidden' }}">
                         <x-forms.label x-bind:for="`gdn[${index}][discount]`">
                             Discount <sup class="has-text-danger"></sup>
@@ -231,6 +294,9 @@
             </div>
         </div>
     </template>
+
+    @include('components.content.pricing', ['data' => 'gdns'])
+
     <x-common.button
         tag="button"
         type="button"
@@ -250,7 +316,7 @@
                 gdns: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
 
                     if (gdn) {
                         this.gdns = gdn;
@@ -278,6 +344,12 @@
                         this.gdns.forEach((gdn, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), gdn.product_id, gdn.product_category_id);
+
+                                MerchandiseBatch.appendMerchandiseBatches(
+                                    this.getMerchandiseBatchesSelect(i),
+                                    this.gdns[i].merchandise_batch_id,
+                                    MerchandiseBatch.whereProductId(this.gdns[i].product_id)
+                                );
                             }
                         })
                     );
@@ -295,6 +367,12 @@
                                 this.gdns[index].product_id
                             );
 
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.gdns[index].merchandise_batch_id,
+                            MerchandiseBatch.whereProductId(this.gdns[index].product_id)
+                        );
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.gdns[index].product_id, this.gdns[index].product_category_id);
 
@@ -308,6 +386,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
                     if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {

@@ -107,7 +107,7 @@
                 <div class="column is-12">
                     <x-common.show-data-section
                         type="long"
-                        :data="is_null($sale->description) ? 'N/A' : nl2br(e($sale->description))"
+                        :data="$sale->description"
                         label="Details"
                     />
                 </div>

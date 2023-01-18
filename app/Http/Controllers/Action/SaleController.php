@@ -57,6 +57,8 @@ class SaleController extends Controller
 
         $sale->load(['saleDetails.product', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        return Pdf::loadView('sales.print', compact('sale'))->stream();
+        $havingCode = $sale->saleDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
+
+        return Pdf::loadView('sales.print', compact('sale', 'havingCode'))->stream();
     }
 }

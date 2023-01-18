@@ -25,6 +25,7 @@ class GrnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($grnDetail) {
                 return quantity($grnDetail->quantity, $grnDetail->product->unit_of_measurement);
             })
+            ->editColumn('unit_cost', fn($grnDetail) => money($grnDetail->unit_cost))
             ->editColumn('batch_no', fn($grnDetail) => $grnDetail->batch_no)
             ->editColumn('expiry_date', fn($grnDetail) => $grnDetail->expiry_date?->toFormattedDateString())
             ->editColumn('description', fn($grnDetail) => nl2br(e($grnDetail->description)))
@@ -57,6 +58,7 @@ class GrnDetailDatatable extends DataTable
             Column::make('to', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
+            Column::make('unit_cost'),
             Column::make('batch_no')->content('N/A')->visible(false),
             Column::make('expiry_date')->content('N/A')->visible(false),
             Column::make('description')->visible(false),

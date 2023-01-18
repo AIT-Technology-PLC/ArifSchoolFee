@@ -32,9 +32,9 @@ class GdnController extends Controller
 
         $totalNotApproved = Gdn::notApproved()->count();
 
-        $totalNotSubtracted = Gdn::notSubtracted()->approved()->count();
+        $totalNotSubtracted = Gdn::notSubtracted()->notCancelled()->approved()->count();
 
-        $totalSubtracted = Gdn::subtracted()->count();
+        $totalSubtracted = Gdn::subtracted()->notCancelled()->count();
 
         return $datatable->render('gdns.index', compact('totalGdns', 'totalNotApproved', 'totalNotSubtracted', 'totalSubtracted'));
     }
@@ -69,7 +69,7 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'customer', 'contact', 'sale']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale']);
 
         $sivs = Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->get();
 
@@ -82,7 +82,7 @@ class GdnController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('sales');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch']);
 
         return view('gdns.edit', compact('gdn', 'sales', 'warehouses'));
     }

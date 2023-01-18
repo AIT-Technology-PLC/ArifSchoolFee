@@ -31,14 +31,14 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div class="column is-12">
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control
                                 class="has-icons-left"
-                                style="width: 30%"
+                                style="width: 20%"
                             >
                                 <x-common.category-list
                                     x-model="proformaInvoice.product_category_id"
@@ -64,7 +64,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -93,11 +93,12 @@
                                     mode="button"
                                     class="bg-green has-text-white"
                                     x-text="Product.unitOfMeasurement(proformaInvoice.product_id)"
+                                    tabindex="-1"
                                 />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-3">
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][unit_price]`">
                             Unit Price <sup
                                 class="has-text-weight-light"
@@ -123,13 +124,48 @@
                                     x-text="$store.errors.getErrors(`proformaInvoice.${index}.unit_price`)"
                                 ></span>
                             </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(proformaInvoice.product_id, 'Per')"
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(true, proformaInvoice.product_id)"
+                            ></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:value="Product.priceBeforeTax(proformaInvoice.unit_price, proformaInvoice.quantity, proformaInvoice.discount).toFixed(2)"
+                                    type="number"
+                                    readonly
+                                    disabled
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-check"
+                                    class="is-small is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3">
+                        <x-forms.label>
+                            Total Price <sup
+                                class="has-text-weight-light"
+                                x-text="Product.taxName(false, proformaInvoice.product_id)"
+                            ></sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    x-bind:value="Product.priceAfterTax(proformaInvoice.unit_price, proformaInvoice.quantity, proformaInvoice.product_id, proformaInvoice.discount).toFixed(2)"
+                                    type="number"
+                                    readonly
+                                    disabled
+                                />
+                                <x-common.icon
+                                    name="fas fa-file-invoice-dollar"
+                                    class="is-small is-left"
                                 />
                             </x-forms.control>
                         </x-forms.field>
@@ -184,6 +220,9 @@
             </div>
         </div>
     </template>
+
+    @include('components.content.pricing', ['data' => 'proformaInvoices'])
+
     <x-common.button
         tag="button"
         type="button"

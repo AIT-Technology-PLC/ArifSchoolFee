@@ -29,4 +29,9 @@ class MerchandiseBatch extends Model
     {
         return $query->whereNull('damage_id');
     }
+
+    public function gdnDetails()
+    {
+        return $this->hasMany(GdnDetail::class);
+    }
 }

@@ -37,14 +37,16 @@ class PayrollService
                 })->get(['employee_id', 'compensation_id', 'amount']);
 
             $employeeCompensations = $employeeCompensations
-                ->whereNotIn('employee_id', $compensationAdjustments->pluck('employee_id'))
-                ->whereNotIn('compensation_id', $compensationAdjustments->pluck('employee_id'))
-                ->push(...$compensationAdjustments)
-                ->toArray();
+                ->filter(function ($employeeCompensation) use ($compensationAdjustments) {
+                    return $compensationAdjustments
+                        ->where('employee_id', $employeeCompensation->employee_id)
+                        ->where('compensation_id', $employeeCompensation->compensation_id)
+                        ->isEmpty();
+                })->push(...$compensationAdjustments)->toArray();
 
             $payroll->payrollDetails()->createMany($employeeCompensations);
 
-            $this->storeDerivedCompensations($payroll, $compensationAdjustments);
+            $this->storeDerivedCompensations($payroll);
 
             return [true, $message];
         });
@@ -91,7 +93,7 @@ class PayrollService
         return [true, 'You have paid this transaction successfully.'];
     }
 
-    private function storeDerivedCompensations($payroll, $compensationAdjustments)
+    private function storeDerivedCompensations($payroll)
     {
         $employees = $payroll->payrollDetails->pluck('employee')->unique();
 
@@ -101,14 +103,14 @@ class PayrollService
 
         foreach ($employees as $employee) {
             foreach ($derivedCompensations as $compensation) {
-                if ($payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->count()) {
-                    $derivedAmount = $payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->first()->amount;
-                } else {
-                    $derivedAmount = $payroll->payrollDetails
-                        ->where('employee_id', $employee->id)
-                        ->where('compensation_id', $compensation->depends_on)
-                        ->first()['amount'] * ($compensation->percentage / 100);
+                if ($payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->isNotEmpty()) {
+                    continue;
                 }
+
+                $derivedAmount = $payroll->payrollDetails
+                    ->where('employee_id', $employee->id)
+                    ->where('compensation_id', $compensation->depends_on)
+                    ->first()['amount'] * ($compensation->percentage / 100);
 
                 $data->push([
                     'employee_id' => $employee->id,
@@ -118,11 +120,6 @@ class PayrollService
             }
         }
 
-        $payroll->payrollDetails()->createMany(
-            $data
-                ->whereNotIn('employee_id', $compensationAdjustments->pluck('employee_id'))
-                ->whereNotIn('compensation_id', $compensationAdjustments->pluck('employee_id'))
-                ->toArray()
-        );
+        $payroll->payrollDetails()->createMany($data);
     }
 }
