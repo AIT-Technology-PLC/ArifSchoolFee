@@ -18,11 +18,11 @@ class Product extends Model
 
     protected $casts = [
         'properties' => 'array',
-        'is_batchable' => 'int',
-        'is_active' => 'int',
-        'is_active_for_sale' => 'int',
-        'is_active_for_purchase' => 'int',
-        'is_active_for_job' => 'int',
+        'is_batchable' => 'integer',
+        'is_active' => 'integer',
+        'is_active_for_sale' => 'integer',
+        'is_active_for_purchase' => 'integer',
+        'is_active_for_job' => 'integer',
     ];
 
     protected $cascadeDeletes = [

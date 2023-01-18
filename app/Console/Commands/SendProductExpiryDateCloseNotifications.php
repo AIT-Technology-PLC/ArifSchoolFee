@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Company;
+use App\Models\Merchandise;
 use App\Models\MerchandiseBatch;
 use App\Models\User;
 use App\Notifications\ProductExpiryDateClose;
@@ -32,9 +33,7 @@ class SendProductExpiryDateCloseNotifications extends Command
         foreach ($companies as $company) {
             $merchandiseBatches = MerchandiseBatch::query()
                 ->whereRelation('merchandise', 'company_id', $company->id)
-                ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
-                ->join('companies', 'merchandises.company_id', '=', 'companies.id')
-                ->whereRaw('DATEDIFF(expiry_date, CURRENT_DATE) = companies.expiry_in_days')
+                ->whereRaw('DATEDIFF(expiry_date, CURRENT_DATE) BETWEEN 1 AND ' . (int) $company->expiry_in_days)
                 ->get();
 
             if ($merchandiseBatches->isEmpty()) {
@@ -45,7 +44,7 @@ class SendProductExpiryDateCloseNotifications extends Command
                 ->permission('Read Expired Inventory')
                 ->where(function ($query) use ($merchandiseBatches) {
                     $query->whereNull('warehouse_id')
-                        ->orWhereIn('warehouse_id', $merchandiseBatches->pluck('warehouse_id'));
+                        ->orWhereIn('warehouse_id', Merchandise::whereIn('id', $merchandiseBatches->pluck('merchandise_id'))->pluck('warehouse_id'));
                 })
                 ->whereHas('employee', function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);

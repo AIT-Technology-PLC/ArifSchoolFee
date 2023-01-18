@@ -6,6 +6,7 @@
         {{ $attributes->merge(['class' => '']) }}
         {{ $attributes->merge(['x-init' => 'initializeSelect2($el)']) }}
         {{ $attributes->whereStartsWith('x-') }}
+        style="width: 100% !important"
     >
         <option
             data-code=""

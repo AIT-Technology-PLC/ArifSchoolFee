@@ -40,6 +40,11 @@ const Product = {
 
         return product?.price?.type == "range";
     },
+    isBatchable(productId) {
+        let product = this.whereProductId(productId);
+
+        return product?.is_batchable;
+    },
     productCategoryId(productId) {
         let product = this.whereProductId(productId);
 
@@ -205,13 +210,15 @@ const MerchandiseBatch = {
 
         select.innerHTML = null;
 
-        select.add(new Option("Select Batch Number", "", false, ""));
+        let firstOption = new Option("Select Batch", "", false, "");
+        firstOption.disabled = true;
+        select.add(firstOption);
 
         merchandiseBatches.forEach((merchandiseBatch) => {
             let BatchNo = merchandiseBatch.name;
 
             if (merchandiseBatch.expiry_date) {
-                BatchNo = `${BatchNo} (Ex. ${merchandiseBatch.expiry_date})`;
+                BatchNo = `${BatchNo} (EXP. ${merchandiseBatch.expiry_date})`;
             }
 
             select.add(
@@ -223,6 +230,8 @@ const MerchandiseBatch = {
                 )
             );
         });
+
+        select.add(new Option("None", "", false, ""));
     },
 };
 
