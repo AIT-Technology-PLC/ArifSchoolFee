@@ -55,7 +55,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_backorder_enabled' => ['sometimes', 'required', 'boolean'],
             'can_check_inventory_on_forms' => ['sometimes', 'required', 'boolean'],
             'can_show_employee_job_title_on_print' => ['required', 'boolean'],
-            'can_select_batch_number_on_forms' => ['required', 'boolean'],
+            'can_select_batch_number_on_forms' => ['sometimes', 'required', 'boolean'],
             'expiry_in_days' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
