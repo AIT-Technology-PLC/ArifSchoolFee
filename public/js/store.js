@@ -217,8 +217,8 @@ const MerchandiseBatch = {
         merchandiseBatches.forEach((merchandiseBatch) => {
             let BatchNo = merchandiseBatch.name;
 
-            if (merchandiseBatch.expiry_date) {
-                BatchNo = `${BatchNo} (EXP. ${merchandiseBatch.expiry_date})`;
+            if (merchandiseBatch.expires_on) {
+                BatchNo = `${BatchNo} (EXP. ${merchandiseBatch.expires_on})`;
             }
 
             select.add(

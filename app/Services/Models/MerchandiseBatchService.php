@@ -3,50 +3,34 @@
 namespace App\Services\Models;
 
 use App\Models\Damage;
-use App\Models\MerchandiseBatch;
 use Illuminate\Support\Facades\DB;
 
 class MerchandiseBatchService
 {
     public function convertToDamage($merchandiseBatch)
     {
-        $merchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch)
-            ->notConverted()
-            ->whereDate('expiry_date', '<', now())
-            ->get();
-
-        if ($merchandiseBatches->isEmpty()) {
-            return [false, 'This Batch is already converted to damage .', ''];
+        if ($merchandiseBatch->isDamaged()) {
+            return [false, 'This Batch is already damage.', ''];
         }
 
-        $merchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch)
-            ->notConverted()
-            ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
-            ->where('merchandise_batches.quantity', '>', 0)
-            ->whereDate('expiry_date', '<', now())
-            ->groupBy(['merchandise_id', 'product_id', 'warehouse_id'])
-            ->selectRaw('warehouse_id, product_id, SUM(quantity) AS quantity')
-            ->get();
+        if (!$merchandiseBatch->isExpired()) {
+            return [false, 'This Batch is not expired yet.', ''];
+        }
 
-        return DB::transaction(function () use ($merchandiseBatches, $merchandiseBatch) {
+        return DB::transaction(function () use ($merchandiseBatch) {
             $damage = Damage::create([
                 'code' => nextReferenceNumber('damages'),
                 'issued_on' => now(),
             ]);
 
-            $damage->damageDetails()->createMany($merchandiseBatches->toArray());
+            $damage->damageDetails()->create([
+                'merchandise_batch_id' => $merchandiseBatch->id,
+                'product_id' => $merchandiseBatch->merchandise->product_id,
+                'warehouse_id' => $merchandiseBatch->merchandise->warehouse_id,
+                'quantity' => $merchandiseBatch->quantity,
+            ]);
 
-            $convertedMerchandiseBatches = MerchandiseBatch::whereRelation('merchandise', 'id', $merchandiseBatch)
-                ->where('merchandise_batches.quantity', '>', 0)
-                ->where('merchandise_batches.damage_id', '=', null)
-                ->whereDate('expiry_date', '<', now())
-                ->get();
-
-            foreach ($convertedMerchandiseBatches as $merchandiseBatch) {
-                $merchandiseBatch->damage_id = $damage->id;
-
-                $merchandiseBatch->save();
-            }
+            $damage->approve();
 
             return [true, '', $damage];
         });

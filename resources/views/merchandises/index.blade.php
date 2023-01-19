@@ -100,53 +100,32 @@
         </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
-        <div class="box radius-bottom-0 mb-0 has-background-white-bis">
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <div>
-                            <h1 class="title text-green has-text-weight-medium is-size-5">
-                                Current Inventory Level in {{ isset($warehouse) ? $warehouse->name : 'all Warehouses' }}
-                            </h1>
-                            <div></div>
-                            <h2 class="subtitle has-text-grey is-size-7">
-                                Available, Reserved, On hand, Limited, Out of Stock and Expired
-                            </h2>
-                        </div>
+        <x-content.header title="Inventory Level Report {{ isset($warehouse) ? $warehouse->name : '' }}">
+            <div class="field">
+                <div class="control has-icons-left">
+                    <div class="select is-small">
+                        <select
+                            x-data="changeWarehouse"
+                            @change="change"
+                        >
+                            <option
+                                value="0"
+                                selected
+                            >All Warehouses</option>
+                            @foreach ($warehouses as $availableWarehouse)
+                                <option
+                                    value="{{ $availableWarehouse->id }}"
+                                    {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}
+                                >{{ $availableWarehouse->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
-                <div class="level-right">
-                    <div class="level-item is-justify-content-left">
-                        @if ($warehouses->isNotEmpty())
-                            <div class="field">
-                                <div class="control has-icons-left">
-                                    <div class="select">
-                                        <select
-                                            x-data="changeWarehouse"
-                                            @change="change"
-                                        >
-                                            <option
-                                                value="0"
-                                                selected
-                                            >All Warehouses</option>
-                                            @foreach ($warehouses as $availableWarehouse)
-                                                <option
-                                                    value="{{ $availableWarehouse->id }}"
-                                                    {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}
-                                                >{{ $availableWarehouse->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="icon is-small is-left">
-                                        <i class="fas fa-warehouse"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                    <div class="icon is-small is-left">
+                        <i class="fas fa-warehouse"></i>
                     </div>
                 </div>
             </div>
-        </div>
+        </x-content.header>
         <div @class([
             'is-hidden' =>
                 !request()->is('merchandises/available') &&

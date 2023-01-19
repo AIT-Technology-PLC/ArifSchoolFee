@@ -45,6 +45,7 @@ class ExpiredInventoryDatatable extends DataTable
                         'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
                         'expired' => 'expired',
+                        'min_on_hand' => 0,
                     ]);
                 })
                 ->editColumn('total_balance', function ($row) {
@@ -69,7 +70,7 @@ class ExpiredInventoryDatatable extends DataTable
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
             ->where(function ($query) {
                 $query->where('merchandise_batches.quantity', '>', 0)
-                    ->whereDate('merchandise_batches.expiry_date', '<', now());
+                    ->whereDate('merchandise_batches.expires_on', '<=', now());
             })
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->where('products.type', '!=', 'Services')

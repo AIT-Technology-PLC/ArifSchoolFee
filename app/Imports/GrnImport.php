@@ -42,7 +42,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
             'unit_cost' => $row['unit_cost'] ?? 0.00,
             'description' => $row['description'] ?? '',
             'batch_no' => $row['batch_no'] ?? null,
-            'expiry_date' => $row['expiry_date'] ?? null,
+            'expires_on' => $row['expires_on'] ?? null,
         ]);
     }
 
@@ -55,7 +55,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
             'unit_cost' => ['nullable', 'numeric', 'min:0'],
             'description' => ['nullable', 'string'],
             'batch_no' => ['nullable', 'string'],
-            'expiry_date' => ['nullable', 'date'],
+            'expires_on' => ['nullable', 'date'],
         ];
     }
 

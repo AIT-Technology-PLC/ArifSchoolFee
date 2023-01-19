@@ -12,7 +12,7 @@ class MerchandiseBatch extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'expiry_date' => 'date',
+        'expires_on' => 'date',
     ];
 
     public function merchandise()
@@ -20,18 +20,23 @@ class MerchandiseBatch extends Model
         return $this->belongsTo(Merchandise::class);
     }
 
-    public function damage()
+    public function damageDetail()
     {
-        return $this->belongsTo(Damage::class);
-    }
-
-    public function scopeNotConverted($query)
-    {
-        return $query->whereNull('damage_id');
+        return $this->hasOne(DamageDetail::class);
     }
 
     public function gdnDetails()
     {
         return $this->hasMany(GdnDetail::class);
+    }
+
+    public function isDamaged()
+    {
+        return !is_null($this->damageDetail);
+    }
+
+    public function isExpired()
+    {
+        return $this->expires_on?->isPast();
     }
 }

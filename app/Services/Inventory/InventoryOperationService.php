@@ -68,17 +68,22 @@ class InventoryOperationService
 
     public static function addToBatch($detail, $merchandise)
     {
-        if ($merchandise->product->isBatchable() && isset($detail['batch_no'])) {
-            $merchandiseBatch = MerchandiseBatch::firstOrCreate([
-                'merchandise_id' => $merchandise->id,
-                'batch_no' => $detail['batch_no'],
-            ]);
+        $batchNo = $detail['batch_no'] ?? $detail->merchandiseBatch?->batch_no ?? null;
 
-            $merchandiseBatch->expiry_date = $detail['expiry_date'];
-            $merchandiseBatch->quantity += $detail['quantity'];
-
-            $merchandiseBatch->save();
+        if (!$merchandise->product->isBatchable() || is_null($batchNo)) {
+            return;
         }
+
+        $merchandiseBatch = MerchandiseBatch::firstOrCreate([
+            'merchandise_id' => $merchandise->id,
+            'batch_no' => $batchNo,
+        ]);
+
+        $merchandiseBatch->expires_on = $detail['expires_on'];
+        $merchandiseBatch->quantity += $detail['quantity'];
+        $merchandiseBatch->received_quantity += $detail['quantity'];
+
+        $merchandiseBatch->save();
     }
 
     public static function subtractFromBatch($detail, $merchandise)
@@ -90,8 +95,8 @@ class InventoryOperationService
         $merchandiseBatches = $merchandise
             ->merchandiseBatches()
             ->where('quantity', '>', 0)
-            ->when($merchandise->product->isLifo(), fn($q) => $q->orderBy('expiry_date', 'DESC'))
-            ->when(!$merchandise->product->isLifo(), fn($q) => $q->orderBy('expiry_date', 'ASC'))
+            ->when($merchandise->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+            ->when(!$merchandise->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
             ->when(isset($detail->merchandise_batch_id), fn($q) => $q->where('id', $detail->merchandise_batch_id))
             ->get();
 

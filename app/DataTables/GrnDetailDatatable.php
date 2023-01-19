@@ -27,7 +27,7 @@ class GrnDetailDatatable extends DataTable
             })
             ->editColumn('unit_cost', fn($grnDetail) => money($grnDetail->unit_cost))
             ->editColumn('batch_no', fn($grnDetail) => $grnDetail->batch_no)
-            ->editColumn('expiry_date', fn($grnDetail) => $grnDetail->expiry_date?->toFormattedDateString())
+            ->editColumn('expires_on', fn($grnDetail) => $grnDetail->expires_on?->toFormattedDateString())
             ->editColumn('description', fn($grnDetail) => nl2br(e($grnDetail->description)))
             ->editColumn('actions', function ($grnDetail) {
                 return view('components.common.action-buttons', [
@@ -60,7 +60,7 @@ class GrnDetailDatatable extends DataTable
             Column::make('quantity'),
             Column::make('unit_cost'),
             Column::make('batch_no')->content('N/A')->visible(false),
-            Column::make('expiry_date')->content('N/A')->visible(false),
+            Column::make('expires_on')->content('N/A')->visible(false),
             Column::make('description')->visible(false),
             Column::computed('actions'),
         ];

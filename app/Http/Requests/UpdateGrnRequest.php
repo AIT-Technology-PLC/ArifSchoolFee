@@ -26,7 +26,7 @@ class UpdateGrnRequest extends FormRequest
             'grn.*.unit_cost' => ['nullable', 'numeric', 'min:0'],
             'grn.*.description' => ['nullable', 'string'],
             'grn.*.batch_no' => ['nullable', 'string'],
-            'grn.*.expiry_date' => ['nullable', 'date'],
+            'grn.*.expires_on' => ['nullable', 'date'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],

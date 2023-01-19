@@ -130,7 +130,7 @@
                         @endif
                         @if ($havingBatch)
                             <td> {{ $gdnDetail->merchandiseBatch?->batch_no ?? '-' }} </td>
-                            <td> {{ $gdnDetail->merchandiseBatch?->expiry_date?->toFormattedDateString() ?? '-' }} </td>
+                            <td> {{ $gdnDetail->merchandiseBatch?->expires_on?->toFormattedDateString() ?? '-' }} </td>
                         @endif
                         <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>

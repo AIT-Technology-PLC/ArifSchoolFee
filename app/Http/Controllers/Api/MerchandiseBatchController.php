@@ -18,13 +18,13 @@ class MerchandiseBatchController extends Controller
             return false;
         }
 
-        $merchandiseBatches = MerchandiseBatch::whereHas('merchandise')->with(['merchandise'])->where('quantity', '>', 0)->orderBy('expiry_date')->get();
+        $merchandiseBatches = MerchandiseBatch::whereHas('merchandise')->with(['merchandise'])->where('quantity', '>', 0)->orderBy('expires_on')->get();
 
         return $merchandiseBatches->map(function ($merchandiseBatch) {
             return [
                 'id' => $merchandiseBatch->id,
                 'name' => $merchandiseBatch->batch_no,
-                'expiry_date' => $merchandiseBatch->expiry_date?->toFormattedDateString(),
+                'expires_on' => $merchandiseBatch->expires_on?->toFormattedDateString(),
                 'product_id' => $merchandiseBatch->merchandise->product_id,
             ];
         });

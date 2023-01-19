@@ -22,7 +22,7 @@ Route::prefix('api')
         Route::apiResource('merchandise-batches', Api\MerchandiseBatchController::class)->only('index');
     });
 
-Route::get('/history/products/{product}/warehouses/{warehouse}/{expired?}',
+Route::get('/history/products/{product}/warehouses/{warehouse}',
     Invokable\ProductPerWarehouseHistoryController::class)
     ->name('warehouses-products');
 

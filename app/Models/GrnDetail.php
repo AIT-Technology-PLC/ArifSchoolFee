@@ -15,7 +15,7 @@ class GrnDetail extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'expiry_date' => 'date',
+        'expires_on' => 'date',
     ];
 
     public function grn()

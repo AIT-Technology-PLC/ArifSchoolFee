@@ -155,10 +155,10 @@
                             </x-forms.control>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    x-bind:id="`grn[${index}][expiry_date]`"
-                                    x-bind:name="`grn[${index}][expiry_date]`"
-                                    x-init="grn.expiry_date ? grn.expiry_date = new Date(grn.expiry_date).toLocaleDateString('en-CA') : grn.expiry_date"
-                                    x-model="grn.expiry_date"
+                                    x-bind:id="`grn[${index}][expires_on]`"
+                                    x-bind:name="`grn[${index}][expires_on]`"
+                                    x-init="grn.expires_on ? grn.expires_on = new Date(grn.expires_on).toLocaleDateString('en-CA') : grn.expires_on"
+                                    x-model="grn.expires_on"
                                     type="date"
                                     placeholder="Expiry Date"
                                 />
@@ -168,7 +168,7 @@
                                 />
                                 <span
                                     class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`grn.${index}.expiry_date`)"
+                                    x-text="$store.errors.getErrors(`grn.${index}.expires_on`)"
                                 ></span>
                             </x-forms.control>
                         </x-forms.field>

@@ -30,9 +30,4 @@ class Damage extends Model
     {
         return $this->damageDetails;
     }
-
-    public function merchandiseBatch()
-    {
-        return $this->hasOne(MerchandiseBatch::class);
-    }
 }
