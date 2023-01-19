@@ -22,12 +22,22 @@ class MerchandiseBatch extends Model
 
     public function damageDetail()
     {
-        return $this->hasOne(DamageDetail::class);
+        return $this->hasMany(DamageDetail::class);
     }
 
     public function gdnDetails()
     {
         return $this->hasMany(GdnDetail::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('quantity', '>', 0);
+    }
+
+    public function scopeExpired($query)
+    {
+        return $query->whereDate('expires_on', '<=', now());
     }
 
     public function isDamaged()
@@ -37,6 +47,11 @@ class MerchandiseBatch extends Model
 
     public function isExpired()
     {
-        return $this->expires_on?->isPast();
+        return is_null($this->expires_on) || $this->expires_on->isPast();
+    }
+
+    public function isAvailable()
+    {
+        return $this->quantity > 0;
     }
 }

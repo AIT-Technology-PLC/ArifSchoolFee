@@ -6,7 +6,7 @@
     @if ($merchandiseBatches->isNotEmpty())
         <x-common.content-wrapper>
             <x-content.header
-                title="{{ $product->name }} in {{ $warehouse->name }} by Batches"
+                title="{{ $product->name }} Batches in {{ $warehouse->name }}"
                 is-mobile
             >
             </x-content.header>
@@ -44,18 +44,7 @@
                                     {{ $merchandiseBatch->quantity }} {{ $product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    @if ($merchandiseBatch->isDamaged())
-                                        @can('Read Damage')
-                                            <x-common.button
-                                                tag="a"
-                                                href="{{ route('damages.show', $merchandiseBatch->damageDetail->damage_id) }}"
-                                                mode="button"
-                                                icon="fas fa-bolt"
-                                                label="View Damage"
-                                                class="btn-green is-outlined has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
-                                            />
-                                        @endcan
-                                    @elseif ($merchandiseBatch->isExpired())
+                                    @if ($merchandiseBatch->isExpired() && $merchandiseBatch->isAvailable())
                                         @can('Create Damage')
                                             <x-common.button
                                                 tag="a"
@@ -67,7 +56,7 @@
                                             />
                                         @endcan
                                     @else
-                                        No Action
+                                        No Actions
                                     @endif
                                 </td>
                             </tr>

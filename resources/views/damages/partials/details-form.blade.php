@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(damage.product_id), 'is-4': Product.isBatchable(damage.product_id) }"
+                    >
                         <x-forms.label x-bind:for="`damage[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -45,7 +48,10 @@
                                     x-on:change="Product.changeProductCategory(getSelect2(index), damage.product_id, damage.product_category_id)"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70% !important"
+                            >
                                 <x-common.new-product-list
                                     class="product-list"
                                     x-bind:id="`damage[${index}][product_id]`"
@@ -64,7 +70,38 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-4"
+                            x-show="Product.isBatchable(damage.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`damage[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`damage[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`damage[${index}][merchandise_batch_id]`"
+                                        x-model="damage.merchandise_batch_id"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`damage.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(damage.product_id), 'is-4': Product.isBatchable(damage.product_id) }"
+                    >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`damage[${index}][warehouse_id]`">
                                 From <sup class="has-text-danger">*</sup>
@@ -76,6 +113,7 @@
                                     x-bind:id="`damage[${index}][warehouse_id]`"
                                     x-bind:name="`damage[${index}][warehouse_id]`"
                                     x-model="damage.warehouse_id"
+                                    x-on:change="getInventoryLevel(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -176,7 +214,7 @@
                 damages: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
 
                     if (damage) {
                         this.damages = damage;
@@ -204,6 +242,12 @@
                         this.damages.forEach((damage, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), damage.product_id, damage.product_category_id);
+
+                                MerchandiseBatch.appendMerchandiseBatches(
+                                    this.getMerchandiseBatchesSelect(i),
+                                    this.damages[i].merchandise_batch_id,
+                                    MerchandiseBatch.whereProductId(this.damages[i].product_id)
+                                );
                             }
                         })
                     );
@@ -221,6 +265,12 @@
                                 this.damages[index].product_id
                             );
 
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.damages[index].merchandise_batch_id,
+                            MerchandiseBatch.whereProductId(this.damages[index].product_id)
+                        );
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.damages[index].product_id, this.damages[index].product_category_id);
                         }
@@ -228,7 +278,10 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
-                }
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
+                },
             }));
         });
     </script>

@@ -62,16 +62,14 @@ class ExpiredInventoryDatatable extends DataTable
     public function query()
     {
         $expiredMerchandises = MerchandiseBatch::query()
+            ->available()
+            ->expired()
             ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->when(request('type') == 'finished goods', fn($query) => $query->where('products.type', '=', 'Finished Goods'))
             ->when(request('type') == 'raw material', fn($query) => $query->where('products.type', '=', 'Raw Material'))
-            ->where(function ($query) {
-                $query->where('merchandise_batches.quantity', '>', 0)
-                    ->whereDate('merchandise_batches.expires_on', '<=', now());
-            })
             ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
             ->where('products.type', '!=', 'Services')
             ->groupBy(['merchandise_id', 'product_id', 'warehouse_id', 'product', 'code', 'type', 'unit', 'category', 'warehouse'])
