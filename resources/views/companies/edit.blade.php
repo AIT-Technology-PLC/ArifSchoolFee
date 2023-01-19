@@ -803,6 +803,8 @@
                                 <x-common.validation-error property="expiry_in_days" />
                             </x-forms.control>
                         </x-forms.field>
+                    </div>
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="can_show_employee_job_title_on_print">
                                 Can Show Employee Job Title On Print <sup class="has-text-danger">*</sup>

@@ -33,7 +33,7 @@ class SendProductExpiryDateCloseNotifications extends Command
         foreach ($companies as $company) {
             $merchandiseBatches = MerchandiseBatch::query()
                 ->whereRelation('merchandise', 'company_id', $company->id)
-                ->whereRaw('DATEDIFF(expires_on, CURRENT_DATE) BETWEEN 1 AND ' . (int) $company->expiry_in_days)
+                ->whereRaw('DATEDIFF(expires_on, CURRENT_DATE) <= ' . (int) $company->expiry_in_days)
                 ->get();
 
             if ($merchandiseBatches->isEmpty()) {

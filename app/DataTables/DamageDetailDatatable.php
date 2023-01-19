@@ -15,7 +15,7 @@ class DamageDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn ($damageDetail) => $damageDetail->warehouse->name)
+            ->editColumn('from', fn($damageDetail) => $damageDetail->warehouse->name)
             ->editColumn('product', function ($damageDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $damageDetail->product->name,
@@ -25,7 +25,9 @@ class DamageDetailDatatable extends DataTable
             ->editColumn('quantity', function ($damageDetail) {
                 return quantity($damageDetail->quantity, $damageDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn ($damageDetail) => nl2br(e($damageDetail->description)))
+            ->editColumn('batch_no', fn($damageDetail) => $damageDetail->merchandiseBatch?->batch_no)
+            ->editColumn('expires_on', fn($damageDetail) => $damageDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
+            ->editColumn('description', fn($damageDetail) => nl2br(e($damageDetail->description)))
             ->editColumn('actions', function ($damageDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'damage-details',
@@ -45,6 +47,7 @@ class DamageDetailDatatable extends DataTable
             ->with([
                 'warehouse',
                 'product',
+                'merchandiseBatch',
             ]);
     }
 
@@ -55,6 +58,8 @@ class DamageDetailDatatable extends DataTable
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
+            Column::make('batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('description')->visible(false),
             Column::computed('actions'),
         ];
@@ -62,6 +67,6 @@ class DamageDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Damage Details_'.date('YmdHis');
+        return 'Damage Details_' . date('YmdHis');
     }
 }
