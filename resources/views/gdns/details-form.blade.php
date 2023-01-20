@@ -33,7 +33,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(gdn.product_id), 'is-4': Product.isBatchable(gdn.product_id) }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(gdn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(gdn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
                     >
                         <x-forms.label x-bind:for="`gdn[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
@@ -100,7 +100,7 @@
                     @endif
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(gdn.product_id), 'is-4': Product.isBatchable(gdn.product_id) }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(gdn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(gdn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`gdn[${index}][warehouse_id]`">
@@ -352,11 +352,13 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), gdn.product_id, gdn.product_category_id);
 
-                                MerchandiseBatch.appendMerchandiseBatches(
-                                    this.getMerchandiseBatchesSelect(i),
-                                    this.gdns[i].merchandise_batch_id,
-                                    MerchandiseBatch.whereProductId(this.gdns[i].product_id)
-                                );
+                                if (Product.isBatchable(this.gdns[i].product_id)) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.gdns[i].merchandise_batch_id,
+                                        MerchandiseBatch.whereProductId(this.gdns[i].product_id)
+                                    );
+                                }
                             }
                         })
                     );
@@ -374,11 +376,13 @@
                                 this.gdns[index].product_id
                             );
 
-                        MerchandiseBatch.appendMerchandiseBatches(
-                            this.getMerchandiseBatchesSelect(index),
-                            this.gdns[index].merchandise_batch_id,
-                            MerchandiseBatch.whereProductId(this.gdns[index].product_id)
-                        );
+                        if (Product.isBatchable(this.gdns[index].product_id)) {
+                            MerchandiseBatch.appendMerchandiseBatches(
+                                this.getMerchandiseBatchesSelect(index),
+                                this.gdns[index].merchandise_batch_id,
+                                MerchandiseBatch.whereProductId(this.gdns[index].product_id)
+                            );
+                        }
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.gdns[index].product_id, this.gdns[index].product_category_id);
