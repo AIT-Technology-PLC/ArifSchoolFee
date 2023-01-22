@@ -205,6 +205,11 @@ class Product extends Model
         return $query->where('type', '!=', 'Services');
     }
 
+    public function scopeBatchable($query)
+    {
+        return $query->where('is_batchable', 1);
+    }
+
     public function isLifo()
     {
         return $this->batch_priority == 'lifo';

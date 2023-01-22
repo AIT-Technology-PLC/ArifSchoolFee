@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Invokable;
 use App\Factory\InventoryDatatableFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Merchandise;
+use App\Models\Product;
 use App\Models\Warehouse;
 use App\Services\Inventory\MerchandiseProductService;
 
@@ -31,7 +32,9 @@ class MerchandiseInventoryLevelController extends Controller
 
         $datatable->builder()->setTableId($type.'-datatable')->orderBy(1, 'asc');
 
-        return $datatable->render('merchandises.index', compact('insights', 'warehouses'));
+        $hasExpiredInventory = Product::batchable()->exists();
+
+        return $datatable->render('merchandises.index', compact('insights', 'warehouses', 'hasExpiredInventory'));
     }
 
     private function insights()
