@@ -262,6 +262,8 @@
             <x-common.success-message :message="session('successMessage')" />
             @if ($gdn->isCancelled())
                 <x-common.fail-message message="This Delivery Order has been cancelled." />
+            @elseif ($gdn->isClosed())
+                <x-common.success-message message="This Delivery Order is closed." />
             @elseif ($gdn->isSubtracted())
                 <x-common.success-message message="Products have been subtracted from inventory." />
             @elseif (!$gdn->isApproved())
