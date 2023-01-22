@@ -181,6 +181,63 @@
                 </x-forms.control>
             </x-forms.field>
         </div>
+        <div
+            class="column is-6"
+            x-data="UploadedFileNameHandler"
+        >
+            <x-forms.field>
+                <x-forms.label for="business_licence">
+                    Business Licence <sup class="has-text-danger"></sup>
+                </x-forms.label>
+                <div class="file has-name">
+                    <label class="file-label">
+                        <x-forms.input
+                            class="file-input"
+                            type="file"
+                            name="business_licence"
+                            x-model="file"
+                            x-on:change="getFileName"
+                        />
+                        <span class="file-cta bg-green has-text-white">
+                            <x-common.icon
+                                name="fas fa-upload"
+                                class="file-icon"
+                            />
+                            <span class="file-label">
+                                Upload Licence
+                            </span>
+                        </span>
+                        <span
+                            class="file-name"
+                            x-text="fileName || customer.business_licence || 'Select File...'"
+                        >
+                        </span>
+                    </label>
+                </div>
+                <x-common.validation-error property="business_licence" />
+            </x-forms.field>
+        </div>
+        <div class="column is-6">
+            <x-forms.field>
+                <x-forms.label for="document_expire_on">
+                    Document Expire On<sup class="has-text-danger"></sup>
+                </x-forms.label>
+                <x-forms.control class="has-icons-left">
+                    <x-forms.input
+                        type="date"
+                        name="document_expire_on"
+                        id="document_expire_on"
+                        placeholder="mm/dd/yyyy"
+                        x-model="customer.document_expire_on"
+                    />
+                    <x-common.icon
+                        name="fas fa-calendar-alt"
+                        class="is-small is-left"
+                    />
+                    <x-common.validation-error property="document_expire_on" />
+                </x-forms.control>
+            </x-forms.field>
+        </div>
     </div>
 </x-content.main>
 <x-content.footer>
@@ -225,6 +282,8 @@
                     this.customer.email = customer.email || '';
                     this.customer.phone = customer.phone || '';
                     this.customer.country = customer.country || '';
+                    this.customer.business_licence = customer.business_licence || '';
+                    this.customer.document_expire_on = customer.document_expire_on || '';
                 }
             }));
         });

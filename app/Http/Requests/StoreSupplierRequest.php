@@ -23,6 +23,15 @@ class StoreSupplierRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
             'debt_amount_limit' => ['required', 'numeric', 'min:0'],
+            'business_licence' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5000'],
+            'document_expire_on' => ['nullable', 'date'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'business_licence.max' => 'The File must be less than 5 megabytes',
         ];
     }
 }

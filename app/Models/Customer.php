@@ -14,6 +14,10 @@ class Customer extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'document_expire_on' => 'date',
+    ];
+
     protected $cascadeDeletes = ['credits'];
 
     public function sales()

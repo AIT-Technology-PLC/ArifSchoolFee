@@ -24,6 +24,14 @@ class SupplierDatatable extends DataTable
                 : userCompany()->currency . '. ' . number_format($supplier->debt_amount_limit, 2);
             })
             ->editColumn('registered on', fn($supplier) => $supplier->created_at->toFormattedDateString())
+            ->editColumn('business_licence', function ($supplier) {
+                return view('components.datatables.link', [
+                    'url' => isset($supplier->business_licence) ? asset('/storage/' . $supplier->business_licence) : '#',
+                    'label' => isset($supplier->business_licence) ? 'View Licence' : 'No Licence',
+                    'target' => '_blank',
+                ]);
+            })
+            ->editColumn('document_expire_on', fn($supplier) => $supplier->document_expire_on?->toDateString())
             ->editColumn('added by', fn($supplier) => $supplier->createdBy->name)
             ->editColumn('edited by', fn($supplier) => $supplier->updatedBy->name)
             ->editColumn('actions', function ($supplier) {
@@ -54,6 +62,8 @@ class SupplierDatatable extends DataTable
             Column::make('email')->visible(false)->content('N/A'),
             Column::make('country')->visible(false)->content('N/A')->title('Country/City'),
             Column::make('registered on', 'created_at')->visible(false),
+            Column::make('business_licence')->visible(false),
+            Column::make('document_expire_on')->visible(false)->content('N/A'),
             Column::make('added by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

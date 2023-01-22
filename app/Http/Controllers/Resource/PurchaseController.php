@@ -40,7 +40,7 @@ class PurchaseController extends Controller
 
     public function create()
     {
-        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
 
         $currentPurchaseNo = nextReferenceNumber('purchases');
 
@@ -79,7 +79,7 @@ class PurchaseController extends Controller
 
         $purchase->load('purchaseDetails.product');
 
-        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('purchases.edit', compact('purchase', 'suppliers'));
     }

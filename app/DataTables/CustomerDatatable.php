@@ -24,6 +24,14 @@ class CustomerDatatable extends DataTable
                 : userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2);
             })
             ->editColumn('registered on', fn($customer) => $customer->created_at->toFormattedDateString())
+            ->editColumn('business_licence', function ($customer) {
+                return view('components.datatables.link', [
+                    'url' => isset($customer->business_licence) ? asset('/storage/' . $customer->business_licence) : '#',
+                    'label' => isset($customer->business_licence) ? 'View Licence' : 'No Licence',
+                    'target' => '_blank',
+                ]);
+            })
+            ->editColumn('document_expire_on', fn($customer) => $customer->document_expire_on?->toDateString())
             ->editColumn('added by', fn($customer) => $customer->createdBy->name)
             ->editColumn('edited by', fn($customer) => $customer->updatedBy->name)
             ->editColumn('actions', function ($customer) {
@@ -55,6 +63,8 @@ class CustomerDatatable extends DataTable
             Column::make('email')->visible(false)->content('N/A'),
             Column::make('country')->visible(false)->content('N/A')->title('Country/City'),
             Column::make('registered on', 'created_at')->visible(false),
+            Column::make('business_licence')->visible(false),
+            Column::make('document_expire_on')->visible(false)->content('N/A'),
             Column::make('added by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),

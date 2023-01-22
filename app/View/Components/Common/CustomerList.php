@@ -21,8 +21,8 @@ class CustomerList extends Component
     public function __construct($selectedId, $id = 'customer_id', $name = 'customer_id', $value = 'id')
     {
         $this->customers = Cache::store('array')
-            ->rememberForever(authUser()->id.'_'.'customerLists', function () {
-                return Customer::orderBy('company_name')->get(['id', 'company_name']);
+            ->rememberForever(authUser()->id . '_' . 'customerLists', function () {
+                return Customer::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
             });
 
         $this->selectedId = $selectedId;

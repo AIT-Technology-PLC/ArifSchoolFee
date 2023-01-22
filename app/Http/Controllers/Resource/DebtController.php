@@ -42,7 +42,7 @@ class DebtController extends Controller
     {
         $currentDebtCode = nextReferenceNumber('debts');
 
-        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('debts.create', compact('currentDebtCode', 'suppliers'));
     }
@@ -79,7 +79,7 @@ class DebtController extends Controller
             return back()->with('failedMessage', 'Editing a debt that belongs to a Purchase is not allowed.');
         }
 
-        $suppliers = Supplier::orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('debts.edit', compact('debt', 'suppliers'));
     }
