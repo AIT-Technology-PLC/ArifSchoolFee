@@ -233,13 +233,15 @@
                         </a>
                     </li>
                 @endcan
-                @can('Read Expired Inventory')
-                    <li class="expired {{ request()->is('merchandises/expired') ? 'is-active' : '' }}">
-                        <a href="{{ route('merchandises.index', 'expired') }}">
-                            <span>Expired</span>
-                        </a>
-                    </li>
-                @endcan
+                @if ($hasExpiredInventory)
+                    @can('Read Expired Inventory')
+                        <li class="expired {{ request()->is('merchandises/expired') ? 'is-active' : '' }}">
+                            <a href="{{ route('merchandises.index', 'expired') }}">
+                                <span>Expired</span>
+                            </a>
+                        </li>
+                    @endcan
+                @endif
             </ul>
         </div>
     </section>

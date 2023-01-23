@@ -29,8 +29,9 @@ class GdnDatatable extends DataTable
                 $query
                     ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
                     ->when($keyword == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
-                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
-                    ->when($keyword == 'voided', fn($query) => $query->cancelled());
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted()->notCancelled()->notClosed())
+                    ->when($keyword == 'voided', fn($query) => $query->cancelled())
+                    ->when($keyword == 'closed', fn($query) => $query->closed());
             })
             ->editColumn('total price', function ($gdn) {
                 return userCompany()->isDiscountBeforeTax() ?
@@ -67,7 +68,7 @@ class GdnDatatable extends DataTable
             ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('gdns.payment_type', request('paymentType')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
             ->when(request('status') == 'approved', fn($query) => $query->notSubtracted()->notCancelled()->approved())
-            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled()->notClosed())
             ->when(request('status') == 'voided', fn($query) => $query->cancelled())
             ->when(request('status') == 'closed', fn($query) => $query->closed())
             ->with([
