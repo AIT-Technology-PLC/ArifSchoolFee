@@ -13,6 +13,10 @@ class PurchaseDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function purchase()
     {
         return $this->belongsTo(Purchase::class);

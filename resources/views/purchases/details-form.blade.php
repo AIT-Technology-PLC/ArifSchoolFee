@@ -107,6 +107,7 @@
                                     type="number"
                                     x-bind:id="`purchase[${index}][unit_price]`"
                                     x-bind:name="`purchase[${index}][unit_price]`"
+                                    x-init="purchase.unit_price = purchase.originalUnitPrice"
                                     x-model="purchase.unit_price"
                                     placeholder="Purchase Price"
                                 />

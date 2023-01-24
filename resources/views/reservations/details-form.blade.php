@@ -151,6 +151,7 @@
                                 <x-forms.input
                                     x-bind:id="`reservation[${index}][unit_price]`"
                                     x-bind:name="`reservation[${index}][unit_price]`"
+                                    x-init="reservation.unit_price = reservation.originalUnitPrice"
                                     x-model="reservation.unit_price"
                                     type="number"
                                     placeholder="Unit Price"
@@ -176,7 +177,7 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(reservation.unit_price, reservation.quantity, reservation.discount).toFixed(2)"
+                                    x-bind:value="Product.priceBeforeTax(reservation.unit_price, reservation.quantity, reservation.product_id, reservation.discount).toFixed(2)"
                                     type="number"
                                     readonly
                                     disabled

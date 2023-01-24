@@ -188,6 +188,7 @@
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
+                                    x-init="gdn.unit_price = gdn.originalUnitPrice"
                                     x-model="gdn.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(gdn.product_id)"
                                     type="number"
@@ -214,7 +215,7 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(gdn.unit_price, gdn.quantity, gdn.discount).toFixed(2)"
+                                    x-bind:value="Product.priceBeforeTax(gdn.unit_price, gdn.quantity, gdn.product_id, gdn.discount).toFixed(2)"
                                     type="number"
                                     readonly
                                     disabled
