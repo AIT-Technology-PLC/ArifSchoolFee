@@ -2,7 +2,6 @@
 
 namespace App\View\Components\Common;
 
-use App\Models\Warehouse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
@@ -18,10 +17,14 @@ class WarehouseList extends Component
 
     public $value;
 
-    public function __construct($selectedId, $id = 'warehouse_id', $name = 'warehouse_id', $value = 'id')
+    public $type;
+
+    public function __construct($selectedId, $id = 'warehouse_id', $name = 'warehouse_id', $value = 'id', $type = 'transactions')
     {
-        $this->warehouses = Cache::store('array')->rememberForever(authUser()->id.'_'.'warehouseLists', function () {
-            return Warehouse::orderBy('name')->get(['id', 'name']);
+        $this->type = $type;
+
+        $this->warehouses = Cache::store('array')->rememberForever(authUser()->id . '_' . 'warehouseLists', function () {
+            return authUser()->getAllowedWarehouses($this->type);
         });
 
         $this->selectedId = $selectedId;

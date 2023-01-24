@@ -6,7 +6,7 @@
 @if (isset($productId) && isset($warehouseId))
     <a
         href="/history/products/{{ $productId }}/warehouses/{{ $warehouseId }}"
-        data-title="View Expired Batch History {{ isset($expired) ? 'View Expired Batch History' : 'View Product History' }}"
+        data-title="View Product History"
     >
         @if (isset($amount) && isset($min_on_hand) && isset($unit))
             <span @class([

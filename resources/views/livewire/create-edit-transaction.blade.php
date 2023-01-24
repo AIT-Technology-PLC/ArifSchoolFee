@@ -102,6 +102,7 @@
                                             <x-dynamic-component
                                                 :component="$masterPadField->padRelation->component_name"
                                                 :selected-id="$master[$masterPadField->id] ?? ''"
+                                                type="{{ $masterPadField->padRelation->model_name == 'Warehouse' ? $pad->inventory_operation_type : '' }}"
                                                 id="{{ $masterPadField->id }}"
                                                 x-init="initSelect2($el, '{{ $masterPadField->padRelation->model_name }}');
                                                 bindData($el, 'master.{{ $masterPadField->id }}')"
