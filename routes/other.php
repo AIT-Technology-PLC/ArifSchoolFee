@@ -12,6 +12,9 @@ Route::prefix('api')
         Route::get('/products/{category}/by-category',
             [Api\ProductController::class, 'getproductsByCategory']);
 
+        Route::get('/my-company',
+            [Api\CompanyController::class, 'show']);
+
         Route::get('merchandises/products/{product}/warehouses/{warehouse}',
             [Api\MerchandiseController::class, 'show']);
 

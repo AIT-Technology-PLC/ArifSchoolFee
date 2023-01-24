@@ -16,6 +16,10 @@ class ReturnDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function returnn()
     {
         return $this->belongsTo(Returnn::class, 'return_id');
@@ -52,7 +56,7 @@ class ReturnDetail extends Model
             ->load([
                 'returnn' => function ($query) {
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
-                }, ]
+                }]
             );
     }
 }

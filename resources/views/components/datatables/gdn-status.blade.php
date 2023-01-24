@@ -16,15 +16,6 @@
             Voided
         </span>
     </span>
-@elseif ($gdn->isSubtracted())
-    <span class="tag is-small bg-green has-text-white">
-        <span class="icon">
-            <i class="fas fa-check-circle"></i>
-        </span>
-        <span>
-            Subtracted
-        </span>
-    </span>
 @elseif ($gdn->isClosed())
     <span class="tag is-small bg-gold has-text-white">
         <span class="icon">
@@ -32,6 +23,15 @@
         </span>
         <span>
             Closed
+        </span>
+    </span>
+@elseif ($gdn->isSubtracted())
+    <span class="tag is-small bg-green has-text-white">
+        <span class="icon">
+            <i class="fas fa-check-circle"></i>
+        </span>
+        <span>
+            Subtracted
         </span>
     </span>
 @else
