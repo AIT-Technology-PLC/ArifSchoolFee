@@ -167,7 +167,7 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity).toFixed(2)"
+                                    x-bind:value="Product.priceBeforeTax(returnn.unit_price, returnn.quantity, returnn.product_id).toFixed(2)"
                                     type="number"
                                     readonly
                                     disabled
