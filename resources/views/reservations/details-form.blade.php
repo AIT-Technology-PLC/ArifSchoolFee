@@ -151,6 +151,7 @@
                                 <x-forms.input
                                     x-bind:id="`reservation[${index}][unit_price]`"
                                     x-bind:name="`reservation[${index}][unit_price]`"
+                                    x-init="reservation.unit_price = reservation.originalUnitPrice"
                                     x-model="reservation.unit_price"
                                     type="number"
                                     placeholder="Unit Price"

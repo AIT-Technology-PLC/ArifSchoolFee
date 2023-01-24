@@ -188,6 +188,7 @@
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
+                                    x-init="gdn.unit_price = gdn.originalUnitPrice"
                                     x-model="gdn.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(gdn.product_id)"
                                     type="number"

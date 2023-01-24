@@ -110,6 +110,7 @@
                                 <x-forms.input
                                     x-bind:id="`proformaInvoice[${index}][unit_price]`"
                                     x-bind:name="`proformaInvoice[${index}][unit_price]`"
+                                    x-init="proformaInvoice.unit_price = proformaInvoice.originalUnitPrice"
                                     x-model="proformaInvoice.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(proformaInvoice.product_id)"
                                     type="number"

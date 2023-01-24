@@ -110,6 +110,7 @@
                                 <x-forms.input
                                     x-bind:id="`sale[${index}][unit_price]`"
                                     x-bind:name="`sale[${index}][unit_price]`"
+                                    x-init="sale.unit_price = sale.originalUnitPrice"
                                     x-model="sale.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(sale.product_id)"
                                     type="number"

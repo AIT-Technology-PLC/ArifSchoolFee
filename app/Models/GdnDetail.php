@@ -15,6 +15,10 @@ class GdnDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function gdn()
     {
         return $this->belongsTo(Gdn::class);
