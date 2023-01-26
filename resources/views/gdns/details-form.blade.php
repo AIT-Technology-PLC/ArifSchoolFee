@@ -303,7 +303,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'gdns'])
+    @include('components.common.pricing', ['data' => 'gdns'])
 
     <x-common.button
         tag="button"
@@ -324,7 +324,7 @@
                 gdns: [],
 
                 async init() {
-                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (gdn) {
                         this.gdns = gdn;

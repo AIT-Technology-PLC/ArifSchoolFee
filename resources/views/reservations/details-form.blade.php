@@ -265,7 +265,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'reservations'])
+    @include('components.common.pricing', ['data' => 'reservations'])
 
     <x-common.button
         tag="button"
@@ -286,7 +286,7 @@
                 reservations: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Company.init(), Product.init()]);
 
                     if (reservation) {
                         this.reservations = reservation;

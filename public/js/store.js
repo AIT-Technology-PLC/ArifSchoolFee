@@ -129,23 +129,21 @@ const Product = {
         return product?.tax_amount;
     },
     priceBeforeTax(unitPrice, quantity, productId = null, discount = 0) {
-        Company.init();
-
         if (unitPrice != null && quantity != null) {
             let discountValue = (unitPrice * quantity * discount) / 100;
 
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
-                : (unitPrice * quantity - discountValue) / this.taxAmount(productId);
+                : (unitPrice * quantity - discountValue) /
+                      this.taxAmount(productId);
         }
 
         return 0;
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
-        Company.init();
-
         return Company.isPriceBeforeTax()
-            ? this.priceBeforeTax(unitPrice, quantity, discount) * this.taxAmount(productId)
+            ? this.priceBeforeTax(unitPrice, quantity, discount) *
+                  this.taxAmount(productId)
             : this.priceBeforeTax(unitPrice, quantity, discount);
     },
 };
@@ -352,5 +350,5 @@ const Company = {
 
     isPriceBeforeTax() {
         return this.company.is_price_before_vat;
-    }
+    },
 };

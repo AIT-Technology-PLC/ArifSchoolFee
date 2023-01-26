@@ -201,7 +201,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'sales'])
+    @include('components.common.pricing', ['data' => 'sales'])
 
     <x-common.button
         tag="button"
@@ -222,7 +222,7 @@
                 sales: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Company.init(), Product.init()]);
 
                     if (sale) {
                         this.sales = sale;

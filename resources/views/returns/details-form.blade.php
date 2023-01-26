@@ -232,7 +232,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'returns'])
+    @include('components.common.pricing', ['data' => 'returns'])
 
     <x-common.button
         tag="button"
@@ -251,7 +251,7 @@
                 returns: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Company.init(), Product.init()]);
 
                     if (returnn.hasOwnProperty('return')) {
                         this.returns = returnn.return;

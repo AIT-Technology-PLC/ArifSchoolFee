@@ -222,7 +222,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'proformaInvoices'])
+    @include('components.common.pricing', ['data' => 'proformaInvoices'])
 
     <x-common.button
         tag="button"
@@ -243,7 +243,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Company.init(), Product.init()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;
