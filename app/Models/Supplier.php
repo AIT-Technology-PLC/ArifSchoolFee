@@ -15,10 +15,6 @@ class Supplier extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $casts = [
-        'business_license_expires_on' => 'date',
-    ];
-
     protected $cascadeDeletes = ['debts'];
 
     public function products()

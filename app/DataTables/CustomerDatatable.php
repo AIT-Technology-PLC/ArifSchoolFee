@@ -31,7 +31,7 @@ class CustomerDatatable extends DataTable
                     'target' => '_blank',
                 ]);
             })
-            ->editColumn('business_license_expires_on', fn($customer) => $customer->business_license_expires_on?->toDateString())
+            ->editColumn('business_license_expires_on', fn($customer) => $customer->business_license_expires_on)
             ->editColumn('added by', fn($customer) => $customer->createdBy->name)
             ->editColumn('edited by', fn($customer) => $customer->updatedBy->name)
             ->editColumn('actions', function ($customer) {

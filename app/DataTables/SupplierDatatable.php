@@ -31,7 +31,7 @@ class SupplierDatatable extends DataTable
                     'target' => '_blank',
                 ]);
             })
-            ->editColumn('business_license_expires_on', fn($supplier) => $supplier->business_license_expires_on?->toDateString())
+            ->editColumn('business_license_expires_on', fn($supplier) => $supplier->business_license_expires_on)
             ->editColumn('added by', fn($supplier) => $supplier->createdBy->name)
             ->editColumn('edited by', fn($supplier) => $supplier->updatedBy->name)
             ->editColumn('actions', function ($supplier) {
