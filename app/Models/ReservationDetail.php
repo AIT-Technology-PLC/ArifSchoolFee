@@ -17,6 +17,10 @@ class ReservationDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

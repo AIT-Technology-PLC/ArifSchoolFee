@@ -104,7 +104,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if ($transfer->isSubtracted() && !$transfer->isClosed())
+                @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

@@ -13,6 +13,10 @@ class SaleDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $appends = [
+        'originalUnitPrice',
+    ];
+
     public function sale()
     {
         return $this->belongsTo(Sale::class);

@@ -217,7 +217,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled())
+                @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

@@ -12,7 +12,7 @@ trait PricingProduct
             $inputtedUnitPrice = $this->unit_price * ($this->product->tax->amount + 1);
         }
 
-        return number_format($inputtedUnitPrice, 2, thousands_separator:'');
+        return $inputtedUnitPrice;
     }
 
     public function getUnitPriceAttribute($value)
@@ -21,7 +21,7 @@ trait PricingProduct
             $value = $value / ($this->product->tax->amount + 1);
         }
 
-        return number_format($value, 2, thousands_separator:'');
+        return $value;
     }
 
     public function getTotalPriceAttribute()

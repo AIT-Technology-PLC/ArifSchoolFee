@@ -110,6 +110,7 @@
                                 <x-forms.input
                                     x-bind:id="`proformaInvoice[${index}][unit_price]`"
                                     x-bind:name="`proformaInvoice[${index}][unit_price]`"
+                                    x-init="proformaInvoice.unit_price = proformaInvoice.originalUnitPrice"
                                     x-model="proformaInvoice.unit_price"
                                     x-bind:readonly="Product.isPriceFixed(proformaInvoice.product_id)"
                                     type="number"
@@ -136,7 +137,7 @@
                         <x-forms.field>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
-                                    x-bind:value="Product.priceBeforeTax(proformaInvoice.unit_price, proformaInvoice.quantity, proformaInvoice.discount).toFixed(2)"
+                                    x-bind:value="Product.priceBeforeTax(proformaInvoice.unit_price, proformaInvoice.quantity, proformaInvoice.product_id, proformaInvoice.discount).toFixed(2)"
                                     type="number"
                                     readonly
                                     disabled
@@ -221,7 +222,7 @@
         </div>
     </template>
 
-    @include('components.content.pricing', ['data' => 'proformaInvoices'])
+    @include('components.common.pricing', ['data' => 'proformaInvoices'])
 
     <x-common.button
         tag="button"
@@ -242,7 +243,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Product.init();
+                    await Promise.all([Company.init(), Product.init()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;

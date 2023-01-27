@@ -128,20 +128,23 @@ const Product = {
         }
         return product?.tax_amount;
     },
-    priceBeforeTax(unitPrice, quantity, discount = 0) {
+    priceBeforeTax(unitPrice, quantity, productId = null, discount = 0) {
         if (unitPrice != null && quantity != null) {
             let discountValue = (unitPrice * quantity * discount) / 100;
 
-            return unitPrice * quantity - discountValue;
+            return Company.isPriceBeforeTax()
+                ? unitPrice * quantity - discountValue
+                : (unitPrice * quantity - discountValue) /
+                      this.taxAmount(productId);
         }
 
         return 0;
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
-        return (
-            this.priceBeforeTax(unitPrice, quantity, discount) *
-            this.taxAmount(productId)
-        );
+        return Company.isPriceBeforeTax()
+            ? this.priceBeforeTax(unitPrice, quantity, discount) *
+                  this.taxAmount(productId)
+            : this.priceBeforeTax(unitPrice, quantity, discount);
     },
 };
 
@@ -307,6 +310,7 @@ const Pricing = {
                 Product.priceBeforeTax(
                     item.unit_price,
                     item.quantity,
+                    item.product_id,
                     item.discount
                 )
             );
@@ -328,5 +332,23 @@ const Pricing = {
                 )
             );
         }, 0);
+    },
+};
+
+const Company = {
+    company: {},
+
+    async init() {
+        if (Object.getOwnPropertyNames(this.company).length) {
+            return;
+        }
+
+        const response = await axios.get(`/api/my-company`);
+
+        this.company = response.data;
+    },
+
+    isPriceBeforeTax() {
+        return this.company.is_price_before_vat;
     },
 };
