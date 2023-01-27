@@ -27,7 +27,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         $this->grn = $grn;
 
-        $this->products = Product::all(['id', 'name']);
+        $this->products = Product::all(['id', 'name', 'code']);
 
         $this->warehouses = Warehouse::all(['id', 'name']);
     }
@@ -36,7 +36,11 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         return new GrnDetail([
             'grn_id' => $this->grn->id,
-            'product_id' => $this->products->firstWhere('name', $row['product_name'])->id,
+            'product_id' => $this->products
+                ->where('name', $row['product_name'])
+                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+                ->first()
+                ->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'quantity' => $row['quantity'] ?? 0.00,
             'unit_cost' => $row['unit_cost'] ?? 0.00,
@@ -50,6 +54,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
             'quantity' => ['nullable', 'numeric', 'gt:0'],
             'unit_cost' => ['nullable', 'numeric', 'min:0'],
@@ -62,6 +67,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
     }
