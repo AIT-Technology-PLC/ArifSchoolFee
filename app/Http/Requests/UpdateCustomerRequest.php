@@ -23,6 +23,15 @@ class UpdateCustomerRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:255'],
             'country' => ['nullable', 'string', 'max:255'],
             'credit_amount_limit' => ['required', 'numeric', 'min:0'],
+            'business_license_attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5000'],
+            'business_license_expires_on' => ['nullable', 'date'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'business_license_attachment.max' => 'The Business License must be less than 5 megabytes',
         ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -33,10 +34,18 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-        Customer::firstOrCreate(
-            $request->safe()->only(['company_name'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['company_name'] + ['company_id' => userCompany()->id])
-        );
+        DB::transaction(function () use ($request) {
+            $customer = Customer::firstOrCreate(
+                $request->safe()->only(['company_name'] + ['company_id' => userCompany()->id]),
+                $request->safe()->except(['company_name'] + ['company_id' => userCompany()->id])
+            );
+
+            if ($request->hasFile('business_license_attachment')) {
+                $customer->update([
+                    'business_license_attachment' => $request->business_license_attachment->store('customer_business_licence', 'public'),
+                ]);
+            }
+        });
 
         return redirect()->route('customers.index');
     }
@@ -48,7 +57,15 @@ class CustomerController extends Controller
 
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $customer->update($request->validated());
+        DB::transaction(function () use ($customer, $request) {
+            $customer->update($request->validated());
+
+            if ($request->hasFile('business_license_attachment')) {
+                $customer->update([
+                    'business_license_attachment' => $request->business_license_attachment->store('customer_business_licence', 'public'),
+                ]);
+            }
+        });
 
         return redirect()->route('customers.index');
     }

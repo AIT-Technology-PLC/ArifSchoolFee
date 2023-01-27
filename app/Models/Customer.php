@@ -14,6 +14,10 @@ class Customer extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'business_license_expires_on' => 'date',
+    ];
+
     protected $cascadeDeletes = ['credits'];
 
     public function sales()
@@ -104,5 +108,12 @@ class Customer extends Model
             ->get();
 
         return $credits->sum('credit_amount') - $credits->sum('credit_amount_settled');
+    }
+
+    public function scopeValidBusinessLicense($query)
+    {
+        if (!userCompany()->filterAllCustomerAndSupplier()) {
+            return $query->whereDate('business_license_expires_on', '>=', today());
+        }
     }
 }

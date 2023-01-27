@@ -181,6 +181,63 @@
                 </x-forms.control>
             </x-forms.field>
         </div>
+        <div
+            class="column is-6"
+            x-data="UploadedFileNameHandler"
+        >
+            <x-forms.field>
+                <x-forms.label for="business_license_attachment">
+                    Business License <sup class="has-text-danger"></sup>
+                </x-forms.label>
+                <div class="file has-name">
+                    <label class="file-label">
+                        <x-forms.input
+                            class="file-input"
+                            type="file"
+                            name="business_license_attachment"
+                            x-model="file"
+                            x-on:change="getFileName"
+                        />
+                        <span class="file-cta bg-green has-text-white">
+                            <x-common.icon
+                                name="fas fa-upload"
+                                class="file-icon"
+                            />
+                            <span class="file-label">
+                                Upload Business License
+                            </span>
+                        </span>
+                        <span
+                            class="file-name"
+                            x-text="fileName || supplier.business_license_attachment || 'Select File...'"
+                        >
+                        </span>
+                    </label>
+                </div>
+                <x-common.validation-error property="business_license_attachment" />
+            </x-forms.field>
+        </div>
+        <div class="column is-6">
+            <x-forms.field>
+                <x-forms.label for="business_license_expires_on">
+                    Business License Expire On<sup class="has-text-danger"></sup>
+                </x-forms.label>
+                <x-forms.control class="has-icons-left">
+                    <x-forms.input
+                        type="date"
+                        id="business_license_expires_on"
+                        name="business_license_expires_on"
+                        placeholder="mm/dd/yyyy"
+                        x-model="supplier.business_license_expires_on"
+                    />
+                    <x-common.icon
+                        name="fas fa-calendar-alt"
+                        class="is-small is-left"
+                    />
+                    <x-common.validation-error property="business_license_expires_on" />
+                </x-forms.control>
+            </x-forms.field>
+        </div>
     </div>
 </x-content.main>
 <x-content.footer>
@@ -222,6 +279,8 @@
                     this.supplier.email = supplier.email || '';
                     this.supplier.phone = supplier.phone || '';
                     this.supplier.country = supplier.country || '';
+                    this.supplier.business_license_attachment = supplier.business_license_attachment || '';
+                    this.supplier.business_license_expires_on = supplier.business_license_expires_on || '';
                 }
             }));
         });
