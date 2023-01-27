@@ -65,7 +65,7 @@ class ReturnController extends Controller
     {
         $datatable->builder()->setTableId('return-details-datatable');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'customer']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer']);
 
         return $datatable->render('returns.show', compact('return'));
     }
@@ -74,7 +74,7 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 
         return view('returns.edit', compact('return', 'warehouses'));
     }
@@ -101,7 +101,7 @@ class ReturnController extends Controller
     {
         abort_if($return->isAdded(), 403);
 
-        abort_if($return->isApproved() && ! authUser()->can('Delete Approved Return'), 403);
+        abort_if($return->isApproved() && !authUser()->can('Delete Approved Return'), 403);
 
         $return->forceDelete();
 

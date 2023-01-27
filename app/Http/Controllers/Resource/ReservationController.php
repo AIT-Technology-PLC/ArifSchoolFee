@@ -75,7 +75,7 @@ class ReservationController extends Controller
     {
         $datatable->builder()->setTableId('reservation-details-datatable');
 
-        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'customer', 'contact']);
+        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'reservationDetails.merchandiseBatch', 'customer', 'contact']);
 
         return $datatable->render('reservations.show', compact('reservation'));
     }
@@ -84,7 +84,7 @@ class ReservationController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('sales');
 
-        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse']);
+        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'reservationDetails.merchandiseBatch']);
 
         return view('reservations.edit', compact('reservation', 'warehouses'));
     }

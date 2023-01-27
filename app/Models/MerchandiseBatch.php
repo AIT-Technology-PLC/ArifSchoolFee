@@ -30,6 +30,31 @@ class MerchandiseBatch extends Model
         return $this->hasMany(GdnDetail::class);
     }
 
+    public function proformaInvoiceDetails()
+    {
+        return $this->hasMany(ProformaInvoiceDetail::class);
+    }
+
+    public function transferDetails()
+    {
+        return $this->hasMany(TransferDetail::class);
+    }
+
+    public function returnDetails()
+    {
+        return $this->hasMany(ReturnDetail::class);
+    }
+
+    public function adjustmentDetails()
+    {
+        return $this->hasMany(AdjustmentDetail::class);
+    }
+
+    public function reservationDetails()
+    {
+        return $this->hasMany(ReservationDetail::class);
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('quantity', '>', 0);

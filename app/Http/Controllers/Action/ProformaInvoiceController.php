@@ -62,11 +62,13 @@ class ProformaInvoiceController extends Controller
             return back()->with('failedMessage', 'This Proforma Invoice is cancelled.');
         }
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'warehouse', 'customer', 'contact', 'company']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'warehouse', 'customer', 'contact', 'company']);
 
         $havingCode = $proformaInvoice->proformaInvoiceDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
 
-        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode'))->stream();
+        $havingBatch = $proformaInvoice->proformaInvoiceDetails()->with('merchandiseBatch')->get()->pluck('merchandiseBatch')->pluck('batch_no')->filter()->isNotEmpty();
+
+        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode', 'havingBatch'))->stream();
     }
 
     public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
