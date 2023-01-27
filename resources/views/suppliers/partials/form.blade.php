@@ -186,15 +186,15 @@
             x-data="UploadedFileNameHandler"
         >
             <x-forms.field>
-                <x-forms.label for="business_licence">
-                    Business Document <sup class="has-text-danger"></sup>
+                <x-forms.label for="business_license_attachment">
+                    Business License <sup class="has-text-danger"></sup>
                 </x-forms.label>
                 <div class="file has-name">
                     <label class="file-label">
                         <x-forms.input
                             class="file-input"
                             type="file"
-                            name="business_licence"
+                            name="business_license_attachment"
                             x-model="file"
                             x-on:change="getFileName"
                         />
@@ -204,37 +204,37 @@
                                 class="file-icon"
                             />
                             <span class="file-label">
-                                Upload Licence
+                                Upload Business License
                             </span>
                         </span>
                         <span
                             class="file-name"
-                            x-text="fileName || supplier.business_licence || 'Select File...'"
+                            x-text="fileName || supplier.business_license_attachment || 'Select File...'"
                         >
                         </span>
                     </label>
                 </div>
-                <x-common.validation-error property="business_licence" />
+                <x-common.validation-error property="business_license_attachment" />
             </x-forms.field>
         </div>
         <div class="column is-6">
             <x-forms.field>
-                <x-forms.label for="document_expire_on">
-                    Document Expire On<sup class="has-text-danger"></sup>
+                <x-forms.label for="business_license_expires_on">
+                    Business License Expire On<sup class="has-text-danger"></sup>
                 </x-forms.label>
                 <x-forms.control class="has-icons-left">
                     <x-forms.input
                         type="date"
-                        id="document_expire_on"
-                        name="document_expire_on"
+                        id="business_license_expires_on"
+                        name="business_license_expires_on"
                         placeholder="mm/dd/yyyy"
-                        x-model="supplier.document_expire_on"
+                        x-model="supplier.business_license_expires_on"
                     />
                     <x-common.icon
                         name="fas fa-calendar-alt"
                         class="is-small is-left"
                     />
-                    <x-common.validation-error property="document_expire_on" />
+                    <x-common.validation-error property="business_license_expires_on" />
                 </x-forms.control>
             </x-forms.field>
         </div>
@@ -279,8 +279,8 @@
                     this.supplier.email = supplier.email || '';
                     this.supplier.phone = supplier.phone || '';
                     this.supplier.country = supplier.country || '';
-                    this.supplier.business_licence = supplier.business_licence || '';
-                    this.supplier.document_expire_on = supplier.document_expire_on || '';
+                    this.supplier.business_license_attachment = supplier.business_license_attachment || '';
+                    this.supplier.business_license_expires_on = supplier.business_license_expires_on || '';
                 }
             }));
         });

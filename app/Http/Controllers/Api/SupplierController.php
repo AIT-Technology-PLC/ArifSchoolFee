@@ -14,6 +14,6 @@ class SupplierController extends Controller
 
     public function index()
     {
-        return Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get();
+        return Supplier::orderBy('company_name')->get();
     }
 }

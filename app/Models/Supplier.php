@@ -16,7 +16,7 @@ class Supplier extends Model
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     protected $casts = [
-        'document_expire_on' => 'date',
+        'business_license_expires_on' => 'date',
     ];
 
     protected $cascadeDeletes = ['debts'];
@@ -84,5 +84,12 @@ class Supplier extends Model
     public function expenses()
     {
         return $this->hasMany(Expense::class);
+    }
+
+    public function scopeValidBusinessLicense($query)
+    {
+        if (!userCompany()->filterAllCustomerAndSupplier()) {
+            return $query->whereDate('business_license_expires_on', '>=', today());
+        }
     }
 }

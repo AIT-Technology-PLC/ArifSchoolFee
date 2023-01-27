@@ -40,9 +40,9 @@ class CustomerController extends Controller
                 $request->safe()->except(['company_name'] + ['company_id' => userCompany()->id])
             );
 
-            if ($request->hasFile('business_licence')) {
+            if ($request->hasFile('business_license_attachment')) {
                 $customer->update([
-                    'business_licence' => $request->business_licence->store('customer_licence', 'public'),
+                    'business_license_attachment' => $request->business_license_attachment->store('customer_business_licence', 'public'),
                 ]);
             }
         });
@@ -60,9 +60,9 @@ class CustomerController extends Controller
         DB::transaction(function () use ($customer, $request) {
             $customer->update($request->validated());
 
-            if ($request->hasFile('business_licence')) {
+            if ($request->hasFile('business_license_attachment')) {
                 $customer->update([
-                    'business_licence' => $request->business_licence->store('customer_licence', 'public'),
+                    'business_license_attachment' => $request->business_license_attachment->store('customer_business_licence', 'public'),
                 ]);
             }
         });

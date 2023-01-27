@@ -14,6 +14,6 @@ class CustomerController extends Controller
 
     public function index()
     {
-        return Customer::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get();
+        return Customer::orderBy('company_name')->get();
     }
 }

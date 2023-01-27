@@ -40,7 +40,7 @@ class ExpenseController extends Controller
 
     public function create()
     {
-        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
@@ -83,7 +83,7 @@ class ExpenseController extends Controller
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
-        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
         $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 

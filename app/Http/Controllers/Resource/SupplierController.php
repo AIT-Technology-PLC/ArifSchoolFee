@@ -42,9 +42,9 @@ class SupplierController extends Controller
                 $request->safe()->except(['company_name'] + ['company_id' => userCompany()->id]),
             );
 
-            if ($request->hasFile('business_licence')) {
+            if ($request->hasFile('business_license_attachment')) {
                 $supplier->update([
-                    'business_licence' => $request->business_licence->store('supplier_licence', 'public'),
+                    'business_license_attachment' => $request->business_license_attachment->store('supplier_business_licence', 'public'),
                 ]);
             }
         });
@@ -62,9 +62,9 @@ class SupplierController extends Controller
         DB::transaction(function () use ($supplier, $request) {
             $supplier->update($request->validated());
 
-            if ($request->hasFile('business_licence')) {
+            if ($request->hasFile('business_license_attachment')) {
                 $supplier->update([
-                    'business_licence' => $request->business_licence->store('supplier_licence', 'public'),
+                    'business_license_attachment' => $request->business_license_attachment->store('supplier_business_licence', 'public'),
                 ]);
             }
         });

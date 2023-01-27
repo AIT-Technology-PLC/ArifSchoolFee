@@ -42,7 +42,7 @@ class GrnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
         $currentGrnCode = nextReferenceNumber('grns');
 
@@ -79,7 +79,7 @@ class GrnController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $suppliers = Supplier::whereDate('document_expire_on', '>=', today())->orWhere('document_expire_on', null)->orderBy('company_name')->get(['id', 'company_name']);
+        $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
         return view('grns.edit', compact('grn', 'warehouses', 'suppliers'));
     }

@@ -23,6 +23,7 @@ class Company extends Model
         'can_check_inventory_on_forms' => 'integer',
         'can_show_employee_job_title_on_print' => 'integer',
         'can_select_batch_number_on_forms' => 'integer',
+        'filter_customer_and_supplier' => 'integer',
     ];
 
     public function plan()
@@ -279,5 +280,10 @@ class Company extends Model
     public function canSelectBatchNumberOnForms()
     {
         return $this->can_select_batch_number_on_forms;
+    }
+
+    public function filterAllCustomerAndSupplier()
+    {
+        return $this->filter_customer_and_supplier;
     }
 }
