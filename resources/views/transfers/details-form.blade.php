@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(transfer.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(transfer.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`transfer[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -66,7 +69,7 @@
                     </div>
                     @if (userCompany()->canSelectBatchNumberOnForms())
                         <div
-                            class="column is-6"
+                            class="column is-4"
                             x-show="Product.isBatchable(transfer.product_id)"
                         >
                             <x-forms.label x-bind:for="`transfer[${index}][merchandise_batch_id]`">
@@ -92,7 +95,10 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(transfer.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(transfer.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`transfer[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>

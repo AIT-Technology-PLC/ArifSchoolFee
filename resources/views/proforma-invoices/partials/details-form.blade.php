@@ -33,7 +33,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div
                         class="column is-12"
-                        x-bind:class="{ 'is-12': !Product.isBatchable(reservation.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-6': Product.isBatchable(reservation.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        x-bind:class="{ 'is-12': !Product.isBatchable(proformaInvoice.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-6': Product.isBatchable(proformaInvoice.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
                     >
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>

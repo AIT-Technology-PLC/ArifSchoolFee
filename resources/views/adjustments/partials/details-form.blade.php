@@ -69,7 +69,7 @@
                     </div>
                     @if (userCompany()->canSelectBatchNumberOnForms())
                         <div
-                            class="column is-6"
+                            class="column is-4"
                             x-show="Product.isBatchable(adjustment.product_id)"
                         >
                             <x-forms.label x-bind:for="`adjustment[${index}][merchandise_batch_id]`">
@@ -95,7 +95,10 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(adjustment.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(adjustment.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`adjustment[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
                         </x-forms.label>
