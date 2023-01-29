@@ -28,6 +28,11 @@ class ProformaInvoiceDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
     public function setProductIdAttribute($value)
     {
         if (!is_numeric($value)) {

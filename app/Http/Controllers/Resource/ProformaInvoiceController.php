@@ -63,7 +63,7 @@ class ProformaInvoiceController extends Controller
     {
         $datatable->builder()->setTableId('proforma-invoice-details-datatable');
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'contact']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'customer', 'contact']);
 
         return $datatable->render('proforma-invoices.show', compact('proformaInvoice'));
     }
@@ -74,7 +74,7 @@ class ProformaInvoiceController extends Controller
             return back()->with('failedMessage', 'Confirmed or cancelled proforma inovices cannot be edited.');
         }
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'customer', 'contact']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'customer', 'contact']);
 
         return view('proforma-invoices.edit', compact('proformaInvoice'));
     }

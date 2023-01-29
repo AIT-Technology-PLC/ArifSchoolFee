@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-12">
+                    <div
+                        class="column is-12"
+                        x-bind:class="{ 'is-12': !Product.isBatchable(proformaInvoice.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-6': Product.isBatchable(proformaInvoice.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -64,6 +67,34 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-6"
+                            x-show="Product.isBatchable(proformaInvoice.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`proformaInvoice[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`proformaInvoice[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`proformaInvoice[${index}][merchandise_batch_id]`"
+                                        x-model="proformaInvoice.merchandise_batch_id"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`proformaInvoice.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
@@ -243,7 +274,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;
@@ -272,6 +303,14 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), proformaInvoice.product_id, proformaInvoice.product_category_id);
                                 $(".summernote-details").eq(i).summernote("code", proformaInvoice.specification);
+
+                                if (Product.isBatchable(this.proformaInvoices[i].product_id)) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.proformaInvoices[i].merchandise_batch_id,
+                                        MerchandiseBatch.whereProductId(this.proformaInvoices[i].product_id)
+                                    );
+                                }
                             }
                         })
                     );
@@ -288,6 +327,14 @@
                             Product.productCategoryId(
                                 this.proformaInvoices[index].product_id
                             );
+
+                        if (Product.isBatchable(this.proformaInvoices[index].product_id)) {
+                            MerchandiseBatch.appendMerchandiseBatches(
+                                this.getMerchandiseBatchesSelect(index),
+                                this.proformaInvoices[index].merchandise_batch_id,
+                                MerchandiseBatch.whereProductId(this.proformaInvoices[index].product_id)
+                            );
+                        }
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.proformaInvoices[index].product_id, this.proformaInvoices[index].product_category_id);
@@ -323,6 +370,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 }
             }));
         });

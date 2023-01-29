@@ -71,7 +71,7 @@ class TransferController extends Controller
     {
         $datatable->builder()->setTableId('transfer-details');
 
-        $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
+        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
 
         $sivs = Siv::where('purpose', 'Transfer')->where('ref_num', $transfer->code)->get();
 
@@ -80,7 +80,7 @@ class TransferController extends Controller
 
     public function edit(Transfer $transfer)
     {
-        $transfer->load(['transferDetails.product', 'transferredFrom', 'transferredTo']);
+        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
 
         $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
@@ -111,7 +111,7 @@ class TransferController extends Controller
     {
         abort_if($transfer->isSubtracted(), 403);
 
-        abort_if($transfer->isApproved() && ! authUser()->can('Delete Approved Transfer'), 403);
+        abort_if($transfer->isApproved() && !authUser()->can('Delete Approved Transfer'), 403);
 
         $transfer->forceDelete();
 

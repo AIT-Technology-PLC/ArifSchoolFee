@@ -150,7 +150,7 @@ class ReservationService
 
             $reservationDetails = $reservation->reservationDetails
                 ->map(function ($detail) {
-                    $detail = $detail->only('warehouse_id', 'product_id', 'quantity', 'original_unit_price', 'discount', 'description');
+                    $detail = $detail->only('warehouse_id', 'product_id', 'merchandise_batch_id', 'quantity', 'original_unit_price', 'discount', 'description');
                     $detail['unit_price'] = $detail['original_unit_price'];
                     unset($detail['original_unit_price']);
 

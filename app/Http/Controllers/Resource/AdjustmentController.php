@@ -65,14 +65,14 @@ class AdjustmentController extends Controller
     {
         $datatable->builder()->setTableId('adjustment-details-datatable');
 
-        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
+        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product', 'adjustmentDetails.merchandiseBatch']);
 
         return $datatable->render('adjustments.show', compact('adjustment'));
     }
 
     public function edit(Adjustment $adjustment)
     {
-        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product']);
+        $adjustment->load(['adjustmentDetails.warehouse', 'adjustmentDetails.product', 'adjustmentDetails.merchandiseBatch']);
 
         $warehouses = authUser()->getAllowedWarehouses('adjustment');
 
@@ -101,7 +101,7 @@ class AdjustmentController extends Controller
     {
         abort_if($adjustment->isAdjusted(), 403);
 
-        abort_if($adjustment->isApproved() && ! authUser()->can('Delete Approved Adjustment'), 403);
+        abort_if($adjustment->isApproved() && !authUser()->can('Delete Approved Adjustment'), 403);
 
         $adjustment->forceDelete();
 
