@@ -94,7 +94,7 @@ class GdnService
             return [false, 'A credit for this delivery order was already created.'];
         }
 
-        if ($gdn->payment_type != 'Credit Payment') {
+        if ($gdn->payment_type != 'Credit Payment' || $gdn->grand_total_price == 0) {
             return [false, 'Creating a credit for delivery order with 0.00 credit amount is not allowed.'];
         }
 
