@@ -30,6 +30,11 @@ class AdjustmentDetail extends Model
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
     public function parentModel()
     {
         return $this->adjustment;

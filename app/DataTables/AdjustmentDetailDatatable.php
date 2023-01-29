@@ -16,7 +16,7 @@ class AdjustmentDetailDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('operation', function ($adjustmentDetail) {
-                return ($adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ').$adjustmentDetail->warehouse->name;
+                return ($adjustmentDetail->is_subtract ? 'Subtract From ' : 'Add To ') . $adjustmentDetail->warehouse->name;
             })
             ->editColumn('product', function ($adjustmentDetail) {
                 return view('components.datatables.product-code', [
@@ -27,7 +27,9 @@ class AdjustmentDetailDatatable extends DataTable
             ->editColumn('quantity', function ($adjustmentDetail) {
                 return quantity($adjustmentDetail->quantity, $adjustmentDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn ($adjustmentDetail) => $adjustmentDetail->reason)
+            ->editColumn('batch_no', fn($adjustmentDetail) => $adjustmentDetail->merchandiseBatch?->batch_no)
+            ->editColumn('expires_on', fn($adjustmentDetail) => $adjustmentDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
+            ->editColumn('description', fn($adjustmentDetail) => $adjustmentDetail->reason)
             ->editColumn('actions', function ($adjustmentDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'adjustment-details',
@@ -47,6 +49,7 @@ class AdjustmentDetailDatatable extends DataTable
             ->with([
                 'warehouse',
                 'product',
+                'merchandiseBatch',
             ]);
     }
 
@@ -57,6 +60,8 @@ class AdjustmentDetailDatatable extends DataTable
             Column::make('operation', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
+            Column::make('batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('reason'),
             Column::computed('actions'),
         ];
@@ -64,6 +69,6 @@ class AdjustmentDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Adjustment Details_'.date('YmdHis');
+        return 'Adjustment Details_' . date('YmdHis');
     }
 }

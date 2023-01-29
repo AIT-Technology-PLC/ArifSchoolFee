@@ -23,6 +23,11 @@ class TransferDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
     public function parentModel()
     {
         return $this->transfer;
@@ -47,7 +52,7 @@ class TransferDetail extends Model
                     return $query
                         ->withoutGlobalScopes([TransferScope::class])
                         ->with(['transferredTo', 'transferredFrom']);
-                }, ]
+                }]
             );
     }
 }

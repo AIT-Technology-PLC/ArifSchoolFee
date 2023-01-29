@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(returnn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`return[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -64,7 +67,38 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-4"
+                            x-show="Product.isBatchable(returnn.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`return[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`return[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`return[${index}][merchandise_batch_id]`"
+                                        x-model="returnn.merchandise_batch_id"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`return.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(returnn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`return[${index}][warehouse_id]`">
                                 To <sup class="has-text-danger">*</sup>
@@ -251,7 +285,7 @@
                 returns: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (returnn.hasOwnProperty('return')) {
                         this.returns = returnn.return;
@@ -279,6 +313,14 @@
                         this.returns.forEach((returnn, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), returnn.product_id, returnn.product_category_id);
+
+                                if (Product.isBatchable(this.returns[i].product_id)) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.returns[i].merchandise_batch_id,
+                                        MerchandiseBatch.whereProductId(this.returns[i].product_id)
+                                    );
+                                }
                             }
                         })
                     );
@@ -293,6 +335,14 @@
 
                         this.returns[index].product_category_id = Product.productCategoryId(this.returns[index].product_id);
 
+                        if (Product.isBatchable(this.returns[index].product_id)) {
+                            MerchandiseBatch.appendMerchandiseBatches(
+                                this.getMerchandiseBatchesSelect(index),
+                                this.returns[index].merchandise_batch_id,
+                                MerchandiseBatch.whereProductId(this.returns[index].product_id)
+                            );
+                        }
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.returns[index].product_id, this.returns[index].product_category_id);
 
@@ -302,6 +352,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 }
             }));
         });

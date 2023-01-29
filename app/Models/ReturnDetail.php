@@ -35,6 +35,11 @@ class ReturnDetail extends Model
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
     public function parentModel()
     {
         return $this->returnn;
