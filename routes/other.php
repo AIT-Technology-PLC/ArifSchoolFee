@@ -23,6 +23,7 @@ Route::prefix('api')
         Route::apiResource('customers', Api\CustomerController::class)->only('index');
         Route::apiResource('suppliers', Api\SupplierController::class)->only('index');
         Route::apiResource('merchandise-batches', Api\MerchandiseBatchController::class)->only('index');
+        Route::apiResource('compensations', Api\CompensationController::class)->only('index');
     });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',

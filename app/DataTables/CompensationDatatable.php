@@ -22,6 +22,7 @@ class CompensationDatatable extends DataTable
             ->editColumn('is_taxable', fn($compensation) => $compensation->isTaxable() ? 'Yes' : 'No')
             ->editColumn('is_adjustable', fn($compensation) => $compensation->isAdjustable() ? 'Yes' : 'No')
             ->editColumn('can_be_inputted_manually', fn($compensation) => $compensation->canBeInputtedManually() ? 'Yes' : 'No')
+            ->editColumn('has_formula', fn($compensation) => $compensation->hasFormula() ? 'Yes' : 'No')
             ->editColumn('percentage', fn($compensation) => $compensation->percentage ?? 'N/A')
             ->editColumn('default_value', fn($compensation) => $compensation->default_value ?? 'N/A')
             ->editColumn('maximum_amount', fn($compensation) => $compensation->maximum_amount ?? 'N/A')
@@ -58,6 +59,7 @@ class CompensationDatatable extends DataTable
             Column::make('is_taxable'),
             Column::make('is_adjustable'),
             Column::make('can_be_inputted_manually'),
+            Column::make('has_formula'),
             Column::make('percentage'),
             Column::make('default_value')->visible(false),
             Column::make('maximum_amount')->visible(false),

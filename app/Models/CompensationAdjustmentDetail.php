@@ -12,6 +12,11 @@ class CompensationAdjustmentDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'options' => 'object',
+        'options->overtime_period' => 'integer',
+    ];
+
     public function compensationAdjustment()
     {
         return $this->belongsTo(CompensationAdjustment::class, 'adjustment_id');

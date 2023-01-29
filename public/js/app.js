@@ -209,7 +209,7 @@ const initializeSelect2 = (element, placeholder = "Select a product") => {
 
             if (
                 data.element.dataset.code
-                    .toLowerCase()
+                    ?.toLowerCase()
                     .indexOf(params.term.toLowerCase()) > -1
             ) {
                 return data;

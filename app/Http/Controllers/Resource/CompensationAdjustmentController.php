@@ -7,6 +7,7 @@ use App\DataTables\CompensationAdjustmentDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompensationAdjustmentRequest;
 use App\Http\Requests\UpdateCompensationAdjustmentRequest;
+use App\IncomeTax\OvertimeCalculation;
 use App\Models\Compensation;
 use App\Models\CompensationAdjustment;
 use App\Models\User;
@@ -47,7 +48,9 @@ class CompensationAdjustmentController extends Controller
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
 
-        return view('compensation-adjustments.create', compact('adjustmentCode', 'compensations', 'users'));
+        $overtimeRates = OvertimeCalculation::{userCompany()->income_tax_region}();
+
+        return view('compensation-adjustments.create', compact('adjustmentCode', 'compensations', 'users', 'overtimeRates'));
     }
 
     public function store(StoreCompensationAdjustmentRequest $request)
@@ -98,6 +101,8 @@ class CompensationAdjustmentController extends Controller
 
         $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee.employeeCompensations')->orderBy('name')->get();
 
+        $overtimeRates = OvertimeCalculation::{userCompany()->income_tax_region}();
+
         $compensationAdjustmentDetails = $compensationAdjustment->compensationAdjustmentDetails->groupBy('employee_id')->map(function ($detail, $key) {
             return [
                 'employee_id' => $key,
@@ -105,7 +110,7 @@ class CompensationAdjustmentController extends Controller
             ];
         })->values()->all();
 
-        return view('compensation-adjustments.edit', compact('compensationAdjustment', 'compensations', 'users', 'compensationAdjustmentDetails'));
+        return view('compensation-adjustments.edit', compact('compensationAdjustment', 'compensations', 'users', 'compensationAdjustmentDetails', 'overtimeRates'));
     }
 
     public function update(UpdateCompensationAdjustmentRequest $request, CompensationAdjustment $compensationAdjustment)

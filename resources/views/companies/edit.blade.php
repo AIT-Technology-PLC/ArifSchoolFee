@@ -611,7 +611,7 @@
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="income_tax_region">
-                                    Income Tax Region <sup class="has-text-danger"></sup>
+                                    Labour Law Region <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select

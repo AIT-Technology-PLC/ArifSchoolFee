@@ -352,3 +352,27 @@ const Company = {
         return this.company.is_price_before_vat;
     },
 };
+
+const Compensation = {
+    compensations: [],
+
+    async init() {
+        const response = await axios.get(`/api/compensations`);
+
+        this.compensations = response.data;
+    },
+    all() {
+        return this.compensations;
+    },
+    whereId(id) {
+        return this.compensations.find((compensation) => id == compensation.id);
+    },
+    isOvertimeByFormula(id) {
+        let overtimeCompensation = this.whereId(id);
+
+        return (
+            overtimeCompensation?.name == "Overtime" &&
+            overtimeCompensation?.has_formula == 1
+        );
+    },
+};

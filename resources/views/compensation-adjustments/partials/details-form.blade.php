@@ -105,9 +105,16 @@
                                                             x-bind:name="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][compensation_id]`"
                                                             x-model="compensationAdjustmentDetail.compensation_id"
                                                         >
-                                                            @foreach ($compensations as $compensation)
-                                                                <option value="{{ $compensation->id }}">{{ $compensation->name }}</option>
-                                                            @endforeach
+                                                            <template
+                                                                x-for="(compensation, compensationIndex) in Compensation.all()"
+                                                                x-bind:key="compensationIndex"
+                                                            >
+                                                                <option
+                                                                    x-bind:value="compensation.id"
+                                                                    x-text="compensation.name"
+                                                                    x-bind:selected="compensation.id == compensationAdjustmentDetail.compensation_id"
+                                                                ></option>
+                                                            </template>
                                                         </x-forms.select>
                                                         <x-common.icon
                                                             name="fa-solid fa-circle-dollar-to-slot"
@@ -120,10 +127,43 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
+                                            <div
+                                                class="column is-6"
+                                                x-show="Compensation.isOvertimeByFormula(compensationAdjustmentDetail.compensation_id)"
+                                            >
+                                                <x-forms.field>
+                                                    <x-forms.label x-bind:for="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][options][overtime_period]`">
+                                                        Period <sup class="has-text-danger">*</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control class="has-icons-left">
+                                                        <x-forms.select
+                                                            class="is-fullwidth"
+                                                            x-bind:id="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][options][overtime_period]`"
+                                                            x-bind:name="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][options][overtime_period]`"
+                                                            x-model="compensationAdjustmentDetail.options.overtime_period"
+                                                        >
+                                                            @foreach ($overtimeRates as $overtime => $rate)
+                                                                <option value="{{ $overtime }}"> {{ str($overtime)->title() }}</option>
+                                                            @endforeach
+                                                        </x-forms.select>
+                                                        <x-common.icon
+                                                            name="fa-solid fa-calendar"
+                                                            class="is-small is-left"
+                                                        />
+                                                        <span
+                                                            class="help has-text-danger"
+                                                            x-text="$store.errors.getErrors(`compensationAdjustment.${index}.employeeAdjustments.${compensationAdjustmentDetailIndex}.options.overtime_period`)"
+                                                        ></span>
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
                                             <div class="column is-6">
                                                 <x-forms.field>
-                                                    <x-forms.label x-bind:for="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][amount]`">
-                                                        Amount <sup class="has-text-danger">*</sup>
+                                                    <x-forms.label
+                                                        x-bind:for="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][amount]`"
+                                                        x-text="Compensation.isOvertimeByFormula(compensationAdjustmentDetail.compensation_id) ? 'Hours' : 'Amount'"
+                                                    >
+                                                        <sup class="has-text-danger">*</sup>
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input
@@ -205,6 +245,8 @@
                 compensationAdjustments: [],
 
                 async init() {
+                    await Compensation.init();
+
                     if (compensationAdjustment) {
                         await Promise.resolve(this.compensationAdjustments = compensationAdjustment);
 
@@ -217,17 +259,24 @@
                 },
                 add() {
                     this.compensationAdjustments.push({
-                        employeeAdjustments: []
+                        employeeAdjustments: [{
+                            options: {}
+                        }]
                     });
                 },
                 addEmployeeAdjustments(index) {
                     if (this.compensationAdjustments[index].employeeAdjustments) {
-                        this.compensationAdjustments[index].employeeAdjustments.push({});
+                        this.compensationAdjustments[index].employeeAdjustments.push({
+                            options: {}
+                        });
+
                         return;
                     }
 
                     this.compensationAdjustments[index] = {
-                        employeeAdjustments: []
+                        employeeAdjustments: [{
+                            options: {}
+                        }]
                     };
                 },
                 async remove(index) {

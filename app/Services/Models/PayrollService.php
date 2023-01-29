@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ProcessPayrollAction;
+use App\IncomeTax\OvertimeCalculation;
 use App\Models\Compensation;
 use App\Models\CompensationAdjustmentDetail;
 use App\Models\EmployeeCompensation;
@@ -32,6 +33,7 @@ class PayrollService
 
             $compensationAdjustments = CompensationAdjustmentDetail::query()
                 ->whereRelation('employee', 'enabled', '1')
+                ->whereRelation('compensation', 'has_formula', '0')
                 ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
                     return $query->approved()->where('starting_period', $payroll->starting_period)->where('ending_period', $payroll->ending_period);
                 })->get(['employee_id', 'compensation_id', 'amount']);
@@ -45,8 +47,8 @@ class PayrollService
                 })->push(...$compensationAdjustments)->toArray();
 
             $payroll->payrollDetails()->createMany($employeeCompensations);
-
             $this->storeDerivedCompensations($payroll);
+            $this->storeOvertimeCompensation($payroll);
 
             return [true, $message];
         });
@@ -99,7 +101,7 @@ class PayrollService
 
         $data = collect();
 
-        $derivedCompensations = Compensation::active()->derived()->orderBy('id', 'DESC')->get();
+        $derivedCompensations = Compensation::active()->derived()->haveNotFormula()->orderBy('id', 'DESC')->get();
 
         foreach ($employees as $employee) {
             foreach ($derivedCompensations as $compensation) {
@@ -121,5 +123,51 @@ class PayrollService
         }
 
         $payroll->payrollDetails()->createMany($data);
+    }
+
+    private function storeOvertimeCompensation($payroll)
+    {
+        $overtimeCompensation = Compensation::active()->overtime()->hasFormula()->first();
+
+        $employees = $payroll->payrollDetails->pluck('employee')->unique();
+
+        if (!$overtimeCompensation) {
+            return;
+        }
+
+        $overtimeCompensationAdjustments = CompensationAdjustmentDetail::query()
+            ->where('compensation_id', $overtimeCompensation->id)
+            ->whereIn('employee_id', $employees->pluck('id'))
+            ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
+                return $query
+                    ->approved()
+                    ->where('starting_period', $payroll->starting_period)
+                    ->where('ending_period', $payroll->ending_period);
+            })
+            ->get(['employee_id', 'amount', 'options']);
+
+        $derivedOvertimeCompensation = $employees
+            ->whereIn('id', $overtimeCompensationAdjustments->pluck('employee_id'))
+            ->map(function ($employee) use ($overtimeCompensationAdjustments, $overtimeCompensation, $payroll) {
+                $overtimeCompensationAdjustments = $overtimeCompensationAdjustments->where('employee_id', $employee->id);
+
+                $data = [
+                    'employee_id' => $employee->id,
+                    'compensation_id' => $overtimeCompensation->id,
+                    'amount' => 0,
+                ];
+
+                foreach ($overtimeCompensationAdjustments as $overtimeCompensationAdjustment) {
+                    $data['amount'] += OvertimeCalculation::get(
+                        $payroll->payrollDetails()->where('compensation_id', $overtimeCompensation->depends_on)->where('employee_id', $employee->id)->first()->amount,
+                        $overtimeCompensationAdjustment->amount,
+                        $overtimeCompensationAdjustment->options->overtime_period
+                    );
+                }
+
+                return $data;
+            });
+
+        return $payroll->payrollDetails()->createMany($derivedOvertimeCompensation);
     }
 }

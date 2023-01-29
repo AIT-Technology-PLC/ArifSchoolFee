@@ -70,6 +70,21 @@ class Compensation extends Model
         return $query->whereNotNull('depends_on')->whereNotNull('percentage');
     }
 
+    public function scopeOvertime($query)
+    {
+        return $query->where('name', 'Overtime');
+    }
+
+    public function scopeHasFormula($query)
+    {
+        return $query->where('has_formula', 1);
+    }
+
+    public function scopeHaveNotFormula($query)
+    {
+        return $query->where('has_formula', 0);
+    }
+
     public function isEarning()
     {
         return $this->type == 'earning';
@@ -93,5 +108,10 @@ class Compensation extends Model
     public function canBeInputtedManually()
     {
         return $this->can_be_inputted_manually == 1;
+    }
+
+    public function hasFormula()
+    {
+        return $this->has_formula == 1;
     }
 }

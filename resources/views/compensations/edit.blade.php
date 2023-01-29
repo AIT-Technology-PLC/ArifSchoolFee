@@ -192,6 +192,37 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="has_formula">
+                                Formula or Amount <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey has-text-weight-normal">
+                                    <input
+                                        id="has_formula"
+                                        name="has_formula"
+                                        type="radio"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($compensation->hasFormula())
+                                    >
+                                    Formula-based
+                                </label>
+                                <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                    <input
+                                        id="has_formula"
+                                        type="radio"
+                                        name="has_formula"
+                                        value="0"
+                                        @checked(!$compensation->hasFormula())
+                                    >
+                                    Amount-based
+                                </label>
+                                <x-common.validation-error property="has_formula" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="is_taxable">
                                 Taxable or not <sup class="has-text-danger">*</sup>
                             </x-forms.label>

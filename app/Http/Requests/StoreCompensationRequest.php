@@ -21,6 +21,7 @@ class StoreCompensationRequest extends FormRequest
             'compensation.*.name' => ['required', 'string', 'max:255', 'distinct', Rule::unique('compensations', 'name')->where('company_id', userCompany()->id)->where('is_active', 1)->withoutTrashed()],
             'compensation.*.type' => ['required', 'string', 'max:255', Rule::In(['earning', 'deduction'])],
             'compensation.*.is_active' => ['required', 'boolean'],
+            'compensation.*.has_formula' => ['required', 'boolean'],
             'compensation.*.is_taxable' => ['required', 'boolean'],
             'compensation.*.is_adjustable' => ['required', 'boolean'],
             'compensation.*.can_be_inputted_manually' => ['required', 'boolean'],

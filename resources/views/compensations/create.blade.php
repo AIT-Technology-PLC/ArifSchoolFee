@@ -239,6 +239,40 @@
                                 </div>
                                 <div class="column is-6">
                                     <x-forms.field>
+                                        <x-forms.label x-bind:for="`compensation[${index}][has_formula]`">
+                                            Formula or Amount <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control>
+                                            <label class="radio has-text-grey has-text-weight-normal">
+                                                <input
+                                                    x-bind:id="`compensation[${index}][has_formula]`"
+                                                    x-bind:name="`compensation[${index}][has_formula]`"
+                                                    x-model="compensation.has_formula"
+                                                    type="radio"
+                                                    value="1"
+                                                    class="mt-3"
+                                                >
+                                                Formula-based
+                                            </label>
+                                            <label class="radio has-text-grey has-text-weight-normal mt-2">
+                                                <input
+                                                    type="radio"
+                                                    x-bind:id="`compensation[${index}][has_formula]`"
+                                                    x-bind:name="`compensation[${index}][has_formula]`"
+                                                    x-model="compensation.has_formula"
+                                                    value="0"
+                                                >
+                                                Amount-based
+                                            </label>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`compensation.${index}.has_formula`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
                                         <x-forms.label x-bind:for="`compensation[${index}][is_taxable]`">
                                             Taxable or not <sup class="has-text-danger">*</sup>
                                         </x-forms.label>

@@ -18,6 +18,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
             ->editColumn('employee', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->employee->user->name)
             ->editColumn('compensation', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->compensation->name)
             ->editColumn('amount', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->amount)
+            ->editColumn('overtime', fn($compensationAdjustmentDetail) => $compensationAdjustmentDetail->options?->overtime_period ?? 'N/A')
             ->editColumn('actions', function ($compensationAdjustmentDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'compensation-adjustment-details',
@@ -47,6 +48,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
             Column::make('employee', 'employee.user.name'),
             Column::make('compensation', 'compensation.name'),
             Column::make('amount'),
+            Column::make('overtime', 'options->overtime_period')->visible(false),
             Column::make('description')->visible(false)->content('N/A'),
             Column::computed('actions'),
         ];
