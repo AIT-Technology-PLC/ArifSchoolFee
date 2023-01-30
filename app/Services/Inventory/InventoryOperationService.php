@@ -79,9 +79,9 @@ class InventoryOperationService
             'batch_no' => $batchNo,
         ]);
 
-        $merchandiseBatch->expires_on = $detail['expires_on'];
+        $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail->merchandiseBatch->expires_on;
         $merchandiseBatch->quantity += $detail['quantity'];
-        $merchandiseBatch->received_quantity += $detail['quantity'];
+        $merchandiseBatch->received_quantity += $detail->merchandiseBatch ? 0 : $detail['quantity'];
 
         $merchandiseBatch->save();
     }
@@ -92,29 +92,11 @@ class InventoryOperationService
             return;
         }
 
-        $merchandiseBatches = $merchandise
-            ->merchandiseBatches()
-            ->where('quantity', '>', 0)
-            ->when($merchandise->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-            ->when(!$merchandise->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-            ->when(isset($detail->merchandise_batch_id), fn($q) => $q->where('id', $detail->merchandise_batch_id))
-            ->get();
+        $merchandiseBatch = $merchandise->merchandiseBatches()->where('id', $detail->merchandise_batch_id)->first();
 
-        foreach ($merchandiseBatches as $merchandiseBatch) {
-            if ($merchandiseBatch->quantity >= $detail['quantity']) {
-                $merchandiseBatch->quantity -= $detail['quantity'];
+        $merchandiseBatch->quantity -= $detail['quantity'];
 
-                $merchandiseBatch->save();
-                break;
-            }
-
-            if ($merchandiseBatch->quantity < $detail['quantity']) {
-                $detail['quantity'] -= $merchandiseBatch->quantity;
-                $merchandiseBatch->quantity = 0;
-
-                $merchandiseBatch->save();
-            }
-        }
+        $merchandiseBatch->save();
     }
 
     public static function createInventoryHistory($model, $detail, $isSubtract = true)

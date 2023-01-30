@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\MerchandiseBatch;
 use App\Rules\CanEditReferenceNumber;
+use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
@@ -25,18 +26,9 @@ class StoreSaleRequest extends FormRequest
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'sale.*.quantity' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
-                if (MerchandiseBatch::where('id', $this->input(str_replace('.quantity', '.merchandise_batch_id', $attribute)))->where('quantity', '<', $value)->exists()) {
-                    $fail('There is no sufficient amount in this batch, please check your inventory.');
-                }
-            }],
+            'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'sale.*.description' => ['nullable', 'string'],
-            'sale.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($attribute, $value, $fail) {
-                $merchandiseBatch = MerchandiseBatch::firstwhere('id', $value);
-                if ($merchandiseBatch->merchandise->product_id != $this->input(str_replace('.merchandise_batch_id', '.product_id', $attribute))) {
-                    $fail('Invalid Batch Number!');
-                }
-            }],
+            'sale.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(
