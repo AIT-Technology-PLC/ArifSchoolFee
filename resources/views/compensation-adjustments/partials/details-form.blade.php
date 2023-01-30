@@ -105,6 +105,10 @@
                                                             x-bind:name="`compensationAdjustment[${index}][employeeAdjustments][${compensationAdjustmentDetailIndex}][compensation_id]`"
                                                             x-model="compensationAdjustmentDetail.compensation_id"
                                                         >
+                                                            <option
+                                                                hidden
+                                                                selected
+                                                            > Select Adjustment </option>
                                                             <template
                                                                 x-for="(compensation, compensationIndex) in Compensation.all()"
                                                                 x-bind:key="compensationIndex"

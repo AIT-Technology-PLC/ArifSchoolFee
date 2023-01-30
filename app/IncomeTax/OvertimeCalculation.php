@@ -9,7 +9,7 @@ class OvertimeCalculation
         return [
             'day' => 1.25,
             'night' => 1.5,
-            'week' => 2,
+            'weekend' => 2,
             'public' => 2.5,
         ];
     }
