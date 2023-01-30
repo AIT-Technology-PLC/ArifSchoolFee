@@ -58,7 +58,7 @@ class SaleController extends Controller
     {
         $datatable->builder()->setTableId('sale-details-datatable');
 
-        $sale->load(['saleDetails.product', 'gdns', 'customer', 'contact']);
+        $sale->load(['saleDetails.product', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact']);
 
         return $datatable->render('sales.show', compact('sale'));
     }
@@ -69,7 +69,7 @@ class SaleController extends Controller
             return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
         }
 
-        $sale->load('saleDetails.product');
+        $sale->load('saleDetails.product', 'saleDetails.merchandiseBatch');
 
         return view('sales.edit', compact('sale'));
     }
