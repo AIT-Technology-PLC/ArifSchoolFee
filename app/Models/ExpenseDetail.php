@@ -14,10 +14,6 @@ class ExpenseDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $appends = [
-        'originalUnitPrice',
-    ];
-
     public function expenseCategory()
     {
         return $this->belongsTo(ExpenseCategory::class);

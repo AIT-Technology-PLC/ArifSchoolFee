@@ -126,7 +126,6 @@
                                 <x-forms.input
                                     x-bind:id="`expense[${index}][unit_price]`"
                                     x-bind:name="`expense[${index}][unit_price]`"
-                                    x-init="expense.unit_price = expense.originalUnitPrice"
                                     x-model="expense.unit_price"
                                     type="number"
                                     placeholder="Unit Price"
