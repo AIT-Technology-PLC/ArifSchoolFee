@@ -58,6 +58,7 @@ class GdnController extends Controller
             $gdn = Gdn::create($request->safe()->except('gdn'));
 
             $gdnDetails = $gdn->gdnDetails()->createMany($request->validated('gdn'));
+
             $deletableDetails = collect();
 
             foreach ($gdnDetails as $gdnDetail) {
@@ -72,13 +73,12 @@ class GdnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
-                        GdnDetail::create([
-                            'gdn_id' => $gdnDetail->gdn_id,
-                            'warehouse_id' => $gdnDetail->warehouse_id,
+                        $gdn->gdnDetails()->create([
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
-                            'unit_price' => $gdnDetail->unit_price,
                             'merchandise_batch_id' => $merchandiseBatch->id,
+                            'unit_price' => $gdnDetail->unit_price,
+                            'warehouse_id' => $gdnDetail->warehouse_id,
                         ]
                         );
 
@@ -164,13 +164,12 @@ class GdnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
-                        GdnDetail::create([
-                            'gdn_id' => $gdnDetail->gdn_id,
-                            'warehouse_id' => $gdnDetail->warehouse_id,
+                        $gdn->gdnDetails()->create([
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
-                            'unit_price' => $gdnDetail->unit_price,
                             'merchandise_batch_id' => $merchandiseBatch->id,
+                            'unit_price' => $gdnDetail->unit_price,
+                            'warehouse_id' => $gdnDetail->warehouse_id,
                         ]
                         );
 

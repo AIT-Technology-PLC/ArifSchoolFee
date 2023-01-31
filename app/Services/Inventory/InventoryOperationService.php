@@ -81,7 +81,12 @@ class InventoryOperationService
 
         $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail->merchandiseBatch->expires_on;
         $merchandiseBatch->quantity += $detail['quantity'];
-        $merchandiseBatch->received_quantity += isset($detail['transfer_id']) && isset($detail['merchandise_batch_id']) ? $detail['quantity'] : 0;
+
+        if (isset($detail['transfer_id'])) {
+            $merchandiseBatch->received_quantity += $detail['quantity'];
+        } else {
+            $merchandiseBatch->received_quantity += $detail['merchandise_batch_id'] ? 0 : $detail['quantity'];
+        }
 
         $merchandiseBatch->save();
     }
@@ -92,7 +97,7 @@ class InventoryOperationService
             return;
         }
 
-        $merchandiseBatch = $merchandise->merchandiseBatches()->where('id', $detail->merchandise_batch_id)->first();
+        $merchandiseBatch = $merchandise->merchandiseBatches()->firstWhere('id', $detail->merchandise_batch_id);
 
         $merchandiseBatch->quantity -= $detail['quantity'];
 
