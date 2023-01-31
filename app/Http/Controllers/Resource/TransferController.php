@@ -7,8 +7,10 @@ use App\DataTables\TransferDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
+use App\Models\MerchandiseBatch;
 use App\Models\Siv;
 use App\Models\Transfer;
+use App\Models\TransferDetail;
 use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
 use App\Utilities\Notifiables;
@@ -57,7 +59,42 @@ class TransferController extends Controller
         $transfer = DB::transaction(function () use ($request) {
             $transfer = Transfer::create($request->safe()->except('transfer'));
 
-            $transfer->transferDetails()->createMany($request->validated('transfer'));
+            $transferDetails = $transfer->transferDetails()->createMany($request->validated('transfer'));
+
+            $deletableDetails = collect();
+
+            foreach ($transferDetails as $transferDetail) {
+                if ($transferDetail->product->isBatchable() && is_null($transferDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($transferDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $transferDetail->product_id)
+                        ->whereRelation('merchandise', 'warehouse_id', $transfer->transferred_from)
+                        ->when($transferDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$transferDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $transfer->transferDetails()->create([
+                            'product_id' => $transferDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $transferDetail->quantity ? $transferDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $transferDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $transferDetail->quantity - $merchandiseBatch->quantity;
+                            $transferDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            TransferDetail::whereIn('id', $deletableDetails)->forceDelete();
 
             Notification::send(Notifiables::byNextActionPermission('Approve Transfer'), new TransferPrepared($transfer));
 
@@ -101,7 +138,42 @@ class TransferController extends Controller
 
             $transfer->transferDetails()->forceDelete();
 
-            $transfer->transferDetails()->createMany($request->validated('transfer'));
+            $transferDetails = $transfer->transferDetails()->createMany($request->validated('transfer'));
+
+            $deletableDetails = collect();
+
+            foreach ($transferDetails as $transferDetail) {
+                if ($transferDetail->product->isBatchable() && is_null($transferDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($transferDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $transferDetail->product_id)
+                        ->whereRelation('merchandise', 'warehouse_id', $transfer->transferred_from)
+                        ->when($transferDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$transferDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $transfer->transferDetails()->create([
+                            'product_id' => $transferDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $transferDetail->quantity ? $transferDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $transferDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $transferDetail->quantity - $merchandiseBatch->quantity;
+                            $transferDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            TransferDetail::whereIn('id', $deletableDetails)->forceDelete();
         });
 
         return redirect()->route('transfers.show', $transfer->id);

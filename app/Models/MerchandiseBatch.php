@@ -55,6 +55,11 @@ class MerchandiseBatch extends Model
         return $this->hasMany(ReservationDetail::class);
     }
 
+    public function saleDetails()
+    {
+        return $this->hasMany(SaleDetail::class);
+    }
+
     public function scopeAvailable($query)
     {
         return $query->where('quantity', '>', 0);

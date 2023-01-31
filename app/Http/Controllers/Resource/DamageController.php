@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDamageRequest;
 use App\Http\Requests\UpdateDamageRequest;
 use App\Models\Damage;
+use App\Models\DamageDetail;
+use App\Models\MerchandiseBatch;
 use App\Notifications\DamagePrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +53,43 @@ class DamageController extends Controller
         $damage = DB::transaction(function () use ($request) {
             $damage = Damage::create($request->safe()->except('damage'));
 
-            $damage->damageDetails()->createMany($request->validated('damage'));
+            $damageDetails = $damage->damageDetails()->createMany($request->validated('damage'));
+
+            $deletableDetails = collect();
+
+            foreach ($damageDetails as $damageDetail) {
+                if ($damageDetail->product->isBatchable() && is_null($damageDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($damageDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $damageDetail->product_id)
+                        ->whereRelation('merchandise', 'warehouse_id', $damageDetail->warehouse_id)
+                        ->when($damageDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$damageDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $damage->damageDetails()->create([
+                            'product_id' => $damageDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $damageDetail->quantity ? $damageDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                            'warehouse_id' => $damageDetail->warehouse_id,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $damageDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $damageDetail->quantity - $merchandiseBatch->quantity;
+                            $damageDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            DamageDetail::whereIn('id', $deletableDetails)->forceDelete();
 
             Notification::send(Notifiables::byNextActionPermission('Approve Damage'), new DamagePrepared($damage));
 
@@ -89,7 +127,43 @@ class DamageController extends Controller
 
             $damage->damageDetails()->forceDelete();
 
-            $damage->damageDetails()->createMany($request->validated('damage'));
+            $damageDetails = $damage->damageDetails()->createMany($request->validated('damage'));
+
+            $deletableDetails = collect();
+
+            foreach ($damageDetails as $damageDetail) {
+                if ($damageDetail->product->isBatchable() && is_null($damageDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($damageDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $damageDetail->product_id)
+                        ->whereRelation('merchandise', 'warehouse_id', $damageDetail->warehouse_id)
+                        ->when($damageDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$damageDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $damage->damageDetails()->create([
+                            'product_id' => $damageDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $damageDetail->quantity ? $damageDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                            'warehouse_id' => $damageDetail->warehouse_id,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $damageDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $damageDetail->quantity - $merchandiseBatch->quantity;
+                            $damageDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            DamageDetail::whereIn('id', $deletableDetails)->forceDelete();
         });
 
         return redirect()->route('damages.show', $damage->id);
@@ -99,7 +173,7 @@ class DamageController extends Controller
     {
         abort_if($damage->isSubtracted(), 403);
 
-        abort_if($damage->isApproved() && ! authUser()->can('Delete Approved Damage'), 403);
+        abort_if($damage->isApproved() && !authUser()->can('Delete Approved Damage'), 403);
 
         $damage->forceDelete();
 

@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\MerchandiseBatch;
+use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateBackorder;
@@ -27,19 +28,10 @@ class UpdateGdnRequest extends FormRequest
             'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
-                if (MerchandiseBatch::where('id', $this->input(str_replace('.quantity', '.merchandise_batch_id', $attribute)))->where('quantity', '<', $value)->exists()) {
-                    $fail('There is no sufficient amount in this batch, please check your inventory.');
-                }
-            }],
+            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'gdn.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($attribute, $value, $fail) {
-                $merchandiseBatch = MerchandiseBatch::firstwhere('id', $value);
-                if ($merchandiseBatch->merchandise->product_id != $this->input(str_replace('.merchandise_batch_id', '.product_id', $attribute))) {
-                    $fail('Invalid Batch Number!');
-                }
-            }],
+            'gdn.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(

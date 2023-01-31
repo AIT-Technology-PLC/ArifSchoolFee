@@ -289,6 +289,7 @@ class GdnService
                     ->map(function ($gdnDetail) {
                         return [
                             'product_id' => $gdnDetail->product_id,
+                            'merchandise_batch_id' => $gdnDetail->merchandise_batch_id ?? null,
                             'quantity' => $gdnDetail->quantity,
                             'description' => $gdnDetail->description,
                             'unit_price' => $gdnDetail->unit_price,

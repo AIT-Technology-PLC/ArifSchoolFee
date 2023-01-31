@@ -7,7 +7,9 @@ use App\DataTables\ProformaInvoiceDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceRequest;
+use App\Models\MerchandiseBatch;
 use App\Models\ProformaInvoice;
+use App\Models\ProformaInvoiceDetail;
 use App\Notifications\ProformaInvoicePrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +51,42 @@ class ProformaInvoiceController extends Controller
         $proformaInvoice = DB::transaction(function () use ($request) {
             $proformaInvoice = ProformaInvoice::create($request->safe()->except('proformaInvoice'));
 
-            $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
+            $proformaInvoiceDetails = $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
+
+            $deletableDetails = collect();
+
+            foreach ($proformaInvoiceDetails as $proformaInvoiceDetail) {
+                if ($proformaInvoiceDetail->product->isBatchable() && is_null($proformaInvoiceDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($proformaInvoiceDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $proformaInvoiceDetail->product_id)
+                        ->when($proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $proformaInvoice->proformaInvoiceDetails()->create([
+                            'product_id' => $proformaInvoiceDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                            'unit_price' => $proformaInvoiceDetail->unit_price,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $proformaInvoiceDetail->quantity - $merchandiseBatch->quantity;
+                            $proformaInvoiceDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            ProformaInvoiceDetail::whereIn('id', $deletableDetails)->forceDelete();
 
             Notification::send(Notifiables::byNextActionPermission('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
 
@@ -91,7 +128,42 @@ class ProformaInvoiceController extends Controller
 
             $proformaInvoice->proformaInvoiceDetails()->forceDelete();
 
-            $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
+            $proformaInvoiceDetails = $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
+
+            $deletableDetails = collect();
+
+            foreach ($proformaInvoiceDetails as $proformaInvoiceDetail) {
+                if ($proformaInvoiceDetail->product->isBatchable() && is_null($proformaInvoiceDetail->merchandise_batch_id)) {
+                    $deletableDetails->push($proformaInvoiceDetail->id);
+
+                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
+                        ->whereRelation('merchandise', 'product_id', $proformaInvoiceDetail->product_id)
+                        ->when($proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                        ->when(!$proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                        ->get();
+
+                    foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $proformaInvoice->proformaInvoiceDetails()->create([
+                            'product_id' => $proformaInvoiceDetail->product_id,
+                            'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,
+                            'merchandise_batch_id' => $merchandiseBatch->id,
+                            'unit_price' => $proformaInvoiceDetail->unit_price,
+                        ]
+                        );
+
+                        if ($merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity) {
+                            $difference = 0;
+
+                            break;
+                        } else {
+                            $difference = $proformaInvoiceDetail->quantity - $merchandiseBatch->quantity;
+                            $proformaInvoiceDetail->quantity = $difference;
+                        }
+                    }
+                }
+            }
+
+            ProformaInvoiceDetail::whereIn('id', $deletableDetails)->forceDelete();
         });
 
         return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
