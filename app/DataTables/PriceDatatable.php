@@ -21,6 +21,9 @@ class PriceDatatable extends DataTable
                     'code' => $price->product->code ?? '',
                 ]);
             })
+            ->editColumn('code', function ($price) {
+                return $price->product->code ?? 'N/A';
+            })
             ->editColumn('price', function ($price) {
                 if ($price->isFixed()) {
                     return money($price->fixed_price);
@@ -58,6 +61,7 @@ class PriceDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'product.name')->addClass('is-capitalized'),
+            Column::make('code', 'product.code'),
             Column::make('type', 'type')->addClass('is-capitalized'),
             Column::computed('price')->addClass('has-text-centered'),
             Column::make('last update date', 'updated_at')->visible(false),
