@@ -16,10 +16,7 @@ class PriceDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', function ($price) {
-                return view('components.datatables.product-code', [
-                    'product' => $price->product->name,
-                    'code' => $price->product->code ?? '',
-                ]);
+                return $price->product->name;
             })
             ->editColumn('code', function ($price) {
                 return $price->product->code ?? 'N/A';
