@@ -50,7 +50,7 @@
                             </x-forms.control>
                             <x-forms.control
                                 class="has-icons-left"
-                                style="width: 70% !important"
+                                style="width: 70%"
                             >
                                 <x-common.new-product-list
                                     class="product-list"
@@ -144,7 +144,7 @@
                                     x-bind:name="`damage[${index}][quantity]`"
                                     x-model="damage.quantity"
                                     type="number"
-                                    placeholder="Quantity"
+                                    x-bind:placeholder="Product.unitOfMeasurement(damage.product_id) || ''"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
@@ -154,15 +154,6 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`damage.${index}.quantity`)"
                                 ></span>
-                            </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(damage.product_id)"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

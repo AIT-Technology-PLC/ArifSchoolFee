@@ -45,7 +45,10 @@
                                     x-on:change="Product.changeProductCategory(getSelect2(index), jobExtra.product_id, jobExtra.product_category_id)"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70%"
+                            >
                                 <x-common.new-product-list
                                     class="product-list"
                                     x-bind:id="`jobExtra[${index}][product_id]`"
@@ -75,6 +78,7 @@
                                     x-bind:name="`jobExtra[${index}][quantity]`"
                                     x-model="jobExtra.quantity"
                                     type="number"
+                                    x-bind:placeholder="Product.unitOfMeasurement(jobExtra.product_id) || ''"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
@@ -84,15 +88,6 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`jobExtra.${index}.quantity`)"
                                 ></span>
-                            </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(jobExtra.product_id)"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
