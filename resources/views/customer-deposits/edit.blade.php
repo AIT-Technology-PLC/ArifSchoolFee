@@ -96,7 +96,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="bank_name">
-                                Bank <sup class="has-text-danger">*</sup>
+                                Bank <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
@@ -108,11 +108,13 @@
                                         selected
                                         value=""
                                     > Select Bank </option>
-                                    @if ($customerDeposit->bank_name)
+                                    @if (old('bank_name', $customerDeposit->bank_name))
                                         <option
-                                            value="{{ $customerDeposit->bank_name }}"
+                                            value="{{ old('bank_name', $customerDeposit->bank_name) }}"
                                             selected
-                                        > {{ $customerDeposit->bank_name }} </option>
+                                        >
+                                            {{ old('bank_name', $customerDeposit->bank_name) }}
+                                        </option>
                                     @endif
                                     @include('lists.banks')
                                 </x-forms.select>
@@ -126,7 +128,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label for="reference_number">
-                            Reference No <sup class="has-text-danger">*</sup>
+                            Reference No <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field>
                             <x-forms.control class="has-icons-left">

@@ -144,7 +144,7 @@
                                             />
                                             <span
                                                 class="help has-text-danger"
-                                                x-text="$store.errors.getErrors(`CustomerDeposit.${index}.amount`)"
+                                                x-text="$store.errors.getErrors(`customerDeposit.${index}.amount`)"
                                             ></span>
                                         </x-forms.control>
                                     </x-forms.field>
@@ -189,6 +189,7 @@
                                                 x-bind:id="`customerDeposit[${index}][reference_number]`"
                                                 x-bind:name="`customerDeposit[${index}][reference_number]`"
                                                 x-model="customerDeposit.reference_number"
+                                                placeholder="Reference No"
                                             />
                                             <x-common.icon
                                                 name="fas fa-hashtag"
