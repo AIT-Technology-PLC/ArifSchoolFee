@@ -48,6 +48,10 @@ class UpdateSaleRequest extends FormRequest
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
                     $fail('Credit Payment without customer is not allowed, please select a customer.');
                 }
+
+                if ($value == 'Customer Deposit' && is_null($this->get('customer_id'))) {
+                    $fail('Customer Deposit Payment without customer is not allowed, please select a customer.');
+                }
             },
             ],
 
