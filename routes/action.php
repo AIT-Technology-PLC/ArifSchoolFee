@@ -453,3 +453,12 @@ Route::get('/payrolls/{payroll}/print',
 Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
     [Action\MerchandiseBatchController::class, 'convertToDamage'])
     ->name('merchandise-batches.convert_to_damage');
+
+// Customer Deposit
+Route::post('/customer-deposits/{customerDeposit}/approve',
+    [Action\CustomerDepositController::class, 'approve'])
+    ->name('customer-deposits.approve');
+
+Route::get('/customer-deposits/{customer}/deposit',
+    [Action\CustomerDepositController::class, 'deposit'])
+    ->name('customer-deposits.deposit');
