@@ -754,8 +754,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
-                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Credit', 'Create Expense'])
+            @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management', 'Customer Deposit Management'))
+                @canany(['Create Purchase', 'Create Supplier', 'Create Debt', 'Create Credit', 'Create Expense', 'Create Customer Deposit'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -828,6 +828,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Credit </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Customer Deposit Management'))
+                                @can('Create Customer Deposit')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('customer-deposits.create') }}"
+                                            icon="fa-solid fa-sack-dollar"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Deposit </span>
                                         </span>
                                     </div>
                                 @endcan
