@@ -40,9 +40,9 @@ class EmployeeCompensationController extends Controller
 
                         $data[] = [
                             'compensation_id' => $compensation->id,
-                            'amount' => $compensation->maximum_amount >= $row[str()->snake($compensation->name)]
-                            ? $row[str()->snake($compensation->name)]
-                            : $compensation->maximum_amount,
+                            'amount' => $compensation->maximum_amount > $row[str()->snake($compensation->name)]
+                            ? $compensation->maximum_amount
+                            : $row[str()->snake($compensation->name)],
                         ];
                     }
 
