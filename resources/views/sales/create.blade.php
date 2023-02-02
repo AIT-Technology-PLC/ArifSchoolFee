@@ -132,6 +132,7 @@
                                             <option value="Credit Payment">Credit Payment</option>
                                             <option value="Bank Deposit">Bank Deposit</option>
                                             <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="Customer Deposit">Customer Deposit</option>
                                             <option value="Cheque">Cheque</option>
                                         </x-forms.select>
                                         <x-common.icon
