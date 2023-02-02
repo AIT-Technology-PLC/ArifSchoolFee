@@ -16,10 +16,10 @@ class PriceDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('product', function ($price) {
-                return view('components.datatables.product-code', [
-                    'product' => $price->product->name,
-                    'code' => $price->product->code ?? '',
-                ]);
+                return $price->product->name;
+            })
+            ->editColumn('code', function ($price) {
+                return $price->product->code ?? 'N/A';
             })
             ->editColumn('price', function ($price) {
                 if ($price->isFixed()) {
@@ -58,6 +58,7 @@ class PriceDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('product', 'product.name')->addClass('is-capitalized'),
+            Column::make('code', 'product.code'),
             Column::make('type', 'type')->addClass('is-capitalized'),
             Column::computed('price')->addClass('has-text-centered'),
             Column::make('last update date', 'updated_at')->visible(false),

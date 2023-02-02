@@ -27,6 +27,11 @@ class SaleDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
     public function parentModel()
     {
         return $this->sale;

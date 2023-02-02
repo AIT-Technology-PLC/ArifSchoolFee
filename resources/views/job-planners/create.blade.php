@@ -60,7 +60,10 @@
                                                 x-on:change="Product.changeProductCategory(getSelect2(index), jobPlanner.product_id, jobPlanner.product_category_id)"
                                             />
                                         </x-forms.control>
-                                        <x-forms.control class="has-icons-left is-expanded">
+                                        <x-forms.control
+                                            class="has-icons-left"
+                                            style="width: 70%"
+                                        >
                                             <x-common.new-product-list
                                                 class="product-list"
                                                 x-bind:id="`jobPlanner[${index}][product_id]`"

@@ -24,8 +24,10 @@ class SaleDetailDatatable extends DataTable
             ->editColumn('quantity', function ($saleDetail) {
                 return quantity($saleDetail->quantity, $saleDetail->product->unit_of_measurement);
             })
-            ->editColumn('unit_price', fn ($saleDetail) => money($saleDetail->unit_price))
-            ->editColumn('total', fn ($saleDetail) => money($saleDetail->totalPrice))
+            ->editColumn('batch_no', fn($saleDetail) => $saleDetail->merchandiseBatch?->batch_no)
+            ->editColumn('expires_on', fn($saleDetail) => $saleDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
+            ->editColumn('unit_price', fn($saleDetail) => money($saleDetail->unit_price))
+            ->editColumn('total', fn($saleDetail) => money($saleDetail->totalPrice))
             ->editColumn('actions', function ($saleDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'sale-details',
@@ -42,7 +44,10 @@ class SaleDetailDatatable extends DataTable
             ->newQuery()
             ->select('sale_details.*')
             ->where('sale_id', request()->route('sale')->id)
-            ->with('product');
+            ->with([
+                'product',
+                'merchandiseBatch',
+            ]);
     }
 
     protected function getColumns()
@@ -51,6 +56,8 @@ class SaleDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
+            Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('unit_price')->addClass('has-text-right'),
             Column::computed('total')->addClass('has-text-right'),
             Column::computed('actions'),
@@ -61,6 +68,6 @@ class SaleDetailDatatable extends DataTable
 
     protected function filename()
     {
-        return 'Sale Details_'.date('YmdHis');
+        return 'Sale Details_' . date('YmdHis');
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Rules\CanEditReferenceNumber;
+use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
@@ -24,8 +26,9 @@ class StoreSaleRequest extends FormRequest
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'sale.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
-            'sale.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'sale.*.description' => ['nullable', 'string'],
+            'sale.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(

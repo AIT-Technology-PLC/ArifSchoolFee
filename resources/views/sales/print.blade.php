@@ -116,6 +116,10 @@
                     @if ($havingCode)
                         <th>Code</th>
                     @endif
+                    @if ($havingBatch)
+                        <th>Batch No</th>
+                        <th>Expiry Date</th>
+                    @endif
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
@@ -132,6 +136,10 @@
                         @if ($havingCode)
                             <td> {{ $saleDetail->product->code ?? '-' }} </td>
                         @endif
+                        @if ($havingBatch)
+                            <td> {{ $saleDetail->merchandiseBatch?->batch_no ?? '-' }} </td>
+                            <td> {{ $saleDetail->merchandiseBatch?->expires_on?->toFormattedDateString() ?? '-' }} </td>
+                        @endif
                         <td class="has-text-right"> {{ number_format($saleDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $saleDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($saleDetail->unit_price, 2) }} </td>
@@ -140,7 +148,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ $havingCode ? 5 : 4 }}"
+                        colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -148,7 +156,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ $havingCode ? 5 : 4 }}"
+                        colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -156,7 +164,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ $havingCode ? 5 : 4 }}"
+                        colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>

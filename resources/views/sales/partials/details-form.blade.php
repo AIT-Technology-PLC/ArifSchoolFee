@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-12">
+                    <div
+                        class="column is-12"
+                        x-bind:class="{ 'is-12': !Product.isBatchable(sale.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-6': Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`sale[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -45,7 +48,10 @@
                                     x-on:change="Product.changeProductCategory(getSelect2(index), sale.product_id, sale.product_category_id)"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70%"
+                            >
                                 <x-common.new-product-list
                                     class="product-list"
                                     x-bind:id="`sale[${index}][product_id]`"
@@ -64,6 +70,34 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-6"
+                            x-show="Product.isBatchable(sale.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`sale[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger"> </sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`sale[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`sale[${index}][merchandise_batch_id]`"
+                                        x-model="sale.merchandise_batch_id"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`sale.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`sale[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
@@ -75,7 +109,7 @@
                                     x-bind:name="`sale[${index}][quantity]`"
                                     x-model="sale.quantity"
                                     type="number"
-                                    placeholder="Quantity"
+                                    x-bind:placeholder="Product.unitOfMeasurement(sale.product_id) || ''"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
@@ -85,16 +119,6 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`sale.${index}.quantity`)"
                                 ></span>
-                            </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(sale.product_id)"
-                                    tabindex="-1"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -222,7 +246,7 @@
                 sales: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (sale) {
                         this.sales = sale;
@@ -250,6 +274,14 @@
                         this.sales.forEach((sale, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), sale.product_id, sale.product_category_id);
+
+                                if (Product.isBatchable(this.sales[i].product_id)) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.sales[i].merchandise_batch_id,
+                                        MerchandiseBatch.whereProductId(this.sales[i].product_id)
+                                    );
+                                }
                             }
                         })
                     );
@@ -267,6 +299,14 @@
                                 this.sales[index].product_id
                             );
 
+                        if (Product.isBatchable(this.sales[index].product_id)) {
+                            MerchandiseBatch.appendMerchandiseBatches(
+                                this.getMerchandiseBatchesSelect(index),
+                                this.sales[index].merchandise_batch_id,
+                                MerchandiseBatch.whereProductId(this.sales[index].product_id)
+                            );
+                        }
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.sales[index].product_id, this.sales[index].product_category_id);
 
@@ -278,6 +318,9 @@
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 }
             }));
         });

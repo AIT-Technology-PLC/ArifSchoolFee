@@ -64,7 +64,7 @@
                                     type="number"
                                     name="price_increment"
                                     id="price_increment"
-                                    value="{{ $priceIncrement->price_increment }}"
+                                    value="{{ old('price_increment', $priceIncrement->price_increment) }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"
@@ -106,9 +106,8 @@
                         </x-forms.field>
                     </div>
                     <div
-                        class="column"
-                        x-cloak
-                        x-bind:class="{ 'is-hidden': isNotSpecificProduct }"
+                        class="column is-invisible"
+                        x-bind:class="{ 'is-invisible': isNotSpecificProduct }"
                     >
                         <x-forms.field>
                             <x-forms.label for="product_id">
@@ -116,25 +115,21 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
+                                    x-init="initializeSelect2($el, '')"
                                     class="is-fullwidth is-multiple"
                                     id="product_id"
                                     name="product_id[][product_id]"
-                                    multiple
-                                    size="2"
+                                    multiple="multiple"
                                 >
                                     @foreach ($products as $product)
                                         <option
                                             value="{{ $product->id }}"
-                                            @selected(in_array($product->id, old('product_id.' . $loop->index . '.product_id', $priceIncrement->priceIncrementDetails->pluck('product_id')->toArray())))
+                                            @selected(collect(old('product_id', $priceIncrement->priceIncrementDetails->toArray()))->where('product_id', $product->id)->isNotEmpty())
                                         >
-                                            {{ $product->code? str($product->name)->title()->singular()->append(' (', $product->code, ')'): str($product->name)->title()->singular() }}
+                                            {{ $product->code ? str($product->name)->title()->singular()->append(' (', $product->code, ')') : str($product->name)->title()->singular() }}
                                         </option>
                                     @endforeach
                                 </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
                                 <x-common.validation-error property="product_id.*.product_id" />
                             </x-forms.control>
                         </x-forms.field>
