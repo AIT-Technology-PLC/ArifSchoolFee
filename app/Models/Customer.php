@@ -89,6 +89,11 @@ class Customer extends Model
         return $this->hasMany(BillOfMaterial::class);
     }
 
+    public function customerDeposits()
+    {
+        return $this->hasMany(CustomerDeposit::class);
+    }
+
     public function getUndueCreditAmount()
     {
         $credits = $this->credits()->unsettled()->where('due_date', '>=', today())->get();

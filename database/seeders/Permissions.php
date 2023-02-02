@@ -375,6 +375,13 @@ class Permissions extends Seeder
             //Inventory Level Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Daily Inventory Report']);
 
+            //Customer Deposit
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Customer Deposit']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
