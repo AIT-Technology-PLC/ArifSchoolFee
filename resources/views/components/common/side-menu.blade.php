@@ -900,8 +900,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
-        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense'])
+    @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management', 'Customer Deposit Management'))
+        @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense', 'Read Customer Deposit'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -982,6 +982,19 @@
                                         label="Credits"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('credits.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('credits.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Customer Deposit Management'))
+                            @can('Read Customer Deposit')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('customer-deposits.index') }}"
+                                        label="Deposits"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customer-deposits.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('customer-deposits.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

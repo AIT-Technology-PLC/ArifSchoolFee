@@ -178,3 +178,5 @@ Route::resource('price-increment-details', Resource\PriceIncrementDetailControll
 Route::resource('brands', Resource\BrandController::class)->except(['show']);
 
 Route::resource('payrolls', Resource\PayrollController::class);
+
+Route::resource('customer-deposits', Resource\CustomerDepositController::class);

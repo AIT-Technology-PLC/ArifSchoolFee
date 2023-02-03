@@ -145,12 +145,7 @@
                                             x-model="paymentType"
                                             x-on:change="changePaymentMethod"
                                         >
-                                            <option disabled>Select Payment</option>
-                                            <option value="Cash Payment">Cash Payment</option>
-                                            <option value="Credit Payment">Credit Payment</option>
-                                            <option value="Bank Deposit">Bank Deposit</option>
-                                            <option value="Bank Transfer">Bank Transfer</option>
-                                            <option value="Cheque">Cheque</option>
+                                    <x-common.payment-type-options :selectedPaymentType="$sale->payment_type" />
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-credit-card"

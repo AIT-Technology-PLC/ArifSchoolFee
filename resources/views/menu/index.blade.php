@@ -895,8 +895,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management'))
-            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense'])
+        @if (isFeatureEnabled('Purchase Management', 'Supplier Management', 'Debt Management', 'Credit Management', 'Expense Management', 'Customer Deposit Management'))
+            @canany(['Read Purchase', 'Read Supplier', 'Read Debt', 'Read Credit', 'Read Expense', 'Read Customer Deposit'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -981,6 +981,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Credits
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Customer Deposit Management'))
+                                @can('Read Customer Deposit')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('customer-deposits.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-sack-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Deposits
                                         </span>
                                     </div>
                                 @endcan
