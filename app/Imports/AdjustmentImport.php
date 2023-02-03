@@ -102,6 +102,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
         $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
+        $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
     }
