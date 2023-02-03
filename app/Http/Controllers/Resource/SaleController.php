@@ -54,8 +54,6 @@ class SaleController extends Controller
 
             foreach ($saleDetails as $saleDetail) {
                 if ($saleDetail->product->isBatchable() && is_null($saleDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($saleDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $saleDetail->product_id)
                         ->when($saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -63,6 +61,8 @@ class SaleController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($saleDetail->id);
+
                         $sale->saleDetails()->create([
                             'product_id' => $saleDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,
@@ -128,8 +128,6 @@ class SaleController extends Controller
 
             foreach ($saleDetails as $saleDetail) {
                 if ($saleDetail->product->isBatchable() && is_null($saleDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($saleDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $saleDetail->product_id)
                         ->when($saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -137,6 +135,8 @@ class SaleController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($saleDetail->id);
+
                         $sale->saleDetails()->create([
                             'product_id' => $saleDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,

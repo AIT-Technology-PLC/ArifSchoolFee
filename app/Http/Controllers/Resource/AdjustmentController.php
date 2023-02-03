@@ -59,8 +59,6 @@ class AdjustmentController extends Controller
 
             foreach ($adjustmentDetails as $adjustmentDetail) {
                 if ($adjustmentDetail->product->isBatchable() && is_null($adjustmentDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($adjustmentDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $adjustmentDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $adjustmentDetail->warehouse_id)
@@ -69,6 +67,8 @@ class AdjustmentController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($adjustmentDetail->id);
+
                         $adjustment->adjustmentDetails()->create([
                             'product_id' => $adjustmentDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $adjustmentDetail->quantity ? $adjustmentDetail->quantity : $merchandiseBatch->quantity,
@@ -135,8 +135,6 @@ class AdjustmentController extends Controller
 
             foreach ($adjustmentDetails as $adjustmentDetail) {
                 if ($adjustmentDetail->product->isBatchable() && is_null($adjustmentDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($adjustmentDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $adjustmentDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $adjustmentDetail->warehouse_id)
@@ -145,6 +143,8 @@ class AdjustmentController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($adjustmentDetail->id);
+
                         $adjustment->adjustmentDetails()->create([
                             'product_id' => $adjustmentDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $adjustmentDetail->quantity ? $adjustmentDetail->quantity : $merchandiseBatch->quantity,

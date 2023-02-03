@@ -65,8 +65,6 @@ class TransferController extends Controller
 
             foreach ($transferDetails as $transferDetail) {
                 if ($transferDetail->product->isBatchable() && is_null($transferDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($transferDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $transferDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $transfer->transferred_from)
@@ -75,6 +73,8 @@ class TransferController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($transferDetail->id);
+
                         $transfer->transferDetails()->create([
                             'product_id' => $transferDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $transferDetail->quantity ? $transferDetail->quantity : $merchandiseBatch->quantity,
@@ -144,8 +144,6 @@ class TransferController extends Controller
 
             foreach ($transferDetails as $transferDetail) {
                 if ($transferDetail->product->isBatchable() && is_null($transferDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($transferDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $transferDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $transfer->transferred_from)
@@ -154,6 +152,8 @@ class TransferController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($transferDetail->id);
+
                         $transfer->transferDetails()->create([
                             'product_id' => $transferDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $transferDetail->quantity ? $transferDetail->quantity : $merchandiseBatch->quantity,

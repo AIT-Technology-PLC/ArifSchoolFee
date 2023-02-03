@@ -93,7 +93,7 @@ class InventoryOperationService
 
     public static function subtractFromBatch($detail, $merchandise)
     {
-        if (!$merchandise->product->isBatchable()) {
+        if (!$merchandise->product->isBatchable() || is_null($detail->merchandiseBatch)) {
             return;
         }
 

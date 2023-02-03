@@ -63,8 +63,6 @@ class GdnController extends Controller
 
             foreach ($gdnDetails as $gdnDetail) {
                 if ($gdnDetail->product->isBatchable() && is_null($gdnDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($gdnDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $gdnDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $gdnDetail->warehouse_id)
@@ -73,6 +71,8 @@ class GdnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($gdnDetail->id);
+
                         $gdn->gdnDetails()->create([
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
@@ -154,8 +154,6 @@ class GdnController extends Controller
 
             foreach ($gdnDetails as $gdnDetail) {
                 if ($gdnDetail->product->isBatchable() && is_null($gdnDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($gdnDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $gdnDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $gdnDetail->warehouse_id)
@@ -164,6 +162,8 @@ class GdnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($gdnDetail->id);
+
                         $gdn->gdnDetails()->create([
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
