@@ -41,8 +41,6 @@ class ReservationService
 
             foreach ($reservationDetails as $reservationDetail) {
                 if ($reservationDetail->product->isBatchable() && is_null($reservationDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($reservationDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $reservationDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $reservationDetail->warehouse_id)
@@ -51,6 +49,8 @@ class ReservationService
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($reservationDetail->id);
+
                         $reservation->reservationDetails()->create([
                             'product_id' => $reservationDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $reservationDetail->quantity ? $reservationDetail->quantity : $merchandiseBatch->quantity,

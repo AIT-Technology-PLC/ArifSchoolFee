@@ -45,7 +45,10 @@
                                     x-on:change="Product.changeProductCategory(getSelect2(index), billOfMaterial.product_id, billOfMaterial.product_category_id)"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70%"
+                            >
                                 <x-common.new-product-list
                                     :type="['Raw Material']"
                                     class="product-list"
@@ -76,6 +79,7 @@
                                     x-bind:id="`billOfMaterial[${index}][quantity]`"
                                     x-bind:name="`billOfMaterial[${index}][quantity]`"
                                     x-model="billOfMaterial.quantity"
+                                    x-bind:placeholder="Product.unitOfMeasurement(billOfMaterial.product_id) || ''"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
@@ -85,15 +89,6 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`billOfMaterial.${index}.quantity`)"
                                 ></span>
-                            </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(billOfMaterial.product_id)"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

@@ -45,8 +45,11 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
         $merchandise = $this->merchandises
             ->where('product_id', $this->products
                     ->where('name', $row['product_name'])
-                    ->where('code', $row['product_code'])
-                    ->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                    ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+                    ->when(
+                        !is_null($row['product_category_name']) && $row['product_category_name'] != '',
+                        fn($q) => $q->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                    )
                     ->first()
                     ->id
             )
@@ -69,8 +72,11 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
             'adjustment_id' => $this->adjustment->id,
             'product_id' => $this->products
                 ->where('name', $row['product_name'])
-                ->where('code', $row['product_code'])
-                ->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+                ->when(
+                    !is_null($row['product_category_name']) && $row['product_category_name'] != '',
+                    fn($q) => $q->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
+                )
                 ->first()
                 ->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
@@ -84,7 +90,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
-            'product_category_name' => ['required', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
+            'product_category_name' => ['nullable', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
             'quantity' => ['nullable', 'numeric', 'gte:0'],
@@ -95,6 +101,8 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
+        $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
     }

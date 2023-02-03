@@ -123,10 +123,7 @@ const Product = {
         return 0;
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
-        return Company.isPriceBeforeTax()
-            ? this.priceBeforeTax(unitPrice, quantity, productId, discount) *
-            this.taxAmount(productId)
-            : this.priceBeforeTax(unitPrice, quantity, productId, discount);
+        return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
     },
 };
 

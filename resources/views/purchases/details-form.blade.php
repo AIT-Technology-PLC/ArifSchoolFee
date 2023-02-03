@@ -45,7 +45,10 @@
                                     x-on:change="Product.changeProductCategory(getSelect2(index), purchase.product_id, purchase.product_category_id)"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70%"
+                            >
                                 <x-common.new-product-list
                                     class="product-list"
                                     x-bind:id="`purchase[${index}][product_id]`"
@@ -75,7 +78,7 @@
                                     x-bind:id="`purchase[${index}][quantity]`"
                                     x-bind:name="`purchase[${index}][quantity]`"
                                     x-model="purchase.quantity"
-                                    placeholder="Purchase Quantity"
+                                    x-bind:placeholder="Product.unitOfMeasurement(purchase.product_id) || ''"
                                 />
                                 <x-common.icon
                                     name="fas fa-balance-scale"
@@ -85,15 +88,6 @@
                                     class="help has-text-danger"
                                     x-text="$store.errors.getErrors(`purchase.${index}.quantity`)"
                                 ></span>
-                            </x-forms.control>
-                            <x-forms.control>
-                                <x-common.button
-                                    tag="button"
-                                    type="button"
-                                    mode="button"
-                                    class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(purchase.product_id)"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

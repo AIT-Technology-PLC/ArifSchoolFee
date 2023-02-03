@@ -60,8 +60,8 @@ class AdjustmentDetailDatatable extends DataTable
             Column::make('operation', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
-            Column::make('batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
-            Column::make('expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('reason'),
             Column::computed('actions'),
         ];

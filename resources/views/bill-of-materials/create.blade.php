@@ -26,7 +26,10 @@
                             >
                                 <x-common.category-list />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                class="has-icons-left"
+                                style="width: 70%"
+                            >
                                 <x-common.new-product-list
                                     id="product_id"
                                     name="product_id"

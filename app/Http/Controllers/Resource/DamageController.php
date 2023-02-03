@@ -59,8 +59,6 @@ class DamageController extends Controller
 
             foreach ($damageDetails as $damageDetail) {
                 if ($damageDetail->product->isBatchable() && is_null($damageDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($damageDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $damageDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $damageDetail->warehouse_id)
@@ -69,6 +67,8 @@ class DamageController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($damageDetail->id);
+
                         $damage->damageDetails()->create([
                             'product_id' => $damageDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $damageDetail->quantity ? $damageDetail->quantity : $merchandiseBatch->quantity,
@@ -133,8 +133,6 @@ class DamageController extends Controller
 
             foreach ($damageDetails as $damageDetail) {
                 if ($damageDetail->product->isBatchable() && is_null($damageDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($damageDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $damageDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $damageDetail->warehouse_id)
@@ -143,6 +141,8 @@ class DamageController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($damageDetail->id);
+
                         $damage->damageDetails()->create([
                             'product_id' => $damageDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $damageDetail->quantity ? $damageDetail->quantity : $merchandiseBatch->quantity,

@@ -59,8 +59,6 @@ class ReturnController extends Controller
 
             foreach ($returnDetails as $returnDetail) {
                 if ($returnDetail->product->isBatchable() && is_null($returnDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($returnDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $returnDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $returnDetail->warehouse_id)
@@ -69,6 +67,8 @@ class ReturnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($returnDetail->id);
+
                         $return->returnDetails()->create([
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
@@ -136,8 +136,6 @@ class ReturnController extends Controller
 
             foreach ($returnDetails as $returnDetail) {
                 if ($returnDetail->product->isBatchable() && is_null($returnDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($returnDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $returnDetail->product_id)
                         ->whereRelation('merchandise', 'warehouse_id', $returnDetail->warehouse_id)
@@ -146,6 +144,8 @@ class ReturnController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($returnDetail->id);
+
                         $return->returnDetails()->create([
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,

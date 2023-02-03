@@ -55,8 +55,8 @@ class TransferDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
-            Column::make('batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
-            Column::make('expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('description')->visible(false),
             Column::computed('actions'),
         ];
