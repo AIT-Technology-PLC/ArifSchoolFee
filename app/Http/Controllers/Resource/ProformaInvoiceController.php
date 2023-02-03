@@ -57,8 +57,6 @@ class ProformaInvoiceController extends Controller
 
             foreach ($proformaInvoiceDetails as $proformaInvoiceDetail) {
                 if ($proformaInvoiceDetail->product->isBatchable() && is_null($proformaInvoiceDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($proformaInvoiceDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $proformaInvoiceDetail->product_id)
                         ->when($proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -66,6 +64,8 @@ class ProformaInvoiceController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($proformaInvoiceDetail->id);
+
                         $proformaInvoice->proformaInvoiceDetails()->create([
                             'product_id' => $proformaInvoiceDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,
@@ -134,8 +134,6 @@ class ProformaInvoiceController extends Controller
 
             foreach ($proformaInvoiceDetails as $proformaInvoiceDetail) {
                 if ($proformaInvoiceDetail->product->isBatchable() && is_null($proformaInvoiceDetail->merchandise_batch_id)) {
-                    $deletableDetails->push($proformaInvoiceDetail->id);
-
                     $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
                         ->whereRelation('merchandise', 'product_id', $proformaInvoiceDetail->product_id)
                         ->when($proformaInvoiceDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -143,6 +141,8 @@ class ProformaInvoiceController extends Controller
                         ->get();
 
                     foreach ($merchandiseBatches as $merchandiseBatch) {
+                        $deletableDetails->push($proformaInvoiceDetail->id);
+
                         $proformaInvoice->proformaInvoiceDetails()->create([
                             'product_id' => $proformaInvoiceDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,

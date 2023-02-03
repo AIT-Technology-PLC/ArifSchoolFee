@@ -135,16 +135,13 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                      this.taxAmount(productId);
+                this.taxAmount(productId);
         }
 
         return 0;
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
-        return Company.isPriceBeforeTax()
-            ? this.priceBeforeTax(unitPrice, quantity, productId, discount) *
-                  this.taxAmount(productId)
-            : this.priceBeforeTax(unitPrice, quantity, productId, discount);
+        return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
     },
 };
 
