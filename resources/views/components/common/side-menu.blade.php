@@ -994,7 +994,7 @@
                                         href="{{ route('customer-deposits.index') }}"
                                         label="Deposits"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('customer-deposits.*') ? 'text-green has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('customer-deposit.*') ? 'activateAccordion' : '' }}"
+                                        x-init="{{ request()->routeIs('customer-deposits.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
