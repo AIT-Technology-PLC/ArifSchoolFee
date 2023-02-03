@@ -44,7 +44,10 @@ class UpdateReservationRequest extends FormRequest
                         $this->get('payment_type'),
                         $this->get('cash_received_type'),
                         $this->get('cash_received')
-                    ),
+                    )
+                ),
+                Rule::when(
+                    !$this->route('reservation')->isCancelled() && !$this->route('reservation')->isConverted(),
                     new CheckCustomerDepositBalance(
                         $this->get('discount'),
                         $this->get('reservation'),

@@ -3,16 +3,16 @@
 namespace App\Http\Requests;
 
 use App\Models\Sale;
-use App\Rules\ValidatePrice;
-use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\MustBelongToCompany;
-use App\Rules\CheckValidBatchNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSaleRequest extends FormRequest
 {
@@ -42,12 +42,15 @@ class UpdateSaleRequest extends FormRequest
                         $this->get('payment_type'),
                         $this->get('cash_received_type'),
                         $this->get('cash_received')
-                    ),
+                    )
+                ),
+                Rule::when(
+                    !$this->route('sale')->isApproved() && !$this->route('sale')->isCancelled(),
                     new CheckCustomerDepositBalance(
                         $this->get('discount'),
                         $this->get('sale'),
                         $this->get('payment_type'),
-                    ),
+                    )
                 ),
             ],
 

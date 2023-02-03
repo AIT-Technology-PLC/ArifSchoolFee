@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidatePrice;
-use Illuminate\Validation\Rule;
-use App\Rules\ValidateBackorder;
 use App\Rules\CheckBatchQuantity;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\MustBelongToCompany;
-use App\Rules\CheckValidBatchNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
+use App\Rules\ValidatePrice;
 use App\Rules\VerifyCashReceivedAmountIsValid;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateGdnRequest extends FormRequest
 {
@@ -43,6 +43,14 @@ class UpdateGdnRequest extends FormRequest
                         $this->get('payment_type'),
                         $this->get('cash_received_type'),
                         $this->get('cash_received')
+                    )
+                ),
+                Rule::when(
+                    !$this->route('gdn')->isApproved(),
+                    new CheckCustomerDepositBalance(
+                        $this->get('discount'),
+                        $this->get('gdn'),
+                        $this->get('payment_type'),
                     )
                 ),
             ],
@@ -76,11 +84,6 @@ class UpdateGdnRequest extends FormRequest
                     $this->get('discount'),
                     $this->get('gdn'),
                     $this->get('cash_received_type')
-                ),
-                new CheckCustomerDepositBalance(
-                    $this->get('discount'),
-                    $this->get('gdn'),
-                    $this->get('payment_type'),
                 ),
             ],
 
