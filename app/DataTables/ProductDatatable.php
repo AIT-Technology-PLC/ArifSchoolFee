@@ -19,17 +19,6 @@ class ProductDatatable extends DataTable
             ->editColumn('category', function ($product) {
                 return $product->productCategory->name;
             })
-            ->editColumn('price', function ($product) {
-                if (!$product->price) {
-                    return 'N/A';
-                }
-
-                if ($product->price->isFixed()) {
-                    return money($product->price->fixed_price);
-                }
-
-                return money($product->price->min_price) . ' - ' . money($product->price->max_price);
-            })
             ->editColumn('supplier', function ($product) {
                 return $product->supplier->company_name ?? 'N/A';
             })
@@ -75,7 +64,6 @@ class ProductDatatable extends DataTable
                 'updatedBy:id,name',
                 'supplier:id,company_name',
                 'brand:id,name',
-                'price',
                 'tax:id,type',
             ]);
     }
@@ -87,7 +75,6 @@ class ProductDatatable extends DataTable
             Column::make('name')->title('Product'),
             Column::make('code')->className('text-purple has-text-weight-medium')->content('N/A'),
             Column::make('category', 'productCategory.name'),
-            Column::computed('price')->addClass('has-text-centered')->visible(false),
             Column::make('type'),
             Column::make('supplier', 'supplier.company_name')->visible(false),
             Column::make('brand', 'brand.name')->visible(false),

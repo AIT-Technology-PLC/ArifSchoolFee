@@ -14,23 +14,27 @@ class Price extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function scopeFixed($query)
+    public function isActive()
     {
-        return $query->where('type', 'fixed');
+        return $this->is_active;
     }
 
-    public function scopeRange($query)
+    public function scopeActive($query)
     {
-        return $query->where('type', 'range');
+        return $query->where('is_active', 1);
     }
 
-    public function isFixed()
+    public function scopeNotActive($query)
     {
-        return $this->type == 'fixed';
+        return $query->where('is_active', 0);
     }
 }

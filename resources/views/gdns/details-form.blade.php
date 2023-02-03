@@ -184,13 +184,48 @@
                             ></sup>
                         </x-forms.label>
                         <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                x-cloak
+                                x-show="Product.prices(gdn.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    type="number"
+                                    x-bind:id="`gdn[${index}][unit_price]`"
+                                    x-bind:name="`gdn[${index}][unit_price]`"
+                                    x-init="gdn.hasOwnProperty('originalUnitPrice') && (gdn.unit_price = gdn.originalUnitPrice)"
+                                    x-model="gdn.unit_price"
+                                >
+                                    <template
+                                        x-for="(price , priceIndex) in Product.prices(gdn.product_id)"
+                                        x-bind:key="priceIndex"
+                                    >
+                                        <option
+                                            x-bind:value="price.fixed_price"
+                                            x-text="price.price_tag ? `${price.fixed_price} (${price.price_tag})` : price.fixed_price"
+                                            x-bind:selected="price.fixed_price == gdn.unit_price"
+                                        ></option>
+                                    </template>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`gdn.${index}.unit_price`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control
+                                x-show="!Product.prices(gdn.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
                                 <x-forms.input
                                     x-bind:id="`gdn[${index}][unit_price]`"
                                     x-bind:name="`gdn[${index}][unit_price]`"
-                                    x-init="gdn.unit_price = gdn.originalUnitPrice"
+                                    x-init="gdn.hasOwnProperty('originalUnitPrice') && (gdn.unit_price = gdn.originalUnitPrice)"
                                     x-model="gdn.unit_price"
-                                    x-bind:readonly="Product.isPriceFixed(gdn.product_id)"
                                     type="number"
                                     placeholder="Unit Price"
                                 />
@@ -387,10 +422,6 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.gdns[index].product_id, this.gdns[index].product_category_id);
-
-                            this.gdns[index].unit_price = Product.price(
-                                this.gdns[index].product_id
-                            );
                         }
 
                         this.getInventoryLevel(index)

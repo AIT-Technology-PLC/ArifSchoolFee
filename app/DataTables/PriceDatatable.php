@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Price;
+use App\Models\Product;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -15,41 +16,33 @@ class PriceDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('product', function ($price) {
+            ->editColumn('product', function ($product) {
                 return view('components.datatables.product-code', [
-                    'product' => $price->product->name,
-                    'code' => $price->product->code ?? '',
+                    'product' => $product->name,
+                    'code' => $product->code ?? '',
                 ]);
             })
-            ->editColumn('price', function ($price) {
-                if ($price->isFixed()) {
-                    return money($price->fixed_price);
-                }
-
-                return money($price->min_price) . ' - ' . money($price->max_price);
-            })
-            ->editColumn('last update date', fn($price) => $price->updated_at->toDayDateTimeString())
-            ->editColumn('prepared by', fn($price) => $price->createdBy->name)
-            ->editColumn('edited by', fn($price) => $price->updatedBy->name)
-            ->editColumn('actions', function ($credit) {
-                return view('components.common.action-buttons', [
-                    'model' => 'prices',
-                    'id' => $credit->id,
-                    'buttons' => ['edit', 'delete'],
-                ]);
+            ->editColumn('Active Price', fn($product) => $product->active_prices_count)
+            ->editColumn('Inactive Price', fn($product) => $product->inactive_prices_count)
+            ->editColumn('actions', function ($product) {
+                return view('components.datatables.price-action', compact('product'));
             })
             ->addIndexColumn();
     }
 
-    public function query(Price $price)
+    public function query(Product $product)
     {
-        return $price
+        return $product
             ->newQuery()
-            ->select('prices.*')
-            ->with([
-                'product:id,name,code',
-                'createdBy:id,name',
-                'updatedBy:id,name',
+            ->whereHas('prices')
+            ->select('products.*')
+            ->withCount([
+                'prices as active_prices_count' => function (Builder $query) {
+                    $query->active();
+                },
+                'prices as inactive_prices_count' => function (Builder $query) {
+                    $query->notActive();
+                },
             ]);
     }
 
@@ -57,12 +50,9 @@ class PriceDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('product', 'product.name')->addClass('is-capitalized'),
-            Column::make('type', 'type')->addClass('is-capitalized'),
-            Column::computed('price')->addClass('has-text-centered'),
-            Column::make('last update date', 'updated_at')->visible(false),
-            Column::make('prepared by', 'createdBy.name'),
-            Column::make('edited by', 'updatedBy.name')->visible(false),
+            Column::make('product', 'products.name')->addClass('is-capitalized'),
+            Column::make('Active Price', 'active_prices_count')->addClass('has-text-centered'),
+            Column::make('Inactive Price', 'inactive_prices_count')->addClass('has-text-centered'),
             Column::computed('actions')->className('actions'),
         ];
     }

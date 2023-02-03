@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['productCategory', 'price', 'tax'])->orderBy('name')->get();
+        $products = Product::with(['productCategory', 'prices', 'tax'])->orderBy('name')->get();
 
         return $products->map(function ($product) {
             return [
@@ -28,7 +28,7 @@ class ProductController extends Controller
 
                 'product_category_id' => $product->product_category_id,
                 'product_category_name' => $product->productCategory->name,
-                'price' => $product->price,
+                'prices' => $product->prices()->active()->get(),
                 'is_batchable' => $product->is_batchable,
                 'is_active' => $product->is_active,
                 'is_active_for_sale' => $product->is_active_for_sale,
@@ -43,7 +43,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->with('price:id,type,fixed_price,min_price,max_price');
+        $product->with('prices:id,fixed_price');
 
         return collect([
             'id' => $product->id,
@@ -53,8 +53,7 @@ class ProductController extends Controller
             'min_on_hand' => $product->min_on_hand,
             'type' => $product->type,
             'unit_of_measurement' => $product->unit_of_measurement,
-            'price_type' => $product->price ? $product->price->type : '',
-            'price' => $product->price->fixed_price ?? $product->price->max_price ?? '.00',
+            'prices' => $product->prices()->active()->get(),
         ]);
     }
 

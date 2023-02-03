@@ -17,28 +17,10 @@ const Product = {
             (product) => productCategoryId == product.product_category_id
         );
     },
-    price(productId) {
+    prices(productId) {
         let product = this.whereProductId(productId);
 
-        if (this.isPriceFixed(productId)) {
-            return product.price.fixed_price;
-        }
-
-        if (this.isPriceRange(productId)) {
-            return product.price.max_price;
-        }
-
-        return "";
-    },
-    isPriceFixed(productId) {
-        let product = this.whereProductId(productId);
-
-        return product?.price?.type == "fixed";
-    },
-    isPriceRange(productId) {
-        let product = this.whereProductId(productId);
-
-        return product?.price?.type == "range";
+        return product?.prices || [];
     },
     isBatchable(productId) {
         let product = this.whereProductId(productId);
@@ -135,7 +117,7 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                      this.taxAmount(productId);
+                this.taxAmount(productId);
         }
 
         return 0;
@@ -143,7 +125,7 @@ const Product = {
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return Company.isPriceBeforeTax()
             ? this.priceBeforeTax(unitPrice, quantity, productId, discount) *
-                  this.taxAmount(productId)
+            this.taxAmount(productId)
             : this.priceBeforeTax(unitPrice, quantity, productId, discount);
     },
 };
