@@ -4,22 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="deposits"
                 :amount="$totalCustomerDeposits"
                 icon="fa-solid fa-sack-dollar"
             />
         </div>
-        <div class="column is-6 p-lr-0">
-            <x-common.index-insight
-                :amount="$totalUniqueCustomers"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Unique Customer"
-            />
-        </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 amount="{{ number_format($totalDeposits, 2) }}"
                 border-color="#86843d"
@@ -27,7 +19,7 @@
                 label="Total Deposit Balance (in {{ userCompany()->currency }})"
             />
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 amount="{{ number_format($totalAvailableBalance, 2) }}"
                 border-color="#86843d"

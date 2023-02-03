@@ -3,15 +3,16 @@
 namespace App\Http\Requests;
 
 use App\Models\Sale;
-use App\Rules\CheckBatchQuantity;
-use App\Rules\CheckCustomerCreditLimit;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidatePrice;
-use App\Rules\VerifyCashReceivedAmountIsValid;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\CheckBatchQuantity;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckCustomerDepositBalance;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\VerifyCashReceivedAmountIsValid;
 
 class UpdateSaleRequest extends FormRequest
 {
@@ -41,7 +42,12 @@ class UpdateSaleRequest extends FormRequest
                         $this->get('payment_type'),
                         $this->get('cash_received_type'),
                         $this->get('cash_received')
-                    )
+                    ),
+                    new CheckCustomerDepositBalance(
+                        $this->get('discount'),
+                        $this->get('sale'),
+                        $this->get('payment_type'),
+                    ),
                 ),
             ],
 
@@ -52,8 +58,8 @@ class UpdateSaleRequest extends FormRequest
                     $fail('Credit Payment without customer is not allowed, please select a customer.');
                 }
 
-                if ($value == 'Customer Deposit' && is_null($this->get('customer_id'))) {
-                    $fail('Customer Deposit Payment without customer is not allowed, please select a customer.');
+                if ($value == 'Deposits' && is_null($this->get('customer_id'))) {
+                    $fail('Deposits Payment without customer is not allowed, please select a customer.');
                 }
             },
             ],

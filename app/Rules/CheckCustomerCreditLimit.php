@@ -49,34 +49,6 @@ class CheckCustomerCreditLimit implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!empty($this->details) && !is_null($value) && ($this->paymentType == 'Customer Deposit' || $this->paymentType != 'Credit Payment')) {
-            $customer = Customer::find($value);
-
-            if (userCompany()->isDiscountBeforeTax()) {
-                $price = Price::getGrandTotalPrice($this->details);
-            }
-
-            if (!userCompany()->isDiscountBeforeTax()) {
-                $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
-            }
-
-        }
-
-        if ($this->paymentType == 'Customer Deposit') {
-            if (empty($this->details)) {
-                $this->message = 'Please provide all payment details information.';
-                return false;
-            }
-
-            $totalDepositedBalance = $customer->sum('balance');
-
-            if ($price > $totalDepositedBalance) {
-                $this->message = 'This customer has not enough deposit balance.';
-                return false;
-            }
-
-        }
-
         if ($this->paymentType != 'Credit Payment' || is_null($value)) {
             return true;
         }
@@ -85,6 +57,8 @@ class CheckCustomerCreditLimit implements Rule
             $this->message = 'Please provide all payment details information.';
             return false;
         }
+
+        $customer = Customer::find($value);
 
         if ($customer->credit_amount_limit == 0.00) {
             return true;
@@ -95,6 +69,14 @@ class CheckCustomerCreditLimit implements Rule
         $currentCreditBalance = $totalCreditAmountProvided - $customer->credits()->sum('credit_amount_settled');
 
         $currentCreditLimit = $customer->credit_amount_limit - $currentCreditBalance;
+
+        if (userCompany()->isDiscountBeforeTax()) {
+            $price = Price::getGrandTotalPrice($this->details);
+        }
+
+        if (!userCompany()->isDiscountBeforeTax()) {
+            $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
+        }
 
         if ($this->cashReceivedType == 'amount') {
             $creditAmount = $price - $this->cashReceived;

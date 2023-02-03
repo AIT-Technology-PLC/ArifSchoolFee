@@ -33,10 +33,8 @@ class GdnService
         return DB::transaction(function () use ($gdn) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
-            if ($gdn->payment_type == 'Customer Deposit') {
-                $gdn->customer->balance = $gdn->customer->balance - $gdn->grandTotalPriceAfterDiscount;
-
-                $gdn->customer->save();
+            if ($gdn->payment_type == 'Deposits') {
+                $gdn->customer->decrementBalance($gdn->grandTotalPriceAfterDiscount);
             }
 
             if (!$isExecuted) {
@@ -329,10 +327,8 @@ class GdnService
         DB::transaction(function () use ($gdn) {
             $gdn->credit()->forceDelete();
 
-            if ($gdn->payment_type == 'Customer Deposit') {
-                $gdn->customer->balance = $gdn->customer->balance + $gdn->grandTotalPriceAfterDiscount;
-
-                $gdn->customer->save();
+            if ($gdn->payment_type == 'Deposits') {
+                $gdn->customer->incrementBalance($gdn->grandTotalPriceAfterDiscount);
             }
 
             $gdn->cancel();

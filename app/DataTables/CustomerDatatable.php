@@ -23,6 +23,7 @@ class CustomerDatatable extends DataTable
                 ])
                 : userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2);
             })
+            ->editColumn('balance', fn($customer) => userCompany()->currency . '. ' . number_format($customer->balance, 2))
             ->editColumn('registered on', fn($customer) => $customer->created_at->toFormattedDateString())
             ->editColumn('business_license_attachment', function ($customer) {
                 return view('components.datatables.link', [
@@ -57,6 +58,7 @@ class CustomerDatatable extends DataTable
             Column::make('company_name')->title('Name'),
             Column::make('tin')->content('N/A')->title('TIN No'),
             Column::make('credit limit', 'credit_amount_limit'),
+            Column::make('balance')->title('Deposit Balance'),
             Column::make('address')->visible(false)->content('N/A'),
             Column::make('phone')->content('N/A'),
             Column::make('contact_name')->content('N/A'),

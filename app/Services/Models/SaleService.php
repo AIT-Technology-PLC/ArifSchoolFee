@@ -21,10 +21,8 @@ class SaleService
         return DB::transaction(function () use ($sale) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale);
 
-            if ($sale->payment_type == 'Customer Deposit' && Gdn::where('sale_id', $sale->id)->doesntExist()) {
-                $sale->customer->balance = $sale->customer->balance - $sale->grandTotalPriceAfterDiscount;
-
-                $sale->customer->save();
+            if ($sale->payment_type == 'Deposits' && Gdn::where('sale_id', $sale->id)->doesntExist()) {
+                $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
             if (!$isExecuted) {
@@ -50,10 +48,8 @@ class SaleService
 
             [$isExecuted, $message] = $this->pointOfSaleService->cancel($sale);
 
-            if ($sale->payment_type == 'Customer Deposit' && Gdn::where('sale_id', $sale->id)->doesntExist() && $sale->isApproved()) {
-                $sale->customer->balance = $sale->customer->balance + $sale->grandTotalPriceAfterDiscount;
-
-                $sale->customer->save();
+            if ($sale->payment_type == 'Deposits' && Gdn::where('sale_id', $sale->id)->doesntExist() && $sale->isApproved()) {
+                $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
             if (!$isExecuted) {

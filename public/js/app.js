@@ -461,7 +461,7 @@ document.addEventListener("alpine:init", () => {
                     this.dueDate = "";
                 }
 
-                if (this.paymentType === "Cash Payment" || this.paymentType === "Customer Deposit") {
+                if (this.paymentType === "Cash Payment" || this.paymentType === "Deposits") {
                     this.bankName = "";
                     this.referenceNumber = "";
                 }
@@ -480,7 +480,7 @@ document.addEventListener("alpine:init", () => {
                     this.paymentType === "" ||
                     this.paymentType === "Credit Payment" ||
                     this.paymentType === "Cash Payment" ||
-                    this.paymentType === "Customer Deposit"
+                    this.paymentType === "Deposits"
                 );
             },
 

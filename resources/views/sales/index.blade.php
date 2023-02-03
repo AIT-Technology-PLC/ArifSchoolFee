@@ -125,7 +125,7 @@
                                         Payment Method
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Customer Deposit', 'Cheque'] as $paymentType)
+                                    @foreach (['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Deposits', 'Cheque'] as $paymentType)
                                         <option value="{{ str()->lower($paymentType) }}"> {{ $paymentType }} </option>
                                     @endforeach
                                 </x-forms.select>

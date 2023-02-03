@@ -21,19 +21,18 @@ class CustomerDepositController extends Controller
 
         $this->authorizeResource(CustomerDeposit::class);
     }
+
     public function index(CustomerDepositDatatable $datatable)
     {
         $datatable->builder()->setTableId('customer-deposits-datatable')->orderBy(1, 'asc');
 
         $totalCustomerDeposits = CustomerDeposit::count();
 
-        $totalUniqueCustomers = CustomerDeposit::groupBy('customer_id')->count();
-
         $totalAvailableBalance = Customer::sum('balance');
 
         $totalDeposits = CustomerDeposit::sum('amount');
 
-        return $datatable->render('customer-deposits.index', compact('totalCustomerDeposits', 'totalUniqueCustomers', 'totalAvailableBalance', 'totalDeposits'));
+        return $datatable->render('customer-deposits.index', compact('totalCustomerDeposits', 'totalAvailableBalance', 'totalDeposits'));
     }
 
     public function create()
@@ -80,6 +79,10 @@ class CustomerDepositController extends Controller
 
     public function update(UpdateCustomerDepositRequest $request, CustomerDeposit $customerDeposit)
     {
+        if ($customerDeposit->isApproved()) {
+            return back()->with('failedMessage', "You can't update approved deposit");
+        }
+
         $customerDeposit->update($request->validated());
 
         if ($request->hasFile('attachment')) {
@@ -93,7 +96,9 @@ class CustomerDepositController extends Controller
 
     public function destroy(CustomerDeposit $customerDeposit)
     {
-        abort_if($customerDeposit->isApproved(), 403);
+        if ($customerDeposit->isApproved()) {
+            return back()->with('failedMessage', "You can't delete approved deposit");
+        }
 
         $customerDeposit->delete();
 

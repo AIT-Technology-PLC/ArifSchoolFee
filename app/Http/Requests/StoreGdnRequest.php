@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckCustomerDepositBalance;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -42,6 +43,11 @@ class StoreGdnRequest extends FormRequest
                     $this->get('cash_received_type'),
                     $this->get('cash_received')
                 ),
+                new CheckCustomerDepositBalance(
+                    $this->get('discount'),
+                    $this->get('gdn'),
+                    $this->get('payment_type'),
+                ),
             ],
 
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
@@ -52,8 +58,8 @@ class StoreGdnRequest extends FormRequest
                     $fail('Credit Payment without customer is not allowed, please select a customer.');
                 }
 
-                if ($value == 'Customer Deposit' && is_null($this->get('customer_id'))) {
-                    $fail('Customer Deposit Payment without customer is not allowed, please select a customer.');
+                if ($value == 'Deposits' && is_null($this->get('customer_id'))) {
+                    $fail('Deposits Payment without customer is not allowed, please select a customer.');
                 }
             },
             ],

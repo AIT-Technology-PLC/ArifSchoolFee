@@ -117,4 +117,18 @@ class Customer extends Model
             return $query->whereDate('business_license_expires_on', '>=', today());
         }
     }
+
+    public function incrementBalance($amount)
+    {
+        $this->balance = $this->balance + $amount;
+
+        $this->save();
+    }
+
+    public function decrementBalance($amount)
+    {
+        $this->balance = $this->balance - $amount;
+
+        $this->save();
+    }
 }
