@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Sale;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
+use App\Rules\CheckCustomerDepositBalance;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -43,6 +44,14 @@ class UpdateSaleRequest extends FormRequest
                         $this->get('cash_received')
                     )
                 ),
+                Rule::when(
+                    !$this->route('sale')->isApproved() && !$this->route('sale')->isCancelled(),
+                    new CheckCustomerDepositBalance(
+                        $this->get('discount'),
+                        $this->get('sale'),
+                        $this->get('payment_type'),
+                    )
+                ),
             ],
 
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
@@ -50,6 +59,10 @@ class UpdateSaleRequest extends FormRequest
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
                     $fail('Credit Payment without customer is not allowed, please select a customer.');
+                }
+
+                if ($value == 'Deposits' && is_null($this->get('customer_id'))) {
+                    $fail('Deposits Payment without customer is not allowed, please select a customer.');
                 }
             },
             ],

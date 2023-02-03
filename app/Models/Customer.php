@@ -89,6 +89,11 @@ class Customer extends Model
         return $this->hasMany(BillOfMaterial::class);
     }
 
+    public function customerDeposits()
+    {
+        return $this->hasMany(CustomerDeposit::class);
+    }
+
     public function getUndueCreditAmount()
     {
         $credits = $this->credits()->unsettled()->where('due_date', '>=', today())->get();
@@ -111,5 +116,19 @@ class Customer extends Model
         if (!userCompany()->filterAllCustomerAndSupplier()) {
             return $query->whereDate('business_license_expires_on', '>=', today());
         }
+    }
+
+    public function incrementBalance($amount)
+    {
+        $this->balance = $this->balance + $amount;
+
+        $this->save();
+    }
+
+    public function decrementBalance($amount)
+    {
+        $this->balance = $this->balance - $amount;
+
+        $this->save();
     }
 }
