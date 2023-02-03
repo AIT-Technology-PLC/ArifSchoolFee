@@ -51,23 +51,15 @@
                                         Customer <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.field class="has-addons">
-                                        <x-forms.control class="has-icons-left is-expanded">
-                                            <x-forms.select
-                                                class="is-fullwidth"
+                                        <x-forms.control class="has-icons-left select is-fullwidth">
+                                            <x-common.customer-list
+                                                class="customer-list"
                                                 x-bind:id="`customerDeposit[${index}][customer_id]`"
                                                 x-bind:name="`customerDeposit[${index}][customer_id]`"
                                                 x-model="customerDeposit.customer_id"
-                                            >
-                                                <option
-                                                    selected
-                                                    value=""
-                                                > Select Customer </option>
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">
-                                                        {{ $customer->company_name }}
-                                                    </option>
-                                                @endforeach
-                                            </x-forms.select>
+                                                x-init="select2(index)"
+                                                selected-id=""
+                                            />
                                             <x-common.icon
                                                 name="fas fa-address-book"
                                                 class="is-small is-left"
@@ -90,6 +82,7 @@
                                                 x-bind:id="`customerDeposit[${index}][issued_on]`"
                                                 x-bind:name="`customerDeposit[${index}][issued_on]`"
                                                 x-model="customerDeposit.issued_on"
+                                                x-init="customerDeposit.issued_on ?? (customerDeposit.issued_on = '{{ now()->toDateTimeLocalString() }}')"
                                             />
                                             <x-common.icon
                                                 name="fas fa-calendar-alt"
@@ -273,7 +266,9 @@
 
                 async init() {
                     if (customerDeposit) {
-                        this.customerDeposits = customerDeposit;
+                        await Promise.resolve(this.customerDeposits = customerDeposit);
+
+                        await Promise.resolve($(".customer-list").trigger("change"));
 
                         return;
                     }
@@ -292,8 +287,17 @@
 
                     await Promise.resolve(this.customerDeposits.splice(index, 1));
 
+                    await Promise.resolve($(".customer-list").trigger("change"));
+
                     Pace.restart();
                 },
+                select2(index) {
+                    let select2 = initializeSelect2(this.$el, "Select Customer");
+
+                    select2.on("change", (event) => {
+                        this.customerDeposits[index].customer_id = event.target.value;
+                    });
+                }
             }));
         });
     </script>

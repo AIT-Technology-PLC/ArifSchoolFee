@@ -37,9 +37,7 @@ class CustomerDepositController extends Controller
 
     public function create()
     {
-        $customers = Customer::all();
-
-        return view('customer-deposits.create', compact('customers'));
+        return view('customer-deposits.create');
     }
 
     public function store(StoreCustomerDepositRequest $request)
@@ -52,7 +50,7 @@ class CustomerDepositController extends Controller
 
                 if (isset($customerDeposit['attachment'])) {
                     $deposit->update([
-                        'attachment' => $customerDeposit['attachment']->store('attachment', 'public'),
+                        'attachment' => $customerDeposit['attachment']->store('customer_deposits', 'public'),
                     ]);
                 }
 
@@ -87,11 +85,11 @@ class CustomerDepositController extends Controller
 
         if ($request->hasFile('attachment')) {
             $customerDeposit->update([
-                'attachment' => $customerDeposit->attachment->store('attachment', 'public'),
+                'attachment' => $customerDeposit->attachment->store('customer_deposits', 'public'),
             ]);
         }
 
-        return redirect()->route('customer-deposits.index');
+        return redirect()->route('customer-deposits.show', $customerDeposit->id);
     }
 
     public function destroy(CustomerDeposit $customerDeposit)

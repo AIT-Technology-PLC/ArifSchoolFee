@@ -89,6 +89,21 @@
                         label="Reference No"
                     />
                 </div>
+                @if ($customerDeposit->attachment)
+                    <div class="column is-12">
+                        <div class="is-uppercase is-size-7 text-green mb-3">
+                            <span class="icon">
+                                <i class="fa-solid fa-paperclip"></i>
+                            </span>
+                            <span>
+                                Attachment
+                            </span>
+                        </div>
+                        <figure class="image is-128x128 ml-5">
+                            <img src="{{ asset('/storage/' . $customerDeposit->attachment) }}" />
+                        </figure>
+                    </div>
+                @endif
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

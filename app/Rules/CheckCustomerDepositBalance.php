@@ -52,7 +52,7 @@ class CheckCustomerDepositBalance implements Rule
 
         $customer = Customer::find($value);
 
-        $totalDepositedBalance = $customer->sum('balance');
+        $totalDepositedBalance = $customer->balance;
 
         if (userCompany()->isDiscountBeforeTax()) {
             $price = Price::getGrandTotalPrice($this->details);
