@@ -93,6 +93,8 @@ class CustomerDepositController extends Controller
 
     public function destroy(CustomerDeposit $customerDeposit)
     {
+        abort_if($customerDeposit->isApproved(), 403);
+
         $customerDeposit->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
