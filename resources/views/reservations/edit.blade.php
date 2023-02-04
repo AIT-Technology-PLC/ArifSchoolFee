@@ -185,7 +185,7 @@
                                     x-bind:class="{ 'is-hidden': isPaymentNotCredit() }"
                                 >
                                     <x-forms.label for="cash_received">
-                                        Cash Received <sup class="has-text-danger">*</sup>
+                                        Advanced Payment <sup class="has-text-danger">*</sup>
                                     </x-forms.label>
                                     <x-forms.field class="has-addons">
                                         <x-forms.control>

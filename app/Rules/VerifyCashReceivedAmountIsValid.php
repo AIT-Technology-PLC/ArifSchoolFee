@@ -73,7 +73,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
         }
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && $value >= $price) {
-            $this->message = '"Cash Received" can not be greater than or equal to "Grand Total Price"';
+            $this->message = '"Advanced Payment" can not be greater than or equal to "Grand Total Price"';
 
             return false;
         }
