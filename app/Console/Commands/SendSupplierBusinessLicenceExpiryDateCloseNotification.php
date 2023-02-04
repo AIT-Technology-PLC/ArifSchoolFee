@@ -31,7 +31,7 @@ class SendSupplierBusinessLicenceExpiryDateCloseNotification extends Command
 
         foreach ($companies as $company) {
             $totalBusinessLicence = Supplier::query()
-                ->whereRaw('DATEDIFF(business_license_expires_on, CURRENT_DATE) <= ' . 30)
+                ->whereRaw('DATEDIFF(business_license_expires_on, CURRENT_DATE) <= 30')
                 ->get();
 
             if ($totalBusinessLicence->isEmpty()) {
