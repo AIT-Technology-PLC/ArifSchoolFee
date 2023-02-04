@@ -417,6 +417,10 @@ Route::post('/prices/import',
     [Action\PriceController::class, 'import'])
     ->name('prices.import');
 
+Route::get('/prices/{price}/change-status',
+    [Action\PriceController::class, 'changeStatus'])
+    ->name('prices.change_status');
+
 //Contacts
 Route::post('/contacts/import',
     [Action\ContactController::class, 'import'])

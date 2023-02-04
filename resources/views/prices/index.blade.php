@@ -4,30 +4,22 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="products"
                 :amount="$totalProducts"
                 icon="fas fa-th"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
-                :amount="$totalFixedPrices"
+                :amount="$totalWithPrice"
                 border-color="#3d8660"
                 text-color="text-green"
-                label="Fixed Price Products"
+                label="Products With Price"
             />
         </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                :amount="$totalRangePrices"
-                border-color="#86843d"
-                text-color="text-gold"
-                label="Range Price Products"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 :amount="$totalNoPrices"
                 border-color="#863d63"

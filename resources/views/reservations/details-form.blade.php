@@ -174,11 +174,47 @@
                             ></sup>
                         </x-forms.label>
                         <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                x-cloak
+                                x-show="Product.prices(reservation.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    type="number"
+                                    x-bind:id="`reservation[${index}][unit_price]`"
+                                    x-bind:name="`reservation[${index}][unit_price]`"
+                                    x-init="reservation.hasOwnProperty('originalUnitPrice') && (reservation.unit_price = reservation.originalUnitPrice)"
+                                    x-model="reservation.unit_price"
+                                >
+                                    <template
+                                        x-for="(price , priceIndex) in Product.prices(reservation.product_id)"
+                                        x-bind:key="priceIndex"
+                                    >
+                                        <option
+                                            x-bind:value="price.fixed_price"
+                                            x-text="price.price_tag ? `${price.fixed_price} (${price.price_tag})` : price.fixed_price"
+                                            x-bind:selected="price.fixed_price == reservation.unit_price"
+                                        ></option>
+                                    </template>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`reservation.${index}.unit_price`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control
+                                x-show="!Product.prices(reservation.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
                                 <x-forms.input
                                     x-bind:id="`reservation[${index}][unit_price]`"
                                     x-bind:name="`reservation[${index}][unit_price]`"
-                                    x-init="reservation.unit_price = reservation.originalUnitPrice"
+                                    x-init="reservation.hasOwnProperty('originalUnitPrice') && (reservation.unit_price = reservation.originalUnitPrice)"
                                     x-model="reservation.unit_price"
                                     type="number"
                                     placeholder="Unit Price"
@@ -376,10 +412,6 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.reservations[index].product_id, this.reservations[index].product_category_id);
-
-                            this.reservations[index].unit_price = Product.price(
-                                this.reservations[index].product_id
-                            );
                         }
 
                         this.getInventoryLevel(index)
