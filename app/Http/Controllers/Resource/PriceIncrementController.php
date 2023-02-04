@@ -41,7 +41,7 @@ class PriceIncrementController extends Controller
     {
         $currentPriceIncrementCode = nextReferenceNumber('price_increments');
 
-        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name', 'code']);
+        $products = Product::whereRelation('prices', 'is_active', 1)->orderBy('name')->get(['id', 'name', 'code']);
 
         return view('price-increments.create', compact('currentPriceIncrementCode', 'products'));
     }
@@ -52,9 +52,9 @@ class PriceIncrementController extends Controller
             $priceIncrement = PriceIncrement::create($request->validated());
 
             if ($request->validated(['target_product']) == "All Products") {
-                foreach (Price::pluck('product_id') as $productId) {
-                    $priceIncrement->priceIncrementDetails()->create(['product_id' => $productId]);
-                }
+                $priceIncrement->priceIncrementDetails()->createMany(
+                    Price::active()->get(['product_id'])->toArray()
+                );
             }
 
             if ($request->validated(['target_product']) == "Specific Products") {
@@ -84,7 +84,7 @@ class PriceIncrementController extends Controller
             return back()->with('failedMessage', 'You can not modify a price increment that is approved.');
         }
 
-        $products = Product::whereHas('price')->orderBy('name')->get(['id', 'name', 'code']);
+        $products = Product::whereRelation('prices', 'is_active', 1)->orderBy('name')->get(['id', 'name', 'code']);
 
         $priceIncrement->load(['priceIncrementDetails']);
 
@@ -103,9 +103,9 @@ class PriceIncrementController extends Controller
             $priceIncrement->priceIncrementDetails()->forceDelete();
 
             if ($request->validated(['target_product']) == "All Products") {
-                foreach (Price::pluck('product_id') as $productId) {
-                    $priceIncrement->priceIncrementDetails()->create(['product_id' => $productId]);
-                }
+                $priceIncrement->priceIncrementDetails()->createMany(
+                    Price::active()->get(['product_id'])->toArray()
+                );
             }
 
             if ($request->validated(['target_product']) == "Specific Products") {
