@@ -15,12 +15,6 @@ class CustomerDepositDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->setRowClass('is-clickable')
-            ->setRowAttr([
-                'data-url' => fn($customerDeposit) => route('customer-deposits.show', $customerDeposit->id),
-                'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
-            ])
             ->editColumn('customer', fn($customerDeposit) => $customerDeposit->customer->company_name)
             ->editColumn('status', fn($customerDeposit) => view('components.datatables.deposit-status', compact('customerDeposit')))
             ->filterColumn('status', function ($query, $keyword) {
