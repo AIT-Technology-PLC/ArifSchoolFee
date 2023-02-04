@@ -25,6 +25,8 @@ class DailyRunCommands extends Command
         'job:behind-schedule-notification',
         'debt:due-date-notification',
         'product:expiry-date-close-notification',
+        'supplier:licence-expiry-date-close-notification',
+        'customer:licence-expiry-date-close-notification',
     ];
 
     public function __construct()

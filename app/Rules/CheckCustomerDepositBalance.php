@@ -62,7 +62,7 @@ class CheckCustomerDepositBalance implements Rule
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
-        return $price < $totalDepositedBalance;
+        return $price <= $totalDepositedBalance;
     }
 
     /**

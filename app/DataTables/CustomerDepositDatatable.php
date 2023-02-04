@@ -78,7 +78,7 @@ class CustomerDepositDatatable extends DataTable
             Column::make('amount'),
             Column::make('bank_name')->visible(false),
             Column::make('reference_number')->visible(false),
-            Column::make('attachment')->visible(false),
+            Column::make('attachment')->className('actions')->visible(false),
             Column::make('issued_on')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
