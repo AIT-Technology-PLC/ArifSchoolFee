@@ -41,18 +41,16 @@ class CheckCustomerDepositBalance implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($this->paymentType != 'Deposits') {
+        if ($this->paymentType != 'Deposits' || is_null($value)) {
             return true;
         }
 
-        if (empty($this->details) || is_null($value)) {
+        if (empty($this->details)) {
             $this->message = 'Please provide all payment details information.';
             return false;
         }
 
         $customer = Customer::find($value);
-
-        $totalDepositedBalance = $customer->balance;
 
         if (userCompany()->isDiscountBeforeTax()) {
             $price = Price::getGrandTotalPrice($this->details);
@@ -62,7 +60,7 @@ class CheckCustomerDepositBalance implements Rule
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
-        return $price <= $totalDepositedBalance;
+        return $customer->balance >= $price;
     }
 
     /**
