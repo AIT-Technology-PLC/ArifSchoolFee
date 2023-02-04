@@ -17,28 +17,10 @@ const Product = {
             (product) => productCategoryId == product.product_category_id
         );
     },
-    price(productId) {
+    prices(productId) {
         let product = this.whereProductId(productId);
 
-        if (this.isPriceFixed(productId)) {
-            return product.price.fixed_price;
-        }
-
-        if (this.isPriceRange(productId)) {
-            return product.price.max_price;
-        }
-
-        return "";
-    },
-    isPriceFixed(productId) {
-        let product = this.whereProductId(productId);
-
-        return product?.price?.type == "fixed";
-    },
-    isPriceRange(productId) {
-        let product = this.whereProductId(productId);
-
-        return product?.price?.type == "range";
+        return product?.prices || [];
     },
     isBatchable(productId) {
         let product = this.whereProductId(productId);

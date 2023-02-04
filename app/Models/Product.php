@@ -39,7 +39,7 @@ class Product extends Model
         'adjustmentDetails',
         'returnDetails',
         'reservationDetails',
-        'price',
+        'prices',
         'jobDetails',
         'jobExtras',
         'billOfMaterials',
@@ -134,9 +134,9 @@ class Product extends Model
         return $this->hasMany(BillOfMaterialDetail::class);
     }
 
-    public function price()
+    public function prices()
     {
-        return $this->hasOne(Price::class);
+        return $this->hasMany(Price::class);
     }
 
     public function brand()

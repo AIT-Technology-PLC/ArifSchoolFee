@@ -29,9 +29,12 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
 
     public function model(array $row)
     {
-        $product = $this->products->firstWhere('name', $row['product_name']);
+        $product = $this->products
+            ->where('name', $row['product_name'])
+            ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
+            ->first();
 
-        if ($this->prices->where('product_id', $product->id)->count()) {
+        if ($this->prices->where('product_id', $product->id)->where('fixed_price', $row['price'])->count()) {
             return null;
         }
 
@@ -40,10 +43,9 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
             'product_id' => $product->id,
-            'type' => $row['type'],
-            'min_price' => $row['min_price'] ?? null,
-            'max_price' => $row['max_price'] ?? null,
-            'fixed_price' => $row['fixed_price'] ?? null,
+            'fixed_price' => $row['price'],
+            'price_tag' => $row['price_tag'] ?? null,
+            'is_active' => 1,
         ]);
 
         $this->prices->push($price);
@@ -54,19 +56,17 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     public function rules(): array
     {
         return [
-            'product_name' => ['required', 'string', 'max:255', 'distinct', Rule::in($this->products->pluck('name'))],
-            'type' => ['required', 'string', 'max:255', Rule::in(['fixed', 'range'])],
-            'min_price' => ['nullable', 'numeric', 'required_if:*.type,range', 'prohibited_if:*.type,fixed', 'gt:0', 'lt:*.max_price', 'max:99999999999999999999.99'],
-            'max_price' => ['nullable', 'numeric', 'required_if:*.type,range', 'prohibited_if:*.type,fixed', 'gt:0', 'gt:*.min_price', 'max:99999999999999999999.99'],
-            'fixed_price' => ['nullable', 'numeric', 'required_if:*.type,fixed', 'prohibited_if:*.type,range', 'gt:0', 'max:99999999999999999999.99'],
+            'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
+            'price' => ['required', 'numeric', 'gt:0', 'max:99999999999999999999.99'],
+            'price_tag' => ['nullable', 'string'],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
-
-        $data['type'] = str($data['type'] ?? '')->lower()->squish()->toString();
+        $data['product_code'] = str()->squish($data['product_code'] ?? null);
 
         return $data;
     }

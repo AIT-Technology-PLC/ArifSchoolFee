@@ -164,13 +164,48 @@
                             ></sup>
                         </x-forms.label>
                         <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
+                            <x-forms.control
+                                x-cloak
+                                x-show="Product.prices(returnn.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    type="number"
+                                    x-bind:id="`return[${index}][unit_price]`"
+                                    x-bind:name="`return[${index}][unit_price]`"
+                                    x-init="returnn.hasOwnProperty('originalUnitPrice') && (returnn.unit_price = returnn.originalUnitPrice)"
+                                    x-model="returnn.unit_price"
+                                >
+                                    <template
+                                        x-for="(price , priceIndex) in Product.prices(returnn.product_id)"
+                                        x-bind:key="priceIndex"
+                                    >
+                                        <option
+                                            x-bind:value="price.fixed_price"
+                                            x-text="price.price_tag ? `${price.fixed_price} (${price.price_tag})` : price.fixed_price"
+                                            x-bind:selected="price.fixed_price == returnn.unit_price"
+                                        ></option>
+                                    </template>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`return.${index}.unit_price`)"
+                                ></span>
+                            </x-forms.control>
+                            <x-forms.control
+                                x-show="!Product.prices(returnn.product_id).length"
+                                class="has-icons-left is-expanded"
+                            >
                                 <x-forms.input
                                     x-bind:id="`return[${index}][unit_price]`"
                                     x-bind:name="`return[${index}][unit_price]`"
-                                    x-init="returnn.unit_price = returnn.originalUnitPrice"
+                                    x-init="returnn.hasOwnProperty('originalUnitPrice') && (returnn.unit_price = returnn.originalUnitPrice)"
                                     x-model="returnn.unit_price"
-                                    x-bind:readonly="Product.isPriceFixed(returnn.product_id)"
                                     type="number"
                                     placeholder="Unit Price"
                                 />
@@ -338,8 +373,6 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.returns[index].product_id, this.returns[index].product_category_id);
-
-                            this.returns[index].unit_price = Product.price(this.returns[index].product_id);
                         }
                     });
                 },
