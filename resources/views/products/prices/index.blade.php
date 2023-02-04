@@ -4,7 +4,21 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="{{ $product->code ? str($product->name)->append(' (', $product->code, ')') : $product->name }}" />
+        <x-content.header
+            title="{{ $product->code ? str($product->name)->append(' - ', $product->code) : $product->name }}"
+            is-mobile
+        >
+            @can('Update Price')
+                <x-common.button
+                    tag="a"
+                    href="{{ route('prices.edit', $price->id) }}"
+                    mode="button"
+                    icon="fas fa-pen-square"
+                    label="Edit Prices"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
+        </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
             {{ $dataTable->table() }}

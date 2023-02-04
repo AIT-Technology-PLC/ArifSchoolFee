@@ -2,7 +2,7 @@
     @can('Update Price')
         <x-common.button
             tag="a"
-            href="{{ route('prices.change_status', $price->id) }}"
+            href="{{ route('prices.toggle', $price->id) }}"
             mode="button"
             data-title="Change status"
             icon="fas fa-toggle-{{ $price->isActive() ? 'on' : 'off' }}"

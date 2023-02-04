@@ -417,9 +417,9 @@ Route::post('/prices/import',
     [Action\PriceController::class, 'import'])
     ->name('prices.import');
 
-Route::get('/prices/{price}/change-status',
-    [Action\PriceController::class, 'changeStatus'])
-    ->name('prices.change_status');
+Route::get('/prices/{price}/toggle',
+    [Action\PriceController::class, 'toggle'])
+    ->name('prices.toggle');
 
 //Contacts
 Route::post('/contacts/import',

@@ -14,10 +14,13 @@ return new class extends Migration
             $table->dropColumn('max_price');
 
             $table->decimal('fixed_price', 22)->change();
-            $table->dropUnique('product_id');
 
-            $table->string('price_tag')->nullable()->after('fixed_price');
-            $table->boolean('is_active')->after('price_tag');
+            $table->dropForeign(['product_id']);
+            $table->dropUnique(['product_id']);
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->string('name')->nullable()->after('fixed_price');
+            $table->boolean('is_active')->default(1)->after('name');
         });
     }
 
@@ -29,9 +32,10 @@ return new class extends Migration
             $table->decimal('max_price', 22)->nullable();
 
             $table->decimal('fixed_price', 22)->nullable()->change();
-            $table->foreignId('product_id')->unique()->constrained()->onDelete('cascade')->onUpdate('cascade')->change();
 
-            $table->dropColumn('price_tag');
+            $table->unique('product_id');
+
+            $table->dropColumn('name');
             $table->dropColumn('is_active');
         });
     }

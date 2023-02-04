@@ -18,28 +18,36 @@ class ProductPriceController extends Controller
 
     public function index(Product $product, ProductPriceDatatable $datatable)
     {
+        $this->authorize('viewAny', Price::class);
+
         $datatable->builder()->setTableId('product-price-datatable');
 
-        return $datatable->render('products.prices.index', compact('product'));
+        $price = $product->prices()->first();
+
+        return $datatable->render('products.prices.index', compact('product', 'price'));
     }
 
     public function edit(Price $price)
     {
+        $this->authorize('update', $price);
+
         $prices = Price::where('product_id', $price->product_id)->get();
 
-        return view('products.prices.edit', compact('prices'));
+        $productId = $price->product_id;
+
+        return view('products.prices.edit', compact('price', 'prices', 'productId'));
     }
 
     public function update(UpdatePriceRequest $request, Price $price)
     {
-        $prices = collect($request->validated('price'));
+        $this->authorize('update', $price);
 
         $product = $price->product;
 
-        DB::transaction(function () use ($prices, $product) {
+        DB::transaction(function () use ($request, $product) {
             $product->prices()->forceDelete();
 
-            $product->prices()->createMany($prices);
+            $product->prices()->createMany($request->validated('price'));
         });
 
         return redirect()->route('products.prices.index', $product->id)->with('successMessage', 'Price updated successfully.');

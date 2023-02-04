@@ -46,7 +46,10 @@
                                      x-on:change="Product.changeProductCategory(getSelect2(index), price.product_id, price.product_category_id)"
                                  />
                              </x-forms.control>
-                             <x-forms.control class="has-icons-left is-expanded">
+                             <x-forms.control
+                                 class="has-icons-left is-expanded"
+                                 style="width: 70%"
+                             >
                                  <x-common.new-product-list
                                      class="product-list"
                                      x-bind:id="`price[${index}][product_id]`"
@@ -102,17 +105,17 @@
                          </x-forms.field>
                      </div>
                      <div class="column is-6">
-                         <x-forms.label x-bind:for="`price[${index}][price_tag]`">
-                             Price Tag<sup class="has-text-danger"></sup>
+                         <x-forms.label x-bind:for="`price[${index}][name]`">
+                             Price Description<sup class="has-text-danger"></sup>
                          </x-forms.label>
                          <x-forms.field>
                              <x-forms.control class="has-icons-left">
                                  <x-forms.input
-                                     x-bind:id="`price[${index}][price_tag]`"
-                                     x-bind:name="`price[${index}][price_tag]`"
+                                     x-bind:id="`price[${index}][name]`"
+                                     x-bind:name="`price[${index}][name]`"
                                      type="text"
-                                     placeholder="Price Tag"
-                                     x-model="price.price_tag"
+                                     placeholder="Price Description"
+                                     x-model="price.name"
                                  />
                                  <x-common.icon
                                      name="fas fa-tags"
@@ -120,7 +123,7 @@
                                  />
                                  <span
                                      class="help has-text-danger"
-                                     x-text="$store.errors.getErrors(`price.${index}.price_tag`)"
+                                     x-text="$store.errors.getErrors(`price.${index}.name`)"
                                  ></span>
                              </x-forms.control>
                          </x-forms.field>
@@ -167,7 +170,7 @@
          mode="button"
          label="Add More Item"
          class="bg-purple has-text-white is-small ml-3 mt-6"
-         x-on:click="add"
+         x-on:click="add({{ $productId }})"
      />
  </x-content.main>
 
@@ -194,8 +197,19 @@
 
                      this.add();
                  },
-                 add() {
-                     this.prices.push({});
+                 async add(productId = null) {
+                     if (!productId) {
+                         this.prices.push({});
+                         return;
+                     }
+
+                     await Promise.resolve(
+                         this.prices.push({
+                             product_id: productId
+                         })
+                     );
+
+                     await Promise.resolve($(".product-list").trigger("change"));
                  },
                  async remove(index) {
                      if (this.prices.length <= 0) {

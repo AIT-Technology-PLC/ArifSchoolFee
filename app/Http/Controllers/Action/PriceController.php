@@ -25,15 +25,11 @@ class PriceController extends Controller
         return back()->with('imported', __('messages.file_imported'));
     }
 
-    public function changeStatus(Price $price)
+    public function toggle(Price $price)
     {
         $this->authorize('update', $price);
 
-        if ($price->isActive()) {
-            $price->update(['is_active' => 0]);
-        } else {
-            $price->update(['is_active' => 1]);
-        }
+        $price->toggle();
 
         return back()->with('successMessage', 'Price status changed successfully.');
     }

@@ -9,6 +9,10 @@ use Illuminate\Support\Arr;
 
 class ValidatePrice implements Rule
 {
+    private $details;
+
+    private $message;
+
     public function __construct($details = [])
     {
         $this->details = $details;
@@ -21,17 +25,23 @@ class ValidatePrice implements Rule
         $productId = request()->input($productIdKey) ?? Arr::get($this->details, $productIdKey);
 
         if (Product::where('id', $productId)->doesntExist()) {
-
+            $this->message = 'The selected product does not exist.';
             return false;
         }
 
-        $hasPrices = Price::where('product_id', $productId)->whereIn('fixed_price', $value)->exist();
+        $haveActivePrices = Price::active()->where('product_id', $productId)->exists();
 
-        return $hasPrices;
+        if (!$haveActivePrices) {
+            return true;
+        }
+
+        $this->message = 'The selected price is incorrect.';
+
+        return Price::active()->where('product_id', $productId)->where('fixed_price', $value)->exists();
     }
 
     public function message()
     {
-        return "The selected price is incorrect.";
+        return $this->message;
     }
 }

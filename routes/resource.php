@@ -87,7 +87,7 @@ Route::resource('credits.credit-settlements', Resource\CreditSettlementControlle
 
 Route::resource('customers.credits', Resource\CustomerCreditController::class)->only('index');
 
-Route::resource('prices', Resource\PriceController::class)->except(['show','edit','update']);
+Route::resource('prices', Resource\PriceController::class)->except(['show', 'edit', 'update']);
 
 Route::resource('pads', Resource\PadController::class);
 
@@ -179,6 +179,6 @@ Route::resource('brands', Resource\BrandController::class)->except(['show']);
 
 Route::resource('payrolls', Resource\PayrollController::class);
 
-Route::resource('products.prices', Resource\ProductPriceController::class)->only(['index','edit','update'])->shallow();
+Route::resource('products.prices', Resource\ProductPriceController::class)->only(['index', 'edit', 'update'])->shallow();
 
 Route::resource('customer-deposits', Resource\CustomerDepositController::class);

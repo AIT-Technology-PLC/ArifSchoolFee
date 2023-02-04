@@ -132,7 +132,7 @@
                         <x-forms.field>
                             <x-forms.control
                                 x-cloak
-                                x-show="Product.prices(proformaInvoice.product_id).length"
+                                x-show="Product.prices(proformaInvoice.product_id).length && Product.prices(proformaInvoice.product_id).filter((price) => price.fixed_price == proformaInvoice.unit_price).length"
                                 class="has-icons-left is-expanded"
                             >
                                 <x-forms.select
@@ -149,7 +149,7 @@
                                     >
                                         <option
                                             x-bind:value="price.fixed_price"
-                                            x-text="price.price_tag ? `${price.fixed_price} (${price.price_tag})` : price.fixed_price"
+                                            x-text="price.name ? `${price.fixed_price} (${price.name})` : price.fixed_price"
                                             x-bind:selected="price.fixed_price == proformaInvoice.unit_price"
                                         ></option>
                                     </template>
@@ -164,7 +164,7 @@
                                 ></span>
                             </x-forms.control>
                             <x-forms.control
-                                x-show="!Product.prices(proformaInvoice.product_id).length"
+                                x-show="!Product.prices(proformaInvoice.product_id).length || !Product.prices(proformaInvoice.product_id).filter((price) => price.fixed_price == proformaInvoice.unit_price).length"
                                 class="has-icons-left is-expanded"
                             >
                                 <x-forms.input
@@ -366,7 +366,14 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.proformaInvoices[index].product_id, this.proformaInvoices[index].product_category_id);
+
+                            this.proformaInvoices[index].unit_price = Product.prices(
+                                this.proformaInvoices[index].product_id
+                            ).length ? Product.prices(
+                                this.proformaInvoices[index].product_id
+                            )[0].fixed_price : "";
                         }
+
                     });
                 },
                 summernote(index) {

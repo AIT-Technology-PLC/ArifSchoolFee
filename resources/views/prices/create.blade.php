@@ -14,7 +14,10 @@
         >
             @csrf
 
-            @include('prices.partials.details-form', ['data' => session()->getOldInput()])
+            @include('prices.partials.details-form', [
+                'data' => session()->getOldInput(),
+                'productId' => null,
+            ])
 
             <x-content.footer>
                 <x-common.save-button />

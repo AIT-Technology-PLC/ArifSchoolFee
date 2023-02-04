@@ -23,11 +23,6 @@ class Price extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function isActive()
-    {
-        return $this->is_active;
-    }
-
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
@@ -36,5 +31,17 @@ class Price extends Model
     public function scopeNotActive($query)
     {
         return $query->where('is_active', 0);
+    }
+
+    public function isActive()
+    {
+        return $this->is_active;
+    }
+
+    public function toggle()
+    {
+        $this->isActive() ? $this->is_active = 0 : $this->is_active = 1;
+
+        $this->save();
     }
 }

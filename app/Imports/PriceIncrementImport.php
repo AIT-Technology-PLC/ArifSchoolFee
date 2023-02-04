@@ -50,7 +50,7 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? null);
-        $data['product_code'] = str()->squish($data['product_code'] ?? null);
+        $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
     }

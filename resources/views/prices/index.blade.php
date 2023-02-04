@@ -58,6 +58,7 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+
     @can('Import Price')
         <x-common.import
             title="Import Price"

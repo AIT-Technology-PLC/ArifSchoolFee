@@ -16,11 +16,9 @@ class ProductPriceDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('fixed_price', fn($price) => money($price->fixed_price))
-            ->editColumn('price_tag', fn($price) => $price->price_tag)
+            ->editColumn('name', fn($price) => $price->name)
             ->editColumn('is_active', fn($price) => $price->is_active ? 'Yes' : 'No')
-            ->editColumn('actions', function ($price) {
-                return view('components.datatables.price-detail-action', compact('price'));
-            })
+            ->editColumn('actions', fn($price) => view('components.datatables.price-detail-action', compact('price')))
             ->addIndexColumn();
     }
 
@@ -37,8 +35,8 @@ class ProductPriceDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('fixed_price')->title('Price'),
-            Column::make('price_tag')->content('N/A'),
-            Column::make('is_active'),
+            Column::make('name')->content('-')->title('Price Description'),
+            Column::make('is_active')->title('Active'),
             Column::computed('actions')->className('actions'),
         ];
     }

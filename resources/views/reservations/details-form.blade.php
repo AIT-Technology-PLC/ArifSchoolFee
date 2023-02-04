@@ -176,7 +176,7 @@
                         <x-forms.field>
                             <x-forms.control
                                 x-cloak
-                                x-show="Product.prices(reservation.product_id).length"
+                                x-show="Product.prices(reservation.product_id).length && Product.prices(reservation.product_id).filter((price) => price.fixed_price == reservation.unit_price).length"
                                 class="has-icons-left is-expanded"
                             >
                                 <x-forms.select
@@ -193,7 +193,7 @@
                                     >
                                         <option
                                             x-bind:value="price.fixed_price"
-                                            x-text="price.price_tag ? `${price.fixed_price} (${price.price_tag})` : price.fixed_price"
+                                            x-text="price.name ? `${price.fixed_price} (${price.name})` : price.fixed_price"
                                             x-bind:selected="price.fixed_price == reservation.unit_price"
                                         ></option>
                                     </template>
@@ -208,7 +208,7 @@
                                 ></span>
                             </x-forms.control>
                             <x-forms.control
-                                x-show="!Product.prices(reservation.product_id).length"
+                                x-show="!Product.prices(reservation.product_id).length || !Product.prices(reservation.product_id).filter((price) => price.fixed_price == reservation.unit_price).length"
                                 class="has-icons-left is-expanded"
                             >
                                 <x-forms.input
@@ -412,7 +412,14 @@
 
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.reservations[index].product_id, this.reservations[index].product_category_id);
+
+                            this.reservations[index].unit_price = Product.prices(
+                                this.reservations[index].product_id
+                            ).length ? Product.prices(
+                                this.reservations[index].product_id
+                            )[0].fixed_price : "";
                         }
+
 
                         this.getInventoryLevel(index)
                     });

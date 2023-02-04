@@ -16,17 +16,18 @@ class PriceDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('product', function ($product) {
-                return view('components.datatables.product-code', [
-                    'product' => $product->name,
-                    'code' => $product->code ?? '',
-                ]);
-            })
-            ->editColumn('Active Price', fn($product) => $product->active_prices_count)
-            ->editColumn('Inactive Price', fn($product) => $product->inactive_prices_count)
-            ->editColumn('actions', function ($product) {
-                return view('components.datatables.price-action', compact('product'));
-            })
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($product) => route('products.prices.index', $product->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
+            ->editColumn('product', fn($product) => $product->name)
+            ->editColumn('code', fn($product) => $product->code ?: '-')
+            ->editColumn('Active Prices', fn($product) => $product->active_prices_count)
+            ->editColumn('Inactive Prices', fn($product) => $product->inactive_prices_count)
+            ->editColumn('Total Prices', fn($product) => $product->prices_count)
+            ->editColumn('actions', fn($product) => view('components.datatables.price-action', compact('product')))
             ->addIndexColumn();
     }
 
@@ -37,12 +38,9 @@ class PriceDatatable extends DataTable
             ->whereHas('prices')
             ->select('products.*')
             ->withCount([
-                'prices as active_prices_count' => function (Builder $query) {
-                    $query->active();
-                },
-                'prices as inactive_prices_count' => function (Builder $query) {
-                    $query->notActive();
-                },
+                'prices as prices_count' => fn(Builder $query) => $query,
+                'prices as active_prices_count' => fn(Builder $query) => $query->active(),
+                'prices as inactive_prices_count' => fn(Builder $query) => $query->notActive(),
             ]);
     }
 
@@ -50,9 +48,11 @@ class PriceDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('product', 'products.name')->addClass('is-capitalized'),
-            Column::make('Active Price', 'active_prices_count')->addClass('has-text-centered'),
-            Column::make('Inactive Price', 'inactive_prices_count')->addClass('has-text-centered'),
+            Column::make('product', 'products.name'),
+            Column::make('code', 'products.code'),
+            Column::make('Active Prices', 'active_prices_count')->searchable(false)->addClass('has-text-centered'),
+            Column::make('Inactive Prices', 'inactive_prices_count')->searchable(false)->addClass('has-text-centered'),
+            Column::make('Total Prices', 'prices_count')->searchable(false)->addClass('has-text-centered'),
             Column::computed('actions')->className('actions'),
         ];
     }

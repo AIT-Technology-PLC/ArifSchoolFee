@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with(['productCategory', 'prices', 'tax'])->orderBy('name')->get();
+        $products = Product::with(['productCategory', 'tax'])->orderBy('name')->get();
 
         return $products->map(function ($product) {
             return [

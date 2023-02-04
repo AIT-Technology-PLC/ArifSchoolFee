@@ -17,7 +17,7 @@ class StorePriceRequest extends FormRequest
         return [
             'price.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'price.*.fixed_price' => ['required', 'numeric', 'gt:0', 'max:99999999999999999999.99'],
-            'price.*.price_tag' => ['nullable', 'string'],
+            'price.*.name' => ['nullable', 'string'],
             'price.*.is_active' => ['required', 'boolean'],
         ];
     }

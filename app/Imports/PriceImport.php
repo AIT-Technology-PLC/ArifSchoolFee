@@ -44,7 +44,7 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
             'updated_by' => authUser()->id,
             'product_id' => $product->id,
             'fixed_price' => $row['price'],
-            'price_tag' => $row['price_tag'] ?? null,
+            'name' => $row['name'],
             'is_active' => 1,
         ]);
 
@@ -59,14 +59,15 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'price' => ['required', 'numeric', 'gt:0', 'max:99999999999999999999.99'],
-            'price_tag' => ['nullable', 'string'],
+            'name' => ['nullable', 'string'],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
-        $data['product_code'] = str()->squish($data['product_code'] ?? null);
+        $data['product_code'] = str()->squish($data['product_code'] ?? '');
+        $data['name'] = str()->squish($data['name'] ?? '');
 
         return $data;
     }
