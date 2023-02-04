@@ -1224,7 +1224,7 @@
                                 <i class="fas fa-cog"></i>
                             </span>
                             <span class="ml-2">
-                                General Settings
+                                Settings
                             </span>
                         </x-slot>
                     </x-content.header>

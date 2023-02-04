@@ -48,6 +48,7 @@
                                     name="fas fa-user"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="customer_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -168,7 +169,7 @@
                                                 x-model="paymentType"
                                                 x-on:change="changePaymentMethod"
                                             >
-                                                <x-common.payment-type-options :selectedPaymentType="$reservation->payment_type" />
+                                                <x-common.payment-type-options :selectedPaymentType="old('payment_type', $reservation->payment_type)" />
                                             </x-forms.select>
                                             <x-common.icon
                                                 name="fas fa-credit-card"

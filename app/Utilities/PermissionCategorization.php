@@ -76,6 +76,7 @@ class PermissionCategorization
         'customer' => [
             'label' => 'Customer',
             'feature' => 'Customer Management',
+            'exclude' => ['Customer Deposit']
         ],
         'credit' => [
             'label' => 'Credit',

@@ -8,9 +8,9 @@
         </span>
     </span>
 @else
-    <span class="tag is-small bg-gold has-text-white">
+    <span class="tag is-small bg-green has-text-white">
         <span class="icon">
-            <i class="fas fa-exclamation-circle"></i>
+            <i class="fas fa-check-circle"></i>
         </span>
         <span>
             Approved

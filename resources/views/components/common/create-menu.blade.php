@@ -84,18 +84,18 @@
             @endif
 
             @if (isFeatureEnabled(
-                'Employee Management',
-                'Department Management',
-                'Employee Transfer',
-                'Attendance Management',
-                'Warning Management',
-                'Advancement Management',
-                'Leave Management',
-                'Expense Claim',
-                'Announcement Management',
-                'Compensation Management',
-                'Compensation Adjustment',
-                'Payroll Management'))
+                    'Employee Management',
+                    'Department Management',
+                    'Employee Transfer',
+                    'Attendance Management',
+                    'Warning Management',
+                    'Advancement Management',
+                    'Leave Management',
+                    'Expense Claim',
+                    'Announcement Management',
+                    'Compensation Management',
+                    'Compensation Adjustment',
+                    'Payroll Management'))
                 @canany(['Create Employee', 'Create Department', 'Create Employee Transfer', 'Create Attendance', 'Create Warning', 'Create Advancement', 'Create Leave', 'Create Expense Claim', 'Create Announcement', 'Create Compensation', 'Create Compensation Adjustment', 'Create Payroll'])
                     <x-content.header>
                         <x-slot name="header">
@@ -905,7 +905,7 @@
                                 name="fas fa-users"
                                 class="is-size-6 text-green"
                             />
-                            <span class="ml-2 is-size-6 text-green"> Employees </span>
+                            <span class="ml-2 is-size-6 text-green"> Settings </span>
                         </x-slot>
                     </x-content.header>
                     <x-content.footer>

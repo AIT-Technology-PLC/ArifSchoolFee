@@ -3,7 +3,6 @@
 namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
-use App\Models\Gdn;
 use App\Services\Integrations\PointOfSaleService;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +20,7 @@ class SaleService
         return DB::transaction(function () use ($sale) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale);
 
-            if ($sale->payment_type == 'Deposits' && Gdn::where('sale_id', $sale->id)->doesntExist()) {
+            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -48,7 +47,7 @@ class SaleService
 
             [$isExecuted, $message] = $this->pointOfSaleService->cancel($sale);
 
-            if ($sale->payment_type == 'Deposits' && Gdn::where('sale_id', $sale->id)->doesntExist() && $sale->isApproved()) {
+            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist() && $sale->isApproved()) {
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 

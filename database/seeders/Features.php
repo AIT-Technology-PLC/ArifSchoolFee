@@ -395,6 +395,7 @@ class Features extends Seeder
                         'Customer Report',
                         'Expense Report',
                         'Daily Inventory Level Report',
+                        'Customer Deposit Management',
                         'User Management',
                         'General Settings',
                         'Notification Management',

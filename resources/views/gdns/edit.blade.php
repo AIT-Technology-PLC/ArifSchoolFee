@@ -178,7 +178,7 @@
                                             x-model="paymentType"
                                             x-on:change="changePaymentMethod"
                                         >
-                                    <x-common.payment-type-options :selectedPaymentType="$gdn->payment_type" />
+                                            <x-common.payment-type-options :selectedPaymentType="old('payment_type', $gdn->payment_type)" />
                                         </x-forms.select>
                                         <x-common.icon
                                             name="fas fa-credit-card"

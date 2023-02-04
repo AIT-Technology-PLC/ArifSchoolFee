@@ -15,6 +15,12 @@ class CustomerDepositDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->setRowClass('is-clickable')
+            ->setRowAttr([
+                'data-url' => fn($customerDeposit) => route('customer-deposits.show', $customerDeposit->id),
+                'x-data' => 'showRowDetails',
+                '@click' => 'showDetails',
+            ])
             ->editColumn('customer', fn($customerDeposit) => $customerDeposit->customer->company_name)
             ->editColumn('status', fn($customerDeposit) => view('components.datatables.deposit-status', compact('customerDeposit')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -66,14 +72,14 @@ class CustomerDepositDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('customer', 'customer.company_name')->className('has-text-centered'),
+            Column::make('customer', 'customer.company_name'),
             Column::make('status')->orderable(false),
-            Column::make('issued_on')->className('has-text-right'),
             Column::make('deposited_at')->className('has-text-right'),
             Column::make('amount'),
-            Column::make('bank_name'),
-            Column::make('reference_number'),
-            Column::make('attachment'),
+            Column::make('bank_name')->visible(false),
+            Column::make('reference_number')->visible(false),
+            Column::make('attachment')->visible(false),
+            Column::make('issued_on')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

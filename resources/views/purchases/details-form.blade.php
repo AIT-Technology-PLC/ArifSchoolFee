@@ -46,7 +46,7 @@
                                 />
                             </x-forms.control>
                             <x-forms.control
-                                class="has-icons-left"
+                                class="has-icons-left is-expanded"
                                 style="width: 70%"
                             >
                                 <x-common.new-product-list
@@ -101,7 +101,6 @@
                                     type="number"
                                     x-bind:id="`purchase[${index}][unit_price]`"
                                     x-bind:name="`purchase[${index}][unit_price]`"
-                                    x-init="purchase.unit_price = purchase.originalUnitPrice"
                                     x-model="purchase.unit_price"
                                     placeholder="Purchase Price"
                                 />

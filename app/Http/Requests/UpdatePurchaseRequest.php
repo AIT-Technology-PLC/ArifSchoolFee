@@ -19,7 +19,7 @@ class UpdatePurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', new UniqueReferenceNum('purchases', $this->route('purchase')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
+            'code' => ['required', 'integer', new UniqueReferenceNum('purchases', $this->route('purchase')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'type' => ['required', 'string', Rule::in(['Local Purchase', 'Import'])],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers'),
                 new CheckSupplierDebtLimit(
