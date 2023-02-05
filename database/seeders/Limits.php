@@ -22,6 +22,7 @@ class Limits extends Seeder
             $premium = Plan::firstWhere('name', 'premium');
             $tender = Plan::firstWhere('name', 'tender');
 
+            $v2Starter = Plan::firstWhere('name', 'v2-starter');
             $v2Standard = Plan::firstWhere('name', 'v2-standard');
             $v2Professional = Plan::firstWhere('name', 'v2-professional');
             $v2Premium = Plan::firstWhere('name', 'v2-premium');
@@ -45,6 +46,8 @@ class Limits extends Seeder
                 $warehouseLimit->id => ['amount' => 6],
                 $userLimit->id => ['amount' => 8],
             ]);
+
+            $v2Starter->limits()->syncWithPivotValues([$warehouseLimit->id, $userLimit->id], ['amount' => 1]);
 
             $v2Standard->limits()->syncWithPivotValues([$warehouseLimit->id, $userLimit->id], ['amount' => 1]);
 

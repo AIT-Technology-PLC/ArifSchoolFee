@@ -30,6 +30,11 @@ class Plans extends Seeder
         ]);
 
         Plan::firstOrCreate([
+            'name' => 'v2-starter',
+            'is_enabled' => 1,
+        ]);
+
+        Plan::firstOrCreate([
             'name' => 'v2-standard',
             'is_enabled' => 1,
         ]);

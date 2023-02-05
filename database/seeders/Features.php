@@ -261,6 +261,7 @@ class Features extends Seeder
             $premium = Plan::firstWhere('name', 'premium');
             $tender = Plan::firstWhere('name', 'tender');
 
+            $v2Starter = Plan::firstWhere('name', 'v2-starter');
             $v2Standard = Plan::firstWhere('name', 'v2-standard');
             $v2Professional = Plan::firstWhere('name', 'v2-professional');
             $v2Premium = Plan::firstWhere('name', 'v2-premium');
@@ -312,6 +313,24 @@ class Features extends Seeder
                 $features
                     ->whereNotIn('name', [
                         'Tender Management',
+                    ])
+                    ->pluck('id')
+                    ->toArray()
+            );
+
+            $v2Starter->features()->sync(
+                $features
+                    ->whereIn('name', [
+                        'Merchandise Inventory',
+                        'Inventory History',
+                        'Warehouse Management',
+                        'Grn Management',
+                        'Gdn Management',
+                        'Product Management',
+                        'User Management',
+                        'General Settings',
+                        'Notification Management',
+                        'Push Notification',
                     ])
                     ->pluck('id')
                     ->toArray()
