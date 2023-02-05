@@ -327,6 +327,7 @@ class Features extends Seeder
                         'Grn Management',
                         'Gdn Management',
                         'Product Management',
+                        'Sales Report',
                         'User Management',
                         'General Settings',
                         'Notification Management',
