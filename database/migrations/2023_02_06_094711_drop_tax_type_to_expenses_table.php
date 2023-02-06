@@ -14,8 +14,16 @@ return new class extends Migration
             $table->foreignId('tax_id')->nullable()->after('supplier_id')->constrained()->onDelete('set null')->onUpdate('cascade');
             $expenses = Expense::get();
             foreach ($expenses as $expense) {
-                $taxType = Tax::where('type', $expense->tax_type)->first();
-                $expense->tax_id = $taxType->id;
+                if ($expense->tax_type == null) {
+                    $taxType = Tax::where('type', 'NONE')->first();
+                    $expense->tax_id = $taxType->id;
+                }
+
+                if ($expense->tax_type != null) {
+                    $taxType = Tax::where('type', $expense->tax_type)->first();
+                    $expense->tax_id = $taxType->id;
+                }
+
                 $expense->save();
             }
 
