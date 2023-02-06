@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\ExpenseDetail;
 use App\Models\Supplier;
+use App\Models\Tax;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
@@ -35,6 +36,11 @@ class Expense extends Model
     public function contact()
     {
         return $this->belongsTo(Contact::class);
+    }
+
+    public function taxType()
+    {
+        return $this->belongsTo(Tax::class, 'tax_id');
     }
 
     public function getTaxAttribute()

@@ -11,6 +11,7 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\ExpenseDetail;
 use App\Models\Supplier;
+use App\Models\Tax;
 use App\Notifications\ExpenseCreated;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -44,11 +45,13 @@ class ExpenseController extends Controller
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
+        $taxTypes = Tax::orderBy('id')->get(['id', 'type']);
+
         $currentExpenseCode = nextReferenceNumber('expenses');
 
         $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
-        return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories', 'expenseNames'));
+        return view('expenses.create', compact('suppliers', 'currentExpenseCode', 'expenseCategories', 'expenseNames', 'taxTypes'));
     }
 
     public function store(StoreExpenseRequest $request)
@@ -83,11 +86,13 @@ class ExpenseController extends Controller
 
         $expenseCategories = ExpenseCategory::orderBy('name')->get(['id', 'name']);
 
+        $taxTypes = Tax::orderBy('id')->get(['id', 'type']);
+
         $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
         $expenseNames = ExpenseDetail::whereHas('expense')->distinct('name')->orderBy('name')->pluck('name');
 
-        return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories', 'expenseNames'));
+        return view('expenses.edit', compact('expense', 'suppliers', 'expenseCategories', 'expenseNames', 'taxTypes'));
     }
 
     public function update(UpdateExpenseRequest $request, Expense $expense)

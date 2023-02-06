@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Expense;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,5 +21,10 @@ class Tax extends Model
     public function isVat()
     {
         return $this->type == 'VAT';
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
     }
 }
