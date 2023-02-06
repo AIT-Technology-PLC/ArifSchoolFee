@@ -18,7 +18,7 @@ class StoreExpenseRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('expenses'), new CanEditReferenceNumber('expenses')],
-            'tax_id' => ['nullable', 'integer', new MustBelongToCompany('taxes')],
+            'tax_id' => ['required', 'integer', new MustBelongToCompany('taxes')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
