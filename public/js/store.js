@@ -330,6 +330,10 @@ const Company = {
     isPriceBeforeTax() {
         return this.company.is_price_before_vat;
     },
+
+    canSelectBatchNumberOnForms() {
+        return this.company.can_select_batch_number_on_forms;
+    }
 };
 
 const Compensation = {
