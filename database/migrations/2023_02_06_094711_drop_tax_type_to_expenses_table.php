@@ -15,17 +15,17 @@ return new class extends Migration
             $expenses = Expense::get();
             foreach ($expenses as $expense) {
                 if ($expense->tax_type == null || $expense->tax_type == 'None') {
-                    $taxType = Tax::where('type', 'NONE')->first();
+                    $taxType = Tax::where('company_id', $expense->company_id)->where('type', 'NONE')->first();
                     $expense->tax_id = $taxType->id;
                 }
 
                 if ($expense->tax_type != null && $expense->tax_type != 'None' && $expense->tax_type != 'TOT') {
-                    $taxType = Tax::where('type', $expense->tax_type)->first();
+                    $taxType = Tax::where('company_id', $expense->company_id)->where('type', $expense->tax_type)->first();
                     $expense->tax_id = $taxType->id;
                 }
 
                 if ($expense->tax_type == 'TOT') {
-                    $taxType = Tax::where('type', 'TOT2')->first();
+                    $taxType = Tax::where('company_id', $expense->company_id)->where('type', 'TOT2')->first();
                     $expense->tax_id = $taxType->id;
                 }
 
