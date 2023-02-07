@@ -19,8 +19,13 @@ return new class extends Migration
                     $expense->tax_id = $taxType->id;
                 }
 
-                if ($expense->tax_type != null && $expense->tax_type != 'None') {
+                if ($expense->tax_type != null && $expense->tax_type != 'None' && $expense->tax_type != 'TOT') {
                     $taxType = Tax::where('type', $expense->tax_type)->first();
+                    $expense->tax_id = $taxType->id;
+                }
+
+                if ($expense->tax_type == 'TOT') {
+                    $taxType = Tax::where('type', 'TOT2')->first();
                     $expense->tax_id = $taxType->id;
                 }
 

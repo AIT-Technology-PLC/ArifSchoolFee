@@ -38,7 +38,7 @@ class Expense extends Model
         return $this->belongsTo(Contact::class);
     }
 
-    public function taxType()
+    public function taxModel()
     {
         return $this->belongsTo(Tax::class, 'tax_id');
     }
@@ -54,17 +54,7 @@ class Expense extends Model
 
     public function getLocalTaxRateAttribute()
     {
-        $value = 0;
-
-        if ($this->tax_type == 'VAT') {
-            $value = 0.15;
-        }
-
-        if ($this->tax_type == 'TOT') {
-            $value = 0.02;
-        }
-
-        return $value;
+        return $this->taxModel->amount;
     }
 
     public function details()

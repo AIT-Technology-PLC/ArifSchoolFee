@@ -35,6 +35,7 @@ class ExpenseReport
             ->join('expense_categories', 'expense_details.expense_category_id', '=', 'expense_categories.id')
             ->join('expenses', 'expense_details.expense_id', '=', 'expenses.id')
             ->join('warehouses', 'expenses.warehouse_id', '=', 'warehouses.id')
+            ->join('taxes', 'expenses.tax_id', '=', 'taxes.id')
             ->leftJoin('users', 'expenses.created_by', '=', 'users.id')
             ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id')
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('expenses.warehouse_id', $this->filters['branches']))
@@ -59,12 +60,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense_after_tax
             ')
             ->first()
@@ -74,8 +70,8 @@ class ExpenseReport
     public function getTotalExpenseVat()
     {
         return (clone $this->query)
-            ->selectRaw('SUM(quantity*unit_price*0.15) AS expense_vat')
-            ->where('tax_type', 'VAT')
+            ->selectRaw('SUM(quantity*unit_price*taxes.amount) AS expense_vat')
+            ->where('taxes.type', 'VAT')
             ->first()
             ->expense_vat;
     }
@@ -83,8 +79,10 @@ class ExpenseReport
     public function getTotalExpenseTot()
     {
         return (clone $this->query)
-            ->selectRaw('SUM(quantity*unit_price*0.02) AS expense_tot')
-            ->where('tax_type', 'TOT')
+            ->selectRaw('SUM(quantity*unit_price*taxes.amount) AS expense_tot')
+            ->where('taxes.type', 'TOT2')
+            ->orWhere('taxes.type', 'TOT5')
+            ->orWhere('taxes.type', 'TOT10')
             ->first()
             ->expense_tot;
     }
@@ -93,12 +91,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 warehouses.name AS branch_name
             ')
@@ -111,12 +104,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 suppliers.company_name AS supplier_name
             ')
@@ -129,12 +117,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 users.name AS purchaser_name
             ')
@@ -147,12 +130,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 expense_categories.name AS category_name,
                 SUM(quantity) AS quantity
@@ -166,12 +144,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 expense_details.name AS name,
                 SUM(quantity) AS quantity
