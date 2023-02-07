@@ -227,7 +227,7 @@
                 adjustments: [],
 
                 async init() {
-                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (adjustment) {
                         this.adjustments = adjustment;
