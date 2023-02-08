@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Models\Purchase;
-use App\Notifications\PurchaseMade;
-use App\Services\Models\PurchaseService;
-use App\Utilities\Notifiables;
 use Illuminate\Http\Request;
+use App\Utilities\Notifiables;
+use App\Notifications\PurchaseMade;
+use App\Http\Controllers\Controller;
+use App\Notifications\PurchaseRejected;
+use App\Actions\RejectTransactionAction;
+use App\Notifications\PurchaseCancelled;
+use App\Services\Models\PurchaseService;
 use Illuminate\Support\Facades\Notification;
 
 class PurchaseController extends Controller
@@ -75,6 +78,10 @@ class PurchaseController extends Controller
             return back()->with('failedMessage', 'This purchase is not yet approved.');
         }
 
+        if ($purchase->isCancelled()) {
+            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+        }
+
         if ($purchase->isPurchased()) {
             return back()->with('failedMessage', 'This purchase is already purchased.');
         }
@@ -100,5 +107,49 @@ class PurchaseController extends Controller
         }
 
         return redirect()->route('debts.show', $purchase->debt->id);
+    }
+
+    public function reject(Purchase $purchase, RejectTransactionAction $action)
+    {
+        $this->authorize('reject', $purchase);
+
+        if ($purchase->isapproved()) {
+            return back()->with('failedMessage', 'You can not reject a purchase that is approved.');
+        }
+
+        if ($purchase->isRejected()) {
+            return back()->with('failedMessage', 'This purchase is already rejected.');
+        }
+
+        [$isExecuted, $message] = $action->execute($purchase);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+            new PurchaseRejected($purchase)
+        );
+
+        return back()->with('successMessage', $message);
+    }
+
+    public function cancel(Purchase $purchase)
+    {
+        $this->authorize('cancel', $purchase);
+
+        [$isExecuted, $message] = $this->purchaseService->cancel($purchase);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+            new PurchaseCancelled($purchase)
+        );
+
+        return back()->with('successMessage', $message);
     }
 }

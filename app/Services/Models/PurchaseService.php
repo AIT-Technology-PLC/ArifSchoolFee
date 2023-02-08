@@ -40,6 +40,10 @@ class PurchaseService
             return [false, 'Creating a debt for purchase that is not approved is not allowed.'];
         }
 
+        if ($purchase->isCancelled()) {
+            return [false, 'This purchase is already cancelled.'];
+        }
+
         if ($purchase->debt()->exists()) {
             return [false, 'A debt for this purchase was already created.'];
         }
@@ -71,6 +75,10 @@ class PurchaseService
 
     public function approve($purchase)
     {
+        if ($purchase->isRejected()) {
+            return [false, 'You can not approve a purchase that is rejected.'];
+        }
+
         return DB::transaction(function () use ($purchase) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($purchase, PurchaseApproved::class, 'Make Purchase');
 
@@ -83,5 +91,28 @@ class PurchaseService
 
             return [true, $message];
         });
+    }
+
+    public function cancel($purchase)
+    {
+        if ($purchase->isPurchased()) {
+            return [false, 'You can not cancel a purchase that is already purchased.'];
+        }
+
+        if (!$purchase->isApproved()) {
+            return [false, 'This Purchase is not approved yet.'];
+        }
+
+        if ($purchase->isCancelled()) {
+            return [false, 'This Purchase is already cancelled'];
+        }
+
+        DB::transaction(function () use ($purchase) {
+            $purchase->debt()->forceDelete();
+
+            $purchase->cancel();
+        });
+
+        return [true, ''];
     }
 }
