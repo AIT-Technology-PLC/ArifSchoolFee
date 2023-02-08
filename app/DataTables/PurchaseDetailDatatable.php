@@ -30,7 +30,7 @@ class PurchaseDetailDatatable extends DataTable
             ->editColumn('freight_volume', fn($purchaseDetail) => quantity($purchaseDetail->amount, $purchaseDetail->freight_unit))
             ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freightCostValue))
             ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freightInsuranceCostValue))
-            ->editColumn('other_cost', fn($purchaseDetail) => money($purchaseDetail->otherCostValue))
+            ->editColumn('other_cost', fn($purchaseDetail) => money($purchaseDetail->otherCostBeforeTaxValue))
             ->editColumn('duty_paying_value', fn($purchaseDetail) => money($purchaseDetail->dutyPayingValue))
             ->editColumn('custom_duty_tax', fn($purchaseDetail) => money($purchaseDetail->customDutyTax))
             ->editColumn('excise_tax', fn($purchaseDetail) => money($purchaseDetail->exciseTaxAmount))

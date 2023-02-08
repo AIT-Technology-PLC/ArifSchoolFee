@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::table('purchases', function (Blueprint $table) {
             $table->decimal('exchange_rate', 30, 10)->nullable()->change();
 
-            $table->decimal('local_other_costs', 22)->default(0.00)->after('other_costs');
+            $table->decimal('other_costs_after_tax', 22)->default(0.00)->after('other_costs');
+            $table->renameColumn('other_costs', 'other_costs_before_tax');
         });
 
         Schema::table('purchase_details', function (Blueprint $table) {
@@ -24,7 +25,7 @@ return new class extends Migration
         Schema::table('purchases', function (Blueprint $table) {
             $table->decimal('exchange_rate', 22)->nullable()->change();
 
-            $table->dropColumn('local_other_costs');
+            $table->dropColumn('other_costs_after_tax');
         });
 
         Schema::table('purchase_details', function (Blueprint $table) {

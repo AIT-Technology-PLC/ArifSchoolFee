@@ -15,8 +15,8 @@
         '{{ old('freight_cost') }}',
         '{{ old('freight_insurance_cost') }}',
         '{{ old('freight_unit') }}',
-        '{{ old('other_costs') }}',
-        '{{ old('local_other_costs') }}',
+        '{{ old('other_costs_before_tax') }}',
+        '{{ old('other_costs_after_tax') }}',
         '{{ old('freight_amount') }}')">
         <x-content.header title="New Purchase" />
         <form
@@ -430,22 +430,22 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
-                            <x-forms.label for="other_costs">
-                                Other Costs <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="other_costs_before_tax">
+                                Other Costs Before Tax <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
-                                    id="other_costs"
-                                    name="other_costs"
-                                    placeholder="Other Costs"
-                                    x-model="otherCosts"
+                                    id="other_costs_before_tax"
+                                    name="other_costs_before_tax"
+                                    placeholder="Other Costs Before Tax"
+                                    x-model="otherCostsBeforeTax"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="other_costs" />
+                                <x-common.validation-error property="other_costs_before_tax" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -455,22 +455,22 @@
                         x-show="isPurchaseByImport()"
                     >
                         <x-forms.field>
-                            <x-forms.label for="local_other_costs">
-                                Bank Related Charges <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="other_costs_after_tax">
+                                Other Costs After Tax <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
                                     type="number"
-                                    id="local_other_costs"
-                                    name="local_other_costs"
-                                    placeholder="Bank Related Charges"
-                                    x-model="localOtherCosts"
+                                    id="other_costs_after_tax"
+                                    name="other_costs_after_tax"
+                                    placeholder="Other Costs After Tax"
+                                    x-model="otherCostsAfterTax"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"
                                     class="is-large is-left"
                                 />
-                                <x-common.validation-error property="local_other_costs" />
+                                <x-common.validation-error property="other_costs_after_tax" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

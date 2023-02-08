@@ -507,8 +507,8 @@ document.addEventListener("alpine:init", () => {
             freightCost = "",
             freightInsuranceCost = "",
             freightUnit = "",
-            otherCosts = "",
-            localOtherCosts = "",
+            otherCostsBeforeTax = "",
+            otherCostsAfterTax = "",
             freightAmount = ""
         ) => ({
             purchaseType: "",
@@ -522,8 +522,8 @@ document.addEventListener("alpine:init", () => {
             freightCost: "",
             freightInsuranceCost: "",
             freightUnit: "",
-            othertCosts: "",
-            localOtherCosts: "",
+            otherCostsBeforeTax: "",
+            otherCostsAfterTax: "",
             freightAmount: "",
 
             init() {
@@ -538,8 +538,8 @@ document.addEventListener("alpine:init", () => {
                 this.freightCost = freightCost;
                 this.freightInsuranceCost = freightInsuranceCost;
                 this.freightUnit = freightUnit;
-                this.otherCosts = otherCosts;
-                this.localOtherCosts = localOtherCosts;
+                this.otherCostsBeforeTax = otherCostsBeforeTax;
+                this.otherCostsAfterTax = otherCostsAfterTax;
                 this.freightAmount = freightAmount;
             },
             changePurchaseInformation() {
@@ -551,8 +551,8 @@ document.addEventListener("alpine:init", () => {
                 this.freightUnit = "";
                 this.freightAmount = "";
                 this.paymentType = "";
-                this.otherCosts = "";
-                this.localOtherCosts = "";
+                this.otherCostsBeforeTax = "";
+                this.otherCostsAfterTax = "";
             },
             changePaymentMethod() {
                 if (this.paymentType != "Credit Payment") {

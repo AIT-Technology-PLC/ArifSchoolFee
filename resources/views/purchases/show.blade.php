@@ -90,15 +90,15 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="number_format($purchase->other_costs, 2)"
-                            label="Other Costs ({{ userCompany()->currency }})"
+                            :data="number_format($purchase->other_costs_before_tax, 2)"
+                            label="Other Cost Before Tax ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="number_format($purchase->local_other_costs, 2)"
-                            label="Bank Related Charges ({{ userCompany()->currency }})"
+                            :data="number_format($purchase->other_costs_after_tax, 2)"
+                            label="Other Cost After Tax ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">

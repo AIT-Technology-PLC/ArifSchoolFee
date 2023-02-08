@@ -77,7 +77,7 @@ class PurchaseDetail extends Model
         return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
     }
 
-    public function getOtherCostValueAttribute()
+    public function getOtherCostBeforeTaxValueAttribute()
     {
         if (!$this->purchase->isImported()) {
             return 0;
@@ -87,13 +87,13 @@ class PurchaseDetail extends Model
             return $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->amount * $this->purchase->other_costs) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
     }
 
     public function getDutyPayingValueAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return ($this->unitPriceInLocalCurrency * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostValue;
+            return ($this->unitPriceInLocalCurrency * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostBeforeTaxValue;
         }
 
         return 0;
@@ -156,7 +156,7 @@ class PurchaseDetail extends Model
     public function getTotalCostAfterTaxAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return $this->dutyPayingValue + $this->totalPayableTax + $this->purchase->local_other_costs;
+            return $this->dutyPayingValue + $this->totalPayableTax + $this->purchase->other_costs_after_tax;
         }
 
         return 0;
