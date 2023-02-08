@@ -1,6 +1,6 @@
 const d = document;
 
-const addKeyValueInputFields = (function() {
+const addKeyValueInputFields = (function () {
     let index = 0;
     const newForm = d.getElementById("newForm");
 
@@ -10,7 +10,7 @@ const addKeyValueInputFields = (function() {
 
     newForm.classList.remove("is-hidden");
 
-    return function() {
+    return function () {
         const keyValueFieldPair = `
             <div class="column is-6">
                 <div class="field">
@@ -123,7 +123,7 @@ function initiateDataTables() {
             {
                 extend: "pdfHtml5",
                 orientation: "landscape",
-                customize: function(doc) {
+                customize: function (doc) {
                     doc.content[1].margin = [0, 0, 0, 0];
                 },
                 exportOptions: {
@@ -148,7 +148,7 @@ function initializeSummernote() {
             ["forecolor", ["forecolor"]],
         ],
         callbacks: {
-            onPaste: function(e) {
+            onPaste: function (e) {
                 var bufferText = (
                     (e.originalEvent || e).clipboardData || window.clipboardData
                 ).getData("Text");
@@ -156,7 +156,7 @@ function initializeSummernote() {
                 e.preventDefault();
 
                 // Firefox fix
-                setTimeout(function() {
+                setTimeout(function () {
                     document.execCommand("insertText", false, bufferText);
                 }, 10);
             },
@@ -508,6 +508,7 @@ document.addEventListener("alpine:init", () => {
             freightInsuranceCost = "",
             freightUnit = "",
             otherCosts = "",
+            localOtherCosts = "",
             freightAmount = ""
         ) => ({
             purchaseType: "",
@@ -522,6 +523,7 @@ document.addEventListener("alpine:init", () => {
             freightInsuranceCost: "",
             freightUnit: "",
             othertCosts: "",
+            localOtherCosts: "",
             freightAmount: "",
 
             init() {
@@ -537,6 +539,7 @@ document.addEventListener("alpine:init", () => {
                 this.freightInsuranceCost = freightInsuranceCost;
                 this.freightUnit = freightUnit;
                 this.otherCosts = otherCosts;
+                this.localOtherCosts = localOtherCosts;
                 this.freightAmount = freightAmount;
             },
             changePurchaseInformation() {
@@ -549,6 +552,7 @@ document.addEventListener("alpine:init", () => {
                 this.freightAmount = "";
                 this.paymentType = "";
                 this.otherCosts = "";
+                this.localOtherCosts = "";
             },
             changePaymentMethod() {
                 if (this.paymentType != "Credit Payment") {

@@ -16,6 +16,7 @@
         '{{ old('freight_insurance_cost') }}',
         '{{ old('freight_unit') }}',
         '{{ old('other_costs') }}',
+        '{{ old('local_other_costs') }}',
         '{{ old('freight_amount') }}')">
         <x-content.header title="New Purchase" />
         <form
@@ -445,6 +446,31 @@
                                     class="is-large is-left"
                                 />
                                 <x-common.validation-error property="other_costs" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        class="column is-6"
+                        x-cloak
+                        x-show="isPurchaseByImport()"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="local_other_costs">
+                                Bank Related Charges <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    id="local_other_costs"
+                                    name="local_other_costs"
+                                    placeholder="Bank Related Charges"
+                                    x-model="localOtherCosts"
+                                />
+                                <x-common.icon
+                                    name="fas fa-money-bill"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="local_other_costs" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

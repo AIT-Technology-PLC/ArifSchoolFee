@@ -69,29 +69,36 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-arrow-trend-up"
-                            :data="$purchase->exchange_rate"
+                            :data="number_format($purchase->exchange_rate, 4)"
                             label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_cost"
+                            :data="number_format($purchase->freight_cost, 2)"
                             label="Freight Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_insurance_cost"
+                            :data="number_format($purchase->freight_insurance_cost, 2)"
                             label="Freight Insurance Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->other_costs"
+                            :data="number_format($purchase->other_costs, 2)"
                             label="Other Costs ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($purchase->local_other_costs, 2)"
+                            label="Bank Related Charges ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">

@@ -33,6 +33,24 @@ class PurchaseDetail extends Model
         return $value;
     }
 
+    public function getTotalPriceAttribute()
+    {
+        $totalPrice = number_format($this->unit_price * $this->quantity * ($this->purchase->exchange_rate ?? 1), 2, thousands_separator:'');
+        $discount = ($this->discount ?? 0.00) / 100;
+        $discountAmount = 0.00;
+
+        if (userCompany()->isDiscountBeforeTax()) {
+            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
+        }
+
+        return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+    }
+
+    public function getUnitPriceInLocalCurrencyAttribute()
+    {
+        return $this->unit_price * $this->purchase->exchange_rate;
+    }
+
     public function getFreightCostValueAttribute()
     {
         if (!$this->purchase->isImported()) {
@@ -75,7 +93,7 @@ class PurchaseDetail extends Model
     public function getDutyPayingValueAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return ($this->unit_price * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostValue;
+            return ($this->unitPriceInLocalCurrency * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostValue;
         }
 
         return 0;
@@ -138,7 +156,7 @@ class PurchaseDetail extends Model
     public function getTotalCostAfterTaxAttribute()
     {
         if ($this->purchase->type == 'Import') {
-            return $this->dutyPayingValue + $this->totalPayableTax;
+            return $this->dutyPayingValue + $this->totalPayableTax + $this->purchase->local_other_costs;
         }
 
         return 0;
