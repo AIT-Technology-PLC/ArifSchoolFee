@@ -435,6 +435,7 @@ class Features extends Seeder
                         'Warehouse Management',
                         'Grn Management',
                         'Transfer Management',
+                        'Siv Management',
                         'Product Management',
                         'Daily Inventory Level Report',
                         'User Management',
