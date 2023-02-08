@@ -12,6 +12,9 @@ return new class extends Migration
     {
         Schema::table('expenses', function (Blueprint $table) {
             $table->foreignId('tax_id')->nullable()->after('supplier_id')->constrained()->onDelete('set null')->onUpdate('cascade');
+        });
+
+        Schema::table('expenses', function (Blueprint $table) {
             $expenses = Expense::get();
             foreach ($expenses as $expense) {
                 if ($expense->tax_type == null || $expense->tax_type == 'None') {
