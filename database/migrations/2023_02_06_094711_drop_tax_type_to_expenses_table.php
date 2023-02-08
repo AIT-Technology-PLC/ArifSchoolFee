@@ -39,6 +39,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('expenses', function (Blueprint $table) {
+            $table->dropForeign('tax_id');
+            $table->dropColumn('tax_id');
             $table->string('tax_type');
         });
     }
