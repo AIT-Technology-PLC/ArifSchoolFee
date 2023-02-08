@@ -378,7 +378,7 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), reservation.product_id, reservation.product_category_id);
 
-                                if (Product.isBatchable(this.reservations[i].product_id)) {
+                                if (Product.isBatchable(this.reservations[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.reservations[i].merchandise_batch_id,
@@ -402,7 +402,7 @@
                                 this.reservations[index].product_id
                             );
 
-                        if (Product.isBatchable(this.reservations[index].product_id)) {
+                        if (Product.isBatchable(this.reservations[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.reservations[index].merchandise_batch_id,

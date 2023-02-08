@@ -310,7 +310,7 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), sale.product_id, sale.product_category_id);
 
-                                if (Product.isBatchable(this.sales[i].product_id)) {
+                                if (Product.isBatchable(this.sales[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.sales[i].merchandise_batch_id,
@@ -334,7 +334,7 @@
                                 this.sales[index].product_id
                             );
 
-                        if (Product.isBatchable(this.sales[index].product_id)) {
+                        if (Product.isBatchable(this.sales[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.sales[index].merchandise_batch_id,

@@ -227,7 +227,7 @@
                 adjustments: [],
 
                 async init() {
-                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (adjustment) {
                         this.adjustments = adjustment;
@@ -256,7 +256,7 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), adjustment.product_id, adjustment.product_category_id);
 
-                                if (Product.isBatchable(this.adjustments[i].product_id)) {
+                                if (Product.isBatchable(this.adjustments[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.adjustments[i].merchandise_batch_id,
@@ -280,7 +280,7 @@
                                 this.adjustments[index].product_id
                             );
 
-                        if (Product.isBatchable(this.adjustments[index].product_id)) {
+                        if (Product.isBatchable(this.adjustments[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.adjustments[index].merchandise_batch_id,
