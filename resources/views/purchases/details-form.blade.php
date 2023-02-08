@@ -119,7 +119,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="Product.unitOfMeasurement(purchase.product_id, 'Per')"
+                                    x-text="isPurchaseByImport() ? `In ${currency}` : Product.unitOfMeasurement(purchase.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>
