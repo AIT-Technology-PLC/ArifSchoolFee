@@ -120,7 +120,7 @@ class PurchaseController extends Controller
         }
 
         if ($purchase->isRejected()) {
-            return back()->with('failedMessage', 'You can not delete an rejected purchase.');
+            return back()->with('failedMessage', 'You can not delete a rejected purchase.');
         }
 
         $purchase->forceDelete();
