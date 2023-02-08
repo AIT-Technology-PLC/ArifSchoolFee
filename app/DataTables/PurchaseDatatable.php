@@ -25,9 +25,11 @@ class PurchaseDatatable extends DataTable
             ->editColumn('status', fn($purchase) => view('components.datatables.purchase-status', compact('purchase')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->notPurchased()->approved())
-                    ->when($keyword == 'purchased', fn($query) => $query->purchased());
+                    ->when($keyword == 'waiting-approval', fn($query) => $query->notRejected()->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->notCancelled()->notPurchased()->approved())
+                    ->when($keyword == 'purchased', fn($query) => $query->purchased())
+                    ->when($keyword == 'rejected', fn($query) => $query->rejected())
+                    ->when($keyword == 'cancelled', fn($query) => $query->cancelled());
             })
             ->editColumn('total price', function ($purchase) {
                 if (userCompany()->isDiscountBeforeTax()) {
@@ -42,6 +44,8 @@ class PurchaseDatatable extends DataTable
             ->editColumn('purchased_on', fn($purchase) => $purchase->purchased_on->toFormattedDateString())
             ->editColumn('prepared by', fn($purchase) => $purchase->createdBy->name)
             ->editColumn('approved by', fn($purchase) => $purchase->approvedBy->name ?? 'N/A')
+            ->editColumn('rejected by', fn($purchase) => $purchase->rejectedBy->name ?? 'N/A')
+            ->editColumn('cancelled by', fn($purchase) => $purchase->cancelledBy->name ?? 'N/A')
             ->editColumn('edited by', fn($purchase) => $purchase->updatedBy->name)
             ->editColumn('actions', function ($purchase) {
                 return view('components.common.action-buttons', [
@@ -59,13 +63,18 @@ class PurchaseDatatable extends DataTable
             ->newQuery()
             ->select('purchases.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('purchases.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->notPurchased()->approved())
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notRejected()->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->notCancelled()->notPurchased()->approved())
             ->when(request('status') == 'purchased', fn($query) => $query->purchased())
+            ->when(request('status') == 'rejected', fn($query) => $query->rejected())
+            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
+
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'rejectedBy:id,name',
+                'cancelledBy:id,name',
                 'supplier:id,company_name',
                 'contact:id,name',
                 'warehouse:id,name',
@@ -87,6 +96,8 @@ class PurchaseDatatable extends DataTable
             Column::make('purchased_on')->className('has-text-right'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
+            Column::make('rejected by', 'rejectedBy.name')->visible(false),
+            Column::make('cancelled by', 'cancelledBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

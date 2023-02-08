@@ -31,11 +31,15 @@ class PurchaseController extends Controller
 
         $totalPurchased = Purchase::purchased()->count();
 
-        $totalApproved = Purchase::approved()->notPurchased()->count();
+        $totalApproved = Purchase::approved()->notPurchased()->notCancelled()->count();
 
-        $totalNotApproved = Purchase::notApproved()->count();
+        $totalRejected = Purchase::rejected()->count();
 
-        return $datatable->render('purchases.index', compact('totalPurchases', 'totalPurchased', 'totalApproved', 'totalNotApproved'));
+        $totalCancelled = Purchase::cancelled()->count();
+
+        $totalNotApproved = Purchase::notApproved()->notRejected()->count();
+
+        return $datatable->render('purchases.index', compact('totalPurchases', 'totalPurchased', 'totalApproved', 'totalNotApproved', 'totalRejected', 'totalCancelled'));
     }
 
     public function create()
@@ -77,6 +81,10 @@ class PurchaseController extends Controller
             return back()->with('failedMessage', 'You can not edit an approved purchase.');
         }
 
+        if ($purchase->isRejected()) {
+            return back()->with('failedMessage', 'You can not edit a rejected purchase.');
+        }
+
         $purchase->load('purchaseDetails.product');
 
         $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
@@ -88,6 +96,10 @@ class PurchaseController extends Controller
     {
         if ($purchase->isApproved()) {
             return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit an approved purchase.');
+        }
+
+        if ($purchase->isRejected()) {
+            return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit a rejected purchase.');
         }
 
         DB::transaction(function () use ($request, $purchase) {
@@ -105,6 +117,10 @@ class PurchaseController extends Controller
     {
         if ($purchase->isApproved()) {
             return back()->with('failedMessage', 'You can not delete an approved purchase.');
+        }
+
+        if ($purchase->isRejected()) {
+            return back()->with('failedMessage', 'You can not delete an rejected purchase.');
         }
 
         $purchase->forceDelete();
