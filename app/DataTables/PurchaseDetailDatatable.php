@@ -30,7 +30,8 @@ class PurchaseDetailDatatable extends DataTable
             ->editColumn('freight_volume', fn($purchaseDetail) => quantity($purchaseDetail->amount, $purchaseDetail->freight_unit))
             ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freightCostValue))
             ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freightInsuranceCostValue))
-            ->editColumn('other_cost', fn($purchaseDetail) => money($purchaseDetail->otherCostBeforeTaxValue))
+            ->editColumn('other_cost_before_tax', fn($purchaseDetail) => money($purchaseDetail->otherCostBeforeTaxValue))
+            ->editColumn('other_cost_after_tax', fn($purchaseDetail) => money($purchaseDetail->otherCostAfterTaxValue))
             ->editColumn('duty_paying_value', fn($purchaseDetail) => money($purchaseDetail->dutyPayingValue))
             ->editColumn('custom_duty_tax', fn($purchaseDetail) => money($purchaseDetail->customDutyTax))
             ->editColumn('excise_tax', fn($purchaseDetail) => money($purchaseDetail->exciseTaxAmount))
@@ -65,13 +66,15 @@ class PurchaseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
-            Column::make('unit_cost', 'unit_price')->addClass('has-text-right'),
+            Column::make('unit_cost', 'unit_price')->addClass('has-text-right')
+                ->title(request()->route('purchase')->isImported() ? ('Unit Cost In ' . request()->route('purchase')->currency) : 'Unit Cost'),
             request()->route('purchase')->isImported() ? Column::computed('unit_cost_in_local_currency')->title('Unit Cost In ' . userCompany()->currency)->addClass('has-text-right') : null,
             Column::computed('total_cost')->addClass('has-text-right'),
             request()->route('purchase')->isImported() ? Column::computed('freight_volume')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_cost')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_insurance_cost')->visible(false)->addClass('has-text-right') : null,
-            request()->route('purchase')->isImported() ? Column::computed('other_cost')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('other_cost_before_tax')->visible(false)->addClass('has-text-right') : null,
+            request()->route('purchase')->isImported() ? Column::computed('other_cost_after_tax')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('duty_paying_value')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('custom_duty_tax')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('excise_tax')->visible(false)->addClass('has-text-right') : null,

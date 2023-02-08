@@ -93,7 +93,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`purchase[${index}][unit_price]`">
-                            Unit Price <sup class="has-text-danger">*</sup>
+                            Unit Price <span x-text="currency && `in ${currency}`"></span> <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -119,7 +119,7 @@
                                     type="button"
                                     mode="button"
                                     class="bg-green has-text-white"
-                                    x-text="isPurchaseByImport() ? `In ${currency}` : Product.unitOfMeasurement(purchase.product_id, 'Per')"
+                                    x-text="Product.unitOfMeasurement(purchase.product_id, 'Per')"
                                 />
                             </x-forms.control>
                         </x-forms.field>

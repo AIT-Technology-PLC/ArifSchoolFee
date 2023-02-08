@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('exchange_rate', 22)->nullable()->change();
 
             $table->dropColumn('other_costs_after_tax');
+            $table->renameColumn('other_costs_before_tax', 'other_costs');
         });
 
         Schema::table('purchase_details', function (Blueprint $table) {
