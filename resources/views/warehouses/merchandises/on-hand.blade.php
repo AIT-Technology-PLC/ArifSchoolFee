@@ -22,7 +22,7 @@
                         <th class="has-text-right text-green"><abbr> On Hand </abbr></th>
                     @endcan
                 @endif
-                @if (userCompany()->plan->isPremium())
+                @if (isFeatureEnabled('Job Management'))
                     @can('Read Work In Process Inventory')
                         <th class="has-text-right text-green"><abbr> Work In Process </abbr></th>
                     @endcan
@@ -62,7 +62,7 @@
                                 </td>
                             @endcan
                         @endif
-                        @if (userCompany()->plan->isPremium())
+                        @if (isFeatureEnabled('Job Management'))
                             @can('Read Work In Process Inventory')
                                 <td class="has-text-right">
                                     <span class="tag is-small btn-green is-outlined has-text-white">
