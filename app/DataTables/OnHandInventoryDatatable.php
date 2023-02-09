@@ -118,7 +118,7 @@ class OnHandInventoryDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
-            userCompany()->plan->isPremium() ? 'type' : null,
+            isFeatureEnabled('Job Management') ? 'type' : null,
             'category',
             ...$warehouses,
             'total balance',

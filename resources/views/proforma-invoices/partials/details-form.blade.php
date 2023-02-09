@@ -333,7 +333,7 @@
                                 Product.changeProductCategory(this.getSelect2(i), proformaInvoice.product_id, proformaInvoice.product_category_id);
                                 $(".summernote-details").eq(i).summernote("code", proformaInvoice.specification);
 
-                                if (Product.isBatchable(this.proformaInvoices[i].product_id)) {
+                                if (Product.isBatchable(this.proformaInvoices[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.proformaInvoices[i].merchandise_batch_id,
@@ -357,7 +357,7 @@
                                 this.proformaInvoices[index].product_id
                             );
 
-                        if (Product.isBatchable(this.proformaInvoices[index].product_id)) {
+                        if (Product.isBatchable(this.proformaInvoices[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.proformaInvoices[index].merchandise_batch_id,
