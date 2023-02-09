@@ -79,15 +79,6 @@
                             label="Grand Total Price ({{ userCompany()->currency }})"
                         />
                     </div>
-                    @if (!userCompany()->isDiscountBeforeTax())
-                        <div class="column is-6">
-                            <x-common.show-data-section
-                                icon="fas fa-dollar-sign"
-                                :data="number_format($transaction->grand_total_price_after_discount, 2)"
-                                label="Grand Total Price (After Discount) ({{ userCompany()->currency }})"
-                            />
-                        </div>
-                    @endif
                 @endif
                 @foreach ($masterTransactionFields as $masterTransactionField)
                     @continue(!$masterTransactionField->padField->isTagTextarea())

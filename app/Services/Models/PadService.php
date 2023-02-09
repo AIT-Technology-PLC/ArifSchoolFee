@@ -136,32 +136,12 @@ class PadService
                 'tag' => 'input',
                 'tag_type' => 'number',
             ],
-            [
-                'label' => 'Discount',
-                'icon' => 'fas fa-percent',
-                'is_master_field' => 0,
-                'is_required' => 0,
-                'is_visible' => 1,
-                'is_printable' => 1,
-                'tag' => 'input',
-                'tag_type' => 'number',
-            ],
         ]);
     }
 
     public function generatePaymentTermFields()
     {
         return collect([
-            [
-                'label' => 'Discount',
-                'icon' => 'fas fa-percent',
-                'is_master_field' => 1,
-                'is_required' => 0,
-                'is_visible' => 0,
-                'is_printable' => 1,
-                'tag' => 'input',
-                'tag_type' => 'number',
-            ],
             [
                 'label' => 'Payment Method',
                 'icon' => 'fas fa-credit-card',
