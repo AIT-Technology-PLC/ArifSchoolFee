@@ -58,6 +58,7 @@
                                     x-bind:name="`reservation[${index}][product_id]`"
                                     x-model="reservation.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
