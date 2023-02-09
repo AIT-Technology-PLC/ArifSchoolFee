@@ -136,7 +136,7 @@
                     @if ($transaction->pad->hasPrices())
                         <tr>
                             <td
-                                colspan="{{ count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Sub-Total</td>
@@ -144,7 +144,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Tax</td>
@@ -152,7 +152,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Grand Total</td>
