@@ -136,6 +136,37 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
+                        @elseif ($masterPadField->isInputTypeRadio())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control>
+                                        <label class="radio has-text-grey">
+                                            <input
+                                                type="radio"
+                                                id="{{ $masterPadField->id }}"
+                                                name="{{ $masterPadField->id }}"
+                                                wire:model="master.{{ $masterPadField->id }}"
+                                                value="Yes"
+                                            >
+                                            Yes
+                                        </label>
+                                        <label class="radio has-text-grey mt-2">
+                                            <input
+                                                type="radio"
+                                                id="{{ $masterPadField->id }}"
+                                                name="{{ $masterPadField->id }}"
+                                                wire:model="master.{{ $masterPadField->id }}"
+                                                value="No"
+                                            >
+                                            No
+                                        </label>
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
                         @elseif($masterPadField->isTagTextarea())
                             <div class="column is-12">
                                 <x-forms.field>
@@ -307,6 +338,40 @@
                                                             name="{{ $detailPadField->icon }}"
                                                             class="is-large is-left"
                                                         />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
+                                        @elseif ($masterPadField->isInputTypeRadio())
+                                            <div class="column is-6">
+                                                <x-forms.field>
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                        {{ $detailPadField->label }}
+                                                        <sup class="has-text-danger">
+                                                            {{ $detailPadField->isRequired() ? '*' : '' }}
+                                                        </sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control>
+                                                        <label class="radio has-text-grey">
+                                                            <input
+                                                                type="radio"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                name="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                value="Yes"
+                                                            >
+                                                            Yes
+                                                        </label>
+                                                        <label class="radio has-text-grey mt-2">
+                                                            <input
+                                                                type="radio"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                name="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                value="No"
+                                                            >
+                                                            No
+                                                        </label>
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>

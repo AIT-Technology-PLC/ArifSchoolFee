@@ -44,6 +44,17 @@
                 </div>
                 @foreach ($masterTransactionFields as $masterTransactionField)
                     @continue($masterTransactionField->padField->isTagTextarea())
+                    @if ($masterTransactionField->padField->isInputTypeRadio())
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                type="short"
+                                icon="far {{ $masterTransactionField->value == 'Yes' ? 'fa-check-square' : 'fa-minus-square' }}"
+                                :data="$masterTransactionField->value"
+                                :label="$masterTransactionField->padField->label"
+                            />
+                        </div>
+                        @continue
+                    @endif
                     <div class="column is-6">
                         <x-common.show-data-section
                             type="short"

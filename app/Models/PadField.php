@@ -100,7 +100,7 @@ class PadField extends Model
 
     public function isInputTypeRadio()
     {
-        return str($this->tag_type)->lower() == 'radio';
+        return $this->isTagInput() && str($this->tag_type)->lower() == 'radio';
     }
 
     public function hasRelation()
