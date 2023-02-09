@@ -112,4 +112,9 @@ class PadField extends Model
     {
         return str($this->tag_type)->lower() == 'file';
     }
+
+    public function isUnitPrice()
+    {
+        return $this->label == 'Unit Price';
+    }
 }
