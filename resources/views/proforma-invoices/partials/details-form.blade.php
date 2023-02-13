@@ -336,7 +336,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.proformaInvoices[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.proformaInvoices[i].product_id)
+                                        MerchandiseBatch.where(this.proformaInvoices[i].product_id)
                                     );
                                 }
                             }
@@ -360,7 +360,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.proformaInvoices[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.proformaInvoices[index].product_id)
+                                MerchandiseBatch.where(this.proformaInvoices[index].product_id)
                             );
                         }
 

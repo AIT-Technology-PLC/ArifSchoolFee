@@ -178,9 +178,11 @@ const MerchandiseBatch = {
     all() {
         return this.merchandiseBatches;
     },
-    whereProductId(productId) {
+    where(productId, warehouseId = null) {
         return this.merchandiseBatches.filter(
-            (merchandiseBatch) => productId == merchandiseBatch.product_id
+            (merchandiseBatch) =>
+                productId == merchandiseBatch.product_id &&
+                (!warehouseId || warehouseId == merchandiseBatch.warehouse_id)
         );
     },
     appendMerchandiseBatches(

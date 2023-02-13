@@ -314,7 +314,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.sales[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.sales[i].product_id)
+                                        MerchandiseBatch.where(this.sales[i].product_id)
                                     );
                                 }
                             }
@@ -338,7 +338,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.sales[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.sales[index].product_id)
+                                MerchandiseBatch.where(this.sales[index].product_id)
                             );
                         }
 

@@ -113,7 +113,7 @@
                                     x-bind:id="`gdn[${index}][warehouse_id]`"
                                     x-bind:name="`gdn[${index}][warehouse_id]`"
                                     x-model="gdn.warehouse_id"
-                                    x-on:change="getInventoryLevel(index)"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -382,7 +382,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.gdns[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.gdns[i].product_id)
+                                        MerchandiseBatch.where(this.gdns[i].product_id, this.gdns[i].warehouse_id),
                                     );
                                 }
                             }
@@ -406,7 +406,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.gdns[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.gdns[index].product_id)
+                                MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
                             );
                         }
 
@@ -434,6 +434,15 @@
                         await Merchandise.init(this.gdns[index].product_id, this.gdns[index].warehouse_id);
                         this.gdns[index].availableQuantity = Merchandise.merchandise;
                     }
+                },
+                warehouseChanged(index) {
+                    this.getInventoryLevel(index);
+
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.gdns[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
+                    )
                 }
             }));
         });

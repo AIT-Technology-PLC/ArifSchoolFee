@@ -7,22 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CheckValidBatchNumber implements Rule
 {
-    public function __construct()
-    {
-
-    }
-
     public function passes($attribute, $value)
     {
-        $productID = request()->input(str_replace('.merchandise_batch_id', '.product_id', $attribute));
+        $productId = request()->input(str_replace('.merchandise_batch_id', '.product_id', $attribute));
+        $warehouseId = request()->input(str_replace('.merchandise_batch_id', '.warehouse_id', $attribute));
 
-        $merchandiseBatch = MerchandiseBatch::firstwhere('id', $value);
-
-        if ($merchandiseBatch->merchandise->product_id != $productID) {
-            return false;
-        }
-
-        return true;
+        return MerchandiseBatch::query()
+            ->whereRelation('merchandise', 'product_id', $productId)
+            ->when(!is_null($warehouseId), fn($q) => $q->whereRelation('merchandise', 'warehouse_id', $warehouseId))
+            ->where('id', $value)
+            ->exists();
     }
 
     public function message()
