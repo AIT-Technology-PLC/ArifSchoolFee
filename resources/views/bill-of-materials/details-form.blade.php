@@ -56,7 +56,6 @@
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
                                     x-model="billOfMaterial.product_id"
                                     x-init="select2(index)"
-                                    :includedProducts="['jobs']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

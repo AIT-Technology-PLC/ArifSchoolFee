@@ -325,7 +325,7 @@
                 purchases: [],
 
                 async init() {
-                    await Product.init();
+                    await Product.initForPurchase();
 
                     if (purchase) {
                         this.purchases = purchase;

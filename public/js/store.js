@@ -2,9 +2,13 @@ const Product = {
     products: [],
 
     async init() {
+        if (Object.getOwnPropertyNames(this.products).length) {
+            return;
+        }
+
         const response = await axios.get(`/api/products`);
 
-        this.products = response.data;
+        return this.products = response.data;
     },
     all() {
         return this.products;
@@ -124,6 +128,20 @@ const Product = {
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
+    },
+    initForSale() {
+        Product.init();
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_sale
+        );
+    },
+    initForPurchase() {
+        Product.init();
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_purchase
+        );
     },
 };
 

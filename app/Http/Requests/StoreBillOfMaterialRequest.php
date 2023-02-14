@@ -21,11 +21,7 @@ class StoreBillOfMaterialRequest extends FormRequest
             'product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'billOfMaterial' => ['required', 'array'],
-            'billOfMaterial.*.product_id' => ['nullable', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products'), function ($attribute, $value, $fail) {
-                if (Product::activeForJob()->where('id', $value)->doesntExist()) {
-                    $fail('This product is not used for Manufacturing.');
-                }
-            }],
+            'billOfMaterial.*.product_id' => ['nullable', 'integer', 'different:product_id', 'distinct', new MustBelongToCompany('products')],
             'billOfMaterial.*.quantity' => ['nullable', 'numeric', 'gt:0'],
         ];
     }

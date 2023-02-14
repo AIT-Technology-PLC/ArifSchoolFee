@@ -17,11 +17,7 @@ class UpdateJobExtraRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'integer', new MustBelongToCompany('products'), function ($attribute, $value, $fail) {
-                if (Product::activeForJob()->where('id', $value)->doesntExist()) {
-                    $fail('This product is not used for Manufacturing.');
-                }
-            }],
+            'product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'quantity' => ['required', 'numeric', 'gt:0'],
             'type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
         ];
