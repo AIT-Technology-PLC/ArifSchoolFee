@@ -6,6 +6,7 @@ use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
+use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -27,7 +28,7 @@ class StoreGdnRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns'), new CanEditReferenceNumber('gdns')],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
+            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder, new CheckProductStatus],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],

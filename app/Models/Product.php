@@ -249,4 +249,19 @@ class Product extends Model
     {
         return $this->is_active_for_job == 1;
     }
+
+    public function scopeActiveForSale($query)
+    {
+        return $query->where('is_active', 1)->where('is_active_for_sale', 1);
+    }
+
+    public function scopeActiveForPurchase($query)
+    {
+        return $query->where('is_active', 1)->where('is_active_for_purchase', 1);
+    }
+
+    public function scopeActiveForJob($query)
+    {
+        return $query->where('is_active', 1)->where('is_active_for_job', 1);
+    }
 }
