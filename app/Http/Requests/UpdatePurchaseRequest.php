@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
+use App\Rules\CheckProductStatus;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -62,11 +62,7 @@ class UpdatePurchaseRequest extends FormRequest
             'other_costs_after_tax' => ['required', 'numeric', 'gte:0', 'required_if:type,Import', 'exclude_if:type,Local Purchase'],
             'description' => ['nullable', 'string'],
             'purchase' => ['required', 'array'],
-            'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), function ($attribute, $value, $fail) {
-                if (Product::activeForPurchase()->where('id', $value)->doesntExist()) {
-                    $fail('This product is not used for purchase.');
-                }
-            }],
+            'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus('activeForPurchase')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
             'purchase.*.unit_price' => ['required', 'numeric'],
             'purchase.*.amount' => ['nullable', 'numeric', 'gt:0', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

@@ -7,22 +7,20 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CheckProductStatus implements Rule
 {
-    public function __construct()
+    private $type;
+
+    public function __construct($type = 'activeForSale')
     {
-        //
+        $this->type = $type;
     }
 
     public function passes($attribute, $value)
     {
-        if (Product::activeForSale()->where('id', $value)->doesntExist()) {
-            return false;
-        }
-
-        return true;
+        return Product::{$this->type}()->where('id', $value)->exists();
     }
 
     public function message()
     {
-        return 'This product is not used for sale.';
+        return 'This product is deactivated for this type of transaction.';
     }
 }
