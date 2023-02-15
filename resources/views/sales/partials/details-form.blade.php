@@ -58,6 +58,7 @@
                                     x-bind:name="`sale[${index}][product_id]`"
                                     x-model="sale.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -281,7 +282,7 @@
                 sales: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (sale) {
                         this.sales = sale;

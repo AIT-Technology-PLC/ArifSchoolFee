@@ -58,6 +58,7 @@
                                     x-bind:name="`reservation[${index}][product_id]`"
                                     x-model="reservation.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -349,7 +350,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (reservation) {
                         this.reservations = reservation;

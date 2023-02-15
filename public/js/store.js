@@ -2,6 +2,10 @@ const Product = {
     products: [],
 
     async init() {
+        if (this.products.length) {
+            return;
+        }
+
         const response = await axios.get(`/api/products`);
 
         this.products = response.data;
@@ -124,6 +128,20 @@ const Product = {
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
+    },
+    async initForSale() {
+        await Promise.resolve(Product.init());
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_sale
+        );
+    },
+    async initForPurchase() {
+        await Promise.resolve(Product.init());
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_purchase
+        );
     },
 };
 
