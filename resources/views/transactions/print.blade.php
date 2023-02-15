@@ -103,20 +103,19 @@
                 <thead>
                     <tr class="is-borderless">
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            colspan="{{ count($columns['detail']) }}"
                             class="is-borderless"
                         >&nbsp;</td>
                     </tr>
                     <tr class="is-borderless">
                         <td
-                            colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) + 1 : count($columns['detail']) }}"
+                            colspan="{{ count($columns['detail']) }}"
                             class="is-borderless"
                         >&nbsp;</td>
                     </tr>
                     <tr>
                         <th>#</th>
                         @foreach ($columns['detail'] as $column)
-                            @continue (!userCompany()->isDiscountBeforeTax() && $column == 'discount')
                             <th>{{ str($column)->replace('_', ' ')->title() }}</th>
                         @endforeach
                     </tr>
@@ -128,7 +127,6 @@
                                 {{ $loop->iteration }}
                             </th>
                             @foreach ($columns['detail'] as $column)
-                                @continue (!userCompany()->isDiscountBeforeTax() && $column == 'discount')
                                 <td>
                                     {{ $detail[$column] ?? '-' }}
                                 </td>
@@ -138,7 +136,7 @@
                     @if ($transaction->pad->hasPrices())
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Sub-Total</td>
@@ -146,7 +144,7 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Tax</td>
@@ -154,36 +152,12 @@
                         </tr>
                         <tr>
                             <td
-                                colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
+                                colspan="{{ count($columns['detail']) - 1 }}"
                                 class="is-borderless"
                             ></td>
                             <td class="has-text-weight-bold">Grand Total</td>
                             <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPrice, 2) }}</td>
                         </tr>
-                        @if (!userCompany()->isDiscountBeforeTax())
-                            <tr>
-                                <td
-                                    colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
-                                    class="is-borderless"
-                                ></td>
-                                <td class="has-text-weight-bold">Discount</td>
-                                <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->discount * 100, 2) }}%</td>
-                            </tr>
-                            <tr>
-                                <td
-                                    colspan="{{ userCompany()->isDiscountBeforeTax() ? count($columns['detail']) - 1 : count($columns['detail']) - 2 }}"
-                                    class="is-borderless"
-                                ></td>
-                                <td class="has-text-weight-bold">
-                                    Grand Total
-                                    <br>
-                                    <span class="has-text-grey">
-                                        After Discount
-                                    </span>
-                                </td>
-                                <td class="has-text-right has-text-weight-bold">{{ number_format($transaction->grandTotalPriceAfterDiscount, 2) }}</td>
-                            </tr>
-                        @endif
                     @endif
                 </tbody>
             </table>
