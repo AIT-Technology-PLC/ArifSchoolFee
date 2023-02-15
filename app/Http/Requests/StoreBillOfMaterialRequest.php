@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
 
