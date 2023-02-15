@@ -34,7 +34,7 @@ class StoreReservationRequest extends FormRequest
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'reservation.*.description' => ['nullable', 'string'],
             'reservation.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'reservation.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'reservation.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(

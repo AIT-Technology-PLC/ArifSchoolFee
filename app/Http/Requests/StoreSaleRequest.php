@@ -30,7 +30,7 @@ class StoreSaleRequest extends FormRequest
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'sale.*.description' => ['nullable', 'string'],
-            'sale.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'sale.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(

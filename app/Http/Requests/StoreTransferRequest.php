@@ -25,7 +25,7 @@ class StoreTransferRequest extends FormRequest
             'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'transfer.*.description' => ['nullable', 'string'],
-            'transfer.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'transfer.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
             'transferred_from' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'issued_on' => ['required', 'date'],

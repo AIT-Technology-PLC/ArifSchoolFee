@@ -34,7 +34,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice.*.specification' => ['nullable', 'string'],
-            'proformaInvoice.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'proformaInvoice.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
         ];
     }
 }

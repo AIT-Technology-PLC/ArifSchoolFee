@@ -11,7 +11,9 @@ class CheckBatchQuantity implements Rule
     {
         $merchandiseBatchId = request()->input(str_replace('.quantity', '.merchandise_batch_id', $attribute));
 
-        return MerchandiseBatch::where('id', $merchandiseBatchId)->where('quantity', '>=', $value)->exists();
+        return is_null($merchandiseBatchId)
+        ? true
+        : MerchandiseBatch::where('id', $merchandiseBatchId)->where('quantity', '>=', $value)->exists();
     }
 
     public function message()
