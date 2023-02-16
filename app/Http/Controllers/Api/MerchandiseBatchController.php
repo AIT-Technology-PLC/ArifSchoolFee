@@ -20,7 +20,7 @@ class MerchandiseBatchController extends Controller
 
         $merchandiseBatches = MerchandiseBatch::available()
             ->whereHas('merchandise')
-            ->with(['merchandise'])
+            ->with(['merchandise.product', 'merchandise.warehouse'])
             ->orderBy('expires_on')
             ->get();
 
@@ -30,6 +30,7 @@ class MerchandiseBatchController extends Controller
                 'name' => $merchandiseBatch->batch_no,
                 'expires_on' => $merchandiseBatch->expires_on?->toFormattedDateString(),
                 'product_id' => $merchandiseBatch->merchandise->product_id,
+                'warehouse_id' => $merchandiseBatch->merchandise->warehouse_id,
             ];
         });
     }

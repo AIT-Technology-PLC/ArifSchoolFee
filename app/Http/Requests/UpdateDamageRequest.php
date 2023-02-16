@@ -26,7 +26,7 @@ class UpdateDamageRequest extends FormRequest
             'damage.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('subtract')->pluck('id'))],
             'damage.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'damage.*.description' => ['nullable', 'string'],
-            'damage.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'damage.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

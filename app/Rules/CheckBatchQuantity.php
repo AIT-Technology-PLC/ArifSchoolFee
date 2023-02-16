@@ -7,20 +7,13 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CheckBatchQuantity implements Rule
 {
-    public function __construct()
-    {
-
-    }
-
     public function passes($attribute, $value)
     {
         $merchandiseBatchId = request()->input(str_replace('.quantity', '.merchandise_batch_id', $attribute));
 
-        if (MerchandiseBatch::where('id', $merchandiseBatchId)->where('quantity', '<', $value)->exists()) {
-            return false;
-        }
-
-        return true;
+        return is_null($merchandiseBatchId)
+        ? true
+        : MerchandiseBatch::where('id', $merchandiseBatchId)->where('quantity', '>=', $value)->exists();
     }
 
     public function message()

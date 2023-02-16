@@ -6,6 +6,7 @@ use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
+use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -25,11 +26,11 @@ class StoreSaleRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales'), new CanEditReferenceNumber('sales')],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus],
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'sale.*.description' => ['nullable', 'string'],
-            'sale.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'sale.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(

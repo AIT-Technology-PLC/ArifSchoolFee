@@ -33,7 +33,7 @@ class UpdateReturnRequest extends FormRequest
             'return.*.unit_price' => ['nullable', 'numeric'],
             'return.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity, new ValidateReturnQuantity($this->get('gdn_id'))],
             'return.*.description' => ['nullable', 'string'],
-            'return.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'return.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns')],
             'issued_on' => ['required', 'date'],

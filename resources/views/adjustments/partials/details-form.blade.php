@@ -163,6 +163,7 @@
                                     x-bind:id="`adjustment[${index}][warehouse_id]`"
                                     x-bind:name="`adjustment[${index}][warehouse_id]`"
                                     x-model="adjustment.warehouse_id"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
@@ -260,7 +261,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.adjustments[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.adjustments[i].product_id)
+                                        MerchandiseBatch.where(this.adjustments[i].product_id, this.adjustments[i].warehouse_id)
                                     );
                                 }
                             }
@@ -284,7 +285,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.adjustments[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.adjustments[index].product_id)
+                                MerchandiseBatch.where(this.adjustments[index].product_id, this.adjustments[index].warehouse_id)
                             );
                         }
 
@@ -298,6 +299,13 @@
                 },
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
+                },
+                warehouseChanged(index) {
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.adjustments[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.adjustments[index].product_id, this.adjustments[index].warehouse_id),
+                    )
                 }
             }));
         });

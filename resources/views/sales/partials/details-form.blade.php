@@ -58,6 +58,7 @@
                                     x-bind:name="`sale[${index}][product_id]`"
                                     x-model="sale.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -281,7 +282,7 @@
                 sales: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (sale) {
                         this.sales = sale;
@@ -314,7 +315,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.sales[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.sales[i].product_id)
+                                        MerchandiseBatch.where(this.sales[i].product_id)
                                     );
                                 }
                             }
@@ -338,7 +339,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.sales[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.sales[index].product_id)
+                                MerchandiseBatch.where(this.sales[index].product_id)
                             );
                         }
 

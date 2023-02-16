@@ -113,7 +113,7 @@
                                     x-bind:id="`damage[${index}][warehouse_id]`"
                                     x-bind:name="`damage[${index}][warehouse_id]`"
                                     x-model="damage.warehouse_id"
-                                    x-on:change="getInventoryLevel(index)"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -238,7 +238,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.damages[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.damages[i].product_id)
+                                        MerchandiseBatch.where(this.damages[i].product_id, this.damages[i].warehouse_id)
                                     );
                                 }
                             }
@@ -262,7 +262,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.damages[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.damages[index].product_id)
+                                MerchandiseBatch.where(this.damages[index].product_id, this.damages[index].warehouse_id)
                             );
                         }
 
@@ -277,6 +277,13 @@
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
+                warehouseChanged(index) {
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.damages[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.damages[index].product_id, this.damages[index].warehouse_id),
+                    )
+                }
             }));
         });
     </script>

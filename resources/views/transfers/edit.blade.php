@@ -68,11 +68,13 @@
                                     class="is-fullwidth"
                                     id="transferred_from"
                                     name="transferred_from"
+                                    x-init="$store.transferredFrom = '{{ old('transferred_from', $transfer->transferred_from) }}'"
+                                    x-on:change="$store.transferredFrom = $el.value;$dispatch('transferred-from')"
                                 >
                                     @foreach ($fromWarehouses as $warehouse)
                                         <option
                                             value="{{ $warehouse->id }}"
-                                            {{ ($transfer->transferred_from ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            {{ old('transferred_from', $transfer->transferred_from) == $warehouse->id ? 'selected' : '' }}
                                         >{{ $warehouse->name }}</option>
                                     @endforeach
                                 </x-forms.select>
@@ -98,7 +100,7 @@
                                     @foreach ($toWarehouses as $warehouse)
                                         <option
                                             value="{{ $warehouse->id }}"
-                                            {{ ($transfer->transferred_to ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            {{ old('transferred_to', $transfer->transferred_to) == $warehouse->id ? 'selected' : '' }}
                                         >{{ $warehouse->name }}</option>
                                     @endforeach
                                 </x-forms.select>
@@ -121,7 +123,7 @@
                                     id="description"
                                     class="textarea pl-6"
                                     placeholder="Description or note to be taken"
-                                >{{ $transfer->description ?? '' }}</x-forms.textarea>
+                                >{{ old('description', $transfer->description) }}</x-forms.textarea>
                                 <x-common.icon
                                     name="fas fa-edit"
                                     class="is-large is-left"

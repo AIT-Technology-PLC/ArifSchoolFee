@@ -113,6 +113,7 @@
                                     x-bind:id="`return[${index}][warehouse_id]`"
                                     x-bind:name="`return[${index}][warehouse_id]`"
                                     x-model="returnn.warehouse_id"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -346,7 +347,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.returns[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.returns[i].product_id)
+                                        MerchandiseBatch.where(this.returns[i].product_id, this.returns[i].warehouse_id)
                                     );
                                 }
                             }
@@ -367,7 +368,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.returns[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.returns[index].product_id)
+                                MerchandiseBatch.where(this.returns[index].product_id, this.returns[index].warehouse_id)
                             );
                         }
 
@@ -388,6 +389,13 @@
                 },
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
+                },
+                warehouseChanged(index) {
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.returns[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.returns[index].product_id, this.returns[index].warehouse_id),
+                    )
                 }
             }));
         });
