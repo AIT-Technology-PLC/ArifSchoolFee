@@ -21,7 +21,14 @@ class IncrementEmployeePaidTimeOffAmount extends Command
     {
         $companies = Company::enabled()
             ->where('income_tax_region', 'Ethiopia')
-            ->where('paid_time_off_type', 'Days')->get();
+            ->where('paid_time_off_type', 'Days')
+            ->whereRelation(
+                'features',
+                function ($query) {
+                    $query->where('features.name', 'Leave Management')
+                        ->where('features.is_enabled', '1');
+                }
+            )->get();
 
         if ($companies->isEmpty()) {
             return 0;
