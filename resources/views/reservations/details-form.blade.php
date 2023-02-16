@@ -58,6 +58,7 @@
                                     x-bind:name="`reservation[${index}][product_id]`"
                                     x-model="reservation.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -113,7 +114,7 @@
                                     x-bind:id="`reservation[${index}][warehouse_id]`"
                                     x-bind:name="`reservation[${index}][warehouse_id]`"
                                     x-model="reservation.warehouse_id"
-                                    x-on:change="getInventoryLevel(index)"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -349,7 +350,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (reservation) {
                         this.reservations = reservation;
@@ -382,7 +383,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.reservations[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.reservations[i].product_id)
+                                        MerchandiseBatch.where(this.reservations[i].product_id, this.reservations[i].warehouse_id)
                                     );
                                 }
                             }
@@ -406,7 +407,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.reservations[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.reservations[index].product_id)
+                                MerchandiseBatch.where(this.reservations[index].product_id, this.reservations[index].warehouse_id)
                             );
                         }
 
@@ -435,6 +436,15 @@
                         await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
                         this.reservations[index].availableQuantity = Merchandise.merchandise;
                     }
+                },
+                warehouseChanged(index) {
+                    this.getInventoryLevel(index);
+
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.reservations[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.reservations[index].product_id, this.reservations[index].warehouse_id),
+                    )
                 }
             }));
         });

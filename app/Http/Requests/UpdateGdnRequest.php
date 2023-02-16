@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
+use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -26,13 +27,13 @@ class UpdateGdnRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns', $this->route('gdn')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder],
+            'gdn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder, new CheckProductStatus],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'gdn.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'gdn.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(

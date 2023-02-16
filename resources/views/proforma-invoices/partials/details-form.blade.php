@@ -58,6 +58,7 @@
                                     x-bind:name="`proformaInvoice[${index}][product_id]`"
                                     x-model="proformaInvoice.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -302,7 +303,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;
@@ -336,7 +337,7 @@
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.proformaInvoices[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.proformaInvoices[i].product_id)
+                                        MerchandiseBatch.where(this.proformaInvoices[i].product_id)
                                     );
                                 }
                             }
@@ -360,7 +361,7 @@
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.proformaInvoices[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.proformaInvoices[index].product_id)
+                                MerchandiseBatch.where(this.proformaInvoices[index].product_id)
                             );
                         }
 
