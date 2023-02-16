@@ -23,6 +23,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-file-invoice"
+                        :data="$return->gdn->code ?? 'N/A'"
+                        label="Delivery Order No"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-calendar-day"
                         :data="$return->issued_on->toFormattedDateString() ?? 'N/A'"
                         label="Issued On"

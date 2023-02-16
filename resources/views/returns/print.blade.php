@@ -60,6 +60,17 @@
             style="width: 25% !important"
         >
             <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                DO No
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $return->gdn->code ?? 'N/A' }}
+            </h1>
+        </aside>
+        <aside
+            class="is-pulled-left"
+            style="width: 25% !important"
+        >
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
                 Issued On
             </h1>
             <h1 class="has-text-black is-size-6 pr-2">

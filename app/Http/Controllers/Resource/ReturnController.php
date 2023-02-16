@@ -7,6 +7,7 @@ use App\DataTables\ReturnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
+use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\ReturnDetail;
 use App\Models\Returnn;
@@ -45,7 +46,9 @@ class ReturnController extends Controller
 
         $currentReturnCode = nextReferenceNumber('returns');
 
-        return view('returns.create', compact('warehouses', 'currentReturnCode'));
+        $gdns = Gdn::subtracted()->notCancelled()->orderByDesc('code')->get();
+
+        return view('returns.create', compact('warehouses', 'currentReturnCode', 'gdns'));
     }
 
     public function store(StoreReturnRequest $request)
@@ -104,7 +107,7 @@ class ReturnController extends Controller
     {
         $datatable->builder()->setTableId('return-details-datatable');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn']);
 
         return $datatable->render('returns.show', compact('return'));
     }
@@ -113,9 +116,11 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
+        $gdns = Gdn::subtracted()->notCancelled()->orderByDesc('code')->get();
+
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 
-        return view('returns.edit', compact('return', 'warehouses'));
+        return view('returns.edit', compact('return', 'warehouses', 'gdns'));
     }
 
     public function update(UpdateReturnRequest $request, Returnn $return)

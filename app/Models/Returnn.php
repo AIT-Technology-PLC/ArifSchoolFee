@@ -34,6 +34,11 @@ class Returnn extends Model
         return $this->hasMany(ReturnDetail::class, 'return_id');
     }
 
+    public function gdn()
+    {
+        return $this->belongsTo(Gdn::class);
+    }
+
     public function details()
     {
         return $this->returnDetails;

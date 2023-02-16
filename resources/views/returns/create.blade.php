@@ -58,6 +58,36 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="gdn_id">
+                                Delivery Order No <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class=" is-fullwidth"
+                                    id="gdn_id"
+                                    name="gdn_id"
+                                >
+                                    <option
+                                        selected
+                                        disabled
+                                    >Select DO</option>
+                                    @foreach ($gdns as $gdn)
+                                        <option
+                                            value="{{ $gdn->id }}"
+                                            @selected(old('gdn_id') == $gdn->id)
+                                        >{{ $gdn->code }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-file-invoice"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="gdn_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="code">
                                 Issued On <sup class="has-text-danger">*</sup>
                             </x-forms.label>
