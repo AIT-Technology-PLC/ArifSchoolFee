@@ -27,6 +27,7 @@ class DailyRunCommands extends Command
         'product:expiry-date-close-notification',
         'supplier:licence-expiry-date-close-notification',
         'customer:licence-expiry-date-close-notification',
+        'increment:increment-employee-paid-time-off-amount',
     ];
 
     public function __construct()

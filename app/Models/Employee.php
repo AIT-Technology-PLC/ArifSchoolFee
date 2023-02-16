@@ -120,4 +120,11 @@ class Employee extends Model
             get:fn() => $this->attendanceDetails()->whereHas('attendance', fn($q) => $q->approved()->latest('ending_period'))->first()->days ?? null
         )->shouldCache();
     }
+
+    public function incrementPaidTimeOffAmount($incrementAmount)
+    {
+        $this->paid_time_off_amount += $incrementAmount;
+
+        $this->save();
+    }
 }
