@@ -77,7 +77,7 @@ class GdnController extends Controller
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $gdnDetail->unit_price,
+                            'unit_price' => $gdnDetail->original_unit_price,
                             'warehouse_id' => $gdnDetail->warehouse_id,
                         ]
                         );
@@ -168,7 +168,7 @@ class GdnController extends Controller
                             'product_id' => $gdnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $gdnDetail->unit_price,
+                            'unit_price' => $gdnDetail->original_unit_price,
                             'warehouse_id' => $gdnDetail->warehouse_id,
                         ]
                         );

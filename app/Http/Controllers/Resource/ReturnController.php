@@ -73,7 +73,7 @@ class ReturnController extends Controller
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->unit_price,
+                            'unit_price' => $returnDetail->original_unit_price,
                             'warehouse_id' => $returnDetail->warehouse_id,
                         ]
                         );
@@ -150,7 +150,7 @@ class ReturnController extends Controller
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->unit_price,
+                            'unit_price' => $returnDetail->original_unit_price,
                             'warehouse_id' => $returnDetail->warehouse_id,
                         ]
                         );
