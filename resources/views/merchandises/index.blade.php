@@ -100,7 +100,7 @@
         </div>
     </div>
     <section class="mt-3 mx-3 m-lr-0">
-        <x-content.header title="Inventory Level Report {{ isset($warehouse) ? $warehouse->name : '' }}">
+        <x-content.header title="Inventory Level Report">
             <div class="field">
                 <div class="control has-icons-left">
                     <div class="select is-small">
@@ -113,10 +113,7 @@
                                 selected
                             >All Warehouses</option>
                             @foreach ($warehouses as $availableWarehouse)
-                                <option
-                                    value="{{ $availableWarehouse->id }}"
-                                    {{ ($warehouse->id ?? '') == $availableWarehouse->id ? 'selected' : '' }}
-                                >{{ $availableWarehouse->name }}</option>
+                                <option value="{{ $availableWarehouse->id }}">{{ $availableWarehouse->name }}</option>
                             @endforeach
                         </select>
                     </div>
