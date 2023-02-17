@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Company;
+use App\Models\Feature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -19,23 +20,26 @@ class IncrementEmployeePaidTimeOffAmount extends Command
 
     public function handle()
     {
+        $leaveManagementFeature = Feature::firstWhere('name', 'Leave Management');
+
         $companies = Company::enabled()
             ->where('income_tax_region', 'Ethiopia')
             ->where('paid_time_off_type', 'Days')
-            ->whereRelation(
-                'features',
-                function ($query) {
-                    $query->where('features.name', 'Leave Management')
-                        ->where('features.is_enabled', '1');
-                }
-            )->get();
+            ->get();
 
         if ($companies->isEmpty()) {
             return 0;
         }
 
-        DB::transaction(function () use ($companies) {
+        DB::transaction(function () use ($companies, $leaveManagementFeature) {
             foreach ($companies as $company) {
+                $isEnabledForCompany = $company->features()->wherePivot('feature_id', $leaveManagementFeature->id)->wherePivot('is_enabled', 1)->exists();
+                $isEnabledForPlan = $company->plan->features()->wherePivot('feature_id', $leaveManagementFeature->id)->wherePivot('is_enabled', 1)->exists();
+
+                if (!$isEnabledForCompany && !$isEnabledForPlan) {
+                    continue;
+                }
+
                 $employees = $company->employees()
                     ->enabled()
                     ->whereNotNull('date_of_hiring')
