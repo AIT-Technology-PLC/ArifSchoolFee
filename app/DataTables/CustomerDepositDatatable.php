@@ -21,7 +21,12 @@ class CustomerDepositDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('customer', fn($customerDeposit) => $customerDeposit->customer->company_name)
+            ->editColumn('customer', function ($customerDeposit) {
+                return view('components.datatables.link', [
+                    'url' => route('customer-deposits.deposit', $customerDeposit->customer_id),
+                    'label' => $customerDeposit->customer->company_name,
+                ]);
+            })
             ->editColumn('status', fn($customerDeposit) => view('components.datatables.deposit-status', compact('customerDeposit')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -57,9 +62,12 @@ class CustomerDepositDatatable extends DataTable
     {
         return $customerDeposit
             ->newQuery()
+            ->select('customer_deposits.*')
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->select('customer_deposits.*')
+            ->when(request()->routeIs('customer-deposits.deposit'), function ($query) {
+                return $query->where('customer_id', request()->route('customer')->id);
+            })
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -72,7 +80,7 @@ class CustomerDepositDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('customer', 'customer.company_name'),
+            Column::make('customer', 'customer.company_name')->className('actions'),
             Column::make('status')->orderable(false),
             Column::make('deposited_at')->className('has-text-right'),
             Column::make('amount'),
