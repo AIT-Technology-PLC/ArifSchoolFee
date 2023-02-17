@@ -56,6 +56,11 @@ class Gdn extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function returns()
+    {
+        return $this->hasMany(Returnn::class);
+    }
+
     public function details()
     {
         return $this->gdnDetails;

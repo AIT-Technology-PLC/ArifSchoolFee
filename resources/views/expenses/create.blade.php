@@ -154,6 +154,24 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-12">
+                        <x-forms.field>
+                            <x-forms.label for="description">
+                                Description <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <x-forms.textarea
+                                    name="description"
+                                    id="description"
+                                    rows="5"
+                                    class="summernote textarea"
+                                    placeholder="Description or note to be taken"
+                                >{{ old('description') ?? '' }}
+                                </x-forms.textarea>
+                                <x-common.validation-error property="description" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </div>
 

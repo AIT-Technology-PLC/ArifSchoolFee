@@ -23,6 +23,7 @@ class UpdateExpenseRequest extends FormRequest
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'reference_number' => ['nullable', 'integer'],
+            'description' => ['nullable', 'string'],
             'expense' => ['required', 'array'],
             'expense.*.name' => ['required', 'string'],
             'expense.*.expense_category_id' => ['required', 'integer', new MustBelongToCompany('expense_categories')],
