@@ -101,7 +101,7 @@ trait TransactionAccessors
 
                         if ($this->pad->hasPrices()) {
                             $data['quantity'] = number_format($data['quantity'], 2, thousands_separator:'');
-                            $data['unit_price'] = number_format($data['unit_price'], 2, thousands_separator:'');
+                            $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
                             $unitPrice = userCompany()->isPriceBeforeTax() ? $data['unit_price'] : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
@@ -149,7 +149,7 @@ trait TransactionAccessors
                 $transactionDetails = $this->transactionDetails;
 
                 $total = $transactionDetails->reduce(function ($carry, $item) {
-                    return $carry + ($item['unit_price'] * $item['quantity']);
+                    return $carry + (($item['unit_price'] ?? 0) * $item['quantity']);
                 });
 
                 return number_format(
