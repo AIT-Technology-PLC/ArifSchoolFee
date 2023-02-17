@@ -75,27 +75,42 @@
     <x-common.content-wrapper>
         <div class="columns is-marginless is-multiline">
             <div class="column is-4 p-lr-0 pl-0">
-                <x-common.index-insight
-                    amount="{{ $totalNumberOfDeposits }}"
-                    border-color="#3d8660"
-                    text-color="text-green"
-                    label="Deposits"
+                <x-common.total-model
+                    model="deposits"
+                    :amount="$totalDeposits"
+                    icon="fa-solid fa-sack-dollar"
                 />
             </div>
             <div class="column is-4 p-lr-0 pl-0">
                 <x-common.index-insight
-                    amount="{{ number_format($totalDeposits, 2) }}"
-                    border-color="#86843d"
-                    text-color="text-gold"
-                    label="Total Deposit (in {{ userCompany()->currency }})"
+                    :amount="$totalApproved"
+                    border-color="#3d8660"
+                    text-color="text-green"
+                    label="Approved"
                 />
             </div>
-            <div class="column is-4 p-lr-0 px-0">
+            <div class="column is-4 p-lr-0 pl-0">
                 <x-common.index-insight
-                    amount="{{ number_format($customer->balance, 2) }}"
+                    :amount="$totalNotApproved"
                     border-color="#86843d"
                     text-color="text-gold"
-                    label="Available Deposit Balance (in {{ userCompany()->currency }})"
+                    label="Not Approved"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 pl-0">
+                <x-common.index-insight
+                    amount="{{ number_format($depositToDate, 2) }}"
+                    border-color="#863d3e"
+                    text-color="text-brown"
+                    label="Deposit To Date (in {{ userCompany()->currency }})"
+                />
+            </div>
+            <div class="column is-6 p-lr-0 px-0">
+                <x-common.index-insight
+                    amount="{{ number_format($customer->balance, 2) }}"
+                    border-color="#3d6386"
+                    text-color="text-blue"
+                    label="Available Deposit (in {{ userCompany()->currency }})"
                 />
             </div>
         </div>

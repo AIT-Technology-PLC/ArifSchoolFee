@@ -32,6 +32,12 @@ class CustomerProfileReportController extends Controller
 
         $currentCreditLimit = $customer->credit_amount_limit > 0 ? ($customer->credit_amount_limit - $currentCreditBalance) : $customer->credit_amount_limit;
 
+        $currentDepositBalance = $customer->balance;
+
+        $depositsCount = $customer->customerDeposits()->approved()->count();
+
+        $depositToDate = $customer->customerDeposits()->approved()->sum('amount');
+
         $lifetimeSalesReport = new SaleReport($request->safe()->only('customer_id'));
 
         return view('reports.customer-profile', compact(
@@ -42,6 +48,9 @@ class CustomerProfileReportController extends Controller
             'currentCreditBalance',
             'averageCreditSettlementDays',
             'currentCreditLimit',
+            'currentDepositBalance',
+            'depositsCount',
+            'depositToDate',
             'lifetimeSalesReport'
         ));
     }

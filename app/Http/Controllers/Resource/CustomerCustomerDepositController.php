@@ -24,14 +24,20 @@ class CustomerCustomerDepositController extends Controller
 
         $datatable->builder()->setTableId('customers-deposits-datatable')->orderBy(1, 'desc');
 
-        $totalNumberOfDeposits = $customer->customerDeposits()->count();
+        $totalDeposits = $customer->customerDeposits()->count();
 
-        $totalDeposits = $customer->customerDeposits()->sum('amount');
+        $totalNotApproved = $customer->customerDeposits()->notApproved()->count();
+
+        $totalApproved = $customer->customerDeposits()->approved()->count();
+
+        $depositToDate = $customer->customerDeposits()->approved()->sum('amount');
 
         return $datatable->render('customers.customer-deposits.index', compact(
             'customer',
-            'totalNumberOfDeposits',
-            'totalDeposits')
+            'totalDeposits',
+            'totalNotApproved',
+            'totalApproved',
+            'depositToDate')
         );
     }
 }

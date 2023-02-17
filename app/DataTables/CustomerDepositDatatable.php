@@ -60,7 +60,7 @@ class CustomerDepositDatatable extends DataTable
             ->select('customer_deposits.*')
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request()->routeIs('customer-deposits.deposit'), function ($query) {
+            ->when(request()->routeIs('customers.customer-deposits.index'), function ($query) {
                 return $query->where('customer_id', request()->route('customer')->id);
             })
             ->with([
@@ -73,9 +73,11 @@ class CustomerDepositDatatable extends DataTable
 
     protected function getColumns()
     {
+        $requestHasCustomer = request()->routeIs('customers.customer-deposits.index');
+
         return [
             Column::computed('#'),
-            Column::make('customer', 'customer.company_name')->className('actions'),
+            Column::make('customer', 'customer.company_name')->className('actions')->visible(!$requestHasCustomer),
             Column::computed('status'),
             Column::make('deposited_at')->className('has-text-right'),
             Column::make('amount'),
