@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Gdn;
+use App\Models\GdnDetail;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
@@ -25,7 +25,7 @@ class UpdateReturnRequest extends FormRequest
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'return' => ['required', 'array'],
             'return.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), function ($attribute, $value, $fail) {
-                if (!Gdn::firstWhere('id', $this->get('gdn_id'))->gdnDetails()->get()->whereIn('product_id', $value)->count()) {
+                if (!GdnDetail::where('gdn_id', $this->get('gdn_id'))->where('product_id', $value)->exists()) {
                     $fail('This Product is not sold in the above DO!');
                 }
             }],

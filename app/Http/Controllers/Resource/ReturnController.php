@@ -46,7 +46,7 @@ class ReturnController extends Controller
 
         $currentReturnCode = nextReferenceNumber('returns');
 
-        $gdns = Gdn::subtracted()->notCancelled()->orderByDesc('code')->get();
+        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')->orderByDesc('code')->get();
 
         return view('returns.create', compact('warehouses', 'currentReturnCode', 'gdns'));
     }
@@ -116,7 +116,7 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $gdns = Gdn::subtracted()->notCancelled()->orderByDesc('code')->get();
+        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')->orderByDesc('code')->get();
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 

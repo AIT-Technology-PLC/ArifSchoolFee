@@ -2,40 +2,34 @@
 
 namespace App\Rules;
 
-use App\Models\Gdn;
-use App\Models\Returnn;
+use App\Models\GdnDetail;
+use App\Models\ReturnDetail;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidateReturnQuantity implements Rule
 {
-    private $gdnID;
+    private $gdnId;
 
-    public function __construct($gdnID)
+    public function __construct($gdnId)
     {
-        $this->gdnID = $gdnID;
+        $this->gdnId = $gdnId;
     }
 
     public function passes($attribute, $value)
     {
-        $productID = request()->input(str_replace('.quantity', '.product_id', $attribute));
+        $productId = request()->input(str_replace('.quantity', '.product_id', $attribute));
 
-        $gdnQuantity = Gdn::firstWhere('id', $this->gdnID)->gdnDetails()->get()->firstWhere('product_id', $productID)->quantity ?? 0;
+        $gdnQuantity = GdnDetail::where('gdn_id', $this->gdnId)->where('product_id', $productId)->sum('quantity');
 
-        $returns = Returnn::approved()->where('gdn_id', $this->gdnID)->get();
+        $returnedQuantity = ReturnDetail::query()
+            ->whereRelation('returnn', 'gdn_id', $this->gdnId)
+            ->whereRelation('returnn', 'approved_by', '<>', null)
+            ->where('product_id', $productId)
+            ->sum('quantity');
 
-        $returnQuantity = 0;
+        $allowedQuantity = $gdnQuantity - $returnedQuantity;
 
-        foreach ($returns as $return) {
-            $returnQuantity += $return->returnDetails()->get()->where('product_id', $productID)?->sum('quantity');
-        }
-
-        $quantity = $gdnQuantity - $returnQuantity;
-
-        if ($quantity > 0 && $value > $quantity) {
-            return false;
-        }
-
-        return true;
+        return $allowedQuantity >= $value;
     }
 
     public function message()

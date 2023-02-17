@@ -71,12 +71,12 @@
                                     <option
                                         selected
                                         disabled
-                                    >Select DO</option>
+                                    >Select Delivery Order</option>
                                     @foreach ($gdns as $gdn)
                                         <option
                                             value="{{ $gdn->id }}"
                                             @selected($return->gdn_id == $gdn->id)
-                                        >{{ $gdn->code }}</option>
+                                        >{{ $gdn->code }} ({{ $gdn->warehouse->name }})</option>
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon

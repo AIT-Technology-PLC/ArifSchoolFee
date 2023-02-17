@@ -18,16 +18,16 @@ class ReturnService
                 return [$isExecuted, $message];
             }
 
-            if ($return->gdn->credit()->exists()) {
-                if ($return->grandTotalPrice >= $return->gdn->credit()->value('credit_amount')) {
-                    $return->gdn->credit()->forceDelete();
-                } else {
-                    $difference = $return->gdn->credit()->value('credit_amount') - $return->grandTotalPrice;
+            if ($return->gdn->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
+                $return->gdn->credit->forceDelete();
+            }
 
-                    $return->gdn->credit()->update(
-                        ['credit_amount' => $difference]
-                    );
-                }
+            if ($return->gdn->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
+                $difference = $return->gdn->credit->credit_amount - $return->grandTotalPrice;
+
+                $return->gdn->credit->credit_amount = $difference;
+
+                $return->gdn->credit->save();
             }
 
             return [true, $message];
