@@ -462,7 +462,4 @@ Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
 Route::post('/customer-deposits/{customerDeposit}/approve',
     [Action\CustomerDepositController::class, 'approve'])
     ->name('customer-deposits.approve');
-
-Route::get('/customer-deposits/{customer}/deposit',
-    [Action\CustomerDepositController::class, 'deposit'])
-    ->name('customer-deposits.deposit');
+    

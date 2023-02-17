@@ -23,16 +23,11 @@ class CustomerDepositDatatable extends DataTable
             ])
             ->editColumn('customer', function ($customerDeposit) {
                 return view('components.datatables.link', [
-                    'url' => route('customer-deposits.deposit', $customerDeposit->customer_id),
+                    'url' => route('customers.customer-deposits.index', $customerDeposit->customer_id),
                     'label' => $customerDeposit->customer->company_name,
                 ]);
             })
             ->editColumn('status', fn($customerDeposit) => view('components.datatables.deposit-status', compact('customerDeposit')))
-            ->filterColumn('status', function ($query, $keyword) {
-                $query
-                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn($query) => $query->approved());
-            })
             ->editColumn('issued_on', fn($customerDeposit) => $customerDeposit->issued_on->toFormattedDateString())
             ->editColumn('deposited_at', fn($customerDeposit) => $customerDeposit->deposited_at->toFormattedDateString())
             ->editColumn('amount', fn($customerDeposit) => userCompany()->currency . '. ' . number_format($customerDeposit->amount, 2))
@@ -81,7 +76,7 @@ class CustomerDepositDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('customer', 'customer.company_name')->className('actions'),
-            Column::make('status')->orderable(false),
+            Column::computed('status'),
             Column::make('deposited_at')->className('has-text-right'),
             Column::make('amount'),
             Column::make('bank_name')->visible(false),

@@ -31,24 +31,4 @@ class CustomerDepositController extends Controller
 
         return back()->with('successMessage', $message);
     }
-
-    public function deposit(Customer $customer, CustomerDepositDatatable $datatable)
-    {
-        $this->authorize('view', $customer);
-
-        $this->authorize('viewAny', CustomerDeposit::class);
-
-        $datatable->builder()->setTableId('customers-deposits-datatable')->orderBy(1, 'desc');
-
-        $totalNumberOfDeposits = $customer->customerDeposits()->count();
-
-        $totalDeposits = $customer->customerDeposits()->sum('amount');
-
-        return $datatable->render('customer-deposits.deposit', compact(
-            'customer',
-            'totalNumberOfDeposits',
-            'totalDeposits'
-        )
-        );
-    }
 }
