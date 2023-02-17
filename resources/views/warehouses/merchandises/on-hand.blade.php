@@ -61,6 +61,14 @@
                                     </span>
                                 </td>
                             @endcan
+                            @can('Read On Hand Inventory')
+                                <td class="has-text-right">
+                                    <span class="tag is-small btn-green is-outlined has-text-white">
+                                        {{ $merchandise->on_hand }}
+                                        {{ $merchandise->product->unit_of_measurement }}
+                                    </span>
+                                </td>
+                            @endcan
                         @endif
                         @if (isFeatureEnabled('Job Management'))
                             @can('Read Work In Process Inventory')
@@ -72,14 +80,6 @@
                                 </td>
                             @endcan
                         @endif
-                        @can('Read On Hand Inventory')
-                            <td class="has-text-right">
-                                <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->on_hand }}
-                                    {{ $merchandise->product->unit_of_measurement }}
-                                </span>
-                            </td>
-                        @endcan
                         <td class="is-capitalized">
                             @if ($merchandise->product->isProductLimited($merchandise->on_hand))
                                 <span class="tag is-small bg-gold has-text-white">
