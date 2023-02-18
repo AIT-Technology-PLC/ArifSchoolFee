@@ -63,19 +63,22 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
-                                    class=" is-fullwidth"
+                                    class="is-fullwidth"
                                     id="gdn_id"
                                     name="gdn_id"
+                                    x-init="initSelect2($el, 'Delivery Order')"
                                 >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Delivery Order</option>
-                                    @foreach ($gdns as $gdn)
-                                        <option
-                                            value="{{ $gdn->id }}"
-                                            @selected(old('gdn_id') == $gdn->id)
-                                        >{{ $gdn->code }} ({{ $gdn->warehouse->name }})</option>
+                                    <option></option>
+                                    @foreach ($gdns as $groupedGdn)
+                                        <optgroup label="{{ $groupedGdn->first()->warehouse->name }}"></optgroup>
+                                        @foreach ($groupedGdn as $gdn)
+                                            <option
+                                                value="{{ $gdn->id }}"
+                                                @selected(old('gdn_id') == $gdn->id)
+                                            >
+                                                {{ $gdn->code }}
+                                            </option>
+                                        @endforeach
                                     @endforeach
                                 </x-forms.select>
                                 <x-common.icon
