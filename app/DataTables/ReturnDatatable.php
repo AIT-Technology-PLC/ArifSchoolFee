@@ -64,9 +64,9 @@ class ReturnDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'customer:id,company_name,tin',
                 'warehouse:id,name',
-                'gdn:id,code',
-                'gdn.customer:id,company_name,tin',
+                'gdn.customer',
             ]);
     }
 

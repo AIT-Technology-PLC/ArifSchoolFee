@@ -42,7 +42,7 @@ class ReturnController extends Controller
             return back()->with('failedMessage', 'This return is not approved yet.');
         }
 
-        $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'gdn', 'createdBy', 'approvedBy']);
+        $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'gdn.customer', 'createdBy', 'approvedBy']);
 
         $havingCode = $return->returnDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
 

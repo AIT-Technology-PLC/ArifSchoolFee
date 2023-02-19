@@ -41,7 +41,7 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-    <x-print.customer :customer="$return->customer ?? ''" />
+    <x-print.customer :customer="$return->gdn->customer ?? ($return->customer ?? '')" />
 
     <section class="is-clearfix py-3">
         <aside
