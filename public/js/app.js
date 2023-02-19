@@ -237,7 +237,7 @@ const initializeSelect2 = (element, placeholder = "Select a product") => {
 };
 
 function initSelect2(element, placeholder) {
-    $(element).select2({
+    return $(element).select2({
         placeholder: `Select ${placeholder}`,
         allowClear: true,
     });
@@ -461,7 +461,10 @@ document.addEventListener("alpine:init", () => {
                     this.dueDate = "";
                 }
 
-                if (this.paymentType === "Cash Payment" || this.paymentType === "Deposits") {
+                if (
+                    this.paymentType === "Cash Payment" ||
+                    this.paymentType === "Deposits"
+                ) {
                     this.bankName = "";
                     this.referenceNumber = "";
                 }

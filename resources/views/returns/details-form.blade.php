@@ -1,12 +1,15 @@
 <x-content.main
-    x-data="returnMasterDetailForm({{ Js::from($data) }})"
+    x-data="returnDetail({{ Js::from($data) }})"
     x-init="$store.errors.setErrors({{ Js::from($errors->get('return.*')) }})"
 >
     <template
         x-for="(returnn, index) in returns"
         x-bind:key="index"
     >
-        <div class="mx-3">
+        <div
+            class="mx-3"
+            @gdn-changed.window="gdnChanged(event.detail)"
+        >
             <x-forms.field class="has-addons mb-0 mt-5">
                 <x-forms.control>
                     <span
@@ -310,7 +313,31 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("returnMasterDetailForm", (returnn) => ({
+            Alpine.data("returnMaster", (gdnId) => ({
+                gdn: "",
+
+                async init() {
+                    if (gdnId) {
+                        const response = await axios.get(`/api/gdns/${gdnId}`);
+
+                        this.gdn = response.data;
+                    }
+                },
+                select2Gdn() {
+                    let select2 = initSelect2(this.$el, 'Delivery Order');
+
+                    select2.on("change", async (event) => {
+                        const response = await axios.get(`/api/gdns/${event.target.value}`);
+                        this.gdn = response.data;
+
+                        window.dispatchEvent(new CustomEvent('gdn-changed', {
+                            detail: this.gdn
+                        }));
+                    });
+                },
+            }));
+
+            Alpine.data("returnDetail", (returnn) => ({
                 returns: [],
 
                 async init() {
@@ -396,6 +423,13 @@
                         this.returns[index].merchandise_batch_id,
                         MerchandiseBatch.where(this.returns[index].product_id, this.returns[index].warehouse_id),
                     )
+                },
+                async gdnChanged(gdn) {
+                    this.returns = gdn.gdn_details;
+
+                    await Promise.resolve(this.returns.forEach((returnn) => returnn.product_category_id = Product.productCategoryId(returnn.product_id)))
+
+                    await Promise.resolve($(".product-list").trigger("change", [true]));
                 }
             }));
         });

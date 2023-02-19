@@ -107,7 +107,7 @@ class ReturnController extends Controller
     {
         $datatable->builder()->setTableId('return-details-datatable');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn.customer']);
 
         return $datatable->render('returns.show', compact('return'));
     }

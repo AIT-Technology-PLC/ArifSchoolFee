@@ -33,9 +33,8 @@ class ReturnDatatable extends DataTable
             ->editColumn('total price', function ($return) {
                 return money($return->grandTotalPrice);
             })
-            ->editColumn('customer', fn($return) => $return->customer->company_name ?? 'N/A')
-            ->editColumn('customer', fn($return) => $return->customer->company_name ?? 'N/A')
-            ->editColumn('customer_tin', fn($return) => $return->customer->tin ?? 'N/A')
+            ->editColumn('customer', fn($return) => $return->gdn->customer->company_name ?? ($return->customer->company_name ?? 'N/A'))
+            ->editColumn('customer_tin', fn($return) => $return->gdn->customer->tin ?? ($return->customer->tin ?? 'N/A'))
             ->editColumn('description', fn($return) => view('components.datatables.searchable-description', ['description' => $return->description]))
             ->editColumn('issued_on', fn($return) => $return->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($return) => $return->createdBy->name)
@@ -65,9 +64,9 @@ class ReturnDatatable extends DataTable
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
-                'customer:id,company_name,tin',
                 'warehouse:id,name',
                 'gdn:id,code',
+                'gdn.customer:id,company_name,tin',
             ]);
     }
 
@@ -80,8 +79,8 @@ class ReturnDatatable extends DataTable
             Column::make('DO No', 'gdn.code')->visible(false),
             Column::make('status')->orderable(false),
             Column::computed('total price')->visible(false),
-            Column::make('customer', 'customer.company_name'),
-            Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
+            Column::make('customer', 'gdn.customer.company_name'),
+            Column::make('customer_tin', 'gdn.customer.tin')->visible(false)->title('Customer TIN'),
             Column::make('description')->visible(false),
             Column::make('issued_on'),
             Column::make('prepared by', 'createdBy.name'),

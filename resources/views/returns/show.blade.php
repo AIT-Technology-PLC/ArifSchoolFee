@@ -17,7 +17,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-user"
-                        :data="$return->customer->company_name ?? 'N/A'"
+                        :data="$return->gdn->customer->company_name ?? ($return->customer->company_name ?? 'N/A')"
                         label="Customer"
                     />
                 </div>

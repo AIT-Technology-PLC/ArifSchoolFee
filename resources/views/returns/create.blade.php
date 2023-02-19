@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main>
+            <x-content.main x-data="returnMaster('{{ old('gdn_id') }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -38,26 +38,6 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger"> </sup>
-                            </x-forms.label>
-                            <x-forms.control class="select is-fullwidth has-icons-left">
-                                <x-common.customer-list
-                                    id="customer_id"
-                                    name="customer_id"
-                                    key=""
-                                    :selected-id="old('customer_id') ?? ''"
-                                />
-                                <x-common.icon
-                                    name="fas fa-user"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="customer_id" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
                             <x-forms.label for="gdn_id">
                                 Delivery Order No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
@@ -66,7 +46,7 @@
                                     class="is-fullwidth"
                                     id="gdn_id"
                                     name="gdn_id"
-                                    x-init="initSelect2($el, 'Delivery Order')"
+                                    x-init="select2Gdn"
                                 >
                                     <option></option>
                                     @foreach ($gdns as $groupedGdn)
@@ -86,6 +66,28 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="gdn_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        x-cloak
+                        class="column is-6"
+                        x-show="gdn?.customer?.company_name"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="code">
+                                Customer <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="text"
+                                    readonly
+                                    x-bind:value="gdn?.customer?.company_name"
+                                />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-large is-left"
+                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
