@@ -33,6 +33,7 @@ class ReturnDatatable extends DataTable
             ->editColumn('total price', function ($return) {
                 return money($return->grandTotalPrice);
             })
+            ->editColumn('return_v1_customer', fn($return) => $return->customer->company_name ?? 'N/A')
             ->editColumn('customer', fn($return) => $return->gdn->customer->company_name ?? ($return->customer->company_name ?? 'N/A'))
             ->editColumn('customer_tin', fn($return) => $return->gdn->customer->tin ?? ($return->customer->tin ?? 'N/A'))
             ->editColumn('description', fn($return) => view('components.datatables.searchable-description', ['description' => $return->description]))
@@ -87,6 +88,7 @@ class ReturnDatatable extends DataTable
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
+            Column::make('return_v1_customer', 'customer.company_name')->visible(false)->printable(false)->exportable(false)->hidden(true),
         ];
     }
 
