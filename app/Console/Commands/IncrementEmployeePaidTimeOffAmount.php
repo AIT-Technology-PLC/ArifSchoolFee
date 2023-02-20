@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class IncrementEmployeePaidTimeOffAmount extends Command
 {
-    protected $signature = 'increment:increment-employee-paid-time-off-amount';
+    protected $signature = 'increment:employee-paid-time-off-amount';
 
     protected $description = 'Increment employee paid time off amount';
 
@@ -40,10 +40,11 @@ class IncrementEmployeePaidTimeOffAmount extends Command
                     continue;
                 }
 
-                $employees = $company->employees()
+                $employees = $company
+                    ->employees()
                     ->enabled()
                     ->whereNotNull('date_of_hiring')
-                    ->whereDay('date_of_hiring', '=', today())
+                    ->whereDay('date_of_hiring', today())
                     ->get();
 
                 if ($employees->count() == 0) {
@@ -51,14 +52,11 @@ class IncrementEmployeePaidTimeOffAmount extends Command
                 }
 
                 foreach ($employees as $employee) {
-                    $incrementAmount = 1.34;
-                    $yearsOfEmployeeWorked = now()->diffInYears($employee->date_of_hiring);
+                    $yearsOfService = now()->diffInYears($employee->date_of_hiring);
 
-                    if ($yearsOfEmployeeWorked >= 2) {
-                        $incrementAmount = (($yearsOfEmployeeWorked / 2) * 0.08) + 1.34;
-                    }
+                    $incrementAmount = intval($yearsOfService / 2) * 0.08 + 1.34;
 
-                    $employee->incrementPaidTimeOffAmount($incrementAmount);
+                    $employee->increment('paid_time_off_amount', $incrementAmount);
                 }
             }
         });
