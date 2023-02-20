@@ -18,6 +18,10 @@ class ReturnService
                 return [$isExecuted, $message];
             }
 
+            if ($return->gdn->payment_type == 'Deposits') {
+                $return->gdn->customer->incrementBalance($return->grandTotalPrice);
+            }
+
             if ($return->gdn->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
                 $return->gdn->credit->forceDelete();
             }
