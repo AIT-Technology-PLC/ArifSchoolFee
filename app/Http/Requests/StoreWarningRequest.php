@@ -18,7 +18,7 @@ class StoreWarningRequest extends FormRequest
     {
         return [
             'warning' => ['required', 'array'],
-            'warning.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees(false)->pluck('id'))],
+            'warning.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees(false)->pluck('id'))],
             'warning.*.type' => ['required', 'string', 'max:255', Rule::in(['Initial Warning', 'Affirmation Warning', 'Final Warning'])],
             'warning.*.issued_on' => ['required', 'date'],
             'warning.*.letter' => ['required', 'string'],

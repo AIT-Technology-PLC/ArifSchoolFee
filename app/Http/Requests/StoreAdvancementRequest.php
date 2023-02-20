@@ -23,7 +23,7 @@ class StoreAdvancementRequest extends FormRequest
             'type' => ['required', 'string', 'max:255', Rule::in(['Promotion', 'Demotion'])],
             'description' => ['nullable', 'string'],
             'advancement' => ['required', 'array'],
-            'advancement.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees(false)->pluck('id'))],
+            'advancement.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees(false)->pluck('id'))],
             'advancement.*.job_position' => ['required', 'string'],
             'advancement.*.compensation_id' => ['required', 'string', Rule::in(Compensation::active()->canBeInputtedManually()->earnings()->pluck('id'))],
             'advancement.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],

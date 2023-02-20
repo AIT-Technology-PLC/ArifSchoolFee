@@ -18,7 +18,7 @@ class StoreExpenseClaimRequest extends FormRequest
     {
         return [
             'issued_on' => ['required', 'date'],
-            'employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees()->pluck('id'))],
+            'employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees()->pluck('id'))],
             'description' => ['nullable', 'string'],
             'expenseClaim' => ['required', 'array'],
             'expenseClaim.*.item' => ['required', 'string', 'max:255'],

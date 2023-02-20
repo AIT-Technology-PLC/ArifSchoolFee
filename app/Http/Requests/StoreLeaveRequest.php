@@ -19,7 +19,7 @@ class StoreLeaveRequest extends FormRequest
     {
         return [
             'leave' => ['required', 'array'],
-            'leave.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees()->pluck('id'))],
+            'leave.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees()->pluck('id'))],
             'leave.*.leave_category_id' => ['required', 'integer', new MustBelongToCompany('leave_categories')],
             'leave.*.starting_period' => ['required', 'date'],
             'leave.*.ending_period' => ['required', 'date', 'after:leave.*.starting_period'],

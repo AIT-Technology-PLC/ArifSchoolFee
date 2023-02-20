@@ -22,7 +22,7 @@ class UpdateEmployeeTransferRequest extends FormRequest
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'issued_on' => ['required', 'date'],
             'employeeTransfer' => ['required', 'array'],
-            'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees(false)->pluck('id'))],
+            'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees(false)->pluck('id'))],
             'employeeTransfer.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
         ];
     }
