@@ -23,11 +23,7 @@ class UpdateAdvancementRequest extends FormRequest
             'type' => ['required', 'string', 'max:255', Rule::in(['Promotion', 'Demotion'])],
             'description' => ['nullable', 'string'],
             'advancement' => ['required', 'array'],
-            'advancement.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
-                if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {
-                    $fail('You do not have permission to modify an advancement request of this employee.');
-                }
-            }],
+            'advancement.*.employee_id' => ['required', 'integer', new MustBelongToCompany('employees'), Rule::notIn(Employee::getEmployees(false)->pluck('id'))],
             'advancement.*.job_position' => ['required', 'string'],
             'advancement.*.compensation_id' => ['required', 'string', Rule::in(Compensation::active()->canBeInputtedManually()->earnings()->pluck('id'))],
             'advancement.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],

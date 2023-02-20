@@ -111,4 +111,14 @@ class User extends Authenticatable
                     ->unique();
             });
     }
+
+    public static function getUsers($excludeUsersOnLeave = true)
+    {
+        return static::query()
+            ->whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))
+            ->when($excludeUsersOnLeave, fn($q) => $q->whereNotIn('id', Leave::getEmployeesOnLeave()->pluck('user_id')))
+            ->with('employee')
+            ->orderBy('name')
+            ->get();
+    }
 }

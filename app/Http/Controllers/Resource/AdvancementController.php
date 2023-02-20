@@ -39,7 +39,7 @@ class AdvancementController extends Controller
 
     public function create()
     {
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers(false);
 
         $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->earnings()->get(['id', 'name']);
 
@@ -74,7 +74,7 @@ class AdvancementController extends Controller
             return back()->with('failedMessage', 'You can not modify an advancement that is approved.');
         }
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers(false);
 
         $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->earnings()->get(['id', 'name']);
 
