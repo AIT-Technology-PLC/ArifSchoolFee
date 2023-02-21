@@ -15,11 +15,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('grn_details', function (Blueprint $table) {
-            // $table->renameColumn('expiry_date', 'expires_on');
+            $table->renameColumn('expiry_date', 'expires_on');
         });
 
         Schema::table('merchandise_batches', function (Blueprint $table) {
-            // $table->renameColumn('expiry_date', 'expires_on');
+            $table->renameColumn('expiry_date', 'expires_on');
             $table->decimal('received_quantity', 22)->nullable();
         });
 
