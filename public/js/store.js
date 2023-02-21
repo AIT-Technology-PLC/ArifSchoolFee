@@ -2,6 +2,10 @@ const Product = {
     products: [],
 
     async init() {
+        if (this.products.length) {
+            return;
+        }
+
         const response = await axios.get(`/api/products`);
 
         this.products = response.data;
@@ -125,6 +129,20 @@ const Product = {
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
     },
+    async initForSale() {
+        await Promise.resolve(Product.init());
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_sale
+        );
+    },
+    async initForPurchase() {
+        await Promise.resolve(Product.init());
+
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_purchase
+        );
+    },
 };
 
 const BillOfMaterial = {
@@ -178,9 +196,11 @@ const MerchandiseBatch = {
     all() {
         return this.merchandiseBatches;
     },
-    whereProductId(productId) {
+    where(productId, warehouseId = null) {
         return this.merchandiseBatches.filter(
-            (merchandiseBatch) => productId == merchandiseBatch.product_id
+            (merchandiseBatch) =>
+                productId == merchandiseBatch.product_id &&
+                (!warehouseId || warehouseId == merchandiseBatch.warehouse_id)
         );
     },
     appendMerchandiseBatches(

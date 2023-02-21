@@ -9,6 +9,7 @@ use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAttendanceRequest extends FormRequest
 {
@@ -29,11 +30,7 @@ class StoreAttendanceRequest extends FormRequest
             }],
             'ending_period' => ['required', 'date', 'after:starting_period'],
             'attendance' => ['required', 'array'],
-            'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), function ($attribute, $value, $fail) {
-                if (!authUser()->getAllowedWarehouses('hr')->where('id', Employee::firstWhere('id', $value)->user->warehouse_id)->count()) {
-                    $fail('You do not have permission to create an attendance request for this employee.');
-                }
-            }],
+            'attendance.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees()->pluck('id'))],
             'attendance.*.days' => ['required', 'numeric', 'gt:0', function ($attribute, $value, $fail) {
                 $difference = number_format((new Carbon($this->get('ending_period')))->floatDiffInDays((new Carbon($this->get('starting_period')))), 2, '.', '');
                 if ($value > $difference) {

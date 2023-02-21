@@ -19,11 +19,18 @@ class CustomerDatatable extends DataTable
                 return isFeatureEnabled('Credit Management')
                 ? view('components.datatables.link', [
                     'url' => route('customers.credits.index', $customer->id),
-                    'label' => userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2),
+                    'label' => money($customer->credit_amount_limit),
                 ])
-                : userCompany()->currency . '. ' . number_format($customer->credit_amount_limit, 2);
+                : money($customer->credit_amount_limit);
             })
-            ->editColumn('balance', fn($customer) => money($customer->balance))
+            ->editColumn('balance', function ($customer) {
+                return isFeatureEnabled('Customer Deposit Management')
+                ? view('components.datatables.link', [
+                    'url' => route('customers.customer-deposits.index', $customer->id),
+                    'label' => money($customer->balance),
+                ])
+                : money($customer->balance);
+            })
             ->editColumn('registered on', fn($customer) => $customer->created_at->toFormattedDateString())
             ->editColumn('business_license_attachment', function ($customer) {
                 return view('components.datatables.link', [
@@ -53,12 +60,12 @@ class CustomerDatatable extends DataTable
 
     protected function getColumns()
     {
-        return [
+        return collect([
             Column::computed('#'),
             Column::make('company_name')->title('Name'),
             Column::make('tin')->content('N/A')->title('TIN No'),
-            Column::make('credit limit', 'credit_amount_limit'),
-            Column::make('balance')->title('Deposit Balance'),
+            isFeatureEnabled('Credit Management') ? Column::make('credit limit', 'credit_amount_limit') : null,
+            isFeatureEnabled('Customer Deposit Management') ? Column::make('balance')->title('Deposit Balance') : null,
             Column::make('address')->visible(false)->content('N/A'),
             Column::make('phone')->content('N/A'),
             Column::make('contact_name')->content('N/A'),
@@ -70,7 +77,7 @@ class CustomerDatatable extends DataTable
             Column::make('added by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ])->filter()->toArray();
     }
 
     protected function filename()

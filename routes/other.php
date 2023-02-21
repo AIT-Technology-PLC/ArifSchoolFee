@@ -24,6 +24,7 @@ Route::prefix('api')
         Route::apiResource('suppliers', Api\SupplierController::class)->only('index');
         Route::apiResource('merchandise-batches', Api\MerchandiseBatchController::class)->only('index');
         Route::apiResource('compensations', Api\CompensationController::class)->only('index');
+        Route::apiResource('gdns', Api\GdnController::class)->only('show');
     });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',

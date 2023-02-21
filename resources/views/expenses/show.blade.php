@@ -72,6 +72,13 @@
                         label="Grand Total Price ({{ userCompany()->currency }})"
                     />
                 </div>
+                <div class="column is-12">
+                    <x-common.show-data-section
+                        type="long"
+                        :data="$expense->description"
+                        label="Detail"
+                    />
+                </div>
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

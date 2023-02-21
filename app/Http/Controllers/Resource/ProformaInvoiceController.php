@@ -70,7 +70,7 @@ class ProformaInvoiceController extends Controller
                             'product_id' => $proformaInvoiceDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $proformaInvoiceDetail->unit_price,
+                            'unit_price' => $proformaInvoiceDetail->original_unit_price,
                         ]
                         );
 
@@ -147,7 +147,7 @@ class ProformaInvoiceController extends Controller
                             'product_id' => $proformaInvoiceDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $proformaInvoiceDetail->quantity ? $proformaInvoiceDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $proformaInvoiceDetail->unit_price,
+                            'unit_price' => $proformaInvoiceDetail->original_unit_price,
                         ]
                         );
 

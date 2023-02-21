@@ -31,12 +31,8 @@ class PurchaseDatatable extends DataTable
                     ->when($keyword == 'rejected', fn($query) => $query->rejected())
                     ->when($keyword == 'cancelled', fn($query) => $query->cancelled());
             })
-            ->editColumn('total price', function ($purchase) {
-                if (userCompany()->isDiscountBeforeTax()) {
-                    return money($purchase->grandTotalPrice);
-                }
-
-                return money($purchase->grandTotalPriceAfterDiscount);
+            ->editColumn('total cost', function ($purchase) {
+                return money($purchase->isImported() ? $purchase->purchaseDetails->sum('totalCostAfterTax') : $purchase->grandTotalPriceAfterDiscount);
             })
             ->editColumn('supplier', fn($purchase) => $purchase->supplier->company_name ?? 'N/A')
             ->editColumn('contact', fn($purchase) => $purchase->contact->name ?? 'N/A')
@@ -89,7 +85,7 @@ class PurchaseDatatable extends DataTable
             Column::make('code')->className('has-text-centered')->title('Purchase No'),
             Column::make('type')->visible(false),
             Column::make('status')->orderable(false),
-            Column::computed('total price')->addClass('has-text-right'),
+            Column::computed('total cost')->addClass('has-text-right'),
             Column::make('supplier', 'supplier.company_name')->visible(false),
             Column::make('contact', 'contact.name')->visible(false),
             Column::make('description')->visible(false),

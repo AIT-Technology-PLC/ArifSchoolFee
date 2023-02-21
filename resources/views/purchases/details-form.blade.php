@@ -55,6 +55,7 @@
                                     x-bind:name="`purchase[${index}][product_id]`"
                                     x-model="purchase.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['purchases']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -93,7 +94,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`purchase[${index}][unit_price]`">
-                            Unit Price <sup class="has-text-danger">*</sup>
+                            Unit Price <span x-text="currency && `in ${currency}`"></span> <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -324,7 +325,7 @@
                 purchases: [],
 
                 async init() {
-                    await Product.init();
+                    await Product.initForPurchase();
 
                     if (purchase) {
                         this.purchases = purchase;

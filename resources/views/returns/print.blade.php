@@ -41,7 +41,7 @@
         style="margin-left: -10%;margin-right: -10%"
     >
 
-    <x-print.customer :customer="$return->customer ?? ''" />
+    <x-print.customer :customer="$return->gdn->customer ?? ($return->customer ?? '')" />
 
     <section class="is-clearfix py-3">
         <aside
@@ -53,6 +53,17 @@
             </h1>
             <h1 class="has-text-black is-size-6 pr-2">
                 {{ $return->code }}
+            </h1>
+        </aside>
+        <aside
+            class="is-pulled-left"
+            style="width: 25% !important"
+        >
+            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                DO No
+            </h1>
+            <h1 class="has-text-black is-size-6 pr-2">
+                {{ $return->gdn->code ?? 'N/A' }}
             </h1>
         </aside>
         <aside

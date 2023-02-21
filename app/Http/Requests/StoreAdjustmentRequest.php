@@ -27,7 +27,7 @@ class StoreAdjustmentRequest extends FormRequest
             'adjustment.*.is_subtract' => ['required', 'integer'],
             'adjustment.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
             'adjustment.*.reason' => ['required', 'string'],
-            'adjustment.*.merchandise_batch_id' => [' nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'adjustment.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

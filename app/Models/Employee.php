@@ -120,4 +120,9 @@ class Employee extends Model
             get:fn() => $this->attendanceDetails()->whereHas('attendance', fn($q) => $q->approved()->latest('ending_period'))->first()->days ?? null
         )->shouldCache();
     }
+
+    public static function getEmployees($excludeEmployeesOnLeave = true)
+    {
+        return User::getUsers($excludeEmployeesOnLeave)->pluck('employee');
+    }
 }

@@ -43,7 +43,7 @@ class EmployeeTransferController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers(false);
 
         return view('employee-transfers.create', compact('currentEmployeeTransferNo', 'users', 'warehouses'));
     }
@@ -78,7 +78,7 @@ class EmployeeTransferController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers(false);
 
         $employeeTransfer->load(['employeeTransferDetails.employee.user', 'employeeTransferDetails.warehouse']);
 

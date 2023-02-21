@@ -182,3 +182,5 @@ Route::resource('payrolls', Resource\PayrollController::class);
 Route::resource('products.prices', Resource\ProductPriceController::class)->only(['index', 'edit', 'update'])->shallow();
 
 Route::resource('customer-deposits', Resource\CustomerDepositController::class);
+
+Route::resource('customers.customer-deposits', Resource\CustomerCustomerDepositController::class)->only('index');

@@ -69,29 +69,36 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-arrow-trend-up"
-                            :data="$purchase->exchange_rate"
+                            :data="number_format($purchase->exchange_rate, 4)"
                             label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_cost"
+                            :data="number_format($purchase->freight_cost, 2)"
                             label="Freight Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_insurance_cost"
+                            :data="number_format($purchase->freight_insurance_cost, 2)"
                             label="Freight Insurance Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->other_costs"
-                            label="Other Costs ({{ userCompany()->currency }})"
+                            :data="number_format($purchase->other_costs_before_tax, 2)"
+                            label="Other Cost Before Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($purchase->other_costs_after_tax, 2)"
+                            label="Other Cost After Tax ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">

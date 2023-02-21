@@ -44,7 +44,7 @@
 .select2-container
     .select2-dropdown
     .select2-results__options
-    .select2-results__option {
+    .select2-results__option:not(.select2-results__option--group) {
     padding: 0.37em 0.75em !important;
     font-size: 1rem;
 }
@@ -117,4 +117,13 @@
     text-overflow: ellipsis;
     vertical-align: bottom;
     white-space: nowrap;
+}
+
+.select2-container--default .select2-results__group {
+    cursor: default;
+    display: block;
+    padding: 0 !important;
+}
+li.select2-results__option.select2-results__option--group {
+    padding: 0.37em 0.55em !important;
 }

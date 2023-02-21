@@ -83,7 +83,7 @@ class ReservationController extends Controller
                             'product_id' => $reservationDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $reservationDetail->quantity ? $reservationDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $reservationDetail->unit_price,
+                            'unit_price' => $reservationDetail->original_unit_price,
                             'warehouse_id' => $reservationDetail->warehouse_id,
                         ]
                         );

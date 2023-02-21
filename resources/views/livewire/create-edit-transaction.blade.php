@@ -116,7 +116,6 @@
                                 </x-forms.field>
                             </div>
                         @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
-                            @continue($masterPadField->label == 'Discount' && userCompany()->isDiscountBeforeTax())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -132,6 +131,37 @@
                                             name="{{ $masterPadField->icon }}"
                                             class="is-large is-left"
                                         />
+                                        <x-common.validation-error property="master.{{ $masterPadField->id }}" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif ($masterPadField->isInputTypeRadio())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }} <sup class="has-text-danger">{{ $masterPadField->isRequired() ? '*' : '' }}</sup>
+                                    </x-forms.label>
+                                    <x-forms.control>
+                                        <label class="radio has-text-grey">
+                                            <input
+                                                type="radio"
+                                                id="{{ $masterPadField->id }}"
+                                                name="{{ $masterPadField->id }}"
+                                                wire:model="master.{{ $masterPadField->id }}"
+                                                value="Yes"
+                                            >
+                                            Yes
+                                        </label>
+                                        <label class="radio has-text-grey mt-2">
+                                            <input
+                                                type="radio"
+                                                id="{{ $masterPadField->id }}"
+                                                name="{{ $masterPadField->id }}"
+                                                wire:model="master.{{ $masterPadField->id }}"
+                                                value="No"
+                                            >
+                                            No
+                                        </label>
                                         <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
                                 </x-forms.field>
@@ -282,8 +312,71 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio())
-                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio() && $detailPadField->isUnitPrice())
+                                            <div class="column is-6">
+                                                @if ($prices->where('product_id', $details[$loop->parent->index][$productPadField->id] ?? null)->when(!empty($details[$loop->parent->index][$detailPadField->id]), fn($q) => $q->whereIn('fixed_price', $details[$loop->parent->index][$detailPadField->id]))->isNotEmpty())
+                                                    <x-forms.field>
+                                                        <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                            {{ $detailPadField->label }}
+                                                            <sup class="has-text-danger">
+                                                                {{ $detailPadField->isRequired() ? '*' : '' }}
+                                                            </sup>
+                                                            <sup class="has-text-weight-light">
+                                                                ({{ userCompany()->getPriceMethod() }})
+                                                            </sup>
+                                                        </x-forms.label>
+                                                        <x-forms.control class="has-icons-left">
+                                                            <x-forms.select
+                                                                class="is-fullwidth"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            >
+                                                                <option
+                                                                    selected
+                                                                    hidden
+                                                                >
+                                                                    Select Price
+                                                                </option>
+                                                                @foreach ($prices->where('product_id', $details[$loop->parent->index][$productPadField->id]) as $price)
+                                                                    <option value="{{ $price->fixed_price }}">
+                                                                        {{ $price->fixed_price }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </x-forms.select>
+                                                            <x-common.icon
+                                                                name="{{ $detailPadField->icon }}"
+                                                                class="is-large is-left"
+                                                            />
+                                                            <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                        </x-forms.control>
+                                                    </x-forms.field>
+                                                @else
+                                                    <x-forms.field>
+                                                        <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                            {{ $detailPadField->label }}
+                                                            <sup class="has-text-danger">
+                                                                {{ $detailPadField->isRequired() ? '*' : '' }}
+                                                            </sup>
+                                                            <sup class="has-text-weight-light">
+                                                                ({{ userCompany()->getPriceMethod() }})
+                                                            </sup>
+                                                        </x-forms.label>
+                                                        <x-forms.control class="has-icons-left">
+                                                            <x-forms.input
+                                                                type="{{ $detailPadField->tag_type }}"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            />
+                                                            <x-common.icon
+                                                                name="{{ $detailPadField->icon }}"
+                                                                class="is-large is-left"
+                                                            />
+                                                            <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                        </x-forms.control>
+                                                    </x-forms.field>
+                                                @endif
+                                            </div>
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio() && !$detailPadField->isUnitPrice())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
@@ -291,11 +384,6 @@
                                                         <sup class="has-text-danger">
                                                             {{ $detailPadField->isRequired() ? '*' : '' }}
                                                         </sup>
-                                                        @if ($detailPadField->label == 'Unit Price')
-                                                            <sup class="has-text-weight-light">
-                                                                ({{ userCompany()->getPriceMethod() }})
-                                                            </sup>
-                                                        @endif
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input
@@ -311,8 +399,39 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
+                                        @elseif ($masterPadField->isInputTypeRadio())
+                                            <div class="column is-6">
+                                                <x-forms.field>
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                        {{ $detailPadField->label }} 
+                                                        <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control>
+                                                        <label class="radio has-text-grey">
+                                                            <input
+                                                                type="radio"
+                                                                id="{{ $detailPadField->id }}"
+                                                                name="{{ $detailPadField->id }}"
+                                                                wire:model="master.{{ $detailPadField->id }}"
+                                                                value="Yes"
+                                                            >
+                                                            Yes
+                                                        </label>
+                                                        <label class="radio has-text-grey mt-2">
+                                                            <input
+                                                                type="radio"
+                                                                id="{{ $detailPadField->id }}"
+                                                                name="{{ $detailPadField->id }}"
+                                                                wire:model="master.{{ $detailPadField->id }}"
+                                                                value="No"
+                                                            >
+                                                            No
+                                                        </label>
+                                                        <x-common.validation-error property="master.{{ $detailPadField->id }}" />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
                                         @elseif ($detailPadField->isTagInput() && $detailPadField->isInputTypeFile())
-                                            @continue($detailPadField->label == 'Discount' && !userCompany()->isDiscountBeforeTax())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
@@ -418,7 +537,7 @@
                 let value = $(this).closest('.control').attr('data-selected-value');
 
                 $(this).val(value).trigger('change');
-            })
+            });
         }
 
         function summerNote(element, property) {

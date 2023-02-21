@@ -2,11 +2,38 @@
 
 namespace App\Services\Models;
 
+use App\Actions\ApproveTransactionAction;
+use App\Notifications\ReturnApproved;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
 class ReturnService
 {
+    public function approve($return)
+    {
+        return DB::transaction(function () use ($return) {
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($return, ReturnApproved::class, 'Make Return');
+
+            if (!$isExecuted) {
+                return [$isExecuted, $message];
+            }
+
+            if ($return->gdn?->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
+                $return->gdn->credit->forceDelete();
+            }
+
+            if ($return->gdn?->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
+                $difference = $return->gdn->credit->credit_amount - $return->grandTotalPrice;
+
+                $return->gdn->credit->credit_amount = $difference;
+
+                $return->gdn->credit->save();
+            }
+
+            return [true, $message];
+        });
+    }
+
     public function add($return, $user)
     {
         if (!$user->hasWarehousePermission('add',

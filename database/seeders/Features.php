@@ -134,7 +134,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Pad Management'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
@@ -301,6 +301,7 @@ class Features extends Seeder
             $professional->features()->sync(
                 $features
                     ->whereNotIn('name', [
+                        'Pad Management',
                         'Bill Of Material Management',
                         'Job Management',
                         'Tender Management',
@@ -312,6 +313,7 @@ class Features extends Seeder
             $premium->features()->sync(
                 $features
                     ->whereNotIn('name', [
+                        'Pad Management',
                         'Tender Management',
                     ])
                     ->pluck('id')

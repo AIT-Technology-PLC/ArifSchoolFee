@@ -24,6 +24,15 @@ trait PricingProduct
         return $value;
     }
 
+    public function getUnitPriceAfterDiscountAttribute()
+    {
+        $discountRate = userCompany()->isDiscountBeforeTax() ? ($this->discount / 100) : ($this->parentModel->discount / 100);
+
+        $discountAmount = $this->original_unit_price * $discountRate;
+
+        return $this->original_unit_price - $discountAmount;
+    }
+
     public function getTotalPriceAttribute()
     {
         $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');

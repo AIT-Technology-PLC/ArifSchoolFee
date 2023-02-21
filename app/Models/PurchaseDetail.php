@@ -33,6 +33,28 @@ class PurchaseDetail extends Model
         return $value;
     }
 
+    public function getTotalPriceAttribute()
+    {
+        if ($this->purchase->isImported()) {
+            return $this->unitPriceInLocalCurrency * $this->quantity;
+        }
+
+        $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');
+        $discount = ($this->discount ?? 0.00) / 100;
+        $discountAmount = 0.00;
+
+        if (userCompany()->isDiscountBeforeTax()) {
+            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
+        }
+
+        return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+    }
+
+    public function getUnitPriceInLocalCurrencyAttribute()
+    {
+        return $this->unit_price * $this->purchase->exchange_rate;
+    }
+
     public function getFreightCostValueAttribute()
     {
         if (!$this->purchase->isImported()) {
@@ -59,7 +81,7 @@ class PurchaseDetail extends Model
         return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
     }
 
-    public function getOtherCostValueAttribute()
+    public function getOtherCostBeforeTaxValueAttribute()
     {
         if (!$this->purchase->isImported()) {
             return 0;
@@ -69,87 +91,100 @@ class PurchaseDetail extends Model
             return $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->amount * $this->purchase->other_costs) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
+    }
+
+    public function getOtherCostAfterTaxValueAttribute()
+    {
+        if (!$this->purchase->isImported()) {
+            return 0;
+        }
+
+        if ($this->purchase->purchaseDetails->sum('amount') == 0) {
+            return $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        return ($this->amount * $this->purchase->other_costs_after_tax) / $this->purchase->purchaseDetails->sum('amount');
     }
 
     public function getDutyPayingValueAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return ($this->unit_price * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostValue;
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return ($this->unitPriceInLocalCurrency * $this->quantity) + $this->freightCostValue + $this->freightInsuranceCostValue + $this->otherCostBeforeTaxValue;
     }
 
     public function getCustomDutyTaxAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->dutyPayingValue * ($this->duty_rate / 100);
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->dutyPayingValue * ($this->duty_rate / 100);
     }
 
     public function getExciseTaxAmountAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->excise_tax / 100 * ($this->dutyPayingValue + $this->customDutyTax);
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->excise_tax / 100 * ($this->dutyPayingValue + $this->customDutyTax);
     }
 
     public function getValueAddedTaxAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->vat_rate / 100 * ($this->dutyPayingValue + $this->customDutyTax + $this->exciseTaxAmount);
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->vat_rate / 100 * ($this->dutyPayingValue + $this->customDutyTax + $this->exciseTaxAmount);
     }
 
     public function getSurtaxAmountAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->surtax / 100 * ($this->dutyPayingValue + $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax);
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->surtax / 100 * ($this->dutyPayingValue + $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax);
     }
 
     public function getWithHoldingTaxAmountAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->withholding_tax / 100 * $this->dutyPayingValue;
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->withholding_tax / 100 * $this->dutyPayingValue;
     }
 
     public function getTotalPayableTaxAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax + $this->surtaxAmount + $this->withHoldingTaxAmount;
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax + $this->surtaxAmount + $this->withHoldingTaxAmount;
     }
 
     public function getTotalCostAfterTaxAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->dutyPayingValue + $this->totalPayableTax;
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->dutyPayingValue + $this->totalPayableTax + $this->purchase->other_costs_after_tax;
     }
 
     public function getUnitCostAfterTaxAttribute()
     {
-        if ($this->purchase->type == 'Import') {
-            return $this->totalCostAfterTax / ($this->quantity ?? 1);
+        if (!$this->purchase->isImported()) {
+            return 0;
         }
 
-        return 0;
+        return $this->totalCostAfterTax / ($this->quantity ?? 1);
     }
 }

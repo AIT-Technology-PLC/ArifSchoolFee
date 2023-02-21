@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\CanEditReferenceNumber;
+use App\Rules\CheckProductStatus;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -58,10 +59,11 @@ class StorePurchaseRequest extends FormRequest
             'freight_insurance_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_unit' => ['nullable', 'string', 'max:255', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_amount' => ['nullable', 'numeric', 'gte:0', 'size:' . collect($this->input('purchase'))->sum('amount'), 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
-            'other_costs' => ['nullable', 'numeric', 'gte:0', 'required_if:type,Import', 'exclude_if:type,Local Purchase'],
+            'other_costs_before_tax' => ['nullable', 'numeric', 'gte:0', 'required_if:type,Import', 'exclude_if:type,Local Purchase'],
+            'other_costs_after_tax' => ['nullable', 'numeric', 'gte:0', 'required_if:type,Import', 'exclude_if:type,Local Purchase'],
             'description' => ['nullable', 'string'],
             'purchase' => ['required', 'array'],
-            'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus('activeForPurchase')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
             'purchase.*.unit_price' => ['required', 'numeric'],
             'purchase.*.amount' => ['nullable', 'numeric', 'gt:0', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

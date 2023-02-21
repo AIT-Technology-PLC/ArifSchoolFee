@@ -67,7 +67,7 @@ class SaleController extends Controller
                             'product_id' => $saleDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $saleDetail->unit_price,
+                            'unit_price' => $saleDetail->original_unit_price,
                         ]
                         );
 
@@ -141,7 +141,7 @@ class SaleController extends Controller
                             'product_id' => $saleDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $saleDetail->unit_price,
+                            'unit_price' => $saleDetail->original_unit_price,
                         ]
                         );
 

@@ -5,7 +5,7 @@
     value="Finished Goods"
     {{ $type == 'Finished Goods' ? 'selected' : '' }}
 >Finished Goods</option>
-@if (userCompany()->plan->isPremium())
+@if (isFeatureEnabled('Job Management'))
     <option
         value="Raw Material"
         {{ $type == 'Raw Material' ? 'selected' : '' }}

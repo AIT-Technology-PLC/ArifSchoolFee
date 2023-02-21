@@ -14,7 +14,14 @@ class Customer extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    protected $cascadeDeletes = ['credits'];
+    protected $attributes = [
+        'credit_amount_limit' => 0,
+    ];
+
+    protected $cascadeDeletes = [
+        'credits',
+        'customerDeposits',
+    ];
 
     public function sales()
     {
