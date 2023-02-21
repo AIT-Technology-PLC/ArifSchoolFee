@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Gdn;
 use App\Models\GdnDetail;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckValidBatchNumber;
@@ -34,7 +35,7 @@ class UpdateReturnRequest extends FormRequest
             'return.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity, new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
             'return.*.description' => ['nullable', 'string'],
             'return.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
-            'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns')],
+            'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('id'))],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

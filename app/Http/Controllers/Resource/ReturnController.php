@@ -47,10 +47,7 @@ class ReturnController extends Controller
 
         $currentReturnCode = nextReferenceNumber('returns');
 
-        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')
-            ->whereRelation('gdnDetails', function (Builder $query) {
-                $query->whereColumn('quantity', '>', 'returned_quantity');
-            })->orderByDesc('code')->get()->groupBy('warehouse_id');
+        $gdns = Gdn::getValidGdnsForReturn();
 
         return view('returns.create', compact('warehouses', 'currentReturnCode', 'gdns'));
     }
@@ -120,10 +117,7 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')
-            ->whereRelation('gdnDetails', function (Builder $query) {
-                $query->whereColumn('quantity', '>', 'returned_quantity');
-            })->orderByDesc('code')->get()->groupBy('warehouse_id');
+        $gdns = Gdn::getValidGdnsForReturn($return->gdn_id);
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 

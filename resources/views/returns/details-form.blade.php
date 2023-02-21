@@ -427,7 +427,10 @@
                 async gdnChanged(gdn) {
                     this.returns = gdn.gdn_details;
 
-                    await Promise.resolve(this.returns.forEach((returnn) => returnn.product_category_id = Product.productCategoryId(returnn.product_id)))
+                    await Promise.resolve(this.returns.forEach((returnn) => {
+                        returnn.product_category_id = Product.productCategoryId(returnn.product_id);
+                        returnn.quantity -= returnn.returned_quantity;
+                    }));
 
                     await Promise.resolve($(".product-list").trigger("change", [true]));
                 }
