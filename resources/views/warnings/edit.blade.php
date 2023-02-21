@@ -22,13 +22,13 @@
                                 Employee Name <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="employee_id"
-                                    name="employee_id"
+                                <x-forms.input
+                                    type="text"
+                                    value="{{ $warning->employee->user->name }}"
+                                    readonly
+                                    disabled
                                 >
-                                    <option value="{{ $warning->employee_id }}">{{ $warning->employee->user->name }}</option>
-                                </x-forms.select>
+                                </x-forms.input>
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"

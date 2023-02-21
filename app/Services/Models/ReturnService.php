@@ -50,11 +50,11 @@ class ReturnService
                 $return->gdn->customer->incrementBalance($return->grandTotalPrice);
             }
 
-            if ($return->gdn->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
+            if ($return->gdn?->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
                 $return->gdn->credit->forceDelete();
             }
 
-            if ($return->gdn->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
+            if ($return->gdn?->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
                 $difference = $return->gdn->credit->credit_amount - $return->grandTotalPrice;
 
                 $return->gdn->credit->credit_amount = $difference;
