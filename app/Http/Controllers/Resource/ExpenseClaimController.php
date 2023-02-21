@@ -40,7 +40,7 @@ class ExpenseClaimController extends Controller
 
     public function create()
     {
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers();
 
         return view('expense-claims.create', compact('users'));
     }

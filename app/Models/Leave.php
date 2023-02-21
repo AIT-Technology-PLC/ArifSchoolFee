@@ -45,4 +45,14 @@ class Leave extends Model
     {
         return $this->is_paid_time_off == 1;
     }
+
+    public static function getEmployeesOnLeave()
+    {
+        return static::approved()
+            ->notCancelled()
+            ->where('ending_period', '>=', today())
+            ->with('employee')
+            ->get()
+            ->pluck('employee');
+    }
 }

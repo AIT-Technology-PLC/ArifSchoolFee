@@ -36,7 +36,7 @@ class WarningController extends Controller
 
     public function create()
     {
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers(false);
 
         return view('warnings.create', compact('users'));
     }
