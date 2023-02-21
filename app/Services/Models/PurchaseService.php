@@ -4,7 +4,11 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Notifications\PurchaseApproved;
+use App\Notifications\PurchaseCancelled;
+use App\Notifications\PurchaseMade;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PurchaseService
 {
@@ -111,6 +115,37 @@ class PurchaseService
             $purchase->debt()->forceDelete();
 
             $purchase->cancel();
+
+            Notification::send(
+                Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+                new PurchaseCancelled($purchase)
+            );
+        });
+
+        return [true, ''];
+    }
+
+    public function purchase($purchase)
+    {
+        if (!$purchase->isApproved()) {
+            return back()->with('failedMessage', 'This purchase is not yet approved.');
+        }
+
+        if ($purchase->isCancelled()) {
+            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+        }
+
+        if ($purchase->isPurchased()) {
+            return back()->with('failedMessage', 'This purchase is already purchased.');
+        }
+
+        DB::transaction(function () use ($purchase) {
+            $purchase->purchase();
+
+            Notification::send(
+                Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+                new PurchaseMade($purchase)
+            );
         });
 
         return [true, ''];

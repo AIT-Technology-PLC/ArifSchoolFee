@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\RejectTransactionAction;
+use App\Http\Controllers\Controller;
 use App\Models\Grn;
 use App\Models\Purchase;
-use Illuminate\Http\Request;
-use App\Utilities\Notifiables;
-use App\Notifications\PurchaseMade;
-use App\Http\Controllers\Controller;
 use App\Notifications\PurchaseRejected;
-use App\Actions\RejectTransactionAction;
-use App\Notifications\PurchaseCancelled;
 use App\Services\Models\PurchaseService;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
@@ -74,24 +70,11 @@ class PurchaseController extends Controller
     {
         $this->authorize('purchase', $purchase);
 
-        if (!$purchase->isApproved()) {
-            return back()->with('failedMessage', 'This purchase is not yet approved.');
+        [$isExecuted, $message] = $this->purchaseService->purchase($purchase);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
         }
-
-        if ($purchase->isCancelled()) {
-            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
-        }
-
-        if ($purchase->isPurchased()) {
-            return back()->with('failedMessage', 'This purchase is already purchased.');
-        }
-
-        $purchase->purchase();
-
-        Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
-            new PurchaseMade($purchase)
-        );
 
         return back()->with('successMessage', 'This purchase is assigned as purchased successfully.');
     }
@@ -113,7 +96,7 @@ class PurchaseController extends Controller
     {
         $this->authorize('reject', $purchase);
 
-        if ($purchase->isapproved()) {
+        if ($purchase->isApproved()) {
             return back()->with('failedMessage', 'You can not reject a purchase that is approved.');
         }
 
@@ -121,16 +104,11 @@ class PurchaseController extends Controller
             return back()->with('failedMessage', 'This purchase is already rejected.');
         }
 
-        [$isExecuted, $message] = $action->execute($purchase);
+        [$isExecuted, $message] = $action->execute($purchase, new PurchaseRejected($purchase), 'Read Purchase');
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
-
-        Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
-            new PurchaseRejected($purchase)
-        );
 
         return back()->with('successMessage', $message);
     }
@@ -144,11 +122,6 @@ class PurchaseController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
-
-        Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
-            new PurchaseCancelled($purchase)
-        );
 
         return back()->with('successMessage', $message);
     }

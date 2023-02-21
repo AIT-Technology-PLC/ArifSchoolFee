@@ -181,7 +181,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$purchase->isApproved())
+                @if (!$purchase->isApproved() && !$purchase->isRejected())
                     @can('Approve Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -206,7 +206,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$purchase->isPurchased())
+                @elseif($purchase->isApproved() && !$purchase->isPurchased() && !$purchase->isCancelled())
                     @can('Make Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -231,7 +231,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$purchase->isClosed())
+                @elseif($purchase->isPurchased() && !$purchase->isClosed())
                     @if (isFeatureEnabled('Grn Management'))
                         @can('Create GRN')
                             <x-common.dropdown-item>
@@ -259,7 +259,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
+                @if (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->isCancelled() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
                     @can('Convert To Debt')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
