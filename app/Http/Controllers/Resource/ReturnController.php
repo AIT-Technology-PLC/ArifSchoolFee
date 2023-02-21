@@ -13,6 +13,7 @@ use App\Models\ReturnDetail;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
 use App\Utilities\Notifiables;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -46,7 +47,10 @@ class ReturnController extends Controller
 
         $currentReturnCode = nextReferenceNumber('returns');
 
-        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')->orderByDesc('code')->get()->groupBy('warehouse_id');
+        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')
+            ->whereRelation('gdnDetails', function (Builder $query) {
+                $query->whereColumn('quantity', '>', 'returned_quantity');
+            })->orderByDesc('code')->get()->groupBy('warehouse_id');
 
         return view('returns.create', compact('warehouses', 'currentReturnCode', 'gdns'));
     }
@@ -116,7 +120,10 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
-        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')->orderByDesc('code')->get()->groupBy('warehouse_id');
+        $gdns = Gdn::subtracted()->notCancelled()->with('warehouse')
+            ->whereRelation('gdnDetails', function (Builder $query) {
+                $query->whereColumn('quantity', '>', 'returned_quantity');
+            })->orderByDesc('code')->get()->groupBy('warehouse_id');
 
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 
