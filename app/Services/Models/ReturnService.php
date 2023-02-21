@@ -49,21 +49,21 @@ class ReturnService
                         break;
                     }
 
-                    $gdnDetailQuantityDifference = $gdnDetail->quantity - $gdnDetail->returned_quantity;
-                    if ($gdnDetailQuantityDifference == 0) {
+                    $allowedQuantity = $gdnDetail->quantity - $gdnDetail->returned_quantity;
+                    if ($allowedQuantity == 0) {
                         continue;
                     }
 
-                    if ($gdnDetailQuantityDifference >= $returnDetail->quantity) {
+                    if ($allowedQuantity >= $returnDetail->quantity) {
                         $gdnDetail->returned_quantity += $returnDetail->quantity;
 
                         $gdnDetail->save();
                         break;
                     }
 
-                    if ($gdnDetailQuantityDifference < $returnDetail->quantity) {
-                        $gdnDetail->returned_quantity += $gdnDetailQuantityDifference;
-                        $returnDetail->quantity -= $gdnDetailQuantityDifference;
+                    if ($allowedQuantity < $returnDetail->quantity) {
+                        $gdnDetail->returned_quantity += $allowedQuantity;
+                        $returnDetail->quantity -= $allowedQuantity;
 
                         $gdnDetail->save();
                     }
