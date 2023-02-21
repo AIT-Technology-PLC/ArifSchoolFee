@@ -24,6 +24,7 @@ class Company extends Model
         'can_show_employee_job_title_on_print' => 'integer',
         'can_select_batch_number_on_forms' => 'integer',
         'filter_customer_and_supplier' => 'integer',
+        'is_freight_amount_by_volume' => 'integer',
     ];
 
     public function plan()
@@ -285,5 +286,10 @@ class Company extends Model
     public function filterAllCustomerAndSupplier()
     {
         return $this->filter_customer_and_supplier;
+    }
+
+    public function isFreightAmountByVolume()
+    {
+        return $this->is_freight_amount_by_volume;
     }
 }
