@@ -33,6 +33,14 @@ Route::post('/purchases/{purchase}/convert-to-debt',
     [Action\PurchaseController::class, 'convertToDebt'])
     ->name('purchases.convert_to_debt');
 
+Route::post('/purchases/{purchase}/reject',
+    [Action\PurchaseController::class, 'reject'])
+    ->name('purchases.reject');
+
+Route::post('/purchases/{purchase}/cancel',
+    [Action\PurchaseController::class, 'cancel'])
+    ->name('purchases.cancel');
+
 // Transfers
 Route::post('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])
@@ -462,4 +470,3 @@ Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
 Route::post('/customer-deposits/{customerDeposit}/approve',
     [Action\CustomerDepositController::class, 'approve'])
     ->name('customer-deposits.approve');
-    
