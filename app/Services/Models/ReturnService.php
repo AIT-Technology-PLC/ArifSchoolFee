@@ -18,6 +18,34 @@ class ReturnService
                 return [$isExecuted, $message];
             }
 
+            foreach ($return->returnDetails as $returnDetail) {
+                $gdnDetails = $return->gdn->gdnDetails()->where('product_id', $returnDetail->product_id)->whereColumn('quantity', '>', 'returned_quantity')->get();
+                foreach ($gdnDetails as $gdnDetail) {
+                    if ($returnDetail->quantity <= 0) {
+                        break;
+                    }
+
+                    $gdnDetailQuantityDifference = $gdnDetail->quantity - $gdnDetail->returned_quantity;
+                    if ($gdnDetailQuantityDifference == 0) {
+                        continue;
+                    }
+
+                    if ($gdnDetailQuantityDifference >= $returnDetail->quantity) {
+                        $gdnDetail->returned_quantity += $returnDetail->quantity;
+
+                        $gdnDetail->save();
+                        break;
+                    }
+
+                    if ($gdnDetailQuantityDifference < $returnDetail->quantity) {
+                        $gdnDetail->returned_quantity += $gdnDetailQuantityDifference;
+                        $returnDetail->quantity -= $gdnDetailQuantityDifference;
+
+                        $gdnDetail->save();
+                    }
+                }
+            }
+
             if ($return->gdn->payment_type == 'Deposits') {
                 $return->gdn->customer->incrementBalance($return->grandTotalPrice);
             }
