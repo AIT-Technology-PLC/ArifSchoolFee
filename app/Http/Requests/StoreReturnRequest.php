@@ -31,7 +31,7 @@ class StoreReturnRequest extends FormRequest
             }],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'return.*.unit_price' => ['nullable', 'numeric'],
-            'return.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity, new ValidateReturnQuantity($this->get('gdn_id'))],
+            'return.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity, new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
             'return.*.description' => ['nullable', 'string'],
             'return.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
             'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns')],

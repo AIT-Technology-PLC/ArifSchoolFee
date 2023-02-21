@@ -10,14 +10,25 @@ class ValidateReturnQuantity implements Rule
 {
     private $gdnId;
 
-    public function __construct($gdnId)
+    private $details;
+
+    public function __construct($gdnId, $details)
     {
         $this->gdnId = $gdnId;
+
+        $this->details = $details;
     }
 
     public function passes($attribute, $value)
     {
+        $totalQuantity = 0;
         $productId = request()->input(str_replace('.quantity', '.product_id', $attribute));
+
+        foreach ($this->details as $detail) {
+            if ($detail['product_id'] == $productId) {
+                $totalQuantity += $detail['quantity'];
+            }
+        }
 
         $gdnQuantity = GdnDetail::where('gdn_id', $this->gdnId)->where('product_id', $productId)->sum('quantity');
 
@@ -29,7 +40,7 @@ class ValidateReturnQuantity implements Rule
 
         $allowedQuantity = $gdnQuantity - $returnedQuantity;
 
-        return $allowedQuantity >= $value;
+        return $allowedQuantity >= $totalQuantity;
     }
 
     public function message()
