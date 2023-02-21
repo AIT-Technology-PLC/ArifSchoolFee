@@ -18,6 +18,30 @@ class ReturnService
                 return [$isExecuted, $message];
             }
 
+            return [true, $message];
+        });
+    }
+
+    public function add($return, $user)
+    {
+        if (!$user->hasWarehousePermission('add',
+            $return->returnDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
+        }
+
+        if (!$return->isApproved()) {
+            return [false, 'This transaction is not approved yet.'];
+        }
+
+        if ($return->isAdded()) {
+            return [false, 'This transaction is already added to inventory.'];
+        }
+
+        DB::transaction(function () use ($return) {
+            InventoryOperationService::add($return->returnDetails, $return);
+
+            $return->add();
+
             foreach ($return->returnDetails as $returnDetail) {
                 $gdnDetails = $return->gdn->gdnDetails()->where('product_id', $returnDetail->product_id)->whereColumn('quantity', '>', 'returned_quantity')->get();
                 foreach ($gdnDetails as $gdnDetail) {
@@ -61,30 +85,6 @@ class ReturnService
 
                 $return->gdn->credit->save();
             }
-
-            return [true, $message];
-        });
-    }
-
-    public function add($return, $user)
-    {
-        if (!$user->hasWarehousePermission('add',
-            $return->returnDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permission to add to one or more of the warehouses.'];
-        }
-
-        if (!$return->isApproved()) {
-            return [false, 'This transaction is not approved yet.'];
-        }
-
-        if ($return->isAdded()) {
-            return [false, 'This transaction is already added to inventory.'];
-        }
-
-        DB::transaction(function () use ($return) {
-            InventoryOperationService::add($return->returnDetails, $return);
-
-            $return->add();
         });
 
         return [true, ''];

@@ -34,7 +34,7 @@ class ValidateReturnQuantity implements Rule
 
         $returnedQuantity = ReturnDetail::query()
             ->whereRelation('returnn', 'gdn_id', $this->gdnId)
-            ->whereRelation('returnn', 'approved_by', '<>', null)
+            ->whereRelation('returnn', 'added_by', '<>', null)
             ->where('product_id', $productId)
             ->sum('quantity');
 
