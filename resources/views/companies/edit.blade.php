@@ -896,6 +896,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_freight_amount_by_volume">
+                                Is Freight Cost by Volume<sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey">
+                                    <input
+                                        type="radio"
+                                        name="is_freight_amount_by_volume"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($company->isFreightAmountByVolume())
+                                    >
+                                    Yes
+                                </label>
+                                <br>
+                                <label class="radio has-text-grey mt-2">
+                                    <input
+                                        type="radio"
+                                        name="is_freight_amount_by_volume"
+                                        value="0"
+                                        @checked(!$company->isFreightAmountByVolume())
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="is_freight_amount_by_volume" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

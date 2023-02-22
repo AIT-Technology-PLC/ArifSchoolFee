@@ -50,6 +50,15 @@ class PurchaseDetail extends Model
         return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
     }
 
+    public function getTotalPriceInForeignCurrencyAttribute()
+    {
+        if (!$this->purchase->isImported()) {
+            return 0;
+        }
+
+        return $this->unit_price * $this->quantity;
+    }
+
     public function getUnitPriceInLocalCurrencyAttribute()
     {
         return $this->unit_price * $this->purchase->exchange_rate;
@@ -61,8 +70,12 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0) {
+        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
             return $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        if (!userCompany()->isFreightAmountByVolume()) {
+            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->freight_cost;
         }
 
         return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
@@ -74,8 +87,12 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0) {
+        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
             return $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        if (!userCompany()->isFreightAmountByVolume()) {
+            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->freight_insurance_cost;
         }
 
         return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
@@ -87,8 +104,12 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0) {
+        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
             return $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        if (!userCompany()->isFreightAmountByVolume()) {
+            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->other_costs_before_tax;
         }
 
         return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
@@ -100,8 +121,12 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0) {
+        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
             return $this->purchase->purchaseDetails->sum('amount');
+        }
+
+        if (!userCompany()->isFreightAmountByVolume()) {
+            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->other_costs_after_tax;
         }
 
         return ($this->amount * $this->purchase->other_costs_after_tax) / $this->purchase->purchaseDetails->sum('amount');
@@ -176,7 +201,7 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        return $this->dutyPayingValue + $this->totalPayableTax + $this->purchase->other_costs_after_tax;
+        return $this->dutyPayingValue + $this->totalPayableTax + $this->otherCostAfterTaxValue;
     }
 
     public function getUnitCostAfterTaxAttribute()

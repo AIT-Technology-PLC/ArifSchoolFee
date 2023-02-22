@@ -58,6 +58,7 @@ class UpdateCompanyRequest extends FormRequest
             'can_select_batch_number_on_forms' => ['sometimes', 'required', 'boolean'],
             'expiry_in_days' => ['nullable', 'numeric', 'gt:0'],
             'filter_customer_and_supplier' => ['required', 'boolean'],
+            'is_freight_amount_by_volume' => ['required', 'boolean'],
         ];
     }
 
