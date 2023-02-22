@@ -37,7 +37,7 @@ class ExpenseDatatable extends DataTable
             ->editColumn('reference_no', fn($expense) => $expense->reference_number ?? 'N/A')
             ->editColumn('payment_type', fn($expense) => $expense->payment_type ?? 'N/A')
             ->editColumn('issued_on', fn($expense) => $expense->issued_on->toFormattedDateString())
-            ->editColumn('description', fn($expense) => $expense->description ?? 'N/A')
+            ->editColumn('description', fn($expense) => view('components.datatables.searchable-description', ['description' => $expense->description]))
             ->editColumn('prepared by', fn($expense) => $expense->createdBy->name)
             ->editColumn('edited by', fn($expense) => $expense->updatedBy->name)
             ->editColumn('approved by', fn($expense) => $expense->approvedBy->name ?? 'N/A')
