@@ -9,14 +9,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->boolean('is_freight_amount_by_volume')->default(1)->after('filter_customer_and_supplier');
+            $table->boolean('is_costing_by_freight_volume')->default(1)->after('filter_customer_and_supplier');
         });
     }
 
     public function down()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('is_freight_amount_by_volume');
+            $table->dropColumn('is_costing_by_freight_volume');
         });
     }
 };

@@ -70,15 +70,11 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
-            return $this->purchase->purchaseDetails->sum('amount');
+        if (userCompany()->isCostingByFreightVolume()) {
+            return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        if (!userCompany()->isFreightAmountByVolume()) {
-            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->freight_cost;
-        }
-
-        return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->freight_cost;
     }
 
     public function getFreightInsuranceCostValueAttribute()
@@ -87,15 +83,11 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
-            return $this->purchase->purchaseDetails->sum('amount');
+        if (userCompany()->isCostingByFreightVolume()) {
+            return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        if (!userCompany()->isFreightAmountByVolume()) {
-            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->freight_insurance_cost;
-        }
-
-        return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->freight_insurance_cost;
     }
 
     public function getOtherCostBeforeTaxValueAttribute()
@@ -104,15 +96,11 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
-            return $this->purchase->purchaseDetails->sum('amount');
+        if (userCompany()->isCostingByFreightVolume()) {
+            return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        if (!userCompany()->isFreightAmountByVolume()) {
-            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->other_costs_before_tax;
-        }
-
-        return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->other_costs_before_tax;
     }
 
     public function getOtherCostAfterTaxValueAttribute()
@@ -121,15 +109,11 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        if ($this->purchase->purchaseDetails->sum('amount') == 0 && userCompany()->isFreightAmountByVolume()) {
-            return $this->purchase->purchaseDetails->sum('amount');
+        if (userCompany()->isCostingByFreightVolume()) {
+            return ($this->amount * $this->purchase->other_costs_after_tax) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        if (!userCompany()->isFreightAmountByVolume()) {
-            return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_Price_In_Foreign_Currency')) * $this->purchase->other_costs_after_tax;
-        }
-
-        return ($this->amount * $this->purchase->other_costs_after_tax) / $this->purchase->purchaseDetails->sum('amount');
+        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->other_costs_after_tax;
     }
 
     public function getDutyPayingValueAttribute()
