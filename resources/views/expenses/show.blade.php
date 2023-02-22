@@ -37,6 +37,31 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fas fa-credit-card"
+                        :data="$expense->payment_type ?? 'N/A'"
+                        label="Payment Type"
+                    />
+                </div>
+                @if ($expense->bank_name)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-university"
+                            :data="$expense->bank_name"
+                            label="Bank"
+                        />
+                    </div>
+                @endif
+                @if ($expense->reference_number)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hashtag"
+                            :data="$expense->bank_reference_number"
+                            label="Bank Reference No"
+                        />
+                    </div>
+                @endif
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-user"
                         :data="$expense->supplier?->company_name"
                         label="Supplier"
