@@ -200,4 +200,23 @@ class ExpenseReport
 
         return $this->getTotalExpenseAfterTax / $this->getExpenseTransactionCount;
     }
+
+    public function getPaymentTypesByExpense()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN expenses.tax_type = "VAT" THEN quantity*unit_price*1.15
+                        WHEN expenses.tax_type = "TOT" THEN quantity*unit_price*1.02
+                        ELSE quantity*unit_price
+                    END
+                ) AS expense,
+                expenses.payment_type AS payment_type,
+                COUNT(payment_type) AS transactions
+            ')
+            ->groupBy('payment_type')
+            ->orderByDesc('expense')
+            ->get();
+    }
 }
