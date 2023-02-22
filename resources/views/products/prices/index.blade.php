@@ -4,16 +4,13 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header
-            title="{{ $product->code ? str($product->name)->append(' - ', $product->code) : $product->name }}"
-            is-mobile
-        >
+        <x-content.header title="{{ $product->code ? str($product->name)->append(' - ', $product->code) : $product->name }}">
             @can('Update Price')
                 <x-common.button
                     tag="a"
                     href="{{ route('prices.edit', $price->id) }}"
                     mode="button"
-                    icon="fas fa-pen-square"
+                    icon="fas fa-pen"
                     label="Edit Prices"
                     class="btn-green is-outlined is-small"
                 />
