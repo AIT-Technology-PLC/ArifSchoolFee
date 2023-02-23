@@ -26,8 +26,8 @@ class PurchaseDetailDatatable extends DataTable
             })
             ->editColumn('unit_cost', fn($purchaseDetail) => number_format($purchaseDetail->unit_price, 4))
             ->editColumn('unit_cost_in_local_currency', fn($purchaseDetail) => number_format($purchaseDetail->unitPriceInLocalCurrency, 4))
-            ->editColumn('total_cost', fn($purchaseDetail) => money($purchaseDetail->totalPrice))
-            ->editColumn('total_cost_in_foreign_currency', fn($purchaseDetail) => number_format($purchaseDetail->totalPriceInForeignCurrency, 2))
+            ->editColumn('total_cost', fn($purchaseDetail) => number_format($purchaseDetail->totalPrice, 2))
+            ->editColumn('total_cost_in_local_currency', fn($purchaseDetail) => number_format($purchaseDetail->totalPriceInLocalCurrency, 2))
             ->editColumn('freight_volume', fn($purchaseDetail) => quantity($purchaseDetail->amount, $purchaseDetail->freight_unit))
             ->editColumn('freight_cost', fn($purchaseDetail) => money($purchaseDetail->freightCostValue))
             ->editColumn('freight_insurance_cost', fn($purchaseDetail) => money($purchaseDetail->freightInsuranceCostValue))
@@ -67,12 +67,25 @@ class PurchaseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
-            Column::make('unit_cost', 'unit_price')->addClass('has-text-right')
+
+            Column::make('unit_cost', 'unit_price')
+                ->addClass('has-text-right')
                 ->title(request()->route('purchase')->isImported() ? ('Unit Cost In ' . request()->route('purchase')->currency) : 'Unit Cost'),
-            request()->route('purchase')->isImported() ? Column::computed('unit_cost_in_local_currency')->title('Unit Cost In ' . userCompany()->currency)->addClass('has-text-right') : null,
-            Column::computed('total_cost')->addClass('has-text-right'),
-            request()->route('purchase')->isImported() ? Column::computed('total_cost_in_foreign_currency')
-                ->title('Total Cost In ' . request()->route('purchase')->currency)->addClass('has-text-right') : null,
+
+            request()->route('purchase')->isImported()
+            ? Column::computed('unit_cost_in_local_currency')
+                ->title('Unit Cost In ' . userCompany()->currency)->addClass('has-text-right')
+            : null,
+
+            Column::computed('total_cost')
+                ->addClass('has-text-right')
+                ->title(request()->route('purchase')->isImported() ? ('Total Cost In ' . request()->route('purchase')->currency) : 'Total Cost'),
+
+            request()->route('purchase')->isImported()
+            ? Column::computed('total_cost_in_local_currency')
+                ->title('Total Cost In ' . userCompany()->currency)->addClass('has-text-right')
+            : null,
+
             request()->route('purchase')->isImported() ? Column::computed('freight_volume')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_cost')->visible(false)->addClass('has-text-right') : null,
             request()->route('purchase')->isImported() ? Column::computed('freight_insurance_cost')->visible(false)->addClass('has-text-right') : null,

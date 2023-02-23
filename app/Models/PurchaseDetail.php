@@ -36,7 +36,7 @@ class PurchaseDetail extends Model
     public function getTotalPriceAttribute()
     {
         if ($this->purchase->isImported()) {
-            return $this->unitPriceInLocalCurrency * $this->quantity;
+            return $this->unit_price * $this->quantity;
         }
 
         $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');
@@ -50,10 +50,10 @@ class PurchaseDetail extends Model
         return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
     }
 
-    public function getTotalPriceInForeignCurrencyAttribute()
+    public function getTotalPriceInLocalCurrencyAttribute()
     {
-        if (!$this->purchase->isImported()) {
-            return 0;
+        if ($this->purchase->isImported()) {
+            return $this->unitPriceInLocalCurrency * $this->quantity;
         }
 
         return $this->unit_price * $this->quantity;
@@ -61,7 +61,11 @@ class PurchaseDetail extends Model
 
     public function getUnitPriceInLocalCurrencyAttribute()
     {
-        return $this->unit_price * $this->purchase->exchange_rate;
+        if ($this->purchase->isImported()) {
+            return $this->unit_price * $this->purchase->exchange_rate;
+        }
+
+        return $this->unit_price;
     }
 
     public function getFreightCostValueAttribute()
@@ -74,7 +78,7 @@ class PurchaseDetail extends Model
             return ($this->amount * $this->purchase->freight_cost) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->freight_cost;
+        return ($this->totalPrice / $this->purchase->purchaseDetails->sum('total_price')) * $this->purchase->freight_cost;
     }
 
     public function getFreightInsuranceCostValueAttribute()
@@ -87,7 +91,7 @@ class PurchaseDetail extends Model
             return ($this->amount * $this->purchase->freight_insurance_cost) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->freight_insurance_cost;
+        return ($this->totalPrice / $this->purchase->purchaseDetails->sum('total_price')) * $this->purchase->freight_insurance_cost;
     }
 
     public function getOtherCostBeforeTaxValueAttribute()
@@ -100,7 +104,7 @@ class PurchaseDetail extends Model
             return ($this->amount * $this->purchase->other_costs_before_tax) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->other_costs_before_tax;
+        return ($this->totalPrice / $this->purchase->purchaseDetails->sum('total_price')) * $this->purchase->other_costs_before_tax;
     }
 
     public function getOtherCostAfterTaxValueAttribute()
@@ -113,7 +117,7 @@ class PurchaseDetail extends Model
             return ($this->amount * $this->purchase->other_costs_after_tax) / $this->purchase->purchaseDetails->sum('amount');
         }
 
-        return ($this->totalPriceInForeignCurrency / $this->purchase->purchaseDetails->sum('total_price_in_foreign_currency')) * $this->purchase->other_costs_after_tax;
+        return ($this->totalPrice / $this->purchase->purchaseDetails->sum('total_price')) * $this->purchase->other_costs_after_tax;
     }
 
     public function getDutyPayingValueAttribute()
@@ -191,7 +195,7 @@ class PurchaseDetail extends Model
     public function getUnitCostAfterTaxAttribute()
     {
         if (!$this->purchase->isImported()) {
-            return 0;
+            return $this->unit_price;
         }
 
         return $this->totalCostAfterTax / ($this->quantity ?? 1);

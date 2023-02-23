@@ -22,9 +22,10 @@ class PurchaseService
             return [false, 'This purchase is closed.', ''];
         }
 
-        $purchaseDetails = collect($purchase->purchaseDetails->toArray())
+        $purchaseDetails = $purchase
+            ->purchaseDetails
             ->map(function ($item) {
-                $item['unit_cost'] = $item['unit_price'];
+                $item['unit_cost'] = round($item->unitCostAfterTax, 2);
 
                 return $item;
             });

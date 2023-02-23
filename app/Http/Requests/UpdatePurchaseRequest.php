@@ -64,7 +64,7 @@ class UpdatePurchaseRequest extends FormRequest
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus('activeForPurchase')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'purchase.*.unit_price' => ['required', 'numeric'],
+            'purchase.*.unit_price' => ['required', 'numeric', 'min:0'],
             'purchase.*.amount' => ['nullable', 'numeric', 'gt:0', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.duty_rate' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.excise_tax' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
