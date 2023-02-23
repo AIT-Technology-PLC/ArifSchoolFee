@@ -45,27 +45,33 @@
                         </td>
                         <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                         @can('Read Available Inventory')
-                            <td class="has-text-right">
+                            <td
+                                class="has-text-right"
+                                data-sort="{{ $merchandise->available }}"
+                            >
                                 <span class="tag is-small btn-green is-outlined has-text-white">
-                                    {{ $merchandise->available }}
-                                    {{ $merchandise->product->unit_of_measurement }}
+                                    {{ quantity($merchandise->available, $merchandise->product->unit_of_measurement) }}
                                 </span>
                             </td>
                         @endcan
                         @if (isFeatureEnabled('Reservation Management'))
                             @can('Read Reserved Inventory')
                                 <td class="has-text-right">
-                                    <span class="tag is-small btn-green is-outlined has-text-white">
-                                        {{ $merchandise->reserved }}
-                                        {{ $merchandise->product->unit_of_measurement }}
+                                    <span
+                                        class="tag is-small btn-green is-outlined has-text-white"
+                                        data-sort="{{ $merchandise->reserved }}"
+                                    >
+                                        {{ quantity($merchandise->reserved, $merchandise->product->unit_of_measurement) }}
                                     </span>
                                 </td>
                             @endcan
                             @can('Read On Hand Inventory')
                                 <td class="has-text-right">
-                                    <span class="tag is-small btn-green is-outlined has-text-white">
-                                        {{ $merchandise->on_hand }}
-                                        {{ $merchandise->product->unit_of_measurement }}
+                                    <span
+                                        class="tag is-small btn-green is-outlined has-text-white"
+                                        data-sort="{{ $merchandise->on_hand }}"
+                                    >
+                                        {{ quantity($merchandise->on_hand, $merchandise->product->unit_of_measurement) }}
                                     </span>
                                 </td>
                             @endcan
@@ -73,9 +79,11 @@
                         @if (isFeatureEnabled('Job Management'))
                             @can('Read Work In Process Inventory')
                                 <td class="has-text-right">
-                                    <span class="tag is-small btn-green is-outlined has-text-white">
-                                        {{ $merchandise->wip }}
-                                        {{ $merchandise->product->unit_of_measurement }}
+                                    <span
+                                        class="tag is-small btn-green is-outlined has-text-white"
+                                        data-sort="{{ $merchandise->wip }}"
+                                    >
+                                        {{ quantity($merchandise->wip, $merchandise->product->unit_of_measurement) }}
                                     </span>
                                 </td>
                             @endcan

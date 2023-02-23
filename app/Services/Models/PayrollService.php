@@ -77,6 +77,7 @@ class PayrollService
                 'reference_number' => $payroll->code,
                 'tax_type' => 'None',
                 'issued_on' => now(),
+                'payment_type' => 'Bank Transfer',
             ]);
 
             $expense->expenseDetails()->createMany([

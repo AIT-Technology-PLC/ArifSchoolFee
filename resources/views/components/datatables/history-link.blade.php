@@ -1,5 +1,8 @@
 @if (isset($amount))
-    <span class="is-hidden"> {{ number_format($amount, 2, '.', '') }} </span>
+    <span
+        class="is-hidden"
+        data-sort="{{ $amount }}"
+    ></span>
 @endif
 
 
@@ -16,7 +19,7 @@
                 'btn-purple' => $amount == 0 || isset($expired),
                 'is-outlined has-text-white',
             ])>
-                {{ number_format($amount, 2, '.', '') }} {{ $unit }}
+                {{ quantity($amount, $unit) }}
             </span>
         @else
             <span class='tag is-small btn-purple is-outlined'>
@@ -33,7 +36,7 @@
             'btn-purple' => $amount == 0 || isset($expired),
             'is-outlined has-text-white',
         ])>
-            {{ number_format($amount, 2, '.', '') }} {{ $unit }}
+            {{ quantity($amount, $unit) }}
         </span>
     @else
         <span class='tag is-small btn-purple is-outlined'>
