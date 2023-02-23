@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up()
     {
-        PurchaseDetail::whereRelation('purchase', 'type', 'Imported')->where('amount', 0)->update(['amount' => 1]);
+        PurchaseDetail::where('amount', 0)->update(['amount' => 1]);
     }
 
     /**
