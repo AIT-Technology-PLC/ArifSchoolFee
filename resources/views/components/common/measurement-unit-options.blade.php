@@ -81,6 +81,10 @@
     {{ $selectedUnitType == 'Quintal' ? 'selected' : '' }}
 >Quintal</option>
 <option
+    value="Rack"
+    {{ $selectedUnitType == 'Rack' ? 'selected' : '' }}
+>Rack</option>
+<option
     value="Roll"
     {{ $selectedUnitType == 'Roll' ? 'selected' : '' }}
 >Roll</option>
