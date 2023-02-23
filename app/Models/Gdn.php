@@ -77,4 +77,16 @@ class Gdn extends Model
 
         $this->save();
     }
+
+    public static function getValidGdnsForReturn($forceIncludedGdn = null)
+    {
+        return static::query()
+            ->subtracted()
+            ->notCancelled()
+            ->whereRelation('gdnDetails', fn($q) => $q->whereColumn('quantity', '>', 'returned_quantity'))
+            ->when(!is_null($forceIncludedGdn), fn($q) => $q->orWhere('id', $forceIncludedGdn))
+            ->orderByDesc('code')
+            ->get()
+            ->groupBy('warehouse_id');
+    }
 }

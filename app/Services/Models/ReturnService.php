@@ -18,18 +18,6 @@ class ReturnService
                 return [$isExecuted, $message];
             }
 
-            if ($return->gdn?->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
-                $return->gdn->credit->forceDelete();
-            }
-
-            if ($return->gdn?->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
-                $difference = $return->gdn->credit->credit_amount - $return->grandTotalPrice;
-
-                $return->gdn->credit->credit_amount = $difference;
-
-                $return->gdn->credit->save();
-            }
-
             return [true, $message];
         });
     }
@@ -53,6 +41,50 @@ class ReturnService
             InventoryOperationService::add($return->returnDetails, $return);
 
             $return->add();
+
+            foreach ($return->returnDetails as $returnDetail) {
+                $gdnDetails = $return->gdn->gdnDetails()->where('product_id', $returnDetail->product_id)->whereColumn('quantity', '>', 'returned_quantity')->get();
+                foreach ($gdnDetails as $gdnDetail) {
+                    if ($returnDetail->quantity <= 0) {
+                        break;
+                    }
+
+                    $allowedQuantity = $gdnDetail->quantity - $gdnDetail->returned_quantity;
+                    if ($allowedQuantity == 0) {
+                        continue;
+                    }
+
+                    if ($allowedQuantity >= $returnDetail->quantity) {
+                        $gdnDetail->returned_quantity += $returnDetail->quantity;
+
+                        $gdnDetail->save();
+                        break;
+                    }
+
+                    if ($allowedQuantity < $returnDetail->quantity) {
+                        $gdnDetail->returned_quantity += $allowedQuantity;
+                        $returnDetail->quantity -= $allowedQuantity;
+
+                        $gdnDetail->save();
+                    }
+                }
+            }
+
+            if ($return->gdn->payment_type == 'Deposits') {
+                $return->gdn->customer->incrementBalance($return->grandTotalPrice);
+            }
+
+            if ($return->gdn?->credit && $return->grandTotalPrice >= $return->gdn->credit->credit_amount) {
+                $return->gdn->credit->forceDelete();
+            }
+
+            if ($return->gdn?->credit && $return->gdn->credit->credit_amount > $return->grandTotalPrice) {
+                $difference = $return->gdn->credit->credit_amount - $return->grandTotalPrice;
+
+                $return->gdn->credit->credit_amount = $difference;
+
+                $return->gdn->credit->save();
+            }
         });
 
         return [true, ''];
