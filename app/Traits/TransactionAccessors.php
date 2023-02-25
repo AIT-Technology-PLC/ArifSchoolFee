@@ -101,11 +101,15 @@ trait TransactionAccessors
 
                         if ($this->pad->hasPrices()) {
                             $data['quantity'] = number_format($data['quantity'], 2, thousands_separator:'');
+
                             $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
-                            $unitPrice = userCompany()->isPriceBeforeTax() ? $data['unit_price'] : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
+                            $unitPrice = userCompany()->isPriceBeforeTax()
+                            ? $data['unit_price']
+                            : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
+
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
-                            $data['total'] = number_format($data['total'], 2, thousands_separator:'');
+
                             $data['total_tax'] = number_format($data['total'] * $taxAmount, 2, thousands_separator:'');
                         }
 

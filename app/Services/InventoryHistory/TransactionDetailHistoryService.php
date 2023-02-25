@@ -26,7 +26,7 @@ class TransactionDetailHistoryService implements DetailHistoryServiceInterface
     {
         $this->history->transform(function ($transactionDetail) {
             return [
-                'type' => $transactionDetail['transaction']->pad->name,
+                'type' => str()->upper($transactionDetail['transaction']->pad->abbreviation),
                 'url' => '/transactions/'.$transactionDetail['transaction']->id,
                 'code' => $transactionDetail['transaction']->code,
                 'date' => $transactionDetail['transaction']->issued_on,

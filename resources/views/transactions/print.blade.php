@@ -74,28 +74,30 @@
         </h1>
     </section>
 
-    <section class="table-breaked mt-5">
-        <table class="table is-borderless is-fullwidth is-narrow is-size-7 is-transparent-color">
-            <thead>
-                <tr>
+    @if (!empty($columns['master']))
+        <section class="table-breaked mt-5">
+            <table class="table is-borderless is-fullwidth is-narrow is-size-7 is-transparent-color">
+                <thead>
+                    <tr>
+                        @foreach ($columns['master'] as $column)
+                            @continue($column == 'description')
+
+                            <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+                        @endforeach
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach ($columns['master'] as $column)
                         @continue($column == 'description')
 
-                        <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+                        <td class="has-text-centered">
+                            {{ $transaction->transactionMasters->toArray()[$column] ?? '-' }}
+                        </td>
                     @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($columns['master'] as $column)
-                    @continue($column == 'description')
-
-                    <td class="has-text-centered">
-                        {{ $transaction->transactionMasters->toArray()[$column] ?? '-' }}
-                    </td>
-                @endforeach
-            </tbody>
-        </table>
-    </section>
+                </tbody>
+            </table>
+        </section>
+    @endif
 
     @if ($transaction->transactionDetails->isNotEmpty())
         <section class="table-breaked">
