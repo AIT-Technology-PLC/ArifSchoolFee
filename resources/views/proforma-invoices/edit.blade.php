@@ -106,7 +106,7 @@
                                     name="expires_on"
                                     id="expires_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $proformaInvoice->expires_on->toDateString() ?? '' }}"
+                                    value="{{ $proformaInvoice->expires_on?->toDateString() ?? 'N/A' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"

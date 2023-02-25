@@ -35,7 +35,7 @@ class ProformaInvoiceDatatable extends DataTable
             ->editColumn('contact', fn($proformaInvoice) => $proformaInvoice->contact->name ?? 'N/A')
             ->editColumn('terms', fn($proformaInvoice) => view('components.datatables.searchable-description', ['description' => $proformaInvoice->description]))
             ->editColumn('issued_on', fn($proformaInvoice) => $proformaInvoice->issued_on->toFormattedDateString())
-            ->editColumn('expires_on', fn($proformaInvoice) => $proformaInvoice->expires_on->toFormattedDateString())
+            ->editColumn('expires_on', fn($proformaInvoice) => $proformaInvoice->expires_on?->toFormattedDateString() ?? 'N/A')
             ->editColumn('prepared by', fn($proformaInvoice) => $proformaInvoice->createdBy->name)
             ->editColumn('edited by', fn($proformaInvoice) => $proformaInvoice->updatedBy->name)
             ->editColumn('actions', function ($proformaInvoice) {
