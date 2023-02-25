@@ -246,6 +246,6 @@ class TransactionService
                 ];
             });
 
-        return is_null($transactionDetails) ? $transactionDetails : $transactionDetails->where('line', $line);
+        return is_null($line) ? $transactionDetails : $transactionDetails->where('line', $line);
     }
 }

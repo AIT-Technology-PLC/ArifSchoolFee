@@ -85,7 +85,9 @@ trait TransactionAccessors
                         $data['line'] = $transactionFields->first()->line;
 
                         foreach ($transactionFields as $transactionField) {
-                            $value = $transactionField->value;
+                            $value = is_numeric($transactionField->value)
+                            ? number_format($transactionField->value, 2, thousands_separator : '')
+                            : $transactionField->value;
 
                             if ($transactionField->padField->hasRelation()) {
                                 $value = $transactionField->relationValue;
@@ -100,8 +102,6 @@ trait TransactionAccessors
                         }
 
                         if ($this->pad->hasPrices()) {
-                            $data['quantity'] = number_format($data['quantity'], 2, thousands_separator:'');
-
                             $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
                             $unitPrice = userCompany()->isPriceBeforeTax()
