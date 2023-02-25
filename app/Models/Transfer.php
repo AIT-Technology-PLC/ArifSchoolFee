@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\TransferScope;
 use App\Traits\Addable;
 use App\Traits\Approvable;
@@ -28,6 +29,11 @@ class Transfer extends Model
         static::addGlobalScope(new TransferScope);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
+    }
+
     public function transferDetails()
     {
         return $this->hasMany(TransferDetail::class);
@@ -35,12 +41,12 @@ class Transfer extends Model
 
     public function transferredFrom()
     {
-        return $this->belongsTo(Warehouse::class, 'transferred_from');
+        return $this->belongsTo(Warehouse::class, 'transferred_from')->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public function transferredTo()
     {
-        return $this->belongsTo(Warehouse::class, 'transferred_to');
+        return $this->belongsTo(Warehouse::class, 'transferred_to')->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public static function withBranchScope()

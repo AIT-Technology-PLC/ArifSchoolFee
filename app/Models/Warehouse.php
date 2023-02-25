@@ -32,6 +32,7 @@ class Warehouse extends Model
         'reservationDetails',
         'originalUsers',
         'jobs',
+        'transfers',
         'fromTransfers',
         'toTransfers',
     ];
@@ -89,6 +90,11 @@ class Warehouse extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)->withPivot('type');
+    }
+
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
     }
 
     public function fromTransfers()
