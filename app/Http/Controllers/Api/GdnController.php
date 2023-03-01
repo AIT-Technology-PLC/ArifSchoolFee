@@ -14,6 +14,6 @@ class GdnController extends Controller
 
     public function show(Gdn $gdn)
     {
-        return $gdn->load(['gdnDetails', 'customer:id,company_name']);
+        return $gdn->load(['gdnDetails.product', 'customer:id,company_name']);
     }
 }

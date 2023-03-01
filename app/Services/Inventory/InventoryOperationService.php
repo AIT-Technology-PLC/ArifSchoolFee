@@ -37,7 +37,7 @@ class InventoryOperationService
 
             $merchandise->save();
 
-            static::addToBatch($detail, $merchandise);
+            static::addToBatch($detail, $merchandise, $to);
 
             static::createInventoryHistory($model, $detail, false);
         }
@@ -60,40 +60,41 @@ class InventoryOperationService
 
             $merchandise->save();
 
-            static::subtractFromBatch($detail, $merchandise);
+            static::subtractFromBatch($detail, $merchandise, $from);
 
             static::createInventoryHistory($model, $detail);
         }
     }
 
-    public static function addToBatch($detail, $merchandise)
+    public static function addToBatch($detail, $merchandise, $to)
     {
         $batchNo = $detail['batch_no'] ?? $detail['merchandiseBatch']['batch_no'] ?? null;
 
-        if (!$merchandise->product->isBatchable() || is_null($batchNo)) {
+        if ($to != 'available' || !$merchandise->product->isBatchable() || is_null($batchNo)) {
             return;
         }
 
-        $merchandiseBatch = MerchandiseBatch::firstOrCreate([
-            'merchandise_id' => $merchandise->id,
-            'batch_no' => $batchNo,
-        ]);
+        $merchandiseBatch = MerchandiseBatch::firstOrCreate(
+            [
+                'merchandise_id' => $merchandise->id,
+                'batch_no' => $batchNo,
+            ],
+            [
+                'received_quantity' => $detail['quantity'],
+                'quantity' => 0.00,
+            ]
+        );
 
         $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail['merchandiseBatch']['expires_on'] ?? null;
-        $merchandiseBatch->quantity += $detail['quantity'];
 
-        if (isset($detail['transfer_id'])) {
-            $merchandiseBatch->received_quantity += $detail['quantity'];
-        } else {
-            $merchandiseBatch->received_quantity += $detail['merchandise_batch_id'] ? 0 : $detail['quantity'];
-        }
+        $merchandiseBatch->quantity += $detail['quantity'];
 
         $merchandiseBatch->save();
     }
 
-    public static function subtractFromBatch($detail, $merchandise)
+    public static function subtractFromBatch($detail, $merchandise, $from)
     {
-        if (!$merchandise->product->isBatchable() || empty($detail['merchandiseBatch'])) {
+        if ($from != 'available' || !$merchandise->product->isBatchable() || empty($detail['merchandiseBatch'])) {
             return;
         }
 

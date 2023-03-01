@@ -8,12 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
 use App\Models\Gdn;
-use App\Models\MerchandiseBatch;
-use App\Models\ReturnDetail;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -57,44 +56,9 @@ class ReturnController extends Controller
         $return = DB::transaction(function () use ($request) {
             $return = Returnn::create($request->safe()->except('return'));
 
-            $returnDetails = $return->returnDetails()->createMany($request->validated('return'));
-
-            $deletableDetails = collect();
-
-            foreach ($returnDetails as $returnDetail) {
-                if ($returnDetail->product->isBatchable() && is_null($returnDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $returnDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $returnDetail->warehouse_id)
-                        ->when($returnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$returnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($returnDetail->id);
-
-                        $return->returnDetails()->create([
-                            'product_id' => $returnDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->original_unit_price,
-                            'warehouse_id' => $returnDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $returnDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $returnDetail->quantity - $merchandiseBatch->quantity;
-                            $returnDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            ReturnDetail::whereIn('id', $deletableDetails)->forceDelete();
+            $return->returnDetails()->createMany(
+                Arr::where($request->validated('return'), fn($detail) => $detail['quantity'] > 0)
+            );
 
             Notification::send(Notifiables::byNextActionPermission('Approve Return'), new ReturnPrepared($return));
 
@@ -136,44 +100,9 @@ class ReturnController extends Controller
 
             $return->returnDetails()->forceDelete();
 
-            $returnDetails = $return->returnDetails()->createMany($request->validated('return'));
-
-            $deletableDetails = collect();
-
-            foreach ($returnDetails as $returnDetail) {
-                if ($returnDetail->product->isBatchable() && is_null($returnDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $returnDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $returnDetail->warehouse_id)
-                        ->when($returnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$returnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($returnDetail->id);
-
-                        $return->returnDetails()->create([
-                            'product_id' => $returnDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->original_unit_price,
-                            'warehouse_id' => $returnDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $returnDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $returnDetail->quantity - $merchandiseBatch->quantity;
-                            $returnDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            ReturnDetail::whereIn('id', $deletableDetails)->forceDelete();
+            $return->returnDetails()->createMany(
+                Arr::where($request->validated('return'), fn($detail) => $detail['quantity'] > 0)
+            );
         });
 
         return redirect()->route('returns.show', $return->id);
