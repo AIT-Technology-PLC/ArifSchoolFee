@@ -5,16 +5,18 @@ namespace App\Models;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateDebtPayment;
+use App\Traits\Cancellable;
 use App\Traits\Closable;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
+use App\Traits\Rejectable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, CalculateDebtPayment, Approvable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, CalculateDebtPayment, Approvable, Rejectable, Cancellable;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

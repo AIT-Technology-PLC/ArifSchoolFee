@@ -18,7 +18,7 @@ class CustomerList extends Component
 
     public $value;
 
-    public function __construct($selectedId, $id = 'customer_id', $name = 'customer_id', $value = 'id')
+    public function __construct($selectedId = null, $id = 'customer_id', $name = 'customer_id', $value = 'id')
     {
         $this->customers = Cache::store('array')
             ->rememberForever(authUser()->id . '_' . 'customerLists', function () {

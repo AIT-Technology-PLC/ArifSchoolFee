@@ -35,7 +35,9 @@ class ExpenseDatatable extends DataTable
             ->editColumn('contact', fn($expense) => $expense->contact->name ?? 'N/A')
             ->editColumn('tax_type', fn($expense) => $expense->taxModel->type ?? 'N/A')
             ->editColumn('reference_no', fn($expense) => $expense->reference_number ?? 'N/A')
+            ->editColumn('payment_type', fn($expense) => $expense->payment_type ?? 'N/A')
             ->editColumn('issued_on', fn($expense) => $expense->issued_on->toFormattedDateString())
+            ->editColumn('description', fn($expense) => view('components.datatables.searchable-description', ['description' => $expense->description]))
             ->editColumn('prepared by', fn($expense) => $expense->createdBy->name)
             ->editColumn('edited by', fn($expense) => $expense->updatedBy->name)
             ->editColumn('approved by', fn($expense) => $expense->approvedBy->name ?? 'N/A')
@@ -55,6 +57,7 @@ class ExpenseDatatable extends DataTable
             ->newQuery()
             ->select('expenses.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('expenses.warehouse_id', request('branch')))
+            ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('expenses.payment_type', request('paymentType')))
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->with([
@@ -81,6 +84,11 @@ class ExpenseDatatable extends DataTable
             Column::make('tax_type', 'taxModel.type'),
             Column::make('reference_number')->visible(false),
             Column::make('issued_on'),
+            Column::computed('total price')->visible(false),
+            Column::make('payment_type')->visible(false),
+            Column::make('bank_name')->visible(false)->content('N/A'),
+            Column::make('bank_reference_number')->visible(false)->content('N/A'),
+            Column::make('description')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::make('approved by', 'approvedBy.name')->visible(false),

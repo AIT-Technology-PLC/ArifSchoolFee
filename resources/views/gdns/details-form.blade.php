@@ -58,6 +58,7 @@
                                     x-bind:name="`gdn[${index}][product_id]`"
                                     x-model="gdn.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -113,7 +114,7 @@
                                     x-bind:id="`gdn[${index}][warehouse_id]`"
                                     x-bind:name="`gdn[${index}][warehouse_id]`"
                                     x-model="gdn.warehouse_id"
-                                    x-on:change="getInventoryLevel(index)"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -349,7 +350,7 @@
                 gdns: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (gdn) {
                         this.gdns = gdn;
@@ -378,11 +379,11 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), gdn.product_id, gdn.product_category_id);
 
-                                if (Product.isBatchable(this.gdns[i].product_id)) {
+                                if (Product.isBatchable(this.gdns[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.gdns[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.gdns[i].product_id)
+                                        MerchandiseBatch.where(this.gdns[i].product_id, this.gdns[i].warehouse_id),
                                     );
                                 }
                             }
@@ -402,11 +403,11 @@
                                 this.gdns[index].product_id
                             );
 
-                        if (Product.isBatchable(this.gdns[index].product_id)) {
+                        if (Product.isBatchable(this.gdns[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.gdns[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.gdns[index].product_id)
+                                MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
                             );
                         }
 
@@ -434,6 +435,15 @@
                         await Merchandise.init(this.gdns[index].product_id, this.gdns[index].warehouse_id);
                         this.gdns[index].availableQuantity = Merchandise.merchandise;
                     }
+                },
+                warehouseChanged(index) {
+                    this.getInventoryLevel(index);
+
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.gdns[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
+                    )
                 }
             }));
         });

@@ -173,4 +173,18 @@ class ExpenseReport
 
         return $this->getTotalExpenseAfterTax / $this->getExpenseTransactionCount;
     }
+
+    public function getPaymentTypesByExpense()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(quantity*unit_price*(1+taxes.amount)
+                ) AS expense,
+                taxes.type AS payment_type,
+                COUNT(taxes.type) AS transactions
+            ')
+            ->groupBy('payment_type')
+            ->orderByDesc('expense')
+            ->get();
+    }
 }

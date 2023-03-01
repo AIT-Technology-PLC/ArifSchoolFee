@@ -240,12 +240,12 @@ class TransactionService
             ->map(function ($detail) {
                 return [
                     'product_id' => Product::firstWhere('id', $detail['product_id'])->id,
-                    'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id,
+                    'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'])->id,
                     'quantity' => $detail['quantity'],
                     'line' => $detail['line'],
                 ];
             });
 
-        return is_null($transactionDetails) ? $transactionDetails : $transactionDetails->where('line', $line);
+        return is_null($line) ? $transactionDetails : $transactionDetails->where('line', $line);
     }
 }

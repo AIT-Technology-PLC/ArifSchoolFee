@@ -55,4 +55,14 @@ class PurchasePolicy
     {
         return $user->can('Convert To Debt');
     }
+
+    public function reject(User $user, Purchase $purchase)
+    {
+        return $user->can('Reject Purchase');
+    }
+
+    public function cancel(User $user, Purchase $purchase)
+    {
+        return $user->can('Cancel Purchase');
+    }
 }

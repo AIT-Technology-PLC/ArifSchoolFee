@@ -39,7 +39,7 @@ trait TransactionConverts
                     'grn' => [
                         [
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
+                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
                         ],
@@ -47,7 +47,7 @@ trait TransactionConverts
                 ];
             })->toArray() + $this->transactionMasters->toArray();
 
-        $data['supplier_id'] = Supplier::firstWhere('company_name', $data['supplier'] ?? '')->id ?? null;
+        $data['supplier_id'] = Supplier::firstWhere('id', $data['supplier_id'] ?? '')->id ?? null;
 
         return $data;
     }
@@ -61,7 +61,7 @@ trait TransactionConverts
                     'siv' => [
                         [
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'])->id ?? null,
+                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
                         ],
@@ -94,7 +94,7 @@ trait TransactionConverts
                 ];
             })->toArray() + $this->transactionMasters->toArray();
 
-        $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
+        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['payment_type'] = $data['payment_method'] ?? null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
@@ -113,22 +113,20 @@ trait TransactionConverts
                     'gdn' => [
                         [
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('name', $detail['warehouse'] ?? null)->id ?? null,
+                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'description' => $detail['description'] ?? null,
-                            'discount' => $detail['discount'] ?? null,
                         ],
                     ],
                 ];
             })->toArray() + $this->transactionMasters->toArray();
 
-        $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
+        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
         $data['due_date'] = $data['credit_due_date'] ?? null;
-        $data['discount'] = $data['discount'] ?? null;
         $data['description'] = $data['description'] ?? null;
 
         return $data;
@@ -145,16 +143,14 @@ trait TransactionConverts
                             'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
                             'quantity' => $detail['quantity'] ?? null,
                             'unit_price' => $detail['unit_price'] ?? null,
-                            'discount' => $detail['discount'] ?? null,
                             'specification' => $detail['specification'] ?? null,
                         ],
                     ],
                 ];
             })->toArray() + $this->transactionMasters->toArray();
 
-        $data['customer_id'] = Customer::firstWhere('company_name', $data['customer'] ?? null)->id ?? null;
+        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['terms'] = $data['terms'] ?? null;
-        $data['discount'] = $data['discount'] ?? null;
 
         return $data;
     }
@@ -198,14 +194,12 @@ trait TransactionConverts
 
         $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Customer')?->id] = $proformaInvoice->customer_id ?? null;
         $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Terms')?->id] = $proformaInvoice->terms ?? null;
-        $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Discount')?->id] = $proformaInvoice->discount ?? null;
 
         $data['details'] = $proformaInvoice->proformaInvoiceDetails->map(function ($detail) use ($pad) {
             return [
                 $pad->padFields()->detailFields()->firstWhere('label', 'Product')?->id => $detail['product_id'],
                 $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => $detail['unit_price'] ?? null,
-                $pad->padFields()->detailFields()->firstWhere('label', 'Discount')?->id => $detail['discount'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Specification')?->id => $detail['specification'] ?? null,
             ];
         });

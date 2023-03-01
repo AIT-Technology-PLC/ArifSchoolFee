@@ -113,7 +113,7 @@
                                     x-bind:id="`damage[${index}][warehouse_id]`"
                                     x-bind:name="`damage[${index}][warehouse_id]`"
                                     x-model="damage.warehouse_id"
-                                    x-on:change="getInventoryLevel(index)"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -205,7 +205,7 @@
                 damages: [],
 
                 async init() {
-                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (damage) {
                         this.damages = damage;
@@ -234,11 +234,11 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), damage.product_id, damage.product_category_id);
 
-                                if (Product.isBatchable(this.damages[i].product_id)) {
+                                if (Product.isBatchable(this.damages[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.damages[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.damages[i].product_id)
+                                        MerchandiseBatch.where(this.damages[i].product_id, this.damages[i].warehouse_id)
                                     );
                                 }
                             }
@@ -258,11 +258,11 @@
                                 this.damages[index].product_id
                             );
 
-                        if (Product.isBatchable(this.damages[index].product_id)) {
+                        if (Product.isBatchable(this.damages[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.damages[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.damages[index].product_id)
+                                MerchandiseBatch.where(this.damages[index].product_id, this.damages[index].warehouse_id)
                             );
                         }
 
@@ -277,6 +277,13 @@
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
+                warehouseChanged(index) {
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.damages[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.damages[index].product_id, this.damages[index].warehouse_id),
+                    )
+                }
             }));
         });
     </script>

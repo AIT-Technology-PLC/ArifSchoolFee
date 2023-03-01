@@ -44,6 +44,17 @@
                 </div>
                 @foreach ($masterTransactionFields as $masterTransactionField)
                     @continue($masterTransactionField->padField->isTagTextarea())
+                    @if ($masterTransactionField->padField->isInputTypeRadio())
+                        <div class="column is-6">
+                            <x-common.show-data-section
+                                type="short"
+                                icon="far {{ $masterTransactionField->value == 'Yes' ? 'fa-check-square' : 'fa-minus-square' }}"
+                                :data="$masterTransactionField->value"
+                                :label="$masterTransactionField->padField->label"
+                            />
+                        </div>
+                        @continue
+                    @endif
                     <div class="column is-6">
                         <x-common.show-data-section
                             type="short"
@@ -68,15 +79,6 @@
                             label="Grand Total Price ({{ userCompany()->currency }})"
                         />
                     </div>
-                    @if (!userCompany()->isDiscountBeforeTax())
-                        <div class="column is-6">
-                            <x-common.show-data-section
-                                icon="fas fa-dollar-sign"
-                                :data="number_format($transaction->grand_total_price_after_discount, 2)"
-                                label="Grand Total Price (After Discount) ({{ userCompany()->currency }})"
-                            />
-                        </div>
-                    @endif
                 @endif
                 @foreach ($masterTransactionFields as $masterTransactionField)
                     @continue(!$masterTransactionField->padField->isTagTextarea())

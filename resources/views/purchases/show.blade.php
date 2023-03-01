@@ -69,29 +69,36 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-arrow-trend-up"
-                            :data="$purchase->exchange_rate"
+                            :data="number_format($purchase->exchange_rate, 4)"
                             label="Exchange Rate ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_cost"
+                            :data="number_format($purchase->freight_cost, 2)"
                             label="Freight Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->freight_insurance_cost"
+                            :data="number_format($purchase->freight_insurance_cost, 2)"
                             label="Freight Insurance Cost ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-dollar-sign"
-                            :data="$purchase->other_costs"
-                            label="Other Costs ({{ userCompany()->currency }})"
+                            :data="number_format($purchase->other_costs_before_tax, 2)"
+                            label="Other Cost Before Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-dollar-sign"
+                            :data="number_format($purchase->other_costs_after_tax, 2)"
+                            label="Other Cost After Tax ({{ userCompany()->currency }})"
                         />
                     </div>
                     <div class="column is-6">
@@ -174,7 +181,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$purchase->isApproved())
+                @if (!$purchase->isApproved() && !$purchase->isRejected())
                     @can('Approve Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -187,7 +194,19 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$purchase->isPurchased())
+                    @can('Reject Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.reject', $purchase->id)"
+                                action="reject"
+                                intention="reject this purchase"
+                                icon="fas fa-times-circle"
+                                label="Reject"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif($purchase->isApproved() && !$purchase->isPurchased() && !$purchase->isCancelled())
                     @can('Make Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -200,7 +219,19 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$purchase->isClosed())
+                    @can('Cancel Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.cancel', $purchase->id)"
+                                action="cancel"
+                                intention="cancel this purchase"
+                                icon="fas fa-times-circle"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif($purchase->isPurchased() && !$purchase->isClosed())
                     @if (isFeatureEnabled('Grn Management'))
                         @can('Create GRN')
                             <x-common.dropdown-item>
@@ -228,7 +259,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
+                @if (isFeatureEnabled('Debt Management') && $purchase->isApproved() && !$purchase->isCancelled() && !$purchase->debt()->exists() && $purchase->payment_type == 'Credit Payment' && $purchase->supplier()->exists())
                     @can('Convert To Debt')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -257,9 +288,15 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if ($purchase->isPurchased())
+            @if ($purchase->isRejected())
+                <x-common.fail-message message="This Purchase has rejected." />
+            @elseif ($purchase->isPurchased())
                 <x-common.success-message message="Products have been purchased accordingly." />
-            @elseif (!$purchase->isApproved())
+            @elseif ($purchase->isCancelled())
+                <x-common.fail-message message="This Purchase is cancelled." />
+            @elseif ($purchase->isApproved() && !$purchase->isCancelled())
+                <x-common.success-message message="This Purchase has approved but not purchased." />
+            @elseif (!$purchase->isApproved() && !$purchase->isRejected())
                 <x-common.fail-message message="This Purchase has not been approved yet." />
             @elseif (!$purchase->isPurchased())
                 <x-common.fail-message message="Product(s) listed below are still not purchased." />

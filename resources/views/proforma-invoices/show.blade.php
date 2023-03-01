@@ -38,7 +38,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$proformaInvoice->expires_on->toFormattedDateString() ?? 'N/A'"
+                        :data="$proformaInvoice->expires_on?->toFormattedDateString() ?? 'N/A'"
                         label="Expiry Date"
                     />
                 </div>

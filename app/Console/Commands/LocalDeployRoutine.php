@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class DeployRoutine extends Command
+class LocalDeployRoutine extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'deploy {withDowntime=1}';
+    protected $signature = 'deploy:local {withDowntime=1}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Deploy changes from onrica/smartwork repo main branch';
+    protected $description = 'Deploy changes from onrica/smartwork repo current branch';
 
     /**
      * Create a new command instance.
@@ -38,21 +38,22 @@ class DeployRoutine extends Command
      */
     public function handle()
     {
+        if (env('APP_ENV') != 'local') {
+            $this->error('This command is only used in local environment.');
+            return 0;
+        }
+
         if ($this->argument('withDowntime')) {
             Artisan::call('down');
         }
 
-        if (env('APP_ENV') == 'production') {
-            $githubData = env('GITHUB_USERNAME') . ':' . env('GITHUB_PASSWORD');
+        $this->info(exec('git pull'));
 
-            $this->info(exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git main'));
+        $this->newLine();
 
-            $this->newLine();
+        $this->info(exec('composer install'));
 
-            $this->info(exec('composer install --no-dev'));
-
-            $this->newLine();
-        }
+        $this->newLine();
 
         Artisan::call('migrate --force');
 

@@ -56,6 +56,11 @@ class Gdn extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function returns()
+    {
+        return $this->hasMany(Returnn::class);
+    }
+
     public function details()
     {
         return $this->gdnDetails;
@@ -71,5 +76,17 @@ class Gdn extends Model
         $this->is_converted_to_sale = 1;
 
         $this->save();
+    }
+
+    public static function getValidGdnsForReturn($forceIncludedGdn = null)
+    {
+        return static::query()
+            ->subtracted()
+            ->notCancelled()
+            ->whereRelation('gdnDetails', fn($q) => $q->whereColumn('quantity', '>', 'returned_quantity'))
+            ->when(!is_null($forceIncludedGdn), fn($q) => $q->orWhere('id', $forceIncludedGdn))
+            ->orderByDesc('code')
+            ->get()
+            ->groupBy('warehouse_id');
     }
 }

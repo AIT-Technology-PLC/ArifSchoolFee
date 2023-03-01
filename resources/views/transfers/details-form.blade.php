@@ -6,7 +6,10 @@
         x-for="(transfer, index) in transfers"
         x-bind:key="index"
     >
-        <div class="mx-3">
+        <div
+            class="mx-3"
+            @transferred-from.window="warehouseChanged(index)"
+        >
             <x-forms.field class="has-addons mb-0 mt-5">
                 <x-forms.control>
                     <span
@@ -167,13 +170,15 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
+            Alpine.store('transferredFrom', null);
+
             Alpine.data("transferMasterDetailForm", ({
                 transfer
             }) => ({
                 transfers: [],
 
                 async init() {
-                    await Promise.all([Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
 
                     if (transfer) {
                         this.transfers = transfer;
@@ -202,11 +207,11 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), transfer.product_id, transfer.product_category_id);
 
-                                if (Product.isBatchable(this.transfers[i].product_id)) {
+                                if (Product.isBatchable(this.transfers[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.transfers[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.transfers[i].product_id)
+                                        MerchandiseBatch.where(this.transfers[i].product_id, Alpine.store('transferredFrom'))
                                     );
                                 }
                             }
@@ -226,11 +231,11 @@
                                 this.transfers[index].product_id
                             );
 
-                        if (Product.isBatchable(this.transfers[index].product_id)) {
+                        if (Product.isBatchable(this.transfers[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.transfers[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.transfers[index].product_id)
+                                MerchandiseBatch.where(this.transfers[index].product_id, Alpine.store('transferredFrom'))
                             );
                         }
 
@@ -244,6 +249,13 @@
                 },
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
+                },
+                warehouseChanged(index) {
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.transfers[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.transfers[index].product_id, Alpine.store('transferredFrom')),
+                    )
                 }
             }));
         });

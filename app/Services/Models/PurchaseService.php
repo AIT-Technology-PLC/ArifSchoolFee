@@ -4,7 +4,11 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Notifications\PurchaseApproved;
+use App\Notifications\PurchaseCancelled;
+use App\Notifications\PurchaseMade;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class PurchaseService
 {
@@ -18,9 +22,10 @@ class PurchaseService
             return [false, 'This purchase is closed.', ''];
         }
 
-        $purchaseDetails = collect($purchase->purchaseDetails->toArray())
+        $purchaseDetails = $purchase
+            ->purchaseDetails
             ->map(function ($item) {
-                $item['unit_cost'] = $item['unit_price'];
+                $item['unit_cost'] = round($item->unitCostAfterTax, 2);
 
                 return $item;
             });
@@ -38,6 +43,10 @@ class PurchaseService
     {
         if (!$purchase->isApproved()) {
             return [false, 'Creating a debt for purchase that is not approved is not allowed.'];
+        }
+
+        if ($purchase->isCancelled()) {
+            return [false, 'This purchase is already cancelled.'];
         }
 
         if ($purchase->debt()->exists()) {
@@ -71,6 +80,10 @@ class PurchaseService
 
     public function approve($purchase)
     {
+        if ($purchase->isRejected()) {
+            return [false, 'You can not approve a purchase that is rejected.'];
+        }
+
         return DB::transaction(function () use ($purchase) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($purchase, PurchaseApproved::class, 'Make Purchase');
 
@@ -83,5 +96,59 @@ class PurchaseService
 
             return [true, $message];
         });
+    }
+
+    public function cancel($purchase)
+    {
+        if ($purchase->isPurchased()) {
+            return [false, 'You can not cancel a purchase that is already purchased.'];
+        }
+
+        if (!$purchase->isApproved()) {
+            return [false, 'This Purchase is not approved yet.'];
+        }
+
+        if ($purchase->isCancelled()) {
+            return [false, 'This Purchase is already cancelled'];
+        }
+
+        DB::transaction(function () use ($purchase) {
+            $purchase->debt()->forceDelete();
+
+            $purchase->cancel();
+
+            Notification::send(
+                Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+                new PurchaseCancelled($purchase)
+            );
+        });
+
+        return [true, ''];
+    }
+
+    public function purchase($purchase)
+    {
+        if (!$purchase->isApproved()) {
+            return back()->with('failedMessage', 'This purchase is not yet approved.');
+        }
+
+        if ($purchase->isCancelled()) {
+            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+        }
+
+        if ($purchase->isPurchased()) {
+            return back()->with('failedMessage', 'This purchase is already purchased.');
+        }
+
+        DB::transaction(function () use ($purchase) {
+            $purchase->purchase();
+
+            Notification::send(
+                Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+                new PurchaseMade($purchase)
+            );
+        });
+
+        return [true, ''];
     }
 }

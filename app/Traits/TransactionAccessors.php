@@ -85,11 +85,13 @@ trait TransactionAccessors
                         $data['line'] = $transactionFields->first()->line;
 
                         foreach ($transactionFields as $transactionField) {
-                            $value = $transactionField->value;
+                            $value = is_numeric($transactionField->value)
+                            ? number_format($transactionField->value, 2, thousands_separator : '')
+                            : $transactionField->value;
 
                             if ($transactionField->padField->hasRelation()) {
                                 $value = $transactionField->relationValue;
-                                $data[str($transactionField->padField->label)->snake()->append('_id')->toString()] = $transactionField->value;
+                                $data[str($transactionField->padField->padRelation->model_name)->snake()->append('_id')->toString()] = $transactionField->value;
                             }
 
                             if ($transactionField->padField->padRelation?->model_name == 'Product') {
@@ -100,16 +102,14 @@ trait TransactionAccessors
                         }
 
                         if ($this->pad->hasPrices()) {
-                            $data['quantity'] = number_format($data['quantity'], 2, thousands_separator:'');
-                            $data['unit_price'] = number_format($data['unit_price'], 2, thousands_separator:'');
-                            $data['discount'] = (float) ($data['discount'] ?? 0.00);
+                            $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
-                            $unitPrice = userCompany()->isPriceBeforeTax() ? $data['unit_price'] : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
+                            $unitPrice = userCompany()->isPriceBeforeTax()
+                            ? $data['unit_price']
+                            : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
+
                             $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
-                            $discount = userCompany()->isDiscountBeforeTax() ? $data['discount'] / 100 : 0.00;
-                            $discountAmount = number_format($data['total'] * $discount, 2, thousands_separator:'');
-                            $data['discount'] = number_format($discount * 100, 2) . '%';
-                            $data['total'] = number_format($data['total'] - $discountAmount, 2, thousands_separator:'');
+
                             $data['total_tax'] = number_format($data['total'] * $taxAmount, 2, thousands_separator:'');
                         }
 
@@ -136,6 +136,7 @@ trait TransactionAccessors
 
                         if ($transactionField->padField->hasRelation()) {
                             $value = $transactionField->relationValue;
+                            $data[str($transactionField->padField->padRelation->model_name)->snake()->append('_id')->toString()] = $transactionField->value;
                         }
 
                         $data[str()->snake($transactionField->padField->label)] = $value;
@@ -153,7 +154,7 @@ trait TransactionAccessors
                 $transactionDetails = $this->transactionDetails;
 
                 $total = $transactionDetails->reduce(function ($carry, $item) {
-                    return $carry + ($item['unit_price'] * $item['quantity']);
+                    return $carry + (($item['unit_price'] ?? 0) * $item['quantity']);
                 });
 
                 return number_format(
@@ -191,21 +192,7 @@ trait TransactionAccessors
     {
         return Attribute::make(
             get:function () {
-                $discount = 0.00;
-
-                $discountPadField = $this->pad->padFields()->masterFields()->where('label', 'Discount')->first();
-
-                if ($discountPadField) {
-                    $discount = ($this->transactionFields()->firstWhere('pad_field_id', $discountPadField->id)->value) ?? 0.00 / 100;
-                }
-
-                $discountAmount = number_format($this->grandTotalPrice * $discount, 2, thousands_separator:'');
-
-                return number_format(
-                    $this->grandTotalPrice - $discountAmount,
-                    2,
-                    thousands_separator:''
-                );
+                return $this->grandTotalPrice;
             }
         );
     }

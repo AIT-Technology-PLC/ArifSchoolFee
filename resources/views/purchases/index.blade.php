@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Purchases"
                 :amount="$totalPurchases"
                 icon="fas fa-shopping-bag"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 :amount="$totalPurchased"
                 border-color="#3d8660"
@@ -19,7 +19,7 @@
                 label="Purchased"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
                 border-color="#86843d"
@@ -27,12 +27,28 @@
                 label="Approved"
             />
         </div>
-        <div class="column is-3 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 :amount="$totalNotApproved"
                 border-color="#863d63"
                 text-color="text-purple"
                 label="Waiting Approval"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalCancelled"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Cancelled"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                :amount="$totalRejected"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Rejected"
             />
         </div>
     </div>
@@ -52,6 +68,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
@@ -100,7 +117,7 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Waiting Approval', 'Approved', 'Purchased'] as $status)
+                                    @foreach (['Waiting Approval', 'Approved', 'Purchased', 'Rejected', 'Cancelled'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>

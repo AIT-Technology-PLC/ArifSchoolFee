@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Returnn;
 use App\Notifications\ReturnAdded;
-use App\Notifications\ReturnApproved;
 use App\Services\Models\ReturnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,16 +12,20 @@ use Illuminate\Support\Facades\Notification;
 
 class ReturnController extends Controller
 {
-    public function __construct()
+    private $returnService;
+
+    public function __construct(ReturnService $returnService)
     {
         $this->middleware('isFeatureAccessible:Return Management');
+
+        $this->returnService = $returnService;
     }
 
-    public function approve(Returnn $return, ApproveTransactionAction $action)
+    public function approve(Returnn $return)
     {
         $this->authorize('approve', $return);
 
-        [$isExecuted, $message] = $action->execute($return, ReturnApproved::class, 'Make Return');
+        [$isExecuted, $message] = $this->returnService->approve($return);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -36,11 +38,11 @@ class ReturnController extends Controller
     {
         $this->authorize('view', $return);
 
-        if (! $return->isApproved()) {
+        if (!$return->isApproved()) {
             return back()->with('failedMessage', 'This return is not approved yet.');
         }
 
-        $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'createdBy', 'approvedBy']);
+        $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'gdn.customer', 'createdBy', 'approvedBy']);
 
         $havingCode = $return->returnDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
 

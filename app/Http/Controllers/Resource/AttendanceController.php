@@ -39,7 +39,7 @@ class AttendanceController extends Controller
     {
         $currentAttendanceCode = nextReferenceNumber('attendances');
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers();
 
         return view('attendances.create', compact('currentAttendanceCode', 'users'));
     }
@@ -74,7 +74,7 @@ class AttendanceController extends Controller
             return back()->with('failedMessage', 'You can not modify an attendance that is cancelled.');
         }
 
-        $users = User::whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))->with('employee')->orderBy('name')->get();
+        $users = User::getUsers();
 
         $attendance->load(['attendanceDetails']);
 

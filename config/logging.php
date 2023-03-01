@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => (env('APP_ENV', '') == 'production') ? ['larabug'] : ['single'],
+            'channels' => (env('APP_ENV', '') == 'production' || env('APP_ENV', '') == 'staging') ? ['larabug'] : ['single'],
             'ignore_exceptions' => false,
         ],
 
@@ -73,7 +73,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
         ],
 

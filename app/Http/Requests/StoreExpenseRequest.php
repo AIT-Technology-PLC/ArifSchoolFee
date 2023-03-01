@@ -23,11 +23,15 @@ class StoreExpenseRequest extends FormRequest
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],
             'reference_number' => ['nullable', 'integer'],
+            'description' => ['nullable', 'string'],
             'expense' => ['required', 'array'],
             'expense.*.name' => ['required', 'string'],
             'expense.*.expense_category_id' => ['required', 'integer', new MustBelongToCompany('expense_categories')],
             'expense.*.quantity' => ['required', 'numeric', 'gt:0'],
             'expense.*.unit_price' => ['required', 'numeric'],
+            'payment_type' => ['required', 'string'],
+            'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment'],
+            'bank_reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment'],
         ];
     }
 }

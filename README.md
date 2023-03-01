@@ -45,6 +45,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
     -   Should not be forked
     -   Do not submit PR to this branch
 -   dev
+    -   This is the branch that runs on the staging server (https://staging.onricatech.com)
     -   Always use this branch for development and making changes
     -   Could be forked
     -   Always submit PRs to this branch
@@ -75,6 +76,7 @@ Go to the root folder (i.e. smartwork), find .env file and set the values of the
 
 ```bash
 php artisan migrate --seed
+php artisan storage:link
 php artisan serve
 ```
 

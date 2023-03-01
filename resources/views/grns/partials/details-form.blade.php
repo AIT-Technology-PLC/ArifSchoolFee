@@ -169,7 +169,7 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`grn[${index}][unit_cost]`">
-                            Unit Cost <sup class="has-text-danger">*</sup>
+                            Unit Cost <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -179,7 +179,6 @@
                                     x-model="grn.unit_cost"
                                     type="number"
                                     placeholder="Unit Cost"
-                                    x-init="grn.unit_cost = 0"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-bill"

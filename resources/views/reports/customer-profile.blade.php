@@ -161,6 +161,45 @@
 
     <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
         <span class="icon">
+            <i class="fa-solid fa-sack-dollar"></i>
+        </span>
+        <span>
+            Deposit Summary
+        </span>
+    </h1>
+
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="$depositsCount"
+                border-color="#fff"
+                text-color="text-green"
+                label="Number of Deposits"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($depositToDate, 2)"
+                border-color="#fff"
+                text-color="text-purple"
+                label="Deposit To Date"
+            />
+        </div>
+        <div class="column is-3 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($currentDepositBalance, 2)"
+                border-color="#fff"
+                text-color="text-gold"
+                label="Available Deposit"
+            />
+        </div>
+    </div>
+
+    <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
+        <span class="icon">
             <i class="fas fa-filter"></i>
         </span>
         <span>

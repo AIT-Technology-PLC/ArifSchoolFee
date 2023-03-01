@@ -7,11 +7,13 @@ use App\DataTables\ReturnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReturnRequest;
 use App\Http\Requests\UpdateReturnRequest;
+use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\ReturnDetail;
 use App\Models\Returnn;
 use App\Notifications\ReturnPrepared;
 use App\Utilities\Notifiables;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -45,7 +47,9 @@ class ReturnController extends Controller
 
         $currentReturnCode = nextReferenceNumber('returns');
 
-        return view('returns.create', compact('warehouses', 'currentReturnCode'));
+        $gdns = Gdn::getValidGdnsForReturn();
+
+        return view('returns.create', compact('warehouses', 'currentReturnCode', 'gdns'));
     }
 
     public function store(StoreReturnRequest $request)
@@ -73,7 +77,7 @@ class ReturnController extends Controller
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->unit_price,
+                            'unit_price' => $returnDetail->original_unit_price,
                             'warehouse_id' => $returnDetail->warehouse_id,
                         ]
                         );
@@ -104,7 +108,7 @@ class ReturnController extends Controller
     {
         $datatable->builder()->setTableId('return-details-datatable');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn.customer']);
 
         return $datatable->render('returns.show', compact('return'));
     }
@@ -113,9 +117,11 @@ class ReturnController extends Controller
     {
         $warehouses = authUser()->getAllowedWarehouses('add');
 
+        $gdns = Gdn::getValidGdnsForReturn($return->gdn_id);
+
         $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch']);
 
-        return view('returns.edit', compact('return', 'warehouses'));
+        return view('returns.edit', compact('return', 'warehouses', 'gdns'));
     }
 
     public function update(UpdateReturnRequest $request, Returnn $return)
@@ -150,7 +156,7 @@ class ReturnController extends Controller
                             'product_id' => $returnDetail->product_id,
                             'quantity' => $merchandiseBatch->quantity >= $returnDetail->quantity ? $returnDetail->quantity : $merchandiseBatch->quantity,
                             'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $returnDetail->unit_price,
+                            'unit_price' => $returnDetail->original_unit_price,
                             'warehouse_id' => $returnDetail->warehouse_id,
                         ]
                         );

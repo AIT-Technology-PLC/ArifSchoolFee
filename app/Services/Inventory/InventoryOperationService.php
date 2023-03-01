@@ -68,7 +68,7 @@ class InventoryOperationService
 
     public static function addToBatch($detail, $merchandise)
     {
-        $batchNo = $detail['batch_no'] ?? $detail->merchandiseBatch?->batch_no ?? null;
+        $batchNo = $detail['batch_no'] ?? $detail['merchandiseBatch']['batch_no'] ?? null;
 
         if (!$merchandise->product->isBatchable() || is_null($batchNo)) {
             return;
@@ -79,7 +79,7 @@ class InventoryOperationService
             'batch_no' => $batchNo,
         ]);
 
-        $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail->merchandiseBatch->expires_on;
+        $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail['merchandiseBatch']['expires_on'] ?? null;
         $merchandiseBatch->quantity += $detail['quantity'];
 
         if (isset($detail['transfer_id'])) {
@@ -93,11 +93,11 @@ class InventoryOperationService
 
     public static function subtractFromBatch($detail, $merchandise)
     {
-        if (!$merchandise->product->isBatchable() || is_null($detail->merchandiseBatch)) {
+        if (!$merchandise->product->isBatchable() || empty($detail['merchandiseBatch'])) {
             return;
         }
 
-        $merchandiseBatch = $merchandise->merchandiseBatches()->firstWhere('id', $detail->merchandise_batch_id);
+        $merchandiseBatch = $merchandise->merchandiseBatches()->firstWhere('id', $detail['merchandise_batch_id']);
 
         $merchandiseBatch->quantity -= $detail['quantity'];
 

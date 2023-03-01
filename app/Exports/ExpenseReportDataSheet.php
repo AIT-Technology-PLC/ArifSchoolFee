@@ -51,6 +51,7 @@ class ExpenseReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     'taxes.type AS tax_type',
                     'expenses.reference_number',
                     'expenses.issued_on',
+                    'expenses.payment_type',
                 ])->selectRaw(
                     <<<'QUERY'
                         ROUND((SELECT SUM(ed.unit_price*ed.quantity)

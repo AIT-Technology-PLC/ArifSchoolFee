@@ -58,6 +58,7 @@
                                     x-bind:name="`proformaInvoice[${index}][product_id]`"
                                     x-model="proformaInvoice.product_id"
                                     x-init="select2(index)"
+                                    :includedProducts="['sales']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -302,7 +303,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;
@@ -332,11 +333,11 @@
                                 Product.changeProductCategory(this.getSelect2(i), proformaInvoice.product_id, proformaInvoice.product_category_id);
                                 $(".summernote-details").eq(i).summernote("code", proformaInvoice.specification);
 
-                                if (Product.isBatchable(this.proformaInvoices[i].product_id)) {
+                                if (Product.isBatchable(this.proformaInvoices[i].product_id) && Company.canSelectBatchNumberOnForms()) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.proformaInvoices[i].merchandise_batch_id,
-                                        MerchandiseBatch.whereProductId(this.proformaInvoices[i].product_id)
+                                        MerchandiseBatch.where(this.proformaInvoices[i].product_id)
                                     );
                                 }
                             }
@@ -356,11 +357,11 @@
                                 this.proformaInvoices[index].product_id
                             );
 
-                        if (Product.isBatchable(this.proformaInvoices[index].product_id)) {
+                        if (Product.isBatchable(this.proformaInvoices[index].product_id) && Company.canSelectBatchNumberOnForms()) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.proformaInvoices[index].merchandise_batch_id,
-                                MerchandiseBatch.whereProductId(this.proformaInvoices[index].product_id)
+                                MerchandiseBatch.where(this.proformaInvoices[index].product_id)
                             );
                         }
 

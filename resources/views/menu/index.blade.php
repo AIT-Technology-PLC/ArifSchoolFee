@@ -82,18 +82,18 @@
         @endif
 
         @if (isFeatureEnabled(
-            'Employee Management',
-            'Department Management',
-            'Employee Transfer',
-            'Attendance Management',
-            'Warning Management',
-            'Advancement Management',
-            'Leave Management',
-            'Expense Claim',
-            'Announcement Management',
-            'Compensation Management',
-            'Compensation Adjustment',
-            'Payroll Management'))
+                'Employee Management',
+                'Department Management',
+                'Employee Transfer',
+                'Attendance Management',
+                'Warning Management',
+                'Advancement Management',
+                'Leave Management',
+                'Expense Claim',
+                'Announcement Management',
+                'Compensation Management',
+                'Compensation Adjustment',
+                'Payroll Management'))
             @canany(['Read Employee', 'Read Department', 'Read Employee Transfer', 'Read Attendance', 'Read Warning', 'Read Advancement', 'Read Leave', 'Read Expense Claim', 'Read Announcement', 'Read Compensation', 'Read Compensation Adjustment', 'Read Payroll'])
                 <section class="mb-5">
                     <x-content.header>
@@ -1062,8 +1062,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Credit Management', 'Debt Management'))
-            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Credit', 'Read Debt'])
+        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management'))
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
