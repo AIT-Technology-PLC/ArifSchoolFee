@@ -500,7 +500,7 @@ document.addEventListener("alpine:init", () => {
         "purchaseInformation",
         (
             purchaseType = "",
-            taxType = "",
+            taxId = "",
             currency = "",
             exchangeRate = "",
             paymentType = "",
@@ -515,7 +515,7 @@ document.addEventListener("alpine:init", () => {
             freightAmount = ""
         ) => ({
             purchaseType: "",
-            taxType: "",
+            taxId: "",
             currency: "",
             exchangeRate: "",
             paymentType: "",
@@ -531,7 +531,7 @@ document.addEventListener("alpine:init", () => {
 
             init() {
                 this.purchaseType = purchaseType;
-                this.taxType = taxType;
+                this.taxId = taxId;
                 this.currency = currency;
                 this.exchangeRate = exchangeRate;
                 this.paymentType = paymentType;
@@ -546,7 +546,7 @@ document.addEventListener("alpine:init", () => {
                 this.freightAmount = freightAmount;
             },
             changePurchaseInformation() {
-                this.taxType = "";
+                this.taxId = "";
                 this.currency = "";
                 this.exchangeRate = "";
                 this.freightCost = "";
