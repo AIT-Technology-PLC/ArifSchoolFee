@@ -161,7 +161,9 @@ class InventoryOperationService
             }
         }
 
-        return $unavailableProducts;
+        return $unavailableProducts
+            ->push(...static::unavailableProductsByBatch($details))
+            ->filter();
     }
 
     public static function areAvailable($details, $in = 'available')
@@ -201,6 +203,36 @@ class InventoryOperationService
         }
 
         return $unavailableProducts->isEmpty();
+    }
+
+    public static function unavailableProductsByBatch($details)
+    {
+        $unavailableProducts = collect();
+
+        $merchandiseBatches = MerchandiseBatch::available()->whereHas('merchandise')->with('merchandise')->get();
+
+        $batchableProducts = Product::batchable()->get();
+
+        foreach ($details as $detail) {
+            if (!$batchableProducts->contains($detail['product_id'])) {
+                continue;
+            }
+
+            $merchandiseBatch = $merchandiseBatches->find($detail['merchandise_batch_id']);
+
+            if (!is_null($merchandiseBatch) && $merchandiseBatch->quantity >= $detail['quantity']) {
+                $merchandiseBatch->quantity -= $detail['quantity'];
+                continue;
+            }
+
+            if (is_null($merchandiseBatch) || $merchandiseBatch->quantity < $detail['quantity']) {
+                $unavailableProducts->push(
+                    "'{$merchandiseBatch->merchandise->product->name}' is not available or not enough in batch no:'{$merchandiseBatch->batch_no}'"
+                );
+            }
+        }
+
+        return $unavailableProducts;
     }
 
     private static function formatData($details)
