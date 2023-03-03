@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tax;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateDebtPayment;
@@ -66,17 +67,7 @@ class Purchase extends Model
 
     public function getLocalTaxRateAttribute()
     {
-        $value = 0;
-
-        if ($this->tax_type == 'VAT') {
-            $value = 0.15;
-        }
-
-        if ($this->tax_type == 'TOT') {
-            $value = 0.02;
-        }
-
-        return $value;
+        return $this->taxModel->amount;
     }
 
     public function scopePurchased($query)
@@ -118,5 +109,10 @@ class Purchase extends Model
         }
 
         return true;
+    }
+
+    public function taxModel()
+    {
+        return $this->belongsTo(Tax::class, 'tax_id');
     }
 }
