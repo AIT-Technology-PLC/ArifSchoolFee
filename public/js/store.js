@@ -189,6 +189,10 @@ const MerchandiseBatch = {
     merchandiseBatches: [],
 
     async init() {
+        if (this.merchandiseBatches.length) {
+            return;
+        }
+
         const response = await axios.get(`/api/merchandise-batches`);
 
         this.merchandiseBatches = response.data;
@@ -201,6 +205,17 @@ const MerchandiseBatch = {
             (merchandiseBatch) =>
                 productId == merchandiseBatch.product_id &&
                 (!warehouseId || warehouseId == merchandiseBatch.warehouse_id)
+        );
+    },
+    async initAvailable() {
+        await Promise.resolve(MerchandiseBatch.init());
+
+        if (!this.merchandiseBatches.length) {
+            return;
+        }
+
+        this.merchandiseBatches = this.merchandiseBatches.filter(
+            (merchandiseBatch) => merchandiseBatch.quantity > 0
         );
     },
     appendMerchandiseBatches(

@@ -17,6 +17,7 @@ class GdnDetail extends Model
 
     protected $appends = [
         'originalUnitPrice',
+        'returnableQuantity',
     ];
 
     public function gdn()
@@ -42,6 +43,11 @@ class GdnDetail extends Model
     public function parentModel()
     {
         return $this->gdn;
+    }
+
+    public function getReturnableQuantityAttribute()
+    {
+        return number_format($this->quantity - $this->returned_quantity, 2);
     }
 
     public function getByWarehouseAndProduct($warehouse, $product)

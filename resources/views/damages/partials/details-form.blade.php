@@ -76,7 +76,7 @@
                             x-show="Product.isBatchable(damage.product_id)"
                         >
                             <x-forms.label x-bind:for="`damage[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
+                                Batch No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -205,7 +205,7 @@
                 damages: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.initAvailable()]);
 
                     if (damage) {
                         this.damages = damage;

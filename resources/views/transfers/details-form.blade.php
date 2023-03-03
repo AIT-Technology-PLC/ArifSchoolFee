@@ -34,6 +34,11 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
+                    <input
+                        type="hidden"
+                        x-bind:name="`transfer[${index}][warehouse_id]`"
+                        x-bind:value="transfer.warehouse_id = $store.transferredFrom"
+                    >
                     <div
                         class="column is-6"
                         x-bind:class="{ 'is-6': !Product.isBatchable(transfer.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(transfer.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
@@ -79,7 +84,7 @@
                             x-show="Product.isBatchable(transfer.product_id)"
                         >
                             <x-forms.label x-bind:for="`transfer[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
+                                Batch No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -178,7 +183,7 @@
                 transfers: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.initAvailable()]);
 
                     if (transfer) {
                         this.transfers = transfer;
