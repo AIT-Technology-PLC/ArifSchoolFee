@@ -35,6 +35,7 @@ class PurchaseReport
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
             ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
             ->join('warehouses', 'purchases.warehouse_id', '=', 'warehouses.id')
+            ->leftJoin('taxes', 'purchases.tax_id', '=', 'taxes.id')
             ->leftJoin('suppliers', 'purchases.supplier_id', '=', 'suppliers.id')
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('purchases.warehouse_id', $this->filters['branches']))
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchases.purchased_on', '>=', $this->filters['period'][0])->whereDate('purchases.purchased_on', '<=', $this->filters['period'][1]))
@@ -51,12 +52,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense
                ')
             ->where('purchases.type', 'Local Purchase')
@@ -86,12 +82,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 COUNT(DISTINCT purchase_id) AS transactions,
                 purchases.payment_type AS payment_type
@@ -105,12 +96,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 COUNT(DISTINCT purchase_id) AS transactions,
                 purchases.type AS type
@@ -124,12 +110,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 products.name AS product_name,
                 SUM(quantity) AS quantity
@@ -143,12 +124,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 product_categories.name AS product_category_name,
                 SUM(quantity) AS quantity
@@ -162,12 +138,7 @@ class PurchaseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(
-                    CASE
-                        WHEN purchases.tax_type = "VAT" THEN quantity*unit_price*1.15
-                        WHEN purchases.tax_type = "TOT" THEN quantity*unit_price*1.02
-                        ELSE quantity*unit_price
-                    END
+                SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
                 warehouses.name AS branch_name')
             ->groupBy('branch_name')

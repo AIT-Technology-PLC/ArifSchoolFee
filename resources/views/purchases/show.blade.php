@@ -53,7 +53,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-file-invoice-dollar"
-                            :data="$purchase->tax_type"
+                            :data="$purchase->taxModel->type"
                             label="Tax Type"
                         />
                     </div>
