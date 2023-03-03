@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
 use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateBackorder;
 use App\Rules\ValidatePrice;
@@ -29,7 +29,7 @@ class UpdateReservationRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'reservation' => ['required', 'array'],
-            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder, new CheckProductStatus],
+            'reservation.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new ValidateBackorder($this->input('reservation')), new CheckProductStatus],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('reservation'))],

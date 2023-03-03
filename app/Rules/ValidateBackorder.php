@@ -18,23 +18,26 @@ class ValidateBackorder implements Rule
             return true;
         }
 
-        $warehouseIdKey = str_replace('.product_id', '.warehouse_id', $attribute);
-        $warehouseId = request()->input($warehouseIdKey);
+        $warehouseId = request()->input(str_replace('.product_id', '.warehouse_id', $attribute));
 
-        $quantityKey = str_replace('.product_id', '.quantity', $attribute);
-        $quantity = request()->input($quantityKey);
-
-        if (is_null($warehouseId) || is_null($quantity)) {
+        if (is_null($warehouseId) || is_null($value)) {
             return true;
         }
 
-        $isAvailable = InventoryOperationService::areAvailable(['product_id' => $value, 'quantity' => $quantity, 'warehouse_id' => $warehouseId]);
+        $totalRequestedQuantity = collect($this->details)
+            ->where('product_id', $value)
+            ->where('warehouse_id', $warehouseId)
+            ->sum('quantity');
 
-        return $isAvailable;
+        return InventoryOperationService::areAvailable([
+            'product_id' => $value,
+            'quantity' => $totalRequestedQuantity,
+            'warehouse_id' => $warehouseId,
+        ]);
     }
 
     public function message()
     {
-        return "This Product is out of stock";
+        return "This Product is not available or not enough in the inventory.";
     }
 }
