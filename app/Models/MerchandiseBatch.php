@@ -70,11 +70,6 @@ class MerchandiseBatch extends Model
         return $query->whereDate('expires_on', '<=', now());
     }
 
-    public function isDamaged()
-    {
-        return !is_null($this->damageDetail);
-    }
-
     public function isExpired()
     {
         return is_null($this->expires_on) || $this->expires_on->isPast();
