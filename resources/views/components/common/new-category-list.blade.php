@@ -5,7 +5,7 @@
     class="{{ $attributes->get('class') }}"
     {{ $attributes->whereDoesntStartWith('class') }}
 >
-    @foreach ($categoriess as $category)
+    @foreach ($categories as $category)
         <option></option>
 
         <option
