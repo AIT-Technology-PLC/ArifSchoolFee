@@ -40,7 +40,7 @@ class BatchSelectionIsRequiredOrProhibited implements Rule
             return false;
         }
 
-        return is_string($value);
+        return true;
     }
 
     public function message()

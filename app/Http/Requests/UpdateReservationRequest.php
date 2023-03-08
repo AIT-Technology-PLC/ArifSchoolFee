@@ -35,7 +35,10 @@ class UpdateReservationRequest extends FormRequest
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('reservation'))],
             'reservation.*.description' => ['nullable', 'string'],
             'reservation.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-            'reservation.*.merchandise_batch_id' => ['nullable', 'integer', new BatchSelectionIsRequiredOrProhibited, new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'reservation.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited, 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 Rule::when(

@@ -247,8 +247,6 @@ const MerchandiseBatch = {
                 )
             );
         });
-
-        select.add(new Option("None", "", false, ""));
     },
 };
 
