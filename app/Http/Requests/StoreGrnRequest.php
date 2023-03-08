@@ -26,7 +26,7 @@ class StoreGrnRequest extends FormRequest
             'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.unit_cost' => ['nullable', 'numeric', 'min:0'],
             'grn.*.description' => ['nullable', 'string'],
-            'grn.*.batch_no' => ['bail', new BatchSelectionIsRequiredOrProhibited(false), 'nullable', 'string'],
+            'grn.*.batch_no' => [new BatchSelectionIsRequiredOrProhibited(false)],
             'grn.*.expires_on' => ['nullable', 'date'],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date'],
