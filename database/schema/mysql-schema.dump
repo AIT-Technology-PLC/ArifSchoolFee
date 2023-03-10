@@ -1126,7 +1126,7 @@ CREATE TABLE `grn_details` (
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
   `batch_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `expires_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1419,7 +1419,7 @@ CREATE TABLE `merchandise_batches` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `merchandise_id` bigint(20) unsigned DEFAULT NULL,
   `batch_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `expires_date` date DEFAULT NULL,
+  `expiry_date` date DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -2855,7 +2855,7 @@ INSERT INTO `migrations` VALUES (144,'2022_08_03_142705_create_compensation_adju
 INSERT INTO `migrations` VALUES (145,'2022_08_09_150824_create_push_subscriptions_table',14);
 INSERT INTO `migrations` VALUES (146,'2022_08_16_083027_drop_discount_column',15);
 INSERT INTO `migrations` VALUES (147,'2022_08_16_090206_addbatch_field_to_products_table',15);
-INSERT INTO `migrations` VALUES (148,'2022_08_16_140212_add_batch_and_expires_date_column_to_grn_details_table',15);
+INSERT INTO `migrations` VALUES (148,'expiry_date',15);
 INSERT INTO `migrations` VALUES (149,'2022_08_17_081512_add_columns_to_purchase_tables',15);
 INSERT INTO `migrations` VALUES (150,'2022_08_17_081529_add_columns_to_purchase_details_tables',15);
 INSERT INTO `migrations` VALUES (151,'2022_08_17_122505_add_columns_to_companies',15);
