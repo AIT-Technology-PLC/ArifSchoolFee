@@ -4,16 +4,50 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReportInventoryAccuracy extends Command
 {
     protected $signature = 'inventory-accuracy';
 
-    protected $description = 'Get inventory accuracy in percentage';
+    protected $description = 'Get inventory accuracy report';
 
     private $query;
 
     public function handle()
+    {
+        $this->info('Merchandises Table Bad Rows: ' . $this->getMerchandisesTableBadRows());
+
+        $this->info('Inventory Histories Table Bad Rows: ' . $this->getInventoryHistoriesTableBadRows());
+
+        $this->info(str($this->getInventoryLevelAccuracy())->prepend('Inventory Level Accuracy: ')->append('%'));
+
+        return 0;
+    }
+
+    private function setQuery()
+    {
+        $this->query = DB::table('inventory_histories')
+            ->whereNull('deleted_at')
+            ->selectRaw('
+                product_id,
+                warehouse_id,
+                SUM(CASE WHEN is_subtract = 1 THEN quantity *(-1) ELSE quantity END) AS history_quantity,
+                (
+                    SELECT
+                        merchandises.available
+                    FROM
+                        merchandises
+                    WHERE
+                        merchandises.product_id = inventory_histories.product_id AND
+                        merchandises.warehouse_id = inventory_histories.warehouse_id AND
+                        merchandises.deleted_at IS NULL
+                ) AS merchandise_quantity
+            ')
+            ->groupBy(['product_id', 'warehouse_id']);
+    }
+
+    public function getInventoryLevelAccuracy()
     {
         $this->setQuery();
 
@@ -25,27 +59,74 @@ class ReportInventoryAccuracy extends Command
 
         $percentage = number_format($accurate / $total * 100, 2);
 
-        $percentage < 100 ? $this->error(str($percentage)->append('%')) : $this->info(str($percentage)->append('%'));
+        if ($inaccurate) {
+            Log::emergency('Inventory level accuracy is at ' . $percentage . '%');
+        }
 
-        return 0;
+        return $percentage;
     }
 
-    private function setQuery()
+    private function getMerchandisesTableBadRows()
     {
-        $this->query = DB::table('inventory_histories')
-            ->selectRaw('
-                product_id,
-                warehouse_id,
-                SUM(CASE WHEN is_subtract = 1 THEN quantity *(-1) ELSE quantity END) AS history_quantity,
-                (
-                SELECT
-                    merchandises.available
-                FROM
-                    merchandises
-                WHERE
-                    merchandises.product_id = inventory_histories.product_id AND merchandises.warehouse_id = inventory_histories.warehouse_id
-                ) AS merchandise_quantity
+        $badRows = DB::table('merchandises')
+            ->whereNull('deleted_at')
+            ->whereRaw('
+                merchandises.product_id NOT IN(
+                    SELECT
+                        inventory_histories.product_id
+                    FROM
+                        inventory_histories
+                    WHERE
+                        inventory_histories.deleted_at IS NULL
+                )
             ')
-            ->groupBy(['product_id', 'warehouse_id']);
+            ->whereRaw('
+                merchandises.warehouse_id NOT IN(
+                    SELECT
+                        inventory_histories.warehouse_id
+                    FROM
+                        inventory_histories
+                    WHERE
+                        inventory_histories.deleted_at IS NULL
+                )
+            ')->count();
+
+        if ($badRows) {
+            Log::emergency('Merchandises table has bad rows!');
+        }
+
+        return $badRows;
+    }
+
+    private function getInventoryHistoriesTableBadRows()
+    {
+        $badRows = DB::table('inventory_histories')
+            ->whereNull('deleted_at')
+            ->whereRaw('
+                inventory_histories.product_id NOT IN(
+                    SELECT
+                        merchandises.product_id
+                    FROM
+                        merchandises
+                    WHERE
+                        merchandises.deleted_at IS NULL
+                )
+            ')
+            ->whereRaw('
+                inventory_histories.warehouse_id NOT IN(
+                    SELECT
+                        merchandises.warehouse_id
+                    FROM
+                        merchandises
+                    WHERE
+                        merchandises.deleted_at IS NULL
+                )
+            ')->count();
+
+        if ($badRows) {
+            Log::emergency('Inventory Histories table has bad rows!');
+        }
+
+        return $badRows;
     }
 }

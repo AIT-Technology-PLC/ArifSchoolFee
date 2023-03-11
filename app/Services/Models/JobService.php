@@ -87,7 +87,7 @@ class JobService
 
             if (isset($addDetails) && count($addDetails)) {
 
-                InventoryOperationService::add($addDetails, null, 'wip');
+                InventoryOperationService::add($addDetails, $job, 'wip');
             }
 
             return [true, ''];
@@ -192,7 +192,7 @@ class JobService
             }
 
             if (isset($wipDetails) && count($wipDetails)) {
-                InventoryOperationService::subtract($wipDetails, null, 'wip');
+                InventoryOperationService::subtract($wipDetails, $job, 'wip');
                 InventoryOperationService::add($wipDetails, $job);
             }
 
