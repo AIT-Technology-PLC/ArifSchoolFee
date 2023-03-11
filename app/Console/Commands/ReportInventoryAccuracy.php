@@ -60,7 +60,7 @@ class ReportInventoryAccuracy extends Command
         $percentage = number_format($accurate / $total * 100, 2);
 
         if ($inaccurate) {
-            Log::emergency('Inventory level accuracy is at ' . $percentage . '%');
+            Log::channel('stack')->warning('Inventory level accuracy is at ' . $percentage . '%');
         }
 
         return $percentage;
@@ -92,7 +92,7 @@ class ReportInventoryAccuracy extends Command
             ')->count();
 
         if ($badRows) {
-            Log::emergency('Merchandises table has bad rows!');
+            Log::channel('stack')->warning('Merchandises table has bad rows!');
         }
 
         return $badRows;
@@ -124,7 +124,7 @@ class ReportInventoryAccuracy extends Command
             ')->count();
 
         if ($badRows) {
-            Log::emergency('Inventory Histories table has bad rows!');
+            Log::channel('stack')->warning('Inventory Histories table has bad rows!');
         }
 
         return $badRows;
