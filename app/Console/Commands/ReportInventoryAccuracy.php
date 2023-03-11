@@ -71,22 +71,15 @@ class ReportInventoryAccuracy extends Command
         $badRows = DB::table('merchandises')
             ->whereNull('deleted_at')
             ->whereRaw('
-                merchandises.product_id NOT IN(
+                NOT EXISTS
+                (
                     SELECT
-                        inventory_histories.product_id
+                        *
                     FROM
                         inventory_histories
                     WHERE
-                        inventory_histories.deleted_at IS NULL
-                )
-            ')
-            ->whereRaw('
-                merchandises.warehouse_id NOT IN(
-                    SELECT
-                        inventory_histories.warehouse_id
-                    FROM
-                        inventory_histories
-                    WHERE
+                        merchandises.product_id = inventory_histories.product_id AND
+                        merchandises.warehouse_id = inventory_histories.warehouse_id AND
                         inventory_histories.deleted_at IS NULL
                 )
             ')->count();
@@ -103,22 +96,15 @@ class ReportInventoryAccuracy extends Command
         $badRows = DB::table('inventory_histories')
             ->whereNull('deleted_at')
             ->whereRaw('
-                inventory_histories.product_id NOT IN(
+                NOT EXISTS
+                (
                     SELECT
-                        merchandises.product_id
+                        *
                     FROM
                         merchandises
                     WHERE
-                        merchandises.deleted_at IS NULL
-                )
-            ')
-            ->whereRaw('
-                inventory_histories.warehouse_id NOT IN(
-                    SELECT
-                        merchandises.warehouse_id
-                    FROM
-                        merchandises
-                    WHERE
+                        inventory_histories.product_id = merchandises.product_id AND
+                        inventory_histories.warehouse_id = merchandises.warehouse_id AND
                         merchandises.deleted_at IS NULL
                 )
             ')->count();
