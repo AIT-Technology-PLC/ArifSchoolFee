@@ -68,7 +68,7 @@ class ReportInventoryAccuracy extends Command
 
     private function getMerchandisesTableBadRows()
     {
-        $badRows = DB::table('merchandises')
+        return DB::table('merchandises')
             ->whereNull('deleted_at')
             ->whereRaw('
                 NOT EXISTS
@@ -83,17 +83,11 @@ class ReportInventoryAccuracy extends Command
                         inventory_histories.deleted_at IS NULL
                 )
             ')->count();
-
-        if ($badRows) {
-            Log::channel('stack')->warning('Merchandises table has bad rows!');
-        }
-
-        return $badRows;
     }
 
     private function getInventoryHistoriesTableBadRows()
     {
-        $badRows = DB::table('inventory_histories')
+        return DB::table('inventory_histories')
             ->whereNull('deleted_at')
             ->whereRaw('
                 NOT EXISTS
@@ -108,11 +102,5 @@ class ReportInventoryAccuracy extends Command
                         merchandises.deleted_at IS NULL
                 )
             ')->count();
-
-        if ($badRows) {
-            Log::channel('stack')->warning('Inventory Histories table has bad rows!');
-        }
-
-        return $badRows;
     }
 }
