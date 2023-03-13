@@ -93,6 +93,19 @@ class EditTransaction extends Component
 
     public function update()
     {
+        $descriptionPadField = $this->masterPadFields->firstWhere('label', 'Description');
+
+        if (!$this->transaction->canBeEdited() && $descriptionPadField) {
+            $this->transaction
+                ->transactionFields()
+                ->updateOrCreate(
+                    ['pad_field_id' => $descriptionPadField->id],
+                    ['value' => $this->validate()['master'][$descriptionPadField->id]]
+                );
+
+            return redirect()->route('transactions.show', $this->transaction->id);
+        }
+
         abort_if(!$this->transaction->canBeEdited(), 403);
 
         $this->authorize('update', $this->transaction);

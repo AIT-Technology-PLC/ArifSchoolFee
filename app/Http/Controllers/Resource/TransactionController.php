@@ -107,9 +107,11 @@ class TransactionController extends Controller
 
         $this->authorize('update', $transaction);
 
-        abort_if(!$transaction->canBeEdited(), 403);
-
         $transaction->load('pad');
+
+        $hasDescriptionBox = $transaction->pad->padFields()->masterFields()->where('label', 'Description')->exists();
+
+        abort_if(!$transaction->canBeEdited() && !$hasDescriptionBox, 403);
 
         return view('transactions.edit', compact('transaction'));
     }
