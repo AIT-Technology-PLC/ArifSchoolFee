@@ -39,7 +39,7 @@
             </x-common.dropdown-item>
         @endcan
     @endif
-    @if (!$transaction->isApproved() && !$transaction->isAdded() && !$transaction->isSubtracted())
+    @if ((!$transaction->isApproved() && !$transaction->isAdded() && !$transaction->isSubtracted()) || $hasDescriptionBox)
         @can('update', $transaction)
             <x-common.dropdown-item>
                 <x-common.button
