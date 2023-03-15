@@ -85,7 +85,7 @@
         @endcan
     @endforeach
     @if ($transaction->pad->padStatuses->isNotEmpty())
-        @can('update', $transaction)
+        @can('updateStatus', $transaction)
             <x-common.dropdown-item>
                 <x-common.button
                     tag="button"
