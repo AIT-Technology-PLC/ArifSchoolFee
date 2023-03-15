@@ -366,7 +366,11 @@ const Company = {
 
     canSelectBatchNumberOnForms() {
         return this.company.can_select_batch_number_on_forms;
-    }
+    },
+
+    isInventoryCheckerEnabled() {
+        return this.company.can_check_inventory_on_forms;
+    },
 };
 
 const Compensation = {

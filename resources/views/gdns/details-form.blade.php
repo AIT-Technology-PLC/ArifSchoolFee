@@ -431,7 +431,7 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {
+                    if (Company.isInventoryCheckerEnabled() && this.gdns[index].product_id && this.gdns[index].warehouse_id) {
                         await Merchandise.init(this.gdns[index].product_id, this.gdns[index].warehouse_id);
                         this.gdns[index].availableQuantity = Merchandise.merchandise;
                     }

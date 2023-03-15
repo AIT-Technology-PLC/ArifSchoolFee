@@ -432,7 +432,7 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (this.reservations[index].product_id && this.reservations[index].warehouse_id) {
+                    if (Company.isInventoryCheckerEnabled() && this.reservations[index].product_id && this.reservations[index].warehouse_id) {
                         await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
                         this.reservations[index].availableQuantity = Merchandise.merchandise;
                     }
