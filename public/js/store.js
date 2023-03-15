@@ -129,8 +129,8 @@ const Product = {
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
     },
-    async initForSale() {
-        await Promise.resolve(Product.init());
+    async initForSale(products) {
+        this.products = products;
 
         this.products = this.products.filter(
             (product) => product.is_active && product.is_active_for_sale
