@@ -38,6 +38,10 @@ class AttendanceImport implements ToModel, WithHeadingRow, WithValidation, WithC
             })
             ->first();
 
+        if (AttendanceDetail::where('employee_id', $employees->id)->exists()) {
+            return null;
+        }
+
         return new AttendanceDetail([
             'attendance_id' => $this->attendance->id,
             'employee_id' => $employees->id,

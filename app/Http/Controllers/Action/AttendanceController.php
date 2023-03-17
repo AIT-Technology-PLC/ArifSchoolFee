@@ -79,8 +79,6 @@ class AttendanceController extends Controller
         }
 
         DB::transaction(function () use ($request, $attendance) {
-            $attendance->attendanceDetails()->forceDelete();
-
             (new AttendanceImport($attendance))->import($request->validated('file'));
         });
 
