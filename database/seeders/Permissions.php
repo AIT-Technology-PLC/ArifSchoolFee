@@ -267,6 +267,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Attendance']);
 
             //Advancement
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Advancement']);

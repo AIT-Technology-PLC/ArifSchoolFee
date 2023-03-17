@@ -43,6 +43,14 @@
                                     x-bind:name="`attendance[${index}][employee_id]`"
                                     x-model="attendance.employee_id"
                                 >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Select Employee
+                                    </option>
+
                                     @foreach ($users as $user)
                                         <option value="{{ $user->employee->id }}">{{ $user->name }}</option>
                                     @endforeach
@@ -111,7 +119,6 @@
                         return;
                     }
 
-                    this.add();
                 },
 
                 add() {
