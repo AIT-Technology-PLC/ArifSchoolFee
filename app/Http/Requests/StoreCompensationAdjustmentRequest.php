@@ -26,7 +26,7 @@ class StoreCompensationAdjustmentRequest extends FormRequest
                 new CanEditReferenceNumber('compensation_adjustments')],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
-                if (CompensationAdjustment::where('ending_period', '>=', $value)->exists()) {
+                if (CompensationAdjustment::approved()->notCancelled()->where('ending_period', '>=', $value)->exists()) {
                     $fail('This starting period is already taken.');
                 }
             }],
@@ -41,7 +41,7 @@ class StoreCompensationAdjustmentRequest extends FormRequest
             'compensationAdjustment.*.employeeAdjustments.*.compensation_id' => ['required', 'integer', Rule::in(Compensation::active()->canBeInputtedManually()->adjustable()->pluck('id'))],
             'compensationAdjustment.*.employeeAdjustments.*.amount' => ['required', 'numeric', new ValidateCompensationAmountIsValid],
             'compensationAdjustment.*.employeeAdjustments.*.description' => ['nullable', 'string'],
-            'compensationAdjustment.*.employeeAdjustments.*.options.overtime_period' => ['nullable', 'string'],
+            'compensationAdjustment.*.employeeAdjustments.*.options.overtime_period' => ['sometimes', 'required', 'string'],
         ];
     }
 }
