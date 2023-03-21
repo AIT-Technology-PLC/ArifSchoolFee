@@ -13,7 +13,7 @@ class ValidateCompensationAmountIsValid implements Rule
 
         $compensation = Compensation::find(request()->input($compensationIdKey));
 
-        if (is_null($compensation->maximum_amount)) {
+        if (is_null($compensation?->maximum_amount)) {
             return true;
         }
 
