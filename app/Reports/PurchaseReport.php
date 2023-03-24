@@ -40,6 +40,7 @@ class PurchaseReport
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('purchases.warehouse_id', $this->filters['branches']))
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('purchases.purchased_on', '>=', $this->filters['period'][0])->whereDate('purchases.purchased_on', '<=', $this->filters['period'][1]))
             ->when(isset($this->filters['supplier_id']), fn($q) => $q->where('purchases.supplier_id', $this->filters['supplier_id']))
+            ->when(isset($this->filters['tax_id']), fn($q) => $q->where('purchases.tax_id', $this->filters['tax_id']))
             ->where('purchases.type', 'Local Purchase');
     }
 

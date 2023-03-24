@@ -21,6 +21,7 @@ class SupplierProfileFilterRequest extends FormRequest
             'period' => ['nullable', 'array'],
             'period.*' => ['nullable', 'date'],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
+            'tax_id' => ['nullable', 'integer', new MustBelongToCompany('taxes')],
         ];
     }
 

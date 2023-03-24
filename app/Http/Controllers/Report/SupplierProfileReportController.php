@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierProfileFilterRequest;
 use App\Models\Supplier;
+use App\Models\Tax;
 use App\Reports\ExpenseReport;
 use App\Reports\PurchaseReport;
 
@@ -37,6 +38,8 @@ class SupplierProfileReportController extends Controller
 
         $currentDebtLimit = $supplier->debt_amount_limit > 0 ? ($supplier->debt_amount_limit - $currentDebtBalance) : $supplier->debt_amount_limit;
 
+        $taxes = Tax::get(['id', 'type']);
+
         return view('reports.supplier-profile', compact(
             'warehouses',
             'supplier',
@@ -47,7 +50,8 @@ class SupplierProfileReportController extends Controller
             'averageDebtSettlementDays',
             'lifeTimePurchaseReport',
             'lifetimeExpenseReport',
-            'expenseReport'
+            'expenseReport',
+            'taxes'
         ));
     }
 }
