@@ -24,7 +24,7 @@ class UpdateAttendanceRequest extends FormRequest
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
-                if (Attendance::where('warehouse_id', authUser()->warehouse_id)->where('ending_period', '>=', $value)->whereNot('id', $this->route('attendance')->id)->exists()) {
+                if (Attendance::approved()->notCancelled()->where('warehouse_id', authUser()->warehouse_id)->where('ending_period', '>=', $value)->whereNot('id', $this->route('attendance')->id)->exists()) {
                     $fail('This starting period is already taken.');
                 }
             }],

@@ -2,17 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CanEditReferenceNumber;
+use App\Rules\ValidatePrice;
+use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
+use App\Rules\CheckProductStatus;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
-use App\Rules\CheckProductStatus;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\ValidatePrice;
-use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\VerifyCashReceivedAmountIsValid;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class StoreSaleRequest extends FormRequest
 {
@@ -28,9 +30,12 @@ class StoreSaleRequest extends FormRequest
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus],
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
-            'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
+            'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('sale'))],
             'sale.*.description' => ['nullable', 'string'],
-            'sale.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'sale.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited, 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(

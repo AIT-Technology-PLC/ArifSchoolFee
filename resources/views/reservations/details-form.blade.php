@@ -77,7 +77,7 @@
                             x-show="Product.isBatchable(reservation.product_id)"
                         >
                             <x-forms.label x-bind:for="`reservation[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
+                                Batch No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -350,7 +350,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
 
                     if (reservation) {
                         this.reservations = reservation;
@@ -432,7 +432,7 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (this.reservations[index].product_id && this.reservations[index].warehouse_id) {
+                    if (Company.isInventoryCheckerEnabled() && this.reservations[index].product_id && this.reservations[index].warehouse_id) {
                         await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
                         this.reservations[index].availableQuantity = Merchandise.merchandise;
                     }

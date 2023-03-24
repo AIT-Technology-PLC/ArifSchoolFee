@@ -14,9 +14,6 @@ class MerchandiseBatchController extends Controller
 
     public function index()
     {
-        if (!userCompany()->canSelectBatchNumberOnForms()) {
-            return false;
-        }
 
         $merchandiseBatches = MerchandiseBatch::available()
             ->whereHas('merchandise')
@@ -28,6 +25,7 @@ class MerchandiseBatchController extends Controller
             return [
                 'id' => $merchandiseBatch->id,
                 'name' => $merchandiseBatch->batch_no,
+                'quantity' => $merchandiseBatch->quantity,
                 'expires_on' => $merchandiseBatch->expires_on?->toFormattedDateString(),
                 'product_id' => $merchandiseBatch->merchandise->product_id,
                 'warehouse_id' => $merchandiseBatch->merchandise->warehouse_id,

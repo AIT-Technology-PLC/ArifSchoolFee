@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Models\Adjustment;
-use App\Models\AdjustmentDetail;
-use App\Models\MerchandiseBatch;
 use App\Notifications\AdjustmentPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -53,43 +51,7 @@ class AdjustmentController extends Controller
         $adjustment = DB::transaction(function () use ($request) {
             $adjustment = Adjustment::create($request->safe()->except('adjustment'));
 
-            $adjustmentDetails = $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
-
-            $deletableDetails = collect();
-
-            foreach ($adjustmentDetails as $adjustmentDetail) {
-                if ($adjustmentDetail->product->isBatchable() && is_null($adjustmentDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $adjustmentDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $adjustmentDetail->warehouse_id)
-                        ->when($adjustmentDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$adjustmentDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($adjustmentDetail->id);
-
-                        $adjustment->adjustmentDetails()->create([
-                            'product_id' => $adjustmentDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $adjustmentDetail->quantity ? $adjustmentDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'warehouse_id' => $adjustmentDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $adjustmentDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $adjustmentDetail->quantity - $merchandiseBatch->quantity;
-                            $adjustmentDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            AdjustmentDetail::whereIn('id', $deletableDetails)->forceDelete();
+            $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
 
             Notification::send(Notifiables::byNextActionPermission('Approve Adjustment'), new AdjustmentPrepared($adjustment));
 
@@ -129,43 +91,7 @@ class AdjustmentController extends Controller
 
             $adjustment->adjustmentDetails()->forceDelete();
 
-            $adjustmentDetails = $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
-
-            $deletableDetails = collect();
-
-            foreach ($adjustmentDetails as $adjustmentDetail) {
-                if ($adjustmentDetail->product->isBatchable() && is_null($adjustmentDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $adjustmentDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $adjustmentDetail->warehouse_id)
-                        ->when($adjustmentDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$adjustmentDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($adjustmentDetail->id);
-
-                        $adjustment->adjustmentDetails()->create([
-                            'product_id' => $adjustmentDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $adjustmentDetail->quantity ? $adjustmentDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'warehouse_id' => $adjustmentDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $adjustmentDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $adjustmentDetail->quantity - $merchandiseBatch->quantity;
-                            $adjustmentDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            AdjustmentDetail::whereIn('id', $deletableDetails)->forceDelete();
+            $adjustment->adjustmentDetails()->createMany($request->validated('adjustment'));
         });
 
         return redirect()->route('adjustments.show', $adjustment->id);

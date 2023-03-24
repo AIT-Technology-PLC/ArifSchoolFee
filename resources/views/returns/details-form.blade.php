@@ -17,26 +17,12 @@
                         x-text="`Item ${index + 1}`"
                     ></span>
                 </x-forms.control>
-                <x-forms.control>
-                    <x-common.button
-                        tag="button"
-                        mode="tag"
-                        type="button"
-                        class="bg-lightgreen has-text-white is-medium is-radiusless"
-                        x-on:click="remove(index)"
-                    >
-                        <x-common.icon
-                            name="fas fa-times-circle"
-                            class="text-green"
-                        />
-                    </x-common.button>
-                </x-forms.control>
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(returnn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id), 'is-4': Product.isBatchable(returnn.product_id) }"
                     >
                         <x-forms.label x-bind:for="`return[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
@@ -73,37 +59,35 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (userCompany()->canSelectBatchNumberOnForms())
-                        <div
-                            class="column is-4"
-                            x-show="Product.isBatchable(returnn.product_id)"
-                        >
-                            <x-forms.label x-bind:for="`return[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
-                            </x-forms.label>
-                            <x-forms.field class="has-addons">
-                                <x-forms.control class="has-icons-left is-expanded">
-                                    <x-forms.select
-                                        class="merchandise-batches is-fullwidth"
-                                        x-bind:id="`return[${index}][merchandise_batch_id]`"
-                                        x-bind:name="`return[${index}][merchandise_batch_id]`"
-                                        x-model="returnn.merchandise_batch_id"
-                                    ></x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-th"
-                                        class="is-small is-left"
-                                    />
-                                    <span
-                                        class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`return.${index}.merchandise_batch_id`)"
-                                    ></span>
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endif
+                    <div
+                        class="column is-4"
+                        x-show="Product.isBatchable(returnn.product_id)"
+                    >
+                        <x-forms.label x-bind:for="`return[${index}][merchandise_batch_id]`">
+                            Batch No <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    class="merchandise-batches is-fullwidth"
+                                    x-bind:id="`return[${index}][merchandise_batch_id]`"
+                                    x-bind:name="`return[${index}][merchandise_batch_id]`"
+                                    x-model="returnn.merchandise_batch_id"
+                                ></x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`return.${index}.merchandise_batch_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(returnn.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(returnn.product_id), 'is-4': Product.isBatchable(returnn.product_id) }"
                     >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`return[${index}][warehouse_id]`">
@@ -139,6 +123,13 @@
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`return[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            <sup
+                                class="tag bg-lightpurple text-purple"
+                                x-show="returnn.returnableQuantity"
+                                x-text="`${returnn.returnableQuantity} ${Product.unitOfMeasurement(returnn.product_id)}`"
+                                x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(returnn.returnableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(returnn.returnableQuantity) > 0 }"
+                            >
+                            </sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -300,14 +291,6 @@
 
     @include('components.common.pricing', ['data' => 'returns'])
 
-    <x-common.button
-        tag="button"
-        type="button"
-        mode="button"
-        label="Add More Item"
-        class="bg-purple has-text-white is-small ml-3 mt-6"
-        x-on:click="add"
-    />
 </x-content.main>
 
 @push('scripts')
@@ -353,35 +336,7 @@
                         return;
                     }
 
-                    this.add();
-                },
-                add() {
                     this.returns.push({});
-                },
-                async remove(index) {
-                    if (this.returns.length <= 0) {
-                        return;
-                    }
-
-                    await Promise.resolve(this.returns.splice(index, 1));
-
-                    await Promise.resolve(
-                        this.returns.forEach((returnn, i) => {
-                            if (i >= index) {
-                                Product.changeProductCategory(this.getSelect2(i), returnn.product_id, returnn.product_category_id);
-
-                                if (Product.isBatchable(this.returns[i].product_id) && Company.canSelectBatchNumberOnForms()) {
-                                    MerchandiseBatch.appendMerchandiseBatches(
-                                        this.getMerchandiseBatchesSelect(i),
-                                        this.returns[i].merchandise_batch_id,
-                                        MerchandiseBatch.where(this.returns[i].product_id, this.returns[i].warehouse_id)
-                                    );
-                                }
-                            }
-                        })
-                    );
-
-                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -391,7 +346,7 @@
 
                         this.returns[index].product_category_id = Product.productCategoryId(this.returns[index].product_id);
 
-                        if (Product.isBatchable(this.returns[index].product_id) && Company.canSelectBatchNumberOnForms()) {
+                        if (Product.isBatchable(this.returns[index].product_id)) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.returns[index].merchandise_batch_id,
@@ -429,7 +384,7 @@
 
                     await Promise.resolve(this.returns.forEach((returnn) => {
                         returnn.product_category_id = Product.productCategoryId(returnn.product_id);
-                        returnn.quantity -= returnn.returned_quantity;
+                        returnn.hasOwnProperty('returnableQuantity') && (returnn.quantity = 0)
                     }));
 
                     await Promise.resolve($(".product-list").trigger("change", [true]));

@@ -129,8 +129,8 @@ const Product = {
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
     },
-    async initForSale() {
-        await Promise.resolve(Product.init());
+    async initForSale(products) {
+        this.products = products;
 
         this.products = this.products.filter(
             (product) => product.is_active && product.is_active_for_sale
@@ -189,6 +189,10 @@ const MerchandiseBatch = {
     merchandiseBatches: [],
 
     async init() {
+        if (this.merchandiseBatches.length) {
+            return;
+        }
+
         const response = await axios.get(`/api/merchandise-batches`);
 
         this.merchandiseBatches = response.data;
@@ -201,6 +205,17 @@ const MerchandiseBatch = {
             (merchandiseBatch) =>
                 productId == merchandiseBatch.product_id &&
                 (!warehouseId || warehouseId == merchandiseBatch.warehouse_id)
+        );
+    },
+    async initAvailable() {
+        await Promise.resolve(MerchandiseBatch.init());
+
+        if (!this.merchandiseBatches.length) {
+            return;
+        }
+
+        this.merchandiseBatches = this.merchandiseBatches.filter(
+            (merchandiseBatch) => merchandiseBatch.quantity > 0
         );
     },
     appendMerchandiseBatches(
@@ -232,8 +247,6 @@ const MerchandiseBatch = {
                 )
             );
         });
-
-        select.add(new Option("None", "", false, ""));
     },
 };
 
@@ -353,7 +366,11 @@ const Company = {
 
     canSelectBatchNumberOnForms() {
         return this.company.can_select_batch_number_on_forms;
-    }
+    },
+
+    isInventoryCheckerEnabled() {
+        return this.company.can_check_inventory_on_forms;
+    },
 };
 
 const Compensation = {

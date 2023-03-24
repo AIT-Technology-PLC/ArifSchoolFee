@@ -33,7 +33,7 @@
                 <div class="columns is-marginless is-multiline">
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(adjustment.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(adjustment.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(adjustment.product_id), 'is-4': Product.isBatchable(adjustment.product_id) }"
                     >
                         <x-forms.label x-bind:for="`adjustment[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
@@ -70,37 +70,35 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (userCompany()->canSelectBatchNumberOnForms())
-                        <div
-                            class="column is-4"
-                            x-show="Product.isBatchable(adjustment.product_id)"
-                        >
-                            <x-forms.label x-bind:for="`adjustment[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
-                            </x-forms.label>
-                            <x-forms.field class="has-addons">
-                                <x-forms.control class="has-icons-left is-expanded">
-                                    <x-forms.select
-                                        class="merchandise-batches is-fullwidth"
-                                        x-bind:id="`adjustment[${index}][merchandise_batch_id]`"
-                                        x-bind:name="`adjustment[${index}][merchandise_batch_id]`"
-                                        x-model="adjustment.merchandise_batch_id"
-                                    ></x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-th"
-                                        class="is-small is-left"
-                                    />
-                                    <span
-                                        class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`adjustment.${index}.merchandise_batch_id`)"
-                                    ></span>
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endif
+                    <div
+                        class="column is-4"
+                        x-show="Product.isBatchable(adjustment.product_id)"
+                    >
+                        <x-forms.label x-bind:for="`adjustment[${index}][merchandise_batch_id]`">
+                            Batch No <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    class="merchandise-batches is-fullwidth"
+                                    x-bind:id="`adjustment[${index}][merchandise_batch_id]`"
+                                    x-bind:name="`adjustment[${index}][merchandise_batch_id]`"
+                                    x-model="adjustment.merchandise_batch_id"
+                                ></x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-small is-left"
+                                />
+                                <span
+                                    class="help has-text-danger"
+                                    x-text="$store.errors.getErrors(`adjustment.${index}.merchandise_batch_id`)"
+                                ></span>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div
                         class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(adjustment.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(adjustment.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(adjustment.product_id), 'is-4': Product.isBatchable(adjustment.product_id) }"
                     >
                         <x-forms.label x-bind:for="`adjustment[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
@@ -257,7 +255,7 @@
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), adjustment.product_id, adjustment.product_category_id);
 
-                                if (Product.isBatchable(this.adjustments[i].product_id) && Company.canSelectBatchNumberOnForms()) {
+                                if (Product.isBatchable(this.adjustments[i].product_id)) {
                                     MerchandiseBatch.appendMerchandiseBatches(
                                         this.getMerchandiseBatchesSelect(i),
                                         this.adjustments[i].merchandise_batch_id,
@@ -281,7 +279,7 @@
                                 this.adjustments[index].product_id
                             );
 
-                        if (Product.isBatchable(this.adjustments[index].product_id) && Company.canSelectBatchNumberOnForms()) {
+                        if (Product.isBatchable(this.adjustments[index].product_id)) {
                             MerchandiseBatch.appendMerchandiseBatches(
                                 this.getMerchandiseBatchesSelect(index),
                                 this.adjustments[index].merchandise_batch_id,

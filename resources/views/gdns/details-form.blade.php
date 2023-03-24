@@ -77,7 +77,7 @@
                             x-show="Product.isBatchable(gdn.product_id)"
                         >
                             <x-forms.label x-bind:for="`gdn[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
+                                Batch No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -350,7 +350,7 @@
                 gdns: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
 
                     if (gdn) {
                         this.gdns = gdn;
@@ -431,7 +431,7 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {
+                    if (Company.isInventoryCheckerEnabled() && this.gdns[index].product_id && this.gdns[index].warehouse_id) {
                         await Merchandise.init(this.gdns[index].product_id, this.gdns[index].warehouse_id);
                         this.gdns[index].availableQuantity = Merchandise.merchandise;
                     }

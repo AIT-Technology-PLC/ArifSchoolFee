@@ -104,7 +104,7 @@
                                                 :selected-id="$master[$masterPadField->id] ?? ''"
                                                 type="{{ $masterPadField->padRelation->model_name == 'Warehouse' ? $pad->inventory_operation_type : '' }}"
                                                 id="{{ $masterPadField->id }}"
-                                                x-init="initSelect2($el, '{{ $masterPadField->padRelation->model_name }}');
+                                                x-init="initSelect2($el, '{{ $masterPadField->label }}');
                                                 bindData($el, 'master.{{ $masterPadField->id }}')"
                                             />
                                         </div>
@@ -403,7 +403,7 @@
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
-                                                        {{ $detailPadField->label }} 
+                                                        {{ $detailPadField->label }}
                                                         <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
                                                     </x-forms.label>
                                                     <x-forms.control>

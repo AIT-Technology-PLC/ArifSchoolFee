@@ -138,7 +138,7 @@ class TransactionController extends Controller
     {
         abort_if(!$transaction->pad->isEnabled(), 403);
 
-        $this->authorize('update', $transaction);
+        $this->authorize('updateStatus', $transaction);
 
         $transaction->status = $request->validated('status');
         $transaction->save();

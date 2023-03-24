@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CanEditReferenceNumber;
-use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -25,9 +25,12 @@ class StoreAdjustmentRequest extends FormRequest
             'adjustment.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('adjustment')->pluck('id'))],
             'adjustment.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
             'adjustment.*.is_subtract' => ['required', 'integer'],
-            'adjustment.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity],
+            'adjustment.*.quantity' => ['required', 'numeric', 'gt:0'],
             'adjustment.*.reason' => ['required', 'string'],
-            'adjustment.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'adjustment.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited(false), 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

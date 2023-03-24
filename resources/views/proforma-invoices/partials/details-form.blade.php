@@ -77,7 +77,7 @@
                             x-show="Product.isBatchable(proformaInvoice.product_id)"
                         >
                             <x-forms.label x-bind:for="`proformaInvoice[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger"> </sup>
+                                Batch No <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -303,7 +303,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initForSale({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;

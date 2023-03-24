@@ -4,8 +4,8 @@ namespace App\Http\Requests;
 
 use App\Models\Gdn;
 use App\Models\GdnDetail;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CanEditReferenceNumber;
-use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -32,9 +32,12 @@ class StoreReturnRequest extends FormRequest
             }],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'return.*.unit_price' => ['nullable', 'numeric'],
-            'return.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity, new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
+            'return.*.quantity' => ['required', 'numeric', 'min:0', new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
             'return.*.description' => ['nullable', 'string'],
-            'return.*.merchandise_batch_id' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'return.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited(false), 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn()->flatten(1)->pluck('id'))],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],

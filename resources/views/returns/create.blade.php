@@ -56,7 +56,7 @@
                                                 value="{{ $gdn->id }}"
                                                 @selected(old('gdn_id') == $gdn->id)
                                             >
-                                                {{ $gdn->code }}
+                                                #{{ $gdn->code }} ({{ $gdn->issued_on->toFormattedDateString() }})
                                             </option>
                                         @endforeach
                                     @endforeach

@@ -98,7 +98,9 @@ class TransactionController extends Controller
 
         $hasDetails = $transaction->transactionFields()->detailFields()->exists();
 
-        return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields', 'hasDetails'));
+        $hasDescriptionBox = $transaction->pad->padFields()->masterFields()->where('label', 'Description')->exists();
+
+        return $datatable->render('transactions.show', compact('transaction', 'masterTransactionFields', 'hasDetails', 'hasDescriptionBox'));
     }
 
     public function edit(Transaction $transaction)
@@ -107,9 +109,11 @@ class TransactionController extends Controller
 
         $this->authorize('update', $transaction);
 
-        abort_if(!$transaction->canBeEdited(), 403);
-
         $transaction->load('pad');
+
+        $hasDescriptionBox = $transaction->pad->padFields()->masterFields()->where('label', 'Description')->exists();
+
+        abort_if(!$transaction->canBeEdited() && !$hasDescriptionBox, 403);
 
         return view('transactions.edit', compact('transaction'));
     }
