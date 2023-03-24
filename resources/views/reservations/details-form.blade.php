@@ -350,7 +350,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initForSale(), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.initForSale({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
 
                     if (reservation) {
                         this.reservations = reservation;
@@ -432,7 +432,7 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (this.reservations[index].product_id && this.reservations[index].warehouse_id) {
+                    if (Company.isInventoryCheckerEnabled() && this.reservations[index].product_id && this.reservations[index].warehouse_id) {
                         await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
                         this.reservations[index].availableQuantity = Merchandise.merchandise;
                     }

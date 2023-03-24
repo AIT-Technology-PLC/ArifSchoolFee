@@ -126,7 +126,7 @@
     @endif
 
     @if ($transaction->pad->padStatuses->isNotEmpty())
-        @can('update', $transaction)
+        @can('updateStatus', $transaction)
             @include('transactions.partials.update-status')
         @endcan
     @endif

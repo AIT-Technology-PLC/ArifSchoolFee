@@ -24,7 +24,7 @@ class ReservationService
 
         DB::transaction(function () use ($updatedReservation, $updatedReservationDetails, $reservation) {
             if ($reservation->isReserved()) {
-                InventoryOperationService::subtract($reservation->reservationDetails, null, 'reserved', );
+                InventoryOperationService::subtract($reservation->reservationDetails, $reservation, 'reserved');
 
                 InventoryOperationService::add($reservation->reservationDetails, $reservation);
 
@@ -106,7 +106,7 @@ class ReservationService
         DB::transaction(function () use ($reservation) {
             InventoryOperationService::subtract($reservation->reservationDetails, $reservation);
 
-            InventoryOperationService::add($reservation->reservationDetails, null, 'reserved');
+            InventoryOperationService::add($reservation->reservationDetails, $reservation, 'reserved');
 
             $reservation->reserve();
         });
@@ -146,7 +146,7 @@ class ReservationService
                 $reservation->reservable()->dissociate();
             }
 
-            InventoryOperationService::subtract($reservation->reservationDetails, null, 'reserved');
+            InventoryOperationService::subtract($reservation->reservationDetails, $reservation, 'reserved');
 
             InventoryOperationService::add($reservation->reservationDetails, $reservation);
 

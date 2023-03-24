@@ -9,8 +9,8 @@ class MerchandiseBatchService
 {
     public function convertToDamage($merchandiseBatch)
     {
-        if ($merchandiseBatch->isDamaged()) {
-            return [false, 'This Batch is already damage.', ''];
+        if (!$merchandiseBatch->isAvailable()) {
+            return [false, 'This Batch is out of stock.', ''];
         }
 
         if (!$merchandiseBatch->isExpired()) {

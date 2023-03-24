@@ -149,6 +149,7 @@
                                                             @foreach ($overtimeRates as $overtime => $rate)
                                                                 <option value="{{ $overtime }}"> {{ str($overtime)->title() }}</option>
                                                             @endforeach
+                                                            <option selected value=""> None </option>
                                                         </x-forms.select>
                                                         <x-common.icon
                                                             name="fa-solid fa-calendar"

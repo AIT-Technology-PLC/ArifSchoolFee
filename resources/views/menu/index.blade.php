@@ -1166,7 +1166,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Inventory Level
+                                            Daily Inventory Level
                                         </span>
                                     </div>
                                 @endcan

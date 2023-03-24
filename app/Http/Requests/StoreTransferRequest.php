@@ -27,7 +27,10 @@ class StoreTransferRequest extends FormRequest
             'transfer.*.warehouse_id' => ['required', 'integer', 'same:transferred_from', 'exclude'],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('transfer'))],
             'transfer.*.description' => ['nullable', 'string'],
-            'transfer.*.merchandise_batch_id' => ['nullable', 'integer', new BatchSelectionIsRequiredOrProhibited, new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'transfer.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited, 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'transferred_from' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'issued_on' => ['required', 'date'],

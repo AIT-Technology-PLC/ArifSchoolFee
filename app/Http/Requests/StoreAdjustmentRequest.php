@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +27,10 @@ class StoreAdjustmentRequest extends FormRequest
             'adjustment.*.is_subtract' => ['required', 'integer'],
             'adjustment.*.quantity' => ['required', 'numeric', 'gt:0'],
             'adjustment.*.reason' => ['required', 'string'],
-            'adjustment.*.merchandise_batch_id' => ['nullable', 'integer', new BatchSelectionIsRequiredOrProhibited(false), new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'adjustment.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited(false), 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

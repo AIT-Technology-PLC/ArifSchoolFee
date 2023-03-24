@@ -110,6 +110,10 @@ class PadService
             $permissions[] = ['name' => ucfirst($pad->getInventoryOperationType())];
         }
 
+        if ($pad->padStatuses()->exists()) {
+            $permissions[] = ['name' => 'Update Status'];
+        }
+
         return collect($permissions);
     }
 

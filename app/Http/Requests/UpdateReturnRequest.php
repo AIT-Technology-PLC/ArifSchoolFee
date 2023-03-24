@@ -34,7 +34,10 @@ class UpdateReturnRequest extends FormRequest
             'return.*.unit_price' => ['nullable', 'numeric'],
             'return.*.quantity' => ['required', 'numeric', 'min:0', new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
             'return.*.description' => ['nullable', 'string'],
-            'return.*.merchandise_batch_id' => ['nullable', 'integer', new BatchSelectionIsRequiredOrProhibited(false), new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber],
+            'return.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited(false), 
+                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'gdn_id' => ['required', 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('id'))],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
