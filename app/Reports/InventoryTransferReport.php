@@ -29,7 +29,7 @@ class InventoryTransferReport
     private function setQuery()
     {
         $this->query = TransferDetail::query()
-            ->whereHas('transfer', fn($q) => $q->subtracted()->withoutGlobalScopes([BranchScope::class]))
+            ->whereHas('transfer', fn($q) => $q->added()->withoutGlobalScopes([BranchScope::class]))
             ->join('transfers', 'transfer_details.transfer_id', '=', 'transfers.id')
             ->join('products', 'transfer_details.product_id', '=', 'products.id')
             ->leftJoin('users', 'transfers.created_by', '=', 'users.id')
