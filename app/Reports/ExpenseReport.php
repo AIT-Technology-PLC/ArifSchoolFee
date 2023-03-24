@@ -181,8 +181,8 @@ class ExpenseReport
             ->selectRaw('
                 SUM(quantity*unit_price*(1+taxes.amount)
                 ) AS expense,
-                taxes.type AS payment_type,
-                COUNT(taxes.type) AS transactions
+                expenses.payment_type AS payment_type,
+                COUNT(payment_type) AS transactions
             ')
             ->groupBy('payment_type')
             ->orderByDesc('expense')
