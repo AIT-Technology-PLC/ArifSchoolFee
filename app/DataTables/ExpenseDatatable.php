@@ -58,6 +58,7 @@ class ExpenseDatatable extends DataTable
             ->select('expenses.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('expenses.warehouse_id', request('branch')))
             ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('expenses.payment_type', request('paymentType')))
+            ->when(!is_null(request('taxType')) && request('taxType') != 'all', fn($query) => $query->where('expenses.tax_id', request('taxType')))
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->with([

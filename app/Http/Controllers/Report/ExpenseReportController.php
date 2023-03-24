@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Report;
 use App\Exports\ExpenseReportExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
+use App\Models\Tax;
 use App\Reports\ExpenseReport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -21,9 +22,11 @@ class ExpenseReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
+        $taxes = Tax::get(['id', 'type']);
+
         $expenseReport = new ExpenseReport($request->validated());
 
-        return view('reports.expense', compact('expenseReport', 'warehouses'));
+        return view('reports.expense', compact('expenseReport', 'warehouses', 'taxes'));
     }
 
     public function export(FilterRequest $request)

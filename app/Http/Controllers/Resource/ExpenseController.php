@@ -36,7 +36,9 @@ class ExpenseController extends Controller
 
         $totalNotApproved = Expense::notApproved()->count();
 
-        return $datatable->render('expenses.index', compact('totalExpenses', 'totalApproved', 'totalNotApproved'));
+        $taxes = Tax::get(['id', 'type']);
+
+        return $datatable->render('expenses.index', compact('totalExpenses', 'totalApproved', 'totalNotApproved', 'taxes'));
     }
 
     public function create()

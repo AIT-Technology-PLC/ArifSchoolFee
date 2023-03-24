@@ -40,7 +40,8 @@ class ExpenseReport
             ->leftJoin('suppliers', 'expenses.supplier_id', '=', 'suppliers.id')
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('expenses.warehouse_id', $this->filters['branches']))
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('expenses.issued_on', '>=', $this->filters['period'][0])->whereDate('expenses.issued_on', '<=', $this->filters['period'][1]))
-            ->when(isset($this->filters['supplier_id']), fn($query) => $query->where('expenses.supplier_id', $this->filters['supplier_id']));
+            ->when(isset($this->filters['supplier_id']), fn($query) => $query->where('expenses.supplier_id', $this->filters['supplier_id']))
+            ->when(isset($this->filters['tax_id']), fn($query) => $query->where('expenses.tax_id', $this->filters['tax_id']));
     }
 
     public function getExpenseTransactionCount()
