@@ -188,4 +188,18 @@ class ExpenseReport
             ->orderByDesc('expense')
             ->get();
     }
+
+    public function getTaxTypesByExpense()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(quantity*unit_price*(1+taxes.amount)
+                ) AS expense,
+                taxes.type AS tax_type,
+                COUNT(taxes.type) AS transactions
+            ')
+            ->groupBy('taxes.type')
+            ->orderByDesc('expense')
+            ->get();
+    }
 }

@@ -365,5 +365,42 @@
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-money-bill-trend-up"></i>
+                        </span>
+                        <span>Expenses by Tax Type</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Tax Type </abbr></th>
+                        <th class="has-text-right"><abbr> Transactions </abbr></th>
+                        <th class="has-text-right"><abbr> Expense </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($expenseReport->getTaxTypesByExpense as $taxTypeExpense)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $taxTypeExpense->tax_type }} </td>
+                                <td class="has-text-right"> {{ $taxTypeExpense->transactions }} </td>
+                                <td class="has-text-right"> {{ number_format($taxTypeExpense->expense, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
     </div>
 @endsection
