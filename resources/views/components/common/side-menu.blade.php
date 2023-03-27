@@ -1040,8 +1040,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management'))
-        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt'])
+    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report'))
+        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1138,6 +1138,20 @@
                                         href="{{ route('reports.inventory_level') }}"
                                         label="Daily Inventory Level"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_level') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory Transfer Report'))
+                            @can('Read Inventory Transfer Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_transfer') }}"
+                                        label="Inventory Transfer"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_transfer') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
