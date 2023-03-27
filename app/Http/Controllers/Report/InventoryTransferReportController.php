@@ -23,7 +23,7 @@ class InventoryTransferReportController extends Controller
 
         $users = Employee::with('user:id,name')->get()->pluck('user')->sortBy('name');
 
-        $products = Product::whereHas('transferDetails')->get()->sortBy('name');
+        $products = Product::orderBy('name')->get();
 
         $inventoryTransferReport = new InventoryTransferReport($request->validated());
 
