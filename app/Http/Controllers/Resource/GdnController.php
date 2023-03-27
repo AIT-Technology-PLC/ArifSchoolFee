@@ -99,7 +99,7 @@ class GdnController extends Controller
             Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
-        });
+        }, 2);
 
         return redirect()->route('gdns.show', $gdn->id);
     }
@@ -186,7 +186,7 @@ class GdnController extends Controller
             }
 
             GdnDetail::whereIn('id', $deletableDetails)->forceDelete();
-        });
+        }, 2);
 
         return redirect()->route('gdns.show', $gdn->id);
     }
