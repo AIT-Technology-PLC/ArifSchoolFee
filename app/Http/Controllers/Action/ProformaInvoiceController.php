@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProformaInvoiceExpiresOn;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Services\Models\ProformaInvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProformaInvoiceController extends Controller
 {
@@ -95,5 +97,24 @@ class ProformaInvoiceController extends Controller
         }
 
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
+    }
+
+    public function restore(UpdateProformaInvoiceExpiresOn $request, ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('restore', $proformaInvoice);
+
+        if ($proformaInvoice->isConverted()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
+        }
+
+        if (!$proformaInvoice->isExpired()) {
+            return back()->with('failedMessage', 'This proforma inovices is not expired yet.');
+        }
+
+        DB::transaction(function () use ($request, $proformaInvoice) {
+            $proformaInvoice->restore($request->validated('expires_on'));
+        });
+
+        return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
     }
 }

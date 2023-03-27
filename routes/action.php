@@ -83,6 +83,10 @@ Route::post('/proforma-invoices/{proformaInvoice}/close',
     [Action\ProformaInvoiceController::class, 'close'])
     ->name('proforma-invoices.close');
 
+Route::post('/proforma-invoices/{proformaInvoice}/restore',
+    [Action\ProformaInvoiceController::class, 'restore'])
+    ->name('proforma-invoices.restore');
+
 // Gdns
 Route::post('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])
