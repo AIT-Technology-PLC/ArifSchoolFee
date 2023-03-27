@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\DataTables\InventoryTransferReportDatatable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InventoryTransferReportRequest;
 use App\Models\Employee;
 use App\Models\Product;
-use App\Reports\InventoryTransferReport;
 
 class InventoryTransferReportController extends Controller
 {
@@ -15,7 +14,7 @@ class InventoryTransferReportController extends Controller
         $this->middleware('isFeatureAccessible:Inventory Transfer Report');
     }
 
-    public function index(InventoryTransferReportRequest $request)
+    public function index(InventoryTransferReportDatatable $datatable)
     {
         abort_if(authUser()->cannot('Read Inventory Transfer Report'), 403);
 
@@ -25,8 +24,6 @@ class InventoryTransferReportController extends Controller
 
         $products = Product::orderBy('name')->get();
 
-        $inventoryTransferReport = new InventoryTransferReport($request->validated());
-
-        return view('reports.inventory-transfer', compact('warehouses', 'inventoryTransferReport', 'users', 'products'));
+        return $datatable->render('reports.inventory-transfer', compact('warehouses', 'users', 'products'));
     }
 }
