@@ -50,7 +50,7 @@ class AttendanceController extends Controller
         $attendance = DB::transaction(function () use ($request) {
             $attendance = Attendance::create($request->safe()->except('attendance'));
 
-            if (!is_null($request->validated('attendance.*'))) {
+            if (count($request->safe()->only('attendance'))) {
                 $attendance->attendanceDetails()->createMany($request->validated('attendance'));
             }
 
@@ -99,7 +99,7 @@ class AttendanceController extends Controller
 
             $attendance->attendanceDetails()->forceDelete();
 
-            if (!is_null($request->validated('attendance.*'))) {
+            if (count($request->safe()->only('attendance'))) {
                 $attendance->attendanceDetails()->createMany($request->validated('attendance'));
             }
 
