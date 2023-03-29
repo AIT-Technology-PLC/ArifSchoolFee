@@ -110,12 +110,14 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
-    @can('Import Attendance')
-        <x-common.import
-            title="Import Attendance"
-            action="{{ route('attendances.import', $attendance->id) }}"
-        />
-    @endcan
+    @if (!$attendance->isApproved() && !$attendance->isCancelled())
+        @can('Import Attendance')
+            <x-common.import
+                title="Import Attendance"
+                action="{{ route('attendances.import', $attendance->id) }}"
+            />
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')
