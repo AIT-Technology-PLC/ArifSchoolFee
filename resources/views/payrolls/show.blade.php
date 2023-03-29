@@ -82,6 +82,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fa-solid fa-calendar"
+                        :data="$payroll->working_days ?? userCompany()->working_days"
+                        label="Working Days"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-calendar-day"
                         :data="$payroll->issued_on->toFormattedDateString()"
                         label="Issued On"

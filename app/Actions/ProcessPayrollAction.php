@@ -18,6 +18,8 @@ class ProcessPayrollAction
 
     private $attendanceDetails;
 
+    private $workingDays;
+
     public function execute($payroll)
     {
         $this->setup($payroll);
@@ -31,6 +33,8 @@ class ProcessPayrollAction
 
     private function setup($payroll)
     {
+        $this->workingDays = $payroll->working_days ?? userCompany()->working_days;
+
         $this->payroll = $payroll->load('payrollDetails.employee');
 
         $this->employees = $this->payroll->payrollDetails->pluck('employee')->unique();
@@ -77,11 +81,11 @@ class ProcessPayrollAction
             $data['income_tax'] = IncomeTaxCalculator::calculate($data['taxable_income'])['tax_amount'];
             $data['deductions'] = $employeeCompensations->where('compensation_type', 'deduction')->sum('amount') + $data['income_tax'];
             $data['net_payable'] = $data['gross_salary'] - $data['deductions'];
-            $data['working_days'] = userCompany()->working_days - ($this->attendanceDetails->where('employee_id', $employee->id)->first()->days ?? 0);
+            $data['working_days'] = $this->workingDays - ($this->attendanceDetails->where('employee_id', $employee->id)->first()->days ?? 0);
             $data['absence_days'] = $this->attendanceDetails->where('employee_id', $employee->id)->first()->days ?? 0;
 
             if (!userCompany()->isBasicSalaryAfterAbsenceDeduction()) {
-                $data['absence_deduction'] = $data['net_payable'] / userCompany()->working_days * $data['absence_days'];
+                $data['absence_deduction'] = $data['net_payable'] / $this->workingDays * $data['absence_days'];
                 $data['net_payable_after_absenteeism'] = $data['net_payable'] - $data['absence_deduction'];
             }
 

@@ -202,9 +202,11 @@ class PayrollService
         $payrollDetails = $payroll->payrollDetails()->where('compensation_id', $basicSalaryCompensation->id)->get();
 
         foreach ($payrollDetails as $payrollDetail) {
-            $daysWorked = userCompany()->working_days - ($attendanceDetails->where('employee_id', $payrollDetail->employee_id)->first()->days ?? 0);
+            $workingDays = $payroll->working_days ?? userCompany()->working_days;
 
-            $payrollDetail->amount = ($payrollDetail->amount * $daysWorked) / userCompany()->working_days;
+            $daysWorked = $workingDays - ($attendanceDetails->where('employee_id', $payrollDetail->employee_id)->first()->days ?? 0);
+
+            $payrollDetail->amount = ($payrollDetail->amount * $daysWorked) / $workingDays;
 
             $payrollDetail->save();
         }

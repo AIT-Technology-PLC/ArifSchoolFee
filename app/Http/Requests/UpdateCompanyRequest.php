@@ -47,7 +47,7 @@ class UpdateCompanyRequest extends FormRequest
             'print_padding_horizontal' => ['required', 'numeric', 'between:0,100'],
             'paid_time_off_amount' => ['sometimes', 'required', 'numeric'],
             'paid_time_off_type' => ['sometimes', 'required', 'string', Rule::in(['Days', 'Hours'])],
-            'working_days' => ['nullable', 'numeric', 'min:1', 'max:30'],
+            'working_days' => ['nullable', 'numeric', 'min:1', 'max:31'],
             'sales_report_source' => ['sometimes', 'required', 'string', 'max:255', Rule::in(['All Delivery Orders', 'Approved & Subtracted Delivery Orders', 'Subtracted Delivery Orders', 'All Invoices', 'Approved Invoices'])],
             'is_backorder_enabled' => ['sometimes', 'required', 'boolean'],
             'can_check_inventory_on_forms' => ['sometimes', 'required', 'boolean'],
