@@ -23,7 +23,13 @@ class PayrollSheetDatatable extends DataTable
     {
         return $this
             ->editCompensations(datatables()->collection($query))
-            ->editColumn('name', fn($row) => $row['employee_name'])
+            ->editColumn('employee_name', function ($row) {
+                return view('components.datatables.link', [
+                    'url' => route('payslips.print', [$row['payroll']->id, $row['employee_id']]),
+                    'label' => $row['employee_name'],
+                    'target' => '_blank',
+                ]);
+            })
             ->editColumn('working_days', fn($row) => $row['working_days'] . ' Days')
             ->editColumn('gross_salary', fn($row) => number_format($row['gross_salary'], 2))
             ->editColumn('taxable_income', fn($row) => number_format($row['taxable_income'], 2))

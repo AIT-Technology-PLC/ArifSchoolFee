@@ -75,6 +75,8 @@ class ProcessPayrollAction
             $employeeCompensations = $this->employeesCompensations->where('employee_id', $employee->id);
 
             $data['employee'] = $employee;
+            $data['payroll'] = $this->payroll;
+            $data['employee_id'] = $employee->id;
             $data['employee_name'] = $employee->user->name;
             $data['gross_salary'] = $employeeCompensations->where('compensation_type', 'earning')->sum('amount');
             $data['taxable_income'] = $employeeCompensations->where('compensation_type', 'earning')->where('compensation_is_taxable', 1)->sum('amount');
