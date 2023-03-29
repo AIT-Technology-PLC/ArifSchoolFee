@@ -311,6 +311,10 @@ Route::post('/attendances/{attendance}/cancel',
     [Action\AttendanceController::class, 'cancel'])
     ->name('attendances.cancel');
 
+Route::post('/attendances/{attendance}/import',
+    [Action\AttendanceController::class, 'import'])
+    ->name('attendances.import');
+
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');

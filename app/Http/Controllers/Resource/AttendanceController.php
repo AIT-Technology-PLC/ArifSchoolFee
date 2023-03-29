@@ -9,6 +9,7 @@ use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller
@@ -49,7 +50,9 @@ class AttendanceController extends Controller
         $attendance = DB::transaction(function () use ($request) {
             $attendance = Attendance::create($request->safe()->except('attendance'));
 
-            $attendance->attendanceDetails()->createMany($request->validated('attendance'));
+            if (count($request->safe()->only('attendance'))) {
+                $attendance->attendanceDetails()->createMany($request->validated('attendance'));
+            }
 
             return $attendance;
         });
@@ -96,7 +99,9 @@ class AttendanceController extends Controller
 
             $attendance->attendanceDetails()->forceDelete();
 
-            $attendance->attendanceDetails()->createMany($request->validated('attendance'));
+            if (count($request->safe()->only('attendance'))) {
+                $attendance->attendanceDetails()->createMany($request->validated('attendance'));
+            }
 
         });
 

@@ -44,4 +44,9 @@ class AttendancePolicy
     {
         return $user->can('Cancel Attendance');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Attendance');
+    }
 }
