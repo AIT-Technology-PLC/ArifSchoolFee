@@ -5,6 +5,7 @@ namespace App\Services\Models;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ProcessPayrollAction;
 use App\IncomeTax\OvertimeCalculation;
+use App\Models\AttendanceDetail;
 use App\Models\Compensation;
 use App\Models\CompensationAdjustmentDetail;
 use App\Models\EmployeeCompensation;
@@ -47,8 +48,14 @@ class PayrollService
                 })->push(...$compensationAdjustments)->toArray();
 
             $payroll->payrollDetails()->createMany($employeeCompensations);
-            $this->storeDerivedCompensations($payroll);
+
             $this->storeOvertimeCompensation($payroll);
+
+            $this->calculateBasicSalaryAfterAbsenceDeduction($payroll);
+
+            $this->addOvertimeToBasicSalary($payroll);
+
+            $this->storeDerivedCompensations($payroll);
 
             return [true, $message];
         });
@@ -99,7 +106,7 @@ class PayrollService
 
     private function storeDerivedCompensations($payroll)
     {
-        $employees = $payroll->payrollDetails->pluck('employee')->unique();
+        $employees = $payroll->payrollDetails()->with('employee')->get()->pluck('employee')->unique();
 
         $data = collect();
 
@@ -107,11 +114,11 @@ class PayrollService
 
         foreach ($employees as $employee) {
             foreach ($derivedCompensations as $compensation) {
-                if ($payroll->payrollDetails->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->isNotEmpty()) {
+                if ($payroll->payrollDetails()->where('employee_id', $employee->id)->where('compensation_id', $compensation->id)->exists()) {
                     continue;
                 }
 
-                $derivedAmount = $payroll->payrollDetails
+                $derivedAmount = $payroll->payrollDetails()
                     ->where('employee_id', $employee->id)
                     ->where('compensation_id', $compensation->depends_on)
                     ->first()['amount'] * ($compensation->percentage / 100);
@@ -131,7 +138,7 @@ class PayrollService
     {
         $overtimeCompensation = Compensation::active()->overtime()->hasFormula()->first();
 
-        $employees = $payroll->payrollDetails->pluck('employee')->unique();
+        $employees = $payroll->payrollDetails()->with('employee')->get()->pluck('employee')->unique();
 
         if (!$overtimeCompensation) {
             return;
@@ -171,5 +178,70 @@ class PayrollService
             });
 
         return $payroll->payrollDetails()->createMany($derivedOvertimeCompensation);
+    }
+
+    private function calculateBasicSalaryAfterAbsenceDeduction($payroll)
+    {
+        if (!userCompany()->isBasicSalaryAfterAbsenceDeduction()) {
+            return;
+        }
+
+        $employees = $payroll->payrollDetails()->with('employee')->get()->pluck('employee')->unique();
+
+        $attendanceDetails = AttendanceDetail::query()
+            ->whereHas('attendance', function ($query) use ($payroll) {
+                return $query->approved()
+                    ->where('starting_period', $payroll->starting_period)
+                    ->where('ending_period', $payroll->ending_period);
+            })
+            ->whereIn('employee_id', $employees->pluck('id'))
+            ->get(['employee_id', 'days']);
+
+        $basicSalaryCompensation = Compensation::active()->where('name', 'Basic Salary')->first();
+
+        $payrollDetails = $payroll->payrollDetails()->where('compensation_id', $basicSalaryCompensation->id)->get();
+
+        foreach ($payrollDetails as $payrollDetail) {
+            $daysWorked = userCompany()->working_days - ($attendanceDetails->where('employee_id', $payrollDetail->employee_id)->first()->days ?? 0);
+
+            $payrollDetail->amount = ($payrollDetail->amount * $daysWorked) / userCompany()->working_days;
+
+            $payrollDetail->save();
+        }
+    }
+
+    private function addOvertimeToBasicSalary($payroll)
+    {
+        $overtimeCompensation = Compensation::active()->overtime()->first();
+
+        if (!userCompany()->doesBasicSalaryIncludeOvertime() || !$overtimeCompensation) {
+            return;
+        }
+
+        $overtimeWithFormulaCompensation = Compensation::active()->overtime()->hasFormula()->first();
+
+        $basicSalaryCompensation = Compensation::active()->where('name', 'Basic Salary')->first();
+
+        $payrollDetails = $payroll->payrollDetails()->where('compensation_id', $basicSalaryCompensation->id)->get();
+
+        foreach ($payrollDetails as $payrollDetail) {
+            $overtimeAmount = $payroll->payrollDetails()
+                ->where('employee_id', $payrollDetail->employee_id)
+                ->where('compensation_id', $overtimeCompensation->id)
+                ->first()
+                ->amount ?? 0;
+
+            $payrollDetail->amount = $payrollDetail->amount + $overtimeAmount;
+
+            $payrollDetail->save();
+        }
+
+        if (!$overtimeWithFormulaCompensation) {
+            return;
+        }
+
+        $payroll->payrollDetails()->where('compensation_id', $overtimeWithFormulaCompensation->id)->forceDelete();
+
+        $this->storeOvertimeCompensation($payroll);
     }
 }

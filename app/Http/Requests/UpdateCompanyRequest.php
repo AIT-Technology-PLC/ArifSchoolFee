@@ -56,6 +56,8 @@ class UpdateCompanyRequest extends FormRequest
             'expiry_in_days' => ['nullable', 'numeric', 'gt:0'],
             'filter_customer_and_supplier' => ['required', 'boolean'],
             'is_costing_by_freight_volume' => ['sometimes', 'required', 'boolean'],
+            'is_payroll_basic_salary_after_absence_deduction' => ['sometimes', 'required', 'boolean'],
+            'does_payroll_basic_salary_include_overtime' => ['sometimes', 'required', 'boolean'],
         ];
     }
 

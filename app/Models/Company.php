@@ -25,6 +25,8 @@ class Company extends Model
         'can_select_batch_number_on_forms' => 'integer',
         'filter_customer_and_supplier' => 'integer',
         'is_costing_by_freight_volume' => 'integer',
+        'is_payroll_basic_salary_after_absence_deduction' => 'integer',
+        'does_payroll_basic_salary_include_overtime' => 'integer',
     ];
 
     public function plan()
@@ -291,5 +293,15 @@ class Company extends Model
     public function isCostingByFreightVolume()
     {
         return $this->is_costing_by_freight_volume;
+    }
+
+    public function isBasicSalaryAfterAbsenceDeduction()
+    {
+        return $this->is_payroll_basic_salary_after_absence_deduction;
+    }
+
+    public function doesBasicSalaryIncludeOvertime()
+    {
+        return $this->does_payroll_basic_salary_include_overtime;
     }
 }

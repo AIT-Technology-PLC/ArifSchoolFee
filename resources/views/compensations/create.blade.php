@@ -84,6 +84,7 @@
                                             >
                                                 <option value="earning ">Earning</option>
                                                 <option value="deduction">Deduction</option>
+                                                <option value="none">None</option>
                                             </x-forms.select>
                                             <x-common.icon
                                                 name="fas fa-sort"
