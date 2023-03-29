@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\CancelTransactionAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImportFileRequest;
+use App\Imports\AttendanceImport;
 use App\Models\Attendance;
 use App\Models\User;
 use App\Notifications\AttendanceApproved;
 use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class AttendanceController extends Controller
@@ -28,6 +31,10 @@ class AttendanceController extends Controller
 
         if (!$attendance->attendanceEnded()) {
             return back()->with('failedMessage', 'You can not approve an attendance with ending period after today.');
+        }
+
+        if ($attendance->attendanceDetails()->doesntExist()) {
+            return back()->with('failedMessage', 'You can not approve an attendance with empty details.');
         }
 
         [$isExecuted, $message] = $action->execute($attendance);
@@ -55,5 +62,26 @@ class AttendanceController extends Controller
         }
 
         return back()->with('successMessage', $message);
+    }
+
+    public function import(UploadImportFileRequest $request, Attendance $attendance)
+    {
+        $this->authorize('import', Attendance::class);
+
+        ini_set('max_execution_time', '-1');
+
+        if ($attendance->isApproved()) {
+            return back()->with('failedMessage', 'You can not modify an attendance which is approved.');
+        }
+
+        if ($attendance->isCancelled()) {
+            return back()->with('failedMessage', 'This attendance is already cancelled.');
+        }
+
+        DB::transaction(function () use ($request, $attendance) {
+            (new AttendanceImport($attendance))->import($request->validated('file'));
+        });
+
+        return back()->with('imported', __('messages.file_imported'));
     }
 }
