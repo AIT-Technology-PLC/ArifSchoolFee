@@ -151,4 +151,32 @@ class PurchaseService
 
         return [true, ''];
     }
+
+    public function approveAndPurchase($purchase)
+    {
+        if ($purchase->isApproved()) {
+            return back()->with('failedMessage', 'This purchase is already approved.');
+        }
+
+        if ($purchase->isCancelled()) {
+            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+        }
+
+        if ($purchase->isPurchased()) {
+            return back()->with('failedMessage', 'This purchase is already purchased.');
+        }
+
+        DB::transaction(function () use ($purchase) {
+            (new ApproveTransactionAction)->execute($purchase);
+
+            $purchase->purchase();
+
+            Notification::send(
+                Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),
+                new PurchaseMade($purchase)
+            );
+        });
+
+        return [true, ''];
+    }
 }
