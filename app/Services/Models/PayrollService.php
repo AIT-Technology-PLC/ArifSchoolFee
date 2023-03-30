@@ -36,7 +36,7 @@ class PayrollService
                 ->whereRelation('employee', 'enabled', '1')
                 ->whereRelation('compensation', 'has_formula', '0')
                 ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
-                    return $query->approved()->where('starting_period', $payroll->starting_period)->where('ending_period', $payroll->ending_period);
+                    return $query->approved()->where('starting_period', '>=', $payroll->starting_period)->where('ending_period', '<=', $payroll->ending_period);
                 })->get(['employee_id', 'compensation_id', 'amount']);
 
             $employeeCompensations = $employeeCompensations
@@ -150,8 +150,8 @@ class PayrollService
             ->whereHas('compensationAdjustment', function ($query) use ($payroll) {
                 return $query
                     ->approved()
-                    ->where('starting_period', $payroll->starting_period)
-                    ->where('ending_period', $payroll->ending_period);
+                    ->where('starting_period', '>=', $payroll->starting_period)
+                    ->where('ending_period', '<=', $payroll->ending_period);
             })
             ->get(['employee_id', 'amount', 'options']);
 
@@ -191,8 +191,8 @@ class PayrollService
         $attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) use ($payroll) {
                 return $query->approved()
-                    ->where('starting_period', $payroll->starting_period)
-                    ->where('ending_period', $payroll->ending_period);
+                    ->where('starting_period', '>=', $payroll->starting_period)
+                    ->where('ending_period', '<=', $payroll->ending_period);
             })
             ->whereIn('employee_id', $employees->pluck('id'))
             ->get(['employee_id', 'days']);
@@ -204,7 +204,7 @@ class PayrollService
         foreach ($payrollDetails as $payrollDetail) {
             $workingDays = $payroll->working_days ?? userCompany()->working_days;
 
-            $daysWorked = $workingDays - ($attendanceDetails->where('employee_id', $payrollDetail->employee_id)->first()->days ?? 0);
+            $daysWorked = $workingDays - $attendanceDetails->where('employee_id', $payrollDetail->employee_id)->sum('days');
 
             $payrollDetail->amount = ($payrollDetail->amount * $daysWorked) / $workingDays;
 

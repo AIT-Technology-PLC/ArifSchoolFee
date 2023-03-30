@@ -42,8 +42,8 @@ class ProcessPayrollAction
         $this->attendanceDetails = AttendanceDetail::query()
             ->whereHas('attendance', function ($query) {
                 return $query->approved()
-                    ->where('starting_period', $this->payroll->starting_period)
-                    ->where('ending_period', $this->payroll->ending_period);
+                    ->where('starting_period', '>=', $this->payroll->starting_period)
+                    ->where('ending_period', '<=', $this->payroll->ending_period);
             })
             ->whereIn('employee_id', $this->employees->pluck('id'))
             ->get(['employee_id', 'days']);
@@ -83,8 +83,8 @@ class ProcessPayrollAction
             $data['income_tax'] = IncomeTaxCalculator::calculate($data['taxable_income'])['tax_amount'];
             $data['deductions'] = $employeeCompensations->where('compensation_type', 'deduction')->sum('amount') + $data['income_tax'];
             $data['net_payable'] = $data['gross_salary'] - $data['deductions'];
-            $data['working_days'] = $this->workingDays - ($this->attendanceDetails->where('employee_id', $employee->id)->first()->days ?? 0);
-            $data['absence_days'] = $this->attendanceDetails->where('employee_id', $employee->id)->first()->days ?? 0;
+            $data['working_days'] = $this->workingDays - $this->attendanceDetails->where('employee_id', $employee->id)->sum('days');
+            $data['absence_days'] = $this->attendanceDetails->where('employee_id', $employee->id)->sum('days');
 
             if (!userCompany()->isBasicSalaryAfterAbsenceDeduction()) {
                 $data['absence_deduction'] = $data['net_payable'] / $this->workingDays * $data['absence_days'];
