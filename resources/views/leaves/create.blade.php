@@ -206,6 +206,31 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][description]`">
+                                            Description <sup class="has-text-danger"></sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.textarea
+                                                x-bind:id="`leave[${index}][description]`"
+                                                x-bind:name="`leave[${index}][description]`"
+                                                x-model="leave.description"
+                                                class="textarea pl-6"
+                                                placeholder="Description or note to be taken"
+                                            >
+                                            </x-forms.textarea>
+                                            <x-common.icon
+                                                name="fas fa-edit"
+                                                class="is-large is-left"
+                                            />
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.description`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
                             </div>
                         </div>
                     </div>
