@@ -213,7 +213,7 @@ class InventoryOperationService
     {
         $unavailableProducts = collect();
 
-        $merchandiseBatches = MerchandiseBatch::available()->whereHas('merchandise')->with('merchandise')->get();
+        $merchandiseBatches = MerchandiseBatch::whereHas('merchandise')->with('merchandise')->get();
 
         $batchableProducts = Product::batchable()->get();
 
@@ -224,12 +224,12 @@ class InventoryOperationService
 
             $merchandiseBatch = $merchandiseBatches->find($detail['merchandise_batch_id']);
 
-            if (!is_null($merchandiseBatch) && $merchandiseBatch->quantity >= $detail['quantity']) {
+            if ($merchandiseBatch->quantity >= $detail['quantity']) {
                 $merchandiseBatch->quantity -= $detail['quantity'];
                 continue;
             }
 
-            if (is_null($merchandiseBatch) || $merchandiseBatch->quantity < $detail['quantity']) {
+            if ($merchandiseBatch->quantity < $detail['quantity']) {
                 $unavailableProducts->push(
                     "'{$merchandiseBatch->merchandise->product->name}' is not available or not enough in batch no:'{$merchandiseBatch->batch_no}'"
                 );

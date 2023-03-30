@@ -5,6 +5,14 @@
     disabled
 >Select Measurement Unit</option>
 <option
+    value="Ampule"
+    {{ $selectedUnitType == 'Ampule' ? 'selected' : '' }}
+>Ampule</option>
+<option
+    value="Bag"
+    {{ $selectedUnitType == 'Bag' ? 'selected' : '' }}
+>Bag</option>
+<option
     value="Barrel"
     {{ $selectedUnitType == 'Barrel' ? 'selected' : '' }}
 >Barrel</option>

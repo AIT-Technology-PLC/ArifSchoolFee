@@ -152,6 +152,13 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
+                            :data="number_format($purchase->purchaseDetails->sum('withHoldingTaxAmount'), 2)"
+                            label="Total Withholding Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fa fa-dollar-sign"
                             :data="number_format($purchase->purchaseDetails->sum('totalPayableTax'), 2)"
                             label="Total Payable Tax ({{ userCompany()->currency }})"
                         />
