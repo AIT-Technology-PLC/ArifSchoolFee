@@ -139,7 +139,20 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$gdn->isApproved())
+                @if (!$gdn->isApproved() && authUser()->can(['Approve GDN', 'Subtract GDN']))
+                    @can(['Approve GDN', 'Subtract GDN'])
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.approve_and_subtract', $gdn->id)"
+                                action="approve & subtract"
+                                intention="approve & subtract this gdn"
+                                icon="fas fa-minus-circle"
+                                label="Approve & Subtract"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif (!$gdn->isApproved())
                     @can('Approve GDN')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

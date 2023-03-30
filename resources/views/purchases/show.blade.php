@@ -181,7 +181,32 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$purchase->isApproved() && !$purchase->isRejected())
+                @if (!$purchase->isApproved() && !$purchase->isRejected() && authUser()->can(['Approve Purchase', 'Make Purchase']))
+                    @can(['Approve Purchase', 'Make Purchase'])
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.approve_and_purchase', $purchase->id)"
+                                action="approve & execute"
+                                intention="approve & execute this purchase"
+                                icon="fas fa-check"
+                                label="Approve & Execute"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                    @can('Reject Purchase')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('purchases.reject', $purchase->id)"
+                                action="reject"
+                                intention="reject this purchase"
+                                icon="fas fa-times-circle"
+                                label="Reject"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif (!$purchase->isApproved() && !$purchase->isRejected())
                     @can('Approve Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
