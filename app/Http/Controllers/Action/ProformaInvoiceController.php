@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateProformaInvoiceExpiresOn;
+use App\Http\Requests\UpdateProformaInvoiceExpiresOnRequest;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Services\Models\ProformaInvoiceService;
@@ -99,7 +99,7 @@ class ProformaInvoiceController extends Controller
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
 
-    public function restore(UpdateProformaInvoiceExpiresOn $request, ProformaInvoice $proformaInvoice)
+    public function restore(UpdateProformaInvoiceExpiresOnRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('restore', $proformaInvoice);
 
@@ -112,7 +112,9 @@ class ProformaInvoiceController extends Controller
         }
 
         DB::transaction(function () use ($request, $proformaInvoice) {
-            $proformaInvoice->restore($request->validated('expires_on'));
+            $proformaInvoice->expires_on = $request->validated('expires_on');
+
+            $proformaInvoice->restore();
         });
 
         return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
