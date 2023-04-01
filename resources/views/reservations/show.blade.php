@@ -201,18 +201,16 @@
                         </x-common.dropdown-item>
                     @endcan
                 @elseif (!$reservation->isApproved() && authUser()->can(['Approve Reservation', 'Make Reservation']))
-                    @can(['Approve Reservation', 'Make Reservation'])
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('reservations.approve_and_reserve', $reservation->id)"
-                                action="approve & reserve"
-                                intention="approve & reserve this reservation"
-                                icon="fas fa-signature"
-                                label="Approve & Reserve"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('reservations.approve_and_reserve', $reservation->id)"
+                            action="approve & reserve"
+                            intention="approve & reserve this reservation"
+                            icon="fas fa-signature"
+                            label="Approve & Reserve"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                 @else
                     @can('Approve Reservation')
                         <x-common.dropdown-item>

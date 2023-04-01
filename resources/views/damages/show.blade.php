@@ -39,7 +39,6 @@
         >
             <x-common.dropdown name="Actions">
                 @if (!$damage->isApproved() && authUser()->can(['Approve Damage', 'Subtract Damage']))
-                    @can(['Approve Damage', 'Subtract Damage'])
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('damages.approve_and_subtract', $damage->id)"
@@ -50,7 +49,6 @@
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
-                    @endcan
                 @elseif (!$damage->isApproved())
                     @can('Approve Damage')
                         <x-common.dropdown-item>

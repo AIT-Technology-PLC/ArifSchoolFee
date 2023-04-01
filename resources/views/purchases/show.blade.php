@@ -189,7 +189,6 @@
         >
             <x-common.dropdown name="Actions">
                 @if (!$purchase->isApproved() && !$purchase->isRejected() && authUser()->can(['Approve Purchase', 'Make Purchase']))
-                    @can(['Approve Purchase', 'Make Purchase'])
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('purchases.approve_and_purchase', $purchase->id)"
@@ -200,7 +199,6 @@
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
-                    @endcan
                     @can('Reject Purchase')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

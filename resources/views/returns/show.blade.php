@@ -67,18 +67,16 @@
         >
             <x-common.dropdown name="Actions">
                 @if (!$return->isApproved() && authUser()->can(['Approve Return', 'Make Return']))
-                    @can(['Approve Return', 'Make Return'])
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('returns.approve_and_add', $return->id)"
-                                action="approve & add"
-                                intention="approve & add this return"
-                                icon="fas fa-plus-circle"
-                                label="Approve & Add"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('returns.approve_and_add', $return->id)"
+                            action="approve & add"
+                            intention="approve & add this return"
+                            icon="fas fa-plus-circle"
+                            label="Approve & Add"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                 @elseif (!$return->isApproved())
                     @can('Approve Return')
                         <x-common.dropdown-item>
