@@ -83,6 +83,10 @@ Route::post('/proforma-invoices/{proformaInvoice}/close',
     [Action\ProformaInvoiceController::class, 'close'])
     ->name('proforma-invoices.close');
 
+Route::get('/proforma-invoices/{proforma_invoice}/convert-to-sale',
+    [Action\ProformaInvoiceController::class, 'convertToSale'])
+    ->name('proforma-invoices.convert_to_sale');
+
 Route::post('/proforma-invoices/{proformaInvoice}/restore',
     [Action\ProformaInvoiceController::class, 'restore'])
     ->name('proforma-invoices.restore');
@@ -282,6 +286,10 @@ Route::post('/jobs/{job}/add-to-available',
 Route::post('/jobs/{job}/close',
     [Action\JobController::class, 'close'])
     ->name('jobs.close');
+
+Route::get('/jobs/{job}/convert-to-sale',
+    [Action\JobController::class, 'convertToSale'])
+    ->name('jobs.convert_to_sale');
 
 // JobExtra
 Route::post('/job-extras/{job_extra}/add',

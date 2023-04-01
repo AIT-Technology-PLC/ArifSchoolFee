@@ -138,6 +138,18 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
+                    @can('Create Sale')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('proforma-invoices.convert_to_sale', $proformaInvoice->id) }}"
+                                mode="button"
+                                icon="fas fa-cash-register"
+                                label="Issue Invoice"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                     @foreach (pads() as $pad)
                         @if (in_array('proforma-invoices', $pad->convert_from))
                             @can('convert', $pad->transactions->first())
