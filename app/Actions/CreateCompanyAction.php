@@ -111,7 +111,7 @@ class CreateCompanyAction
                 'is_adjustable' => 0,
                 'can_be_inputted_manually' => 0,
                 'percentage' => 25,
-                'maximum_amount' => 2250,
+                'maximum_amount' => 2200,
             ],
             [
                 'name' => 'Pension Contribution',

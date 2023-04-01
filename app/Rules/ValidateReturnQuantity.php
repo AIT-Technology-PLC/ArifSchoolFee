@@ -9,11 +9,15 @@ class ValidateReturnQuantity implements Rule
 {
     private $gdnId;
 
+    private $customerId;
+
     private $details;
 
-    public function __construct($gdnId, $details)
+    public function __construct($gdnId = null, $customerId = null, $details)
     {
         $this->gdnId = $gdnId;
+
+        $this->customerId = $customerId;
 
         $this->details = $details;
     }
@@ -24,9 +28,17 @@ class ValidateReturnQuantity implements Rule
 
         $totalRequestedQuantity = collect($this->details)->where('product_id', $productId)->sum('quantity');
 
-        $gdnTotalQuantity = GdnDetail::where('gdn_id', $this->gdnId)->where('product_id', $productId)->sum('quantity');
+        $gdnTotalQuantity = GdnDetail::query()
+            ->when(!is_null($this->customerId), fn($q) => $q->whereRelation('gdn', 'customer_id', $this->customerId))
+            ->when(!is_null($this->gdnId), fn($q) => $q->where('gdn_id', $this->gdnId))
+            ->where('product_id', $productId)
+            ->sum('quantity');
 
-        $gdnTotalReturnedQuantity = GdnDetail::where('gdn_id', $this->gdnId)->where('product_id', $productId)->sum('returned_quantity');
+        $gdnTotalReturnedQuantity = GdnDetail::query()
+            ->when(!is_null($this->customerId), fn($q) => $q->whereRelation('gdn', 'customer_id', $this->customerId))
+            ->when(!is_null($this->gdnId), fn($q) => $q->where('gdn_id', $this->gdnId))
+            ->where('product_id', $productId)
+            ->sum('returned_quantity');
 
         $allowedQuantity = $gdnTotalQuantity - $gdnTotalReturnedQuantity;
 
@@ -35,6 +47,6 @@ class ValidateReturnQuantity implements Rule
 
     public function message()
     {
-        return 'You can not return this much quantity for the above DO!';
+        return 'You can not return this much quantity for the above DO or Customer!';
     }
 }

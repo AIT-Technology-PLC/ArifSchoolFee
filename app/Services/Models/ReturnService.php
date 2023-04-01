@@ -3,6 +3,7 @@
 namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
+use App\Models\GdnDetail;
 use App\Notifications\ReturnApproved;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,13 @@ class ReturnService
             $return->add();
 
             foreach ($return->returnDetails as $returnDetail) {
-                $gdnDetails = $return->gdn->gdnDetails()->where('product_id', $returnDetail->product_id)->whereColumn('quantity', '>', 'returned_quantity')->get();
+                $gdnDetails = GdnDetail::query()
+                    ->when(!is_null($return->customer_id), fn($q) => $q->whereRelation('gdn', 'customer_id', $return->customer_id))
+                    ->when(!is_null($return->gdn_id), fn($q) => $q->where('gdn_id', $return->gdn_id))
+                    ->where('product_id', $returnDetail->product_id)
+                    ->whereColumn('quantity', '>', 'returned_quantity')
+                    ->get();
+
                 foreach ($gdnDetails as $gdnDetail) {
                     if ($returnDetail->quantity <= 0) {
                         break;
@@ -70,7 +77,7 @@ class ReturnService
                 }
             }
 
-            if ($return->gdn->payment_type == 'Deposits') {
+            if ($return->gdn?->payment_type == 'Deposits') {
                 $return->gdn->customer->incrementBalance($return->grandTotalPrice);
             }
 

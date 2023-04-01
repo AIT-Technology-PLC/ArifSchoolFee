@@ -56,6 +56,10 @@
                                             value="deduction"
                                             @selected(old('type', $compensation->type) == 'deduction')
                                         > Deduction </option>
+                                        <option
+                                            value="none"
+                                            @selected(old('type', $compensation->type) == 'none')
+                                        > None </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-sort"

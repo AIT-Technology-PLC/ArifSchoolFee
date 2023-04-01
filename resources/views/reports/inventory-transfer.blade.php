@@ -25,6 +25,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-12">
+                        <x-forms.label>
+                            Product
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    id="product_id"
+                                    name="product_id"
+                                    class="is-size-7-mobile"
+                                    x-init="initializeSelect2($el)"
+                                >
+                                    <option
+                                        value=""
+                                        @selected(request('product_id') == '')
+                                    > All </option>
+                                    @foreach ($products as $product)
+                                        <option
+                                            value="{{ $product->id }}"
+                                            @selected(request('product_id') == $product->id)
+                                        >{{ $product->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-large is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.label>
                             From
@@ -103,31 +133,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.label>
-                            Products
-                        </x-forms.label>
-                        <x-forms.field class="has-text-centered">
-                            <x-forms.control>
-                                <x-forms.select
-                                    id="product_id"
-                                    name="product_id"
-                                    class="is-size-7-mobile is-fullwidth"
-                                >
-                                    <option
-                                        value=""
-                                        @selected(request('product_id') == '')
-                                    > All </option>
-                                    @foreach ($products as $product)
-                                        <option
-                                            value="{{ $product->id }}"
-                                            @selected(request('product_id') == $product->id)
-                                        >{{ $product->name }}</option>
-                                    @endforeach
-                                </x-forms.select>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                 </div>
             </div>
         </div>
@@ -148,36 +153,12 @@
                 </x-slot:header>
             </x-content.header>
             <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Date </abbr></th>
-                        <th><abbr> Product </abbr></th>
-                        <th><abbr> Quantity </abbr></th>
-                        <th><abbr> Origin </abbr></th>
-                        <th><abbr> Destination </abbr></th>
-                        <th><abbr> Employee </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($inventoryTransferReport->getInventoryTransfers as $report)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $report->transfer->issued_on->toFormattedDateString() ?? 'N/A' }} </td>
-                                <td> {{ $report->product->name ?? 'N/A' }} </td>
-                                <td> {{ $report->quantity ?? 'N/A' }} {{ $report->product->unit_of_measurement ?? 'N/A' }}</td>
-                                <td> {{ $report->transfer->transferredFrom->name ?? 'N/A' }} </td>
-                                <td> {{ $report->transfer->transferredTo->name ?? 'N/A' }} </td>
-                                <td> {{ $report->transfer->createdBy->name ?? 'N/A' }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
+                {{ $dataTable->table() }}
             </x-content.footer>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts() }}
+@endpush

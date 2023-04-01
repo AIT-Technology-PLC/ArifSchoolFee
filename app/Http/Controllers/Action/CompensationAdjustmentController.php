@@ -49,10 +49,6 @@ class CompensationAdjustmentController extends Controller
     {
         $this->authorize('cancel', $compensationAdjustment);
 
-        if ($compensationAdjustment->isApproved()) {
-            return back()->with('failedMessage', 'You can not cancel an adjustment that is approved.');
-        }
-
         [$isExecuted, $message] = $action->execute($compensationAdjustment);
 
         if (!$isExecuted) {

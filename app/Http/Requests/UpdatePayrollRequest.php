@@ -17,6 +17,7 @@ class UpdatePayrollRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('payrolls', $this->route('payroll')->id)],
+            'working_days' => ['nullable', 'numeric', 'min:1', 'max:31'],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
                 if (Payroll::where('ending_period', '>=', $value)->whereNot('id', $this->route('payroll')->id)->exists()) {

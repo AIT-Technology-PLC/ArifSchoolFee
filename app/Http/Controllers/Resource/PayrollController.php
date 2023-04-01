@@ -59,7 +59,7 @@ class PayrollController extends Controller
 
     public function show(Payroll $payroll, PayrollSheetDatatable $datatable)
     {
-        $datatable->builder()->setTableId('payroll-sheet-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+        $datatable->builder()->setTableId('payroll-sheet-datatable')->orderBy(1, 'asc');
 
         return $datatable->render('payrolls.show', compact('payroll'));
     }
