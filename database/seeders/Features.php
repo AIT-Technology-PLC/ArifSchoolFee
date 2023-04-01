@@ -260,6 +260,10 @@ class Features extends Seeder
                 ['name' => 'Inventory Transfer Report'],
                 ['is_enabled' => 1]
             );
+            Feature::updateOrCreate(
+                ['name' => 'Credit Report'],
+                ['is_enabled' => 1]
+            );
 
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
