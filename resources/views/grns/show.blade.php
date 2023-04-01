@@ -54,7 +54,18 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$grn->isApproved())
+                @if (!$grn->isApproved() && authUser()->can(['Approve GRN', 'Add GRN']))
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('grns.approve_and_add', $grn->id)"
+                            action="approve & add"
+                            intention="approve & add this grn"
+                            icon="fas fa-plus-circle"
+                            label="Approve & Add"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @elseif (!$grn->isApproved())
                     @can('Approve GRN')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

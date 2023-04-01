@@ -73,4 +73,24 @@ class GrnController extends Controller
 
         return back()->with('imported', __('messages.file_imported'));
     }
+
+    public function approveAndAdd(Grn $grn)
+    {
+        $this->authorize('approve', $grn);
+
+        $this->authorize('add', $grn);
+
+        [$isExecuted, $message] = $this->grnService->approveAndAdd($grn, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read GRN', $grn->grnDetails->pluck('warehouse_id'), $grn->createdBy),
+            new GrnAdded($grn)
+        );
+
+        return back();
+    }
 }

@@ -38,7 +38,18 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$adjustment->isApproved())
+                @if (!$adjustment->isApproved() && authUser()->can(['Approve Adjustment', 'Make Adjustment']))
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('adjustments.approve_and_adjust', $adjustment->id)"
+                            action="approve & execute"
+                            intention="approve & execute this adjustment"
+                            icon="fas fa-eraser"
+                            label="Approve & Execute"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @elseif (!$adjustment->isApproved())
                     @can('Approve Adjustment')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

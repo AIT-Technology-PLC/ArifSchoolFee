@@ -41,6 +41,10 @@ Route::post('/purchases/{purchase}/cancel',
     [Action\PurchaseController::class, 'cancel'])
     ->name('purchases.cancel');
 
+Route::post('/purchases/{purchase}/approve-and-purchase',
+    [Action\PurchaseController::class, 'approveAndPurchase'])
+    ->name('purchases.approve_and_purchase');
+
 // Transfers
 Route::post('/transfers/{transfer}/convert-to-siv',
     [Action\TransferController::class, 'convertToSiv'])
@@ -116,6 +120,10 @@ Route::post('/gdns/{gdn}/cancel',
     [Action\GdnController::class, 'cancel'])
     ->name('gdns.cancel');
 
+Route::post('/gdns/{gdn}/approve-and-subtract',
+    [Action\GdnController::class, 'approveAndSubtract'])
+    ->name('gdns.approve_and_subtract');
+
 // Sivs
 Route::get('/sivs/{siv}/print',
     [Action\SivController::class, 'printed'])
@@ -137,6 +145,10 @@ Route::post('/returnns/{return}/approve',
 Route::post('/returnns/{return}/return',
     [Action\ReturnController::class, 'add'])
     ->name('returns.add');
+
+Route::post('/returnns/{return}/approve-and-return',
+    [Action\ReturnController::class, 'approveAndAdd'])
+    ->name('returns.approve_and_add');
 
 // Tenders
 Route::get('/tenders/{tender}/print',
@@ -165,6 +177,10 @@ Route::post('/grns/import',
     [Action\GrnController::class, 'import'])
     ->name('grns.import');
 
+Route::post('/grns/{grn}/approve-and-add',
+    [Action\GrnController::class, 'approveAndAdd'])
+    ->name('grns.approve_and_add');
+
 // Damages
 Route::post('/damages/{damage}/approve',
     [Action\DamageController::class, 'approve'])
@@ -174,6 +190,10 @@ Route::post('/damages/{damage}/subtract',
     [Action\DamageController::class, 'subtract'])
     ->name('damages.subtract');
 
+Route::post('/damages/{damage}/approve-and-subtract',
+    [Action\DamageController::class, 'approveAndSubtract'])
+    ->name('damages.approve_and_subtract');
+
 // Adjustments
 Route::post('/adjustments/{adjustment}/approve',
     [Action\AdjustmentController::class, 'approve'])
@@ -182,6 +202,10 @@ Route::post('/adjustments/{adjustment}/approve',
 Route::post('/adjustments/{adjustment}/adjust',
     [Action\AdjustmentController::class, 'adjust'])
     ->name('adjustments.adjust');
+
+Route::post('/adjustments/{adjustment}/approve-and-adjust',
+    [Action\AdjustmentController::class, 'approveAndAdjust'])
+    ->name('adjustments.approve_and_adjust');
 
 // Reservations
 Route::post('/reservations/{reservation}/approve',
@@ -203,6 +227,10 @@ Route::post('/reservations/{reservation}/reserve',
 Route::get('/reservations/{reservation}/print',
     [Action\ReservationController::class, 'printed'])
     ->name('reservations.print');
+
+Route::post('/reservations/{reservation}/approve-and-reserve',
+    [Action\ReservationController::class, 'approveAndReserve'])
+    ->name('reservations.approve_and_reserve');
 
 // Tender Checklist Assignments
 Route::get('/tender-checklist-assignments/{tender}/edit',

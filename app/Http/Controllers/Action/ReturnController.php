@@ -66,4 +66,24 @@ class ReturnController extends Controller
 
         return back();
     }
+
+    public function approveAndAdd(Returnn $return, ReturnService $returnService)
+    {
+        $this->authorize('approve', $return);
+
+        $this->authorize('add', $return);
+
+        [$isExecuted, $message] = $returnService->approveAndAdd($return, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Return', $return->returnDetails->pluck('warehouse_id'), $return->createdBy),
+            new ReturnAdded($return)
+        );
+
+        return back();
+    }
 }
