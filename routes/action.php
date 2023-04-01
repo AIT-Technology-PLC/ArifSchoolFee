@@ -91,6 +91,10 @@ Route::get('/proforma-invoices/{proforma_invoice}/convert-to-sale',
     [Action\ProformaInvoiceController::class, 'convertToSale'])
     ->name('proforma-invoices.convert_to_sale');
 
+Route::post('/proforma-invoices/{proformaInvoice}/restore',
+    [Action\ProformaInvoiceController::class, 'restore'])
+    ->name('proforma-invoices.restore');
+
 // Gdns
 Route::post('/gdns/{gdn}/convert-to-siv',
     [Action\GdnController::class, 'convertToSiv'])

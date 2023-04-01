@@ -190,6 +190,20 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConverted())
+                    @can('Restore Proforma Invoice')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-restore-expired-pi-modal')"
+                                icon="fa-solid fa-trash-arrow-up"
+                                label="Restore"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
@@ -208,6 +222,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+
+    @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConverted())
+        @can('Restore Proforma Invoice')
+            @include('proforma-invoices.partials.open-restore-expired-pi-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')
