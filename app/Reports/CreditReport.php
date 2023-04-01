@@ -82,7 +82,7 @@ class CreditReport
         return (clone $this->query)
             ->when(isset($this->filters['period']), $this->getDate('credit_settlements.settled_at'))
             ->selectRaw('
-                SUM(credit_amount_settled
+                SUM(credit_settlements.amount
                 ) AS credit_amount_settled,
                 customers.company_name AS customer_name
             ')
