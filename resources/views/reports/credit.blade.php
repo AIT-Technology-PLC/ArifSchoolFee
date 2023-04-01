@@ -63,7 +63,7 @@
                 amount="{{ $creditReport->getTotalCreditGiven }}"
                 border-color="#fff"
                 text-color="text-green"
-                label="Total Credit given"
+                label="Number Of Credits"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -72,7 +72,7 @@
                 amount="{{ $creditReport->getTotalCustomersReceivedCredit }}"
                 border-color="#fff"
                 text-color="text-purple"
-                label="Customer Having Credit"
+                label="Number Of Customers"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -81,7 +81,7 @@
                 amount="{{ $creditReport->getTotalSettlementMade }}"
                 border-color="#fff"
                 text-color="text-gold"
-                label="Total Settlement Made"
+                label="Number Of Settlements"
             ></x-common.index-insight>
         </div>
         <div class="column is-3 p-lr-0">
@@ -90,7 +90,25 @@
                 amount="{{ $creditReport->getTotalCustomerMadeSettlement }}"
                 border-color="#fff"
                 text-color="text-blue"
-                label="Customers Made Settlements"
+                label="Number Of Customers"
+            ></x-common.index-insight>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($creditReport->getTotalCreditAmount, 2)"
+                border-color="#fff"
+                text-color="text-blue"
+                label="Total Credit Amount (In {{ userCompany()->currency }})"
+            ></x-common.index-insight>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                :amount="number_format($creditReport->getTotalSettledAmount, 2)"
+                border-color="#fff"
+                text-color="text-gold"
+                label="Total Settled Amount (In {{ userCompany()->currency }})"
             ></x-common.index-insight>
         </div>
         <div class="column is-6 p-lr-0">
@@ -100,7 +118,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-user"></i>
                         </span>
-                        <span>Credits Provide By Customers</span>
+                        <span>Credits Provided By Customers</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>

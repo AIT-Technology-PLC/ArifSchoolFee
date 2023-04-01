@@ -63,6 +63,20 @@ class CreditReport
             ->distinct('customer_id')->count('credit_id');
     }
 
+    public function getTotalCreditAmount()
+    {
+        return (clone $this->query)
+            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
+            ->sum('credit_amount');
+    }
+
+    public function getTotalSettledAmount()
+    {
+        return (clone $this->query)
+            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
+            ->sum('amount');
+    }
+
     public function getTotalCreditByCustomer()
     {
         return (clone $this->query)
