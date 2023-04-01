@@ -110,6 +110,13 @@
                         label="Time Off {{ userCompany()->paid_time_off_type }}"
                     />
                 </div>
+                <div class="column is-12">
+                    <x-common.show-data-section
+                        type="long"
+                        :data="$leaf->description"
+                        label="Details"
+                    />
+                </div>
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
