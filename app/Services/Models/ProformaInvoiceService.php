@@ -45,4 +45,31 @@ class ProformaInvoiceService
 
         return [true, ''];
     }
+
+    public function convertToSale($proformaInvoice)
+    {
+        if (!$proformaInvoice->isConverted()) {
+            return [false, 'This Proforma Invoice is not confirmed yet.', ''];
+        }
+
+        if ($proformaInvoice->isClosed()) {
+            return [false, 'This Proforma Invoice is closed.', ''];
+        }
+
+        $proformaInvoiceDetails = collect($proformaInvoice->proformaInvoiceDetails)
+            ->map(function ($item) {
+                $item['unit_price'] = $item['unit_price_after_discount'];
+                unset($item['discount']);
+
+                return $item;
+            });
+
+        $data = [
+            'customer_id' => $proformaInvoice->customer_id ?? '',
+            'contact_id' => $proformaInvoice->contact_id ?? '',
+            'sale' => $proformaInvoiceDetails,
+        ];
+
+        return [true, '', $data];
+    }
 }

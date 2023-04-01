@@ -150,6 +150,20 @@
                         </x-common.dropdown-item>
                     @endcanany
                 @endif
+                @if ($job->isClosed())
+                    @can('Create Sale')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('jobs.convert_to_sale', $job->id) }}"
+                                mode="button"
+                                icon="fas fa-cash-register"
+                                label="Issue Invoice"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

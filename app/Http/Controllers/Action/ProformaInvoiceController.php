@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
+use App\Models\Sale;
 use App\Services\Models\ProformaInvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -95,5 +96,18 @@ class ProformaInvoiceController extends Controller
         }
 
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
+    }
+
+    public function convertToSale(Request $request, ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('create', Sale::class);
+
+        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToSale($proformaInvoice);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('sales.create')->withInput($request->merge($data)->all());
     }
 }
