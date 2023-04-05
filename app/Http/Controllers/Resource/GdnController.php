@@ -11,7 +11,7 @@ use App\Models\Gdn;
 use App\Models\GdnDetail;
 use App\Models\MerchandiseBatch;
 use App\Models\Sale;
-use App\Models\Siv;
+use App\Models\SivDetail;
 use App\Notifications\GdnPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -110,9 +110,9 @@ class GdnController extends Controller
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale']);
 
-        $sivs = Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->get();
+        $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'DO')->whereRelation('siv', 'ref_num', $gdn->code)->get();
 
-        return $datatable->render('gdns.show', compact('gdn', 'sivs'));
+        return $datatable->render('gdns.show', compact('gdn', 'sivDetails'));
     }
 
     public function edit(Gdn $gdn)
