@@ -125,4 +125,19 @@ class PurchaseController extends Controller
 
         return back()->with('successMessage', $message);
     }
+
+    public function approveAndPurchase(Purchase $purchase)
+    {
+        $this->authorize('approve', $purchase);
+
+        $this->authorize('purchase', $purchase);
+
+        [$isExecuted, $message] = $this->purchaseService->approveAndPurchase($purchase);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return back()->with('successMessage', 'This purchase is assigned as purchased successfully.');
+    }
 }

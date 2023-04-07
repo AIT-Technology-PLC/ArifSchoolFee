@@ -52,4 +52,24 @@ class DamageController extends Controller
 
         return back();
     }
+
+    public function approveAndSubtract(Damage $damage)
+    {
+        $this->authorize('approve', $damage);
+
+        $this->authorize('subtract', $damage);
+
+        [$isExecuted, $message] = $this->damageService->approveAndSubtract($damage, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Damage', $damage->damageDetails->pluck('warehouse_id'), $damage->createdBy),
+            new DamageSubtracted($damage)
+        );
+
+        return back();
+    }
 }

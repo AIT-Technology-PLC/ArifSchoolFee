@@ -73,4 +73,24 @@ class AdjustmentController extends Controller
 
         return back()->with('imported', __('messages.file_imported'));
     }
+
+    public function approveAndAdjust(Adjustment $adjustment)
+    {
+        $this->authorize('approve', $adjustment);
+
+        $this->authorize('adjust', $adjustment);
+
+        [$isExecuted, $message] = $this->adjustmentService->approveAndAdjust($adjustment, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Adjustment', $adjustment->adjustmentDetails->pluck('warehouse_id'), $adjustment->createdBy),
+            new AdjustmentMade($adjustment)
+        );
+
+        return back();
+    }
 }
