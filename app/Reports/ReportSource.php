@@ -27,7 +27,16 @@ class ReportSource
                 ->when(isset($filters['period']), fn($q) => $q->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1]))
                 ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))
-                ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id'])),
+                ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id']))
+                ->when(
+                    isset($filters['product_id']),
+                    fn($q) => $q
+                        ->whereIn('id', fn($query) => $query
+                                ->select('gdn_id')
+                                ->from($detailsTable)
+                                ->where($detailsTable . '.product_id', $filters['product_id'])
+                        )
+                ),
 
             'details' => DB::table($detailsTable)
                 ->join(
@@ -39,7 +48,8 @@ class ReportSource
                 ->when(isset($filters['period']), fn($q) => $q->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1]))
                 ->when(!is_null($status), fn($query) => $query->whereIn($masterTable . '.status', $status))
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))
-                ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id'])),
+                ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id']))
+                ->when(isset($filters['product_id']), fn($query) => $query->where($detailsTable . '.product_id', $filters['product_id'])),
         ];
     }
 }

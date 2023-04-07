@@ -34,11 +34,11 @@
                                 <x-forms.select
                                     id="product_id"
                                     name="product_id"
-                                    class="is-size-7-mobile"
+                                    class="is-size-7-mobile is-fullwidth"
                                     x-init="initializeSelect2($el)"
                                 >
                                     <option
-                                        value=""
+                                        value=" "
                                         @selected(request('product_id') == '')
                                     > All </option>
                                     @foreach ($products as $product)

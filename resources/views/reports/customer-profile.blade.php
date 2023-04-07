@@ -274,7 +274,7 @@
                         @foreach ($saleReport->getBranchesByRevenue as $branchRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $branchRevenue->warehouse_name }} </td>
+                                <td> {{ $branchRevenue->branch_name }} </td>
                                 <td class="has-text-right"> {{ number_format($branchRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach

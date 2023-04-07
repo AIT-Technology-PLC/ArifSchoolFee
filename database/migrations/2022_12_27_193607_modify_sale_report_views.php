@@ -19,6 +19,7 @@ return new class extends Migration
             "
             CREATE OR REPLACE VIEW sale_detail_reports AS SELECT
                 sale_details.sale_id,
+                sale_details.sale_id AS master_id,
                 sale_details.sale_id AS sale_master_report_id,
                 product_categories.id AS product_category_id,
                 product_categories.name AS product_category_name,
@@ -61,7 +62,8 @@ return new class extends Migration
                     ELSE 'not_approved'
                 END AS status,
                 sales.warehouse_id,
-                warehouses.name AS warehouse_name,
+                sales.warehouse_id AS branch_id,
+                warehouses.name AS branch_name,
                 sales.code,
                 sales.customer_id,
                 customers.company_name AS customer_name,

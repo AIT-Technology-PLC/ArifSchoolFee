@@ -21,6 +21,7 @@ class FilterRequest extends FormRequest
             'period' => ['required', 'array'],
             'period.*' => ['required', 'date'],
             'user_id' => ['nullable', 'integer', new MustBelongToCompany('users')],
+            'product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
         ];
     }
 
