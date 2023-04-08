@@ -8,6 +8,8 @@ class SaleReport
 {
     private $filters;
 
+    private $master;
+
     private $details;
 
     private $base;
@@ -17,6 +19,8 @@ class SaleReport
         $this->filters = $filters;
 
         $source = ReportSource::getSalesReportInput($filters);
+
+        $this->master = $source['master'];
 
         $this->details = $source['details'];
 
