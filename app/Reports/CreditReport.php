@@ -47,6 +47,7 @@ class CreditReport
             ->whereHas('credit', fn($q) => $q->withoutGlobalScopes([BranchScope::class]))
             ->join('credits', 'credit_settlements.credit_id', '=', 'credits.id')
             ->join('customers', 'credits.customer_id', '=', 'customers.id')
+            ->join('warehouses', 'credits.warehouse_id', '=', 'warehouses.id')
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('credit_settlements.settled_at', '>=', $this->filters['period'][0])->whereDate('credit_settlements.settled_at', '<=', $this->filters['period'][1]))
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('credits.warehouse_id', $this->filters['branches']));
     }
@@ -75,6 +76,15 @@ class CreditReport
             ->get();
     }
 
+    public function getTotalCreditByBranch()
+    {
+        return (clone $this->creditQuery)
+            ->selectRaw('SUM(credits.credit_amount) AS credit_amount, COUNT(credits.id) AS transactions, warehouses.name AS warehouse_name')
+            ->groupBy('warehouse_name')
+            ->orderByDesc('credits.credit_amount')
+            ->get();
+    }
+
     public function getTotalSettlementMade()
     {
         return (clone $this->creditSettlementQuery)->count();
@@ -95,6 +105,15 @@ class CreditReport
         return (clone $this->creditSettlementQuery)
             ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, customers.company_name AS customer_name')
             ->groupBy('customer_name')
+            ->orderByDesc('credit_settlements.amount')
+            ->get();
+    }
+
+    public function getSettlmentByBranch()
+    {
+        return (clone $this->creditSettlementQuery)
+            ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, warehouses.name AS warehouse_name')
+            ->groupBy('warehouse_name')
             ->orderByDesc('credit_settlements.amount')
             ->get();
     }

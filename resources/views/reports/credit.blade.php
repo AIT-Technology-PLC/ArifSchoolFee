@@ -185,5 +185,79 @@
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Credits Provided By Branches</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th class="has-text-centered"><abbr> Transactions </abbr></th>
+                        <th class="has-text-right"><abbr> Amount </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($creditReport->getTotalCreditByBranch as $branch)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $branch->warehouse_name }} </td>
+                                <td class="has-text-centered"> {{ $branch->transactions }} </td>
+                                <td class="has-text-right"> {{ number_format($branch->credit_amount, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-warehouse"></i>
+                        </span>
+                        <span>Credits Settled By Branches</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th class="has-text-centered"><abbr> Transactions </abbr></th>
+                        <th class="has-text-right"><abbr> Amount </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($creditReport->getSettlmentByBranch as $branch)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $branch->warehouse_name }} </td>
+                                <td class="has-text-centered"> {{ $branch->transactions }} </td>
+                                <td class="has-text-right"> {{ number_format($branch->credit_amount_settled, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
     </div>
 @endsection
