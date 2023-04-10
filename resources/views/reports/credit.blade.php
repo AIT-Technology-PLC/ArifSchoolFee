@@ -132,6 +132,7 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Customer </abbr></th>
+                        <th class="has-text-centered"><abbr> Transactions </abbr></th>
                         <th class="has-text-right"><abbr> Amount </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -139,6 +140,7 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customer->customer_name }} </td>
+                                <td class="has-text-centered"> {{ $customer->transactions }} </td>
                                 <td class="has-text-right"> {{ number_format($customer->credit_amount, 2) }} </td>
                             </tr>
                         @endforeach
@@ -167,14 +169,16 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Customer </abbr></th>
+                        <th class="has-text-centered"><abbr> Transactions </abbr></th>
                         <th class="has-text-right"><abbr> Amount </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($creditReport->getSettlmentByCustomer as $setlment)
+                        @foreach ($creditReport->getSettlmentByCustomer as $customer)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $setlment->customer_name }} </td>
-                                <td class="has-text-right"> {{ number_format($setlment->credit_amount_settled, 2) }} </td>
+                                <td> {{ $customer->customer_name }} </td>
+                                <td class="has-text-centered"> {{ $customer->transactions }} </td>
+                                <td class="has-text-right"> {{ number_format($customer->credit_amount_settled, 2) }} </td>
                             </tr>
                         @endforeach
                     </x-slot>

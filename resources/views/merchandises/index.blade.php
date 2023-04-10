@@ -16,7 +16,7 @@
                     </div>
                     <div class="column is-paddingless">
                         <div class="is-size-3 has-text-weight-bold">
-                            {{ $insights['totalOnHandProducts'] ?? 0.0 }}
+                            {{ request()->is('merchandises/on-hand') ? $insights['totalOnHandProducts'] : $insights['totalAvailableProducts'] ?? 0.0 }}
                         </div>
                         <div class="is-uppercase is-size-7">
                             Product Types

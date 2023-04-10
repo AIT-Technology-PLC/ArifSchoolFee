@@ -3,10 +3,13 @@
 namespace App\Reports;
 
 use App\Models\Credit;
+use App\Models\CreditSettlement;
 
 class CreditReport
 {
-    private $query;
+    private $creditQuery;
+
+    private $creditSettlementQuery;
 
     private $filters;
 
@@ -14,7 +17,9 @@ class CreditReport
     {
         $this->filters = $filters;
 
-        $this->setQuery();
+        $this->setCreditQuery();
+
+        $this->setCreditSettlementQuery();
     }
 
     public function __get($name)
@@ -26,88 +31,71 @@ class CreditReport
         return $this->$name;
     }
 
-    private function setQuery()
+    private function setCreditQuery()
     {
-        $this->query = Credit::query()->withoutGlobalScopes([BranchScope::class])
+        $this->creditQuery = Credit::query()
+            ->withoutGlobalScopes([BranchScope::class])
             ->join('warehouses', 'credits.warehouse_id', '=', 'warehouses.id')
-            ->leftJoin('credit_settlements', 'credits.id', '=', 'credit_settlements.credit_id')
-            ->leftJoin('customers', 'credits.customer_id', '=', 'customers.id')
+            ->join('customers', 'credits.customer_id', '=', 'customers.id')
+            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('credits.issued_on', '>=', $this->filters['period'][0])->whereDate('credits.issued_on', '<=', $this->filters['period'][1]))
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('credits.warehouse_id', $this->filters['branches']));
+    }
+
+    private function setCreditSettlementQuery()
+    {
+        $this->creditSettlementQuery = CreditSettlement::query()
+            ->whereHas('credit', fn($q) => $q->withoutGlobalScopes([BranchScope::class]))
+            ->join('credits', 'credit_settlements.credit_id', '=', 'credits.id')
+            ->join('customers', 'credits.customer_id', '=', 'customers.id')
+            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('credit_settlements.settled_at', '>=', $this->filters['period'][0])->whereDate('credit_settlements.settled_at', '<=', $this->filters['period'][1]))
             ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('credits.warehouse_id', $this->filters['branches']));
     }
 
     public function getTotalCreditGiven()
     {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
-            ->count();
+        return (clone $this->creditQuery)->count();
     }
 
     public function getTotalCustomersReceivedCredit()
     {
-        return (clone $this->query)->distinct('customer_id')
-            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
-            ->count();
-    }
-
-    public function getTotalSettlementMade()
-    {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credit_settlements.settled_at'))
-            ->count('credit_id');
-    }
-
-    public function getTotalCustomerMadeSettlement()
-    {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credit_settlements.settled_at'))
-            ->distinct('customer_id')->count('credit_id');
+        return (clone $this->creditQuery)->distinct('credits.customer_id')->count();
     }
 
     public function getTotalCreditAmount()
     {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
-            ->sum('credit_amount');
-    }
-
-    public function getTotalSettledAmount()
-    {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
-            ->sum('amount');
+        return (clone $this->creditQuery)->sum('credits.credit_amount');
     }
 
     public function getTotalCreditByCustomer()
     {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credits.issued_on'))
-            ->selectRaw('
-                SUM(credit_amount
-                ) AS credit_amount,
-                customers.company_name AS customer_name
-            ')
+        return (clone $this->creditQuery)
+            ->selectRaw('SUM(credits.credit_amount) AS credit_amount, COUNT(credits.id) AS transactions, customers.company_name AS customer_name')
             ->groupBy('customer_name')
-            ->orderByDesc('credit_amount')
+            ->orderByDesc('credits.credit_amount')
             ->get();
+    }
+
+    public function getTotalSettlementMade()
+    {
+        return (clone $this->creditSettlementQuery)->count();
+    }
+
+    public function getTotalCustomerMadeSettlement()
+    {
+        return (clone $this->creditSettlementQuery)->distinct('credits.customer_id')->count();
+    }
+
+    public function getTotalSettledAmount()
+    {
+        return (clone $this->creditSettlementQuery)->sum('credit_settlements.amount');
     }
 
     public function getSettlmentByCustomer()
     {
-        return (clone $this->query)
-            ->when(isset($this->filters['period']), $this->getDate('credit_settlements.settled_at'))
-            ->selectRaw('
-                SUM(credit_settlements.amount
-                ) AS credit_amount_settled,
-                customers.company_name AS customer_name
-            ')
+        return (clone $this->creditSettlementQuery)
+            ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, customers.company_name AS customer_name')
             ->groupBy('customer_name')
-            ->orderByDesc('credit_amount_settled')
+            ->orderByDesc('credit_settlements.amount')
             ->get();
-    }
-
-    public function getDate($date)
-    {
-        return fn($q) => $q->whereDate($date, '>=', $this->filters['period'][0])->whereDate($date, '<=', $this->filters['period'][1]);
-
     }
 }

@@ -41,6 +41,7 @@ class MerchandiseInventoryLevelController extends Controller
     {
         return [
             'totalOnHandProducts' => $this->service->getOnHandMerchandiseProductsQuery(user:authUser())->count(),
+            'totalAvailableProducts' => $this->service->getAvailableMerchandiseProductsQuery(user:authUser())->count(),
             'totalOutOfStockProducts' => $this->service->getOutOfStockMerchandiseProductsQuery(user:authUser())->count(),
             'totalLimitedProducts' => $this->service->getLimitedMerchandiseProductsQuery(user:authUser())->count(),
             'totalWarehousesInUse' => (new Warehouse)->getWarehousesInUseQuery()->count(),
