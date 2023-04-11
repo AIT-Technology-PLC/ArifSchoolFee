@@ -9,6 +9,7 @@ use App\Http\Requests\StorePurchaseRequest;
 use App\Http\Requests\UpdatePurchaseRequest;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Models\Tax;
 use App\Notifications\PurchasePrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -46,9 +47,11 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
+        $taxTypes = Tax::orderBy('id')->get(['id', 'type']);
+
         $currentPurchaseNo = nextReferenceNumber('purchases');
 
-        return view('purchases.create', compact('suppliers', 'currentPurchaseNo'));
+        return view('purchases.create', compact('suppliers', 'currentPurchaseNo', 'taxTypes'));
     }
 
     public function store(StorePurchaseRequest $request)
@@ -89,7 +92,9 @@ class PurchaseController extends Controller
 
         $suppliers = Supplier::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
 
-        return view('purchases.edit', compact('purchase', 'suppliers'));
+        $taxTypes = Tax::orderBy('id')->get(['id', 'type']);
+
+        return view('purchases.edit', compact('purchase', 'suppliers', 'taxTypes'));
     }
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)

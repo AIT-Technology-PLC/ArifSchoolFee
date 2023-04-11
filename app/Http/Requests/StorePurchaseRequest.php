@@ -52,7 +52,7 @@ class StorePurchaseRequest extends FormRequest
                 ),
             ],
             'due_date' => ['nullable', 'date', 'after:purchased_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
-            'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None']), 'required_if:type,Local Purchase', 'prohibited_if:type,Import'],
+            'tax_id' => ['nullable', 'integer', new MustBelongToCompany('taxes'), 'required_if:type,Local Purchase', 'prohibited_if:type,Import'],
             'currency' => ['nullable', 'string', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'exchange_rate' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'freight_cost' => ['nullable', 'numeric', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

@@ -5,7 +5,7 @@
 @section('content')
     <x-common.content-wrapper x-data="purchaseInformation(
         '{{ old('type') }}',
-        '{{ old('tax_type') }}',
+        '{{ old('tax_id') }}',
         '{{ old('currency') }}',
         '{{ old('exchange_rate') }}',
         '{{ old('payment_type') }}',
@@ -265,30 +265,33 @@
                         x-show="isPurchaseByLocal()"
                     >
                         <x-forms.field>
-                            <x-forms.label for="tax_type">
+                            <x-forms.label for="tax_id">
                                 Tax Type <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left ">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    id="tax_type"
-                                    name="tax_type"
-                                    x-model="taxType"
+                                    id="tax_id"
+                                    name="tax_id"
+                                    x-model="taxId"
                                 >
                                     <option
                                         selected
                                         disabled
                                         value=""
                                     >Select Tax Type</option>
-                                    <option value="VAT">VAT</option>
-                                    <option value="TOT">ToT</option>
-                                    <option value="None">None</option>
+                                    @foreach ($taxTypes as $taxType)
+                                        <option
+                                            value="{{ $taxType->id }}"
+                                            {{ old('tax_id') == $taxType->id ? 'selected' : '' }}
+                                        >{{ $taxType->type }}</option>
+                                    @endforeach
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="tax_type" />
+                                <x-common.validation-error property="tax_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

@@ -58,6 +58,32 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.label>
+                            Tax
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="tax_id"
+                                    name="tax_id"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Tax </option>
+                                    <option
+                                        value=""
+                                        @selected(request('tax_id') == '')
+                                    > All </option>
+                                    @foreach ($taxes as $tax)
+                                        <option
+                                            value="{{ $tax->id }}"
+                                            @selected(request('tax_id') == $tax->id)
+                                        > {{ $tax->type }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Purchase;
 use App\Models\Expense;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,11 @@ class Tax extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
     }
 
     public function isVat()
