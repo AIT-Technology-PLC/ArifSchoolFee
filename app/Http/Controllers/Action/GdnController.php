@@ -161,4 +161,24 @@ class GdnController extends Controller
 
         return back()->with('successMessage', $message);
     }
+
+    public function approveAndSubtract(Gdn $gdn)
+    {
+        $this->authorize('approve', $gdn);
+
+        $this->authorize('subtract', $gdn);
+
+        [$isExecuted, $message] = $this->gdnService->approveAndSubtract($gdn, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read GDN', $gdn->gdnDetails->pluck('warehouse_id'), $gdn->createdBy),
+            new GdnSubtracted($gdn)
+        );
+
+        return back();
+    }
 }

@@ -50,4 +50,9 @@ class ProformaInvoicePolicy
     {
         return $user->can('Close Proforma Invoice');
     }
+
+    public function restore(User $user, ProformaInvoice $proformaInvoice)
+    {
+        return $user->can('Restore Proforma Invoice');
+    }
 }

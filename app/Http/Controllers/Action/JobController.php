@@ -10,6 +10,7 @@ use App\Models\Job;
 use App\Notifications\JobProgress;
 use App\Services\Models\JobService;
 use App\Utilities\Notifiables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 
 class JobController extends Controller
@@ -75,5 +76,18 @@ class JobController extends Controller
         }
 
         return back();
+    }
+
+    public function convertToSale(Request $request, Job $job)
+    {
+        $this->authorize('create', Sale::class);
+
+        [$isExecuted, $message, $data] = $this->jobService->convertToSale($job);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('sales.create')->withInput($request->merge($data)->all());
     }
 }

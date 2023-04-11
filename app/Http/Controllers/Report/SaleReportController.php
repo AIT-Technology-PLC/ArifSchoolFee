@@ -6,6 +6,7 @@ use App\Exports\SaleReportExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Models\Employee;
+use App\Models\Product;
 use App\Reports\ReportSource;
 use App\Reports\SaleReport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -29,7 +30,9 @@ class SaleReportController extends Controller
 
         $saleReport = new SaleReport($request->validated());
 
-        return view('reports.sale', compact('saleReport', 'warehouses', 'users'));
+        $products = Product::orderBy('name')->get();
+
+        return view('reports.sale', compact('saleReport', 'warehouses', 'users', 'products'));
     }
 
     public function export(FilterRequest $request)

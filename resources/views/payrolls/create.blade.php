@@ -98,6 +98,27 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="working_days">
+                                Working Days <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="working_days"
+                                    name="working_days"
+                                    type="number"
+                                    placeholder="Working Days"
+                                    value="{{ old('working_days') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="working_days" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </div>
             <x-content.footer>

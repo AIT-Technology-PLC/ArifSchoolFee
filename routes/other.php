@@ -39,3 +39,7 @@ Route::get('/merchandises/{type}',
 Route::get('/warehouses/{warehouse}/merchandises',
     Invokable\MerchandiseInventoryLevelByWarehouseController::class)
     ->name('warehouses.merchandises');
+
+    Route::get('/payslips/payroll/{payroll}/employee/{employee}', 
+    Invokable\PayslipController::class)
+    ->name('payslips.print');

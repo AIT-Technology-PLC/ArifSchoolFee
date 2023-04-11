@@ -38,7 +38,7 @@ class SaleReport
 
     public function getSalesCount()
     {
-        return (clone $this->master)->count();
+        return (clone $this->details)->distinct('master_id')->count();
     }
 
     public function getAverageSaleValue()
@@ -61,7 +61,7 @@ class SaleReport
 
     public function subtotalPrice()
     {
-        return (clone $this->master)->sum('subtotal_price');
+        return (clone $this->details)->sum('line_price_before_tax');
     }
 
     public function getTotalRevenueBeforeTax()
@@ -76,22 +76,22 @@ class SaleReport
 
     public function getTotalRevenueTax()
     {
-        return (clone $this->master)->sum('total_tax');
+        return (clone $this->details)->sum('line_tax');
     }
 
     public function getBranchesByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, warehouse_name')->groupBy('warehouse_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, branch_name')->groupBy('branch_id')->orderByDesc('revenue')->get();
     }
 
     public function getCustomersByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
     }
 
     public function getRepsByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
     }
 
     public function getProductsByRevenue()
@@ -111,7 +111,7 @@ class SaleReport
 
     public function getPaymentTypesByRevenue()
     {
-        return (clone $this->master)->selectRaw('SUM(subtotal_price+total_tax) AS revenue, COUNT(payment_type) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
+        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, COUNT(DISTINCT master_id) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
     }
 
     public function getDailyAverageRevenue()
@@ -127,7 +127,7 @@ class SaleReport
 
     public function getCashSalesPercentage()
     {
-        $cashPaymentTransactionCount = (clone $this->master)->where('payment_type', 'Cash Payment')->count();
+        $cashPaymentTransactionCount = (clone $this->details)->where('payment_type', 'Cash Payment')->distinct('master_id')->count();
 
         if ($cashPaymentTransactionCount == 0) {
             return $cashPaymentTransactionCount;
@@ -138,17 +138,9 @@ class SaleReport
 
     public function getRevenueBySalesRep()
     {
-        return (clone $this->master)
-            ->selectRaw('SUM(subtotal_price+total_tax) AS revenue, user_name')
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, user_name')
             ->groupBy('created_by')->orderByDesc('revenue')
-            ->get();
-    }
-
-    public function getRevenueByBranch()
-    {
-        return (clone $this->master)
-            ->selectRaw('SUM(subtotal_price+total_tax) AS revenue, warehouse_name')
-            ->groupBy('warehouse_id')->orderByDesc('revenue')
             ->get();
     }
 }

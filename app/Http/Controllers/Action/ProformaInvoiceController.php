@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProformaInvoiceExpiresOnRequest;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
+use App\Models\Sale;
 use App\Services\Models\ProformaInvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProformaInvoiceController extends Controller
 {
@@ -95,5 +98,39 @@ class ProformaInvoiceController extends Controller
         }
 
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
+    }
+
+    public function convertToSale(Request $request, ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('create', Sale::class);
+
+        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToSale($proformaInvoice);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('sales.create')->withInput($request->merge($data)->all());
+    }
+
+    public function restore(UpdateProformaInvoiceExpiresOnRequest $request, ProformaInvoice $proformaInvoice)
+    {
+        $this->authorize('restore', $proformaInvoice);
+
+        if ($proformaInvoice->isConverted()) {
+            return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
+        }
+
+        if (!$proformaInvoice->isExpired()) {
+            return back()->with('failedMessage', 'This proforma inovices is not expired yet.');
+        }
+
+        DB::transaction(function () use ($request, $proformaInvoice) {
+            $proformaInvoice->expires_on = $request->validated('expires_on');
+
+            $proformaInvoice->restore();
+        });
+
+        return redirect()->route('proforma-invoices.show', $proformaInvoice->id);
     }
 }

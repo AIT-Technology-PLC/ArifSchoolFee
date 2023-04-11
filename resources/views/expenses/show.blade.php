@@ -24,7 +24,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-file-invoice-dollar"
-                        :data="$expense->tax_type"
+                        :data="$expense->taxModel->type"
                         label="Tax Type"
                     />
                 </div>
@@ -81,12 +81,12 @@
                         label="Subtotal Price ({{ userCompany()->currency }})"
                     />
                 </div>
-                @if ($expense->tax_type != 'None')
+                @if ($expense->taxModel->type != 'NONE')
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fa fa-dollar-sign"
                             :data="$expense->tax"
-                            :label="$expense->tax_type ?: 'None'"
+                            :label="$expense->taxModel->type ?: 'None'"
                         />
                     </div>
                 @endif

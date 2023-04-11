@@ -6,6 +6,25 @@ use App\Models\Product;
 
 class MerchandiseProductService
 {
+    public function getAvailableMerchandiseProductsQuery($warehouseId = null, $user = null)
+    {
+        if ($user && $user->getAllowedWarehouses('read')->isEmpty()) {
+            return collect();
+        }
+
+        return Product::query()
+            ->inventoryType()
+            ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
+                $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
+                    ->when($user, function ($query) use ($user) {
+                        $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
+                    })
+                    ->where(function ($query) {
+                        $query->where('available', '>', 0);
+                    });
+            });
+    }
+
     public function getOnHandMerchandiseProductsQuery($warehouseId = null, $user = null)
     {
         if ($user && $user->getAllowedWarehouses('read')->isEmpty()) {

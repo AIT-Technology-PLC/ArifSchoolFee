@@ -83,9 +83,25 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                @if (!$attendance->isApproved() && !$attendance->isCancelled())
+                    @can('Import Attendance')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-import-modal') "
+                                icon="fas fa-upload"
+                                label="Import Attendance"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
+            <x-common.success-message :message="session('imported')" />
+            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
             @if (!$attendance->isApproved())
@@ -94,6 +110,14 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    @if (!$attendance->isApproved() && !$attendance->isCancelled())
+        @can('Import Attendance')
+            <x-common.import
+                title="Import Attendance"
+                action="{{ route('attendances.import', $attendance->id) }}"
+            />
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')

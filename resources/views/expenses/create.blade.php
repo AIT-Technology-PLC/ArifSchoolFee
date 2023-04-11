@@ -37,15 +37,15 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.label for="tax_type">
+                        <x-forms.label for="tax_id">
                             Tax Type <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left ">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    id="tax_type"
-                                    name="tax_type"
+                                    id="tax_id"
+                                    name="tax_id"
                                 >
                                     <option
                                         disabled
@@ -53,24 +53,18 @@
                                     >
                                         Select Tax Type
                                     </option>
-                                    <option
-                                        value="VAT"
-                                        @selected(old('tax_type') == 'VAT')
-                                    > VAT </option>
-                                    <option
-                                        value="TOT"
-                                        @selected(old('tax_type') == 'TOT')
-                                    > TOT </option>
-                                    <option
-                                        value="None"
-                                        @selected(old('tax_type') == 'None')
-                                    > None </option>
+                                    @foreach ($taxTypes as $taxType)
+                                        <option
+                                            value="{{ $taxType->id }}"
+                                            {{ old('tax_id') == $taxType->id ? 'selected' : '' }}
+                                        >{{ $taxType->type }}</option>
+                                    @endforeach
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-file-invoice-dollar"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="tax_type" />
+                                <x-common.validation-error property="tax_id" />
                             </x-forms.control>
                             <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input

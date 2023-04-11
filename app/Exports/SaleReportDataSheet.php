@@ -45,7 +45,7 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
             ->when(str($this->sheet)->is('master'), function ($q) use ($query) {
                 $q->select([
                     $query->from . '.code AS ref_no',
-                    $query->from . '.warehouse_name AS branch',
+                    $query->from . '.branch_name AS branch',
                     $query->from . '.user_name AS salesperson',
                     $query->from . '.customer_name',
                     $query->from . '.status',

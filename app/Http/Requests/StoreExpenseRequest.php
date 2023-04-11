@@ -6,7 +6,6 @@ use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreExpenseRequest extends FormRequest
 {
@@ -19,7 +18,7 @@ class StoreExpenseRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('expenses'), new CanEditReferenceNumber('expenses')],
-            'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None'])],
+            'tax_id' => ['required', 'integer', new MustBelongToCompany('taxes')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],

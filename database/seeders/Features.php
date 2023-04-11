@@ -256,6 +256,15 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Inventory Transfer Report'],
+                ['is_enabled' => 1]
+            );
+            Feature::updateOrCreate(
+                ['name' => 'Credit Report'],
+                ['is_enabled' => 1]
+            );
+
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
@@ -379,6 +388,8 @@ class Features extends Seeder
                         'Credit Management',
                         'Sales Report',
                         'Daily Inventory Level Report',
+                        'Inventory Transfer Report',
+                        'Credit Report',
                         'User Management',
                         'General Settings',
                         'Notification Management',
@@ -418,6 +429,8 @@ class Features extends Seeder
                         'Expense Report',
                         'Daily Inventory Level Report',
                         'Customer Deposit Management',
+                        'Inventory Transfer Report',
+                        'Credit Report',
                         'User Management',
                         'General Settings',
                         'Notification Management',

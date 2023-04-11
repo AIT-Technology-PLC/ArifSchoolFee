@@ -48,7 +48,7 @@ class ExpenseReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     'warehouses.name AS branch',
                     'users.name AS user_name',
                     'suppliers.company_name AS supplier',
-                    'expenses.tax_type',
+                    'taxes.type AS tax_type',
                     'expenses.reference_number',
                     'expenses.issued_on',
                     'expenses.payment_type',

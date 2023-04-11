@@ -180,7 +180,7 @@ class PurchaseDetail extends Model
             return 0;
         }
 
-        return $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax + $this->surtaxAmount + $this->withHoldingTaxAmount;
+        return $this->customDutyTax + $this->exciseTaxAmount + $this->valueAddedTax + $this->surtaxAmount;
     }
 
     public function getTotalCostAfterTaxAttribute()
