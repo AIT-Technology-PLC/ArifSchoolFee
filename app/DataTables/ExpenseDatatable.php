@@ -33,7 +33,7 @@ class ExpenseDatatable extends DataTable
             })
             ->editColumn('supplier', fn($expense) => $expense->supplier->company_name ?? 'N/A')
             ->editColumn('contact', fn($expense) => $expense->contact->name ?? 'N/A')
-            ->editColumn('tax_type', fn($expense) => $expense->tax_type)
+            ->editColumn('tax_type', fn($expense) => $expense->taxModel->type ?? 'N/A')
             ->editColumn('reference_no', fn($expense) => $expense->reference_number ?? 'N/A')
             ->editColumn('payment_type', fn($expense) => $expense->payment_type ?? 'N/A')
             ->editColumn('issued_on', fn($expense) => $expense->issued_on->toFormattedDateString())
@@ -58,6 +58,7 @@ class ExpenseDatatable extends DataTable
             ->select('expenses.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('expenses.warehouse_id', request('branch')))
             ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('expenses.payment_type', request('paymentType')))
+            ->when(!is_null(request('taxType')) && request('taxType') != 'all', fn($query) => $query->where('expenses.tax_id', request('taxType')))
             ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
             ->with([
@@ -67,6 +68,7 @@ class ExpenseDatatable extends DataTable
                 'approvedBy:id,name',
                 'supplier:id,company_name',
                 'contact:id,name',
+                'taxModel:id,type',
             ]);
     }
 
@@ -80,7 +82,7 @@ class ExpenseDatatable extends DataTable
             Column::computed('total price'),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('contact', 'contact.name'),
-            Column::make('tax_type'),
+            Column::make('tax_type', 'taxModel.type'),
             Column::make('reference_number')->visible(false),
             Column::make('issued_on'),
             Column::computed('total price')->visible(false),

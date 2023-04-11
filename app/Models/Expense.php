@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\ExpenseDetail;
 use App\Models\Supplier;
+use App\Models\Tax;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\HasUserstamps;
@@ -37,6 +38,11 @@ class Expense extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function taxModel()
+    {
+        return $this->belongsTo(Tax::class, 'tax_id');
+    }
+
     public function getTaxAttribute()
     {
         return number_format(
@@ -48,17 +54,7 @@ class Expense extends Model
 
     public function getLocalTaxRateAttribute()
     {
-        $value = 0;
-
-        if ($this->tax_type == 'VAT') {
-            $value = 0.15;
-        }
-
-        if ($this->tax_type == 'TOT') {
-            $value = 0.02;
-        }
-
-        return $value;
+        return $this->taxModel->amount;
     }
 
     public function details()

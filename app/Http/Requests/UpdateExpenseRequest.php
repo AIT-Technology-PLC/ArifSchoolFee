@@ -18,7 +18,7 @@ class UpdateExpenseRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('expenses', $this->route('expense')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
-            'tax_type' => ['nullable', 'string', Rule::in(['VAT', 'TOT', 'None'])],
+            'tax_id' => ['required', 'integer', new MustBelongToCompany('taxes')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
             'issued_on' => ['required', 'date'],

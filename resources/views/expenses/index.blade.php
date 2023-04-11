@@ -45,7 +45,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             <x-common.fail-message :message="session('failedMessage')" />
-            <x-datatables.filter filters="'branch', 'status','paymentType'">
+            <x-datatables.filter filters="'branch', 'status','paymentType','taxType'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
                         <div class="column is-3 p-lr-0 pt-0">
@@ -119,6 +119,31 @@
                                     <option value="all"> All </option>
                                     @foreach (['Cash Payment', 'Bank Deposit', 'Bank Transfer', 'Cheque'] as $paymentType)
                                         <option value="{{ str()->lower($paymentType) }}"> {{ $paymentType }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.taxType"
+                                    x-on:change="add('taxType')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Tax
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach ($taxes as $tax)
+                                        <option value="{{ $tax->id }}"> {{ $tax->type }} </option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>
