@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\ProcessPayrollAction;
 use App\DataTables\PayrollDatatable;
-use App\DataTables\PayrollSheetDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePayrollRequest;
 use App\Http\Requests\UpdatePayrollRequest;
+use App\Models\Compensation;
 use App\Models\Payroll;
 use App\Notifications\PayrollCreated;
 use App\Utilities\Notifiables;
@@ -57,11 +58,13 @@ class PayrollController extends Controller
         return redirect()->route('payrolls.show', $payroll->id);
     }
 
-    public function show(Payroll $payroll, PayrollSheetDatatable $datatable)
+    public function show(Payroll $payroll, ProcessPayrollAction $processPayrollAction)
     {
-        $datatable->builder()->setTableId('payroll-sheet-datatable')->orderBy(1, 'desc')->orderBy(2, 'desc');
+        $compensations = Compensation::active()->get();
 
-        return $datatable->render('payrolls.show', compact('payroll'));
+        $payrollSheet = $processPayrollAction->execute($payroll)->sortBy('employee_name');
+
+        return view('payrolls.show', compact('payroll', 'compensations', 'payrollSheet'));
     }
 
     public function edit(Payroll $payroll)

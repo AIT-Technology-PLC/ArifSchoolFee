@@ -287,4 +287,25 @@ class JobService
 
         return [true, ''];
     }
+
+    public function convertToSale($job)
+    {
+        if (!$job->isClosed()) {
+            return [false, 'To issue invoice the job must be closed.'];
+        }
+
+        $jobDetails = collect($job->jobDetails->toArray())
+            ->map(function ($item) {
+                $item['quantity'] = $item['available'];
+
+                return $item;
+            });
+
+        $data = [
+            'customer_id' => $job->customer_id ?? '',
+            'sale' => $jobDetails,
+        ];
+
+        return [true, '', $data];
+    }
 }

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Models\MerchandiseBatch;
-use App\Models\Siv;
+use App\Models\SivDetail;
 use App\Models\Transfer;
 use App\Models\TransferDetail;
 use App\Models\Warehouse;
@@ -110,9 +110,9 @@ class TransferController extends Controller
 
         $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
 
-        $sivs = Siv::where('purpose', 'Transfer')->where('ref_num', $transfer->code)->get();
+        $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'Transfer')->whereRelation('siv', 'ref_num', $transfer->code)->get();
 
-        return $datatable->render('transfers.show', compact('transfer', 'sivs'));
+        return $datatable->render('transfers.show', compact('transfer', 'sivDetails'));
     }
 
     public function edit(Transfer $transfer)

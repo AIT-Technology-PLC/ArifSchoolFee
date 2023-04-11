@@ -28,6 +28,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-12">
+                        <x-forms.label>
+                            Product
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    id="product_id"
+                                    name="product_id"
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-init="initializeSelect2($el)"
+                                >
+                                    <option
+                                        value=" "
+                                        @selected(request('product_id') == '')
+                                    > All </option>
+                                    @foreach ($products as $product)
+                                        <option
+                                            value="{{ $product->id }}"
+                                            @selected(request('product_id') == $product->id)
+                                        >{{ $product->name }}</option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-large is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.label>
                             Branch
@@ -220,7 +250,7 @@
                         @foreach ($saleReport->getBranchesByRevenue as $branchRevenue)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $branchRevenue->warehouse_name }} </td>
+                                <td> {{ $branchRevenue->branch_name }} </td>
                                 <td class="has-text-right"> {{ number_format($branchRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach

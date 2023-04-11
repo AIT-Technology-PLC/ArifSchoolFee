@@ -125,4 +125,16 @@ class ProformaInvoice extends Model
     {
         return !$this->is_pending && !$this->converted_by;
     }
+
+    public function isExpired()
+    {
+        return $this->expires_on < today();
+    }
+
+    public function restore()
+    {
+        $this->is_pending = 1;
+
+        $this->save();
+    }
 }

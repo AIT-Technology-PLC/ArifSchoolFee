@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="returnMaster('{{ old('gdn_id') }}')">
+            <x-content.main x-data="returnMaster('{{ old('gdn_id') }}', '{{ old('customer_id') }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -36,7 +36,10 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div
+                        x-show="isShowGdnSelect"
+                        class="column is-6"
+                    >
                         <x-forms.field>
                             <x-forms.label for="gdn_id">
                                 Delivery Order No <sup class="has-text-danger">*</sup>
@@ -72,7 +75,7 @@
                     <div
                         x-cloak
                         class="column is-6"
-                        x-show="gdn?.customer?.company_name"
+                        x-show="isShowGdnSelect && gdn?.customer?.company_name"
                     >
                         <x-forms.field>
                             <x-forms.label for="code">
@@ -88,6 +91,27 @@
                                     name="fas fa-user"
                                     class="is-large is-left"
                                 />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div
+                        x-show="isShowCustomerSelect"
+                        class="column is-6"
+                    >
+                        <x-forms.field>
+                            <x-forms.label for="customer_id">
+                                Customer <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left select is-fullwidth">
+                                <x-common.customer-list
+                                    :selected-id="old('customer_id')"
+                                    x-init="select2Customer"
+                                />
+                                <x-common.icon
+                                    name="fas fa-user"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="customer_id" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

@@ -82,6 +82,13 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
+                        icon="fa-solid fa-calendar"
+                        :data="$payroll->working_days ?? userCompany()->working_days"
+                        label="Working Days"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
                         icon="fas fa-calendar-day"
                         :data="$payroll->issued_on->toFormattedDateString()"
                         label="Issued On"
@@ -117,12 +124,69 @@
     @if ($payroll->isApproved())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Payroll Sheet" />
-            <x-content.footer> {{ $dataTable->table() }} </x-content.footer>
+            <x-content.footer>
+                <x-common.client-datatable>
+                    <x-slot name="headings">
+                        <th> # </th>
+                        <th> Employee Name </th>
+                        <th> Working Days </th>
+                        <th> Absence Days </th>
+
+                        @foreach ($compensations->whereIn('type', ['earning', 'none']) as $compensation)
+                            <th> {{ $compensation->name }} </th>
+                        @endforeach
+
+                        <th> Gross Salary </th>
+                        <th> Taxable Income </th>
+                        <th> Income Tax </th>
+
+                        @foreach ($compensations->where('type', 'deduction') as $compensation)
+                            <th> {{ $compensation->name }} </th>
+                        @endforeach
+
+                        <th> Deductions </th>
+                        <th> Net Payable </th>
+                        @if (!userCompany()->isBasicSalaryAfterAbsenceDeduction())
+                            <th> Net Payable After Absenteeism </th>
+                        @endif
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($payrollSheet as $row)
+                            <tr>
+                                <td> {{ $loop->iteration }} </td>
+                                <td class="has-text-weight-bold">
+                                    @include('components.datatables.link', [
+                                        'url' => route('payslips.print', [$row['payroll']->id, $row['employee_id']]),
+                                        'label' => $row['employee_name'],
+                                        'target' => '_blank',
+                                    ])
+                                </td>
+                                <td class="has-text-right"> {{ $row['working_days'] . ' Days' }} </td>
+                                <td class="has-text-right"> {{ $row['absence_days'] . ' Days' }} </td>
+
+                                @foreach ($compensations->whereIn('type', ['earning', 'none']) as $compensation)
+                                    <td class="has-text-right text-green"> {{ number_format($row[$compensation->name] ?? 0, 2) }} </td>
+                                @endforeach
+
+                                <td class="has-text-right has-text-weight-bold text-green"> {{ number_format($row['gross_salary'], 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($row['taxable_income'], 2) }} </td>
+                                <td class="has-text-right text-purple"> {{ number_format($row['income_tax'], 2) }} </td>
+
+                                @foreach ($compensations->where('type', 'deduction') as $compensation)
+                                    <td class="has-text-right text-purple"> {{ number_format($row[$compensation->name] ?? 0, 2) }} </td>
+                                @endforeach
+
+                                <td class="has-text-right has-text-weight-bold text-purple"> {{ number_format($row['deductions'], 2) }} </td>
+                                <td class="has-text-right has-text-weight-bold"> {{ number_format($row['net_payable'], 2) }} </td>
+                                @if (!userCompany()->isBasicSalaryAfterAbsenceDeduction())
+                                    <td class="has-text-right has-text-weight-bold"> {{ number_format($row['net_payable_after_absenteeism'] ?? 0, 2) }} </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
         </x-common.content-wrapper>
     @endif
 
 @endsection
-
-@push('scripts')
-    {{ $dataTable->scripts() }}
-@endpush

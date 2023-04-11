@@ -206,6 +206,28 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
+                                <div class="column is-12">
+                                    <x-forms.field>
+                                        <x-forms.label x-bind:for="`leave[${index}][description]`">
+                                            Description <sup class="has-text-danger"></sup>
+                                        </x-forms.label>
+                                        <x-forms.control>
+                                            <x-forms.textarea
+                                                rows="5"
+                                                class="summernote-details"
+                                                placeholder="Description about the leave"
+                                                x-bind:id="`leave[${index}][description]`"
+                                                x-bind:name="`leave[${index}][description]`"
+                                                x-init="summernote(index)"
+                                                x-model="leave.description"
+                                            ></x-forms.textarea>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="$store.errors.getErrors(`leave.${index}.description`)"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -254,6 +276,21 @@
                     await Promise.resolve(this.leaves.splice(index, 1));
 
                     Pace.restart();
+                },
+                summernote(index) {
+                    let object = this;
+
+                    let summernote = $(this.$el).summernote({
+                        placeholder: "Write description or other notes here",
+                        tabsize: 2,
+                        minHeight: 90,
+                        tabDisable: true,
+                        toolbar: [
+                            ["font", ["bold"]],
+                            ["table", ["table"]],
+                            ["forecolor", ["forecolor"]],
+                        ],
+                    });
                 },
             }));
         });

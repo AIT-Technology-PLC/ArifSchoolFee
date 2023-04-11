@@ -17,6 +17,7 @@ class StorePayrollRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('payrolls')],
+            'working_days' => ['nullable', 'numeric', 'min:1', 'max:31'],
             'issued_on' => ['required', 'date'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
                 if (Payroll::where('ending_period', '>=', $value)->exists()) {

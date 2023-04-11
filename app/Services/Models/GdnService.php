@@ -343,4 +343,48 @@ class GdnService
 
         return [true, ''];
     }
+
+    public function approveAndSubtract($gdn, $user)
+    {
+        if (!$user->hasWarehousePermission('sales',
+            $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to sell from one or more of the warehouses.'];
+        }
+
+        if ($gdn->isApproved()) {
+            return [false, 'This Delivery Order is already approved.'];
+        }
+
+        if ($gdn->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.'];
+        }
+
+        if ($gdn->isSubtracted()) {
+            return [false, 'This Delivery Order is already subtracted from inventory'];
+        }
+
+        $from = $gdn->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($gdn->gdnDetails, $from);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($gdn, $from) {
+            (new ApproveTransactionAction)->execute($gdn);
+
+            if ($gdn->payment_type == 'Deposits') {
+                $gdn->customer->decrementBalance($gdn->grandTotalPriceAfterDiscount);
+            }
+
+            $this->convertToCredit($gdn);
+
+            InventoryOperationService::subtract($gdn->gdnDetails, $gdn, $from);
+
+            $gdn->subtract();
+        });
+
+        return [true, ''];
+    }
 }

@@ -686,6 +686,66 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="is_payroll_basic_salary_after_absence_deduction">
+                                    Absence Deduction From <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="is_payroll_basic_salary_after_absence_deduction"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->isBasicSalaryAfterAbsenceDeduction())
+                                        >
+                                        Basic Salary
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="is_payroll_basic_salary_after_absence_deduction"
+                                            value="0"
+                                            @checked(!$company->isBasicSalaryAfterAbsenceDeduction())
+                                        >
+                                        Net Pay
+                                    </label>
+                                    <x-common.validation-error property="is_payroll_basic_salary_after_absence_deduction" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="does_payroll_basic_salary_include_overtime">
+                                    Include Overtime In Basic Salary <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="does_payroll_basic_salary_include_overtime"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->doesBasicSalaryIncludeOvertime())
+                                        >
+                                        Yes
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="does_payroll_basic_salary_include_overtime"
+                                            value="0"
+                                            @checked(!$company->doesBasicSalaryIncludeOvertime())
+                                        >
+                                        No
+                                    </label>
+                                    <x-common.validation-error property="does_payroll_basic_salary_include_overtime" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
                     @endif
                     @if (isFeatureEnabled('Leave Management'))
                         <div class="column is-6">

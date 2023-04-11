@@ -140,6 +140,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Proforma Invoice']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Close Proforma Invoice']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Cancelled Proforma Invoice']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Restore Proforma Invoice']);
 
             // Purchase
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Purchase']);
@@ -267,6 +268,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Attendance']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Attendance']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Attendance']);
 
             //Advancement
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Advancement']);
@@ -337,9 +339,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Expense Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
-
-            //Customer Profile Report
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Customer Profile Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Credit Report']);
 
             // Contact
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Contact']);
@@ -376,6 +376,7 @@ class Permissions extends Seeder
 
             //Inventory Level Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Daily Inventory Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Transfer Report']);
 
             //Customer Deposit
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Customer Deposit']);

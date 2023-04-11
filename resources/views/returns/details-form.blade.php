@@ -17,6 +17,20 @@
                         x-text="`Item ${index + 1}`"
                     ></span>
                 </x-forms.control>
+                <x-forms.control x-show="canAddOrRemoveItems">
+                    <x-common.button
+                        tag="button"
+                        mode="tag"
+                        type="button"
+                        class="bg-lightgreen has-text-white is-medium is-radiusless"
+                        x-on:click="remove(index)"
+                    >
+                        <x-common.icon
+                            name="fas fa-times-circle"
+                            class="text-green"
+                        />
+                    </x-common.button>
+                </x-forms.control>
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
@@ -291,21 +305,48 @@
 
     @include('components.common.pricing', ['data' => 'returns'])
 
+    <x-common.button
+        tag="button"
+        type="button"
+        mode="button"
+        label="Add More Item"
+        class="bg-purple has-text-white is-small ml-3 mt-6"
+        x-show="canAddOrRemoveItems"
+        x-on:click="add"
+    />
+
 </x-content.main>
 
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("returnMaster", (gdnId) => ({
+            Alpine.data("returnMaster", (gdnId, customerId) => ({
                 gdn: "",
+                isShowGdnSelect: true,
+                isShowCustomerSelect: true,
 
                 async init() {
                     if (gdnId) {
+                        this.isShowCustomerSelect = false;
+
                         const response = await axios.get(`/api/gdns/${gdnId}`);
 
                         this.gdn = response.data;
                     }
+
+                    if (customerId) {
+                        this.isShowGdnSelect = false;
+                    }
                 },
+
+                select2Customer() {
+                    let select2 = initSelect2(this.$el, 'Customer');
+
+                    select2.on("change", async (event) => {
+                        this.isShowGdnSelect = false;
+                    });
+                },
+
                 select2Gdn() {
                     let select2 = initSelect2(this.$el, 'Delivery Order');
 
@@ -316,12 +357,15 @@
                         window.dispatchEvent(new CustomEvent('gdn-changed', {
                             detail: this.gdn
                         }));
+
+                        this.isShowCustomerSelect = false;
                     });
                 },
             }));
 
             Alpine.data("returnDetail", (returnn) => ({
                 returns: [],
+                canAddOrRemoveItems: true,
 
                 async init() {
                     await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
@@ -337,6 +381,34 @@
                     }
 
                     this.returns.push({});
+                },
+                add() {
+                    this.returns.push({});
+                },
+                async remove(index) {
+                    if (this.returns.length <= 0) {
+                        return;
+                    }
+
+                    await Promise.resolve(this.returns.splice(index, 1));
+
+                    await Promise.resolve(
+                        this.returns.forEach((returnn, i) => {
+                            if (i >= index) {
+                                Product.changeProductCategory(this.getSelect2(i), returnn.product_id, returnn.product_category_id);
+
+                                if (Product.isBatchable(this.returns[i].product_id) && Company.canSelectBatchNumberOnForms()) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.returns[i].merchandise_batch_id,
+                                        MerchandiseBatch.where(this.returns[i].product_id, this.returns[i].warehouse_id)
+                                    );
+                                }
+                            }
+                        })
+                    );
+
+                    Pace.restart();
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
@@ -388,6 +460,8 @@
                     }));
 
                     await Promise.resolve($(".product-list").trigger("change", [true]));
+
+                    this.canAddOrRemoveItems = false;
                 }
             }));
         });

@@ -29,6 +29,7 @@ class LeaveDatatable extends DataTable
             ->editColumn('type', fn($leave) => $leave->isPaidTimeOff() ? 'Paid' : 'Unpaid')
             ->editColumn('starting_period', fn($leave) => $leave->starting_period->toFormattedDateString())
             ->editColumn('ending_period', fn($leave) => $leave->ending_period->toFormattedDateString())
+            ->editColumn('description', fn($leave) => view('components.datatables.searchable-description', ['description' => $leave->description]))
             ->editColumn('prepared by', fn($leave) => $leave->createdBy->name)
             ->editColumn('approved by', fn($leave) => $leave->approvedBy->name ?? 'N/A')
             ->editColumn('cancelled by', fn($leave) => $leave->cancelledBy->name ?? 'N/A')
@@ -74,6 +75,7 @@ class LeaveDatatable extends DataTable
             Column::computed('type'),
             Column::make('starting_period')->visible(false),
             Column::make('ending_period')->visible(false),
+            Column::make('description')->visible(false),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

@@ -19,6 +19,7 @@ return new class extends Migration
             "
             CREATE OR REPLACE VIEW gdn_detail_reports AS SELECT
                 gdn_details.gdn_id,
+                gdn_details.gdn_id AS master_id,
                 gdn_details.gdn_id AS gdn_master_report_id,
                 product_categories.id AS product_category_id,
                 product_categories.name AS product_category_name,
@@ -75,7 +76,8 @@ return new class extends Migration
                     ELSE 'not_approved'
                 END AS status,
                 gdns.warehouse_id,
-                warehouses.name AS warehouse_name,
+                gdns.warehouse_id AS branch_id,
+                warehouses.name AS branch_name,
                 gdns.code,
                 gdns.customer_id,
                 customers.company_name AS customer_name,

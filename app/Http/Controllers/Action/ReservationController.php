@@ -113,4 +113,24 @@ class ReservationController extends Controller
 
         return back();
     }
+
+    public function approveAndReserve(Reservation $reservation)
+    {
+        $this->authorize('approve', $reservation);
+
+        $this->authorize('reserve', $reservation);
+
+        [$isExecuted, $message] = $this->reservationService->approveAndReserve($reservation, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
+            new ReservationMade($reservation)
+        );
+
+        return back();
+    }
 }

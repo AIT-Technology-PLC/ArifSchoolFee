@@ -81,7 +81,8 @@
         We <b>{{ userCompany()->name }}</b> request you to credit the below mentioned amounts from our <b>Account No:{{ userCompany()->payroll_bank_account_number ?? 'N/A' }}</b>
         of <b>{{ userCompany()->name }}</b> to be deposited to our Employees below as per their Account Numbers.
         <br>
-        Total amount of <b>{{ money($employees->sum('net_payable_after_absenteeism')) }} ({{ numberToWords($employees->sum('net_payable_after_absenteeism')) }})</b>.
+        Total amount of <b>{{ userCompany()->isBasicSalaryAfterAbsenceDeduction() ? money($employees->sum('net_payable')) : money($employees->sum('net_payable_after_absenteeism')) }}
+            ({{ numberToWords(userCompany()->isBasicSalaryAfterAbsenceDeduction() ? $employees->sum('net_payable') : $employees->sum('net_payable_after_absenteeism')) }})</b>.
     </section>
 
     <section class="table-breaked">
@@ -106,7 +107,12 @@
                     <tr>
                         <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                         <td> {{ $employee['employee_name'] }} </td>
-                        <td class="has-text-right"> {{ money($employee['net_payable_after_absenteeism']) }} </td>
+                        @if (userCompany()->isBasicSalaryAfterAbsenceDeduction())
+                            <td class="has-text-right"> {{ money($employee['net_payable']) }} </td>
+                        @else
+                            <td class="has-text-right"> {{ money($employee['net_payable_after_absenteeism']) }} </td>
+                        @endif
+
                         <td class="has-text-centered"> {{ $employee['employee']->bank_account }} </td>
                         <td class="has-text-centered"> {{ $employee['employee']->phone }} </td>
                     </tr>
@@ -118,9 +124,15 @@
                     >
                         Total Amount
                     </td>
-                    <td class="is-borderless has-text-weight-bold has-text-right">
-                        {{ money($employees->sum('net_payable_after_absenteeism')) }}
-                    </td>
+                    @if (userCompany()->isBasicSalaryAfterAbsenceDeduction())
+                        <td class="is-borderless has-text-weight-bold has-text-right">
+                            {{ money($employees->sum('net_payable')) }}
+                        </td>
+                    @else
+                        <td class="is-borderless has-text-weight-bold has-text-right">
+                            {{ money($employees->sum('net_payable_after_absenteeism')) }}
+                        </td>
+                    @endif
                     <td
                         class="is-borderless"
                         colspan="2"

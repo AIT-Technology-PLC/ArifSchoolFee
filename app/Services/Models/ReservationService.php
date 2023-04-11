@@ -2,6 +2,7 @@
 
 namespace App\Services\Models;
 
+use App\Actions\ApproveTransactionAction;
 use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\ReservationDetail;
@@ -200,6 +201,40 @@ class ReservationService
             $gdn->gdnDetails()->createMany($reservationDetails);
 
             $gdn->reservation()->save($reservation);
+        });
+
+        return [true, ''];
+    }
+
+    public function approveAndReserve($reservation, $user)
+    {
+        if (!$user->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permissions to reserve from one or more of the warehouses.'];
+        }
+
+        if ($reservation->isApproved()) {
+            return [false, 'This reservation is already approved.'];
+        }
+
+        if ($reservation->isReserved()) {
+            return [false, 'This reservation is already reserved.'];
+        }
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($reservation->reservationDetails);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($reservation) {
+            (new ApproveTransactionAction)->execute($reservation);
+
+            InventoryOperationService::subtract($reservation->reservationDetails, $reservation);
+
+            InventoryOperationService::add($reservation->reservationDetails, $reservation, 'reserved');
+
+            $reservation->reserve();
         });
 
         return [true, ''];

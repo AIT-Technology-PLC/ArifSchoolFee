@@ -40,6 +40,17 @@
                         Please check your internet connection and try again.
                     </h2>
                     <div class="buttons is-centered mt-6">
+                        <a
+                            href="/"
+                            class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5"
+                        >
+                            <span class="icon">
+                                <i class="fas fa-bars"></i>
+                            </span>
+                            <span>
+                                Menu
+                            </span>
+                        </a>
                         <button
                             x-data
                             class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5"
@@ -52,17 +63,18 @@
                                 Back
                             </span>
                         </button>
-                        <a
-                            href="/"
-                            class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5"
+                        <button
+                            x-data
+                            class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5"
+                            @click="location.reload()"
                         >
                             <span class="icon">
-                                <i class="fas fa-bars"></i>
+                                <i class="fas fa-redo-alt"></i>
                             </span>
                             <span>
-                                Menu
+                                Refresh
                             </span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

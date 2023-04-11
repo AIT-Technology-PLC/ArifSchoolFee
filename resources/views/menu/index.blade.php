@@ -1062,8 +1062,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management'))
-            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt'])
+        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report'))
+            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1167,6 +1167,44 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Daily Inventory Level
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Inventory Transfer Report'))
+                                @can('Read Inventory Transfer Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.inventory_transfer') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Inventory Transfer
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Credit Report'))
+                                @can('Read Credit Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.credit') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-hand-holding-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Credit
                                         </span>
                                     </div>
                                 @endcan
