@@ -146,6 +146,7 @@ function initializeSummernote() {
             ["font", ["bold"]],
             ["table", ["table"]],
             ["forecolor", ["forecolor"]],
+            ["insert", ["picture"]],
         ],
         callbacks: {
             onPaste: function (e) {
