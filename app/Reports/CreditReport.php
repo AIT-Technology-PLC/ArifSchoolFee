@@ -105,7 +105,7 @@ class CreditReport
         return (clone $this->creditSettlementQuery)
             ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, customers.company_name AS customer_name')
             ->groupBy('customer_name')
-            ->orderByDesc('credit_settlements.amount')
+            ->orderByDesc('credit_amount_settled')
             ->get();
     }
 
@@ -114,7 +114,16 @@ class CreditReport
         return (clone $this->creditSettlementQuery)
             ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, warehouses.name AS warehouse_name')
             ->groupBy('warehouse_name')
-            ->orderByDesc('credit_settlements.amount')
+            ->orderByDesc('credit_amount_settled')
+            ->get();
+    }
+
+    public function getSettlmentByBank()
+    {
+        return (clone $this->creditSettlementQuery)
+            ->selectRaw('SUM(credit_settlements.amount) AS credit_amount_settled, COUNT(credit_settlements.id) AS transactions, bank_name')
+            ->groupBy('bank_name')
+            ->orderByDesc('credit_amount_settled')
             ->get();
     }
 }
