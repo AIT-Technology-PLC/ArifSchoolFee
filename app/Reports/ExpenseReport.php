@@ -92,8 +92,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 warehouses.name AS branch_name
             ')
             ->groupBy('branch_name')
@@ -105,8 +104,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 suppliers.company_name AS supplier_name
             ')
             ->groupBy('supplier_name')
@@ -118,8 +116,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 users.name AS purchaser_name
             ')
             ->groupBy('purchaser_name')
@@ -131,8 +128,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 expense_categories.name AS category_name,
                 SUM(quantity) AS quantity
             ')
@@ -145,8 +141,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 expense_details.name AS name,
                 SUM(quantity) AS quantity
             ')
@@ -179,8 +174,7 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 expenses.payment_type AS payment_type,
                 COUNT(payment_type) AS transactions
             ')
@@ -193,12 +187,23 @@ class ExpenseReport
     {
         return (clone $this->query)
             ->selectRaw('
-                SUM(quantity*unit_price*(1+taxes.amount)
-                ) AS expense,
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
                 taxes.type AS tax_type,
                 COUNT(taxes.type) AS transactions
             ')
             ->groupBy('taxes.type')
+            ->orderByDesc('expense')
+            ->get();
+    }
+
+    public function getExpensesByBanks()
+    {
+        return (clone $this->query)
+            ->selectRaw('
+                SUM(quantity*unit_price*(1+taxes.amount)) AS expense,
+                expenses.bank_name AS bank_name
+            ')
+            ->groupBy('bank_name')
             ->orderByDesc('expense')
             ->get();
     }
