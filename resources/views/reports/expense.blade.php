@@ -58,7 +58,7 @@
                         <x-forms.label>
                             Tax
                         </x-forms.label>
-                        <x-forms.field class="has-text-centered">
+                        <x-forms.field>
                             <x-forms.control>
                                 <x-forms.select
                                     id="tax_id"
@@ -75,6 +75,32 @@
                                             value="{{ $tax->id }}"
                                             @selected(request('tax_id') == $tax->id)
                                         > {{ $tax->type }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label for="expense_category_id">
+                            Category
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="expense_category_id"
+                                    name="expense_category_id"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Category </option>
+                                    <option
+                                        value=""
+                                        @selected(request('expense_category_id') == '')
+                                    > All </option>
+                                    @foreach ($expenseCategories as $expenseCategory)
+                                        <option
+                                            value="{{ $expenseCategory->id }}"
+                                            @selected(request('expense_category_id') == $expenseCategory->id)
+                                        >{{ $expenseCategory->name }}</option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>
