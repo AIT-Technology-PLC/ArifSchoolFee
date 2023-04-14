@@ -205,10 +205,17 @@
                     has-length-change="false"
                     paging-type="simple"
                     length-menu=[5]
+                    x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Customer </abbr></th>
+
+                        @if (!is_null(request('product_id')))
+                            <th><abbr> Quantity </abbr></th>
+                            <th><abbr> Unit Price </abbr></th>
+                        @endif
+
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -216,6 +223,17 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $customerRevenue->customer_name ?? 'N/A' }} </td>
+
+                                @if (!is_null(request('product_id')))
+                                    <td> {{ $customerRevenue->quantity }} {{ $customerRevenue->product_unit_of_measurement }}</td>
+                                    <td>
+                                        @foreach ($saleReport->getUnitPricesWhere('customer_id', $customerRevenue->customer_id) as $unitPrice)
+                                            - {{ number_format($unitPrice, 2) }}
+                                            <br>
+                                        @endforeach
+                                    </td>
+                                @endif
+
                                 <td class="has-text-right"> {{ number_format($customerRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
@@ -240,10 +258,17 @@
                     has-length-change="false"
                     paging-type="simple"
                     length-menu=[5]
+                    x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Branch </abbr></th>
+
+                        @if (!is_null(request('product_id')))
+                            <th><abbr> Quantity </abbr></th>
+                            <th><abbr> Unit Price </abbr></th>
+                        @endif
+
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -251,6 +276,17 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $branchRevenue->branch_name }} </td>
+
+                                @if (!is_null(request('product_id')))
+                                    <td> {{ $branchRevenue->quantity }} {{ $branchRevenue->product_unit_of_measurement }}</td>
+                                    <td>
+                                        @foreach ($saleReport->getUnitPricesWhere('branch_id', $branchRevenue->branch_id) as $unitPrice)
+                                            - {{ number_format($unitPrice, 2) }}
+                                            <br>
+                                        @endforeach
+                                    </td>
+                                @endif
+
                                 <td class="has-text-right"> {{ number_format($branchRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach
@@ -275,10 +311,17 @@
                     has-length-change="false"
                     paging-type="simple"
                     length-menu=[5]
+                    x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Salesperson </abbr></th>
+
+                        @if (!is_null(request('product_id')))
+                            <th><abbr> Quantity </abbr></th>
+                            <th><abbr> Unit Price </abbr></th>
+                        @endif
+
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                     </x-slot>
                     <x-slot name="body">
@@ -286,6 +329,17 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $salesRevenue->user_name ?? 'Deleted Salesperson' }} </td>
+
+                                @if (!is_null(request('product_id')))
+                                    <td> {{ $salesRevenue->quantity }} {{ $salesRevenue->product_unit_of_measurement }}</td>
+                                    <td>
+                                        @foreach ($saleReport->getUnitPricesWhere('created_by', $salesRevenue->created_by) as $unitPrice)
+                                            - {{ number_format($unitPrice, 2) }}
+                                            <br>
+                                        @endforeach
+                                    </td>
+                                @endif
+
                                 <td class="has-text-right"> {{ number_format($salesRevenue->revenue, 2) }} </td>
                             </tr>
                         @endforeach

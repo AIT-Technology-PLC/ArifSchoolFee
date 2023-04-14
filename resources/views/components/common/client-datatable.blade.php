@@ -15,6 +15,7 @@
     data-has-length-change="{{ $hasLengthChange }}"
     data-paging-type="{{ $pagingType }}"
     data-length-menu="{{ $lengthMenu }}"
+    {{ $attributes->whereStartsWith('x-') }}
 >
     <thead>
         <tr>

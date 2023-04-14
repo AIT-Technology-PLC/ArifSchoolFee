@@ -81,37 +81,68 @@ class SaleReport
 
     public function getBranchesByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, branch_name')->groupBy('branch_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, branch_name, branch_id')
+            ->when(isset($this->filters['product_id']), fn($q) => $q->selectRaw('SUM(quantity) AS quantity, product_unit_of_measurement'))
+            ->groupBy('branch_id')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getCustomersByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, customer_name')->groupBy('customer_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, customer_name, customer_id')
+            ->when(isset($this->filters['product_id']), fn($q) => $q->selectRaw('SUM(quantity) AS quantity, product_unit_of_measurement'))
+            ->groupBy('customer_id')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getRepsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, user_name')->groupBy('created_by')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, user_name, created_by')
+            ->when(isset($this->filters['product_id']), fn($q) => $q->selectRaw('SUM(quantity) AS quantity, product_unit_of_measurement'))
+            ->groupBy('created_by')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getProductsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')->groupBy('product_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_name, product_unit_of_measurement')
+            ->groupBy('product_id')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getProductCategoriesByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_category_name')->groupBy('product_category_id')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, SUM(quantity) AS quantity, product_category_name')
+            ->groupBy('product_category_id')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getBrandsByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, brand_name')->groupBy('brand_name')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, brand_name')
+            ->groupBy('brand_name')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getPaymentTypesByRevenue()
     {
-        return (clone $this->details)->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, COUNT(DISTINCT master_id) AS transactions, payment_type')->groupBy('payment_type')->orderByDesc('revenue')->get();
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, COUNT(DISTINCT master_id) AS transactions, payment_type')
+            ->groupBy('payment_type')
+            ->orderByDesc('revenue')
+            ->get();
     }
 
     public function getDailyAverageRevenue()
@@ -136,11 +167,12 @@ class SaleReport
         return $cashPaymentTransactionCount / $this->getSalesCount * 100;
     }
 
-    public function getRevenueBySalesRep()
+    public function getUnitPricesWhere($column, $value)
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax+line_tax) AS revenue, user_name')
-            ->groupBy('created_by')->orderByDesc('revenue')
-            ->get();
+            ->where($column, $value)
+            ->selectRaw('(line_price_before_tax+line_tax)/quantity as unit_price')
+            ->pluck('unit_price')
+            ->toArray();
     }
 }

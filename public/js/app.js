@@ -82,6 +82,17 @@ function removeDtSearchLabel() {
         .attr("style", "width:213px;height:30px;font-size:0.75em");
 }
 
+function hideColumns(id, columns = []) {
+    if (!id) {
+        return;
+    }
+
+    $("#" + id)
+        .DataTable()
+        .columns(columns)
+        .visible(false);
+}
+
 function initiateDataTables() {
     const table = $("table.regular-datatable");
 
