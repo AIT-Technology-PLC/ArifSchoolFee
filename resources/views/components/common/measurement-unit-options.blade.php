@@ -5,9 +5,9 @@
     disabled
 >Select Measurement Unit</option>
 <option
-    value="Ampule"
-    {{ $selectedUnitType == 'Ampule' ? 'selected' : '' }}
->Ampule</option>
+    value="Ampoule"
+    {{ $selectedUnitType == 'Ampoule' ? 'selected' : '' }}
+>Ampoule</option>
 <option
     value="Bag"
     {{ $selectedUnitType == 'Bag' ? 'selected' : '' }}
@@ -25,6 +25,10 @@
     {{ $selectedUnitType == 'Box' ? 'selected' : '' }}
 >Box</option>
 <option
+    value="Capsule"
+    {{ $selectedUnitType == 'Capsule' ? 'selected' : '' }}
+>Capsule</option>
+<option
     value="Carton"
     {{ $selectedUnitType == 'Carton' ? 'selected' : '' }}
 >Carton</option>
@@ -41,9 +45,21 @@
     {{ $selectedUnitType == 'Galon' ? 'selected' : '' }}
 >Galon</option>
 <option
+    value="Glass"
+    {{ $selectedUnitType == 'Glass' ? 'selected' : '' }}
+>Glass</option>
+<option
     value="Hour"
     {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
 >Hours</option>
+<option
+    value="Inhaler"
+    {{ $selectedUnitType == 'Inhaler' ? 'selected' : '' }}
+>Inhaler</option>
+<option
+    value="Jar"
+    {{ $selectedUnitType == 'Jar' ? 'selected' : '' }}
+>Jar</option>
 <option
     value="Kilogram"
     {{ $selectedUnitType == 'Kilogram' ? 'selected' : '' }}
@@ -64,6 +80,10 @@
     value="Metric Ton"
     {{ $selectedUnitType == 'Metric Ton' ? 'selected' : '' }}
 >Metric Ton</option>
+<option
+    value="Milliliter"
+    {{ $selectedUnitType == 'Milliliter' ? 'selected' : '' }}
+>ML</option>
 <option
     value="Packet"
     {{ $selectedUnitType == 'Packet' ? 'selected' : '' }}
@@ -97,9 +117,29 @@
     {{ $selectedUnitType == 'Roll' ? 'selected' : '' }}
 >Roll</option>
 <option
+    value="Sachet"
+    {{ $selectedUnitType == 'Sachet' ? 'selected' : '' }}
+>Sachet</option>
+<option
+    value="Set"
+    {{ $selectedUnitType == 'Set' ? 'selected' : '' }}
+>Set</option>
+<option
     value="Square Meter"
     {{ $selectedUnitType == 'Square Meter' ? 'selected' : '' }}
 >Square Meter</option>
+<option
+    value="Strip"
+    {{ $selectedUnitType == 'Strip' ? 'selected' : '' }}
+>Strip</option>
+<option
+    value="Tablet"
+    {{ $selectedUnitType == 'Tablet' ? 'selected' : '' }}
+>Tablet</option>
+<option
+    value="Tin"
+    {{ $selectedUnitType == 'Tin' ? 'selected' : '' }}
+>Tin</option>
 <option
     value="Tube"
     {{ $selectedUnitType == 'Tube' ? 'selected' : '' }}
