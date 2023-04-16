@@ -55,6 +55,7 @@
                                     x-bind:name="`purchase[${index}][product_id]`"
                                     x-model="purchase.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Material', 'Finished Goods']"
                                     includedProducts="purchases"
                                 />
                                 <x-common.icon
@@ -325,7 +326,7 @@
                 purchases: [],
 
                 async init() {
-                    await Product.init({{ Js::from($products) }}).forPurchase();
+                    await Product.init({{ Js::from($products) }}).forPurchase().inventoryType();
 
                     if (purchase) {
                         this.purchases = purchase;
