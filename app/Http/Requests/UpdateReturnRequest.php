@@ -3,14 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Models\Gdn;
+use App\Models\Product;
 use App\Models\GdnDetail;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use Illuminate\Validation\Rule;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
 use App\Rules\ValidateReturnQuantity;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateReturnRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class UpdateReturnRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('returns', $this->route('return')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'return' => ['required', 'array'],
-            'return.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), function ($attribute, $value, $fail) {
+            'return.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id')), function ($attribute, $value, $fail) {
                 if ($this->get('gdn_id') &&  !GdnDetail::where('gdn_id', $this->get('gdn_id'))->where('product_id', $value)->exists()) {
                     $fail('This Product is not sold in the above DO!');
                 }

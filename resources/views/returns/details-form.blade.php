@@ -61,6 +61,7 @@
                                     x-bind:name="`return[${index}][product_id]`"
                                     x-model="returnn.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -368,7 +369,7 @@
                 canAddOrRemoveItems: true,
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initInventoryType({{ Js::from($products) }}), MerchandiseBatch.init()]);
 
                     if (returnn.hasOwnProperty('return')) {
                         this.returns = returnn.return;
