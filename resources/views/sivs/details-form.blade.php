@@ -55,6 +55,7 @@
                                     x-bind:name="`siv[${index}][product_id]`"
                                     x-model="siv.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -170,7 +171,7 @@
                 sivs: [],
 
                 async init() {
-                    await Product.init();
+                    await Product.initInventoryType({{ Js::from($products) }});
 
                     if (siv) {
                         this.sivs = siv;

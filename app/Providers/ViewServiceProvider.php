@@ -48,6 +48,7 @@ class ViewServiceProvider extends ServiceProvider
             'job-extras.partials.details-form',
             'transfers.details-form',
             'returns.details-form',
+            'sivs.details-form',
         ];
 
         View::composer($views, ProductComposer::class);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\MustBelongToCompany;
+use App\Models\Product;
 use App\Rules\UniqueReferenceNum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -22,7 +22,7 @@ class UpdateSivRequest extends FormRequest
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
-            'siv.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'siv.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'siv.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('siv')->pluck('id'))],
             'siv.*.quantity' => ['required', 'numeric', 'gt:0'],
             'siv.*.description' => ['nullable', 'string'],
