@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
-use App\Rules\CheckBatchQuantity;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Product;
 use Illuminate\Validation\Rule;
+use App\Rules\CheckBatchQuantity;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateTransferRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class UpdateTransferRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'transfer' => ['required', 'array'],
-            'transfer.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'transfer.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'transfer.*.warehouse_id' => ['required', 'integer', 'same:transferred_from', 'exclude'],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('transfer'))],
             'transfer.*.description' => ['nullable', 'string'],

@@ -66,6 +66,7 @@
                                     x-bind:name="`transfer[${index}][product_id]`"
                                     x-model="transfer.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -183,7 +184,7 @@
                 transfers: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.initInventoryType({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
 
                     if (transfer) {
                         this.transfers = transfer;
