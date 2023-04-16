@@ -58,7 +58,7 @@
                                     x-bind:name="`gdn[${index}][product_id]`"
                                     x-model="gdn.product_id"
                                     x-init="select2(index)"
-                                    includedProducts="sales"
+                                    included-products="sales"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

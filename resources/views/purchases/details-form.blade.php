@@ -56,7 +56,7 @@
                                     x-model="purchase.product_id"
                                     x-init="select2(index)"
                                     :type="['Raw Material', 'Finished Goods']"
-                                    includedProducts="purchases"
+                                    included-products="purchases"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

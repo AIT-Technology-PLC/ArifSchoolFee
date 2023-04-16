@@ -70,7 +70,7 @@
                                                 x-bind:name="`jobPlanner[${index}][product_id]`"
                                                 x-model="jobPlanner.product_id"
                                                 x-init="select2(index)"
-                                                includedProducts="jobs"
+                                                included-products="jobs"
                                                 :type="['Finished Goods']"
                                             />
                                             <x-common.icon

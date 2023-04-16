@@ -58,7 +58,7 @@
                                     x-bind:name="`proformaInvoice[${index}][product_id]`"
                                     x-model="proformaInvoice.product_id"
                                     x-init="select2(index)"
-                                    includedProducts="sales"
+                                    included-products="sales"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

@@ -58,7 +58,7 @@
                                     x-bind:name="`reservation[${index}][product_id]`"
                                     x-model="reservation.product_id"
                                     x-init="select2(index)"
-                                    includedProducts="sales"
+                                    included-products="sales"
                                     :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
