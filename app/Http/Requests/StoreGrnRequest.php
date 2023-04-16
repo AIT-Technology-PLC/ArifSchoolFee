@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
@@ -21,7 +22,7 @@ class StoreGrnRequest extends FormRequest
         return [
             'code' => ['required', 'string', new UniqueReferenceNum('grns'), new CanEditReferenceNumber('grns')],
             'grn' => ['required', 'array'],
-            'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'grn.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.unit_cost' => ['nullable', 'numeric', 'min:0'],

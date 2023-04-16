@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Product;
 use Illuminate\Validation\Rule;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateGrnRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class UpdateGrnRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('grns', $this->route('grn')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'grn' => ['required', 'array'],
-            'grn.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'grn.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'grn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'grn.*.quantity' => ['required', 'numeric', 'gt:0'],
             'grn.*.unit_cost' => ['nullable', 'numeric', 'min:0'],

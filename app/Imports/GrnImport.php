@@ -27,7 +27,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         $this->grn = $grn;
 
-        $this->products = Product::all(['id', 'name', 'code']);
+        $this->products = Product::inventoryType()->get(['id', 'name', 'code']);
 
         $this->warehouses = Warehouse::all(['id', 'name']);
     }

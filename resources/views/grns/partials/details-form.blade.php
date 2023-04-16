@@ -55,6 +55,7 @@
                                     x-bind:name="`grn[${index}][product_id]`"
                                     x-model="grn.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Materials', 'FInished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -248,7 +249,7 @@
                 grns: [],
 
                 async init() {
-                    await Product.init();
+                    await Product.initInventoryType({{ Js::from($products) }});
 
                     if (grn) {
                         this.grns = grn;

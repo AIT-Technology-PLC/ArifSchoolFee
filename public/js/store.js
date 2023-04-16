@@ -143,6 +143,13 @@ const Product = {
             (product) => product.is_active && product.is_active_for_purchase
         );
     },
+    async initInventoryType(products) {
+        this.products = products;
+
+        this.products = this.products.filter(
+            (product) => product.type != 'Services'
+        );
+    },
 };
 
 const BillOfMaterial = {

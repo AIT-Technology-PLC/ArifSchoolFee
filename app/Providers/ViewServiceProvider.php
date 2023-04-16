@@ -41,6 +41,7 @@ class ViewServiceProvider extends ServiceProvider
             'proforma-invoices.partials.details-form',
             'reservations.details-form',
             'sales.partials.details-form',
+            'grns.partials.details-form',
         ];
 
         View::composer($views, ProductComposer::class);
