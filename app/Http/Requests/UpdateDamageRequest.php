@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
-use App\Rules\CheckBatchQuantity;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Product;
 use Illuminate\Validation\Rule;
+use App\Rules\CheckBatchQuantity;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateDamageRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class UpdateDamageRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('damages', $this->route('damage')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'damage' => ['required', 'array'],
-            'damage.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'damage.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'damage.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('subtract')->pluck('id'))],
             'damage.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('damage'))],
             'damage.*.description' => ['nullable', 'string'],
