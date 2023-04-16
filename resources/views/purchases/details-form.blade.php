@@ -55,7 +55,7 @@
                                     x-bind:name="`purchase[${index}][product_id]`"
                                     x-model="purchase.product_id"
                                     x-init="select2(index)"
-                                    :includedProducts="['purchases']"
+                                    includedProducts="purchases"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

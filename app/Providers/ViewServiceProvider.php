@@ -50,6 +50,7 @@ class ViewServiceProvider extends ServiceProvider
             'returns.details-form',
             'sivs.details-form',
             'purchases.details-form',
+            'reservations.details-form',
         ];
 
         View::composer($views, ProductComposer::class);

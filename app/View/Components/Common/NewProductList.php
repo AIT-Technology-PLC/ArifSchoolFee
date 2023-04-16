@@ -14,7 +14,7 @@ class NewProductList extends Component
 
     public $type;
 
-    public function __construct($type = [], $includedProducts = ['sales', 'purchases', 'jobs'])
+    public function __construct($type = [], $includedProducts = null)
     {
         $this->type = $type;
 
@@ -25,9 +25,9 @@ class NewProductList extends Component
         $this->products = Cache::store('array')->rememberForever($cacheName, function () {
             return Product::select(['id', 'product_category_id', 'name', 'code', 'type', 'description'])
                 ->when(!empty($this->type), fn($q) => $q->whereIn('type', $this->type))
-                ->when(in_array('sales', $this->includedProducts), fn($query) => $query->activeForSale())
-                ->when(in_array('purchases', $this->includedProducts), fn($query) => $query->activeForPurchase())
-                ->when(in_array('jobs', $this->includedProducts), fn($query) => $query->activeForJob())
+                ->when($this->includedProducts == 'sales', fn($query) => $query->activeForSale())
+                ->when($this->includedProducts == 'purchases', fn($query) => $query->activeForPurchase())
+                ->when($this->includedProducts == 'jobs', fn($query) => $query->activeForJob())
                 ->with('productCategory:id,name')
                 ->orderBy('name')
                 ->get();
