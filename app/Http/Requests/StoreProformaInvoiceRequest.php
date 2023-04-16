@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
@@ -31,7 +32,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'terms' => ['nullable', 'string'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice' => ['required', 'array'],
-            'proformaInvoice.*.product_id' => ['required', 'string', new MustBelongToCompany('products'), new CheckProductStatus],
+            'proformaInvoice.*.product_id' => ['required', 'string', Rule::in(Product::activeForSale()->pluck('id')), new CheckProductStatus],
             'proformaInvoice.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('proformaInvoice'))],
             'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],

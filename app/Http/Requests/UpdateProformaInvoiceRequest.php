@@ -2,14 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
+use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateProformaInvoiceRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'terms' => ['nullable', 'string'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice' => ['required', 'array'],
-            'proformaInvoice.*.product_id' => ['required', 'string', new MustBelongToCompany('products'), new CheckProductStatus],
+            'proformaInvoice.*.product_id' => ['required', 'string', Rule::in(Product::activeForSale()->pluck('id')), new CheckProductStatus],
             'proformaInvoice.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('proformaInvoice'))],
             'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],

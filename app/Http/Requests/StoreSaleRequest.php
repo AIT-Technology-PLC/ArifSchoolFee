@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use App\Rules\ValidatePrice;
 use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
@@ -28,7 +29,7 @@ class StoreSaleRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales'), new CanEditReferenceNumber('sales')],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus],
+            'sale.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new CheckProductStatus],
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('sale'))],
             'sale.*.description' => ['nullable', 'string'],

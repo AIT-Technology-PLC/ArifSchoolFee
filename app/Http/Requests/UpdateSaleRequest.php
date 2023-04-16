@@ -3,18 +3,19 @@
 namespace App\Http\Requests;
 
 use App\Models\Sale;
+use App\Models\Product;
+use App\Rules\ValidatePrice;
+use Illuminate\Validation\Rule;
 use App\Rules\CheckBatchQuantity;
+use App\Rules\CheckProductStatus;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\MustBelongToCompany;
+use App\Rules\CheckValidBatchNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
-use App\Rules\CheckProductStatus;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\ValidatePrice;
-use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use App\Rules\VerifyCashReceivedAmountIsValid;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
 class UpdateSaleRequest extends FormRequest
 {
@@ -29,7 +30,7 @@ class UpdateSaleRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer', new MustBelongToCompany('products'), new CheckProductStatus],
+            'sale.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id')), new CheckProductStatus],
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('sale'))],
             'sale.*.description' => ['nullable', 'string'],
