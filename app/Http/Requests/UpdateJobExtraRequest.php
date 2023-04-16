@@ -16,7 +16,7 @@ class UpdateJobExtraRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
+            'product_id' => ['required', 'integer', Rule::in(Product::activeForJob()->rawMaterial()->pluck('id'))],
             'quantity' => ['required', 'numeric', 'gt:0'],
             'type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
         ];

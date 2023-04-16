@@ -55,7 +55,8 @@
                                     x-bind:name="`jobExtra[${index}][product_id]`"
                                     x-model="jobExtra.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Material', 'Finished Goods']"
+                                    includedProducts="jobs"
+                                    :type="['Raw Material']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -143,7 +144,7 @@
                 jobExtras: [],
 
                 async init() {
-                    await Product.init({{ Js::from($products) }}).inventoryType();
+                    await Product.init({{ Js::from($products) }}).rawMaterial().forJob();
 
                     if (jobExtra) {
                         this.jobExtras = jobExtra;

@@ -3,7 +3,7 @@ const Product = {
 
     init(products) {
         this.products = products;
-        
+
         return this;
     },
     forSale() {
@@ -20,16 +20,30 @@ const Product = {
 
         return this;
     },
+    forJob() {
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_job
+        );
+
+        return this;
+    },
     inventoryType() {
         this.products = this.products.filter(
-            (product) => product.type != 'Services'
+            (product) => product.type != "Services"
         );
 
         return this;
     },
     rawMaterial() {
         this.products = this.products.filter(
-            (product) => product.type == 'Raw Material'
+            (product) => product.type == "Raw Material"
+        );
+
+        return this;
+    },
+    finishedGoods() {
+        this.products = this.products.filter(
+            (product) => product.type == "Finished Goods"
         );
 
         return this;
@@ -145,13 +159,16 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                this.taxAmount(productId);
+                      this.taxAmount(productId);
         }
 
         return 0;
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
-        return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
+        return (
+            this.priceBeforeTax(unitPrice, quantity, productId, discount) *
+            this.taxAmount(productId)
+        );
     },
 };
 

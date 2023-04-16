@@ -17,7 +17,7 @@ class StoreJobExtraRequest extends FormRequest
     {
         return [
             'jobExtra' => ['required', 'array'],
-            'jobExtra.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
+            'jobExtra.*.product_id' => ['required', 'integer', Rule::in(Product::activeForJob()->rawMaterial()->pluck('id'))],
             'jobExtra.*.quantity' => ['required', 'numeric', 'gt:0'],
             'jobExtra.*.type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
         ];
