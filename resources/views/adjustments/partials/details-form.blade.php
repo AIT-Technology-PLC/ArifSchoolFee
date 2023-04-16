@@ -58,6 +58,7 @@
                                     x-bind:name="`adjustment[${index}][product_id]`"
                                     x-model="adjustment.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Materials', 'FInished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -226,7 +227,7 @@
                 adjustments: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.initInventoryType({{ Js::from($products) }}), MerchandiseBatch.init()]);
 
                     if (adjustment) {
                         this.adjustments = adjustment;

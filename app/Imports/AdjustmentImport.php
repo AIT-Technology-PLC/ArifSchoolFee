@@ -31,7 +31,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         $this->adjustment = $adjustment;
 
-        $this->products = Product::all(['id', 'name', 'code', 'product_category_id']);
+        $this->products = Product::inventoryType()->get(['id', 'name', 'code', 'product_category_id']);
 
         $this->productCategories = ProductCategory::all(['id', 'name']);
 
