@@ -44,6 +44,7 @@ class ViewServiceProvider extends ServiceProvider
             'job-extras.partials.details-form',
             'job-planners.create',
             'jobs.partials.details-form',
+            'prices.partials.details-form',
             'proforma-invoices.partials.details-form',
             'purchases.details-form',
             'reservations.details-form',
