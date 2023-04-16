@@ -56,6 +56,7 @@
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
                                     x-model="billOfMaterial.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Material']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -115,7 +116,7 @@
                 billOfMaterials: [],
 
                 async init() {
-                    await Product.init({{ Js::from($products) }});
+                    await Product.init({{ Js::from($products) }}).rawMaterial();
 
                     if (billOfMaterial) {
                         this.billOfMaterials = billOfMaterial;

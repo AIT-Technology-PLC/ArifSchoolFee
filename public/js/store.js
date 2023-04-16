@@ -27,6 +27,13 @@ const Product = {
 
         return this;
     },
+    rawMaterial() {
+        this.products = this.products.filter(
+            (product) => product.type == 'Raw Material'
+        );
+
+        return this;
+    },
     all() {
         return this.products;
     },

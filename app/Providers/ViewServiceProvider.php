@@ -38,6 +38,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         $views = [
             'adjustments.partials.details-form',
+            'bill-of-materials.details-form',
             'damages.partials.details-form',
             'gdns.details-form',
             'grns.partials.details-form',
