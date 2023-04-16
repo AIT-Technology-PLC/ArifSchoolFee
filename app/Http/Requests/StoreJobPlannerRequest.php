@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\BillOfMaterial;
+use App\Models\Product;
 use App\Rules\MustBelongToCompany;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreJobPlannerRequest extends FormRequest
 {
@@ -17,7 +19,7 @@ class StoreJobPlannerRequest extends FormRequest
     {
         return [
             'jobPlanner' => ['required', 'array'],
-            'jobPlanner.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'jobPlanner.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'jobPlanner.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
 
             'jobPlanner.*.bill_of_material_id' => ['required', 'integer', new MustBelongToCompany('bill_of_materials'), function ($attribute, $value, $fail) {
