@@ -37,20 +37,20 @@ class ViewServiceProvider extends ServiceProvider
     private function productViewComposer()
     {
         $views = [
-            'gdns.details-form',
-            'proforma-invoices.partials.details-form',
-            'reservations.details-form',
-            'sales.partials.details-form',
-            'grns.partials.details-form',
             'adjustments.partials.details-form',
             'damages.partials.details-form',
-            'jobs.partials.details-form',
+            'gdns.details-form',
+            'grns.partials.details-form',
             'job-extras.partials.details-form',
-            'transfers.details-form',
-            'returns.details-form',
-            'sivs.details-form',
+            'job-planners.create',
+            'jobs.partials.details-form',
+            'proforma-invoices.partials.details-form',
             'purchases.details-form',
             'reservations.details-form',
+            'returns.details-form',
+            'sales.partials.details-form',
+            'sivs.details-form',
+            'transfers.details-form',
         ];
 
         View::composer($views, ProductComposer::class);
