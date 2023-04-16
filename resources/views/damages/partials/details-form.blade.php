@@ -58,7 +58,7 @@
                                     x-bind:name="`damage[${index}][product_id]`"
                                     x-model="damage.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Materials', 'FInished Goods']"
+                                    :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
