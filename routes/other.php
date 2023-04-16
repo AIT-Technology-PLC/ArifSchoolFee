@@ -18,7 +18,7 @@ Route::prefix('api')
         Route::get('merchandises/products/{product}/warehouses/{warehouse}',
             [Api\MerchandiseController::class, 'show']);
 
-        Route::apiResource('products', Api\ProductController::class)->only('index', 'show');
+        Route::apiResource('products', Api\ProductController::class)->only('show');
         Route::apiResource('bill-of-materials', Api\BillOfMaterialController::class)->only('index');
         Route::apiResource('customers', Api\CustomerController::class)->only('index');
         Route::apiResource('suppliers', Api\SupplierController::class)->only('index');
