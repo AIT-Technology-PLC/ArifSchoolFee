@@ -56,6 +56,7 @@
                                     x-bind:name="`job[${index}][product_id]`"
                                     x-model="job.product_id"
                                     x-init="select2(index)"
+                                    :type="['Raw Materials', 'FInished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -140,7 +141,7 @@
                 jobs: [],
 
                 async init() {
-                    await Promise.all([Product.init(), BillOfMaterial.init()]);
+                    await Promise.all([Product.initInventoryType({{ Js::from($products) }}), BillOfMaterial.init()]);
 
                     if (job) {
                         this.jobs = job;

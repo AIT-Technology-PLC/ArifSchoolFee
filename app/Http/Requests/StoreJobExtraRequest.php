@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\MustBelongToCompany;
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,7 +17,7 @@ class StoreJobExtraRequest extends FormRequest
     {
         return [
             'jobExtra' => ['required', 'array'],
-            'jobExtra.*.product_id' => ['required', 'integer', new MustBelongToCompany('products')],
+            'jobExtra.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
             'jobExtra.*.quantity' => ['required', 'numeric', 'gt:0'],
             'jobExtra.*.type' => ['required', 'string', 'max:255', Rule::in(['Input', 'Remaining'])],
         ];

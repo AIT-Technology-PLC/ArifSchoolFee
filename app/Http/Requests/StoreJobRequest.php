@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\BillOfMaterial;
+use App\Models\Product;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -27,7 +28,7 @@ class StoreJobRequest extends FormRequest
             'due_date' => ['required', 'date', 'after_or_equal:issued_on'],
             'is_internal_job' => ['required', 'boolean'],
             'job' => ['required', 'array'],
-            'job.*.product_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('products')],
+            'job.*.product_id' => ['required', 'integer', 'distinct', Rule::in(Product::inventoryType()->pluck('id'))],
             'job.*.bill_of_material_id' => ['required', 'integer', new MustBelongToCompany('bill_of_materials'), function ($attribute, $value, $fail) {
                 if (BillOfMaterial::where('id', $value)->where('product_id', $this->input(str_replace('.bill_of_material_id', '.product_id', $attribute)))->doesntExist()) {
                     $fail('Invalid bill of material!');
