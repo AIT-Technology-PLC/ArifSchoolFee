@@ -141,7 +141,7 @@
                 jobs: [],
 
                 async init() {
-                    await Promise.all([Product.initInventoryType({{ Js::from($products) }}), BillOfMaterial.init()]);
+                    await Promise.all([Product.init({{ Js::from($products) }}).inventoryType(), BillOfMaterial.init()]);
 
                     if (job) {
                         this.jobs = job;

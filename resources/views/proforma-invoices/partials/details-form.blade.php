@@ -303,7 +303,7 @@
                 proformaInvoices: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initForSale({{ Js::from($products) }}), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).forSale(), MerchandiseBatch.initAvailable()]);
 
                     if (proformaInvoice) {
                         this.proformaInvoices = proformaInvoice;

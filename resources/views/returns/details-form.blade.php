@@ -369,7 +369,7 @@
                 canAddOrRemoveItems: true,
 
                 async init() {
-                    await Promise.all([Company.init(), Product.initInventoryType({{ Js::from($products) }}), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.init()]);
 
                     if (returnn.hasOwnProperty('return')) {
                         this.returns = returnn.return;

@@ -143,7 +143,7 @@
                 jobExtras: [],
 
                 async init() {
-                    await Product.initInventoryType({{ Js::from($products) }});
+                    await Product.init({{ Js::from($products) }}).inventoryType();
 
                     if (jobExtra) {
                         this.jobExtras = jobExtra;

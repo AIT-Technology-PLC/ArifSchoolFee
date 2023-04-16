@@ -1,8 +1,31 @@
 const Product = {
     products: [],
 
-    async init(products) {
+    init(products) {
         this.products = products;
+        
+        return this;
+    },
+    forSale() {
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_sale
+        );
+
+        return this;
+    },
+    forPurchase() {
+        this.products = this.products.filter(
+            (product) => product.is_active && product.is_active_for_purchase
+        );
+
+        return this;
+    },
+    inventoryType() {
+        this.products = this.products.filter(
+            (product) => product.type != 'Services'
+        );
+
+        return this;
     },
     all() {
         return this.products;
@@ -122,27 +145,6 @@ const Product = {
     },
     priceAfterTax(unitPrice, quantity, productId = null, discount = 0) {
         return this.priceBeforeTax(unitPrice, quantity, productId, discount) * this.taxAmount(productId);
-    },
-    async initForSale(products) {
-        this.products = products;
-
-        this.products = this.products.filter(
-            (product) => product.is_active && product.is_active_for_sale
-        );
-    },
-    async initForPurchase(products) {
-        this.products = products;
-
-        this.products = this.products.filter(
-            (product) => product.is_active && product.is_active_for_purchase
-        );
-    },
-    async initInventoryType(products) {
-        this.products = products;
-
-        this.products = this.products.filter(
-            (product) => product.type != 'Services'
-        );
     },
 };
 

@@ -249,7 +249,7 @@
                 grns: [],
 
                 async init() {
-                    await Product.initInventoryType({{ Js::from($products) }});
+                    await Product.init({{ Js::from($products) }}).inventoryType();
 
                     if (grn) {
                         this.grns = grn;
