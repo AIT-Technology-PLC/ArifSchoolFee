@@ -325,7 +325,7 @@
                 purchases: [],
 
                 async init() {
-                    await Product.initForPurchase();
+                    await Product.initForPurchase({{ Js::from($products) }});
 
                     if (purchase) {
                         this.purchases = purchase;

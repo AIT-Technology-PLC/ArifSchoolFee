@@ -183,7 +183,7 @@
                  prices: [],
 
                  async init() {
-                     await Product.init();
+                     await Product.init({{ Js::from($products) }});
 
                      if (price) {
                          this.prices = price;

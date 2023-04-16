@@ -199,7 +199,7 @@
                     jobPlanners: [],
 
                     async init() {
-                        await Promise.all([Product.init(), BillOfMaterial.init()]);
+                        await Promise.all([Product.init({{ Js::from($products) }}), BillOfMaterial.init()]);
 
                         if (jobPlanner) {
                             this.jobPlanners = jobPlanner;
