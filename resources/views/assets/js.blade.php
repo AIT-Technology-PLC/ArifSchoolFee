@@ -109,7 +109,7 @@
 @env('production')
 {{-- Global site tag (gtag.js) - Google Analytics --}}
 
-{{-- <script
+<script
     async
     src="https://www.googletagmanager.com/gtag/js?id=UA-212816628-1"
 ></script>
@@ -122,24 +122,7 @@
     }
     gtag('js', new Date());
 
-    gtag('config', 'UA-212816628-1', {
-        'user_id': {{ auth()->id() }}
-    });
-</script> --}}
-
-<!-- Google tag (gtag.js) -->
-<script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-8L36JNQNY9"
-></script>
-
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+    gtag('config', 'UA-212816628-1');
 
     gtag('config', 'G-8L36JNQNY9');
 </script>
