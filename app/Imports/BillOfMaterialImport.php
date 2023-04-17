@@ -23,7 +23,7 @@ class BillOfMaterialImport implements WithHeadingRow, ToModel, WithValidation, W
 
     public function __construct($billOfMaterial)
     {
-        $this->products = Product::all();
+        $this->products = Product::rawMaterial()->get();
 
         $this->billOfMaterial = $billOfMaterial;
     }

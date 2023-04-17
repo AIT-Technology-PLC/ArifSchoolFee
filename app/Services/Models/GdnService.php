@@ -207,7 +207,7 @@ class GdnService
         return Validator::make($data, [
             'code' => ['required', 'integer', new UniqueReferenceNum('gdns')],
             'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('products')],
+            'gdn.*.product_id' => ['required', 'integer', 'distinct', Rule::in(Product::activeForSale()->pluck('id'))],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice(['gdn' => $data['gdn']])],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
