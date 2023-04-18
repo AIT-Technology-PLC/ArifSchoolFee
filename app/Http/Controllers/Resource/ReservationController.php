@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\AutoBatchStoringAction;
 use App\DataTables\ReservationDatatable;
 use App\DataTables\ReservationDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
-use App\Models\MerchandiseBatch;
 use App\Models\Reservation;
-use App\Models\ReservationDetail;
 use App\Notifications\ReservationPrepared;
 use App\Services\Models\ReservationService;
 use App\Utilities\Notifiables;
@@ -63,44 +62,9 @@ class ReservationController extends Controller
         $reservation = DB::transaction(function () use ($request) {
             $reservation = Reservation::create($request->safe()->except('reservation'));
 
-            $reservationDetails = $reservation->reservationDetails()->createMany($request->validated('reservation'));
+            $reservation->reservationDetails()->createMany($request->validated('reservation'));
 
-            $deletableDetails = collect();
-
-            foreach ($reservationDetails as $reservationDetail) {
-                if ($reservationDetail->product->isBatchable() && is_null($reservationDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $reservationDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $reservationDetail->warehouse_id)
-                        ->when($reservationDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$reservationDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($reservationDetail->id);
-
-                        $reservation->reservationDetails()->create([
-                            'product_id' => $reservationDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $reservationDetail->quantity ? $reservationDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $reservationDetail->original_unit_price,
-                            'warehouse_id' => $reservationDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $reservationDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $reservationDetail->quantity - $merchandiseBatch->quantity;
-                            $reservationDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            ReservationDetail::whereIn('id', $deletableDetails)->forceDelete();
+            AutoBatchStoringAction::execute($reservation, $request->validated('reservation'), 'reservationDetails');
 
             Notification::send(Notifiables::byNextActionPermission('Approve Reservation'), new ReservationPrepared($reservation));
 

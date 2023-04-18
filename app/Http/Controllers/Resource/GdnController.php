@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\AutoBatchStoringAction;
 use App\DataTables\GdnDatatable;
 use App\DataTables\GdnDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Gdn;
-use App\Models\GdnDetail;
-use App\Models\MerchandiseBatch;
 use App\Models\Sale;
 use App\Models\SivDetail;
 use App\Notifications\GdnPrepared;
@@ -57,44 +56,9 @@ class GdnController extends Controller
         $gdn = DB::transaction(function () use ($request) {
             $gdn = Gdn::create($request->safe()->except('gdn'));
 
-            $gdnDetails = $gdn->gdnDetails()->createMany($request->validated('gdn'));
+            $gdn->gdnDetails()->createMany($request->validated('gdn'));
 
-            $deletableDetails = collect();
-
-            foreach ($gdnDetails as $gdnDetail) {
-                if ($gdnDetail->product->isBatchable() && is_null($gdnDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $gdnDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $gdnDetail->warehouse_id)
-                        ->when($gdnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$gdnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($gdnDetail->id);
-
-                        $gdn->gdnDetails()->create([
-                            'product_id' => $gdnDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $gdnDetail->original_unit_price,
-                            'warehouse_id' => $gdnDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $gdnDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $gdnDetail->quantity - $merchandiseBatch->quantity;
-                            $gdnDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            GdnDetail::whereIn('id', $deletableDetails)->forceDelete();
+            AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
 
             Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
@@ -148,44 +112,9 @@ class GdnController extends Controller
 
             $gdn->gdnDetails()->forceDelete();
 
-            $gdnDetails = $gdn->gdnDetails()->createMany($request->validated('gdn'));
+            $gdn->gdnDetails()->createMany($request->validated('gdn'));
 
-            $deletableDetails = collect();
-
-            foreach ($gdnDetails as $gdnDetail) {
-                if ($gdnDetail->product->isBatchable() && is_null($gdnDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $gdnDetail->product_id)
-                        ->whereRelation('merchandise', 'warehouse_id', $gdnDetail->warehouse_id)
-                        ->when($gdnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$gdnDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($gdnDetail->id);
-
-                        $gdn->gdnDetails()->create([
-                            'product_id' => $gdnDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $gdnDetail->quantity ? $gdnDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $gdnDetail->original_unit_price,
-                            'warehouse_id' => $gdnDetail->warehouse_id,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $gdnDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $gdnDetail->quantity - $merchandiseBatch->quantity;
-                            $gdnDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            GdnDetail::whereIn('id', $deletableDetails)->forceDelete();
+            AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
         }, 2);
 
         return redirect()->route('gdns.show', $gdn->id);

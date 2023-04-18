@@ -131,7 +131,7 @@
                             Batch No <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     x-bind:id="`grn[${index}][batch_no]`"
                                     x-bind:name="`grn[${index}][batch_no]`"

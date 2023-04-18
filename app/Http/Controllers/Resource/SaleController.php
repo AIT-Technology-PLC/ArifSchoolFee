@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\AutoBatchStoringAction;
 use App\DataTables\SaleDatatable;
 use App\DataTables\SaleDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
-use App\Models\MerchandiseBatch;
 use App\Models\Sale;
-use App\Models\SaleDetail;
 use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
@@ -48,42 +47,9 @@ class SaleController extends Controller
         $sale = DB::transaction(function () use ($request) {
             $sale = Sale::create($request->safe()->except('sale'));
 
-            $saleDetails = $sale->saleDetails()->createMany($request->validated('sale'));
+            $sale->saleDetails()->createMany($request->validated('sale'));
 
-            $deletableDetails = collect();
-
-            foreach ($saleDetails as $saleDetail) {
-                if ($saleDetail->product->isBatchable() && is_null($saleDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $saleDetail->product_id)
-                        ->when($saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($saleDetail->id);
-
-                        $sale->saleDetails()->create([
-                            'product_id' => $saleDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $saleDetail->original_unit_price,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $saleDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $saleDetail->quantity - $merchandiseBatch->quantity;
-                            $saleDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            SaleDetail::whereIn('id', $deletableDetails)->forceDelete();
+            AutoBatchStoringAction::execute($sale, $request->validated('sale'), 'saleDetails');
 
             return $sale;
         });
@@ -122,42 +88,9 @@ class SaleController extends Controller
 
             $sale->saleDetails()->forceDelete();
 
-            $saleDetails = $sale->saleDetails()->createMany($request->validated('sale'));
+            $sale->saleDetails()->createMany($request->validated('sale'));
 
-            $deletableDetails = collect();
-
-            foreach ($saleDetails as $saleDetail) {
-                if ($saleDetail->product->isBatchable() && is_null($saleDetail->merchandise_batch_id)) {
-                    $merchandiseBatches = MerchandiseBatch::where('quantity', '>', 0)
-                        ->whereRelation('merchandise', 'product_id', $saleDetail->product_id)
-                        ->when($saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
-                        ->when(!$saleDetail->product->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
-                        ->get();
-
-                    foreach ($merchandiseBatches as $merchandiseBatch) {
-                        $deletableDetails->push($saleDetail->id);
-
-                        $sale->saleDetails()->create([
-                            'product_id' => $saleDetail->product_id,
-                            'quantity' => $merchandiseBatch->quantity >= $saleDetail->quantity ? $saleDetail->quantity : $merchandiseBatch->quantity,
-                            'merchandise_batch_id' => $merchandiseBatch->id,
-                            'unit_price' => $saleDetail->original_unit_price,
-                        ]
-                        );
-
-                        if ($merchandiseBatch->quantity >= $saleDetail->quantity) {
-                            $difference = 0;
-
-                            break;
-                        } else {
-                            $difference = $saleDetail->quantity - $merchandiseBatch->quantity;
-                            $saleDetail->quantity = $difference;
-                        }
-                    }
-                }
-            }
-
-            SaleDetail::whereIn('id', $deletableDetails)->forceDelete();
+            AutoBatchStoringAction::execute($sale, $request->validated('sale'), 'saleDetails');
         });
 
         return redirect()->route('sales.show', $sale->id);
