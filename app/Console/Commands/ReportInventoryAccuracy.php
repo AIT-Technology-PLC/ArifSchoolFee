@@ -57,6 +57,10 @@ class ReportInventoryAccuracy extends Command
 
         $total = $accurate + $inaccurate;
 
+        if ($total == 0) {
+            return '100.00';
+        }
+
         $percentage = number_format($accurate / $total * 100, 2);
 
         if ($inaccurate) {
