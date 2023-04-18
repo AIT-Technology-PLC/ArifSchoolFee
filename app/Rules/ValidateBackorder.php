@@ -7,9 +7,15 @@ use Illuminate\Contracts\Validation\Rule;
 
 class ValidateBackorder implements Rule
 {
-    public function __construct($details = [])
+    private $details;
+
+    private $warehouseId;
+
+    public function __construct($details = [], $warehouseId = null)
     {
         $this->details = collect($details);
+
+        $this->warehouseId = $warehouseId;
     }
 
     public function passes($attribute, $value)
@@ -18,7 +24,7 @@ class ValidateBackorder implements Rule
             return true;
         }
 
-        $warehouseId = request()->input(str_replace('.product_id', '.warehouse_id', $attribute));
+        $warehouseId = !is_null($this->warehouseId) ? $this->warehouseId : request()->input(str_replace('.product_id', '.warehouse_id', $attribute));
 
         if (is_null($warehouseId) || is_null($value)) {
             return true;

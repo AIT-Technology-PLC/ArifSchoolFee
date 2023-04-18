@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Product;
 use Illuminate\Validation\Rule;
+use App\Rules\ValidateBackorder;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
@@ -24,7 +25,7 @@ class UpdateTransferRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('transfers', $this->route('transfer')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'transfer' => ['required', 'array'],
-            'transfer.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
+            'transfer.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id')), new ValidateBackorder($this->input('transfer'), $this->input('transferred_from'))],
             'transfer.*.warehouse_id' => ['required', 'integer', 'same:transferred_from', 'exclude'],
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('transfer'))],
             'transfer.*.description' => ['nullable', 'string'],
