@@ -106,7 +106,10 @@ class EditTransaction extends Component
             return redirect()->route('transactions.show', $this->transaction->id);
         }
 
-        abort_if(!$this->transaction->canBeEdited(), 403);
+        if (!$this->transaction->canBeEdited()) {
+            return redirect()->route('transactions.show', $this->transaction->id)
+                ->with('failedMessage', 'You can not edit this transaction.');
+        }
 
         $this->authorize('update', $this->transaction);
 
