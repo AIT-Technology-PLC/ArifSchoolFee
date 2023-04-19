@@ -95,7 +95,7 @@ class EditTransaction extends Component
     {
         $descriptionPadField = $this->masterPadFields->firstWhere('label', 'Description');
 
-        if (!$this->transaction->canBeEdited() && $descriptionPadField) {
+        if (!$this->transaction->canBeEdited() && $descriptionPadField && isset($this->validate()['master'][$descriptionPadField->id])) {
             $this->transaction
                 ->transactionFields()
                 ->updateOrCreate(
