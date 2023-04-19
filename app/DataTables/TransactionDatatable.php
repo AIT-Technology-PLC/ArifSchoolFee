@@ -44,18 +44,6 @@ class TransactionDatatable extends DataTable
                 '@click' => 'showDetails',
             ]);
 
-        $padFields = request()->route('pad')->padFields()->masterFields()->inputTypeFile()->where('is_visible', 1)->get();
-
-        foreach ($padFields as $padField) {
-            $datatable->editColumn($padField->label, function ($row) use ($padField) {
-                return view('components.datatables.link', [
-                    'url' => isset($row[$padField->label]) ? asset('/storage/' . $row[$padField->label]) : '#',
-                    'label' => isset($row[$padField->label]) ? $padField->label : ('No ' . $padField->label),
-                    'target' => '_blank',
-                ]);
-            });
-        }
-
         if ($this->padStatuses->isNotEmpty()) {
             $datatable->editColumn('status', fn($transaction) => view('components.datatables.transaction-status', [
                 'transaction' => Transaction::find($transaction['id']),
