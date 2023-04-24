@@ -52,9 +52,13 @@ class Product extends Model
     protected static function booted()
     {
         static::deleted(function ($product) {
-            $padFieldIds = PadField::whereHas('pad')->whereRelation('padRelation', 'model_name', 'Product')->get(['id']);
+            $padFieldIds = PadField::whereHas('pad')->whereRelation('padRelation', 'model_name', 'Product')->pluck('id');
 
-            TransactionField::whereIn('pad_field_id', $padFieldIds)->where('value', $product->id)->delete();
+            $transactionFields = TransactionField::whereIn('pad_field_id', $padFieldIds)->where('value', $product->id)->get();
+
+            foreach ($transactionFields as $transactionField) {
+                TransactionField::where('transaction_id', $transactionField->transaction_id)->where('line', $transactionField->line)->delete();
+            }
         });
     }
 
