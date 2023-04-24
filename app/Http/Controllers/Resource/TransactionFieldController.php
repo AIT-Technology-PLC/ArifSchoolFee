@@ -15,7 +15,7 @@ class TransactionFieldController extends Controller
 
         abort_if(!$transactionField->transaction->canBeDeleted(), 403);
 
-        TransactionField::where('line', $transactionField->line)->forceDelete();
+        TransactionField::where('transaction_id', $transactionField->transaction_id)->where('line', $transactionField->line)->forceDelete();
 
         return back()->with('successMessage', 'Deleted Successfully');
     }

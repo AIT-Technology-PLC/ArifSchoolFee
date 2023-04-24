@@ -4,13 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Price;
 use App\Models\Transaction;
-use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
 use App\Traits\PadFileUploads;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -134,7 +134,7 @@ class EditTransaction extends Component
     protected function rules()
     {
         $rules = [
-            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions), new CanEditReferenceNumber('transactions')],
+            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'issued_on' => ['required', 'date'],
         ];
 
