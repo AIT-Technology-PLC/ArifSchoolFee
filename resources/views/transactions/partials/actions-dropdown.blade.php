@@ -68,7 +68,7 @@
             </x-common.dropdown-item>
         @endcan
     @endif
-    @if ($tansaction->pad->isInventoryOperationNone() || $transaction->isAdded() || $transaction->isSubtracted())
+    @if ($transaction->pad->isInventoryOperationNone() || $transaction->isAdded() || $transaction->isSubtracted())
         @foreach ($transaction->pad->convert_to as $feature)
             @can('convert', $transaction)
                 @if (!is_null($transaction->pad->featureNames($feature)))
