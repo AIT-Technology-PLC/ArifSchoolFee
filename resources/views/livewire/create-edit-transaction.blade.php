@@ -399,7 +399,7 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif ($masterPadField->isInputTypeRadio())
+                                        @elseif ($detailPadField->isInputTypeRadio())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
