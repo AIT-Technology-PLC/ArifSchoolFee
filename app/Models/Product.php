@@ -54,9 +54,7 @@ class Product extends Model
         static::deleted(function ($product) {
             $padFieldIds = PadField::whereHas('pad')->whereRelation('padRelation', 'model_name', 'Product')->get(['id']);
 
-            $transactionField = TransactionField::whereIn('pad_field_id', $padFieldIds)->where('value', $product->id)->first();
-
-            TransactionField::where('transaction_id', $transactionField->transaction_id)->where('line', $transactionField->line)->delete();
+            TransactionField::whereIn('pad_field_id', $padFieldIds)->where('value', $product->id)->delete();
         });
     }
 
