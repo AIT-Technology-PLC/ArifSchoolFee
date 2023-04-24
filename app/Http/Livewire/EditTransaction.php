@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Price;
 use App\Models\Transaction;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
@@ -133,7 +134,7 @@ class EditTransaction extends Component
     protected function rules()
     {
         $rules = [
-            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
+            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions), new CanEditReferenceNumber('transactions')],
             'issued_on' => ['required', 'date'],
         ];
 

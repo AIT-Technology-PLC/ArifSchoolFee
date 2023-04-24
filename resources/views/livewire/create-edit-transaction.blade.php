@@ -21,6 +21,7 @@
                                     type="number"
                                     id="code"
                                     wire:model="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
