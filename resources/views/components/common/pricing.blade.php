@@ -17,11 +17,27 @@
                             x-text="moneyFormat(Pricing.grandTotal({{ $data }})-Pricing.subTotal({{ $data }}))"
                         ></td>
                     </tr>
+                    <tr x-show="$store.hasWithholding">
+                        <td class="text-green has-text-weight-medium">
+                            Withholding Tax ({{ userCompany()->withholdingTaxes['tax_rate'] * 100 }}%)
+                        </td>
+                        <td
+                            class="has-text-right"
+                            x-text="moneyFormat(Pricing.withheldAmount({{ $data }}))"
+                        ></td>
+                    </tr>
                     <tr>
                         <td class="text-green has-text-weight-medium">Grand Total</td>
                         <td
                             class="has-text-weight-bold is-underlined has-text-right"
                             x-text="moneyFormat(Pricing.grandTotal({{ $data }}))"
+                        ></td>
+                    </tr>
+                    <tr x-show="$store.hasWithholding">
+                        <td class="text-green has-text-weight-medium"></td>
+                        <td
+                            class="has-text-weight-bold is-underlined has-text-right"
+                            x-text="moneyFormat(Pricing.grandTotal({{ $data }})-Pricing.withheldAmount({{ $data }}))"
                         ></td>
                     </tr>
                 </tbody>

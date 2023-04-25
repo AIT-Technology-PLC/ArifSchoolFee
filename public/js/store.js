@@ -355,6 +355,31 @@ const Pricing = {
             );
         }, 0);
     },
+    withheldAmount(items) {
+        if (!items.length) {
+            return 0;
+        }
+
+        return items.reduce((total, item) => {
+            let totalPrice = Product.priceBeforeTax(
+                item.unit_price,
+                item.quantity,
+                item.product_id,
+                item.discount
+            );
+
+            if (
+                totalPrice <
+                Company.withholdingTaxes()["rules"][
+                    Product.whereProductId(item.product_id)?.type
+                ]
+            ) {
+                totalPrice = 0;
+            }
+
+            return total + totalPrice * Company.withholdingTaxes()["tax_rate"];
+        }, 0);
+    },
     grandTotal(items) {
         if (!items.length) {
             return 0;
@@ -397,6 +422,10 @@ const Company = {
 
     isInventoryCheckerEnabled() {
         return this.company.can_check_inventory_on_forms;
+    },
+
+    withholdingTaxes() {
+        return this.company.withholdingTaxes;
     },
 };
 

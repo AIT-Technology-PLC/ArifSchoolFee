@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utilities\WithholdingTax;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,10 @@ class Company extends Model
     use SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
+    protected $appends = [
+        'withholdingTaxes',
+    ];
 
     protected $casts = [
         'enabled' => 'integer',
@@ -303,5 +308,10 @@ class Company extends Model
     public function doesBasicSalaryIncludeOvertime()
     {
         return $this->does_payroll_basic_salary_include_overtime;
+    }
+
+    public function getWithholdingTaxesAttribute()
+    {
+        return WithholdingTax::{str()->lower($this->income_tax_region)}();
     }
 }

@@ -276,6 +276,8 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
+            Alpine.store('hasWithholding', false);
+
             Alpine.data("saleMasterDetailForm", ({
                 sale
             }) => ({

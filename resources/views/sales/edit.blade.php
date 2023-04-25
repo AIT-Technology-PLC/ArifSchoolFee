@@ -109,6 +109,37 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="has_withholding">
+                                Include Withholding Tax <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control>
+                                <label class="radio has-text-grey">
+                                    <input
+                                        type="radio"
+                                        name="has_withholding"
+                                        value="1"
+                                        class="mt-3"
+                                        @checked($sale->hasWithholding())
+                                        x-init="$store.hasWithholding = '{{ $sale->hasWithholding() }}'"
+                                        x-on:change="$store.hasWithholding = $el.value"
+                                    >
+                                    Yes
+                                </label>
+                                <label class="radio has-text-grey mt-2">
+                                    <input
+                                        type="radio"
+                                        name="has_withholding"
+                                        value="0"
+                                        @checked(!$sale->hasWithholding())
+                                    >
+                                    No
+                                </label>
+                                <x-common.validation-error property="has_withholding" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">

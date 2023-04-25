@@ -21,6 +21,7 @@ class Sale extends Model
     protected $casts = [
         'issued_on' => 'datetime',
         'due_date' => 'datetime',
+        'has_withholding' => 'integer',
     ];
 
     public function customer()
@@ -46,5 +47,23 @@ class Sale extends Model
     public function details()
     {
         return $this->saleDetails;
+    }
+
+    public function hasWithholding()
+    {
+        return $this->has_withholding;
+    }
+
+    public function getTotalWithheldAmountAttribute()
+    {
+        if (!$this->hasWithholding()) {
+            return 0;
+        }
+
+        return number_format(
+            $this->saleDetails->sum->withheldAmount,
+            2,
+            thousands_separator:''
+        );
     }
 }

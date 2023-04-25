@@ -97,6 +97,15 @@
                         label="SubTotal Price ({{ userCompany()->currency }})"
                     />
                 </div>
+                @if ($sale->hasWithholding())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hand-holding-usd"
+                            data="{{ $sale->totalWithheldAmount }}"
+                            label="Withholding Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-dollar-sign"
