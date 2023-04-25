@@ -44,6 +44,9 @@ class SupplierDatatable extends DataTable
     {
         return $supplier->newQuery()
             ->select('suppliers.*')
+            ->when(request('type') == 'business_license_expiry_due', function ($query) {
+                return $query->whereRaw('DATEDIFF(business_license_expires_on, CURRENT_DATE) BETWEEN 1 AND 30');
+            })
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',

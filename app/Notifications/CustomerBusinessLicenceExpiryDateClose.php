@@ -29,7 +29,7 @@ class CustomerBusinessLicenceExpiryDateClose extends Notification
         return [
             'icon' => 'fas fa-user',
             'message' => $this->totalBusinessLicence->count() . ' ' . Str::plural('Customer Business Licence', $this->totalBusinessLicence->count()) . ' ' . ($this->totalBusinessLicence->count() == 1 ? 'has ' : 'have ') . 30 . ' days or less remaining to be expire',
-            'endpoint' => '/customers',
+            'endpoint' => '/customers?type=business_license_expiry_due',
         ];
     }
 

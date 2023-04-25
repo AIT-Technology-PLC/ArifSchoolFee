@@ -52,6 +52,9 @@ class CustomerDatatable extends DataTable
     {
         return $customer->newQuery()
             ->select('customers.*')
+            ->when(request('type') == 'business_license_expiry_due', function ($query) {
+                return $query->whereRaw('DATEDIFF(business_license_expires_on, CURRENT_DATE) BETWEEN 1 AND 30');
+            })
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
