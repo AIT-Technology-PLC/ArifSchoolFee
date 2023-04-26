@@ -37,7 +37,7 @@ class ReservationService
 
             $reservation->reservationDetails()->createMany($updatedReservationDetails);
 
-            AutoBatchStoringAction::execute($reservation, updatedReservationDetails, 'reservationDetails');
+            AutoBatchStoringAction::execute($reservation, $updatedReservationDetails, 'reservationDetails');
 
             $reservation->approved_by = null;
 
