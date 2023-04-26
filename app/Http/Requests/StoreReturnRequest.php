@@ -40,7 +40,7 @@ class StoreReturnRequest extends FormRequest
                 Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
             'gdn_id' => ['nullable', Rule::requiredIf(userCompany()->isReturnLimitedBySales()), 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn()->flatten(1)->pluck('id'))],
-            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
+            'customer_id' => ['nullable', 'integer', 'exclude_unless:gdn_id,null', new MustBelongToCompany('customers')],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

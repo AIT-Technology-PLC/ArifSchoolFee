@@ -321,9 +321,8 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("returnMaster", (gdnId, customerId) => ({
+            Alpine.data("returnMaster", (gdnId) => ({
                 gdn: "",
-                isShowGdnSelect: true,
                 isShowCustomerSelect: true,
 
                 async init() {
@@ -334,18 +333,6 @@
 
                         this.gdn = response.data;
                     }
-
-                    if (customerId) {
-                        this.isShowGdnSelect = false;
-                    }
-                },
-
-                select2Customer() {
-                    let select2 = initSelect2(this.$el, 'Customer');
-
-                    select2.on("change", async (event) => {
-                        this.isShowGdnSelect = false;
-                    });
                 },
 
                 select2Gdn() {

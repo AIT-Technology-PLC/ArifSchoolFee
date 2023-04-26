@@ -13,7 +13,7 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="returnMaster('{{ old('gdn_id') }}', '{{ old('customer_id') }}')">
+            <x-content.main x-data="returnMaster('{{ old('gdn_id') }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
@@ -36,10 +36,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        x-show="isShowGdnSelect"
-                        class="column is-6"
-                    >
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="gdn_id">
                                 Delivery Order No
@@ -78,7 +75,7 @@
                     <div
                         x-cloak
                         class="column is-6"
-                        x-show="isShowGdnSelect && gdn?.customer?.company_name"
+                        x-show="gdn?.customer?.company_name"
                     >
                         <x-forms.field>
                             <x-forms.label for="code">
@@ -106,10 +103,7 @@
                                 Customer <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left select is-fullwidth">
-                                <x-common.customer-list
-                                    :selected-id="old('customer_id')"
-                                    x-init="select2Customer"
-                                />
+                                <x-common.customer-list :selected-id="old('customer_id')" />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
