@@ -11,7 +11,7 @@ class ValidateReturnQuantity implements Rule
 
     private $details;
 
-    public function __construct($gdnId = null, $details)
+    public function __construct($gdnId, $details)
     {
         $this->gdnId = $gdnId;
 

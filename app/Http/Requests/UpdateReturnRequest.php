@@ -33,7 +33,7 @@ class UpdateReturnRequest extends FormRequest
             }],
             'return.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'return.*.unit_price' => ['nullable', 'numeric'],
-            'return.*.quantity' => ['required', 'numeric', 'min:0', new ValidateReturnQuantity($this->get('gdn_id'), $this->get('customer_id'), $this->get('return'))],
+            'return.*.quantity' => ['required', 'numeric', 'min:0', new ValidateReturnQuantity($this->get('gdn_id'), $this->get('return'))],
             'return.*.description' => ['nullable', 'string'],
             'return.*.merchandise_batch_id' => [
                 new BatchSelectionIsRequiredOrProhibited(false), 
