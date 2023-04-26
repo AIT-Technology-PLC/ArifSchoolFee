@@ -39,8 +39,8 @@ class UpdateReturnRequest extends FormRequest
                 new BatchSelectionIsRequiredOrProhibited(false), 
                 Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
-            'gdn_id' => ['nullable', 'required_if:customer_id,null', 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('id'))],
-            'customer_id' => ['nullable', 'required_if:gdn_id,null', 'integer', new MustBelongToCompany('customers'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('customer_id'))],
+            'gdn_id' => ['nullable', Rule::requiredIf(userCompany()->isReturnLimitedBySales()), 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('id'))],
+            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'issued_on' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];

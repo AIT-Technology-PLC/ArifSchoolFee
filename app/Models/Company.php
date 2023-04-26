@@ -32,6 +32,7 @@ class Company extends Model
         'is_costing_by_freight_volume' => 'integer',
         'is_payroll_basic_salary_after_absence_deduction' => 'integer',
         'does_payroll_basic_salary_include_overtime' => 'integer',
+        'is_return_limited_by_sales' => 'integer'
     ];
 
     public function plan()
@@ -313,5 +314,10 @@ class Company extends Model
     public function getWithholdingTaxesAttribute()
     {
         return WithholdingTax::{str()->lower($this->income_tax_region)}();
+    }
+
+    public function isReturnLimitedBySales()
+    {
+        return $this->is_return_limited_by_sales;
     }
 }

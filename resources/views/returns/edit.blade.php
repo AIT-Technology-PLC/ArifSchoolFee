@@ -43,7 +43,10 @@
                     >
                         <x-forms.field>
                             <x-forms.label for="gdn_id">
-                                Delivery Order No <sup class="has-text-danger">*</sup>
+                                Delivery Order No
+                                <sup class="has-text-danger">
+                                    {{ userCompany()->isReturnLimitedBySales() ? '*' : '' }}
+                                </sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
@@ -101,7 +104,7 @@
                     >
                         <x-forms.field>
                             <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger">*</sup>
+                                Customer <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left select is-fullwidth">
                                 <x-common.customer-list

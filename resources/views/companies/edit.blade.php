@@ -607,6 +607,38 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    @if (isFeatureEnabled('Return Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="is_return_limited_by_sales">
+                                    Return Type <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="is_return_limited_by_sales"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->isReturnLimitedBySales())
+                                        >
+                                        Limited By Sales
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="is_return_limited_by_sales"
+                                            value="0"
+                                            @checked(!$company->isReturnLimitedBySales())
+                                        >
+                                        Open-ended
+                                    </label>
+                                    <x-common.validation-error property="is_return_limited_by_sales" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     @if (isFeatureEnabled('Payroll Management'))
                         <div class="column is-6">
                             <x-forms.field>

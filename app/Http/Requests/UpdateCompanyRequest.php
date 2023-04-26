@@ -58,6 +58,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_costing_by_freight_volume' => ['sometimes', 'required', 'boolean'],
             'is_payroll_basic_salary_after_absence_deduction' => ['sometimes', 'required', 'boolean'],
             'does_payroll_basic_salary_include_overtime' => ['sometimes', 'required', 'boolean'],
+            'is_return_limited_by_sales' => ['sometimes', 'required', 'boolean'],
         ];
     }
 
