@@ -17,7 +17,7 @@
                             x-text="moneyFormat(Pricing.grandTotal({{ $data }})-Pricing.subTotal({{ $data }}))"
                         ></td>
                     </tr>
-                    <tr x-show="$store.hasWithholding">
+                    <tr x-show="Alpine.store('hasWithholding')">
                         <td class="text-green has-text-weight-medium">
                             Withholding Tax ({{ userCompany()->withholdingTaxes['tax_rate'] * 100 }}%)
                         </td>
@@ -33,7 +33,7 @@
                             x-text="moneyFormat(Pricing.grandTotal({{ $data }}))"
                         ></td>
                     </tr>
-                    <tr x-show="$store.hasWithholding">
+                    <tr x-show="Alpine.store('hasWithholding')">
                         <td class="text-green has-text-weight-medium"></td>
                         <td
                             class="has-text-weight-bold is-underlined has-text-right"
@@ -45,3 +45,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("alpine:init", () => {
+        Alpine.store("hasWithholding", false)
+    });
+</script>

@@ -21,7 +21,7 @@ class Sale extends Model
     protected $casts = [
         'issued_on' => 'datetime',
         'due_date' => 'datetime',
-        'has_withholding' => 'integer',
+        'has_withholding' => 'boolean',
     ];
 
     public function customer()
