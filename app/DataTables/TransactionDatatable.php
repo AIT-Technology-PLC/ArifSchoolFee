@@ -107,13 +107,13 @@ class TransactionDatatable extends DataTable
                         ->first()
                         ->value ?? null;
 
-                    if ($value && $padField->hasRelation()) {
+                    if (str($value)->squish()->isNotEmpty() && $padField->hasRelation()) {
                         $value = DB::table(
                             str($padField->padRelation->model_name)->plural()->lower()
                         )->find($value)->{$padField->padRelation->representative_column};
                     }
 
-                    if ($value && str_contains($padField->tag_type, 'date')) {
+                    if (str($value)->squish()->isNotEmpty() && str_contains($padField->tag_type, 'date')) {
                         $value = (new Carbon($value))->toDayDateTimeString();
                     }
 
