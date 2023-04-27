@@ -385,12 +385,25 @@
                                                         <sup class="has-text-danger">
                                                             {{ $detailPadField->isRequired() ? '*' : '' }}
                                                         </sup>
+                                                        @if (userCompany()->isInventoryCheckerEnabled() && $detailPadField->isQuantity() && !empty($details[$loop->parent->index][$productPadField->id]) && !empty($details[$loop->parent->index][$warehousePadField->id]))
+                                                            @php
+                                                                $availableQuantity =
+                                                                    $merchandises
+                                                                        ->where('product_id', $details[$loop->parent->index][$productPadField->id])
+                                                                        ->where('warehouse_id', $details[$loop->parent->index][$warehousePadField->id])
+                                                                        ->first()->available ?? 0;
+                                                            @endphp
+                                                            <sup class="tag {{ $availableQuantity <= 0 ? 'bg-lightpurple text-purple' : 'bg-lightgreen text-green' }}">
+                                                                {{ number_format($availableQuantity, 2) }} {{ $products->find($details[$loop->parent->index][$productPadField->id])?->unit_of_measurement }}
+                                                            </sup>
+                                                        @endif
                                                     </x-forms.label>
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input
                                                             type="{{ $detailPadField->tag_type }}"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField->id] ?? null)?->unit_of_measurement : '' }}"
                                                         />
                                                         <x-common.icon
                                                             name="{{ $detailPadField->icon }}"

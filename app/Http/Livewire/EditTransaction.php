@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Merchandise;
 use App\Models\Price;
+use App\Models\Product;
 use App\Models\Transaction;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
@@ -28,7 +30,13 @@ class EditTransaction extends Component
 
     public $productPadField;
 
+    public $warehousePadField;
+
     public $prices;
+
+    public $merchandises;
+
+    public $products;
 
     public $master;
 
@@ -56,7 +64,13 @@ class EditTransaction extends Component
 
         $this->productPadField = $this->detailPadFields->pluck('padRelation')->firstWhere('model_name', 'Product')?->padField;
 
+        $this->warehousePadField = $this->detailPadFields->pluck('padRelation')->firstWhere('model_name', 'Warehouse')?->padField;
+
         $this->prices = Price::active()->get();
+
+        $this->merchandises = Merchandise::all();
+
+        $this->products = Product::active()->get();
 
         $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
 

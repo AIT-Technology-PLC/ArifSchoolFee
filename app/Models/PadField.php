@@ -117,4 +117,9 @@ class PadField extends Model
     {
         return $this->label == 'Unit Price';
     }
+
+    public function isQuantity()
+    {
+        return $this->label == 'Quantity';
+    }
 }
