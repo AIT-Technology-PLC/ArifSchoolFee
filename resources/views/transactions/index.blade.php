@@ -71,7 +71,7 @@
                     authUser()->getAllowedWarehouses('transactions')->isNotEmpty() ||
                     !$pad->isInventoryOperationNone() ||
                     $pad->isApprovable())
-                <x-datatables.filter filters="'branch', 'status'">
+                <x-datatables.filter filters="'branch', 'status', 'inventoryStatus'">
                     <div class="columns is-marginless is-vcentered">
                         @if (authUser()->getAllowedWarehouses('transactions')->isNotEmpty())
                             <div class="column is-3 p-lr-0 pt-0">
