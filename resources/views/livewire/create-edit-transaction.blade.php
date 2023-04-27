@@ -316,7 +316,7 @@
                                             </div>
                                         @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio() && $detailPadField->isUnitPrice())
                                             <div class="column is-6">
-                                                @if ($prices->where('product_id', $details[$loop->parent->index][$productPadField->id] ?? null)->when(!empty($details[$loop->parent->index][$detailPadField->id]), fn($q) => $q->whereIn('fixed_price', $details[$loop->parent->index][$detailPadField->id]))->isNotEmpty())
+                                                @if ($prices->where('product_id', $details[$loop->parent->index][$productPadField?->id] ?? null)->when(!empty($details[$loop->parent->index][$detailPadField->id]), fn($q) => $q->whereIn('fixed_price', $details[$loop->parent->index][$detailPadField->id]))->isNotEmpty())
                                                     <x-forms.field>
                                                         <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
                                                             {{ $detailPadField->label }}
@@ -339,7 +339,7 @@
                                                                 >
                                                                     Select Price
                                                                 </option>
-                                                                @foreach ($prices->where('product_id', $details[$loop->parent->index][$productPadField->id]) as $price)
+                                                                @foreach ($prices->where('product_id', $details[$loop->parent->index][$productPadField?->id]) as $price)
                                                                     <option value="{{ $price->fixed_price }}">
                                                                         {{ $price->fixed_price }}
                                                                     </option>
@@ -390,12 +390,12 @@
                                                             @php
                                                                 $availableQuantity =
                                                                     $merchandises
-                                                                        ->where('product_id', $details[$loop->parent->index][$productPadField->id])
-                                                                        ->where('warehouse_id', $details[$loop->parent->index][$warehousePadField->id])
+                                                                        ->where('product_id', $details[$loop->parent->index][$productPadField?->id])
+                                                                        ->where('warehouse_id', $details[$loop->parent->index][$warehousePadField?->id])
                                                                         ->first()->available ?? 0;
                                                             @endphp
                                                             <sup class="tag {{ $availableQuantity <= 0 ? 'bg-lightpurple text-purple' : 'bg-lightgreen text-green' }}">
-                                                                {{ number_format($availableQuantity, 2) }} {{ $products->find($details[$loop->parent->index][$productPadField->id])?->unit_of_measurement }}
+                                                                {{ number_format($availableQuantity, 2) }} {{ $products->find($details[$loop->parent->index][$productPadField?->id])?->unit_of_measurement }}
                                                             </sup>
                                                         @endif
                                                     </x-forms.label>
@@ -404,7 +404,7 @@
                                                             type="{{ $detailPadField->tag_type }}"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
-                                                            placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField->id] ?? null)?->unit_of_measurement : '' }}"
+                                                            placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField?->id] ?? null)?->unit_of_measurement : '' }}"
                                                             :readonly="$detailPadField->isReadonly()"
                                                         />
                                                         <x-common.icon
