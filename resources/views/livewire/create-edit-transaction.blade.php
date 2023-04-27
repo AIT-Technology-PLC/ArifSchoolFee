@@ -386,7 +386,7 @@
                                                         <sup class="has-text-danger">
                                                             {{ $detailPadField->isRequired() ? '*' : '' }}
                                                         </sup>
-                                                        @if (userCompany()->isInventoryCheckerEnabled() && $detailPadField->isQuantity() && !empty($details[$loop->parent->index][$productPadField->id]) && !empty($details[$loop->parent->index][$warehousePadField->id]))
+                                                        @if (userCompany()->isInventoryCheckerEnabled() && $detailPadField->isQuantity() && !empty($details[$loop->parent->index][$productPadField?->id]) && !empty($details[$loop->parent->index][$warehousePadField?->id]))
                                                             @php
                                                                 $availableQuantity =
                                                                     $merchandises
