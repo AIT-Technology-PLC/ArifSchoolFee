@@ -41,6 +41,8 @@
         </span>
         <span>
             Approved
+            {{ $transaction->pad->isInventoryOperationAdd() ? '(not Added)' : '' }}
+            {{ $transaction->pad->isInventoryOperationSubtract() ? '(not Subtracted)' : '' }}
         </span>
     </span>
 @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())

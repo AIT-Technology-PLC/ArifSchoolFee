@@ -59,6 +59,13 @@ class TransactionDatatable extends DataTable
                 });
         }
 
+        if (request()->route('pad')->isApprovable()) {
+            $datatable
+                ->editColumn('approved by', function ($transaction) {
+                    return $transaction['transaction']->approvedBy->name ?? 'N/A';
+                });
+        }
+
         return $datatable
             ->editColumn('actions', function ($transaction) {
                 return view('components.common.action-buttons', [
@@ -86,6 +93,7 @@ class TransactionDatatable extends DataTable
                 $data = [];
 
                 $data['id'] = $transaction->id;
+                $data['transaction'] = $transaction;
                 $data['branch'] = $transaction->warehouse->name;
                 $data['code'] = $transaction->code;
                 $data['issued_on'] = $transaction->issued_on->toDateTimeString();
@@ -133,6 +141,7 @@ class TransactionDatatable extends DataTable
         $moreColumns = [
             Column::make('issued_on')->className('has-text-right'),
             Column::make('prepared by'),
+            request()->route('pad')->isApprovable() ? Column::make('approved by') : '',
             Column::make('edited by')->visible(false),
             Column::computed('actions')->className('actions'),
         ];
