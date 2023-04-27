@@ -52,7 +52,7 @@ class TransactionDatatable extends DataTable
 
         if (request()->route('pad')->hasStatus()) {
             $datatable
-                ->editColumn('inventory status', function ($transaction) {
+                ->editColumn($this->padStatuses->isNotEmpty() ? 'inventory status' : 'status', function ($transaction) {
                     return view('components.datatables.transaction-inventory-status', [
                         'transaction' => Transaction::find($transaction['id']),
                     ]);
@@ -131,7 +131,7 @@ class TransactionDatatable extends DataTable
             Column::make('branch')->visible(false),
             Column::make('code')->className('has-text-centered')->title(request()->route('pad')->abbreviation . ' No'),
             $this->padStatuses->isNotEmpty() ? Column::make('status') : '',
-            request()->route('pad')->hasStatus() ? Column::computed('inventory status') : '',
+            request()->route('pad')->hasStatus() ? Column::computed($this->padStatuses->isNotEmpty() ? 'inventory status' : 'status') : '',
         ];
 
         foreach ($this->padFields as $padField) {
