@@ -672,6 +672,36 @@
                                         </x-forms.control>
                                     </x-forms.field>
                                 </div>
+                                <div class="column is-3">
+                                    <x-forms.field>
+                                        <x-forms.label>
+                                            Readonly <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.label class="radio is-inline">
+                                                <input
+                                                    type="radio"
+                                                    name="field[{{ $loop->index }}][is_readonly]"
+                                                    id="field[{{ $loop->index }}][is_readonly]"
+                                                    value="1"
+                                                    @checked($padField->is_readonly)
+                                                />
+                                                Yes
+                                            </x-forms.label>
+                                            <x-forms.label class="radio is-inline">
+                                                <input
+                                                    type="radio"
+                                                    name="field[{{ $loop->index }}][is_readonly]"
+                                                    id="field[{{ $loop->index }}][is_readonly]"
+                                                    value="0"
+                                                    @checked(!$padField->is_readonly)
+                                                />
+                                                No
+                                            </x-forms.label>
+                                            <x-common.validation-error property="field.{{ $loop->index }}.is_readonly" />
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -127,6 +127,7 @@
                                             type="{{ $masterPadField->tag_type }}"
                                             id="{{ $masterPadField->id }}"
                                             wire:model="master.{{ $masterPadField->id }}"
+                                            :readonly="$masterPadField->isReadonly()"
                                         />
                                         <x-common.icon
                                             name="{{ $masterPadField->icon }}"
@@ -404,6 +405,7 @@
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField->id] ?? null)?->unit_of_measurement : '' }}"
+                                                            :readonly="$detailPadField->isReadonly()"
                                                         />
                                                         <x-common.icon
                                                             name="{{ $detailPadField->icon }}"

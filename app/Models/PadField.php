@@ -17,6 +17,7 @@ class PadField extends Model
         'is_required' => 'boolean',
         'is_visible' => 'boolean',
         'is_printable' => 'boolean',
+        'is_readonly' => 'boolean',
     ];
 
     protected $cascadeDeletes = [
@@ -76,6 +77,11 @@ class PadField extends Model
     public function isPrintable()
     {
         return $this->is_printable;
+    }
+
+    public function isReadonly()
+    {
+        return $this->is_readonly;
     }
 
     public function isTagInput()

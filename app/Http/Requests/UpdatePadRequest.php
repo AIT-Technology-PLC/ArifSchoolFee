@@ -51,6 +51,7 @@ class UpdatePadRequest extends FormRequest
             'field.*.is_required' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_visible' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_printable' => ['sometimes', 'required', 'boolean', 'required_with:field'],
+            'field.*.is_readonly' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.tag' => ['sometimes', 'required', 'string', 'required_with:field'],
             'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input'],
         ];

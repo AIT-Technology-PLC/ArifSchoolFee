@@ -738,6 +738,39 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
+                                    <div class="column is-3">
+                                        <x-forms.field>
+                                            <x-forms.label>
+                                                Readonly <sup class="has-text-danger">*</sup>
+                                            </x-forms.label>
+                                            <x-forms.control class="has-icons-left">
+                                                <x-forms.label class="radio is-inline">
+                                                    <input
+                                                        type="radio"
+                                                        x-bind:name="`field[${index}][is_readonly]`"
+                                                        x-bind:id="`field[${index}][is_readonly]`"
+                                                        value="1"
+                                                        x-model="field.is_readonly"
+                                                    />
+                                                    Yes
+                                                </x-forms.label>
+                                                <x-forms.label class="radio is-inline">
+                                                    <input
+                                                        type="radio"
+                                                        x-bind:name="`field[${index}][is_readonly]`"
+                                                        x-bind:id="`field[${index}][is_readonly]`"
+                                                        value="0"
+                                                        x-model="field.is_readonly"
+                                                    />
+                                                    No
+                                                </x-forms.label>
+                                                <span
+                                                    class="help has-text-danger"
+                                                    x-text="errors[`field.${index}.is_readonly`]"
+                                                ></span>
+                                            </x-forms.control>
+                                        </x-forms.field>
+                                    </div>
                                 </div>
                             </div>
                         </div>

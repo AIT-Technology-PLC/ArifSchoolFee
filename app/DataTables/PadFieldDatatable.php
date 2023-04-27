@@ -23,6 +23,7 @@ class PadFieldDatatable extends DataTable
             ->editColumn('is_required', fn ($padField) => $padField->is_required ? 'Yes' : 'No')
             ->editColumn('is_visible', fn ($padField) => $padField->is_visible ? 'Yes' : 'No')
             ->editColumn('is_printable', fn ($padField) => $padField->is_printable ? 'Yes' : 'No')
+            ->editColumn('is_readonly', fn ($padField) => $padField->is_readonly ? 'Yes' : 'No')
             ->editColumn('tag_type', fn ($padField) => $padField->tag_type ?? '-')
             ->editColumn('actions', function ($padField) {
                 return view('components.common.action-buttons', [
@@ -57,6 +58,7 @@ class PadFieldDatatable extends DataTable
             Column::make('is_required')->title('Required'),
             Column::make('is_visible')->title('Visible'),
             Column::make('is_printable')->title('Printable'),
+            Column::make('is_readonly')->title('Readonly'),
             Column::make('tag'),
             Column::make('tag_type'),
             Column::computed('actions')->className('actions'),
