@@ -30,6 +30,36 @@ class Transaction extends Model
         return $this->hasMany(TransactionField::class);
     }
 
+    public function scopeSubtracted($query)
+    {
+        return $query->whereHas('transactionFields', fn($q) => $q->where('key', 'subtracted_by'));
+    }
+
+    public function scopeNotSubtracted($query)
+    {
+        return $query->whereDoesntHave('transactionFields', fn($q) => $q->where('key', 'subtracted_by'));
+    }
+
+    public function scopeAdded($query)
+    {
+        return $query->whereHas('transactionFields', fn($q) => $q->where('key', 'added_by'));
+    }
+
+    public function scopeNotAdded($query)
+    {
+        return $query->whereDoesntHave('transactionFields', fn($q) => $q->where('key', 'added_by'));
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->whereHas('transactionFields', fn($q) => $q->where('key', 'approved_by'));
+    }
+
+    public function scopeNotApproved($query)
+    {
+        return $query->whereDoesntHave('transactionFields', fn($q) => $q->where('key', 'approved_by'));
+    }
+
     public function isAdded()
     {
         $totalDetails = $this->transactionDetails->count();

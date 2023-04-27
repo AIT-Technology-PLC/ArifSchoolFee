@@ -83,6 +83,10 @@ class TransactionDatatable extends DataTable
             ->where('pad_id', request()->route('pad')->id)
             ->when(is_numeric(request('branch')), fn($query) => $query->where('transactions.warehouse_id', request('branch')))
             ->when(is_string(request('status')) && request('status') != 'all', fn($query) => $query->where('transactions.status', request('status')))
+            ->when(request()->route('pad')->isApprovable() && request('inventoryStatus') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request()->route('pad')->isApprovable() && request('inventoryStatus') == 'approved', fn($query) => $query->approved()->notSubtracted()->notAdded())
+            ->when(request()->route('pad')->isInventoryOperationAdd() && request('inventoryStatus') == 'added', fn($query) => $query->added())
+            ->when(request()->route('pad')->isInventoryOperationSubtract() && request('inventoryStatus') == 'subtracted', fn($query) => $query->subtracted())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
