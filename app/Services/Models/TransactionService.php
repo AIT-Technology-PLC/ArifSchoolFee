@@ -38,7 +38,7 @@ class TransactionService
 
     public function approve($transaction)
     {
-        if (! $transaction->pad->isApprovable()) {
+        if (!$transaction->pad->isApprovable()) {
             return [false, 'This feature is not approvable.'];
         }
 
@@ -242,6 +242,8 @@ class TransactionService
                     'product_id' => Product::firstWhere('id', $detail['product_id'])->id,
                     'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'])->id,
                     'quantity' => $detail['quantity'],
+                    'batch_no' => $detail['batch_no'] ?? null,
+                    'expires_on' => $detail['expires_on'] ?? null,
                     'line' => $detail['line'],
                 ];
             });

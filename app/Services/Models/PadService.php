@@ -36,6 +36,10 @@ class PadService
                 $pad->padFields()->createMany($this->generatePaymentTermFields());
             }
 
+            if ($data['inventory_operation_type'] != 'none') {
+                $pad->padFields()->createMany($this->generateBatchingFields($pad));
+            }
+
             return $pad;
         });
     }
@@ -84,6 +88,10 @@ class PadService
                 ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
                 fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
+
+            if ($data['inventory_operation_type'] != 'none') {
+                $pad->padFields()->createMany($this->generateBatchingFields($pad));
+            }
 
             return $pad;
         });
@@ -182,5 +190,39 @@ class PadService
                 'tag_type' => 'date',
             ],
         ]);
+    }
+
+    public function generateBatchingFields($pad)
+    {
+        $fields = collect();
+
+        if ($pad->isInventoryOperationAdd()) {
+            $fields->push(
+                [
+                    'label' => 'Batch No',
+                    'icon' => 'fas fa-th',
+                    'is_master_field' => 0,
+                    'is_required' => 0,
+                    'is_visible' => 0,
+                    'is_printable' => 1,
+                    'is_readonly' => 0,
+                    'tag' => 'input',
+                    'tag_type' => 'text',
+                ],
+                [
+                    'label' => 'Expires On',
+                    'icon' => 'fas fa-calendar-alt',
+                    'is_master_field' => 0,
+                    'is_required' => 0,
+                    'is_visible' => 0,
+                    'is_printable' => 1,
+                    'is_readonly' => 0,
+                    'tag' => 'input',
+                    'tag_type' => 'text',
+                ],
+            );
+        }
+
+        return $fields;
     }
 }

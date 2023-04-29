@@ -128,4 +128,14 @@ class PadField extends Model
     {
         return $this->label == 'Quantity';
     }
+
+    public function areBatchingFields()
+    {
+        return $this->label == 'Batch No' || $this->label == 'Expires On';
+    }
+
+    public function isBatchNoField()
+    {
+        return $this->label == 'Batch No';
+    }
 }

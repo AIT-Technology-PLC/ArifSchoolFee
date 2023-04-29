@@ -7,6 +7,7 @@ use App\Models\Pad;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
@@ -168,6 +169,13 @@ class CreateTransaction extends Component
             if ($detailPadField->hasRelation()) {
                 $rules[$key][] = 'integer';
                 $rules[$key][] = new MustBelongToCompany(str($detailPadField->padRelation->model_name)->plural()->lower());
+            }
+
+            if ($detailPadField->isBatchNoField()) {
+                unset($rules[$key][array_search('string', $rules[$key])]);
+                unset($rules[$key][array_search('nullable', $rules[$key])]);
+                $rules[$key][] = new BatchSelectionIsRequiredOrProhibited(false);
+                $rules[$key][] = Rule::foreach(fn($v, $a) => is_null($v) ? [] : ['string']);
             }
         }
 

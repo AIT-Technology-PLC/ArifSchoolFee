@@ -824,6 +824,7 @@
                         is_required: "0",
                         is_visible: "0",
                         is_printable: "0",
+                        is_readonly: "0",
                         tag: "",
                         tag_type: "",
                     });

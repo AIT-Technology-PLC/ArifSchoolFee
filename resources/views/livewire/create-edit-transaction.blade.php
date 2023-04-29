@@ -378,7 +378,7 @@
                                                     </x-forms.field>
                                                 @endif
                                             </div>
-                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio() && !$detailPadField->isUnitPrice())
+                                        @elseif ($detailPadField->isTagInput() && !$detailPadField->isInputTypeFile() && !$detailPadField->isInputTypeCheckbox() && !$detailPadField->isInputTypeRadio() && !$detailPadField->isUnitPrice() && !$detailPadField->areBatchingFields())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
@@ -412,6 +412,44 @@
                                                             class="is-large is-left"
                                                         />
                                                         <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
+                                        @elseif($pad->isInventoryOperationAdd() && $detailPadField->isBatchNoField() && $products->find($details[$loop->parent->index][$productPadField?->id] ?? null)?->isBatchable())
+                                            @php
+                                                $batchNoPadField = $detailPadFields->where('label', 'Batch No')->first();
+                                                $batchExpiryPadField = $detailPadFields->where('label', 'Expires On')->first();
+                                            @endphp
+                                            <div class="column is-6">
+                                                <x-forms.label for="{{ $loop->parent->index }}{{ $batchNoPadField->id }}">
+                                                    Batch No <sup class="has-text-danger">*</sup>
+                                                </x-forms.label>
+                                                <x-forms.field class="has-addons">
+                                                    <x-forms.control class="has-icons-left is-expanded">
+                                                        <x-forms.input
+                                                            id="{{ $loop->parent->index }}{{ $batchNoPadField->id }}"
+                                                            wire:model="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}"
+                                                            type="text"
+                                                            placeholder="Batch No"
+                                                        />
+                                                        <x-common.icon
+                                                            name="fas fa-th"
+                                                            class="is-small is-left"
+                                                        />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}" />
+                                                    </x-forms.control>
+                                                    <x-forms.control class="has-icons-left">
+                                                        <x-forms.input
+                                                            id="{{ $loop->parent->index }}{{ $batchExpiryPadField->id }}"
+                                                            wire:model="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}"
+                                                            type="date"
+                                                            placeholder="Expiry Date"
+                                                        />
+                                                        <x-common.icon
+                                                            name="fas fa-calendar-alt"
+                                                            class="is-small is-left"
+                                                        />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}" />
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
