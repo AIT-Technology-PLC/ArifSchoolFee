@@ -138,4 +138,9 @@ class PadField extends Model
     {
         return $this->label == 'Batch No';
     }
+
+    public function isMerchandiseBatchField()
+    {
+        return $this->label == 'Batch' && $this->padRelation()->exists();
+    }
 }

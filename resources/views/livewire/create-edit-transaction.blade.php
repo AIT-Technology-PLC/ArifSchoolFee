@@ -310,6 +310,7 @@
                                                             @foreach ($merchandiseBatches as $merchandiseBatch)
                                                                 <option value="{{ $merchandiseBatch->id }}">{{ $merchandiseBatch->batch_no }}</option>
                                                             @endforeach
+                                                            <option value="">None</option>
                                                         </x-forms.select>
                                                         <div class="icon is-small is-left">
                                                             <i class="{{ $detailPadField->icon }}"></i>

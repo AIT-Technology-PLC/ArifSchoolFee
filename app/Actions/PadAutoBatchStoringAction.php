@@ -13,11 +13,13 @@ class PadAutoBatchStoringAction
             return;
         }
 
+        $occupiedMerchandiseBatches = collect();
+
         $batchableProductIds = Product::batchable()->pluck('id');
 
-        $deletableTransactionFieldsLines = $transaction->transactionDetails->whereIn('product_id', $batchableProductIds)->pluck('line')->unique();
+        $deletableTransactionFieldsLines = $transaction->getTransactionDetails()->whereIn('product_id', $batchableProductIds)->pluck('line')->unique();
 
-        $transactionDetails = $transaction->transactionDetails->whereIn('product_id', $batchableProductIds);
+        $transactionDetails = $transaction->getTransactionDetails()->whereIn('product_id', $batchableProductIds);
 
         foreach ($transactionDetails as $detail) {
             $baseTransactionFields = $transaction
@@ -30,6 +32,7 @@ class PadAutoBatchStoringAction
             $product = Product::find($detail['product_id']);
 
             $merchandiseBatches = MerchandiseBatch::available()
+                ->whereNotIn('id', $occupiedMerchandiseBatches)
                 ->whereRelation('merchandise', 'product_id', $detail['product_id'])
                 ->when(isset($detail['warehouse_id']), fn($q) => $q->whereRelation('merchandise', 'warehouse_id', $detail['warehouse_id']))
                 ->when($product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -61,6 +64,7 @@ class PadAutoBatchStoringAction
                 $detail['quantity'] = $originalQuantity;
 
                 if ($merchandiseBatch->quantity >= $detail['quantity']) {
+                    $occupiedMerchandiseBatches->push($merchandiseBatch->id);
                     $difference = 0;
                     break;
                 }

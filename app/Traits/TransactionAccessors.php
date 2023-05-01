@@ -119,6 +119,52 @@ trait TransactionAccessors
         );
     }
 
+    public function getTransactionDetails()
+    {
+        return $this->transactionFields()
+            ->with('padField.padRelation')
+            ->detailFields()
+            ->get()
+            ->groupBy('line')
+            ->map(function ($transactionFields) {
+                $data = [];
+                $data['id'] = $transactionFields->first()->id;
+                $data['transaction'] = $transactionFields->first()->transaction;
+                $data['line'] = $transactionFields->first()->line;
+
+                foreach ($transactionFields as $transactionField) {
+                    $value = is_numeric($transactionField->value)
+                    ? number_format($transactionField->value, 2, thousands_separator : '')
+                    : $transactionField->value;
+
+                    if ($transactionField->padField->hasRelation()) {
+                        $value = $transactionField->relationValue;
+                        $data[str($transactionField->padField->padRelation->model_name)->snake()->append('_id')->toString()] = $transactionField->value;
+                    }
+
+                    if ($transactionField->padField->padRelation?->model_name == 'Product') {
+                        $taxAmount = Product::find($transactionField->value)->tax->amount;
+                    }
+
+                    $data[str()->snake($transactionField->padField->label)] = $value;
+                }
+
+                if ($this->pad->hasPrices()) {
+                    $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
+
+                    $unitPrice = userCompany()->isPriceBeforeTax()
+                    ? $data['unit_price']
+                    : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
+
+                    $data['total'] = number_format($unitPrice * $data['quantity'], 2, thousands_separator:'');
+
+                    $data['total_tax'] = number_format($data['total'] * $taxAmount, 2, thousands_separator:'');
+                }
+
+                return $data;
+            });
+    }
+
     public function transactionMasters(): Attribute
     {
         return Attribute::make(
