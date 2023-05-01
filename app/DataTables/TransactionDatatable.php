@@ -113,7 +113,7 @@ class TransactionDatatable extends DataTable
 
                     if (str($value)->squish()->isNotEmpty() && $padField->hasRelation()) {
                         $value = DB::table(
-                            str($padField->padRelation->model_name)->plural()->lower()
+                            str($padField->padRelation->model_name)->plural()->lower()->snake()
                         )->find($value)->{$padField->padRelation->representative_column};
                     }
 

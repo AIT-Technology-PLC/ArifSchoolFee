@@ -151,7 +151,7 @@ class CreateTransaction extends Component
 
             if ($masterPadField->hasRelation()) {
                 $rules[$key][] = 'integer';
-                $rules[$key][] = new MustBelongToCompany(str($masterPadField->padRelation->model_name)->plural()->lower());
+                $rules[$key][] = new MustBelongToCompany(str($masterPadField->padRelation->model_name)->plural()->lower()->snake());
             }
         }
 
@@ -168,7 +168,7 @@ class CreateTransaction extends Component
 
             if ($detailPadField->hasRelation()) {
                 $rules[$key][] = 'integer';
-                $rules[$key][] = new MustBelongToCompany(str($detailPadField->padRelation->model_name)->plural()->lower());
+                $rules[$key][] = new MustBelongToCompany(str($detailPadField->padRelation->model_name)->plural()->lower()->snake());
             }
 
             if ($detailPadField->isBatchNoField()) {

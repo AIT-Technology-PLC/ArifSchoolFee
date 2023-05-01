@@ -40,6 +40,8 @@ class PadService
                 $pad->padFields()->createMany($this->generateBatchingFields($pad));
             }
 
+            $this->createBatchingFieldsForSubtractingPads($pad);
+
             return $pad;
         });
     }
@@ -88,10 +90,6 @@ class PadService
                 ?: $pad->padFields()->createMany($this->generatePaymentTermFields()),
                 fn($q) => $q->whereIn('label', $this->generatePaymentTermFields()->pluck('label'))->forceDelete()
             );
-
-            if ($data['inventory_operation_type'] != 'none') {
-                $pad->padFields()->createMany($this->generateBatchingFields($pad));
-            }
 
             return $pad;
         });
@@ -224,5 +222,34 @@ class PadService
         }
 
         return $fields;
+    }
+
+    public function createBatchingFieldsForSubtractingPads($pad)
+    {
+        if ($pad->isInventoryOperationAdd()) {
+            return;
+        }
+
+        $padField = [
+            'label' => 'Batch',
+            'icon' => 'fas fa-th',
+            'is_master_field' => 0,
+            'is_required' => 0,
+            'is_visible' => 0,
+            'is_printable' => 1,
+            'is_readonly' => 0,
+            'tag' => 'select',
+            'tag_type' => '',
+        ];
+
+        $padRelation = [
+            'is_relational_field' => 1,
+            'relationship_type' => 'Belongs To',
+            'model_name' => 'Merchandise Batch',
+            'representative_column' => 'batch_no',
+            'component_name' => 'common.batch-list',
+        ];
+
+        $pad->padFields()->create($padField)->padRelation()->create($padRelation);
     }
 }

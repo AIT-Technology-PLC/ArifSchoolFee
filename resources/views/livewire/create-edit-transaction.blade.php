@@ -281,7 +281,42 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product')
+                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Merchandise Batch' && userCompany()->canSelectBatchNumberOnForms() && !$pad->isInventoryOperationAdd())
+                                            <div class="column is-6">
+                                                <x-forms.field>
+                                                    <x-forms.label
+                                                        for="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                        class="label text-green has-text-weight-normal"
+                                                    >
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control
+                                                        class="control has-icons-left"
+                                                        data-selected-value="{{ $detail[$detailPadField->id] ?? '' }}"
+                                                    >
+                                                        <div
+                                                            class="select is-fullwidth"
+                                                            wire:ignore
+                                                        >
+                                                            <x-dynamic-component
+                                                                class="select2-picker"
+                                                                :component="$detailPadField->padRelation->component_name"
+                                                                selected-id=""
+                                                                :product-id="$details[$loop->parent->index][$productPadField?->id] ?? null"
+                                                                :warehouse-id="$details[$loop->parent->index][$warehousePadField?->id] ?? null"
+                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                                x-init="initSelect2($el, '{{ $detailPadField->padRelation->model_name }}');
+                                                                bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
+                                                            />
+                                                        </div>
+                                                        <div class="icon is-small is-left">
+                                                            <i class="{{ $detailPadField->icon }}"></i>
+                                                        </div>
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
+                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name != 'Product' && $detailPadField->padRelation->model_name != 'Merchandise Batch')
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label

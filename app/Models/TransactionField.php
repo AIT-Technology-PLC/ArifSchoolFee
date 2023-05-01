@@ -45,7 +45,7 @@ class TransactionField extends Model
         return Attribute::make(
             get:function () {
                 return is_numeric($this->value)
-                ? DB::table(str($this->padField->padRelation->model_name)->lower()->plural())
+                ? DB::table(str($this->padField->padRelation->model_name)->lower()->plural()->snake())
                     ->whereNull('deleted_at')
                     ->find($this->value)
                     ->{$this->padField->padRelation->representative_column} ?? 'N/A'

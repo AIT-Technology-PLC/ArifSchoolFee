@@ -94,7 +94,7 @@ class InventoryOperationService
 
     public static function subtractFromBatch($detail, $merchandise, $from)
     {
-        if ($from != 'available' || !$merchandise->product->isBatchable() || empty($detail['merchandiseBatch'])) {
+        if ($from != 'available' || !$merchandise->product->isBatchable() || empty($detail['merchandise_batch_id'])) {
             return;
         }
 
