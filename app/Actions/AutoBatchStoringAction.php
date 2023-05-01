@@ -13,6 +13,8 @@ class AutoBatchStoringAction
             return;
         }
 
+        $occupiedMerchandiseBatches = [];
+
         $model->{$detailModel}()->whereRelation('product', 'is_batchable', 1)->whereNull('merchandise_batch_id')->forceDelete();
 
         foreach ($data as $detail) {
@@ -20,6 +22,7 @@ class AutoBatchStoringAction
 
             if ($product->isBatchable()) {
                 $merchandiseBatches = MerchandiseBatch::available()
+                    ->whereNotIn('id', $occupiedMerchandiseBatches)
                     ->whereRelation('merchandise', 'product_id', $detail['product_id'])
                     ->when(isset($detail['warehouse_id']), fn($q) => $q->whereRelation('merchandise', 'warehouse_id', $detail['warehouse_id']))
                     ->when($product->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
@@ -37,8 +40,11 @@ class AutoBatchStoringAction
 
                     $detail['quantity'] = $originalQuantity;
 
+                    if ($detail['quantity'] >= $merchandiseBatch->quantity) {
+                        $occupiedMerchandiseBatches[] = $merchandiseBatch->id;
+                    }
+
                     if ($merchandiseBatch->quantity >= $detail['quantity']) {
-                        $difference = 0;
                         break;
                     }
 

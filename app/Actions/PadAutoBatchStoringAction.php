@@ -13,7 +13,7 @@ class PadAutoBatchStoringAction
             return;
         }
 
-        $occupiedMerchandiseBatches = collect();
+        $occupiedMerchandiseBatches = [];
 
         $batchableProductIds = Product::batchable()->pluck('id');
 
@@ -63,9 +63,11 @@ class PadAutoBatchStoringAction
 
                 $detail['quantity'] = $originalQuantity;
 
+                if ($detail['quantity'] >= $merchandiseBatch->quantity) {
+                    $occupiedMerchandiseBatches[] = $merchandiseBatch->id;
+                }
+
                 if ($merchandiseBatch->quantity >= $detail['quantity']) {
-                    $occupiedMerchandiseBatches->push($merchandiseBatch->id);
-                    $difference = 0;
                     break;
                 }
 
