@@ -281,34 +281,36 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Merchandise Batch' && userCompany()->canSelectBatchNumberOnForms() && !$pad->isInventoryOperationAdd())
+                                        @elseif ($detailPadField->hasRelation() && $detailPadField->padRelation->model_name == 'Merchandise Batch' && userCompany()->canSelectBatchNumberOnForms() && !$pad->isInventoryOperationAdd() && $products->find($details[$loop->parent->index][$productPadField?->id] ?? null)?->isBatchable())
+                                            @php
+                                                $merchandiseBatches = \App\Models\MerchandiseBatch::available()
+                                                    ->when(!is_null($warehousePadField), fn($q) => $q->whereRelation('merchandise', 'warehouse_id', $details[$loop->parent->index][$warehousePadField->id] ?? null))
+                                                    ->when(!is_null($productPadField), fn($q) => $q->whereRelation('merchandise', 'product_id', $details[$loop->parent->index][$productPadField->id] ?? null))
+                                                    ->orderBy('expires_on')
+                                                    ->get();
+                                            @endphp
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label
                                                         for="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                         class="label text-green has-text-weight-normal"
                                                     >
-                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">*</sup>
                                                     </x-forms.label>
                                                     <x-forms.control
                                                         class="control has-icons-left"
                                                         data-selected-value="{{ $detail[$detailPadField->id] ?? '' }}"
                                                     >
-                                                        <div
-                                                            class="select is-fullwidth"
-                                                            wire:ignore
+                                                        <x-forms.select
+                                                            class="is-fullwidth"
+                                                            id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
-                                                            <x-dynamic-component
-                                                                class="select2-picker"
-                                                                :component="$detailPadField->padRelation->component_name"
-                                                                selected-id=""
-                                                                :product-id="$details[$loop->parent->index][$productPadField?->id] ?? null"
-                                                                :warehouse-id="$details[$loop->parent->index][$warehousePadField?->id] ?? null"
-                                                                id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
-                                                                x-init="initSelect2($el, '{{ $detailPadField->padRelation->model_name }}');
-                                                                bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
-                                                            />
-                                                        </div>
+                                                            <option hidden>Select Batch</option>
+                                                            @foreach ($merchandiseBatches as $merchandiseBatch)
+                                                                <option value="{{ $merchandiseBatch->id }}">{{ $merchandiseBatch->batch_no }}</option>
+                                                            @endforeach
+                                                        </x-forms.select>
                                                         <div class="icon is-small is-left">
                                                             <i class="{{ $detailPadField->icon }}"></i>
                                                         </div>

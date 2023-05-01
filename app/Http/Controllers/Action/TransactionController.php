@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateTransactionStatusRequest;
 use App\Models\PadPermission;
 use App\Models\Transaction;
-use App\Models\Warehouse;
 use App\Notifications\TransactionAdded;
 use App\Notifications\TransactionApproved;
 use App\Notifications\TransactionStatusUpdated;
@@ -37,7 +36,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id'))->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
             new TransactionApproved($transaction)
         );
 
@@ -57,7 +56,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id'))->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
             new TransactionSubtracted($transaction)
         );
 
@@ -77,7 +76,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id'))->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
             new TransactionAdded($transaction)
         );
 
@@ -144,7 +143,7 @@ class TransactionController extends Controller
         $transaction->save();
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->whereIn('warehouse_id', Warehouse::whereIn('name', $transaction->transactionDetails->pluck('warehouse'))->pluck('id'))->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
             new TransactionStatusUpdated($transaction)
         );
 
