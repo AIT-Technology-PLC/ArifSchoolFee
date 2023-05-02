@@ -18,8 +18,8 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-file-invoice"
-                        :data="$credit->gdn->code ?? 'N/A'"
-                        label="Delivery Order No"
+                        :data="$credit->creditable->code ?? 'N/A'"
+                        label="Transaction No"
                     />
                 </div>
                 <div class="column is-6">

@@ -64,8 +64,8 @@ class CreditController extends Controller
             return back()->with('failedMessage', 'Editing a fully settled credit is not allowed.');
         }
 
-        if ($credit->gdn()->exists()) {
-            return back()->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
+        if (!is_null($credit->creditable_id)) {
+            return back()->with('failedMessage', 'Editing a credit that belongs to a transaction is not allowed.');
         }
 
         return view('credits.edit', compact('credit'));
@@ -78,9 +78,9 @@ class CreditController extends Controller
                 ->with('failedMessage', 'Editing a fully settled credit is not allowed.');
         }
 
-        if ($credit->gdn()->exists()) {
+        if (!is_null($credit->creditable_id)) {
             return redirect()->route('credits.show', $credit->id)
-                ->with('failedMessage', 'Editing a credit that belongs to a delivery order is not allowed.');
+                ->with('failedMessage', 'Editing a credit that belongs to a transaction is not allowed.');
         }
 
         if ($credit->customer->hasReachedCreditLimit($request->validated('credit_amount'), $credit->id)) {
@@ -101,7 +101,7 @@ class CreditController extends Controller
     {
         $datatable->builder()->setTableId('credit-settlements-datatable');
 
-        $credit->load(['gdn', 'customer']);
+        $credit->load(['creditable', 'customer']);
 
         return $datatable->render('credits.show', compact('credit'));
     }

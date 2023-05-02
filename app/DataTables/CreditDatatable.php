@@ -22,10 +22,10 @@ class CreditDatatable extends DataTable
                 '@click' => 'showDetails',
             ])
             ->editColumn('branch', fn ($credit) => $credit->warehouse->name)
-            ->editColumn('delivery order no', function ($credit) {
+            ->editColumn('transaction no', function ($credit) {
                 return view('components.datatables.link', [
-                    'url' => $credit->gdn()->exists() ? route('gdns.show', $credit->gdn->id) : 'javascript:void(0)',
-                    'label' => $credit->gdn()->exists() ? $credit->gdn->code : 'N/A',
+                    'url' => !is_null($credit->creditable_id) ? route($credit->creditable->getTable() . '.show', $credit->creditable_id) : 'javascript:void(0)',
+                    'label' => !is_null($credit->creditable_id) ? $credit->creditable->code : 'N/A',
                 ]);
             })
             ->editColumn('customer', function ($credit) {
@@ -72,7 +72,7 @@ class CreditDatatable extends DataTable
                 return $query->whereRaw('DATEDIFF(due_date, CURRENT_DATE) BETWEEN 1 AND 5');
             })
             ->with([
-                'gdn:id,code',
+                'creditable',
                 'customer:id,company_name',
                 'warehouse:id,name',
             ]);
@@ -80,15 +80,13 @@ class CreditDatatable extends DataTable
 
     protected function getColumns()
     {
-        $isHidden = isFeatureEnabled('Gdn Management') ? '' : 'is-hidden';
         $requestHasCustomer = request()->routeIs('customers.credits.index');
 
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Credit No'),
-            Column::make('delivery order no', 'gdn.code')
-                ->className('has-text-centered actions '.$isHidden),
+            Column::computed('transaction no')->className('has-text-centered actions'),
             Column::make('status')->orderable(false),
             Column::make('customer', 'customer.company_name')->className('actions')->visible(! $requestHasCustomer),
             Column::make('credit amount', 'credit_amount'),

@@ -26,9 +26,9 @@ class Credit extends Model
         'credit_amount_settled' => 0,
     ];
 
-    public function gdn()
+    public function creditable()
     {
-        return $this->belongsTo(Gdn::class);
+        return $this->morphTo();
     }
 
     public function customer()

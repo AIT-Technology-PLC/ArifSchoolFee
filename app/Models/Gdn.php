@@ -48,7 +48,7 @@ class Gdn extends Model
 
     public function credit()
     {
-        return $this->hasOne(Credit::class);
+        return $this->morphOne(Credit::class, 'creditable');
     }
 
     public function contact()
