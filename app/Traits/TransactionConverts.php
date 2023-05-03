@@ -169,6 +169,8 @@ trait TransactionConverts
         $data['master'][Pad::firstWhere('name', $target)->padFields()->masterFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null] = (string) $transaction->code;
         data_set($data['details'], '*.' . (Pad::firstWhere('name', $target)->padFields()->detailFields()->where('label', 'like', '%' . $transaction->pad->name . '%')->orWhere('label', 'like', '%' . $transaction->pad->abbreviation . '%')->first()->id ?? null), (string) $transaction->code);
 
+        $data['details'] = array_values($data['details']);
+
         return count($data) ? $data : null;
     }
 
@@ -188,7 +190,7 @@ trait TransactionConverts
                 $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => $detail['unit_price'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Specification')?->id => $detail['specification'] ?? null,
             ];
-        });
+        })->values()->all();
 
         return count($data) ? $data : null;
     }
