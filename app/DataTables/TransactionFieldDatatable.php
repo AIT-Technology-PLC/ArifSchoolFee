@@ -21,7 +21,8 @@ class TransactionFieldDatatable extends DataTable
 
     public function dataTable($query)
     {
-        $datatable = datatables()->collection($query->all());
+        $datatable = datatables()->collection($query->all())->editColumn('expires_on', fn($row) => $row['expires_on'] ?? 'N/A');
+
         $padFields = PadField::inputTypeFile()->where('pad_id', request()->route('transaction')->pad_id)->get();
 
         foreach ($padFields as $padField) {
@@ -32,10 +33,6 @@ class TransactionFieldDatatable extends DataTable
                     'target' => '_blank',
                 ]);
             });
-
-            if ($padField->isMerchandiseBatchField()) {
-                $datatable->editColumn('expires_on', fn($row) => $row['expires_on'] ?? 'N/A');
-            }
         }
 
         if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
