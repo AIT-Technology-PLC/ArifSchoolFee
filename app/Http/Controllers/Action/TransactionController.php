@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateTransactionStatusRequest;
-use App\Models\PadPermission;
 use App\Models\Transaction;
 use App\Notifications\TransactionAdded;
 use App\Notifications\TransactionApproved;
 use App\Notifications\TransactionStatusUpdated;
 use App\Notifications\TransactionSubtracted;
 use App\Services\Models\TransactionService;
+use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
@@ -36,7 +36,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
             new TransactionApproved($transaction)
         );
 
@@ -56,7 +56,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
             new TransactionSubtracted($transaction)
         );
 
@@ -76,7 +76,7 @@ class TransactionController extends Controller
         }
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
             new TransactionAdded($transaction)
         );
 
@@ -143,7 +143,7 @@ class TransactionController extends Controller
         $transaction->save();
 
         Notification::send(
-            PadPermission::with('users')->where('name', 'Read ' . $transaction->pad->name)->get()->pluck('users')->push($transaction->createdBy)->unique()->where('id', '!=', auth()->id()),
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
             new TransactionStatusUpdated($transaction)
         );
 

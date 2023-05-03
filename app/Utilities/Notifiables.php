@@ -2,6 +2,7 @@
 
 namespace App\Utilities;
 
+use App\Models\Employee;
 use App\Models\User;
 
 class Notifiables
@@ -48,7 +49,7 @@ class Notifiables
         }
 
         if (is_countable($warehouseId)) {
-            $warehouseId = $warehouseId->filter(fn ($id) => $id != authUser()->warehouse_id);
+            $warehouseId = $warehouseId->filter(fn($id) => $id != authUser()->warehouse_id);
         }
 
         $users = User::query()
@@ -88,5 +89,21 @@ class Notifiables
         }
 
         return $users->unique();
+    }
+
+    public static function forPad($pad, $creator = null, $permission = 'Read')
+    {
+        return $pad
+            ->padPermissions()
+            ->with('users')
+            ->where('name', $permission)
+            ->get()
+            ->pluck('users')
+            ->flatten()
+            ->push($creator)
+            ->push(...User::whereRelation('employee', 'company_id', userCompany()->id)->role('System Manager')->get())
+            ->where('id', '!=', auth()->id())
+            ->filter()
+            ->unique();
     }
 }
