@@ -44,6 +44,11 @@ class Sale extends Model
         return $this->belongsTo(Contact::class);
     }
 
+    public function credit()
+    {
+        return $this->morphOne(Credit::class, 'creditable');
+    }
+
     public function details()
     {
         return $this->saleDetails;

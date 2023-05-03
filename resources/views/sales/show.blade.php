@@ -158,6 +158,20 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+                @if (isFeatureEnabled('Credit Management') && $sale->isApproved() && !$sale->isCancelled() && !$sale->credit()->exists() && $sale->payment_type == 'Credit Payment' && $sale->customer()->exists())
+                    @can('Convert To Credit')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sales.convert_to_credit', $sale->id)"
+                                action="convert"
+                                intention="convert this invoice to credit"
+                                icon="fas fa-money-check"
+                                label="Convert to Credit"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"

@@ -373,6 +373,7 @@ Route::controller(Action\TransactionFieldController::class)->group(function () {
 Route::controller(Action\SaleController::class)->group(function () {
     Route::post('/sales/{sale}/approve', 'approve')->name('sales.approve');
     Route::post('/sales/{sale}/cancel', 'cancel')->name('sales.cancel');
+    Route::post('/sales/{sale}/convert-to-credit', 'convertToCredit')->name('sales.convert_to_credit');
     Route::get('/sales/{sale}/print', 'printed')->name('sales.print');
 });
 

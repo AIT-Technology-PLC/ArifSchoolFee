@@ -16,6 +16,8 @@ class SaleController extends Controller
     {
         $this->middleware('isFeatureAccessible:Sale Management');
 
+        $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
+
         $this->saleService = $saleService;
     }
 
@@ -62,5 +64,18 @@ class SaleController extends Controller
         $havingBatch = $sale->saleDetails()->with('merchandiseBatch')->get()->pluck('merchandiseBatch')->pluck('batch_no')->filter()->isNotEmpty();
 
         return Pdf::loadView('sales.print', compact('sale', 'havingCode', 'havingBatch'))->stream();
+    }
+
+    public function convertToCredit(Sale $sale)
+    {
+        authUser()->can('Convert To Credit');
+
+        [$isExecuted, $message] = $this->saleService->convertToCredit($sale);
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('credits.show', $sale->credit->id);
     }
 }
