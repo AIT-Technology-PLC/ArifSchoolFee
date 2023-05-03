@@ -2,12 +2,10 @@
 
 namespace App\Traits;
 
-use App\Models\Customer;
 use App\Models\Pad;
 use App\Models\PadField;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
-use App\Models\Supplier;
 use App\Models\Warehouse;
 
 trait TransactionConverts
@@ -43,8 +41,7 @@ trait TransactionConverts
                 ];
             })->values()->all();
 
-        $data[] = $this->transactionMasters->toArray();
-        $data['supplier_id'] = Supplier::firstWhere('id', $data['supplier_id'] ?? '')->id ?? null;
+        $data += $this->transactionMasters->toArray();
 
         return array_filter($data);
     }
@@ -62,7 +59,7 @@ trait TransactionConverts
                 ];
             })->values()->all();
 
-        $data[] = $this->transactionMasters->toArray();
+        $data += $this->transactionMasters->toArray();
         $data['received_by'] = $data['received_by'] ?? null;
         $data['delivered_by'] = $data['delivered_by'] ?? null;
         $data['issued_to'] = $data['customer'] ?? null;
@@ -85,8 +82,7 @@ trait TransactionConverts
                 ];
             })->values()->all();
 
-        $data[] = $this->transactionMasters->toArray();
-        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
+        $data += $this->transactionMasters->toArray();
         $data['payment_type'] = $data['payment_method'] ?? null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
@@ -110,8 +106,7 @@ trait TransactionConverts
                 ];
             })->values()->all();
 
-        $data[] = $this->transactionMasters->toArray();
-        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
+        $data += $this->transactionMasters->toArray();
         $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
         $data['cash_received_type'] = 'percent';
         $data['cash_received'] = $data['cash_received'] ?? null;
@@ -134,8 +129,7 @@ trait TransactionConverts
                 ];
             })->values()->all();
 
-        $data[] = $this->transactionMasters->toArray();
-        $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
+        $data += $this->transactionMasters->toArray();
         $data['terms'] = $data['terms'] ?? null;
 
         return array_filter($data);
