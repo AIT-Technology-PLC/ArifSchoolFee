@@ -32,6 +32,10 @@ class TransactionFieldDatatable extends DataTable
                     'target' => '_blank',
                 ]);
             });
+
+            if ($padField->isMerchandiseBatchField()) {
+                $datatable->editColumn('expires_on', fn($row) => $row['expires_on'] ?? 'N/A');
+            }
         }
 
         if (!request()->route('transaction')->pad->isInventoryOperationNone()) {
