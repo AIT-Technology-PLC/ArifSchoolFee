@@ -72,6 +72,10 @@ class TransactionFieldDatatable extends DataTable
 
         foreach ($padFields as $padField) {
             $columns[] = Column::make(str()->snake($padField->label))->visible($padField->isVisible())->content('N/A');
+
+            if ($padField->isMerchandiseBatchField()) {
+                $columns[] = Column::make('expires_on')->visible(false);
+            }
         }
 
         if (request()->route('transaction')->pad->hasPrices()) {

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Customer;
+use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -92,6 +93,10 @@ trait TransactionAccessors
                             if ($transactionField->padField->hasRelation()) {
                                 $value = $transactionField->relationValue;
                                 $data[str($transactionField->padField->padRelation->model_name)->snake()->append('_id')->toString()] = $transactionField->value;
+                            }
+
+                            if ($transactionField->padField->isMerchandiseBatchField() && !empty($transactionField->value)) {
+                                $data['expires_on'] = MerchandiseBatch::find($transactionField->value)?->expires_on?->toDateString() ?? 'N/A';
                             }
 
                             if ($transactionField->padField->padRelation?->model_name == 'Product') {
