@@ -114,7 +114,7 @@
                             <x-forms.label for="has_withholding">
                                 Include Withholding Tax <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control x-init="$store.hasWithholding = {{ $sale->hasWithholding() }}">
+                            <x-forms.control x-init="$store.hasWithholding = {{ $sale->hasWithholding() ?: 0 }}">
                                 <label class="radio has-text-grey">
                                     <input
                                         type="radio"
