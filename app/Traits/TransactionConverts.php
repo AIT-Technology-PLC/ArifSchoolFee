@@ -32,68 +32,60 @@ trait TransactionConverts
 
     private function convertToGrn($target)
     {
-        $data = $this
+        $data['grn'] = $this
             ->transactionDetails
-            ->mapWithKeys(function ($detail) {
+            ->map(function ($detail) {
                 return [
-                    'grn' => [
-                        [
-                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
-                            'quantity' => $detail['quantity'] ?? null,
-                            'description' => $detail['description'] ?? null,
-                        ],
-                    ],
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
+                    'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
+                    'quantity' => $detail['quantity'] ?? null,
+                    'description' => $detail['description'] ?? null,
                 ];
-            })->toArray() + $this->transactionMasters->toArray();
+            })->values()->all();
 
+        $data[] = $this->transactionMasters->toArray();
         $data['supplier_id'] = Supplier::firstWhere('id', $data['supplier_id'] ?? '')->id ?? null;
 
-        return $data;
+        return array_filter($data);
     }
 
     private function convertToSiv($target)
     {
-        $data = $this
+        $data['siv'] = $this
             ->transactionDetails
-            ->mapWithKeys(function ($detail) {
+            ->map(function ($detail) {
                 return [
-                    'siv' => [
-                        [
-                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
-                            'quantity' => $detail['quantity'] ?? null,
-                            'description' => $detail['description'] ?? null,
-                        ],
-                    ],
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
+                    'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
+                    'quantity' => $detail['quantity'] ?? null,
+                    'description' => $detail['description'] ?? null,
                 ];
-            })->toArray() + $this->transactionMasters->toArray();
+            })->values()->all();
 
+        $data[] = $this->transactionMasters->toArray();
         $data['received_by'] = $data['received_by'] ?? null;
         $data['delivered_by'] = $data['delivered_by'] ?? null;
         $data['issued_to'] = $data['customer'] ?? null;
         $data['description'] = $data['description'] ?? null;
 
-        return $data;
+        return array_filter($data);
     }
 
     private function convertToSale($target)
     {
-        $data = $this
+        $data['sale'] = $this
             ->transactionDetails
-            ->mapWithKeys(function ($detail) {
-                return [
-                    'sale' => [
-                        [
-                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'unit_price' => $detail['unit_price'] ?? null,
-                            'quantity' => $detail['quantity'] ?? null,
-                            'description' => $detail['description'] ?? null,
-                        ],
-                    ],
+            ->map(function ($detail) {
+                return
+                    [
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
+                    'unit_price' => $detail['unit_price'] ?? null,
+                    'quantity' => $detail['quantity'] ?? null,
+                    'description' => $detail['description'] ?? null,
                 ];
-            })->toArray() + $this->transactionMasters->toArray();
+            })->values()->all();
 
+        $data[] = $this->transactionMasters->toArray();
         $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['payment_type'] = $data['payment_method'] ?? null;
         $data['cash_received_type'] = 'percent';
@@ -101,27 +93,24 @@ trait TransactionConverts
         $data['due_date'] = $data['credit_due_date'] ?? null;
         $data['description'] = $data['description'] ?? null;
 
-        return $data;
+        return array_filter($data);
     }
 
     private function convertToGdn($target)
     {
-        $data = $this
+        $data['gdn'] = $this
             ->transactionDetails
-            ->mapWithKeys(function ($detail) {
+            ->map(function ($detail) {
                 return [
-                    'gdn' => [
-                        [
-                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
-                            'unit_price' => $detail['unit_price'] ?? null,
-                            'quantity' => $detail['quantity'] ?? null,
-                            'description' => $detail['description'] ?? null,
-                        ],
-                    ],
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
+                    'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'] ?? null)->id ?? null,
+                    'unit_price' => $detail['unit_price'] ?? null,
+                    'quantity' => $detail['quantity'] ?? null,
+                    'description' => $detail['description'] ?? null,
                 ];
-            })->toArray() + $this->transactionMasters->toArray();
+            })->values()->all();
 
+        $data[] = $this->transactionMasters->toArray();
         $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['payment_type'] = isset($data['payment_method']) ? ($data['payment_method'] . ' Payment') : null;
         $data['cash_received_type'] = 'percent';
@@ -129,30 +118,27 @@ trait TransactionConverts
         $data['due_date'] = $data['credit_due_date'] ?? null;
         $data['description'] = $data['description'] ?? null;
 
-        return $data;
+        return array_filter($data);
     }
 
     private function convertToProformaInvoice($target)
     {
-        $data = $this
+        $data['proformaInvoice'] = $this
             ->transactionDetails
-            ->mapWithKeys(function ($detail) {
+            ->map(function ($detail) {
                 return [
-                    'proformaInvoice' => [
-                        [
-                            'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
-                            'quantity' => $detail['quantity'] ?? null,
-                            'unit_price' => $detail['unit_price'] ?? null,
-                            'specification' => $detail['specification'] ?? null,
-                        ],
-                    ],
+                    'product_id' => Product::firstWhere('id', $detail['product_id'])->id ?? null,
+                    'quantity' => $detail['quantity'] ?? null,
+                    'unit_price' => $detail['unit_price'] ?? null,
+                    'specification' => $detail['specification'] ?? null,
                 ];
-            })->toArray() + $this->transactionMasters->toArray();
+            })->values()->all();
 
+        $data[] = $this->transactionMasters->toArray();
         $data['customer_id'] = Customer::firstWhere('id', $data['customer_id'] ?? null)->id ?? null;
         $data['terms'] = $data['terms'] ?? null;
 
-        return $data;
+        return array_filter($data);
     }
 
     private function convertToPad($target)
