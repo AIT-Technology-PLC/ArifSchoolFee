@@ -7,13 +7,16 @@ use App\Models\Pad;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Notifications\TransactionPrepared;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
 use App\Traits\PadFileUploads;
+use App\Utilities\Notifiables;
 use App\Utilities\PadBatchSelectionIsRequiredOrProhibited;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -118,6 +121,8 @@ class CreateTransaction extends Component
                 $transaction,
                 $this->validatedUploads($this->getDataForValidation($this->rules())['master'], $this->getDataForValidation($this->rules())['details'])
             );
+
+            Notification::send(Notifiables::forPad($transaction->pad), new TransactionPrepared($transaction));
 
             return $transaction;
         });
