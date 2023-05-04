@@ -104,6 +104,10 @@ class TransactionController extends Controller
             $columns['detail'] = $transaction->pad->padFields()->detailFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }
 
+        if (count($columns['detail']) && array_search('batch', $columns['detail'])) {
+            $columns['detail'][] = 'expires_on';
+        }
+
         if ($transaction->transactionMasters->isNotEmpty()) {
             $columns['master'] = $transaction->pad->padFields()->masterFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }
