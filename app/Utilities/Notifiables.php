@@ -104,6 +104,6 @@ class Notifiables
             ->push(...User::whereRelation('employee', 'company_id', userCompany()->id)->role('System Manager')->get())
             ->where('id', '!=', auth()->id())
             ->filter()
-            ->unique();
+            ->unique('id');
     }
 }
