@@ -29,9 +29,10 @@ class TransactionPrepared extends Notification
             $this->message = 'Approval request for ' . str()->singular($this->transaction->pad->name) . ' prepared by ' . $this->transaction->createdBy->name;
         }
 
-        if ($this->transaction->pad->isApprovable()) {
+        if (!$this->transaction->pad->isApprovable()) {
             $this->message = 'New ' . str()->singular($this->transaction->pad->name) . ' has been prepared by ' . $this->transaction->createdBy->name;
         }
+
         return [
             'icon' => $this->transaction->pad->icon,
             'message' => $this->message,

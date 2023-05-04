@@ -147,6 +147,10 @@ trait TransactionAccessors
                         $data[str($transactionField->padField->padRelation->model_name)->snake()->append('_id')->toString()] = $transactionField->value;
                     }
 
+                    if ($transactionField->padField->isMerchandiseBatchField() && !empty($transactionField->value)) {
+                        $data['expires_on'] = MerchandiseBatch::find($transactionField->value)?->expires_on?->toDateString() ?? 'N/A';
+                    }
+
                     if ($transactionField->padField->padRelation?->model_name == 'Product') {
                         $taxAmount = Product::find($transactionField->value)->tax->amount;
                     }
