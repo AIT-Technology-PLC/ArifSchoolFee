@@ -11,7 +11,7 @@ trait CalculateCreditPayment
 
     public function getCreditPayableInPercentageAttribute()
     {
-        return 100.00 - $this->cash_received_in_percentage;
+        return 100.00 - $this->cash_received_in_percentage - $this->withholdingTaxInPercentage;
     }
 
     public function getPaymentInCashAttribute()
@@ -57,6 +57,10 @@ trait CalculateCreditPayment
             $cashReceivedInPercentage = ($this->paymentInCash / $price) * 100;
         }
 
+        if (!$this->isPaymentInCredit()) {
+            $cashReceivedInPercentage -= $this->withholdingTaxInPercentage;
+        }
+
         return $cashReceivedInPercentage;
     }
 
@@ -70,6 +74,32 @@ trait CalculateCreditPayment
             $price = $this->grandTotalPriceAfterDiscount;
         }
 
-        return $price - $this->paymentInCash;
+        return $price - $this->paymentInCash - $this->totalWithheldAmount;
+    }
+
+    public function getWithholdingTaxInPercentageAttribute()
+    {
+        if (!$this->hasWithholding()) {
+            return 0.00;
+        }
+
+        if (userCompany()->isDiscountBeforeTax()) {
+            $price = $this->grandTotalPrice;
+        }
+
+        if (!userCompany()->isDiscountBeforeTax()) {
+            $price = $this->grandTotalPriceAfterDiscount;
+        }
+
+        if ($price <= 0) {
+            return 0.00;
+        }
+
+        return $this->totalWithheldAmount / $price * 100;
+    }
+
+    public function hasWithholding()
+    {
+        return false;
     }
 }

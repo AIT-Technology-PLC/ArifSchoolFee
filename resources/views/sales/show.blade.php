@@ -101,7 +101,7 @@
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-hand-holding-usd"
-                            data="{{ $sale->totalWithheldAmount }}"
+                            data="{{ number_format($sale->totalWithheldAmount, 2) }}"
                             label="Withholding Tax ({{ userCompany()->currency }})"
                         />
                     </div>
