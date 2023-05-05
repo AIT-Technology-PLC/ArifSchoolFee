@@ -140,7 +140,7 @@
                     </div>
                 </div>
 
-                <x-common.content-wrapper x-data="cashReceivedType('{{ $gdn->payment_type }}', '{{ $gdn->cash_received_type }}', {{ $gdn->cash_received }}, '{{ $gdn->due_date?->toDateString() }}', '{{ $gdn->bank_name }}', '{{ $gdn->reference_number }}')">
+                <x-common.content-wrapper x-data="cashReceivedType('{{ old('payment_type', $gdn->payment_type) }}', '{{ old('cash_received_type', $gdn->cash_received_type) }}', {{ old('cash_received', $gdn->cash_received) }}, '{{ old('due_date', $gdn->due_date?->toDateString()) }}', '{{ old('bank_name', $gdn->bank_name) }}', '{{ old('reference_number', $gdn->reference_number) }}')">
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">
