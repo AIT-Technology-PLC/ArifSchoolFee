@@ -160,7 +160,7 @@
                     </div>
                 </div>
 
-                <x-common.content-wrapper x-data="cashReceivedType('{{ $sale->payment_type }}', '{{ $sale->cash_received_type }}', {{ $sale->cash_received }}, '{{ $sale->due_date?->toDateString() }}', '{{ $sale->bank_name }}', '{{ $sale->reference_number }}')">
+                <x-common.content-wrapper x-data="cashReceivedType('{{ old('payment_type', $sale->payment_type) }}', '{{ old('cash_received_type', $sale->cash_received_type) }}', {{ old('cash_received', $sale->cash_received) }}, '{{ old('due_date', $sale->due_date?->toDateString()) }}', '{{ old('bank_name', $sale->bank_name) }}', '{{ old('reference_number', $sale->reference_number) }}')">
                     <x-content.header title="Payment Details" />
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline">

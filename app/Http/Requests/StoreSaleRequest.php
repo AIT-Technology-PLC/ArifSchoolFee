@@ -80,7 +80,8 @@ class StoreSaleRequest extends FormRequest
                     $this->get('payment_type'),
                     $this->get('discount'),
                     $this->get('sale'),
-                    $this->get('cash_received_type')
+                    $this->get('cash_received_type'),
+                    true
                 ),
             ],
 

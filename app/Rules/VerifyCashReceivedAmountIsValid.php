@@ -17,12 +17,14 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
     private $message;
 
+    private $hasWithholding;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($paymentType, $discount, $details, $cashReceivedType)
+    public function __construct($paymentType, $discount, $details, $cashReceivedType, $hasWithholding = false)
     {
         $this->paymentType = $paymentType;
 
@@ -31,6 +33,8 @@ class VerifyCashReceivedAmountIsValid implements Rule
         $this->details = $details;
 
         $this->cashReceivedType = $cashReceivedType;
+
+        $this->hasWithholding = $hasWithholding;
     }
 
     /**
@@ -80,6 +84,18 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && $value == 100) {
             $this->message = 'When payment type is "Credit Payment" and type is "Percent", the percentage can not be 100';
+
+            return false;
+        }
+
+        if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && (Price::getTotalWithheldAmount($this->details) + $value) >= $price) {
+            $this->message = '"Advanced Payment" plus withheld amount can not be greater than or equal to "Grand Total Price"';
+
+            return false;
+        }
+
+        if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && ((userCompany()->withholdingTaxes['tax_rate'] * 100) + $value) >= 100) {
+            $this->message = 'When payment type is "Credit Payment" and type is "Percent", the percentage plus the withholding percent can not be 100';
 
             return false;
         }

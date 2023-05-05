@@ -92,4 +92,24 @@ class Price
             thousands_separator:''
         );
     }
+
+    public static function getTotalWithheldAmount($details)
+    {
+        foreach ($details as &$detail) {
+            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00, $detail['product_id']);
+
+            if ($detail['total_price'] < userCompany()->withholdingTaxes['rules'][Product::find($detail['product_id'])->type]) {
+                $detail['withheld_amount'] = 0;
+                continue;
+            }
+
+            $detail['withheld_amount'] = $detail['total_price'] * userCompany()->withholdingTaxes['tax_rate'];
+        }
+
+        return number_format(
+            collect($details)->sum('withheld_amount'),
+            2,
+            thousands_separator:''
+        );
+    }
 }
