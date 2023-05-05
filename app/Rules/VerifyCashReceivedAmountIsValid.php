@@ -47,6 +47,8 @@ class VerifyCashReceivedAmountIsValid implements Rule
     public function passes($attribute, $value)
     {
         if (empty($this->details)) {
+            $this->message = 'Please provide all payment details information.';
+
             return false;
         }
 
@@ -75,7 +77,7 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
             return false;
         }
-
+        dd(1);
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && $value >= $price) {
             $this->message = '"Advanced Payment" can not be greater than or equal to "Grand Total Price"';
 
