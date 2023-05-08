@@ -11,6 +11,7 @@ use App\Models\CompensationAdjustmentDetail;
 use App\Models\EmployeeCompensation;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\Tax;
 use App\Notifications\PayrollApproved;
 use Illuminate\Support\Facades\DB;
 
@@ -86,6 +87,7 @@ class PayrollService
                 'issued_on' => now(),
                 'payment_type' => 'Bank Transfer',
                 'bank_name' => userCompany()->payroll_bank_name,
+                'tax_id' => Tax::firstWhere('type', 'NONE')->id,
             ]);
 
             $expense->expenseDetails()->createMany([
