@@ -126,10 +126,11 @@
         <div @class([
             'is-hidden' =>
                 !request()->is('merchandises/available') &&
+                !request()->is('merchandises/expired') &&
                 !isFeatureEnabled('Job Management'),
         ])>
             <x-content.footer>
-                <x-datatables.filter filters="'level', 'type'">
+                <x-datatables.filter filters="'level', 'type', 'expiryType'">
                     <div class="columns is-marginless is-vcentered">
                         @if (request()->is('merchandises/available'))
                             <div class="column is-3 p-lr-0 pt-0">
@@ -180,6 +181,33 @@
                                             @foreach (['Finished Goods', 'Raw Material'] as $type)
                                                 <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
                                             @endforeach
+                                        </x-forms.select>
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
+                        @if (request()->is('merchandises/expired'))
+                            <div class="column is-3 p-lr-0 pt-0">
+                                <x-forms.field class="has-text-centered">
+                                    <x-forms.control>
+                                        <x-forms.select
+                                            id=""
+                                            name=""
+                                            class="is-size-7-mobile is-fullwidth"
+                                            x-model="filters.expiryType"
+                                            x-on:change="add('expiryType')"
+                                        >
+                                            <option
+                                                disabled
+                                                selected
+                                                value=""
+                                            >
+                                                Expiry Type
+                                            </option>
+                                            <option value="now"> Now </option>
+                                            @if (userCompany()->expiry_in_days > 0)
+                                                <option value="near"> Near (less than {{ userCompany()->expiry_in_days }} days) </option>
+                                            @endif
                                         </x-forms.select>
                                     </x-forms.control>
                                 </x-forms.field>

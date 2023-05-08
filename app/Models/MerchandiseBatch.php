@@ -67,7 +67,14 @@ class MerchandiseBatch extends Model
 
     public function scopeExpired($query)
     {
-        return $query->whereDate('expires_on', '<=', now());
+        return $query->whereDate('expires_on', '<=', today());
+    }
+
+    public function scopeNearToBeExpired($query)
+    {
+        return $query
+            ->whereDate('expires_on', '>', today())
+            ->whereDate('expires_on', '<=', today()->addDays(userCompany()->expiry_in_days));
     }
 
     public function isExpired()

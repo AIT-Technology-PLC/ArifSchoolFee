@@ -63,7 +63,8 @@ class ExpiredInventoryDatatable extends DataTable
     {
         $expiredMerchandises = MerchandiseBatch::query()
             ->available()
-            ->expired()
+            ->when(request('expiryType') == 'now' || empty(request('expiryType')), fn($query) => $query->expired())
+            ->when(request('expiryType') == 'near', fn($query) => $query->nearToBeExpired())
             ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
