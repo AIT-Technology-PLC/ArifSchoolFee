@@ -23,7 +23,7 @@ class PadBatchSelectionIsRequiredOrProhibited
 
     public function passes($attribute, $value)
     {
-        $productId = $this->requestData[str($attribute)->betweenFirst('.', '.')->toString()][$this->productPadField->id] ?? null;
+        $productId = $this->requestData[str($attribute)->betweenFirst('.', '.')->toString()][$this->productPadField?->id] ?? null;
         $isMerchandiseBatchSelected = !empty($value);
 
         if (empty($productId) || !Product::find($productId)->isBatchable()) {
