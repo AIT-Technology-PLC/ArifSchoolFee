@@ -1,4 +1,4 @@
-<x-content.main x-data="customerForm({{ Js::from($customer) }})">
+<x-content.main x-data="customerForm({{ json_encode($customer) }})">
     <div class="columns is-marginless is-multiline">
         <div class="column is-6">
             <x-forms.field>
