@@ -154,7 +154,17 @@ class Pad extends Model
 
     public function hasDetailPadFields()
     {
-        return $this->padFields()->detailFields()->exists();
+        $count = $this->padFields()->detailFields()->count();
+
+        if ($this->isInventoryOperationAdd() && $count == 2) {
+            return false;
+        }
+
+        if (!$this->isInventoryOperationAdd() && $count == 1) {
+            return false;
+        }
+
+        return $count;
     }
 
     public function converts()
