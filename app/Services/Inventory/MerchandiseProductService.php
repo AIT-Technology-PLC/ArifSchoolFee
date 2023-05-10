@@ -76,14 +76,17 @@ class MerchandiseProductService
 
         return Product::query()
             ->inventoryType()
-            ->where('min_on_hand', '>', 0)
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
-                $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
-                    ->when($user, function ($query) use ($user) {
-                        $query->whereIn('warehouse_id', $user->getAllowedWarehouses('read')->pluck('id'));
-                    })
+                $query
+                    ->when($warehouseId, fn($q) => $q->where('merchandises.warehouse_id', $warehouseId))
+                    ->when($user, fn($q) => $q->whereIn('merchandises.warehouse_id', $user->getAllowedWarehouses('read')->pluck('id')))
                     ->where('merchandises.available', '>', 0)
-                    ->whereRaw('merchandises.available <= products.min_on_hand');
+                    ->leftJoin('product_reorders', function ($join) {
+                        $join
+                            ->on('merchandises.product_id', '=', 'product_reorders.product_id')
+                            ->on('merchandises.warehouse_id', '=', 'product_reorders.warehouse_id');
+                    })
+                    ->whereRaw('merchandises.available <= COALESCE(product_reorders.quantity, products.min_on_hand)');
             });
     }
 }

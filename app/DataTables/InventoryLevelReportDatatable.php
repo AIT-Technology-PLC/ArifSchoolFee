@@ -42,8 +42,9 @@ class InventoryLevelReportDatatable extends DataTable
                 ->editColumn($warehouse->name, function ($row) use ($warehouse) {
                     return view('components.datatables.history-link', [
                         'amount' => Arr::has($row, $warehouse->name) ? $row[$warehouse->name] : 0.00,
+                        'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
-                        'min_on_hand' => $row['min_on_hand'],
+                        'reorderQuantity' => $row['min_on_hand'],
                     ]);
                 })
                 ->editColumn('total_balance', function ($row) {

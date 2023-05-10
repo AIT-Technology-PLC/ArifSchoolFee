@@ -9,8 +9,12 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductReorder;
 use App\Models\Supplier;
 use App\Models\Tax;
+use App\Models\Warehouse;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -40,15 +44,26 @@ class ProductController extends Controller
 
         $taxes = Tax::orderBy('id')->get(['id', 'type']);
 
-        return view('products.create', compact('categories', 'suppliers', 'brands', 'taxes'));
+        $warehouses = Warehouse::active()->get();
+
+        return view('products.create', compact('categories', 'suppliers', 'brands', 'taxes', 'warehouses'));
     }
 
     public function store(StoreProductRequest $request)
     {
-        Product::firstOrCreate(
-            $request->safe()->only(['name', 'code', 'product_category_id'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['name', 'code', 'product_category_id'] + ['company_id' => userCompany()->id])
-        );
+        DB::transaction(function () use ($request) {
+            $product = Product::firstOrCreate(
+                $request->safe()->only(['name', 'code', 'product_category_id'] + ['company_id' => userCompany()->id]),
+                $request->safe()->except(['name', 'code', 'product_category_id', 'reorder_level'] + ['company_id' => userCompany()->id])
+            );
+
+            foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
+                $product->productReorders()->create([
+                    'warehouse_id' => $key,
+                    'quantity' => $value,
+                ]);
+            }
+        });
 
         return redirect()->route('products.index');
     }
@@ -63,12 +78,27 @@ class ProductController extends Controller
 
         $taxes = Tax::orderBy('id')->get(['id', 'type']);
 
-        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands', 'taxes'));
+        $warehouses = Warehouse::active()->get();
+
+        $reorders = ProductReorder::all();
+
+        return view('products.edit', compact('product', 'categories', 'suppliers', 'brands', 'taxes', 'warehouses', 'reorders'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        DB::transaction(function () use ($request, $product) {
+            $product->update($request->validated());
+
+            $product->productReorders()->forceDelete();
+
+            foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
+                $product->productReorders()->create([
+                    'warehouse_id' => $key,
+                    'quantity' => $value,
+                ]);
+            }
+        });
 
         return redirect()->route('products.index');
     }

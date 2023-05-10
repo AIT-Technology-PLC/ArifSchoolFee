@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Merchandise;
+use App\Models\ProductReorder;
 use App\Services\Inventory\MerchandiseProductService;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
@@ -47,7 +48,7 @@ class AvailableInventoryDatatable extends DataTable
                         'productId' => $row['product_id'],
                         'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
-                        'min_on_hand' => $row['min_on_hand'],
+                        'reorderQuantity' => $row['min_on_hand'],
                     ]);
                 })
                 ->editColumn('total balance', function ($row) {
@@ -101,7 +102,11 @@ class AvailableInventoryDatatable extends DataTable
                 'product_id' => $merchandiseValue->first()->product_id,
                 'unit' => $merchandiseValue->first()->unit,
                 'type' => $merchandiseValue->first()->type,
-                'min_on_hand' => $merchandiseValue->first()->min_on_hand,
+                'min_on_hand' =>
+                ProductReorder::where('product_id', $merchandiseValue->first()->product_id)->exists()
+                ? ProductReorder::where('product_id', $merchandiseValue->first()->product_id)->pluck('quantity', 'warehouse_id')->toArray()
+                : $merchandiseValue->first()->min_on_hand,
+
                 'description' => $merchandiseValue->first()->description,
                 'category' => $merchandiseValue->first()->category,
                 'total balance' => $merchandiseValue->sum('available'),

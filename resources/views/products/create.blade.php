@@ -462,6 +462,39 @@
                         </x-forms.field>
                     </div>
                 </div>
+                <section class="mt-5">
+                    <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                        <h1 class="text-green is-size-5">
+                            Reorder Levels
+                        </h1>
+                    </div>
+                    <div class="box is-radiusless">
+                        <div class="columns is-marginless is-multiline">
+                            @foreach ($warehouses as $warehouse)
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label for="name">
+                                            {{ $warehouse->name }} <sup class="has-text-danger"></sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.input
+                                                id="reorder_level[{{ $warehouse->id }}]"
+                                                name="reorder_level[{{ $warehouse->id }}]"
+                                                type="text"
+                                                value="{{ old('reorder_level')[$warehouse->id] ?? '' }}"
+                                            />
+                                            <x-common.icon
+                                                name="fas fa-boxes"
+                                                class="is-small is-left"
+                                            />
+                                            <x-common.validation-error property="reorder_level.{{ $warehouse->id }}" />
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
                 <div
                     id="newForm"
                     class="columns is-marginless is-multiline is-hidden"

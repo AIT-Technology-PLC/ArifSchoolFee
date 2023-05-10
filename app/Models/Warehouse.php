@@ -35,6 +35,7 @@ class Warehouse extends Model
         'transfers',
         'fromTransfers',
         'toTransfers',
+        'productReorders',
     ];
 
     public static function booted()
@@ -110,6 +111,11 @@ class Warehouse extends Model
     public function jobs()
     {
         return $this->hasMany(Job::class, 'factory_id');
+    }
+
+    public function productReorders()
+    {
+        return $this->hasMany(ProductReorder::class);
     }
 
     public function scopeActive($query)

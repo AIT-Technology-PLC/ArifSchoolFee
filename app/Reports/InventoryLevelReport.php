@@ -3,6 +3,7 @@
 namespace App\Reports;
 
 use App\Models\InventoryHistory;
+use App\Models\ProductReorder;
 use Illuminate\Support\Arr;
 
 class InventoryLevelReport
@@ -64,7 +65,11 @@ class InventoryLevelReport
                 'product_id' => $inventoryHistoryValue->first()->product_id,
                 'unit' => $inventoryHistoryValue->first()->unit,
                 'type' => $inventoryHistoryValue->first()->type,
-                'min_on_hand' => $inventoryHistoryValue->first()->min_on_hand,
+                'min_on_hand' =>
+                ProductReorder::where('product_id', $inventoryHistoryValue->first()->product_id)->exists()
+                ? ProductReorder::where('product_id', $inventoryHistoryValue->first()->product_id)->pluck('quantity', 'warehouse_id')->toArray()
+                : $inventoryHistoryValue->first()->min_on_hand,
+
                 'category' => $inventoryHistoryValue->first()->category,
                 'total_balance' => $inventoryHistoryValue->sum('quantity'),
             ];

@@ -89,7 +89,7 @@
                             @endcan
                         @endif
                         <td class="is-capitalized">
-                            @if ($merchandise->product->isProductLimited($merchandise->on_hand))
+                            @if ($merchandise->product->isProductLimited($merchandise->on_hand, $warehouse->id))
                                 <span class="tag is-small bg-gold has-text-white">
                                     <span class="icon">
                                         <i class="fas fa-exclamation-circle"></i>

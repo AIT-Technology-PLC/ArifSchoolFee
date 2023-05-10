@@ -20,7 +20,7 @@ class UpdateProductRequest extends FormRequest
             'type' => ['required', 'string', 'max:255', Rule::when(isFeatureEnabled('Job Management'), Rule::in(['Finished Goods', 'Raw Material', 'Services']), Rule::in(['Finished Goods', 'Services']))],
             'code' => ['nullable', 'string', 'max:255'],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
-            'min_on_hand' => ['required', 'numeric'],
+            'min_on_hand' => ['required', 'numeric', 'min:0'],
             'description' => ['nullable', 'string'],
             'properties' => ['nullable', 'array'],
             'product_category_id' => ['required', 'integer', new MustBelongToCompany('product_categories')],
@@ -33,6 +33,8 @@ class UpdateProductRequest extends FormRequest
             'is_active_for_sale' => ['required', 'boolean'],
             'is_active_for_purchase' => ['required', 'boolean'],
             'is_active_for_job' => ['required', 'boolean'],
+            'reorder_level' => ['nullable', 'array'],
+            'reorder_level.*' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

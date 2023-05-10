@@ -45,7 +45,7 @@ class ExpiredInventoryDatatable extends DataTable
                         'warehouseId' => $warehouse->id,
                         'unit' => $row['unit'],
                         'expired' => 'expired',
-                        'min_on_hand' => 0,
+                        'reorderQuantity' => 0,
                     ]);
                 })
                 ->editColumn('total_balance', function ($row) {

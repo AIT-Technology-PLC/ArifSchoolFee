@@ -47,6 +47,7 @@ class Product extends Model
         'priceIncrementDetails',
         'jobDetailHistories',
         'inventoryHistories',
+        'productReorders',
     ];
 
     protected static function booted()
@@ -172,6 +173,11 @@ class Product extends Model
         return $this->belongsTo(Tax::class);
     }
 
+    public function productReorders()
+    {
+        return $this->hasMany(ProductReorder::class);
+    }
+
     public function setPropertiesAttribute($array)
     {
         $properties = [];
@@ -203,9 +209,9 @@ class Product extends Model
         );
     }
 
-    public function isProductLimited($onHandQuantity)
+    public function isProductLimited($onHandQuantity, $warehouseId)
     {
-        return $this->min_on_hand >= $onHandQuantity;
+        return $this->getReorderQuantity($warehouseId) >= $onHandQuantity;
     }
 
     public function isTypeService()
@@ -291,5 +297,20 @@ class Product extends Model
     public function scopeFinishedGoods($query)
     {
         return $query->where('type', 'Finished Goods');
+    }
+
+    public function getReorderQuantity($warehouseId = null)
+    {
+        $reorderQuantityGenerally = $this->min_on_hand;
+        $reorderQuantityByWarehouse = 0;
+
+        if (!is_null($warehouseId)) {
+            $reorderQuantityByWarehouse = $this
+                ->productReorders()
+                ->where('warehouse_id', $warehouseId)
+                ->first()?->quantity;
+        }
+
+        return $reorderQuantityByWarehouse ?: $reorderQuantityGenerally;
     }
 }
