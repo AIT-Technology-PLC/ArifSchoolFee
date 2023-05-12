@@ -7,7 +7,7 @@
     {{ $attributes->whereDoesntStartWith('class') }}
 >
     <option></option>
-    @if (authUser()->can('Create Customer'))
+    @if (authUser()->can('Create Customer') && !request()->is('pads/*/transactions/*') && !request()->is('*/*/edit'))
         <option>Create New Customer</option>
     @endif
     @foreach ($customers as $customer)

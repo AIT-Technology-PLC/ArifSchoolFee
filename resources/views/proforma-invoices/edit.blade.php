@@ -21,7 +21,7 @@
                             PI No <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            <x-forms.control>
+                            <x-forms.control class="is-expanded">
                                 <x-forms.input
                                     name="prefix"
                                     type="text"
@@ -29,7 +29,7 @@
                                     value="{{ $proformaInvoice->prefix ?? '' }}"
                                 />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     type="number"
                                     name="code"
@@ -164,10 +164,4 @@
             </x-content.footer>
         </form>
     </x-common.content-wrapper>
-
-    @can('Create Customer')
-        <div x-bind:class="Alpine.store('openCreateCustomerModal') ? '' : 'is-hidden'">
-            <livewire:create-customer />
-        </div>
-    @endcan
 @endsection
