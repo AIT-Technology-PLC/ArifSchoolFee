@@ -69,6 +69,10 @@
     {{ $selectedUnitType == 'Liter' ? 'selected' : '' }}
 >Liter</option>
 <option
+    value="Lot"
+    {{ $selectedUnitType == 'Lot' ? 'selected' : '' }}
+>Lot</option>
+<option
     value="Lump Sum"
     {{ $selectedUnitType == 'Lump Sum' ? 'selected' : '' }}
 >Lump Sum (LS)</option>
