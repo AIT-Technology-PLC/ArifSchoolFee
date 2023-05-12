@@ -254,6 +254,12 @@
             </x-content.footer>
         </form>
     </x-common.content-wrapper>
+
+    @can('Create Customer')
+        <div x-bind:class="Alpine.store('openCreateCustomerModal') ? '' : 'is-hidden'">
+            <livewire:create-customer />
+        </div>
+    @endcan
 @endsection
 
 @push('scripts')
@@ -292,10 +298,22 @@
                     Pace.restart();
                 },
                 select2(index) {
-                    let select2 = initializeSelect2(this.$el, "Select Customer");
+                    let select2 = initSelect2(this.$el, 'Customer');
 
-                    select2.on("change", (event) => {
+                    select2.on("change", async (event, customer = null) => {
                         this.customerDeposits[index].customer_id = event.target.value;
+
+                        if (event.target.value == 'Create New Customer' && !customer) {
+                            Alpine.store('openCreateCustomerModal', true);
+                            return;
+                        }
+
+                        if (customer) {
+                            Alpine.store('openCreateCustomerModal', false);
+                            select2.append(new Option(customer.company_name, customer.id, false, false));
+                            select2.val(customer.id);
+                            select2.trigger('change');
+                        }
                     });
                 }
             }));

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Services\Models\CustomerService;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -34,18 +35,7 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $customer = Customer::firstOrCreate(
-                $request->safe()->only(['company_name'] + ['company_id' => userCompany()->id]),
-                $request->safe()->except(['company_name'] + ['company_id' => userCompany()->id])
-            );
-
-            if ($request->hasFile('business_license_attachment')) {
-                $customer->update([
-                    'business_license_attachment' => $request->business_license_attachment->store('customer_business_licence', 'public'),
-                ]);
-            }
-        });
+        (new CustomerService)->store($request->validated());
 
         return redirect()->route('customers.index');
     }
