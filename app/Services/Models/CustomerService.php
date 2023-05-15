@@ -53,4 +53,19 @@ class CustomerService
             return $customer;
         });
     }
+
+    public function update($customer, $data)
+    {
+        return DB::transaction(function () use ($customer, $data) {
+            $customer->update($data);
+
+            if (!empty($data['business_license_attachment']) && is_object($data['business_license_attachment'])) {
+                $customer->update([
+                    'business_license_attachment' => $data['business_license_attachment']->store('customer_business_licence', 'public'),
+                ]);
+            }
+
+            return $customer;
+        });
+    }
 }

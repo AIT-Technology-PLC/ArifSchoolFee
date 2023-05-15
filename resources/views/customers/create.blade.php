@@ -5,16 +5,8 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="New Customer" />
-        <form
-            id="formOne"
-            action="{{ route('customers.store') }}"
-            method="POST"
-            enctype="multipart/form-data"
-            novalidate
-        >
-            @csrf
+        
+        <livewire:customer-form :has-redirect="true"/>
 
-            @include('customers.partials.form', ['customer' => session()->getOldInput()])
-        </form>
     </x-common.content-wrapper>
 @endsection

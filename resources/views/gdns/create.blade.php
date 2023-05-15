@@ -326,9 +326,7 @@
         </form>
     </x-common.content-wrapper>
 
-    @can ('Create Customer')
-        <div x-bind:class="Alpine.store('openCreateCustomerModal') ? '' : 'is-hidden'">
-            <livewire:create-customer />
-        </div>
+    @can('Create Customer')
+        <x-common.customer-form-modal />
     @endcan
 @endsection
