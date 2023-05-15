@@ -22,6 +22,8 @@ class CustomerForm extends Component
 
     public function mount()
     {
+        abort_if(!isFeatureEnabled('Customer Management'), 403);
+
         $this->customer = $this->customer?->toArray();
 
         !empty($this->customer['credit_amount_limit']) ?: ($this->customer['credit_amount_limit'] = 0);
@@ -62,7 +64,7 @@ class CustomerForm extends Component
     {
         if (empty($this->customer['tin'])) {
             $this->customer['tin'] = null;
-            
+
             return;
         }
 

@@ -25,7 +25,7 @@ Route::resource('suppliers', Resource\SupplierController::class)->except('show')
 
 Route::resource('warehouses', Resource\WarehouseController::class)->except(['show', 'destroy']);
 
-Route::resource('customers', Resource\CustomerController::class)->except('show');
+Route::resource('customers', Resource\CustomerController::class)->except(['store', 'update', 'show']);
 
 Route::resource('gdns', Resource\GdnController::class);
 
