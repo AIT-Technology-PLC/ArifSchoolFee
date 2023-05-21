@@ -114,14 +114,14 @@
                             <x-forms.label for="has_withholding">
                                 Include Withholding Tax <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control x-init="$store.hasWithholding = {{ $sale->hasWithholding() ?: 0 }}">
+                            <x-forms.control x-init="$store.hasWithholding = '{{ boolVal(old('has_withholding', $sale->hasWithholding())) }}'">
                                 <label class="radio has-text-grey">
                                     <input
                                         type="radio"
                                         name="has_withholding"
                                         value="1"
                                         class="mt-3"
-                                        @checked($sale->hasWithholding())
+                                        @checked(old('has_withholding', $sale->hasWithholding()))
                                         x-on:change="$store.hasWithholding = true"
                                     >
                                     Yes
@@ -131,7 +131,7 @@
                                         type="radio"
                                         name="has_withholding"
                                         value="0"
-                                        @checked(!$sale->hasWithholding())
+                                        @checked(!old('has_withholding', $sale->hasWithholding()))
                                         x-on:change="$store.hasWithholding = false"
                                     >
                                     No

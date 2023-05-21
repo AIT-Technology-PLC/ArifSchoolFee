@@ -92,7 +92,7 @@
                             <x-forms.label for="has_withholding">
                                 Include Withholding Tax <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control x-init="$store.hasWithholding = '{{ old('has_withholding', false) }}'">
+                            <x-forms.control x-init="$store.hasWithholding = '{{ boolVal(old('has_withholding')) }}'">
                                 <label class="radio has-text-grey">
                                     <input
                                         type="radio"
