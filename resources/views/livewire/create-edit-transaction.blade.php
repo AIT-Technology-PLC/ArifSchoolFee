@@ -20,7 +20,7 @@
                                 <x-forms.input
                                     type="number"
                                     id="code"
-                                    wire:model="code"
+                                    wire:model.defer="code"
                                     :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                 />
                                 <x-common.icon
@@ -41,7 +41,7 @@
                                     <x-forms.select
                                         class="is-fullwidth"
                                         id="status"
-                                        wire:model="status"
+                                        wire:model.defer="status"
                                     >
                                         <option
                                             selected
@@ -75,7 +75,7 @@
                                     type="datetime-local"
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
-                                    wire:model="issued_on"
+                                    wire:model.defer="issued_on"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -116,7 +116,7 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                        @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio())
+                        @elseif ($masterPadField->isTagInput() && !$masterPadField->isInputTypeCheckbox() && !$masterPadField->isInputTypeRadio() && !$masterPadField->isInputTypeFile())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -126,7 +126,7 @@
                                         <x-forms.input
                                             type="{{ $masterPadField->tag_type }}"
                                             id="{{ $masterPadField->id }}"
-                                            wire:model="master.{{ $masterPadField->id }}"
+                                            wire:model.defer="master.{{ $masterPadField->id }}"
                                             :readonly="$masterPadField->isReadonly()"
                                         />
                                         <x-common.icon
@@ -135,6 +135,51 @@
                                         />
                                         <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                     </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @elseif ($masterPadField->isInputTypeFile())
+                            <div class="column is-6">
+                                <x-forms.field>
+                                    <x-forms.label for="{{ $masterPadField->id }}">
+                                        {{ $masterPadField->label }}
+                                        <sup class="has-text-danger">
+                                            {{ $masterPadField->isRequired() ? '*' : '' }}
+                                        </sup>
+                                    </x-forms.label>
+                                    <div class="file has-name">
+                                        <label class="file-label">
+                                            <x-forms.input
+                                                class="file-input"
+                                                type="file"
+                                                wire:model.defer="master.{{ $masterPadField->id }}"
+                                            />
+                                            <span class="file-cta bg-green has-text-white">
+                                                <x-common.icon
+                                                    name="fas fa-upload"
+                                                    class="file-icon"
+                                                />
+                                                <span class="file-label">
+                                                    Upload {{ $masterPadField->label }}
+                                                </span>
+                                            </span>
+                                            <span class="file-name">
+                                                {{ $master[$masterPadField->id] ?? '' }}
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div
+                                        class="mt-3"
+                                        wire:loading
+                                        wire:target="master.{{ $masterPadField->id }}"
+                                    >
+                                        <span class="icon text-gold">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                        </span>
+                                        <span class="text-gold is-uppercase">
+                                            Uploading...
+                                        </span>
+                                    </div>
+                                    <x-common.validation-error property="master.{{ $masterPadField->id }}" />
                                 </x-forms.field>
                             </div>
                         @elseif ($masterPadField->isInputTypeRadio())
@@ -149,7 +194,7 @@
                                                 type="radio"
                                                 id="{{ $masterPadField->id }}"
                                                 name="{{ $masterPadField->id }}"
-                                                wire:model="master.{{ $masterPadField->id }}"
+                                                wire:model.defer="master.{{ $masterPadField->id }}"
                                                 value="Yes"
                                             >
                                             Yes
@@ -159,7 +204,7 @@
                                                 type="radio"
                                                 id="{{ $masterPadField->id }}"
                                                 name="{{ $masterPadField->id }}"
-                                                wire:model="master.{{ $masterPadField->id }}"
+                                                wire:model.defer="master.{{ $masterPadField->id }}"
                                                 value="No"
                                             >
                                             No
@@ -197,7 +242,7 @@
                                         <x-forms.select
                                             class="is-fullwidth"
                                             id="{{ $masterPadField->id }}"
-                                            wire:model="master.{{ $masterPadField->id }}"
+                                            wire:model.defer="master.{{ $masterPadField->id }}"
                                         >
                                             <option
                                                 selected
@@ -304,7 +349,7 @@
                                                         <x-forms.select
                                                             class="is-fullwidth"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
-                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
                                                             <option hidden>Select Batch</option>
                                                             @foreach ($merchandiseBatches as $merchandiseBatch)
@@ -369,7 +414,7 @@
                                                             <x-forms.select
                                                                 class="is-fullwidth"
                                                                 id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
-                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             >
                                                                 <option
                                                                     selected
@@ -405,7 +450,7 @@
                                                             <x-forms.input
                                                                 type="{{ $detailPadField->tag_type }}"
                                                                 id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
-                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             />
                                                             <x-common.icon
                                                                 name="{{ $detailPadField->icon }}"
@@ -441,7 +486,7 @@
                                                         <x-forms.input
                                                             type="{{ $detailPadField->tag_type }}"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
-                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField?->id] ?? null)?->unit_of_measurement : '' }}"
                                                             :readonly="$detailPadField->isReadonly()"
                                                         />
@@ -466,7 +511,7 @@
                                                     <x-forms.control class="has-icons-left is-expanded">
                                                         <x-forms.input
                                                             id="{{ $loop->parent->index }}{{ $batchNoPadField->id }}"
-                                                            wire:model="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}"
+                                                            wire:model.defer="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}"
                                                             type="text"
                                                             placeholder="Batch No"
                                                         />
@@ -479,7 +524,7 @@
                                                     <x-forms.control class="has-icons-left">
                                                         <x-forms.input
                                                             id="{{ $loop->parent->index }}{{ $batchExpiryPadField->id }}"
-                                                            wire:model="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}"
+                                                            wire:model.defer="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}"
                                                             type="date"
                                                             placeholder="Expiry Date"
                                                         />
@@ -504,7 +549,7 @@
                                                                 type="radio"
                                                                 id="{{ $detailPadField->id }}"
                                                                 name="{{ $detailPadField->id }}"
-                                                                wire:model="master.{{ $detailPadField->id }}"
+                                                                wire:model.defer="master.{{ $detailPadField->id }}"
                                                                 value="Yes"
                                                             >
                                                             Yes
@@ -514,7 +559,7 @@
                                                                 type="radio"
                                                                 id="{{ $detailPadField->id }}"
                                                                 name="{{ $detailPadField->id }}"
-                                                                wire:model="master.{{ $detailPadField->id }}"
+                                                                wire:model.defer="master.{{ $detailPadField->id }}"
                                                                 value="No"
                                                             >
                                                             No
@@ -537,7 +582,7 @@
                                                             <x-forms.input
                                                                 class="file-input"
                                                                 type="file"
-                                                                wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             />
                                                             <span class="file-cta bg-green has-text-white">
                                                                 <x-common.icon
@@ -578,7 +623,7 @@
                                                         <x-forms.textarea
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             class="pl-6"
-                                                            wire:model="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
                                                         </x-forms.textarea>
                                                         <x-common.icon

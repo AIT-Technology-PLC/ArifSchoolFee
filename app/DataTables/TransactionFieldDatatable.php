@@ -23,7 +23,7 @@ class TransactionFieldDatatable extends DataTable
     {
         $datatable = datatables()->collection($query->all())->editColumn('expires_on', fn($row) => $row['expires_on'] ?? 'N/A');
 
-        $padFields = PadField::inputTypeFile()->where('pad_id', request()->route('transaction')->pad_id)->get();
+        $padFields = PadField::detailFields()->inputTypeFile()->where('pad_id', request()->route('transaction')->pad_id)->get();
 
         foreach ($padFields as $padField) {
             $datatable->editColumn(str()->snake($padField->label), function ($row) use ($padField) {
