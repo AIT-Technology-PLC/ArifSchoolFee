@@ -48,8 +48,8 @@ class TransactionDatatable extends DataTable
             if ($padField->isInputTypeFile()) {
                 $datatable->editColumn($padField->label, function ($row) use ($padField) {
                     return view('components.datatables.link', [
-                        'url' => isset($row[$padField->label]) ? asset('/storage/' . $row[$padField->label]) : '#',
-                        'label' => isset($row[$padField->label]) ? $padField->label : ('No ' . $padField->label),
+                        'url' => $row[$padField->label] != 'N/A' ? asset('/storage/' . $row[$padField->label]) : '#',
+                        'label' => $row[$padField->label] != 'N/A' ? $padField->label : ('No ' . $padField->label),
                         'target' => '_blank',
                     ]);
                 });
