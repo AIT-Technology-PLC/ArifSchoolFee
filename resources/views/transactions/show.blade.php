@@ -55,6 +55,35 @@
                         </div>
                         @continue
                     @endif
+                    @if ($masterTransactionField->padField->isInputTypeFile())
+                        <div class="column is-6">
+                            <div class="columns is-marginless is-vcentered is-mobile text-green">
+                                <div class="column is-1">
+                                    <x-common.icon
+                                        name="{{ $masterTransactionField->padField->icon }}"
+                                        class="is-size-3"
+                                    />
+                                </div>
+                                <div class="column m-lr-20">
+                                    <div class="is-size- has-text-weight-bold">
+                                        @if (!empty($masterTransactionField->value))
+                                            <x-common.button
+                                                tag="a"
+                                                href="{{ asset('/storage/' . $masterTransactionField->value) }}"
+                                                label="View {{ $masterTransactionField->padField->label }}"
+                                                class="text-blue has-text-weight-medium"
+                                                target="_blank"
+                                            />
+                                        @else
+                                            No {{ $masterTransactionField->padField->label }}
+                                        @endif
+                                    </div>
+                                    <div class="is-uppercase is-size-7"> {{ $masterTransactionField->padField->label }} </div>
+                                </div>
+                            </div>
+                        </div>
+                        @continue
+                    @endif
                     <div class="column is-6">
                         <x-common.show-data-section
                             type="short"
