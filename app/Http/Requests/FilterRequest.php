@@ -23,6 +23,7 @@ class FilterRequest extends FormRequest
             'user_id' => ['nullable', 'integer', new MustBelongToCompany('users')],
             'tax_id' => ['nullable', 'integer', new MustBelongToCompany('taxes')],
             'product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
+            'bank_name' => ['nullable', 'string'],
             'expense_category_id' => ['nullable', 'integer', new MustBelongToCompany('expense_categories')],
         ];
     }
