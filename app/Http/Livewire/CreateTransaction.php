@@ -143,6 +143,10 @@ class CreateTransaction extends Component
             'status' => [Rule::requiredIf($this->padStatuses->isNotEmpty()), 'string'],
         ];
 
+        if ($this->pad->hasDetailPadFields()) {
+            $rules['details'] = ['required', 'array'];
+        }
+
         foreach ($this->masterPadFields as $masterPadField) {
             if ($this->masterPadFieldsTypeFile->where('id', $masterPadField->id)->count()) {
                 continue;
