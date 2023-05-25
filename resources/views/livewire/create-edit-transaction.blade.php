@@ -21,6 +21,7 @@
                                     type="number"
                                     id="code"
                                     wire:model.defer="code"
+                                    wire:key="code"
                                     :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
                                 />
                                 <x-common.icon
@@ -42,6 +43,7 @@
                                         class="is-fullwidth"
                                         id="status"
                                         wire:model.defer="status"
+                                        wire:key="status"
                                     >
                                         <option
                                             selected
@@ -76,6 +78,7 @@
                                     id="issued_on"
                                     placeholder="mm/dd/yyyy"
                                     wire:model.defer="issued_on"
+                                    wire:key="issued_on"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -127,6 +130,7 @@
                                             type="{{ $masterPadField->tag_type }}"
                                             id="{{ $masterPadField->id }}"
                                             wire:model.defer="master.{{ $masterPadField->id }}"
+                                            wire:key="master.{{ $masterPadField->id }}"
                                             :readonly="$masterPadField->isReadonly()"
                                         />
                                         <x-common.icon
@@ -152,6 +156,7 @@
                                                 class="file-input"
                                                 type="file"
                                                 wire:model.defer="master.{{ $masterPadField->id }}"
+                                                wire:key="master.{{ $masterPadField->id }}"
                                             />
                                             <span class="file-cta bg-green has-text-white">
                                                 <x-common.icon
@@ -195,6 +200,7 @@
                                                 id="{{ $masterPadField->id }}"
                                                 name="{{ $masterPadField->id }}"
                                                 wire:model.defer="master.{{ $masterPadField->id }}"
+                                                wire:key="master.{{ $masterPadField->id }}"
                                                 value="Yes"
                                             >
                                             Yes
@@ -205,6 +211,7 @@
                                                 id="{{ $masterPadField->id }}"
                                                 name="{{ $masterPadField->id }}"
                                                 wire:model.defer="master.{{ $masterPadField->id }}"
+                                                wire:key="master.{{ $masterPadField->id }}"
                                                 value="No"
                                             >
                                             No
@@ -243,6 +250,7 @@
                                             class="is-fullwidth"
                                             id="{{ $masterPadField->id }}"
                                             wire:model.defer="master.{{ $masterPadField->id }}"
+                                            wire:key="master.{{ $masterPadField->id }}"
                                         >
                                             <option
                                                 selected
@@ -350,6 +358,7 @@
                                                             class="is-fullwidth"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
                                                             <option hidden>Select Batch</option>
                                                             @foreach ($merchandiseBatches as $merchandiseBatch)
@@ -415,6 +424,7 @@
                                                                 class="is-fullwidth"
                                                                 id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                                 wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             >
                                                                 <option
                                                                     selected
@@ -451,6 +461,7 @@
                                                                 type="{{ $detailPadField->tag_type }}"
                                                                 id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                                 wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             />
                                                             <x-common.icon
                                                                 name="{{ $detailPadField->icon }}"
@@ -487,6 +498,7 @@
                                                             type="{{ $detailPadField->tag_type }}"
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             placeholder="{{ $detailPadField->isQuantity() ? $products->find($details[$loop->parent->index][$productPadField?->id] ?? null)?->unit_of_measurement : '' }}"
                                                             :readonly="$detailPadField->isReadonly()"
                                                         />
@@ -512,6 +524,7 @@
                                                         <x-forms.input
                                                             id="{{ $loop->parent->index }}{{ $batchNoPadField->id }}"
                                                             wire:model.defer="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $batchNoPadField->id }}"
                                                             type="text"
                                                             placeholder="Batch No"
                                                         />
@@ -525,6 +538,7 @@
                                                         <x-forms.input
                                                             id="{{ $loop->parent->index }}{{ $batchExpiryPadField->id }}"
                                                             wire:model.defer="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $batchExpiryPadField->id }}"
                                                             type="date"
                                                             placeholder="Expiry Date"
                                                         />
@@ -550,6 +564,7 @@
                                                                 id="{{ $detailPadField->id }}"
                                                                 name="{{ $detailPadField->id }}"
                                                                 wire:model.defer="master.{{ $detailPadField->id }}"
+                                                                wire:key="master.{{ $detailPadField->id }}"
                                                                 value="Yes"
                                                             >
                                                             Yes
@@ -560,6 +575,7 @@
                                                                 id="{{ $detailPadField->id }}"
                                                                 name="{{ $detailPadField->id }}"
                                                                 wire:model.defer="master.{{ $detailPadField->id }}"
+                                                                wire:key="master.{{ $detailPadField->id }}"
                                                                 value="No"
                                                             >
                                                             No
@@ -583,6 +599,7 @@
                                                                 class="file-input"
                                                                 type="file"
                                                                 wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                                wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                             />
                                                             <span class="file-cta bg-green has-text-white">
                                                                 <x-common.icon
@@ -624,6 +641,7 @@
                                                             id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
                                                             class="pl-6"
                                                             wire:model.defer="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
                                                         </x-forms.textarea>
                                                         <x-common.icon
