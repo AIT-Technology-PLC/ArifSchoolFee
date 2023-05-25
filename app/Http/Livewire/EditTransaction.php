@@ -153,6 +153,10 @@ class EditTransaction extends Component
             'issued_on' => ['required', 'date'],
         ];
 
+        if ($this->pad->hasDetailPadFields()) {
+            $rules['details'] = ['required', 'array'];
+        }
+
         foreach ($this->masterPadFields as $masterPadField) {
             if ($this->masterPadFieldsTypeFile->where('id', $masterPadField->id)->count()) {
                 continue;
