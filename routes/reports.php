@@ -15,3 +15,4 @@ Route::get('/reports/{supplier}/supplier-profile', Report\SupplierProfileReportC
 Route::get('/reports/inventory-level', [Report\InventoryLevelReportController::class,'index'])->name('reports.inventory_level');
 Route::get('/reports/inventory-transfer', [Report\InventoryTransferReportController::class,'index'])->name('reports.inventory_transfer');
 Route::get('/reports/credits', [Report\CreditReportController::class,'index'])->name('reports.credit');
+Route::get('/reports/inventory-summary', [Report\InventorySummaryReportController::class,'index'])->name('reports.inventory_summary');
