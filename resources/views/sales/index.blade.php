@@ -13,17 +13,17 @@
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
-                :amount="$totalCancelled"
-                border-color="#86843d"
-                text-color="text-gold"
-                label="Cancelled"
+                :amount="$totalSubtracted"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Subtracted"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
-                border-color="#3d8660"
-                text-color="text-green"
+                border-color="#86843d"
+                text-color="text-gold"
                 label="Approved"
             />
         </div>
@@ -100,7 +100,7 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Waiting Approval', 'Approved', 'Cancelled'] as $status)
+                                    @foreach (['Waiting Approval', 'Approved', 'Subtracted', 'Voided'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
                                 </x-forms.select>

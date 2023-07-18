@@ -45,4 +45,9 @@ class SalePolicy
     {
         return $user->can('Cancel Sale');
     }
+
+    public function subtract(User $user, Sale $sale)
+    {
+        return $user->can('Subtract GDN');
+    }
 }

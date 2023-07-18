@@ -20,6 +20,11 @@ return new class extends Migration
         Schema::table('sale_details', function (Blueprint $table) {
             $table->foreignId('warehouse_id')->after('product_id')->nullable()->references('id')->on('warehouses')->cascadeOnDelete()->cascadeOnUpdate();
         });
+
+        Schema::table('sales', function (Blueprint $table) {
+            $table->foreignId('subtracted_by')->nullable()->after('approved_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('added_by')->nullable()->after('subtracted_by')->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
+        });
     }
 
     /**
@@ -36,6 +41,14 @@ return new class extends Migration
         Schema::table('sale_details', function (Blueprint $table) {
             $table->dropForeign(['warehouse_id']);
             $table->dropColumn('warehouse_id');
+        });
+
+        Schema::table('sales', function (Blueprint $table) {
+            $table->dropForeign(['subtracted_by']);
+            $table->dropForeign(['added_by']);
+
+            $table->dropColumn('subtracted_by');
+            $table->dropColumn('added_by');
         });
     }
 };

@@ -27,6 +27,11 @@ class SaleDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function merchandiseBatch()
     {
         return $this->belongsTo(MerchandiseBatch::class);
@@ -48,5 +53,26 @@ class SaleDetail extends Model
         }
 
         return $this->totalPrice * userCompany()->withholdingTaxes['tax_rate'];
+    }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this->where([
+            ['warehouse_id', $warehouse->id],
+            ['product_id', $product->id],
+        ])
+            ->whereIn('sale_id', function ($query) {
+                $query->select('id')
+                    ->from('sales')
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('subtracted_by')
+                    ->whereNull('cancelled_by');
+            })
+            ->get()
+            ->load([
+                'sale' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
+                }]
+            );
     }
 }

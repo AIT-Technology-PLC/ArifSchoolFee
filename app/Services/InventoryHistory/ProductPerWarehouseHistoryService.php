@@ -10,6 +10,7 @@ class ProductPerWarehouseHistoryService
     private $histories = [
         GrnDetailHistoryService::class,
         GdnDetailHistoryService::class,
+        SaleDetailHistoryService::class,
         TransferDetailHistoryService::class,
         DamageDetailHistoryService::class,
         ReturnDetailHistoryService::class,

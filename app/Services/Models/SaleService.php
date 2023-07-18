@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Services\Integrations\PointOfSaleService;
+use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
 class SaleService
@@ -44,6 +45,10 @@ class SaleService
 
     public function cancel($sale)
     {
+        if ($sale->isCancelled()) {
+            return [false, 'This Invoice is already cancelled'];
+        }
+
         return DB::transaction(function () use ($sale) {
             $sale->credit()->forceDelete();
 
@@ -53,6 +58,13 @@ class SaleService
 
             if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist() && $sale->isApproved()) {
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
+            }
+
+            if ($sale->isSubtracted()) {
+                InventoryOperationService::add($sale->gdnDetails, $sale);
+                $sale->add();
+                $sale->sale?->cancel();
+                Siv::where('purpose', 'DO')->where('ref_num', $sale->code)->forceDelete();
             }
 
             if (!$isExecuted) {
@@ -99,6 +111,82 @@ class SaleService
             'issued_on' => now(),
             'due_date' => $sale->due_date,
         ]);
+
+        return [true, ''];
+    }
+
+    public function subtract($sale, $user)
+    {
+        if (!$user->hasWarehousePermission('sales',
+            $sale->saleDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to sell from one or more of the warehouses.'];
+        }
+
+        if (!$sale->isApproved()) {
+            return [false, 'This Invoice is not approved yet.'];
+        }
+
+        if ($sale->isCancelled()) {
+            return [false, 'This Invoice is cancelled.'];
+        }
+
+        if ($sale->isSubtracted()) {
+            return [false, 'This Invoice is already subtracted from inventory'];
+        }
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($sale) {
+            InventoryOperationService::subtract($sale->saleDetails, $sale);
+
+            $sale->subtract();
+        });
+
+        return [true, ''];
+    }
+
+    public function approveAndSubtract($sale, $user)
+    {
+        if (!$user->hasWarehousePermission('sales',
+            $sale->saleDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to sell from one or more of the warehouses.'];
+        }
+
+        if ($sale->isApproved()) {
+            return [false, 'This Delivery Order is already approved.'];
+        }
+
+        if ($sale->isCancelled()) {
+            return [false, 'This Delivery Order is cancelled.'];
+        }
+
+        if ($sale->isSubtracted()) {
+            return [false, 'This Delivery Order is already subtracted from inventory'];
+        }
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($sale) {
+            (new ApproveTransactionAction)->execute($sale);
+
+            if ($sale->payment_type == 'Deposits') {
+                $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
+            }
+
+            $this->convertToCredit($sale);
+
+            InventoryOperationService::subtract($sale->saleDetails, $sale);
+
+            $sale->subtract();
+        });
 
         return [true, ''];
     }

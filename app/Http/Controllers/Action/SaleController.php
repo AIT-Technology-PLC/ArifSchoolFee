@@ -78,4 +78,32 @@ class SaleController extends Controller
 
         return redirect()->route('credits.show', $sale->credit->id);
     }
+
+    public function subtract(Sale $sale)
+    {
+        $this->authorize('subtract', $sale);
+
+        [$isExecuted, $message] = $this->saleService->subtract($sale, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return back();
+    }
+
+    public function approveAndSubtract(Sale $sale)
+    {
+        $this->authorize('approve', $sale);
+
+        $this->authorize('subtract', $sale);
+
+        [$isExecuted, $message] = $this->saleService->approveAndSubtract($sale, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return back();
+    }
 }
