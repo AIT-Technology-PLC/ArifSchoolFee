@@ -545,7 +545,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (isFeatureEnabled('Gdn Management') || isFeatureEnabled('Reservation Management'))
+                    @if (isFeatureEnabled('Gdn Management', 'Reservation Management', 'Sale Management'))
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="is_backorder_enabled">
@@ -855,6 +855,39 @@
                                         class="is-small is-left"
                                     />
                                     <x-common.validation-error property="working_days" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Sale Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="sales_subtracting_method">
+                                    Invoice Subtraction Method <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="sales_subtracting_method"
+                                        name="sales_subtracting_method"
+                                    >
+                                        <option
+                                            value="pos"
+                                            {{ $company->sales_subtracting_method == 'pos' ? 'selected' : '' }}
+                                        >POS</option>
+                                        <option
+                                            value="manual"
+                                            {{ $company->sales_subtracting_method == 'manual' ? 'selected' : '' }}
+                                        >Manual</option>
+                                        <option
+                                            value="none"
+                                            {{ $company->sales_subtracting_method == 'none' ? 'selected' : '' }}
+                                        >None</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-dollar-sign"
+                                        class="is-small is-left"
+                                    />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
