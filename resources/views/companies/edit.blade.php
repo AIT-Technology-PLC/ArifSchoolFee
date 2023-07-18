@@ -859,39 +859,6 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    @if (isFeatureEnabled('Sale Management'))
-                        <div class="column is-6">
-                            <x-forms.field>
-                                <x-forms.label for="sales_subtracting_method">
-                                    Invoice Subtraction Method <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.control class="has-icons-left">
-                                    <x-forms.select
-                                        class="is-fullwidth"
-                                        id="sales_subtracting_method"
-                                        name="sales_subtracting_method"
-                                    >
-                                        <option
-                                            value="pos"
-                                            {{ $company->sales_subtracting_method == 'pos' ? 'selected' : '' }}
-                                        >POS</option>
-                                        <option
-                                            value="manual"
-                                            {{ $company->sales_subtracting_method == 'manual' ? 'selected' : '' }}
-                                        >Manual</option>
-                                        <option
-                                            value="none"
-                                            {{ $company->sales_subtracting_method == 'none' ? 'selected' : '' }}
-                                        >None</option>
-                                    </x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-dollar-sign"
-                                        class="is-small is-left"
-                                    />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endif
                     @if (isFeatureEnabled('Sales Report'))
                         <div class="column is-6">
                             <x-forms.field>
@@ -1049,6 +1016,38 @@
                                         By Cost Percentage
                                     </label>
                                     <x-common.validation-error property="is_costing_by_freight_volume" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Sale Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="can_sale_subtract">
+                                    Allow Subtracting By Invoice <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control>
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="can_sale_subtract"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked($company->canSaleSubtract())
+                                        >
+                                        Yes
+                                    </label>
+                                    <br>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="can_sale_subtract"
+                                            value="0"
+                                            @checked(!$company->canSaleSubtract())
+                                        >
+                                        No
+                                    </label>
+                                    <x-common.validation-error property="can_sale_subtract" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

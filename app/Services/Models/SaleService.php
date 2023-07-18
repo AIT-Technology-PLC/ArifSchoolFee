@@ -60,7 +60,7 @@ class SaleService
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
-            if ($sale->isSubtracted()) {
+            if (userCompany()->canSaleSubtract() && $sale->isSubtracted()) {
                 InventoryOperationService::add($sale->gdnDetails, $sale);
                 $sale->add();
                 $sale->sale?->cancel();
@@ -117,6 +117,10 @@ class SaleService
 
     public function subtract($sale, $user)
     {
+        if (!userCompany()->canSaleSubtract()) {
+            return [false, 'Subtracting invoice is not allow. Contact your System Manager.'];
+        }
+
         if (!$user->hasWarehousePermission('sales',
             $sale->saleDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to sell from one or more of the warehouses.'];
@@ -151,6 +155,10 @@ class SaleService
 
     public function approveAndSubtract($sale, $user)
     {
+        if (!userCompany()->canSaleSubtract()) {
+            return [false, 'Subtracting invoice is not allow. Contact your System Manager.'];
+        }
+
         if (!$user->hasWarehousePermission('sales',
             $sale->saleDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to sell from one or more of the warehouses.'];

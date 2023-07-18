@@ -130,7 +130,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$sale->isApproved() && authUser()->can(['Approve Sale', 'Subtract Sale']))
+                @if (userCompany()->canSaleSubtract() && !$sale->isApproved() && authUser()->can(['Approve Sale', 'Subtract Sale']))
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('sales.approve_and_subtract', $sale->id)"
@@ -154,7 +154,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(!$sale->isSubtracted() && !$sale->isCancelled())
+                @elseif(userCompany()->canSaleSubtract() && !$sale->isSubtracted() && !$sale->isCancelled())
                     @can('Subtract Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -225,12 +225,14 @@
 
             @if ($sale->isCancelled())
                 <x-common.fail-message message="This Invoice has been cancelled." />
-            @elseif ($sale->isSubtracted())
+            @elseif (userCompany()->canSaleSubtract() && $sale->isSubtracted())
                 <x-common.success-message message="Products have been subtracted from inventory." />
-            @elseif (!$sale->isApproved())
-                <x-common.fail-message message="This Invoice has not been approved yet." />
-            @elseif (!$sale->isSubtracted())
-                <x-common.fail-message message="Product(s) listed below are still not subtracted from your inventory." />
+            @elseif (userCompany()->canSaleSubtract() && $sale->isApproved())
+                <x-common.fail-message message="This Invoice is approved but not subtracted." />
+            @elseif (!userCompany()->canSaleSubtract() && $sale->isApproved())
+                <x-common.fail-message message="This Invoice is approved." />
+            @else
+                <x-common.fail-message message="This Invoice is not approved yet." />
             @endif
 
             {{ $dataTable->table() }}

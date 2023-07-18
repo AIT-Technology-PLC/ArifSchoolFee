@@ -11,19 +11,31 @@
                 icon="fas fa-cash-register"
             />
         </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                :amount="$totalSubtracted"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Subtracted"
-            />
-        </div>
+        @if (userCompany()->canSaleSubtract())
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    :amount="$totalSubtracted"
+                    border-color="#3d8660"
+                    text-color="text-green"
+                    label="Subtracted"
+                />
+            </div>
+        @endif
+        @if (!userCompany()->canSaleSubtract())
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    :amount="$totalCancelled"
+                    border-color="#86843d"
+                    text-color="text-gold"
+                    label="Cancelled"
+                />
+            </div>
+        @endif
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
-                border-color="#86843d"
-                text-color="text-gold"
+                border-color="{{ userCompany()->canSaleSubtract() ? '#86843d' : '#3d8660' }}"
+                text-color="{{ userCompany()->canSaleSubtract() ? 'text-gold' : 'text-green' }}"
                 label="Approved"
             />
         </div>
@@ -100,8 +112,12 @@
                                         Statuses
                                     </option>
                                     <option value="all"> All </option>
-                                    @foreach (['Waiting Approval', 'Approved', 'Subtracted', 'Voided'] as $status)
+                                    @foreach (['Waiting Approval', 'Approved', 'Voided'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
+
+                                        @if (userCompany()->canSaleSubtract() && $status == 'Approved')
+                                            <option value="subtracted"> Subtracted </option>
+                                        @endif
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>

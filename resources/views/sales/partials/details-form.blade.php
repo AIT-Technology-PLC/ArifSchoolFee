@@ -32,8 +32,12 @@
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
                     <div
-                        class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(sale.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        class="column is-12"
+                        x-bind:class="{
+                            'is-12': !{{ userCompany()->canSaleSubtract() }} && (!Product.isBatchable(sale.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}),
+                            'is-6': {{ userCompany()->canSaleSubtract() }} ^ (Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }}),
+                            'is-4': {{ userCompany()->canSaleSubtract() }} && Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }}
+                        }"
                     >
                         <x-forms.label x-bind:for="`sale[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
@@ -41,7 +45,7 @@
                         <x-forms.field class="has-addons">
                             <x-forms.control
                                 class="has-icons-left"
-                                style="width: 30%"
+                                style="width: 20%"
                             >
                                 <x-common.category-list
                                     x-model="sale.product_category_id"
@@ -74,6 +78,7 @@
                     @if (userCompany()->canSelectBatchNumberOnForms())
                         <div
                             class="column is-4"
+                            x-bind:class="{ 'is-6': !{{ userCompany()->canSaleSubtract() }}, 'is-4': {{ userCompany()->canSaleSubtract() }} }"
                             x-show="Product.isBatchable(sale.product_id)"
                         >
                             <x-forms.label x-bind:for="`sale[${index}][merchandise_batch_id]`">
@@ -99,41 +104,43 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    <div
-                        class="column is-6"
-                        x-bind:class="{ 'is-6': !Product.isBatchable(sale.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
-                    >
-                        <x-forms.field>
-                            <x-forms.label x-bind:for="`sale[${index}][warehouse_id]`">
-                                From <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    x-init="$nextTick(() => { sale.warehouse_id = $el.value })"
-                                    x-bind:id="`sale[${index}][warehouse_id]`"
-                                    x-bind:name="`sale[${index}][warehouse_id]`"
-                                    x-model="sale.warehouse_id"
-                                    x-on:change="warehouseChanged(index)"
-                                >
-                                    @foreach ($warehouses as $warehouse)
-                                        <option
-                                            value="{{ $warehouse->id }}"
-                                            {{ ($saleDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
-                                        >{{ $warehouse->name }}</option>
-                                    @endforeach
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-warehouse"
-                                    class="is-small is-left"
-                                />
-                                <span
-                                    class="help has-text-danger"
-                                    x-text="$store.errors.getErrors(`sale.${index}.warehouse_id`)"
-                                ></span>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (userCompany()->canSaleSubtract())
+                        <div
+                            class="column is-6"
+                            x-bind:class="{ 'is-6': !Product.isBatchable(sale.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(sale.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                        >
+                            <x-forms.field>
+                                <x-forms.label x-bind:for="`sale[${index}][warehouse_id]`">
+                                    From <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        x-init="$nextTick(() => { sale.warehouse_id = $el.value })"
+                                        x-bind:id="`sale[${index}][warehouse_id]`"
+                                        x-bind:name="`sale[${index}][warehouse_id]`"
+                                        x-model="sale.warehouse_id"
+                                        x-on:change="warehouseChanged(index)"
+                                    >
+                                        @foreach ($warehouses as $warehouse)
+                                            <option
+                                                value="{{ $warehouse->id }}"
+                                                {{ ($saleDetail['warehouse_id'] ?? '') == $warehouse->id ? 'selected' : '' }}
+                                            >{{ $warehouse->name }}</option>
+                                        @endforeach
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-warehouse"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`sale.${index}.warehouse_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`sale[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>

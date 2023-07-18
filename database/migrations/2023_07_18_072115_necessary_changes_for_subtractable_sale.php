@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->string('sales_subtracting_method')->default('none');
+            $table->boolean('can_sale_subtract')->default(0);
         });
 
         Schema::table('sale_details', function (Blueprint $table) {
@@ -35,7 +35,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->dropColumn('sales_subtracting_method');
+            $table->dropColumn('can_sale_subtract');
         });
 
         Schema::table('sale_details', function (Blueprint $table) {
