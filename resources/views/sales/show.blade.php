@@ -130,7 +130,18 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (!$sale->isApproved() && !$sale->isCancelled())
+                @if (userCompany()->canSaleSubtract() && !$sale->isApproved() && authUser()->can(['Approve Sale', 'Subtract Sale']))
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('sales.approve_and_subtract', $sale->id)"
+                            action="approve & subtract"
+                            intention="approve & subtract this inovice"
+                            icon="fas fa-minus-circle"
+                            label="Approve & Subtract"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @elseif (!$sale->isApproved())
                     @can('Approve Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -139,6 +150,19 @@
                                 intention="approve this sale"
                                 icon="fas fa-signature"
                                 label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(userCompany()->canSaleSubtract() && !$sale->isSubtracted() && !$sale->isCancelled())
+                    @can('Subtract Sale')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sales.subtract', $sale->id)"
+                                action="subtract"
+                                intention="subtract products of this invoice"
+                                icon="fas fa-minus-circle"
+                                label="Subtract"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
@@ -200,11 +224,15 @@
             <x-common.fail-message :message="session('failedMessage')" />
 
             @if ($sale->isCancelled())
-                <x-common.fail-message message="This invoice is cancelled." />
-            @elseif ($sale->isApproved())
-                <x-common.success-message message="This invoice is approved." />
+                <x-common.fail-message message="This Invoice has been cancelled." />
+            @elseif (userCompany()->canSaleSubtract() && $sale->isSubtracted())
+                <x-common.success-message message="Products have been subtracted from inventory." />
+            @elseif (userCompany()->canSaleSubtract() && $sale->isApproved())
+                <x-common.fail-message message="This Invoice is approved but not subtracted." />
+            @elseif (!userCompany()->canSaleSubtract() && $sale->isApproved())
+                <x-common.fail-message message="This Invoice is approved." />
             @else
-                <x-common.fail-message message="This invoice is not approved yet." />
+                <x-common.fail-message message="This Invoice is not approved yet." />
             @endif
 
             {{ $dataTable->table() }}

@@ -21,6 +21,7 @@ class SaleDetailDatatable extends DataTable
                     'code' => $saleDetail->product->code ?? '',
                 ]);
             })
+            ->editColumn('warehouse', fn($saleDetail) => $saleDetail->warehouse?->name ?? 'N/A')
             ->editColumn('quantity', function ($saleDetail) {
                 return quantity($saleDetail->quantity, $saleDetail->product->unit_of_measurement);
             })
@@ -46,6 +47,7 @@ class SaleDetailDatatable extends DataTable
             ->where('sale_id', request()->route('sale')->id)
             ->with([
                 'product',
+                'warehouse',
                 'merchandiseBatch',
             ]);
     }
@@ -55,6 +57,7 @@ class SaleDetailDatatable extends DataTable
         $columns = [
             Column::computed('#'),
             Column::make('product', 'product.name'),
+            userCompany()->canSaleSubtract() ? Column::make('warehouse', 'warehouse.name') : null,
             Column::make('quantity')->addClass('has-text-right'),
             Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),

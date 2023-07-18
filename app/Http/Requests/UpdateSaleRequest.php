@@ -6,6 +6,7 @@ use App\Models\Sale;
 use App\Models\Product;
 use App\Rules\ValidatePrice;
 use Illuminate\Validation\Rule;
+use App\Rules\ValidateBackorder;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
 use App\Rules\UniqueReferenceNum;
@@ -30,7 +31,8 @@ class UpdateSaleRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'fs_number' => ['sometimes', Rule::when(!is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
-            'sale.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new CheckProductStatus],
+            'sale.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new ValidateBackorder($this->input('sale')), new CheckProductStatus],
+            'sale.*.warehouse_id' => ['sometimes', 'required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'sale.*.unit_price' => ['required', 'numeric', 'min:0', new ValidatePrice],
             'sale.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('sale'))],
             'sale.*.description' => ['nullable', 'string'],

@@ -42,6 +42,8 @@ class SaleDatatable extends DataTable
             ->editColumn('issued_on', fn($sale) => $sale->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($sale) => $sale->createdBy->name)
             ->editColumn('edited by', fn($sale) => $sale->updatedBy->name)
+            ->editColumn('subtracted by', fn($sale) => $sale->subtractedBy->name ?? 'N/A')
+            ->editColumn('voided by', fn($sale) => $sale->cancelledBy->name ?? 'N/A')
             ->editColumn('actions', function ($sale) {
                 return view('components.common.action-buttons', [
                     'model' => 'sales',
@@ -60,12 +62,16 @@ class SaleDatatable extends DataTable
             ->when(is_numeric(request('branch')), fn($query) => $query->where('sales.warehouse_id', request('branch')))
             ->when(!is_null(request('paymentType')) && request('paymentType') != 'all', fn($query) => $query->where('sales.payment_type', request('paymentType')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
-            ->when(request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
-            ->when(request('status') == 'cancelled', fn($query) => $query->cancelled())
+            ->when(userCompany()->canSaleSubtract() && request('status') == 'approved', fn($query) => $query->approved()->notCancelled()->notSubtracted())
+            ->when(!userCompany()->canSaleSubtract() && request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
+            ->when(request('status') == 'voided', fn($query) => $query->cancelled())
             ->with([
                 'saleDetails',
                 'createdBy:id,name',
                 'updatedBy:id,name',
+                'subtractedBy:id,name',
+                'cancelledBy:id,name',
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
@@ -88,6 +94,8 @@ class SaleDatatable extends DataTable
             Column::make('description')->visible(false),
             Column::make('issued_on')->title('Issued On'),
             Column::make('prepared by', 'createdBy.name')->visible(false),
+            Column::make('subtracted by', 'subtractedBy.name')->visible(false),
+            Column::make('voided by', 'cancelledBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

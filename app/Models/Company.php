@@ -32,7 +32,8 @@ class Company extends Model
         'is_costing_by_freight_volume' => 'integer',
         'is_payroll_basic_salary_after_absence_deduction' => 'integer',
         'does_payroll_basic_salary_include_overtime' => 'integer',
-        'is_return_limited_by_sales' => 'integer'
+        'is_return_limited_by_sales' => 'integer',
+        'can_sale_subtract' => 'integer',
     ];
 
     public function plan()
@@ -319,5 +320,10 @@ class Company extends Model
     public function isReturnLimitedBySales()
     {
         return $this->is_return_limited_by_sales;
+    }
+
+    public function canSaleSubtract()
+    {
+        return $this->can_sale_subtract;
     }
 }

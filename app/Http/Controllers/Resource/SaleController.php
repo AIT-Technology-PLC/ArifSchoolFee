@@ -28,18 +28,22 @@ class SaleController extends Controller
 
         $totalNotApproved = Sale::notApproved()->notCancelled()->count();
 
-        $totalApproved = Sale::approved()->notCancelled()->count();
+        $totalApproved = Sale::notSubtracted()->notCancelled()->approved()->count();
 
-        $totalCancelled = Sale::cancelled()->count();
+        $totalSubtracted = Sale::subtracted()->notCancelled()->count();
 
-        return $datatable->render('sales.index', compact('totalSales', 'totalNotApproved', 'totalApproved', 'totalCancelled'));
+        $totalCancelled = Sale::subtracted()->notCancelled()->count();
+
+        return $datatable->render('sales.index', compact('totalSales', 'totalNotApproved', 'totalApproved', 'totalSubtracted', 'totalCancelled'));
     }
 
     public function create()
     {
         $currentInvoiceNo = nextReferenceNumber('sales');
 
-        return view('sales.create', compact('currentInvoiceNo'));
+        $warehouses = authUser()->getAllowedWarehouses('sales');
+
+        return view('sales.create', compact('currentInvoiceNo', 'warehouses'));
     }
 
     public function store(StoreSaleRequest $request)
@@ -61,7 +65,7 @@ class SaleController extends Controller
     {
         $datatable->builder()->setTableId('sale-details-datatable');
 
-        $sale->load(['saleDetails.product', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact']);
+        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact']);
 
         return $datatable->render('sales.show', compact('sale'));
     }
@@ -72,9 +76,11 @@ class SaleController extends Controller
             return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
         }
 
-        $sale->load('saleDetails.product', 'saleDetails.merchandiseBatch');
+        $warehouses = authUser()->getAllowedWarehouses('sales');
 
-        return view('sales.edit', compact('sale'));
+        $sale->load('saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch');
+
+        return view('sales.edit', compact('sale', 'warehouses'));
     }
 
     public function update(UpdateSaleRequest $request, Sale $sale)
@@ -98,9 +104,9 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
-        if ($sale->isApproved() || $sale->isCancelled()) {
-            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be deleted.');
-        }
+        abort_if($sale->isSubtracted() || $sale->isCancelled(), 403);
+
+        abort_if($sale->isApproved() && !authUser()->can('Delete Approved Sale'), 403);
 
         $sale->forceDelete();
 

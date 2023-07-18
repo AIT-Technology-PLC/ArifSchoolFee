@@ -59,6 +59,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_payroll_basic_salary_after_absence_deduction' => ['sometimes', 'required', 'boolean'],
             'does_payroll_basic_salary_include_overtime' => ['sometimes', 'required', 'boolean'],
             'is_return_limited_by_sales' => ['sometimes', 'required', 'boolean'],
+            'can_sale_subtract' => ['sometimes', 'required', 'boolean'],
         ];
     }
 
