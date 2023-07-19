@@ -32,7 +32,7 @@ class SaleController extends Controller
 
         $totalSubtracted = Sale::subtracted()->notCancelled()->count();
 
-        $totalCancelled = Sale::subtracted()->notCancelled()->count();
+        $totalCancelled = Sale::cancelled();
 
         return $datatable->render('sales.index', compact('totalSales', 'totalNotApproved', 'totalApproved', 'totalSubtracted', 'totalCancelled'));
     }
