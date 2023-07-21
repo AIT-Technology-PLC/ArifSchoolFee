@@ -33,6 +33,10 @@
     {{ $selectedUnitType == 'Carton' ? 'selected' : '' }}
 >Carton</option>
 <option
+    value="Case"
+    {{ $selectedUnitType == 'Case' ? 'selected' : '' }}
+>Case</option>
+<option
     value="Centimeter"
     {{ $selectedUnitType == 'Centimeter' ? 'selected' : '' }}
 >Centimeter</option>
@@ -88,6 +92,10 @@
     value="Milliliter"
     {{ $selectedUnitType == 'Milliliter' ? 'selected' : '' }}
 >ML</option>
+<option
+    value="Pack"
+    {{ $selectedUnitType == 'Pack' ? 'selected' : '' }}
+>Pack</option>
 <option
     value="Packet"
     {{ $selectedUnitType == 'Packet' ? 'selected' : '' }}

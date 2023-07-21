@@ -83,6 +83,7 @@ class Gdn extends Model
         return static::query()
             ->subtracted()
             ->notCancelled()
+            ->notClosed()
             ->whereRelation('gdnDetails', fn($q) => $q->whereColumn('quantity', '>', 'returned_quantity'))
             ->when(!is_null($forceIncludedGdn), fn($q) => $q->orWhere('id', $forceIncludedGdn))
             ->orderByDesc('code')
