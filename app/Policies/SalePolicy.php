@@ -48,6 +48,6 @@ class SalePolicy
 
     public function subtract(User $user, Sale $sale)
     {
-        return $user->can('Subtract GDN');
+        return $user->can('Subtract Sale');
     }
 }
