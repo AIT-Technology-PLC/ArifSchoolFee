@@ -1040,8 +1040,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report'))
-        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report'])
+    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report', 'Inventory Summary Report'))
+        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report', 'Read Inventory Summary Report'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1195,6 +1195,20 @@
                                         label="Payables & Aging"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('payables.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('payables.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory Summary Report'))
+                            @can('Read Inventory Summary Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_summary') }}"
+                                        label="Inventory Summary"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_summary') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

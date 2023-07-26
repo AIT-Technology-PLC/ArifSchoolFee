@@ -49,7 +49,8 @@ class CreditReport
             ->join('customers', 'credits.customer_id', '=', 'customers.id')
             ->join('warehouses', 'credits.warehouse_id', '=', 'warehouses.id')
             ->when(isset($this->filters['period']), fn($q) => $q->whereDate('credit_settlements.settled_at', '>=', $this->filters['period'][0])->whereDate('credit_settlements.settled_at', '<=', $this->filters['period'][1]))
-            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('credits.warehouse_id', $this->filters['branches']));
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('credits.warehouse_id', $this->filters['branches']))
+            ->when(isset($this->filters['bank_name']), fn($q) => $q->where('credit_settlements.bank_name', $this->filters['bank_name'] == 'Cash Payment' ? null : $this->filters['bank_name']));
     }
 
     public function getTotalCreditGiven()

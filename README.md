@@ -1,11 +1,3 @@
-<!-- <br/>
-
-<p>
-	<img src="https://onricatech.com/img/logo.png" width="200" />
-</p>
-
-<br/> -->
-
 ## About Onrica SmartWork
 
 **Onrica SmartWork** is a multi-tenant ERP solution.
@@ -18,36 +10,33 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 -   Full Multi-tenant Architecture (i.e. single database and single app instance)
 -   PWA App
 
-## Frameworks & Tools Used
+## Frameworks & Tools
 
 At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
-| Frontend Tools     | Backend Tools                           |
-| ------------------ | --------------------------------------- |
-| Bulma              | Laravel                                 |
-| Font Awesome Icons | Livewire                                |
-| jQuery             | Laravel DomPDF                          |
-| AlpineJS           | Doctrine Dbal                           |
-| Axios              | Spatie - Laravel Permission             |
-| jQuery DataTables  | Yajra - Laravel DataTables              |
-| Summernote Editor  | Laravel Debugbar                        |
-| Select2 Dropdown   | LaraBug                                 |
-| Sweetalert         | Flysystem Google Drive                  |
-| Pace.js            | Spatie - Laravel Backup                 |
-| Workbox            | laravel-cascade-soft-deletes            |
-|                    | Maatwebsite - Laravel Excel             |
-|                    | Larave Notifications Channel - Web Push |
+| Stack       | Frontend Tools     | Backend Tools                            | Other Tools                         |
+| ----------- | ------------------ | ---------------------------------------- | ----------------------------------- |
+| MySQL       | Bulma              | Laravel                                  | LaraBug - Error Monitoring          |
+| PHP Laravel | Font Awesome Icons | Livewire                                 | Google Analytics - Traffic Analysis |
+| Alpine.js   | jQuery             | Laravel DomPDF                           |                                     |
+| Bulma CSS   | AlpineJS           | Doctrine Dbal                            |                                     |
+|             | Axios              | Spatie - Laravel Permission              |                                     |
+|             | jQuery DataTables  | Yajra - Laravel DataTables               |                                     |
+|             | Summernote Editor  | Laravel Debugbar                         |                                     |
+|             | Select2 Dropdown   | Flysystem Google Drive                   |                                     |
+|             | Sweetalert         | Spatie - Laravel Backup                  |                                     |
+|             | Pace.js            | Laravel Cascade Softdeletes              |                                     |
+|             | Workbox            | Maatwebsite - Laravel Excel              |                                     |
+|             | Date Range Picker  | Laravel Notifications Channel - Web Push |                                     |
 
-## Branches
+## Branches & Environments
 
 -   main
-    -   This is the branch that runs on the production server
-    -   Should not be forked
+    -   This is the branch that is running on the production server
     -   Do not submit PR to this branch
 -   dev
-    -   This is the branch that runs on the staging server (https://staging.onricatech.com)
+    -   This is the branch that is running on the staging server (https://staging.onricatech.com)
     -   Always use this branch for development and making changes
-    -   Could be forked
     -   Always submit PRs to this branch
 
 ## Requirements
@@ -64,6 +53,8 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 
 ## Installation
 
+1. Clone repository & install dependencies
+
 ```bash
 git clone https://github.com/onrica/smartwork.git
 cd smartwork
@@ -72,7 +63,11 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-Go to the root folder (i.e. smartwork), find .env file and set the values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
+2. Go to your database admin (e.g. phpMyAdmin), and create a database user if you don't already have one
+3. Go to your database admin (e.g. phpMyAdmin), and create a database
+4. Go to the root folder (i.e. smartwork), find .env file and set the values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
+
+5. Migrate the database, link the storage folder, and you are up and running
 
 ```bash
 php artisan migrate --seed

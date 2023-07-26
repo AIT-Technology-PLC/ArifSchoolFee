@@ -51,6 +51,34 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.label>
+                            Settlement Bank
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    class="is-size-7-mobile is-fullwidth"
+                                    id="bank_name"
+                                    name="bank_name"
+                                >
+                                    <option disabled> Select Bank </option>
+                                    <option
+                                        value=""
+                                        selected
+                                    > All </option>
+                                    @if (request('bank_name'))
+                                        <option
+                                            value="{{ request('bank_name') }}"
+                                            selected
+                                        > {{ request('bank_name') }} </option>
+                                    @endif
+                                    <option value="Cash Payment"> Cash Payment </option>
+                                    @include('lists.banks')
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </div>
         </div>
