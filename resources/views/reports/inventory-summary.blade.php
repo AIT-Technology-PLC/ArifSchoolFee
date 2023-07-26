@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inventory Summery Report')
+@section('title', 'Inventory Summary Report')
 
 @section('content')
     <x-common.fail-message :message="session('failedMessage')" />
@@ -85,15 +85,15 @@
             </div>
         </div>
     </x-common.report-filter>
-    <div class="columns is-marginless is-multiline">
+    <div class="columns is-marginless is-multiline mt-3">
         <div class="column is-12 p-lr-0">
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
-                            <i class="fas fa-chart-bar"></i>
+                            <i class="fas fa-chart-simple"></i>
                         </span>
-                        <span>Summary</span>
+                        <span>Inventory Movement Summary</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -102,7 +102,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5, 10, 15, 20]"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -117,8 +117,20 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $generalSummary->branch_name }} </td>
                                 <td> {{ $generalSummary->product_name }} </td>
-                                <td class="has-text-right"> {{ number_format($generalSummary->incoming, 2) . ' ' . $generalSummary->unit_of_measurement }} </td>
-                                <td class="has-text-right"> {{ number_format($generalSummary->outgoing, 2) . ' ' . $generalSummary->unit_of_measurement }} </td>
+                                @include('components.datatables.item-quantity', [
+                                    'item' => [
+                                        'function' => 'add',
+                                        'quantity' => number_format($generalSummary->incoming, 2),
+                                        'unit_of_measurement' => $generalSummary->unit_of_measurement,
+                                    ],
+                                ])
+                                @include('components.datatables.item-quantity', [
+                                    'item' => [
+                                        'function' => 'subtract',
+                                        'quantity' => number_format($generalSummary->outgoing, 2),
+                                        'unit_of_measurement' => $generalSummary->unit_of_measurement,
+                                    ],
+                                ])
                             </tr>
                         @endforeach
                     </x-slot>
@@ -132,7 +144,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-bolt"></i>
                         </span>
-                        <span>Damage Report</span>
+                        <span>Damages Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -171,7 +183,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-file-import"></i>
                         </span>
-                        <span>Grn Report</span>
+                        <span>Goods Recevied Notes Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -210,7 +222,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-eraser"></i>
                         </span>
-                        <span>Adjustment Report</span>
+                        <span>Adjustments Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -288,7 +300,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-exchange-alt"></i>
                         </span>
-                        <span>Transfer Report</span>
+                        <span>Transfers Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -313,7 +325,25 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $transferReport->branch_name }} </td>
                                 <td> {{ $transferReport->product_name }} </td>
-                                <td> {{ $transferReport->operation }} </td>
+                                @if ($transferReport->operation == 'send')
+                                    <td>
+                                        <span class="tag text-green has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-plane-departure"></i>
+                                            </span>
+                                            <span> Send </span>
+                                        </span>
+                                    </td>
+                                @else
+                                    <td>
+                                        <span class="tag text-purple has-text-weight-medium">
+                                            <span class="icon">
+                                                <i class="fas fa-plane-arrival"></i>
+                                            </span>
+                                            <span> Received </span>
+                                        </span>
+                                    </td>
+                                @endif
                                 <td class="has-text-right"> {{ number_format($transferReport->quantity, 2) . ' ' . $transferReport->unit_of_measurement }} </td>
                                 <td> {{ $transferReport->issued_on->toFormattedDateString() }} </td>
                             </tr>
@@ -329,7 +359,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-arrow-alt-circle-left"></i>
                         </span>
-                        <span>Return Report</span>
+                        <span>Returns Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -368,7 +398,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-file-invoice"></i>
                         </span>
-                        <span>Gdn Report</span>
+                        <span>Delivery Orders Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -405,9 +435,48 @@
                 <x-slot:header>
                     <h1 class="title text-green has-text-weight-medium is-size-6">
                         <span class="icon mr-1">
+                            <i class="fas fa-cash-register"></i>
+                        </span>
+                        <span>Invoices Report</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu=[5]
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th><abbr> Product </abbr></th>
+                        <th class="has-text-right"><abbr> Quantity </abbr></th>
+                        <th><abbr> Date </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($inventorySummaryReport->getSaleReports as $saleReport)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $saleReport->branch_name }} </td>
+                                <td> {{ $saleReport->product_name }} </td>
+                                <td class="has-text-right"> {{ number_format($saleReport->quantity, 2) . ' ' . $saleReport->unit_of_measurement }} </td>
+                                <td> {{ $saleReport->issued_on->toFormattedDateString() }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
                             <i class="fas fa-archive"></i>
                         </span>
-                        <span>Reservation Report</span>
+                        <span>Reservations Report</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>

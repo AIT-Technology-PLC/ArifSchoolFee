@@ -156,6 +156,21 @@ class InventorySummaryReport
             ->get();
     }
 
+    public function getSaleReports()
+    {
+        return (clone $this->query)
+            ->where('model_type', 'App\Models\Sale')
+            ->selectRaw('
+                warehouses.name AS branch_name,
+                products.name AS product_name,
+                products.unit_of_measurement AS unit_of_measurement,
+                inventory_histories.quantity AS quantity,
+                inventory_histories.issued_on AS issued_on
+            ')
+            ->orderByDesc('quantity')
+            ->get();
+    }
+
     public function getReservationReports()
     {
         return (clone $this->query)
