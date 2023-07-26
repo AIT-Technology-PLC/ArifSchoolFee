@@ -99,6 +99,10 @@ class Price
 
         $withheldAmount = 0;
 
+        if ($details->whereNull('product_id')->count()) {
+            return $withheldAmount;
+        }
+
         $serviceSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => Product::find($detail['product_id'])->isTypeService()));
 
         $productSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => !Product::find($detail['product_id'])->isTypeService()));
