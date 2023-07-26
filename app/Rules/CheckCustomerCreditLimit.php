@@ -60,7 +60,7 @@ class CheckCustomerCreditLimit implements Rule
 
         $customer = Customer::find($value);
 
-        if ($customer->credit_amount_limit == 0.00) {
+        if (is_null($customer) || $customer->credit_amount_limit == 0.00) {
             return true;
         }
 
