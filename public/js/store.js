@@ -6,6 +6,16 @@ const Product = {
 
         return this;
     },
+    isTypeServices(productId) {
+        let product = this.whereProductId(productId);
+
+        return product?.type == "Services";
+    },
+    isTypeProduct(productId) {
+        let product = this.whereProductId(productId);
+
+        return product?.type != "Services";
+    },
     forSale() {
         this.products = this.products.filter(
             (product) => product.is_active && product.is_active_for_sale
@@ -360,25 +370,31 @@ const Pricing = {
             return 0;
         }
 
-        return items.reduce((total, item) => {
-            let totalPrice = Product.priceBeforeTax(
-                item.unit_price,
-                item.quantity,
-                item.product_id,
-                item.discount
-            );
+        let withheldAmount = 0;
 
-            if (
-                totalPrice <
-                Company.withholdingTaxes()["rules"][
-                    Product.whereProductId(item.product_id)?.type
-                ]
-            ) {
-                totalPrice = 0;
-            }
+        let serviceSubTotal = this.subTotal(
+            items.filter((item) => Product.isTypeServices(item.product_id))
+        );
+        let productSubTotal = this.subTotal(
+            items.filter((item) => Product.isTypeProduct(item.product_id))
+        );
 
-            return total + totalPrice * Company.withholdingTaxes()["tax_rate"];
-        }, 0);
+        if (
+            serviceSubTotal >= Company.withholdingTaxes()["rules"]["Services"]
+        ) {
+            withheldAmount +=
+                serviceSubTotal * Company.withholdingTaxes()["tax_rate"];
+        }
+
+        if (
+            productSubTotal >=
+            Company.withholdingTaxes()["rules"]["Finished Goods"]
+        ) {
+            withheldAmount +=
+                productSubTotal * Company.withholdingTaxes()["tax_rate"];
+        }
+
+        return withheldAmount;
     },
     grandTotal(items) {
         if (!items.length) {

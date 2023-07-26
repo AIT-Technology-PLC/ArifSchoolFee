@@ -12,9 +12,9 @@ class Price
 
         $taxAmount = $product?->tax->amount ?? 0;
 
-        $totalTax = number_format($totalPrice * $taxAmount, 2, thousands_separator:'');
+        $totalTax = number_format($totalPrice * $taxAmount, 2, thousands_separator: '');
 
-        return number_format($totalTax, 2, thousands_separator:'');
+        return number_format($totalTax, 2, thousands_separator: '');
     }
 
     public static function getTax($details)
@@ -36,7 +36,7 @@ class Price
         return number_format(
             collect($details)->sum('total_tax'),
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 
@@ -49,7 +49,7 @@ class Price
         return number_format(
             collect($details)->sum('total_price'),
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 
@@ -61,9 +61,9 @@ class Price
 
         $unitPrice = userCompany()->isPriceBeforeTax() ? $unitPrice : $unitPrice / ($taxAmount + 1);
 
-        $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator:'');
+        $totalPrice = number_format($unitPrice * $quantity, 2, thousands_separator: '');
 
-        $totalPrice = number_format($totalPrice-static::getDiscountAmount($discount, $totalPrice), 2, thousands_separator:'');
+        $totalPrice = number_format($totalPrice-static::getDiscountAmount($discount, $totalPrice), 2, thousands_separator: '');
 
         return $totalPrice;
     }
@@ -72,7 +72,7 @@ class Price
     {
         $discount = ($discount ?? 0.00) / 100;
 
-        return number_format($price * $discount, 2, thousands_separator:'');
+        return number_format($price * $discount, 2, thousands_separator: '');
     }
 
     public static function getGrandTotalPrice($details)
@@ -80,7 +80,7 @@ class Price
         return number_format(
             static::getSubtotalPrice($details) + (static::getTax($details)),
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 
@@ -89,27 +89,32 @@ class Price
         return number_format(
             static::getGrandTotalPrice($details)-static::getDiscountAmount($discount, static::getGrandTotalPrice($details)),
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 
     public static function getTotalWithheldAmount($details)
     {
-        foreach ($details as &$detail) {
-            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00, $detail['product_id']);
+        $details = collect($details);
 
-            if ($detail['total_price'] < userCompany()->withholdingTaxes['rules'][Product::find($detail['product_id'])->type]) {
-                $detail['withheld_amount'] = 0;
-                continue;
-            }
+        $withheldAmount = 0;
 
-            $detail['withheld_amount'] = $detail['total_price'] * userCompany()->withholdingTaxes['tax_rate'];
+        $serviceSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => Product::find($detail['product_id'])->isTypeService()));
+
+        $productSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => !Product::find($detail['product_id'])->isTypeService()));
+
+        if ($serviceSubtotal >= userCompany()->withholdingTaxes['rules']['Services']) {
+            $withheldAmount += ($serviceSubtotal * userCompany()->withholdingTaxes['tax_rate']);
+        }
+
+        if ($productSubtotal >= userCompany()->withholdingTaxes['rules']['Finished Goods']) {
+            $withheldAmount += ($productSubtotal * userCompany()->withholdingTaxes['tax_rate']);
         }
 
         return number_format(
-            collect($details)->sum('withheld_amount'),
+            $withheldAmount,
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 }

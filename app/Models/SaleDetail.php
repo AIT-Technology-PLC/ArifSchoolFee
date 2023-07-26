@@ -42,19 +42,6 @@ class SaleDetail extends Model
         return $this->sale;
     }
 
-    public function getWithheldAmountAttribute()
-    {
-        if (!$this->sale->hasWithholding()) {
-            return 0;
-        }
-
-        if ($this->totalPrice < userCompany()->withholdingTaxes['rules'][$this->product->type]) {
-            return 0;
-        }
-
-        return $this->totalPrice * userCompany()->withholdingTaxes['tax_rate'];
-    }
-
     public function getByWarehouseAndProduct($warehouse, $product)
     {
         return $this->where([
