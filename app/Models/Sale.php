@@ -11,6 +11,7 @@ use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\Traits\Subtractable;
+use App\Utilities\Price;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -67,10 +68,6 @@ class Sale extends Model
             return 0;
         }
 
-        return number_format(
-            $this->saleDetails->sum->withheldAmount,
-            2,
-            thousands_separator:''
-        );
+        return Price::getTotalWithheldAmount($this->saleDetails);
     }
 }
