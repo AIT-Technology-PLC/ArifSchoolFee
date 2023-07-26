@@ -20,12 +20,8 @@ class ExpiredInventoryDatatable extends DataTable
     {
         return $this
             ->editWarehouses(datatables()->collection($query->all()))
-            ->editColumn('product', function ($row) {
-                return view('components.datatables.product-code', [
-                    'product' => $row['product'],
-                    'code' => $row['code'],
-                ]);
-            })
+            ->editColumn('product', fn($row) => $row['product'])
+            ->editColumn('code', fn($row) => $row['code'] ?? 'N/A')
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
                 'total_balance',
@@ -120,6 +116,7 @@ class ExpiredInventoryDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
+            'code',
             isFeatureEnabled('Job Management') ? 'type' : null,
             'category',
             ...$warehouses,
