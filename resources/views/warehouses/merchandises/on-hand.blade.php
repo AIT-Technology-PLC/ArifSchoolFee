@@ -10,6 +10,7 @@
             <x-slot name="headings">
                 <th><abbr> # </abbr></th>
                 <th><abbr> Product </abbr></th>
+                <th><abbr> Code </abbr></th>
                 <th><abbr> Category </abbr></th>
                 @can('Read Available Inventory')
                     <th class="has-text-right text-green"><abbr> Available </abbr></th>
@@ -34,15 +35,8 @@
                 @foreach ($onHandMerchandises as $merchandise)
                     <tr>
                         <td> {{ $loop->index + 1 }} </td>
-                        <td class="is-capitalized name">
-                            {{ $merchandise->product->name ?? 'N/A' }}
-                            @if ($merchandise->product->code)
-                                <span class="has-text-grey has-has-text-weight-bold">
-                                    -
-                                    {{ $merchandise->product->code }}
-                                </span>
-                            @endif
-                        </td>
+                        <td class="is-capitalized"> {{ $merchandise->product->name }} </td>
+                        <td class="is-capitalized"> {{ $merchandise->product->code ?? 'N/A' }} </td>
                         <td class="is-capitalized"> {{ $merchandise->product->productCategory->name ?? 'N/A' }} </td>
                         @can('Read Available Inventory')
                             <td

@@ -21,12 +21,8 @@ class OnHandInventoryDatatable extends DataTable
     {
         return $this
             ->editWarehouses(datatables()->collection($query->all()))
-            ->editColumn('product', function ($row) {
-                return view('components.datatables.product-code', [
-                    'product' => $row['product'],
-                    'code' => $row['code'],
-                ]);
-            })
+            ->editColumn('product', fn($row) => $row['product'])
+            ->editColumn('code', fn($row) => $row['code'] ?? 'N/A')
             ->editColumn('description', fn($row) => view('components.datatables.searchable-description', ['description' => $row['description']]))
             ->rawColumns([
                 ...$this->warehouses->pluck('name')->toArray(),
@@ -118,6 +114,7 @@ class OnHandInventoryDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
+            'code',
             isFeatureEnabled('Job Management') ? 'type' : null,
             'category',
             ...$warehouses,
