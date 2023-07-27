@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\Actions\ProductReorderImportAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\ProductImport;
 use App\Models\Product;
-use App\Models\Warehouse;
 
 class ProductController extends Controller
 {
@@ -15,7 +15,7 @@ class ProductController extends Controller
         $this->middleware('isFeatureAccessible:Product Management');
     }
 
-    public function import(UploadImportFileRequest $request)
+    public function import(UploadImportFileRequest $request, ProductReorderImportAction $productReorderImportAction)
     {
         $this->authorize('import', Product::class);
 
@@ -23,30 +23,9 @@ class ProductController extends Controller
 
         (new ProductImport)->import($request->validated('file'));
 
-        $rows = (new ProductImport)->toArray($request->validated('file'))[0];
-
-        $warehouses = collect(array_keys($rows[0]))->filter(fn($item) => Warehouse::active()->where('name', str()->headline($item))->exists())->toArray();
-
-        foreach ($rows as $row) {
-            $data = [];
-
-            $product = Product::firstWhere('name', str()->squish($row['product_name']));
-
-            foreach ($warehouses as $warehouse) {
-                $warehouse = Warehouse::firstWhere('name', str()->headline($warehouse));
-
-                if (!is_numeric($row[str()->snake($warehouse->name)])) {
-                    continue;
-                }
-
-                $data[] = [
-                    'warehouse_id' => $warehouse->id,
-                    'quantity' => $row[str()->snake($warehouse->name)],
-                ];
-            }
-
-            $product->productReorders()->createMany($data);
-        }
+        $productReorderImportAction->execute(
+            (new ProductImport)->toArray($request->validated('file'))[0]
+        );
 
         return back()->with('imported', __('messages.file_imported'));
     }
