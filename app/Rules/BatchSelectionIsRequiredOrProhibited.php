@@ -3,9 +3,9 @@
 namespace App\Rules;
 
 use App\Models\Product;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ImplicitRule;
 
-class BatchSelectionIsRequiredOrProhibited implements Rule
+class BatchSelectionIsRequiredOrProhibited implements ImplicitRule
 {
     private $shallCheckSettings;
 
