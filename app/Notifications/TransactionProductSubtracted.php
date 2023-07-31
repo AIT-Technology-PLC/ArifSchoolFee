@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
@@ -25,7 +26,7 @@ class TransactionProductSubtracted extends Notification
     {
         return [
             'icon' => $this->transactionDetail['transaction']->pad->icon,
-            'message' => $this->transactionDetail['product'] . ' in ' . str()->singular($this->transactionDetail['transaction']->pad->name) . ' #' . $this->transactionDetail['transaction']->code . ' is subtracted from inventory by ' . authUser()->name,
+            'message' => Product::find($this->transactionDetail['product_id'])->name . ' in ' . str()->singular($this->transactionDetail['transaction']->pad->name) . ' #' . $this->transactionDetail['transaction']->code . ' is subtracted from inventory by ' . authUser()->name,
             'endpoint' => '/transactions/' . $this->transactionDetail['transaction']->id,
         ];
     }
@@ -35,7 +36,7 @@ class TransactionProductSubtracted extends Notification
         return (new WebPushMessage)
             ->title('Transaction Product Subtracted')
             ->icon(asset('pwa/pwa-512x512.png'))
-            ->body($this->transactionDetail['product'] . ' in ' . str()->singular($this->transactionDetail['transaction']->pad->name) . ' #' . $this->transactionDetail['transaction']->code . ' is subtracted from inventory by ' . authUser()->name)
+            ->body(Product::find($this->transactionDetail['product_id'])->name . ' in ' . str()->singular($this->transactionDetail['transaction']->pad->name) . ' #' . $this->transactionDetail['transaction']->code . ' is subtracted from inventory by ' . authUser()->name)
             ->badge(asset('pwa/pwa-512x512.png'))
             ->action('View', '/notifications/' . $notification->id)
             ->vibrate([500, 250, 500, 250]);

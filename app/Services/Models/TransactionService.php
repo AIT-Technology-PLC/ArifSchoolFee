@@ -67,6 +67,10 @@ class TransactionService
 
         $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $subtractedLines);
 
+        if ($transactionDetails->isEmpty()) {
+            return [false, 'This transaction has no products.'];
+        }
+
         if (!$user->hasWarehousePermission('subtract',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
@@ -114,6 +118,10 @@ class TransactionService
         $addedLines = $transaction->transactionFields()->where('key', 'added_by')->whereNotNull('line')->pluck('line')->unique();
 
         $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $addedLines);
+
+        if ($transactionDetails->isEmpty()) {
+            return [false, 'This transaction has no products.'];
+        }
 
         if (!$user->hasWarehousePermission('add',
             $transactionDetails->pluck('warehouse_id')->toArray())) {
