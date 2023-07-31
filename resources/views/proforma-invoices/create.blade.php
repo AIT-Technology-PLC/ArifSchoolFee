@@ -44,20 +44,22 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="select is-fullwidth has-icons-left">
-                                <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
-                                <x-common.icon
-                                    name="fas fa-address-card"
-                                    class="is-small is-left"
-                                />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Customer Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="customer_id">
+                                    Customer <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="select is-fullwidth has-icons-left">
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
+                                    <x-common.icon
+                                        name="fas fa-address-card"
+                                        class="is-small is-left"
+                                    />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="issued_on">

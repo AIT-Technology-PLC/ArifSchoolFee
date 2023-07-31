@@ -72,46 +72,48 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        x-cloak
-                        class="column is-6"
-                        x-show="gdn?.customer?.company_name"
-                    >
-                        <x-forms.field>
-                            <x-forms.label for="code">
-                                Customer <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="text"
-                                    readonly
-                                    x-bind:value="gdn?.customer?.company_name"
-                                />
-                                <x-common.icon
-                                    name="fas fa-user"
-                                    class="is-large is-left"
-                                />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div
-                        x-show="isShowCustomerSelect"
-                        class="column is-6"
-                    >
-                        <x-forms.field>
-                            <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left select is-fullwidth">
-                                <x-common.customer-list :selected-id="old('customer_id')" />
-                                <x-common.icon
-                                    name="fas fa-user"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="customer_id" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Customer Management'))
+                        <div
+                            x-cloak
+                            class="column is-6"
+                            x-show="gdn?.customer?.company_name"
+                        >
+                            <x-forms.field>
+                                <x-forms.label for="code">
+                                    Customer <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="text"
+                                        readonly
+                                        x-bind:value="gdn?.customer?.company_name"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-user"
+                                        class="is-large is-left"
+                                    />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div
+                            x-show="isShowCustomerSelect"
+                            class="column is-6"
+                        >
+                            <x-forms.field>
+                                <x-forms.label for="customer_id">
+                                    Customer <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left select is-fullwidth">
+                                    <x-common.customer-list :selected-id="old('customer_id')" />
+                                    <x-common.icon
+                                        name="fas fa-user"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="customer_id" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="code">

@@ -22,7 +22,9 @@ class CustomerForm extends Component
 
     public function mount()
     {
-        abort_if(!isFeatureEnabled('Customer Management'), 403);
+        if (!isFeatureEnabled('Customer Management')) {
+            $this->skipRender();
+        }
 
         $this->customer = $this->customer?->toArray();
 
@@ -36,6 +38,8 @@ class CustomerForm extends Component
 
     public function store()
     {
+        abort_if(!isFeatureEnabled('Customer Management'), 403);
+
         $this->authorize('create', Customer::class);
 
         $customer = (new CustomerService)->store($this->validate()['customer']);

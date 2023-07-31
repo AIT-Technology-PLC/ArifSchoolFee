@@ -171,22 +171,24 @@
                             </p>
                         </div>
                     </div>
-                    <div class="column is-6">
-                        <div class="field">
-                            <label
-                                for="customer_id"
-                                class="label text-green has-text-weight-normal"
-                            > Customer <sup class="has-text-danger"></sup> </label>
-                            <div class="control has-icons-left">
-                                <div class="select is-fullwidth">
-                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
-                                </div>
-                                <div class="icon is-small is-left">
-                                    <i class="fas fa-address-card"></i>
+                    @if (isFeatureEnabled('Customer Management'))
+                        <div class="column is-6">
+                            <div class="field">
+                                <label
+                                    for="customer_id"
+                                    class="label text-green has-text-weight-normal"
+                                > Customer <sup class="has-text-danger"></sup> </label>
+                                <div class="control has-icons-left">
+                                    <div class="select is-fullwidth">
+                                        <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
+                                    </div>
+                                    <div class="icon is-small is-left">
+                                        <i class="fas fa-address-card"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="column is-6">
                         <div class="field">
                             <label

@@ -46,31 +46,33 @@
                         </x-forms.field>
                         <div class="box has-background-white-bis radius-top-0">
                             <div class="columns is-marginless is-multiline">
-                                <div class="column is-6">
-                                    <x-forms.label x-bind:for="`customerDeposit[${index}][customer_id]`">
-                                        Customer <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.field class="has-addons">
-                                        <x-forms.control class="has-icons-left select is-fullwidth">
-                                            <x-common.customer-list
-                                                class="customer-list"
-                                                x-bind:id="`customerDeposit[${index}][customer_id]`"
-                                                x-bind:name="`customerDeposit[${index}][customer_id]`"
-                                                x-model="customerDeposit.customer_id"
-                                                x-init="select2(index)"
-                                                selected-id=""
-                                            />
-                                            <x-common.icon
-                                                name="fas fa-address-book"
-                                                class="is-small is-left"
-                                            />
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="$store.errors.getErrors(`customerDeposit.${index}.customer_id`)"
-                                            ></span>
-                                        </x-forms.control>
-                                    </x-forms.field>
-                                </div>
+                                @if (isFeatureEnabled('Customer Management'))
+                                    <div class="column is-6">
+                                        <x-forms.label x-bind:for="`customerDeposit[${index}][customer_id]`">
+                                            Customer <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.field class="has-addons">
+                                            <x-forms.control class="has-icons-left select is-fullwidth">
+                                                <x-common.customer-list
+                                                    class="customer-list"
+                                                    x-bind:id="`customerDeposit[${index}][customer_id]`"
+                                                    x-bind:name="`customerDeposit[${index}][customer_id]`"
+                                                    x-model="customerDeposit.customer_id"
+                                                    x-init="select2(index)"
+                                                    selected-id=""
+                                                />
+                                                <x-common.icon
+                                                    name="fas fa-address-book"
+                                                    class="is-small is-left"
+                                                />
+                                                <span
+                                                    class="help has-text-danger"
+                                                    x-text="$store.errors.getErrors(`customerDeposit.${index}.customer_id`)"
+                                                ></span>
+                                            </x-forms.control>
+                                        </x-forms.field>
+                                    </div>
+                                @endif
                                 <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`customerDeposit[${index}][issued_on]`">

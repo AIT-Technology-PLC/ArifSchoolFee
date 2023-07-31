@@ -36,21 +36,23 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="customer_id">
-                                Customer <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left select is-fullwidth">
-                                <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
-                                <x-common.icon
-                                    name="fas fa-user"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="customer_id" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Customer Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="customer_id">
+                                    Customer <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left select is-fullwidth">
+                                    <x-common.customer-list :selected-id="old('customer_id') ?? ''" />
+                                    <x-common.icon
+                                        name="fas fa-user"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="customer_id" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     @if (isFeatureEnabled('Sale Management'))
                         <div class="column is-6">
                             <x-forms.field>
