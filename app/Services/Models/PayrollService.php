@@ -170,7 +170,7 @@ class PayrollService
 
                 foreach ($overtimeCompensationAdjustments as $overtimeCompensationAdjustment) {
                     $data['amount'] += OvertimeCalculation::get(
-                        $payroll->payrollDetails()->where('compensation_id', $overtimeCompensation->depends_on)->where('employee_id', $employee->id)->first()->amount,
+                        $payroll->payrollDetails()->where('compensation_id', $overtimeCompensation->depends_on)->where('employee_id', $employee->id)->first()->amount ?? 0,
                         $overtimeCompensationAdjustment->amount,
                         $overtimeCompensationAdjustment->options->overtime_period
                     );
