@@ -7,24 +7,18 @@ use App\Actions\ConvertToSivAction;
 use App\Imports\GdnImport;
 use App\Models\Customer;
 use App\Models\Gdn;
+use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
-use App\Rules\CheckCustomerCreditLimit;
-use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\ValidatePrice;
-use App\Rules\VerifyCashReceivedAmountIsValid;
 use App\Services\Inventory\InventoryOperationService;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class GdnService
 {
@@ -189,71 +183,25 @@ class GdnService
         return [true, '', $gdn];
     }
 
-    public function importValidatedData($import)
+    public function formattedFromExcel($import)
     {
-        $products = Product::all(['id', 'name']);
-
         $sheets = (new GdnImport)->toArray($import);
+
         $data = $sheets[0][0];
+
         $data['gdn'] = $sheets[1];
+
         $data['code'] = nextReferenceNumber('gdns');
+
         $data['customer_id'] = Customer::firstWhere('company_name', $data['customer_name'])->id ?? null;
 
         foreach ($data['gdn'] as &$gdn) {
             $gdn['warehouse_id'] = Warehouse::firstWhere('name', $gdn['warehouse_name'])->id ?? null;
-            $gdn['product_id'] = $products->firstWhere('name', str()->squish($gdn['product_name']))->id ?? null;
+            $gdn['merchandise_batch_id'] = MerchandiseBatch::firstWhere('batch_no', $gdn['batch_no'])->id ?? null;
+            $gdn['product_id'] = Product::where('name', str()->squish($gdn['product_name']))->when(!empty($gdn['product_code']), fn($q) => $q->where('code', str()->squish($gdn['product_code'])))->first()->id ?? null;
         }
 
-        return Validator::make($data, [
-            'code' => ['required', 'integer', new UniqueReferenceNum('gdns')],
-            'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', 'distinct', Rule::in(Product::activeForSale()->pluck('id'))],
-            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
-            'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice(['gdn' => $data['gdn']])],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0'],
-            'gdn.*.description' => ['nullable', 'string'],
-            'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-
-            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
-                new CheckCustomerCreditLimit(
-                    $data['discount'],
-                    $data['gdn'],
-                    $data['payment_type'],
-                    $data['cash_received_type'],
-                    $data['cash_received']
-                ),
-            ],
-
-            'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
-            'issued_on' => ['required', 'date'],
-            'payment_type' => ['required', 'string', function ($attribute, $value, $fail) use ($data) {
-                if ($value == 'Credit Payment' && is_null($data['customer_id'])) {
-                    $fail('Credit Payment without customer is not allowed, please select a customer.');
-                }
-            },
-            ],
-
-            'cash_received_type' => ['required', 'string', function ($attribute, $value, $fail) use ($data) {
-                if ($data['payment_type'] == 'Cash Payment' && $value != 'percent') {
-                    $fail('When payment type is "Cash Payment", the type should be "Percent".');
-                }
-            },
-            ],
-
-            'description' => ['nullable', 'string'],
-
-            'cash_received' => ['bail', 'required', 'numeric', 'gte:0',
-                new VerifyCashReceivedAmountIsValid(
-                    $data['payment_type'],
-                    $data['discount'],
-                    $data['gdn'],
-                    $data['cash_received_type']
-                ),
-            ],
-
-            'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
-            'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
-        ])->validated();
+        return $data;
     }
 
     public function convertToSale($gdn)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Gdn;
 use App\Models\Sale;
@@ -12,6 +13,7 @@ use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 
 class GdnController extends Controller
 {
@@ -125,7 +127,9 @@ class GdnController extends Controller
     {
         $this->authorize('import', Gdn::class);
 
-        $validatedData = $this->gdnService->importValidatedData($importFileRequest->validated('file'));
+        $formattedData = $this->gdnService->formattedFromExcel($importFileRequest->validated('file'));
+
+        $validatedData = Validator::make(request()->merge($formattedData)->toArray(), (new StoreGdnRequest)->merge($formattedData)->rules())->validated();
 
         [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
 
