@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->dropColumn('hasithholding');
+            $table->dropColumn('has_withholding');
         });
     }
 };
