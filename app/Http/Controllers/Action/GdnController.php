@@ -12,6 +12,7 @@ use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
@@ -127,17 +128,19 @@ class GdnController extends Controller
     {
         $this->authorize('import', Gdn::class);
 
+        ini_set('max_execution_time', '-1');
+        
         $formattedData = $this->gdnService->formattedFromExcel($importFileRequest->validated('file'));
 
-        $validatedData = Validator::make(request()->merge($formattedData)->toArray(), (new StoreGdnRequest)->merge($formattedData)->rules())->validated();
+        DB::transaction(function () use ($formattedData) {
+            foreach ($formattedData as $data) {
+                $this->gdnService->import(
+                    Validator::make(request()->merge($data)->toArray(), (new StoreGdnRequest)->merge($data)->rules())->validated()
+                );
+            }
+        });
 
-        [$isExecuted, $message, $gdn] = $this->gdnService->import($validatedData);
-
-        if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
-        }
-
-        return redirect()->route('gdns.show', $gdn->id);
+        return back()->with('imported', __('messages.file_imported'));
     }
 
     public function convertToSale(Gdn $gdn)

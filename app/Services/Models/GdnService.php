@@ -168,37 +168,33 @@ class GdnService
 
     public function import($importValidatedData)
     {
-        ini_set('max_execution_time', '-1');
+        $gdn = Gdn::create(Arr::except($importValidatedData, 'gdn'));
 
-        $gdn = DB::transaction(function () use ($importValidatedData) {
-            $gdn = Gdn::create(Arr::except($importValidatedData, 'gdn'));
+        $gdn->gdnDetails()->createMany($importValidatedData['gdn']);
 
-            $gdn->gdnDetails()->createMany($importValidatedData['gdn']);
-
-            Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
-
-            return $gdn;
-        });
-
-        return [true, '', $gdn];
+        Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
     }
 
     public function formattedFromExcel($import)
     {
         $sheets = (new GdnImport)->toArray($import);
 
-        $data = $sheets[0][0];
+        $nextReferenceNumber = nextReferenceNumber('gdns');
 
-        $data['gdn'] = $sheets[1];
+        foreach ($sheets[0] as $key => $row) {
+            $data[$key] = $row;
 
-        $data['code'] = nextReferenceNumber('gdns');
+            $data[$key]['gdn'] = collect($sheets[1])->where('order_number', $row['order_number'])->toArray();
 
-        $data['customer_id'] = Customer::firstWhere('company_name', $data['customer_name'])->id ?? null;
+            $data[$key]['code'] = $nextReferenceNumber++;
 
-        foreach ($data['gdn'] as &$gdn) {
-            $gdn['warehouse_id'] = Warehouse::firstWhere('name', $gdn['warehouse_name'])->id ?? null;
-            $gdn['merchandise_batch_id'] = MerchandiseBatch::firstWhere('batch_no', $gdn['batch_no'])->id ?? null;
-            $gdn['product_id'] = Product::where('name', str()->squish($gdn['product_name']))->when(!empty($gdn['product_code']), fn($q) => $q->where('code', str()->squish($gdn['product_code'])))->first()->id ?? null;
+            $data[$key]['customer_id'] = Customer::firstWhere('company_name', $row['customer_name'])->id ?? null;
+
+            foreach ($data[$key]['gdn'] as &$gdn) {
+                $gdn['warehouse_id'] = Warehouse::firstWhere('name', $gdn['warehouse_name'])->id ?? null;
+                $gdn['merchandise_batch_id'] = MerchandiseBatch::firstWhere('batch_no', $gdn['batch_no'])->id ?? null;
+                $gdn['product_id'] = Product::where('name', str()->squish($gdn['product_name']))->when(!empty($gdn['product_code']), fn($q) => $q->where('code', str()->squish($gdn['product_code'])))->first()->id ?? null;
+            }
         }
 
         return $data;
