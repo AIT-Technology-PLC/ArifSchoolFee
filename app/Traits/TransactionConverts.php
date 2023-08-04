@@ -6,6 +6,7 @@ use App\Models\Pad;
 use App\Models\PadField;
 use App\Models\Product;
 use App\Models\ProformaInvoice;
+use App\Models\Sale;
 use App\Models\Warehouse;
 
 trait TransactionConverts
@@ -183,6 +184,28 @@ trait TransactionConverts
                 $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => $detail['unit_price'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Specification')?->id => $detail['specification'] ?? null,
+            ];
+        })->values()->all();
+
+        return count($data) ? $data : null;
+    }
+
+    private function convertFromSale($transaction, $id)
+    {
+        $data = [];
+        $pad = $transaction->pad;
+        $sale = Sale::find($id);
+
+        $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Customer')?->id] = $sale->customer_id ?? null;
+
+        $data['details'] = $sale->saleDetails->map(function ($detail) use ($pad) {
+            return [
+                $pad->padFields()->detailFields()->firstWhere('label', 'Product')?->id => $detail['product_id'],
+                $pad->padFields()->detailFields()->firstWhere('label', 'From')?->id => $detail['warehouse_id'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Warehouse')?->id => $detail['warehouse_id'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => $detail['unit_price'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
             ];
         })->values()->all();
 
