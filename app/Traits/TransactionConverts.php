@@ -201,6 +201,8 @@ trait TransactionConverts
 
         $data['details'] = $sale->saleDetails->map(function ($detail) use ($pad) {
             return [
+                $pad->padFields()->detailFields()->firstWhere('label', 'Description')?->id => $detail['product_id'],
+                $pad->padFields()->detailFields()->firstWhere('label', 'Item')?->id => $detail['product_id'],
                 $pad->padFields()->detailFields()->firstWhere('label', 'Product')?->id => $detail['product_id'],
                 $pad->padFields()->detailFields()->firstWhere('label', 'From')?->id => $detail['warehouse_id'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Warehouse')?->id => $detail['warehouse_id'] ?? null,
