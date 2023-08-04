@@ -197,6 +197,7 @@ trait TransactionConverts
         $sale = Sale::find($id);
 
         $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Customer')?->id] = $sale->customer_id ?? null;
+        $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Invoice No')?->id] = $sale->code;
 
         $data['details'] = $sale->saleDetails->map(function ($detail) use ($pad) {
             return [
