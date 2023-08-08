@@ -201,4 +201,8 @@
             </x-content.footer>
         </form>
     </x-common.content-wrapper>
+
+    @can('Create Customer')
+        <x-common.customer-form-modal />
+    @endcan
 @endsection

@@ -42,8 +42,8 @@
 
                         if (customer) {
                             Alpine.store('openCreateCustomerModal', false);
-                            select2.append(new Option(customer.company_name, customer.id, false, false));
-                            select2.val(customer.id);
+                            select2.append(new Option(customer.company_name, customer.{{ $value }}, false, false));
+                            select2.val(customer.{{ $value }});
                             select2.trigger('change');
                         }
                     });
