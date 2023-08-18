@@ -6,9 +6,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'menu.index')->name('home');
 
+
 Route::prefix('api')
     ->name('api.')
     ->group(function () {
+        Route::middleware('auth:sanctum')
+        ->withoutMiddleware(['auth', 'isEmployeeEnabled'])
+        ->post('/sales/printed', [Api\SaleController::class, 'assignFSNumber']);
+
         Route::get('/products/{category}/by-category',
             [Api\ProductController::class, 'getproductsByCategory']);
 

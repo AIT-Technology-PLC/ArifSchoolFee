@@ -92,6 +92,27 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="host_address">
+                                    Host Address <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="text"
+                                        name="host_address"
+                                        id="host_address"
+                                        placeholder="Host Address"
+                                        value="{{ old('host_address', $warehouse->host_address) }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-globe"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="host_address" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
                     @endif
                     <div class="column is-6">
                         <x-forms.field>

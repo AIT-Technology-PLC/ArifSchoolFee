@@ -70,4 +70,11 @@ class Sale extends Model
 
         return Price::getTotalWithheldAmount($this->saleDetails);
     }
+
+    public function assignFSNumber($fsNumber)
+    {
+        $this->fs_number = $fsNumber;
+
+        $this->save();
+    }
 }

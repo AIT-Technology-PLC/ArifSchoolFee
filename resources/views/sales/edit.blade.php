@@ -37,7 +37,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (is_null($sale->fs_number))
+                    @if (!$sale->warehouse->hasPosIntegration() && is_null($sale->fs_number))
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="fs_number">

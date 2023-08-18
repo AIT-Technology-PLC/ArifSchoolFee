@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes, HasPushSubscriptions;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles, CascadeSoftDeletes, HasPushSubscriptions, HasApiTokens;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'last_online_at'];
 

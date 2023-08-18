@@ -4,15 +4,20 @@ namespace App\Integrations\PointOfSale;
 
 use App\Interfaces\PointOfSaleInterface;
 use App\Models\Sale;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class Peds implements PointOfSaleInterface
 {
     private $sale;
 
+    private $hostAddress;
+
     public function __construct(Sale $sale)
     {
         $this->sale = $sale;
+
+        $this->hostAddress = str($this->sale->warehouse->host_address)->append('/')->toString();
     }
 
     private function getHeaders()
@@ -20,6 +25,7 @@ class Peds implements PointOfSaleInterface
         return [
             'Authorization' => 'Basic UEVEU0FQSTo2MjUxMTM=',
             'Content-Type' => 'application/json',
+            'Bypass-Tunnel-Reminder' => $this->sale->warehouse->host_address,
         ];
     }
 
@@ -34,12 +40,12 @@ class Peds implements PointOfSaleInterface
                     'CategoryName' => $saleDetail->product->productCategory->name,
                     'ItemIdentifierId' => (string) $saleDetail->product_id,
                     'ItemDescription' => $saleDetail->product->name,
-                    'ItemCode' => (string) $saleDetail->product->code,
+                    'ItemCode' => (string) $saleDetail->product->code ?? $saleDetail->product->name,
                     'UomIdentifierId' => $saleDetail->product->unit_of_measurement,
                     'UomName' => $saleDetail->product->unit_of_measurement,
                     'Quantity' => $saleDetail->quantity,
                     'SalesUnitPrice' => $saleDetail->unit_price,
-                    'TaxType' => '1',
+                    'TaxType' => $saleDetail->product->tax->type == 'VAT' ? '1' : '4',
                 ];
             })
             ->toArray();
@@ -53,8 +59,8 @@ class Peds implements PointOfSaleInterface
             'SalesPerson' => $this->sale->createdBy->name,
             'HoldMemo' => '',
             'Date' => $this->sale->created_at,
-            'CustomerName' => $this->sale->customer->company_name,
-            'CustomerTIN' => $this->sale->customer->tin ?? null,
+            'CustomerName' => $this->sale->customer->company_name ?? 'walking customer',
+            'CustomerTIN' => $this->sale->customer->tin ?? '',
             'CustomerVAT' => '',
             'CashierUpdated' => $this->sale->updatedBy->name,
             'POSId' => (string) $this->sale->warehouse_id,
@@ -66,62 +72,74 @@ class Peds implements PointOfSaleInterface
 
     public function create()
     {
-        $response = Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/API/HoldSalesService/Add', $this->getRequestBody($this->sale));
+        try {
+            $response = Http::retry(2, throw :false)
+                ->connectTimeout(5)
+                ->timeout(5)
+                ->withHeaders($this->getHeaders())
+                ->post(str($this->hostAddress)->append('Add')->toString(), $this->getRequestBody($this->sale));
 
-        return [$response['Success'], $response['Message']];
-    }
+            if (!isset($response['Success']) || $response->failed()) {
+                $data = [false, 'Can not connect to the cashier\'s computer.'];
+            }
 
-    public function void()
-    {
-        $response = Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/api/HoldSalesService/Void', [
-                'value' => $this->sale->code,
-            ]);
+            if (isset($response['Success']) && !$response['Success'] && str($response['Message'])->contains(['invoice', 'exist'])) {
+                $data = [true, ''];
+            }
 
-        return [$response['Success'], $response['Message']];
-    }
+            if (isset($response['Success']) && $response['Success']) {
+                $data = [$response['Success'], $response['Message']];
+            }
+        } catch (ConnectionException $ex) {
+            $data = [false, 'NETWORK UNSTABLE: Lost connection to the cashier\'s computer. Try approving again!'];
+        }
 
-    public function exists()
-    {
-        $response = Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/api/HoldSalesService/Exists', [
-                'value' => $this->sale->code,
-            ]);
-
-        return [$response['Success'], $response['Message']];
-    }
-
-    public function getStatus()
-    {
-        $response = Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/api/HoldSalesService/GetInvoiceStatus', [
-                'value' => $this->sale->code,
-            ]);
-
-        return $response;
+        return $data;
     }
 
     public function getFsNumber()
     {
-        $response = Http::withHeaders($this->getHeaders())
-            ->post('http://localhost:2010/PEDS/api/HoldSalesService/GetPaidStatus', [
-                'value' => $this->sale->code,
-            ]);
+        try {
+            $response = Http::retry(3, throw :false)
+                ->connectTimeout(5)
+                ->timeout(5)
+                ->withHeaders($this->getHeaders())
+                ->post(str($this->hostAddress)->append('GetPaidStatus')->toString(), $this->sale->code);
 
-        return [
-            $response['Success'],
-            $response['content'][0]['FsInvoiceNo'] ?? '',
-        ];
+            if (!isset($response['Success']) || $response->failed()) {
+                $data = [false, 'Can not connect to the cashier\'s computer.'];
+            }
+
+            if (isset($response['Success']) && $response['Success']) {
+                $data = [$response['Success'], $response['Content'][0]['FsInvoiceNo'] ?? ''];
+            }
+        } catch (ConnectionException $ex) {
+            $data = [false, 'NETWORK UNSTABLE: Lost connection to the cashier\'s computer. Try approving again!'];
+        }
+
+        return $data;
     }
 
     public function isVoid()
     {
-        return $this->getStatus()['Content']['IsVoid'];
-    }
+        try {
+            $response = Http::retry(3, throw :false)
+                ->connectTimeout(5)
+                ->timeout(5)
+                ->withHeaders($this->getHeaders())
+                ->post(str($this->hostAddress)->append('GetInvoiceStatus')->toString(), $this->sale->code);
 
-    public function isPrinted()
-    {
-        return $this->getStatus()['Content']['IsPrinted'];
+            if (!isset($response['Success']) || $response->failed()) {
+                $data = false;
+            }
+
+            if (isset($response['Success']) && $response['Success']) {
+                $data = $response['Content']['Status'] == 'FullyVoid';
+            }
+        } catch (ConnectionException $ex) {
+            $data = false;
+        }
+
+        return $data;
     }
 }

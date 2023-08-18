@@ -130,7 +130,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if (userCompany()->canSaleSubtract() && !$sale->isApproved() && authUser()->can(['Approve Sale', 'Subtract Sale']))
+                @if (!$sale->warehouse->hasPosIntegration() && userCompany()->canSaleSubtract() && !$sale->isApproved() && authUser()->can(['Approve Sale', 'Subtract Sale']))
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('sales.approve_and_subtract', $sale->id)"
@@ -154,7 +154,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(userCompany()->canSaleSubtract() && !$sale->isSubtracted() && !$sale->isCancelled())
+                @elseif(!$sale->warehouse->hasPosIntegration() && userCompany()->canSaleSubtract() && !$sale->isSubtracted() && !$sale->isCancelled())
                     @can('Subtract Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -168,7 +168,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (!$sale->isCancelled())
+                @if (!$sale->warehouse->hasPosIntegration() && !$sale->isCancelled())
                     @can('Cancel Sale')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

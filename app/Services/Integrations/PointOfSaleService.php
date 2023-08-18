@@ -6,11 +6,7 @@ class PointOfSaleService
 {
     public function create($sale)
     {
-        if (! userCompany()->hasIntegration('Point of Sale')) {
-            return [true, ''];
-        }
-
-        if (is_null($sale->warehouse->pos_provider)) {
+        if (! $sale->warehouse->hasPosIntegration()) {
             return [true, ''];
         }
 
@@ -19,33 +15,25 @@ class PointOfSaleService
         return (new $posClass($sale))->create();
     }
 
-    public function cancel($sale)
-    {
-        if (! userCompany()->hasIntegration('Point of Sale')) {
-            return [true, ''];
-        }
-
-        if (is_null($sale->warehouse->pos_provider)) {
-            return [true, ''];
-        }
-
-        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
-
-        return (new $posClass($sale))->void();
-    }
-
     public function getFsNumber($sale)
     {
-        if (! userCompany()->hasIntegration('Point of Sale')) {
-            return [true, ''];
-        }
-
-        if (is_null($sale->warehouse->pos_provider)) {
+        if (! $sale->warehouse->hasPosIntegration()) {
             return [true, ''];
         }
 
         $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
 
         return (new $posClass($sale))->getFsNumber();
+    }
+
+    public function isVoid($sale)
+    {
+        if (! $sale->warehouse->hasPosIntegration()) {
+            return [false, ''];
+        }
+
+        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
+
+        return (new $posClass($sale))->isVoid();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
+use App\Models\Sale;
 use App\Services\Integrations\PointOfSaleService;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
@@ -54,8 +55,6 @@ class SaleService
 
             $sale->cancel();
 
-            [$isExecuted, $message] = $this->pointOfSaleService->cancel($sale);
-
             if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist() && $sale->isApproved()) {
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
@@ -63,13 +62,6 @@ class SaleService
             if (userCompany()->canSaleSubtract() && $sale->isSubtracted()) {
                 InventoryOperationService::add($sale->gdnDetails, $sale);
                 $sale->add();
-                $sale->sale?->cancel();
-                Siv::where('purpose', 'DO')->where('ref_num', $sale->code)->forceDelete();
-            }
-
-            if (!$isExecuted) {
-                DB::rollBack();
-                return [$isExecuted, $message];
             }
 
             return [true, 'Invoice cancelled successfully'];
@@ -117,6 +109,10 @@ class SaleService
 
     public function subtract($sale, $user)
     {
+        if ($sale->warehouse->hasPosIntegration()) {
+            return [false, 'Subtracting is not allowed.'];
+        }
+
         if (!userCompany()->canSaleSubtract()) {
             return [false, 'Subtracting invoice is not allow. Contact your System Manager.'];
         }
@@ -155,6 +151,10 @@ class SaleService
 
     public function approveAndSubtract($sale, $user)
     {
+        if ($sale->warehouse->hasPosIntegration()) {
+            return [false, 'Subtracting is not allowed.'];
+        }
+
         if (!userCompany()->canSaleSubtract()) {
             return [false, 'Subtracting invoice is not allow. Contact your System Manager.'];
         }
@@ -197,5 +197,34 @@ class SaleService
         });
 
         return [true, ''];
+    }
+
+    public function assignFSNumber($data)
+    {
+        $sale = Sale::approved()->notSubtracted()->notCancelled()->where('code', $data['invoice_number'])->whereNull('fs_number')->first();
+
+        if (!$sale) {
+            return [false, 'Invoice not found and FS not assigned.'];
+        }
+
+        if (!$sale->warehouse->hasPosIntegration()) {
+            return [false, 'Integration is not set up for this branch.'];
+        }
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($sale, $data) {
+            InventoryOperationService::subtract($sale->saleDetails, $sale);
+
+            $sale->assignFSNumber($data['fs_number']);
+
+            $sale->subtract();
+        });
+
+        return [true, 'Invoice found and FS assigned successfully.'];
     }
 }

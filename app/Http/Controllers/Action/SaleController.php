@@ -36,6 +36,10 @@ class SaleController extends Controller
 
     public function cancel(Sale $sale)
     {
+        if ($sale->warehouse->hasPosIntegration()) {
+            back()->with('failedMessage', 'Subtracting is not allowed.');
+        }
+
         $this->authorize('cancel', $sale);
 
         [$isExecuted, $message] = $this->saleService->cancel($sale);

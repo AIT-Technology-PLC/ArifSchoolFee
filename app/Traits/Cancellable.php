@@ -13,7 +13,20 @@ trait Cancellable
 
     public function cancel()
     {
-        $this->cancelled_by = authUser()->id;
+        $user = $this->createdBy;
+
+        if (auth()->check()) {
+            $user = authUser();
+        }
+
+        $this->cancelled_by = $user->id;
+
+        $this->save();
+    }
+
+    public function undoCancel()
+    {
+        $this->cancelled_by = null;
 
         $this->save();
     }
