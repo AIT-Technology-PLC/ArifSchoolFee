@@ -243,10 +243,6 @@ class SaleService
             return [false, 'This Invoice is not subtracted yet.', ''];
         }
 
-        if ($sale->isClosed()) {
-            return [false, 'This Invoice is closed.', ''];
-        }
-
         $siv = (new ConvertToSivAction)->execute(
             'Invoice',
             $sale->code,
