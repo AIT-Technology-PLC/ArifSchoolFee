@@ -13,6 +13,7 @@ class MerchandiseProductService
         }
 
         return Product::query()
+            ->when(!is_null($user) && !$user->hasRole('System Manager'), fn($q) => $q->active())
             ->inventoryType()
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
                 $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
@@ -32,6 +33,7 @@ class MerchandiseProductService
         }
 
         return Product::query()
+            ->when(!is_null($user) && !$user->hasRole('System Manager'), fn($q) => $q->active())
             ->inventoryType()
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
                 $query->when($warehouseId, fn($q) => $q->where('warehouse_id', $warehouseId))
@@ -52,6 +54,7 @@ class MerchandiseProductService
         }
 
         return Product::query()
+            ->when(!is_null($user) && !$user->hasRole('System Manager'), fn($q) => $q->active())
             ->inventoryType()
             ->whereNotIn('id', function ($query) use ($warehouseId, $user) {
                 $query->select('product_id')
@@ -75,6 +78,7 @@ class MerchandiseProductService
         }
 
         return Product::query()
+            ->when(!is_null($user) && !$user->hasRole('System Manager'), fn($q) => $q->active())
             ->inventoryType()
             ->whereHas('merchandises', function ($query) use ($warehouseId, $user) {
                 $query

@@ -86,7 +86,7 @@ trait TransactionAccessors
                         $data['line'] = $transactionFields->first()->line;
 
                         foreach ($transactionFields as $transactionField) {
-                            $value = is_numeric($transactionField->value)
+                            $value = $transactionField->padField?->tag_type == 'number'
                             ? number_format($transactionField->value, 2, thousands_separator : '')
                             : $transactionField->value;
 
