@@ -196,6 +196,20 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+                @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isClosed() && !$sale->isCancelled())
+                    @can('Create SIV')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sales.convert_to_siv', $sale->id)"
+                                action="attach"
+                                intention="attach SIV to this invoice"
+                                icon="fas fa-file-export"
+                                label="Attach SIV"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 @foreach (pads() as $pad)
                     @if (in_array('sales', $pad->convert_from))
                         @can('convert', $pad->transactions->first())

@@ -377,6 +377,7 @@ Route::controller(Action\SaleController::class)->group(function () {
     Route::get('/sales/{sale}/print', 'printed')->name('sales.print');
     Route::post('/sales/{sale}/subtract', 'subtract')->name('sales.subtract');
     Route::post('/sales/{sale}/approve-and-subtract', 'approveAndSubtract')->name('sales.approve_and_subtract');
+    Route::post('/sales/{sale}/convert-to-siv', 'convertToSiv')->name('sales.convert_to_siv');
 });
 
 Route::post('/job-planners/print',

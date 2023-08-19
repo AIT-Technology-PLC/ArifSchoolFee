@@ -18,6 +18,8 @@ class SaleController extends Controller
 
         $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
 
+        $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
+
         $this->saleService = $saleService;
     }
 
@@ -109,5 +111,18 @@ class SaleController extends Controller
         }
 
         return back();
+    }
+
+    public function convertToSiv(Sale $sale)
+    {
+        $this->authorize('create', Siv::class);
+
+        [$isExecuted, $message, $siv] = $this->saleService->convertToSiv($sale, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        return redirect()->route('sivs.show', $siv->id);
     }
 }

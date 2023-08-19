@@ -165,15 +165,15 @@ class SaleService
         }
 
         if ($sale->isApproved()) {
-            return [false, 'This Delivery Order is already approved.'];
+            return [false, 'This Invoice is already approved.'];
         }
 
         if ($sale->isCancelled()) {
-            return [false, 'This Delivery Order is cancelled.'];
+            return [false, 'This Invoice is cancelled.'];
         }
 
         if ($sale->isSubtracted()) {
-            return [false, 'This Delivery Order is already subtracted from inventory'];
+            return [false, 'This Invoice is already subtracted from inventory'];
         }
 
         $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
@@ -226,5 +226,35 @@ class SaleService
         });
 
         return [true, 'Invoice found and FS assigned successfully.'];
+    }
+
+    public function convertToSiv($sale, $user)
+    {
+        if (!$user->hasWarehousePermission('siv',
+            $sale->saleDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
+        }
+
+        if ($sale->isCancelled()) {
+            return [false, 'This Invoice is cancelled.', ''];
+        }
+
+        if (!$sale->isSubtracted()) {
+            return [false, 'This Invoice is not subtracted yet.', ''];
+        }
+
+        if ($sale->isClosed()) {
+            return [false, 'This Invoice is closed.', ''];
+        }
+
+        $siv = (new ConvertToSivAction)->execute(
+            'Invoice',
+            $sale->code,
+            $sale->customer->company_name ?? '',
+            $sale->approved_by,
+            $sale->saleDetails()->get(['product_id', 'warehouse_id', 'quantity']),
+        );
+
+        return [true, '', $siv];
     }
 }
