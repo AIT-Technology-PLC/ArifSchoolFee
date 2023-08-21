@@ -13,7 +13,13 @@ trait Subtractable
 
     public function subtract()
     {
-        $this->subtracted_by = authUser()->id;
+        $user = $this->createdBy;
+
+        if (auth()->check()) {
+            $user = authUser();
+        }
+
+        $this->subtracted_by = $user->id;
 
         $this->save();
     }
