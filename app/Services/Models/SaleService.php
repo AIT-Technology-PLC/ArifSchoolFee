@@ -202,15 +202,21 @@ class SaleService
 
     public function assignFSNumber($data)
     {
-        $sale = Sale::approved()->notSubtracted()->notCancelled()->where('code', $data['invoice_number'])->whereNull('fs_number')->first();
+        $sale = Sale::approved()
+            ->notSubtracted()
+            ->notCancelled()
+            ->whereNull('fs_number')
+            ->when(!auth()->check(), fn($q) => $q->where('warehouse_id', $data['warehouse_id']))
+            ->where('code', $data['invoice_number'])
+            ->first();
 
         if (!$sale) {
             return [false, 'Invoice not found and FS not assigned.'];
         }
 
-        // if (!$sale->warehouse->hasPosIntegration()) {
-        //     return [false, 'Integration is not set up for this branch.'];
-        // }
+        if (!$sale->warehouse->hasPosIntegration()) {
+            return [false, 'Integration is not set up for this branch.'];
+        }
 
         $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
 

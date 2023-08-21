@@ -58,6 +58,7 @@ class CorrectBadInvoices extends Command
                     $sale->approve();
 
                     $saleService->assignFSNumber([
+                        'warehouse_id' => $sale->warehouse_id,
                         'invoice_number' => $sale->code,
                         'fs_number' => $fsNumber,
                     ]);
