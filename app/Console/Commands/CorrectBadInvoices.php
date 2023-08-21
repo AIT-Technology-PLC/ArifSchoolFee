@@ -40,7 +40,7 @@ class CorrectBadInvoices extends Command
             $warehouses = Warehouse::with('company')->active()->whereNotNull('pos_provider')->whereNotNull('host_address')->get();
 
             foreach ($warehouses as $warehouse) {
-                if (! $warehouse->hasPosIntegration()) {
+                if (!$warehouse->hasPosIntegration()) {
                     continue;
                 }
 
@@ -57,10 +57,12 @@ class CorrectBadInvoices extends Command
 
                     $sale->approve();
 
-                    $saleService->assignFSNumber([
+                    [$isExecuted, $message] = $saleService->assignFSNumber([
                         'invoice_number' => $sale->code,
                         'fs_number' => $fsNumber,
                     ]);
+
+                    $this->warn($message);
 
                     $badInvoices->push([
                         'sale_id' => $sale->id,
