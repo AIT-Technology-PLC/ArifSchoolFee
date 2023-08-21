@@ -129,11 +129,11 @@ class Peds implements PointOfSaleInterface
                 ->withHeaders($this->getHeaders())
                 ->post(str($this->hostAddress)->append('GetInvoiceStatus')->toString(), $this->sale->code);
 
-            if (!isset($response['Success']) || $response->failed()) {
-                $data = false;
-            }
+            $data = false;
 
-            $data = $response['Content']['Status'] == 'FullyVoid' ?? false;
+            if (isset($response['Success']) && $response['Success']) {
+                $data = $response['Content']['Status'] == 'FullyVoid';
+            }
         } catch (ConnectionException $ex) {
             $data = false;
         }
