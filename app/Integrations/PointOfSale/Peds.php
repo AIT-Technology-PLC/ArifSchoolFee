@@ -133,9 +133,7 @@ class Peds implements PointOfSaleInterface
                 $data = false;
             }
 
-            if (isset($response['Success']) && $response['Success']) {
-                $data = $response['Content']['Status'] == 'FullyVoid';
-            }
+            $data = $response['Content']['Status'] == 'FullyVoid' ?? false;
         } catch (ConnectionException $ex) {
             $data = false;
         }

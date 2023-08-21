@@ -40,7 +40,7 @@ class VoidInvoicesByPos extends Command
             $warehouses = Warehouse::with('company')->active()->whereNotNull('pos_provider')->whereNotNull('host_address')->get();
 
             foreach ($warehouses as $warehouse) {
-                if (! $warehouse->hasPosIntegration()) {
+                if (!$warehouse->hasPosIntegration()) {
                     continue;
                 }
 
