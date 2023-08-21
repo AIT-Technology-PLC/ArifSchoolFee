@@ -57,13 +57,10 @@ class CorrectBadInvoices extends Command
 
                     $sale->approve();
 
-                    [$isExecuted, $message] = $saleService->assignFSNumber([
+                    $saleService->assignFSNumber([
                         'invoice_number' => $sale->code,
                         'fs_number' => $fsNumber,
                     ]);
-
-                    $this->warn($message);
-                    $this->warn($sale->warehouse->name);
 
                     $badInvoices->push([
                         'sale_id' => $sale->id,

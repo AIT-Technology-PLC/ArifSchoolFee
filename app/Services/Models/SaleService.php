@@ -208,9 +208,9 @@ class SaleService
             return [false, 'Invoice not found and FS not assigned.'];
         }
 
-        if (!$sale->warehouse->hasPosIntegration()) {
-            return [false, 'Integration is not set up for this branch.'];
-        }
+        // if (!$sale->warehouse->hasPosIntegration()) {
+        //     return [false, 'Integration is not set up for this branch.'];
+        // }
 
         $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
 
