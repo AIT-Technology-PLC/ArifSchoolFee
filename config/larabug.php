@@ -87,7 +87,7 @@ return [
     'except' => [
         'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
         'Symfony\Component\Console\Exception\NamespaceNotFoundException',
-        // 'Symfony\Component\Console\Exception\CommandNotFoundException',
+        'Symfony\Component\Console\Exception\CommandNotFoundException',
     ],
 
     /*
