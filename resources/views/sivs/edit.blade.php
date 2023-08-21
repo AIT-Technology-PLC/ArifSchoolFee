@@ -97,6 +97,10 @@
                                         {{ $siv->purpose == 'DO' ? 'selected' : '' }}
                                     > Delivery Order </option>
                                     <option
+                                        value="Invoice"
+                                        {{ $siv->purpose == 'Invoice' ? 'selected' : '' }}
+                                    > Invoice </option>
+                                    <option
                                         value="Transfer"
                                         {{ $siv->purpose == 'Transfer' ? 'selected' : '' }}
                                     > Transfer </option>

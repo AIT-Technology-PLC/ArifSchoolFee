@@ -132,6 +132,12 @@
                         <td class="has-text-centered"> {{ $loop->index + 1 }} </td>
                         <td>
                             {{ $saleDetail->product->name }}
+                            @if (!empty($saleDetail->description))
+                                <br>
+                                <span class="summernote-table">
+                                    {!! $saleDetail->description ?? '' !!}
+                                </span>
+                            @endif
                         </td>
                         @if ($havingCode)
                             <td> {{ $saleDetail->product->code ?? '-' }} </td>

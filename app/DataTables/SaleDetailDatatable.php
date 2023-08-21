@@ -29,6 +29,7 @@ class SaleDetailDatatable extends DataTable
             ->editColumn('expires_on', fn($saleDetail) => $saleDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
             ->editColumn('unit_price', fn($saleDetail) => money($saleDetail->unit_price))
             ->editColumn('total', fn($saleDetail) => money($saleDetail->totalPrice))
+            ->editColumn('description', fn($saleDetail) => nl2br(e($saleDetail->description)))
             ->editColumn('actions', function ($saleDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'sale-details',
@@ -63,6 +64,7 @@ class SaleDetailDatatable extends DataTable
             Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('unit_price')->addClass('has-text-right'),
             Column::computed('total')->addClass('has-text-right'),
+            Column::make('description')->visible(false),
             Column::computed('actions'),
         ];
 

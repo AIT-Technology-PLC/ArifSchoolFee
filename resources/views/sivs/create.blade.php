@@ -96,6 +96,10 @@
                                         {{ old('purpose') == 'DO' ? 'selected' : '' }}
                                     > Delivery Order </option>
                                     <option
+                                        value="Invoice"
+                                        {{ old('purpose') == 'Invoice' ? 'selected' : '' }}
+                                    > Invoice </option>
+                                    <option
                                         value="Transfer"
                                         {{ old('purpose') == 'Transfer' ? 'selected' : '' }}
                                     > Transfer </option>
