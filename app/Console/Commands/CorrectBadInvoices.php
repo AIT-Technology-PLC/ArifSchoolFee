@@ -63,6 +63,7 @@ class CorrectBadInvoices extends Command
                     ]);
 
                     $this->warn($message);
+                    $this->warn($sale->warehouse->name);
 
                     $badInvoices->push([
                         'sale_id' => $sale->id,
