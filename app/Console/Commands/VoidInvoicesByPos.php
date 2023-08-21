@@ -49,7 +49,6 @@ class VoidInvoicesByPos extends Command
                     ->notCancelled()
                     ->whereNull('fs_number')
                     ->where('warehouse_id', $warehouse->id)
-                    ->where('created_at', '<=', now()->subMinutes(5))
                     ->orderBy('id', 'ASC')
                     ->get();
 
