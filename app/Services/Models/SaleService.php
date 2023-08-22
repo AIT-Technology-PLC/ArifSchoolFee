@@ -60,7 +60,7 @@ class SaleService
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
-            if (userCompany()->canSaleSubtract() && $sale->isSubtracted()) {
+            if ($sale->company->canSaleSubtract() && $sale->isSubtracted()) {
                 InventoryOperationService::add($sale->gdnDetails, $sale);
                 $sale->add();
             }
