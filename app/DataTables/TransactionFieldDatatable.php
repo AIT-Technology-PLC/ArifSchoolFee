@@ -77,6 +77,10 @@ class TransactionFieldDatatable extends DataTable
             if ($padField->isMerchandiseBatchField()) {
                 $columns[] = Column::make('expires_on')->visible(false);
             }
+
+            if ($padField->padRelation?->model_name == 'Product') {
+                $columns[] = Column::make('unit');
+            }
         }
 
         if (request()->route('transaction')->pad->hasPrices()) {

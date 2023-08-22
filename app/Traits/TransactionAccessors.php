@@ -100,6 +100,7 @@ trait TransactionAccessors
                             }
 
                             if ($transactionField->padField->padRelation?->model_name == 'Product') {
+                                $data['unit'] = Product::find($transactionField->value)->unit_of_measurement;
                                 $taxAmount = Product::find($transactionField->value)->tax->amount;
                             }
 
