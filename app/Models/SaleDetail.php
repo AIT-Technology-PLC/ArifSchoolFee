@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Scopes\ActiveWarehouseScope;
+use App\Scopes\BranchScope;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +31,7 @@ class SaleDetail extends Model
 
     public function warehouse()
     {
-        return $this->belongsTo(Warehouse::class);
+        return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
     public function merchandiseBatch()
