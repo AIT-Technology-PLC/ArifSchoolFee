@@ -83,12 +83,16 @@ class Peds implements PointOfSaleInterface
                 $data = [false, 'Can not connect to the cashier\'s computer.'];
             }
 
-            if (isset($response['Success']) && !$response['Success'] && str($response['Message'])->contains(['invoice', 'exist'])) {
+            if (isset($response['Success']) && !$response['Success'] && str($response['Message'])->contains(['invoice', 'exist', 'invoices', 'exists'])) {
                 $data = [true, ''];
             }
 
             if (isset($response['Success']) && $response['Success']) {
                 $data = [$response['Success'], $response['Message']];
+            }
+
+            if (!isset($data)) {
+                $data = [false, $response['Message'] ?? 'Something went wrong. Please try again.'];
             }
         } catch (ConnectionException $ex) {
             $data = [false, 'NETWORK UNSTABLE: Lost connection to the cashier\'s computer. Try approving again!'];
