@@ -45,7 +45,7 @@ class ReturnReport
             ->join('returns', 'return_details.return_id', '=', 'returns.id')
             ->join('warehouses', 'returns.warehouse_id', '=', 'warehouses.id')
             ->leftJoin('gdns', 'returns.gdn_id', '=', 'gdns.id')
-            ->join('customers', function ($join) {
+            ->leftJoin('customers', function ($join) {
                 $join->on('returns.customer_id', '=', 'customers.id')
                     ->orOn('gdns.customer_id', '=', 'customers.id');
             });

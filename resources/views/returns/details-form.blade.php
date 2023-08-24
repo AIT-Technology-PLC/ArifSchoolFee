@@ -184,7 +184,6 @@
                                     type="number"
                                     x-bind:id="`return[${index}][unit_price]`"
                                     x-bind:name="`return[${index}][unit_price]`"
-                                    x-init="returnn.hasOwnProperty('originalUnitPrice') && (returnn.unit_price = returnn.originalUnitPrice)"
                                     x-model="returnn.unit_price"
                                 >
                                     <template
@@ -214,7 +213,6 @@
                                 <x-forms.input
                                     x-bind:id="`return[${index}][unit_price]`"
                                     x-bind:name="`return[${index}][unit_price]`"
-                                    x-init="returnn.hasOwnProperty('originalUnitPrice') && (returnn.unit_price = returnn.originalUnitPrice)"
                                     x-model="returnn.unit_price"
                                     type="number"
                                     placeholder="Unit Price"
@@ -443,6 +441,7 @@
                     this.returns = gdn.gdn_details;
 
                     await Promise.resolve(this.returns.forEach((returnn) => {
+                        returnn.unit_price = returnn.originalUnitPrice;
                         returnn.product_category_id = Product.productCategoryId(returnn.product_id);
                         returnn.hasOwnProperty('returnableQuantity') && (returnn.quantity = 0)
                     }));
