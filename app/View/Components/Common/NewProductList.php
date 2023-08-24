@@ -23,7 +23,8 @@ class NewProductList extends Component
         $cacheName = str('newProductLists')->append(authUser()->id, 'newProductLists', implode($this->type))->toString();
 
         $this->products = Cache::store('array')->rememberForever($cacheName, function () {
-            return Product::select(['id', 'product_category_id', 'name', 'code', 'type', 'description'])
+            return Product::active()
+                ->select(['id', 'product_category_id', 'name', 'code', 'type', 'description'])
                 ->when(!empty($this->type), fn($q) => $q->whereIn('type', $this->type))
                 ->when($this->includedProducts == 'sales', fn($query) => $query->activeForSale())
                 ->when($this->includedProducts == 'purchases', fn($query) => $query->activeForPurchase())
