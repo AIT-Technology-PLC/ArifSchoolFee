@@ -32,7 +32,7 @@ class UpdateAdjustmentRequest extends FormRequest
                 new BatchSelectionIsRequiredOrProhibited(false), 
                 Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
         ];
     }

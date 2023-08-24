@@ -20,7 +20,7 @@ class StoreCreditRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('credits'), new CanEditReferenceNumber('credits')],
             'customer_id' => ['required', 'integer', new MustBelongToCompany('customers')],
             'credit_amount' => ['required', 'numeric', 'gt:0'],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['required', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
         ];

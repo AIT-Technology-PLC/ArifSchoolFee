@@ -41,7 +41,7 @@ class UpdateReturnRequest extends FormRequest
             ],
             'gdn_id' => ['nullable', Rule::requiredIf(userCompany()->isReturnLimitedBySales()), 'integer', new MustBelongToCompany('gdns'), Rule::in(Gdn::getValidGdnsForReturn($this->get('gdn_id'))->flatten(1)->pluck('id'))],
             'customer_id' => ['nullable', 'integer','exclude_unless:gdn_id,null', new MustBelongToCompany('customers')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
         ];
     }

@@ -19,7 +19,7 @@ class StoreAdvancementRequest extends FormRequest
     public function rules()
     {
         return [
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'type' => ['required', 'string', 'max:255', Rule::in(['Promotion', 'Demotion'])],
             'description' => ['nullable', 'string'],
             'advancement' => ['required', 'array'],

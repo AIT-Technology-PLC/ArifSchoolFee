@@ -139,7 +139,7 @@ class CreateTransaction extends Component
     {
         $rules = [
             'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'status' => [Rule::requiredIf($this->padStatuses->isNotEmpty()), 'string'],
         ];
 

@@ -56,7 +56,7 @@ class StoreSaleRequest extends FormRequest
             ],
 
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:date'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {
                     $fail('Credit Payment without customer is not allowed, please select a customer.');

@@ -23,7 +23,7 @@ class UpdateCompensationAdjustmentRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments', $this->route('compensation_adjustment')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
                 if (CompensationAdjustment::approved()->notCancelled()->where('ending_period', '>=', $value)->whereNot('id', $this->route('compensation_adjustment')->id)->exists()) {
                     $fail('This starting period is already taken.');

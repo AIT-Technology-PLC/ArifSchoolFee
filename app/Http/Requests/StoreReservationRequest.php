@@ -57,7 +57,7 @@ class StoreReservationRequest extends FormRequest
             ],
 
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'expires_on' => ['required', 'date', 'after_or_equal:issued_on'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {

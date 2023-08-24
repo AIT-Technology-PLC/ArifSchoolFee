@@ -20,7 +20,7 @@ class UpdateDebtRequest extends FormRequest
             'code' => ['required', 'integer', new UniqueReferenceNum('debts', $this->route('debt')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'supplier_id' => ['required', 'integer', new MustBelongToCompany('suppliers')],
             'debt_amount' => ['required', 'numeric', 'gt:0'],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['required', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
         ];

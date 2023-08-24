@@ -20,7 +20,7 @@ class StoreEmployeeTransferRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('employee_transfers'), new CanEditReferenceNumber('employee_transfers')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'employeeTransfer' => ['required', 'array'],
             'employeeTransfer.*.employee_id' => ['required', 'integer', 'distinct', new MustBelongToCompany('employees'), Rule::in(Employee::getEmployees(false)->pluck('id'))],
             'employeeTransfer.*.warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],

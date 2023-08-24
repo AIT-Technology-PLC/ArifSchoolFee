@@ -19,7 +19,7 @@ class UpdateCustomerDepositRequest extends FormRequest
             'bank_name' => ['nullable', 'string', 'max:255'],
             'reference_number' => ['nullable', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'gt:0'],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'deposited_at' => ['required', 'date'],
             'attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5000'],
         ];

@@ -24,7 +24,7 @@ class StoreJobRequest extends FormRequest
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'), 'prohibited_if:is_internal_job,1'],
             'factory_id' => ['required', 'integer', Rule::in(auth()->user()->getAllowedWarehouses('sales')->pluck('id'))],
             'description' => ['nullable', 'string'],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['required', 'date', 'after_or_equal:issued_on'],
             'is_internal_job' => ['required', 'boolean'],
             'job' => ['required', 'array'],

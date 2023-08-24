@@ -22,7 +22,7 @@ class StoreAttendanceRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('attendances'), new CanEditReferenceNumber('attendances')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
                 if (Attendance::approved()->notCancelled()->where('warehouse_id', authUser()->warehouse_id)->where('ending_period', '>=', $value)->exists()) {
                     $fail('This starting period is already taken.');

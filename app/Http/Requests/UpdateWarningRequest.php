@@ -16,7 +16,7 @@ class UpdateWarningRequest extends FormRequest
     {
         return [
             'type' => ['required', 'string', 'max:255', Rule::in(['Initial Warning', 'Affirmation Warning', 'Final Warning'])],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'letter' => ['required', 'string'],
         ];
     }

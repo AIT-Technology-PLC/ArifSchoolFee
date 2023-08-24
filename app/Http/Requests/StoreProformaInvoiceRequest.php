@@ -27,7 +27,7 @@ class StoreProformaInvoiceRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('proforma_invoices'), new CanEditReferenceNumber('proforma_invoices')],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'expires_on' => ['nullable', 'date', 'after_or_equal:issued_on'],
             'terms' => ['nullable', 'string'],
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],

@@ -26,7 +26,7 @@ class UpdateSivRequest extends FormRequest
             'siv.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('siv')->pluck('id'))],
             'siv.*.quantity' => ['required', 'numeric', 'gt:0'],
             'siv.*.description' => ['nullable', 'string'],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'received_by' => ['nullable', 'string'],
             'delivered_by' => ['nullable', 'string'],
             'issued_to' => ['nullable', 'string'],

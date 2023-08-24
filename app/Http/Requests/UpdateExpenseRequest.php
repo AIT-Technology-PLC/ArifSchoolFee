@@ -21,7 +21,7 @@ class UpdateExpenseRequest extends FormRequest
             'tax_id' => ['required', 'integer', new MustBelongToCompany('taxes')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'reference_number' => ['nullable', 'integer'],
             'description' => ['nullable', 'string'],
             'expense' => ['required', 'array'],

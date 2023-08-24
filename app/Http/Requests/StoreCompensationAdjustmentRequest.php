@@ -24,7 +24,7 @@ class StoreCompensationAdjustmentRequest extends FormRequest
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('compensation_adjustments'),
                 new CanEditReferenceNumber('compensation_adjustments')],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'starting_period' => ['required', 'date', function ($attribute, $value, $fail) {
                 if (CompensationAdjustment::approved()->notCancelled()->where('ending_period', '>=', $value)->exists()) {
                     $fail('This starting period is already taken.');

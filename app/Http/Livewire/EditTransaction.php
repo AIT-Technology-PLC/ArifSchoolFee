@@ -150,7 +150,7 @@ class EditTransaction extends Component
     {
         $rules = [
             'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
-            'issued_on' => ['required', 'date'],
+            'issued_on' => ['required', 'date', 'before_or_equal:now'],
         ];
 
         if ($this->pad->hasDetailPadFields()) {
