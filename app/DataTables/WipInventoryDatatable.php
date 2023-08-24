@@ -113,7 +113,7 @@ class WipInventoryDatatable extends DataTable
             ],
             'product',
             'code',
-            isFeatureEnabled('Job Management') ? 'type' : null,
+            'type',
             'category',
             ...$warehouses,
             'total balance',

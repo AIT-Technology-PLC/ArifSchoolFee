@@ -88,7 +88,7 @@ class OutOfStockInventoryDatatable extends DataTable
             ],
             'product',
             'code',
-            isFeatureEnabled('Job Management') ? 'type' : null,
+            'type',
             'category',
             ...$warehouses,
         ])

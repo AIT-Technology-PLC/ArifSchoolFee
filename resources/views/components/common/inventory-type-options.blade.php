@@ -5,12 +5,10 @@
     value="Finished Goods"
     {{ $type == 'Finished Goods' ? 'selected' : '' }}
 >Finished Goods</option>
-@if (isFeatureEnabled('Job Management'))
-    <option
-        value="Raw Material"
-        {{ $type == 'Raw Material' ? 'selected' : '' }}
-    >Raw Material</option>
-@endif
+<option
+    value="Raw Material"
+    {{ $type == 'Raw Material' ? 'selected' : '' }}
+>Raw Material</option>
 <option
     value="Services"
     {{ $type == 'Services' ? 'selected' : '' }}

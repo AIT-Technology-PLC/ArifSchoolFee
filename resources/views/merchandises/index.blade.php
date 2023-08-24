@@ -126,8 +126,7 @@
         <div @class([
             'is-hidden' =>
                 !request()->is('merchandises/available') &&
-                !request()->is('merchandises/expired') &&
-                !isFeatureEnabled('Job Management'),
+                !request()->is('merchandises/expired')
         ])>
             <x-content.footer>
                 <x-datatables.filter filters="'level', 'type', 'expiryType'">
@@ -159,33 +158,31 @@
                                 </x-forms.field>
                             </div>
                         @endif
-                        @if (isFeatureEnabled('Job Management'))
-                            <div class="column is-3 p-lr-0 pt-0">
-                                <x-forms.field class="has-text-centered">
-                                    <x-forms.control>
-                                        <x-forms.select
-                                            id=""
-                                            name=""
-                                            class="is-size-7-mobile is-fullwidth"
-                                            x-model="filters.type"
-                                            x-on:change="add('type')"
+                        <div class="column is-3 p-lr-0 pt-0">
+                            <x-forms.field class="has-text-centered">
+                                <x-forms.control>
+                                    <x-forms.select
+                                        id=""
+                                        name=""
+                                        class="is-size-7-mobile is-fullwidth"
+                                        x-model="filters.type"
+                                        x-on:change="add('type')"
+                                    >
+                                        <option
+                                            disabled
+                                            selected
+                                            value=""
                                         >
-                                            <option
-                                                disabled
-                                                selected
-                                                value=""
-                                            >
-                                                Type
-                                            </option>
-                                            <option value="all"> All </option>
-                                            @foreach (['Finished Goods', 'Raw Material'] as $type)
-                                                <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
-                                            @endforeach
-                                        </x-forms.select>
-                                    </x-forms.control>
-                                </x-forms.field>
-                            </div>
-                        @endif
+                                            Type
+                                        </option>
+                                        <option value="all"> All </option>
+                                        @foreach (['Finished Goods', 'Raw Material'] as $type)
+                                            <option value="{{ str()->lower($type) }}"> {{ $type }} </option>
+                                        @endforeach
+                                    </x-forms.select>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
                         @if (request()->is('merchandises/expired'))
                             <div class="column is-3 p-lr-0 pt-0">
                                 <x-forms.field class="has-text-centered">

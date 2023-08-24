@@ -74,7 +74,7 @@ class InventoryLevelReportDatatable extends DataTable
                 'sortable' => false,
             ],
             'product',
-            isFeatureEnabled('Job Management') ? 'type' : null,
+            'type',
             'category',
             ...$warehouses,
             'total_balance',
