@@ -9,7 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Sale;
+use App\Notifications\SalePrepared;
+use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class SaleController extends Controller
 {
@@ -54,6 +57,8 @@ class SaleController extends Controller
             $sale->saleDetails()->createMany($request->validated('sale'));
 
             AutoBatchStoringAction::execute($sale, $request->validated('sale'), 'saleDetails');
+
+            Notification::send(Notifiables::byNextActionPermission('Approve Sale'), new SalePrepared($sale));
 
             return $sale;
         });
