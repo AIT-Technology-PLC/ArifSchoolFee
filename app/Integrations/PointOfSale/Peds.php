@@ -54,7 +54,7 @@ class Peds implements PointOfSaleInterface
             'HoldSalesIdentifierId' => (string) $this->sale->code,
             'TransactionType' => '0',
             'InvoiceNo' => (string) $this->sale->code,
-            'PaymentType' => $this->sale->payment_type == 'Cash Payment' ? '0' : '2',
+            'PaymentType' => $this->sale->payment_type == 'Credit Payment' ? '2' : ($this->sale->payment_type == 'Cheque' ? '1' : '0'),
             'TableNumber' => '',
             'SalesPerson' => $this->sale->createdBy->name,
             'HoldMemo' => '',
@@ -79,7 +79,7 @@ class Peds implements PointOfSaleInterface
                 ->withHeaders($this->getHeaders())
                 ->post(str($this->hostAddress)->append('Add')->toString(), $this->getRequestBody($this->sale));
 
-            if (!isset($response['Success']) || $response->failed()) {
+            if (!isset($response['Message'])) {
                 $data = [false, 'Can not connect to the cashier\'s computer.'];
             }
 
@@ -92,7 +92,7 @@ class Peds implements PointOfSaleInterface
             }
 
             if (!isset($data)) {
-                $data = [false, $response['Message'] ?? 'Something went wrong. Please try again.'];
+                $data = [false, $response['Message']];
             }
         } catch (ConnectionException $ex) {
             $data = [false, 'NETWORK UNSTABLE: Lost connection to the cashier\'s computer. Try approving again!'];
@@ -104,15 +104,13 @@ class Peds implements PointOfSaleInterface
     public function getFsNumber()
     {
         try {
-            $response = Http::retry(3, throw :false)
+            $response = Http::retry(2, throw :false)
                 ->connectTimeout(5)
                 ->timeout(5)
                 ->withHeaders($this->getHeaders())
                 ->post(str($this->hostAddress)->append('GetPaidStatus')->toString(), $this->sale->code);
 
-            if (!isset($response['Success']) || $response->failed()) {
-                $data = [false, 'Can not connect to the cashier\'s computer.'];
-            }
+            $data = [false, ''];
 
             if (isset($response['Success']) && $response['Success']) {
                 $data = [$response['Success'], $response['Content'][0]['FsInvoiceNo'] ?? ''];
@@ -127,7 +125,7 @@ class Peds implements PointOfSaleInterface
     public function isVoid()
     {
         try {
-            $response = Http::retry(3, throw :false)
+            $response = Http::retry(2, throw :false)
                 ->connectTimeout(5)
                 ->timeout(5)
                 ->withHeaders($this->getHeaders())
