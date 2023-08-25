@@ -248,7 +248,9 @@
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("supplierForm", (supplier) => ({
-                supplier: {},
+                supplier: {
+                    debt_amount_limit: supplier.debt_amount_limit || 0
+                },
 
                 async init() {
                     await Supplier.init();

@@ -192,16 +192,18 @@
                     @endcan
                 @endif
                 @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled())
-                    <x-common.dropdown-item>
-                        <x-common.transaction-button
-                            :route="route('gdns.close', $gdn->id)"
-                            action="close"
-                            intention="close this delivery order"
-                            icon="fas fa-ban"
-                            label="Close"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                        />
-                    </x-common.dropdown-item>
+                    @can('Close GDN')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('gdns.close', $gdn->id)"
+                                action="close"
+                                intention="close this delivery order"
+                                icon="fas fa-ban"
+                                label="Close"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
                 @if ($gdn->isApproved() && !$gdn->isCancelled() && !$gdn->isClosed())
                     @can('Cancel GDN')
