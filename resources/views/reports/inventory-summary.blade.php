@@ -180,6 +180,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Grn Management'))
             @can('Read GRN')
                 <div class="column is-6 p-lr-0">
@@ -223,6 +224,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Inventory Adjustment'))
             @can('Read Adjustment')
                 <div class="column is-6 p-lr-0">
@@ -266,6 +268,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Job Management'))
             @can('Read Job')
                 <div class="column is-6 p-lr-0">
@@ -309,6 +312,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Transfer Management'))
             @can('Read Transfer')
                 <div class="column is-6 p-lr-0">
@@ -372,6 +376,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Return Management'))
             @can('Read Return')
                 <div class="column is-6 p-lr-0">
@@ -415,6 +420,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Gdn Management'))
             @can('Read GDN')
                 <div class="column is-6 p-lr-0">
@@ -458,6 +464,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Sale Management'))
             @can('Read Sale')
                 <div class="column is-6 p-lr-0">
@@ -501,6 +508,7 @@
                 </div>
             @endcan
         @endif
+
         @if (isFeatureEnabled('Reservation Management'))
             @can('Read Reservation')
                 <div class="column is-6 p-lr-0">
@@ -544,5 +552,51 @@
                 </div>
             @endcan
         @endif
+
+        @foreach (pads() as $pad)
+            @continue ($pad->isInventoryOperationNone())
+
+            @canpad('Read', $pad->id)
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="{{ $pad->icon }}"></i>
+                            </span>
+                            <span>{{ $pad->name }} Report</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Branch </abbr></th>
+                            <th><abbr> Product </abbr></th>
+                            <th class="has-text-right"><abbr> Quantity </abbr></th>
+                            <th><abbr> Date </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($inventorySummaryReport->getTransactionReports($pad->id) as $transactionReport)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $transactionReport->branch_name }} </td>
+                                    <td> {{ $transactionReport->product_name }} </td>
+                                    <td class="has-text-right"> {{ number_format($transactionReport->quantity, 2) . ' ' . $transactionReport->unit_of_measurement }} </td>
+                                    <td> {{ $transactionReport->issued_on->toFormattedDateString() }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+            @endcanpad
+        @endforeach
     </div>
 @endsection

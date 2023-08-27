@@ -185,4 +185,23 @@ class InventorySummaryReport
             ->orderByDesc('quantity')
             ->get();
     }
+
+    public function getTransactionReports($padId)
+    {
+        return (clone $this->query)
+            ->join('transactions', 'inventory_histories.model_id', '=', 'transactions.id')
+            ->join('pads', 'transactions.pad_id', '=', 'pads.id')
+            ->where('model_type', 'App\Models\Transaction')
+            ->where('pads.id', $padId)
+            ->where('pads.is_enabled', 1)
+            ->selectRaw('
+                warehouses.name AS branch_name,
+                products.name AS product_name,
+                products.unit_of_measurement AS unit_of_measurement,
+                inventory_histories.quantity AS quantity,
+                inventory_histories.issued_on AS issued_on
+            ')
+            ->orderByDesc('quantity')
+            ->get();
+    }
 }
