@@ -205,6 +205,7 @@
                     has-length-change="false"
                     paging-type="simple"
                     length-menu="[5]"
+                    x-init="hideColumns($el.id, [9])"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -233,7 +234,7 @@
                                 <td> {{ $salesDetail->product_name }} </td>
                                 <td> {{ $salesDetail->product_category_name }} </td>
                                 <td> {{ $salesDetail->product_unit_of_measurement }} </td>
-                                <td> {{ $salesDetail->warehouse_name }} </td>
+                                <td> {{ $salesDetail->warehouse_name ?? 'N/A' }} </td>
                                 <td
                                     class="has-text-right"
                                     data-sort="{{ $salesDetail->quantity }}"
