@@ -116,7 +116,7 @@ class TransactionController extends Controller
             $columns['master'] = $transaction->pad->padFields()->masterFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }
 
-        return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->stream();
+        return Pdf::loadView('transactions.print', compact('transaction', 'columns'))->setPaper($transaction->pad->print_paper_size, $transaction->pad->print_orientation)->stream();
     }
 
     public function convertTo(Transaction $transaction)

@@ -49,6 +49,13 @@
                          label="Enabled"
                      />
                  </div>
+                 <div class="column is-6">
+                     <x-common.show-data-section
+                         icon="fas fa-print"
+                         data="{{ str()->ucfirst($pad->print_orientation) }} ({{ str()->ucfirst($pad->print_paper_size) }})"
+                         label="Paper Orientation & Size"
+                     />
+                 </div>
              </div>
          </x-content.footer>
      </x-common.content-wrapper>
