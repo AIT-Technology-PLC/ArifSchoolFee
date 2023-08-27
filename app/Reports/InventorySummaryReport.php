@@ -44,9 +44,10 @@ class InventorySummaryReport
                 SUM(CASE WHEN is_subtract = 0 THEN  quantity END) AS incoming,
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement
                 ')
-            ->groupBy('branch_name', 'product_name', 'unit_of_measurement')
+            ->groupBy('branch_name', 'product_name', 'product_code', 'unit_of_measurement')
             ->get();
     }
 
@@ -57,6 +58,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -72,6 +74,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -87,6 +90,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 CASE WHEN inventory_histories.is_subtract = 1 THEN -1 ELSE 1 END * inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on
@@ -102,6 +106,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -117,6 +122,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 CASE WHEN inventory_histories.is_subtract = 1 THEN "send" ELSE "received" END  AS operation,
                 inventory_histories.quantity AS quantity,
@@ -133,6 +139,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -148,6 +155,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -163,6 +171,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -178,6 +187,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on
@@ -197,6 +207,7 @@ class InventorySummaryReport
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
+                products.code AS product_code,
                 products.unit_of_measurement AS unit_of_measurement,
                 inventory_histories.quantity AS quantity,
                 inventory_histories.issued_on AS issued_on

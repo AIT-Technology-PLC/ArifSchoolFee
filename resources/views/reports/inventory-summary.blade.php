@@ -25,6 +25,41 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-12">
+                        <x-forms.label>
+                            Product
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    id="product_id"
+                                    name="product_id"
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-init="initializeSelect2($el)"
+                                >
+                                    <option
+                                        value=" "
+                                        @selected(request('product_id') == '')
+                                    > All </option>
+                                    @foreach ($products as $product)
+                                        <option
+                                            value="{{ $product->id }}"
+                                            @selected(request('product_id') == $product->id)
+                                        >
+                                            {{ $product->name }}
+                                            @if (!empty($product->code))
+                                                ({{ $product->code }})
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-th"
+                                    class="is-large is-left"
+                                />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-6">
                         <x-forms.label>
                             Branch
@@ -48,36 +83,6 @@
                                         > {{ $warehouse->name }} </option>
                                     @endforeach
                                 </x-forms.select>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.label>
-                            Product
-                        </x-forms.label>
-                        <x-forms.field>
-                            <x-forms.control class="has-icons-left is-expanded">
-                                <x-forms.select
-                                    id="product_id"
-                                    name="product_id"
-                                    class="is-size-7-mobile is-fullwidth"
-                                    x-init="initializeSelect2($el)"
-                                >
-                                    <option
-                                        value=" "
-                                        @selected(request('product_id') == '')
-                                    > All </option>
-                                    @foreach ($products as $product)
-                                        <option
-                                            value="{{ $product->id }}"
-                                            @selected(request('product_id') == $product->id)
-                                        >{{ $product->name }}</option>
-                                    @endforeach
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-large is-left"
-                                />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -108,6 +113,7 @@
                         <th><abbr> # </abbr></th>
                         <th><abbr> Branch </abbr></th>
                         <th><abbr> Product </abbr></th>
+                        <th><abbr> Code </abbr></th>
                         <th class="has-text-right"><abbr> Incoming </abbr></th>
                         <th class="has-text-right"><abbr> Outgoing </abbr></th>
                     </x-slot>
@@ -117,6 +123,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $generalSummary->branch_name }} </td>
                                 <td> {{ $generalSummary->product_name }} </td>
+                                <td> {{ $generalSummary->product_code ?? 'N/A' }} </td>
                                 @include('components.datatables.item-quantity', [
                                     'item' => [
                                         'function' => 'add',
@@ -161,6 +168,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -170,7 +178,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $damageReport->branch_name }} </td>
                                         <td> {{ $damageReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($damageReport->quantity, 2) . ' ' . $damageReport->unit_of_measurement }} </td>
+                                        <td> {{ $damageReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $damageReport->quantity }}"
+                                        > {{ number_format($damageReport->quantity, 2) . ' ' . $damageReport->unit_of_measurement }} </td>
                                         <td> {{ $damageReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -205,6 +217,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -214,7 +227,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $grnReport->branch_name }} </td>
                                         <td> {{ $grnReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($grnReport->quantity, 2) . ' ' . $grnReport->unit_of_measurement }} </td>
+                                        <td> {{ $grnReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $grnReport->quantity }}"
+                                        > {{ number_format($grnReport->quantity, 2) . ' ' . $grnReport->unit_of_measurement }} </td>
                                         <td> {{ $grnReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -249,6 +266,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -258,7 +276,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $adjustmentReport->branch_name }} </td>
                                         <td> {{ $adjustmentReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($adjustmentReport->quantity, 2) . ' ' . $adjustmentReport->unit_of_measurement }} </td>
+                                        <td> {{ $adjustmentReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $adjustmentReport->quantity }}"
+                                        > {{ number_format($adjustmentReport->quantity, 2) . ' ' . $adjustmentReport->unit_of_measurement }} </td>
                                         <td> {{ $adjustmentReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -293,6 +315,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -302,7 +325,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $productionReport->branch_name }} </td>
                                         <td> {{ $productionReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($productionReport->quantity, 2) . ' ' . $productionReport->unit_of_measurement }} </td>
+                                        <td> {{ $productionReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $productionReport->quantity }}"
+                                        > {{ number_format($productionReport->quantity, 2) . ' ' . $productionReport->unit_of_measurement }} </td>
                                         <td> {{ $productionReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -337,6 +364,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th><abbr> Operation </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
@@ -347,6 +375,7 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $transferReport->branch_name }} </td>
                                         <td> {{ $transferReport->product_name }} </td>
+                                        <td> {{ $transferReport->product_code ?? 'N/A' }} </td>
                                         @if ($transferReport->operation == 'send')
                                             <td>
                                                 <span class="tag text-green has-text-weight-medium">
@@ -366,7 +395,10 @@
                                                 </span>
                                             </td>
                                         @endif
-                                        <td class="has-text-right"> {{ number_format($transferReport->quantity, 2) . ' ' . $transferReport->unit_of_measurement }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $transferReport->quantity }}"
+                                        > {{ number_format($transferReport->quantity, 2) . ' ' . $transferReport->unit_of_measurement }} </td>
                                         <td> {{ $transferReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -401,6 +433,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -410,7 +443,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $returnReport->branch_name }} </td>
                                         <td> {{ $returnReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($returnReport->quantity, 2) . ' ' . $returnReport->unit_of_measurement }} </td>
+                                        <td> {{ $returnReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $returnReport->quantity }}"
+                                        > {{ number_format($returnReport->quantity, 2) . ' ' . $returnReport->unit_of_measurement }} </td>
                                         <td> {{ $returnReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -445,6 +482,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -454,7 +492,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $gdnReport->branch_name }} </td>
                                         <td> {{ $gdnReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($gdnReport->quantity, 2) . ' ' . $gdnReport->unit_of_measurement }} </td>
+                                        <td> {{ $gdnReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $gdnReport->quantity }}"
+                                        > {{ number_format($gdnReport->quantity, 2) . ' ' . $gdnReport->unit_of_measurement }} </td>
                                         <td> {{ $gdnReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -489,6 +531,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -498,7 +541,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $saleReport->branch_name }} </td>
                                         <td> {{ $saleReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($saleReport->quantity, 2) . ' ' . $saleReport->unit_of_measurement }} </td>
+                                        <td> {{ $saleReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $saleReport->quantity }}"
+                                        > {{ number_format($saleReport->quantity, 2) . ' ' . $saleReport->unit_of_measurement }} </td>
                                         <td> {{ $saleReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -533,6 +580,7 @@
                                 <th><abbr> # </abbr></th>
                                 <th><abbr> Branch </abbr></th>
                                 <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
                                 <th class="has-text-right"><abbr> Quantity </abbr></th>
                                 <th><abbr> Date </abbr></th>
                             </x-slot>
@@ -542,7 +590,11 @@
                                         <td> {{ $loop->index + 1 }} </td>
                                         <td> {{ $reservationReport->branch_name }} </td>
                                         <td> {{ $reservationReport->product_name }} </td>
-                                        <td class="has-text-right"> {{ number_format($reservationReport->quantity, 2) . ' ' . $reservationReport->unit_of_measurement }} </td>
+                                        <td> {{ $reservationReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $reservationReport->quantity }}"
+                                        > {{ number_format($reservationReport->quantity, 2) . ' ' . $reservationReport->unit_of_measurement }} </td>
                                         <td> {{ $reservationReport->issued_on->toFormattedDateString() }} </td>
                                     </tr>
                                 @endforeach
@@ -579,6 +631,7 @@
                             <th><abbr> # </abbr></th>
                             <th><abbr> Branch </abbr></th>
                             <th><abbr> Product </abbr></th>
+                            <th><abbr> Code </abbr></th>
                             <th class="has-text-right"><abbr> Quantity </abbr></th>
                             <th><abbr> Date </abbr></th>
                         </x-slot>
@@ -588,7 +641,11 @@
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ $transactionReport->branch_name }} </td>
                                     <td> {{ $transactionReport->product_name }} </td>
-                                    <td class="has-text-right"> {{ number_format($transactionReport->quantity, 2) . ' ' . $transactionReport->unit_of_measurement }} </td>
+                                    <td> {{ $transactionReport->product_code ?? 'N/A' }} </td>
+                                    <td
+                                        class="has-text-right"
+                                        data-sort="{{ $transactionReport->quantity }}"
+                                    > {{ number_format($transactionReport->quantity, 2) . ' ' . $transactionReport->unit_of_measurement }} </td>
                                     <td> {{ $transactionReport->issued_on->toFormattedDateString() }} </td>
                                 </tr>
                             @endforeach
