@@ -184,3 +184,5 @@ Route::resource('products.prices', Resource\ProductPriceController::class)->only
 Route::resource('customer-deposits', Resource\CustomerDepositController::class);
 
 Route::resource('customers.customer-deposits', Resource\CustomerCustomerDepositController::class)->only('index');
+
+Route::resource('custom-fields', Resource\CustomFieldController::class);

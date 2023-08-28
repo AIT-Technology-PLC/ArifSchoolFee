@@ -1272,8 +1272,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
-            @canany(['Read Pad', 'Read Employee', 'Update Company'])
+        @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings', 'Custom Field Management'))
+            @canany(['Read Pad', 'Read Employee', 'Update Company', 'Read Custom Field'])
                 <section>
                     <x-content.header>
                         <x-slot name="header">
@@ -1301,6 +1301,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Pads
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Custom Field Management'))
+                                @can('Read Custom Field')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('custom-fields.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-table"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Custom Fields
                                         </span>
                                     </div>
                                 @endcan

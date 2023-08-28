@@ -1219,8 +1219,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings'))
-        @canany(['Read Pad', 'Update Company'])
+    @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings', 'Custom Field Management'))
+        @canany(['Read Pad', 'Update Company', 'Read Custom Field'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1262,6 +1262,19 @@
                                         label="Pads"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('pads.*') && !request()->routeIs('pads.transactions.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Custom Field Management'))
+                            @can('Read Custom Field')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('custom-fields.index') }}"
+                                        label="Custom Fields"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('custom-fields.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('custom-fields.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
