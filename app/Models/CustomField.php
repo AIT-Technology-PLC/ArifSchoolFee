@@ -13,10 +13,12 @@ class CustomField extends Model
 {
     use HasFactory, SoftDeletes, MultiTenancy, HasUserstamps;
 
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+
     public function modelType(): Attribute
     {
         return Attribute::get(
-            fn($value) => new $value()
+            fn($value) => new (str($value)->ucfirst()->prepend('App\\Models\\')->toString())()
         );
     }
 
@@ -24,14 +26,6 @@ class CustomField extends Model
     {
         return Attribute::get(
             fn($value) => $this->tag == 'input' ? $value : null
-        );
-    }
-
-    public function options(): Attribute
-    {
-        return Attribute::make(
-            fn($value) => !is_null($value) ? explode(',', $value) : [],
-            fn($value) => implode(',', $value)
         );
     }
 
