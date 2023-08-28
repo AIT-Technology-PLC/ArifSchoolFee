@@ -138,6 +138,11 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+                ['name' => 'Custom Field Management'],
+                ['is_enabled' => 0]
+            );
+
+            Feature::updateOrCreate(
                 ['name' => 'Bill Of Material Management'],
                 ['is_enabled' => 1]
             );
@@ -316,6 +321,7 @@ class Features extends Seeder
                 $features
                     ->whereNotIn('name', [
                         'Pad Management',
+                        'Custom Field Management',
                         'Bill Of Material Management',
                         'Job Management',
                         'Tender Management',
@@ -328,6 +334,7 @@ class Features extends Seeder
                 $features
                     ->whereNotIn('name', [
                         'Pad Management',
+                        'Custom Field Management',
                         'Tender Management',
                     ])
                     ->pluck('id')

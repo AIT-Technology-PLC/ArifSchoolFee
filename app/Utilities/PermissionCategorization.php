@@ -95,6 +95,10 @@ class PermissionCategorization
             'label' => 'Pad',
             'feature' => 'Pad Management',
         ],
+        'custom field' => [
+            'label' => 'Custom Field Manager',
+            'feature' => 'Custom Field Management',
+        ],
         'company' => [
             'label' => 'Company',
             'feature' => 'General Settings',

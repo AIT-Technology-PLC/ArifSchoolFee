@@ -388,6 +388,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Customer Deposit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Customer Deposit']);
 
+            //Custom Field
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Custom Field']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Custom Field']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Custom Field']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Custom Field']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
