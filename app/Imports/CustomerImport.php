@@ -50,7 +50,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
     public function rules(): array
     {
         return [
-            'company_name' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:255', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'tin' => ['nullable', 'numeric', 'distinct', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
