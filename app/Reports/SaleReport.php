@@ -79,6 +79,11 @@ class SaleReport
         return (clone $this->details)->sum('line_tax');
     }
 
+    public function getSalesDetails()
+    {
+        return (clone $this->details)->orderBy('issued_on')->get();
+    }
+
     public function getBranchesByRevenue()
     {
         return (clone $this->details)

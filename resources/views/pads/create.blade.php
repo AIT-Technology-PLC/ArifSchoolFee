@@ -104,6 +104,59 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
+                        <x-forms.label>
+                            Print Paper Orientation & Size <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="print_orientation"
+                                    name="print_orientation"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Orientation
+                                    </option>
+                                    <option
+                                        value="portrait"
+                                        @selected(old('print_orientation') == 'portrait' || is_null(old('print_orientation')))
+                                    >
+                                        Portrait
+                                    </option>
+                                    <option
+                                        value="landscape"
+                                        @selected(old('print_orientation') == 'landscape')
+                                    >
+                                        Landscape
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-print"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="print_orientation" />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="print_paper_size"
+                                    name="print_paper_size"
+                                    type="text"
+                                    placeholder="Page Size"
+                                    value="{{ old('print_paper_size') }}"
+                                    autocomplete="print_paper_size"
+                                />
+                                <x-common.icon
+                                    name="fas fa-print"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="print_paper_size" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="module">
                                 Module <sup class="has-text-danger">*</sup>

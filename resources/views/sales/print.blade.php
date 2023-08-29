@@ -77,7 +77,7 @@
                 Issued On
             </h1>
             <h1 class="has-text-black is-size-6 pr-2">
-                {{ $sale->issued_on->toFormattedDateString() }}
+                {{ $sale->updated_at->toDayDateTimeString() }}
             </h1>
         </aside>
     </section>

@@ -28,6 +28,8 @@ class StorePadRequest extends FormRequest
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
             'convert_to' => ['nullable', 'array', Rule::in((new Pad)->converts())],
             'convert_from' => ['nullable', 'array', Rule::in((new Pad)->converts())],
+            'print_orientation' => ['required', 'string'],
+            'print_paper_size' => ['required', 'string'],
 
             'field' => ['required', 'array'],
             'status' => ['nullable', 'array'],

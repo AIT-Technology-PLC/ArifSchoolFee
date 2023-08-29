@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Action;
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Models\Siv;
+use App\Notifications\SaleSubtracted;
 use App\Services\Models\SaleService;
+use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Notification;
 
 class SaleController extends Controller
 {
@@ -89,6 +92,11 @@ class SaleController extends Controller
             return back()->with('failedMessage', $message);
         }
 
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Sale', $sale->saleDetails->pluck('warehouse_id'), $sale->createdBy),
+            new SaleSubtracted($sale)
+        );
+
         return back();
     }
 
@@ -103,6 +111,11 @@ class SaleController extends Controller
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read Sale', $sale->saleDetails->pluck('warehouse_id'), $sale->createdBy),
+            new SaleSubtracted($sale)
+        );
 
         return back();
     }

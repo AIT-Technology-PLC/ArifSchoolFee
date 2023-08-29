@@ -5,6 +5,7 @@ namespace App\Services\Models;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
 use App\Models\Sale;
+use App\Notifications\SaleApproved;
 use App\Services\Integrations\PointOfSaleService;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class SaleService
     public function approve($sale)
     {
         return DB::transaction(function () use ($sale) {
-            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale);
+            [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale, SaleApproved::class, 'Subtract Sale');
 
             if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);

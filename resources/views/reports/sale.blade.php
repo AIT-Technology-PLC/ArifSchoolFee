@@ -188,6 +188,71 @@
                 label="Basket Size Analysis"
             />
         </div>
+        <div class="column is-12 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-magnifying-glass-chart"></i>
+                        </span>
+                        <span>Sales Summary</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu="[5]"
+                    x-init="hideColumns($el.id, [9])"
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Date </abbr></th>
+                        <th><abbr> Saleperson </abbr></th>
+                        <th><abbr> Branch </abbr></th>
+                        <th><abbr> Customer </abbr></th>
+                        <th><abbr> Payment Method </abbr></th>
+                        <th><abbr> Product </abbr></th>
+                        <th><abbr> Category </abbr></th>
+                        <th><abbr> Unit </abbr></th>
+                        <th><abbr> From </abbr></th>
+                        <th class="has-text-right"><abbr> Quantity </abbr></th>
+                        <th class="has-text-right"><abbr> Unit Price </abbr></th>
+                        <th class="has-text-right"><abbr> Total Price </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($saleReport->getSalesDetails as $salesDetail)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td data-sort="{{ $salesDetail->issued_on }}"> {{ carbon($salesDetail->issued_on)->toDayDateTimeString() }} </td>
+                                <td> {{ $salesDetail->user_name }} </td>
+                                <td> {{ $salesDetail->branch_name }} </td>
+                                <td> {{ $salesDetail->customer_name ?? 'N/A' }} </td>
+                                <td> {{ $salesDetail->payment_type }} </td>
+                                <td> {{ $salesDetail->product_name }} </td>
+                                <td> {{ $salesDetail->product_category_name }} </td>
+                                <td> {{ $salesDetail->product_unit_of_measurement }} </td>
+                                <td> {{ $salesDetail->warehouse_name ?? 'N/A' }} </td>
+                                <td
+                                    class="has-text-right"
+                                    data-sort="{{ $salesDetail->quantity }}"
+                                > {{ number_format($salesDetail->quantity, 2) }} </td>
+                                <td
+                                    class="has-text-right"
+                                    data-sort="{{ $salesDetail->unit_price }}"
+                                > {{ number_format($salesDetail->unit_price, 2) }} </td>
+                                <td
+                                    class="has-text-right"
+                                    data-sort="{{ $salesDetail->line_price_before_tax }}"
+                                > {{ number_format($salesDetail->line_price_before_tax, 2) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
         <div class="column is-6 p-lr-0">
             <x-content.header bg-color="has-background-white">
                 <x-slot:header>
@@ -204,7 +269,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                     x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
@@ -257,7 +322,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                     x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
@@ -310,7 +375,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                     x-init="hideColumns($el.id, {{ !is_null(request('product_id')) ? '[2, 3]' : '[]' }})"
                 >
                     <x-slot name="headings">
@@ -363,7 +428,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -400,7 +465,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -437,7 +502,7 @@
                     has-filter="false"
                     has-length-change="false"
                     paging-type="simple"
-                    length-menu=[5]
+                    length-menu="[5]"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -475,7 +540,7 @@
                         has-filter="false"
                         has-length-change="false"
                         paging-type="simple"
-                        length-menu=[5]
+                        length-menu="[5]"
                     >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
