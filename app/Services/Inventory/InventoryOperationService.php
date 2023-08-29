@@ -3,10 +3,13 @@
 namespace App\Services\Inventory;
 
 use App\Models\InventoryHistory;
+use App\Models\InventoryValuationBalance;
 use App\Models\Merchandise;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Warehouse;
+use App\Utilities\InventoryValuationAddCalculator;
+use App\Utilities\InventoryValuationSubtractCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
@@ -40,6 +43,10 @@ class InventoryOperationService
             static::addToBatch($detail, $merchandise, $to);
 
             static::createInventoryHistory($model, $detail, $to, false);
+
+            if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
+                InventoryValuationAddCalculator::calculate($detail);
+            }
         }
     }
 
@@ -63,6 +70,12 @@ class InventoryOperationService
             static::subtractFromBatch($detail, $merchandise, $from);
 
             static::createInventoryHistory($model, $detail, $from);
+
+            if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
+                static::subtractFromInventoryValuationBalance($detail['product_id'], $detail['quantity']);
+
+                InventoryValuationSubtractCalculator::calculate($detail);
+            }
         }
     }
 
@@ -264,5 +277,53 @@ class InventoryOperationService
         }
 
         return $inventoryTypeProducts;
+    }
+
+    private static function subtractFromInventoryValuationBalance($productId, $quantity)
+    {
+        static::subtractFromFifoInventoryValuationBalance($productId, $quantity);
+        static::subtractFromLifoInventoryValuationBalance($productId, $quantity);
+    }
+    private static function subtractFromFifoInventoryValuationBalance($productId, $quantity)
+    {
+        $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $productId)
+            ->where('type', 'fifo')
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
+            if ($inventoryValuationBalance->quantity >= $quantity) {
+                $inventoryValuationBalance->quantity -= $quantity;
+                $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
+
+                break;
+            }
+
+            if ($inventoryValuationBalance->quantity < $quantity) {
+                $quantity = $quantity - $inventoryValuationBalance->quantity;
+                $inventoryValuationBalance->forceDelete();
+            }
+        }
+    }
+    private static function subtractFromLifoInventoryValuationBalance($productId, $quantity)
+    {
+        $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $productId)
+            ->where('type', 'lifo')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
+            if ($inventoryValuationBalance->quantity >= $quantity) {
+                $inventoryValuationBalance->quantity -= $quantity;
+                $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
+
+                break;
+            }
+
+            if ($inventoryValuationBalance->quantity < $quantity) {
+                $quantity = $quantity - $inventoryValuationBalance->quantity;
+                $inventoryValuationBalance->forceDelete();
+            }
+        }
     }
 }
