@@ -445,6 +445,50 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="inventory_valuation_method">
+                                Inventory Valuation Method <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="inventory_valuation_method"
+                                    name="inventory_valuation_method"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Method
+                                    </option>
+                                    <option
+                                        value="fifo"
+                                        @selected(old('inventory_valuation_method') == 'fifo')
+                                    >
+                                        FIFO
+                                    </option>
+                                    <option
+                                        value="lifo"
+                                        @selected(old('inventory_valuation_method') == 'lifo')
+                                    >
+                                        LIFO
+                                    </option>
+                                    <option
+                                        value="average"
+                                        @selected(old('inventory_valuation_method') == 'average')
+                                    >
+                                        Average
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="inventory_valuation_method" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
