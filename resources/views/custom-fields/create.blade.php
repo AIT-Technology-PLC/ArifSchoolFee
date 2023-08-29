@@ -378,6 +378,39 @@
                                 <div class="column is-4">
                                     <x-forms.field>
                                         <x-forms.label>
+                                            Unique <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.label class="radio is-inline">
+                                                <input
+                                                    type="radio"
+                                                    x-bind:name="`customField[${index}][is_unique]`"
+                                                    x-bind:id="`customField[${index}][is_unique]`"
+                                                    value="1"
+                                                    x-model="customField.is_unique"
+                                                />
+                                                Yes
+                                            </x-forms.label>
+                                            <x-forms.label class="radio is-inline">
+                                                <input
+                                                    type="radio"
+                                                    x-bind:name="`customField[${index}][is_unique]`"
+                                                    x-bind:id="`customField[${index}][is_unique]`"
+                                                    value="0"
+                                                    x-model="customField.is_unique"
+                                                />
+                                                No
+                                            </x-forms.label>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="errors[`customField.${index}.is_unique`]"
+                                            ></span>
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-4">
+                                    <x-forms.field>
+                                        <x-forms.label>
                                             Column Visibility <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">

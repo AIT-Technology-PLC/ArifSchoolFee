@@ -15,9 +15,10 @@ class CustomFieldDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('model_type', fn($customField) => get_class($customField->model_type))
+            ->editColumn('model_type', fn($customField) => $customField->model_type)
             ->editColumn('is_active', fn($customField) => $customField->is_active ? 'Yes' : 'No')
             ->editColumn('is_required', fn($customField) => $customField->is_required ? 'Yes' : 'No')
+            ->editColumn('is_unique', fn($customField) => $customField->is_unique ? 'Yes' : 'No')
             ->editColumn('is_visible', fn($customField) => $customField->is_visible ? 'Yes' : 'No')
             ->editColumn('is_printable', fn($customField) => $customField->is_printable ? 'Yes' : 'No')
             ->editColumn('is_master', fn($customField) => $customField->is_master ? 'Yes' : 'No')
@@ -61,6 +62,7 @@ class CustomFieldDatatable extends DataTable
             Column::make('icon')->visible(false),
             Column::make('is_active')->title('Active'),
             Column::make('is_required')->title('Required')->visible(false),
+            Column::make('is_unique')->title('Unique')->visible(false),
             Column::make('is_visible')->title('Column Visibility')->visible(false),
             Column::make('is_printable')->title('Show on print')->visible(false),
             Column::make('is_master')->title('Master field')->visible(false),

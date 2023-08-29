@@ -27,6 +27,7 @@ class StoreCustomFieldRequest extends FormRequest
             'customField.*.icon' => ['required', 'string', 'max:255'],
             'customField.*.is_active' => ['required', 'boolean'],
             'customField.*.is_required' => ['required', 'boolean'],
+            'customField.*.is_unique' => ['required', 'boolean'],
             'customField.*.is_visible' => ['required', 'boolean'],
             'customField.*.is_printable' => ['required', 'boolean'],
             'customField.*.is_master' => ['required', 'boolean'],

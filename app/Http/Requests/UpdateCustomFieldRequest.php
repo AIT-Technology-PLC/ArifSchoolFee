@@ -27,6 +27,7 @@ class UpdateCustomFieldRequest extends FormRequest
             'icon' => ['required', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
             'is_required' => ['required', 'boolean'],
+            'is_unique' => ['required', 'boolean'],
             'is_visible' => ['required', 'boolean'],
             'is_printable' => ['required', 'boolean'],
             'is_master' => ['required', 'boolean'],

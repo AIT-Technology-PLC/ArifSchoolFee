@@ -15,11 +15,9 @@ class CustomField extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function modelType(): Attribute
+    public function scopeActive($query)
     {
-        return Attribute::get(
-            fn($value) => new (str($value)->ucfirst()->prepend('App\\Models\\')->toString())()
-        );
+        return $query->where('is_active', 1);
     }
 
     public function tagType(): Attribute
@@ -52,5 +50,20 @@ class CustomField extends Model
     public function isMaster()
     {
         return $this->is_master;
+    }
+
+    public function isTagInput()
+    {
+        return str()->lower($this->tag) == 'input';
+    }
+
+    public function isTagSelect()
+    {
+        return str()->lower($this->tag) == 'select';
+    }
+
+    public function isUnique()
+    {
+        return $this->is_unique;
     }
 }

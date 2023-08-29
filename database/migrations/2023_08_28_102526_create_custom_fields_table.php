@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('icon');
             $table->boolean('is_active');
             $table->boolean('is_required');
+            $table->boolean('is_unique');
             $table->boolean('is_visible');
             $table->boolean('is_printable');
             $table->boolean('is_master');

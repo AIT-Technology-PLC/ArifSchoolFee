@@ -104,7 +104,7 @@
                                         type="text"
                                         id="model_type"
                                         name="model_type"
-                                        value="{{ old('model_type', str(get_class($customField->model_type))->afterLast('\\')) }}"
+                                        value="{{ old('model_type', $customField->model_type) }}"
                                     />
                                     <x-common.icon
                                         name="fa-solid fa-diagram-project"
@@ -301,6 +301,36 @@
                                         No
                                     </x-forms.label>
                                     <x-common.validation-error property="is_required" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-4">
+                            <x-forms.field>
+                                <x-forms.label>
+                                    Unique <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.label class="radio is-inline">
+                                        <input
+                                            type="radio"
+                                            name="is_unique"
+                                            id="is_unique"
+                                            value="1"
+                                            @checked(old('is_unique', $customField->is_unique) == 1)
+                                        />
+                                        Yes
+                                    </x-forms.label>
+                                    <x-forms.label class="radio is-inline">
+                                        <input
+                                            type="radio"
+                                            name="is_unique"
+                                            id="is_unique"
+                                            value="0"
+                                            @checked(old('is_unique', $customField->is_unique) == 0)
+                                        />
+                                        No
+                                    </x-forms.label>
+                                    <x-common.validation-error property="is_unique" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
