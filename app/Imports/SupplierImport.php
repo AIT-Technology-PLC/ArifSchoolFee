@@ -24,11 +24,14 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
     public function model(array $row)
     {
-        if ($this->suppliers->where('company_name', $row['company_name'])->count()) {
+        $doesSupplierExist = $this->suppliers->where('company_name', $row['company_name'])->count()
+        || Supplier::where('company_name', $row['company_name'])->exists();
+
+        if ($doesSupplierExist) {
             return null;
         }
 
-        return new Supplier([
+        $supplier = new Supplier([
             'company_id' => userCompany()->id,
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
@@ -41,6 +44,10 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'country' => $row['country'] ?? '',
             'debt_amount_limit' => $row['debt_amount_limit'] ?? 0.00,
         ]);
+
+        $this->suppliers->push($supplier);
+
+        return $supplier;
     }
 
     public function rules(): array
@@ -55,6 +62,13 @@ class SupplierImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'country' => ['nullable', 'string', 'max:255'],
             'debt_amount_limit' => ['nullable', 'numeric', 'min:0'],
         ];
+    }
+
+    public function prepareForValidation($data, $index)
+    {
+        $data['company_name'] = str()->squish($data['company_name'] ?? '');
+
+        return $data;
     }
 
     public function chunkSize(): int
