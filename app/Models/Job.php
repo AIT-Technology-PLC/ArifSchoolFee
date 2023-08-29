@@ -128,4 +128,9 @@ class Job extends Model
 
         return number_format($dailyProductionGoal * $completedDays, 2);
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

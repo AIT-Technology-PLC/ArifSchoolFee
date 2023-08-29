@@ -43,4 +43,9 @@ class Returnn extends Model
     {
         return $this->returnDetails;
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

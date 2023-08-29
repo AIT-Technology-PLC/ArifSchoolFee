@@ -39,4 +39,9 @@ class Grn extends Model
     {
         return $this->grnDetails;
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

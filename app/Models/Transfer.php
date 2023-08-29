@@ -53,4 +53,9 @@ class Transfer extends Model
     {
         return false;
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return false;
+    }
 }

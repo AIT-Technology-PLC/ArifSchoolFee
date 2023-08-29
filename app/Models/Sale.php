@@ -77,4 +77,9 @@ class Sale extends Model
 
         $this->save();
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

@@ -55,4 +55,9 @@ class Adjustment extends Model
 
         return true;
     }
+
+    public function inventoryValuationBalance()
+    {
+        return true;
+    }
 }
