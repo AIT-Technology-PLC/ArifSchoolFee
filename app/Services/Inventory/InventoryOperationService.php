@@ -8,8 +8,7 @@ use App\Models\Merchandise;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Utilities\InventoryValuationAddCalculator;
-use App\Utilities\InventoryValuationSubtractCalculator;
+use App\Utilities\InventoryValuationCalculator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
@@ -45,8 +44,9 @@ class InventoryOperationService
             static::createInventoryHistory($model, $detail, $to, false);
 
             if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
-                InventoryValuationAddCalculator::calculate($detail);
+                InventoryValuationCalculator::calculate($detail, $operation = 'add');
             }
+
         }
     }
 
@@ -74,7 +74,7 @@ class InventoryOperationService
             if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
                 static::subtractFromInventoryValuationBalance($detail['product_id'], $detail['quantity']);
 
-                InventoryValuationSubtractCalculator::calculate($detail);
+                InventoryValuationCalculator::calculate($detail, $operation = 'subtract');
             }
         }
     }

@@ -7,13 +7,15 @@ use App\Models\InventoryValuationHistory;
 use App\Models\Merchandise;
 use App\Models\Product;
 
-class InventoryValuationAddCalculator
+class InventoryValuationCalculator
 {
-    public static function calculate($detail)
+    public static function calculate($detail, $operation)
     {
         static::calcuateForLifo($detail);
         static::calcuateForFifo($detail);
-        static::calcuateForAverage($detail);
+        if ($operation == 'add') {
+            static::calcuateForAverage($detail);
+        }
     }
 
     private static function calcuateForLifo($detail)
