@@ -188,10 +188,10 @@ class GdnService
 
             $data[$key]['code'] = $nextReferenceNumber++;
 
-            $data[$key]['customer_id'] = Customer::firstWhere('company_name', $row['customer_name'])->id ?? null;
+            $data[$key]['customer_id'] = Customer::firstWhere('company_name', str()->squish($row['customer_name'] ?? ''))->id ?? null;
 
             foreach ($data[$key]['gdn'] as &$gdn) {
-                $gdn['warehouse_id'] = Warehouse::firstWhere('name', $gdn['warehouse_name'])->id ?? null;
+                $gdn['warehouse_id'] = Warehouse::firstWhere('name', str()->squish($gdn['warehouse_name']))->id ?? null;
                 $gdn['merchandise_batch_id'] = MerchandiseBatch::firstWhere('batch_no', $gdn['batch_no'])->id ?? null;
                 $gdn['product_id'] = Product::where('name', str()->squish($gdn['product_name']))->when(!empty($gdn['product_code']), fn($q) => $q->where('code', str()->squish($gdn['product_code'])))->first()->id ?? null;
             }
