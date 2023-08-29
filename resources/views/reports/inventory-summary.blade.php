@@ -608,7 +608,7 @@
         @foreach (pads() as $pad)
             @continue ($pad->isInventoryOperationNone())
 
-            @canpad('Read', $pad->id)
+            @canpad('Read', $pad)
             <div class="column is-6 p-lr-0">
                 <x-content.header bg-color="has-background-white">
                     <x-slot:header>
