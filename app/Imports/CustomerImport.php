@@ -24,7 +24,10 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
     public function model(array $row)
     {
-        if ($this->customers->where('company_name', $row['company_name'])->count()) {
+        $doesCustomerExist = $this->customers->where('company_name', $row['company_name'])->count()
+        || Customer::where('company_name', $row['company_name'])->exists();
+
+        if ($doesCustomerExist) {
             return null;
         }
 
@@ -50,7 +53,7 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
     public function rules(): array
     {
         return [
-            'company_name' => ['required', 'string', 'max:255', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'company_name' => ['required', 'string', 'max:255'],
             'tin' => ['nullable', 'numeric', 'distinct', Rule::unique('customers')->where('company_id', userCompany()->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:255'],
             'contact_name' => ['nullable', 'string', 'max:255'],
