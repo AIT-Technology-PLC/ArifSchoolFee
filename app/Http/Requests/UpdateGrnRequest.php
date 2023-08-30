@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Validation\Rule;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 
@@ -32,6 +33,7 @@ class UpdateGrnRequest extends FormRequest
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('grn')]
         ];
     }
 }
