@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Sale;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
@@ -21,6 +22,7 @@ class SaleDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->customColumns('sale')
             ->editColumn('branch', fn($sale) => $sale->warehouse->name)
             ->editColumn('status', fn($sale) => view('components.datatables.sale-status', compact('sale')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -75,16 +77,22 @@ class SaleDatatable extends DataTable
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'sale')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Invoice No'),
             Column::make('fs_number')->className('has-text-centered')->title('FS No'),
+            ...($customFields ?? []),
             Column::computed('status'),
             Column::make('payment_type')->visible(false),
             Column::computed('total price'),

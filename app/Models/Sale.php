@@ -7,6 +7,7 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateCreditPayment;
 use App\Traits\Cancellable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Sale extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Approvable, Cancellable, CalculateCreditPayment, Subtractable, Addable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Approvable, Cancellable, CalculateCreditPayment, Subtractable, Addable, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
