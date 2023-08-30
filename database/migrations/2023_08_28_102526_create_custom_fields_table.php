@@ -36,6 +36,9 @@ return new class extends Migration
             $table->boolean('is_master');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('company_id');   
+            $table->index('model_type');
         });
     }
 

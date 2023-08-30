@@ -2,14 +2,14 @@
     <div class="column {{ $customField->column_size }}">
         @if ($customField->isTagInput() && in_array($customField->tag_type, ['text', 'number', 'date']))
             <x-forms.field>
-                <x-forms.label for="fields[{{ $customField->id }}]">
+                <x-forms.label for="customField[{{ $customField->id }}]">
                     {{ $customField->label }} <sup class="has-text-danger">{{ $customField->isRequired() ? '*' : '' }}</sup>
                 </x-forms.label>
                 <x-forms.control class="has-icons-left">
                     <x-forms.input
                         type="{{ $customField->tag_type }}"
-                        name="fields[{{ $customField->id }}]"
-                        id="fields[{{ $customField->id }}]"
+                        name="customField[{{ $customField->id }}]"
+                        id="customField[{{ $customField->id }}]"
                         placeholder="{{ $customField->placeholder }}"
                         value="{{ $input[$customField->id] ?? $customField->default_value }}"
                     />
@@ -17,19 +17,19 @@
                         name="{{ $customField->icon }}"
                         class="is-small is-left"
                     />
-                    <x-common.validation-error property="fields.{{ $customField->id }}" />
+                    <x-common.validation-error property="customField.{{ $customField->id }}" />
                 </x-forms.control>
             </x-forms.field>
         @elseif ($customField->isTagSelect() || ($customField->isTagInput() && in_array($customField->tag_type, ['radio'])))
             <x-forms.field>
-                <x-forms.label for="fields[{{ $customField->id }}]">
+                <x-forms.label for="customField[{{ $customField->id }}]">
                     {{ $customField->label }} <sup class="has-text-danger">{{ $customField->isRequired() ? '*' : '' }}</sup>
                 </x-forms.label>
                 <x-forms.control class="has-icons-left">
                     <x-forms.select
                         class="is-fullwidth"
-                        id="fields[{{ $customField->id }}]"
-                        name="fields[{{ $customField->id }}]"
+                        id="customField[{{ $customField->id }}]"
+                        name="customField[{{ $customField->id }}]"
                     >
                         <option
                             selected
@@ -46,7 +46,7 @@
                         name="{{ $customField->icon }}"
                         class="is-small is-left"
                     />
-                    <x-common.validation-error property="fields.{{ $customField->id }}" />
+                    <x-common.validation-error property="customField.{{ $customField->id }}" />
                 </x-forms.control>
             </x-forms.field>
         @endif

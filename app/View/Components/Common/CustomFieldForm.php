@@ -26,6 +26,7 @@ class CustomFieldForm extends Component
             return CustomField::query()
                 ->active()
                 ->when(!empty($this->modelType), fn($q) => $q->where('model_type', $this->modelType))
+                ->orderBy('order', 'ASC')
                 ->get();
         });
     }

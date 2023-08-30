@@ -9,6 +9,13 @@ class ValidateCustomFields implements ImplicitRule
 {
     public $message;
 
+    public $routeParameter;
+
+    public function __construct($routeParameter)
+    {
+        $this->routeParameter = $routeParameter;
+    }
+
     public function passes($attribute, $value)
     {
         $customFieldId = str($attribute)->afterLast('.')->toString();
@@ -25,10 +32,14 @@ class ValidateCustomFields implements ImplicitRule
             return false;
         }
 
-        $doesValueExists = $customField->customFieldValues()->where('value', $value)->whereNot('custom_field_valuable_id', request()->route('grn')->id)->exists();
+        $doesValueExists = $customField
+            ->customFieldValues()
+            ->where('value', $value)
+            ->when(!empty(request()->route($this->routeParameter)), fn($q) => $q->whereNot('custom_field_valuable_id', request()->route($this->routeParameter)->id))
+            ->exists();
 
         if ($customField->isUnique() && $doesValueExists) {
-            $this->message = str($customField->label)->append(' ', $value, ' is already taken.');
+            $this->message = str($customField->label)->append(' ', $value, ' is already taken.')->toString();
             return false;
         }
 

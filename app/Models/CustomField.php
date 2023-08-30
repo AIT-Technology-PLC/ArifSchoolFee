@@ -15,9 +15,19 @@ class CustomField extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    public function customFieldValues()
+    {
+        return $this->hasMany(CustomFieldValue::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
+    }
+
+    public function scopePrintable($query)
+    {
+        return $query->where('is_printable', 1);
     }
 
     public function tagType(): Attribute
