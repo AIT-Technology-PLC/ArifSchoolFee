@@ -38,43 +38,6 @@
                             </x-forms.field>
                         </div>
                         <div class="column is-4">
-                            <x-forms.label for="tag">
-                                Tag <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.field class="has-addons">
-                                <x-forms.control class="has-icons-left is-expanded">
-                                    <x-forms.input
-                                        type="text"
-                                        name="tag"
-                                        id="tag"
-                                        value="{{ old('tag', $customField->tag) }}"
-                                    />
-                                    <x-common.icon
-                                        name="fas fa-code"
-                                        class="is-large is-left"
-                                    />
-                                </x-forms.control>
-                                <x-forms.control
-                                    x-show="isTagInput(customField.tag)"
-                                    class="has-icons-left"
-                                >
-                                    <x-forms.input
-                                        type="text"
-                                        placeholder="Input Type (e.g. text, number ...)"
-                                        name="tag_type"
-                                        id="tag_type"
-                                        value="{{ old('tag_type', $customField->tag_type) }}"
-                                    />
-                                    <x-common.icon
-                                        name="fas fa-code"
-                                        class="is-large is-left"
-                                    />
-                                </x-forms.control>
-                                <x-common.validation-error property="tag" />
-                                <x-common.validation-error property="tag_type" />
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-4">
                             <x-forms.label for="options">
                                 Options <sup class="has-text-danger"></sup>
                             </x-forms.label>
@@ -136,7 +99,7 @@
                         </div>
                         <div class="column is-4">
                             <x-forms.label for="icon">
-                                Icon <sup class="has-text-danger">*</sup>
+                                Icon <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.field class="has-addons">
                                 <x-forms.control class="has-icons-left is-expanded">
@@ -247,36 +210,6 @@
                         <div class="column is-4">
                             <x-forms.field>
                                 <x-forms.label>
-                                    Master Field <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.control class="has-icons-left">
-                                    <x-forms.label class="radio is-inline">
-                                        <input
-                                            type="radio"
-                                            name="is_master"
-                                            id="is_master"
-                                            value="1"
-                                            @checked(old('is_master', $customField->is_master) == 1)
-                                        />
-                                        Yes
-                                    </x-forms.label>
-                                    <x-forms.label class="radio is-inline">
-                                        <input
-                                            type="radio"
-                                            name="is_master"
-                                            id="is_master"
-                                            value="0"
-                                            @checked(old('is_master', $customField->is_master) == 0)
-                                        />
-                                        No
-                                    </x-forms.label>
-                                    <x-common.validation-error property="is_master" />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-4">
-                            <x-forms.field>
-                                <x-forms.label>
                                     Required <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
@@ -367,7 +300,7 @@
                         <div class="column is-4">
                             <x-forms.field>
                                 <x-forms.label>
-                                    Printable <sup class="has-text-danger">*</sup>
+                                    Print <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.label class="radio is-inline">

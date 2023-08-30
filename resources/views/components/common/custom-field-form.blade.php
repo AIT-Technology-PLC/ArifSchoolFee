@@ -1,13 +1,13 @@
 @foreach ($customFields as $customField)
     <div class="column {{ $customField->column_size }}">
-        @if ($customField->isTagInput() && in_array($customField->tag_type, ['text', 'number', 'date']))
+        @if (!$customField->hasOptions())
             <x-forms.field>
                 <x-forms.label for="customField[{{ $customField->id }}]">
                     {{ $customField->label }} <sup class="has-text-danger">{{ $customField->isRequired() ? '*' : '' }}</sup>
                 </x-forms.label>
                 <x-forms.control class="has-icons-left">
                     <x-forms.input
-                        type="{{ $customField->tag_type }}"
+                        type="text"
                         name="customField[{{ $customField->id }}]"
                         id="customField[{{ $customField->id }}]"
                         placeholder="{{ $customField->placeholder }}"
@@ -20,7 +20,7 @@
                     <x-common.validation-error property="customField.{{ $customField->id }}" />
                 </x-forms.control>
             </x-forms.field>
-        @elseif ($customField->isTagSelect() || ($customField->isTagInput() && in_array($customField->tag_type, ['radio'])))
+        @elseif ($customField->hasOptions())
             <x-forms.field>
                 <x-forms.label for="customField[{{ $customField->id }}]">
                     {{ $customField->label }} <sup class="has-text-danger">{{ $customField->isRequired() ? '*' : '' }}</sup>

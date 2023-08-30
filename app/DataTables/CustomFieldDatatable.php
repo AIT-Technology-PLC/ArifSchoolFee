@@ -21,7 +21,6 @@ class CustomFieldDatatable extends DataTable
             ->editColumn('is_unique', fn($customField) => $customField->is_unique ? 'Yes' : 'No')
             ->editColumn('is_visible', fn($customField) => $customField->is_visible ? 'Yes' : 'No')
             ->editColumn('is_printable', fn($customField) => $customField->is_printable ? 'Yes' : 'No')
-            ->editColumn('is_master', fn($customField) => $customField->is_master ? 'Yes' : 'No')
             ->editColumn('created on', fn($customField) => $customField->created_at->toFormattedDateString())
             ->editColumn('created by', fn($customField) => $customField->createdBy->name)
             ->editColumn('edited by', fn($customField) => $customField->updatedBy->name)
@@ -51,8 +50,6 @@ class CustomFieldDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('label'),
-            Column::make('tag'),
-            Column::make('tag_type')->content('N/A'),
             Column::make('placeholder')->content('N/A')->visible(false),
             Column::make('options')->content('N/A')->visible(false),
             Column::make('default_value')->content('N/A')->visible(false),
@@ -65,7 +62,6 @@ class CustomFieldDatatable extends DataTable
             Column::make('is_unique')->title('Unique')->visible(false),
             Column::make('is_visible')->title('Column Visibility')->visible(false),
             Column::make('is_printable')->title('Show on print')->visible(false),
-            Column::make('is_master')->title('Master field')->visible(false),
             Column::make('created on', 'created_at')->className('has-text-right'),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),

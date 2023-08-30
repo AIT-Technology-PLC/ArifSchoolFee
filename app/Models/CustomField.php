@@ -35,11 +35,14 @@ class CustomField extends Model
         return $query->where('is_visible', 1);
     }
 
-    public function tagType(): Attribute
+    public function icon(): Attribute
     {
-        return Attribute::get(
-            fn($value) => $this->tag == 'input' ? $value : null
-        );
+        return Attribute::get(fn($value) => is_null($value) ? 'fas fa-file' : $value);
+    }
+
+    public function columnSize(): Attribute
+    {
+        return Attribute::get(fn($value) => is_null($value) ? 'is-6' : $value);
     }
 
     public function isActive()
@@ -62,19 +65,13 @@ class CustomField extends Model
         return $this->is_printable;
     }
 
-    public function isMaster()
+    public function hasOptions()
     {
-        return $this->is_master;
-    }
+        if (is_null($this->options) || !str($this->options)->contains(',')) {
+            return [];
+        }
 
-    public function isTagInput()
-    {
-        return str()->lower($this->tag) == 'input';
-    }
-
-    public function isTagSelect()
-    {
-        return str()->lower($this->tag) == 'select';
+        return explode(',', $this->options);
     }
 
     public function isUnique()

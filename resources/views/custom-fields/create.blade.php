@@ -70,54 +70,8 @@
                                     </x-forms.field>
                                 </div>
                                 <div class="column is-4">
-                                    <x-forms.label x-bind:for="`customField[${index}][tag]`">
-                                        Tag <sup class="has-text-danger">*</sup>
-                                    </x-forms.label>
-                                    <x-forms.field x-bind:class="{ 'has-addons': isTagInput(customField.tag) }">
-                                        <x-forms.control class="has-icons-left is-expanded">
-                                            <x-forms.input
-                                                type="text"
-                                                x-bind:name="`customField[${index}][tag]`"
-                                                x-bind:id="`customField[${index}][tag]`"
-                                                x-model="customField.tag"
-                                            />
-                                            <x-common.icon
-                                                name="fas fa-code"
-                                                class="is-large is-left"
-                                            />
-                                        </x-forms.control>
-                                        <x-forms.control
-                                            x-show="isTagInput(customField.tag)"
-                                            class="has-icons-left"
-                                        >
-                                            <x-forms.input
-                                                type="text"
-                                                placeholder="Input Type (e.g. text, number ...)"
-                                                x-bind:name="`customField[${index}][tag_type]`"
-                                                x-bind:id="`customField[${index}][tag_type]`"
-                                                x-model="customField.tag_type"
-                                            />
-                                            <x-common.icon
-                                                name="fas fa-code"
-                                                class="is-large is-left"
-                                            />
-                                        </x-forms.control>
-                                        <span
-                                            class="help has-text-danger"
-                                            x-text="errors[`customField.${index}.tag`]"
-                                        ></span>
-                                        <span
-                                            class="help has-text-danger"
-                                            x-text="errors[`customField.${index}.tag_type`]"
-                                        ></span>
-                                    </x-forms.field>
-                                </div>
-                                <div
-                                    class="column is-4"
-                                    x-show="canHaveOptions(index)"
-                                >
                                     <x-forms.label x-bind:for="`customField[${index}][options]`">
-                                        Options <sup class="has-text-danger">*</sup>
+                                        Options <sup class="has-text-danger"></sup>
                                     </x-forms.label>
                                     <x-forms.field class="has-addons">
                                         <x-forms.control class="has-icons-left is-expanded">
@@ -186,7 +140,7 @@
                                 </div>
                                 <div class="column is-4">
                                     <x-forms.label x-bind:for="`customField[${index}][icon]`">
-                                        Icon <sup class="has-text-danger">*</sup>
+                                        Icon <sup class="has-text-danger"></sup>
                                     </x-forms.label>
                                     <x-forms.field class="has-addons">
                                         <x-forms.control class="has-icons-left is-expanded">
@@ -312,39 +266,6 @@
                                 <div class="column is-4">
                                     <x-forms.field>
                                         <x-forms.label>
-                                            Master Field <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.control class="has-icons-left">
-                                            <x-forms.label class="radio is-inline">
-                                                <input
-                                                    type="radio"
-                                                    x-bind:name="`customField[${index}][is_master]`"
-                                                    x-bind:id="`customField[${index}][is_master]`"
-                                                    value="1"
-                                                    x-model="customField.is_master"
-                                                />
-                                                Yes
-                                            </x-forms.label>
-                                            <x-forms.label class="radio is-inline">
-                                                <input
-                                                    type="radio"
-                                                    x-bind:name="`customField[${index}][is_master]`"
-                                                    x-bind:id="`customField[${index}][is_master]`"
-                                                    value="0"
-                                                    x-model="customField.is_master"
-                                                />
-                                                No
-                                            </x-forms.label>
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="errors[`customField.${index}.is_master`]"
-                                            ></span>
-                                        </x-forms.control>
-                                    </x-forms.field>
-                                </div>
-                                <div class="column is-4">
-                                    <x-forms.field>
-                                        <x-forms.label>
                                             Required <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
@@ -444,7 +365,7 @@
                                 <div class="column is-4">
                                     <x-forms.field>
                                         <x-forms.label>
-                                            Printable <sup class="has-text-danger">*</sup>
+                                            Print <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.label class="radio is-inline">
@@ -524,17 +445,7 @@
                     await Promise.resolve(this.customFields.splice(index, 1));
 
                     Pace.restart();
-                },
-                isTagInput(tagName) {
-                    if (!tagName) {
-                        return false;
-                    }
-
-                    return tagName.toLowerCase() === "input";
-                },
-                canHaveOptions(index) {
-                    return this.customFields[index]?.tag?.toLowerCase() === "select" || this.customFields[index]?.tag_type?.toLowerCase() === "radio";
-                },
+                }
             }));
         });
     </script>

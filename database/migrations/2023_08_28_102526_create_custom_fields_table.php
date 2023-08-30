@@ -19,25 +19,22 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->cascadeOnUpdate()->nullOnDelete();
             $table->string('label');
-            $table->string('tag');
-            $table->string('tag_type')->nullable();
             $table->string('placeholder')->nullable();
             $table->longText('options')->nullable();
             $table->string('default_value')->nullable();
             $table->string('model_type');
             $table->integer('order');
-            $table->string('column_size')->default(6);
-            $table->string('icon');
+            $table->string('column_size')->default('is-6')->nullable();
+            $table->string('icon')->default('fas fa-file')->nullable();
             $table->boolean('is_active');
             $table->boolean('is_required');
             $table->boolean('is_unique');
             $table->boolean('is_visible');
             $table->boolean('is_printable');
-            $table->boolean('is_master');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->index('company_id');   
+            $table->index('company_id');
             $table->index('model_type');
         });
     }
