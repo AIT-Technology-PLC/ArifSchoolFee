@@ -134,6 +134,10 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <x-common.custom-field-form
+                        model-type="return"
+                        :input="old('customField') ?? $return->customFieldsAsKeyValue()"
+                    />
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="customer_id">
