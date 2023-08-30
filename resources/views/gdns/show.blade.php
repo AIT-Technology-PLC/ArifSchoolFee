@@ -122,6 +122,15 @@
                         />
                     </div>
                 @endif
+                @foreach ($gdn->customFieldValues as $field)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            :icon="$field->customField->icon"
+                            :data="$field->value"
+                            :label="$field->customField->label"
+                        />
+                    </div>
+                @endforeach
                 <div class="column is-12">
                     <x-common.show-data-section
                         type="long"

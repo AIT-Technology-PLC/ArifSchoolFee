@@ -60,6 +60,8 @@ class GdnController extends Controller
 
             AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
 
+            $gdn->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
@@ -115,6 +117,8 @@ class GdnController extends Controller
             $gdn->gdnDetails()->createMany($request->validated('gdn'));
 
             AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
+
+            $gdn->createCustomFields($request->validated('customField'));
         }, 2);
 
         return redirect()->route('gdns.show', $gdn->id);
