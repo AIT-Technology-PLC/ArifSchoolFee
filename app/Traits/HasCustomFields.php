@@ -8,7 +8,7 @@ trait HasCustomFields
 {
     public function customFieldValues()
     {
-        return $this->morphMany(CustomFieldValue::class, 'custom_field_valuable');
+        return $this->morphMany(CustomFieldValue::class, 'custom_field_valuable')->whereHas('customField', fn($q) => $q->active());
     }
 
     public function customFieldValue($customFieldId)
@@ -19,6 +19,11 @@ trait HasCustomFields
     public function printableCustomFields()
     {
         return $this->customFieldValues()->with('customField')->whereHas('customField', fn($q) => $q->printable())->get();
+    }
+
+    public function customFieldsAsKeyValue()
+    {
+        return $this->customFieldValues()->pluck('value', 'custom_field_id');
     }
 
     public function createCustomFields($data)

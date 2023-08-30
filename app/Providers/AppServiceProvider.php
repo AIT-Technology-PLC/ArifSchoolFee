@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultSimpleView('pagination::simple-default');
 
         EloquentDataTable::macro('customColumns', function ($modelType) {
-            $customFields = CustomField::active()->where('model_type', $modelType)->get();
+            $customFields = CustomField::active()->visibleOnColumns()->where('model_type', $modelType)->get();
 
             foreach ($customFields as $customField) {
                 static::editColumn($customField->label, fn($model) => $model->customFieldValue($customField->id));

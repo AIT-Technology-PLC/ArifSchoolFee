@@ -20,10 +20,10 @@ class ValidateCustomFields implements ImplicitRule
     {
         $customFieldId = str($attribute)->afterLast('.')->toString();
 
-        $customField = CustomField::find($customFieldId);
+        $customField = CustomField::active()->find($customFieldId);
 
         if (!$customField) {
-            $this->message = 'This custom field does not belong to your company.';
+            $this->message = 'This field is not available at the moment.';
             return false;
         }
 

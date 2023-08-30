@@ -30,6 +30,11 @@ class CustomField extends Model
         return $query->where('is_printable', 1);
     }
 
+    public function scopeVisibleOnColumns($query)
+    {
+        return $query->where('is_visible', 1);
+    }
+
     public function tagType(): Attribute
     {
         return Attribute::get(
