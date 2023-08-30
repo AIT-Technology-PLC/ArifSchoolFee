@@ -232,8 +232,7 @@ trait TransactionConverts
                 $pad->padFields()->detailFields()->firstWhere('label', 'Product')?->id => $detail['product_id'],
                 $pad->padFields()->detailFields()->firstWhere('label', 'From')?->id => $detail['warehouse_id'] ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Warehouse')?->id => $detail['warehouse_id'] ?? null,
-                $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => number_format($detail['quantity']) ?? null,
-                $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => number_format($detail['unit_price']) ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => ((string) $detail['unit_price']) ?? null,
                 $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
             ];
         })->values()->all();
