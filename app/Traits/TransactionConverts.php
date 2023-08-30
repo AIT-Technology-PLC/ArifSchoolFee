@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Gdn;
 use App\Models\Pad;
 use App\Models\PadField;
 use App\Models\Product;
@@ -200,6 +201,31 @@ trait TransactionConverts
         $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Invoice No')?->id] = $sale->code;
 
         $data['details'] = $sale->saleDetails->map(function ($detail) use ($pad) {
+            return [
+                $pad->padFields()->detailFields()->firstWhere('label', 'Description')?->id => $detail['product_id'],
+                $pad->padFields()->detailFields()->firstWhere('label', 'Item')?->id => $detail['product_id'],
+                $pad->padFields()->detailFields()->firstWhere('label', 'Product')?->id => $detail['product_id'],
+                $pad->padFields()->detailFields()->firstWhere('label', 'From')?->id => $detail['warehouse_id'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Warehouse')?->id => $detail['warehouse_id'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Unit Price')?->id => $detail['unit_price'] ?? null,
+                $pad->padFields()->detailFields()->firstWhere('label', 'Quantity')?->id => $detail['quantity'] ?? null,
+            ];
+        })->values()->all();
+
+        return count($data) ? $data : null;
+    }
+
+    private function convertFromGdn($transaction, $id)
+    {
+        $data = [];
+        $pad = $transaction->pad;
+        $gdn = Gdn::find($id);
+
+        $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'Customer')?->id] = $gdn->customer_id ?? null;
+        $data['master'][$pad->padFields()->masterFields()->firstWhere('label', 'DO No')?->id] = $gdn->code;
+
+        $data['details'] = $gdn->gdnDetails->map(function ($detail) use ($pad) {
             return [
                 $pad->padFields()->detailFields()->firstWhere('label', 'Description')?->id => $detail['product_id'],
                 $pad->padFields()->detailFields()->firstWhere('label', 'Item')?->id => $detail['product_id'],
