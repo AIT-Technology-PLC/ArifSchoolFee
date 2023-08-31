@@ -446,7 +446,9 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-6"
+                        x-cloak
+                        x-bind:class="{ 'is-hidden': isTypeService }">
                         <x-forms.field>
                             <x-forms.label for="inventory_valuation_method">
                                 Inventory Valuation Method <sup class="has-text-danger">*</sup>

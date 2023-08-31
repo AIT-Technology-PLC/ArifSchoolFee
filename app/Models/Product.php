@@ -327,4 +327,9 @@ class Product extends Model
     {
         return $this->hasMany(InventoryValuationBalance::class);
     }
+
+    public function isTypeProduct()
+    {
+        return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
+    }
 }

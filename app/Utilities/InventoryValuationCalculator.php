@@ -9,81 +9,58 @@ use App\Models\Product;
 
 class InventoryValuationCalculator
 {
-    public static function calculate($detail, $operation)
+    public static function calculate($detail, $operation = 'subtract')
     {
-        static::calcuateForLifo($detail);
-        static::calcuateForFifo($detail);
+        static::calcuateForLifoOrFifo($detail, $operation);
+
         if ($operation == 'add') {
             static::calcuateForAverage($detail);
         }
     }
 
-    private static function calcuateForLifo($detail)
+    private static function calcuateForLifoOrFifo($detail, $operation)
     {
-        InventoryValuationBalance::create([
-            'type' => 'lifo',
-            'product_id' => $detail['product_id'],
-            'quantity' => $detail['quantity'],
-            'unit_cost' => $detail['unit_cost'] ?? $detail->product->lifo_unit_cost,
-        ]);
+        foreach (['fifo', 'lifo'] as $method) {
+            if ($operation == 'add') {
+                InventoryValuationBalance::create([
+                    'type' => $method,
+                    'product_id' => $detail['product_id'],
+                    'quantity' => $detail['quantity'],
+                    'unit_cost' => $detail['unit_cost'] ?? $detail->product[$method . '_unit_cost'],
+                ]);
+            }
 
-        $InventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', 'lifo')->get();
-        $product = Product::where('id', $detail['product_id'])->first();
-        $sumQuantityUnitCost = $InventoryValuationBalances->sum(function ($InventoryValuationBalance) {
-            return $InventoryValuationBalance->quantity * $InventoryValuationBalance->unit_cost;
-        });
+            $InventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->get();
+            $product = Product::where('id', $detail['product_id'])->first();
+            $sumQuantityUnitCost = $InventoryValuationBalances->sum(function ($InventoryValuationBalance) {
+                return $InventoryValuationBalance->quantity * $InventoryValuationBalance->unit_cost;
+            });
 
-        $sumQuantity = $InventoryValuationBalances->sum('quantity');
-        $newUnitCost = $sumQuantity ? $sumQuantityUnitCost / $sumQuantity : 0;
+            $sumQuantity = $InventoryValuationBalances->sum('quantity');
+            $newUnitCost = $sumQuantity ? $sumQuantityUnitCost / $sumQuantity : 0;
 
-        $product->update(['lifo_unit_cost' => $newUnitCost]);
-        InventoryValuationHistory::create([
-            'type' => 'lifo',
-            'product_id' => $product->id,
-            'unit_cost' => $newUnitCost,
-        ]);
-    }
-
-    private static function calcuateForFifo($detail)
-    {
-        InventoryValuationBalance::create([
-            'type' => 'fifo',
-            'product_id' => $detail['product_id'],
-            'quantity' => $detail['quantity'],
-            'unit_cost' => $detail['unit_cost'] ?? $detail->product->fifo_unit_cost,
-        ]);
-
-        $InventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', 'fifo')->get();
-        $product = Product::where('id', $detail['product_id'])->first();
-        $sumQuantityUnitCost = $InventoryValuationBalances->sum(function ($InventoryValuationBalance) {
-            return $InventoryValuationBalance->quantity * $InventoryValuationBalance->unit_cost;
-        });
-
-        $sumQuantity = $InventoryValuationBalances->sum('quantity');
-        $newUnitCost = $sumQuantity ? $sumQuantityUnitCost / $sumQuantity : 0;
-
-        $product->update(['fifo_unit_cost' => $newUnitCost]);
-        InventoryValuationHistory::create([
-            'type' => 'fifo',
-            'product_id' => $product->id,
-            'unit_cost' => $newUnitCost,
-        ]);
+            $product->update([$method . '_unit_cost' => $newUnitCost]);
+            InventoryValuationHistory::create([
+                'type' => $method,
+                'product_id' => $product->id,
+                'unit_cost' => $newUnitCost,
+            ]);
+        }
     }
 
     private static function calcuateForAverage($detail)
     {
-        $merchandises = Merchandise::where('product_id', $detail['product_id'])->get();
         $product = Product::where('id', $detail['product_id'])->first();
-        $currentQuantity = $merchandises->sum('available');
+        $currentQuantity = Merchandise::where('product_id', $detail['product_id'])->sum('available');
         $currentTotalCost = $product->average_unit_cost * ($currentQuantity - $detail['quantity']);
         $totalCost = $currentTotalCost + ($detail['quantity'] * $detail['unit_cost']);
-        $new_average_unit_cost = $currentQuantity ? $totalCost / $currentQuantity : 0;
+        $newAverageUnitCost = $currentQuantity ? $totalCost / $currentQuantity : 0;
 
-        $product->update(['average_unit_cost' => $new_average_unit_cost]);
+        $product->update(['average_unit_cost' => $newAverageUnitCost]);
         InventoryValuationHistory::create([
             'type' => 'average',
             'product_id' => $product->id,
-            'unit_cost' => $new_average_unit_cost,
+            'unit_cost' => $newAverageUnitCost,
         ]);
     }
 }

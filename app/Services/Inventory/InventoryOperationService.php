@@ -43,10 +43,9 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $to, false);
 
-            if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
-                InventoryValuationCalculator::calculate($detail, $operation = 'add');
+            if ($model->canAffectInventoryValuation() && $detail->product->isTypeProduct()) {
+                InventoryValuationCalculator::calculate($detail, 'add');
             }
-
         }
     }
 
@@ -71,10 +70,10 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $from);
 
-            if ($model->canAffectInventoryValuation() && ($detail->product->type == 'Finished Goods' || $detail->product->type == 'Raw Material')) {
-                static::subtractFromInventoryValuationBalance($detail['product_id'], $detail['quantity']);
+            if ($model->canAffectInventoryValuation() && $detail->product->isTypeProduct()) {
+                static::subtractFromInventoryValuationBalance($detail);
 
-                InventoryValuationCalculator::calculate($detail, $operation = 'subtract');
+                InventoryValuationCalculator::calculate($detail);
             }
         }
     }
@@ -279,50 +278,26 @@ class InventoryOperationService
         return $inventoryTypeProducts;
     }
 
-    private static function subtractFromInventoryValuationBalance($productId, $quantity)
+    private static function subtractFromInventoryValuationBalance($detail)
     {
-        static::subtractFromFifoInventoryValuationBalance($productId, $quantity);
-        static::subtractFromLifoInventoryValuationBalance($productId, $quantity);
-    }
-    private static function subtractFromFifoInventoryValuationBalance($productId, $quantity)
-    {
-        $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $productId)
-            ->where('type', 'fifo')
-            ->orderBy('created_at', 'asc')
-            ->get();
+        foreach (['fifo', 'lifo'] as $method) {
+            $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])
+                ->where('type', $method)
+                ->orderBy('created_at', $method == 'fifo' ? 'asc' : 'desc')
+                ->get();
 
-        foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
-            if ($inventoryValuationBalance->quantity >= $quantity) {
-                $inventoryValuationBalance->quantity -= $quantity;
-                $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
+            foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
+                if ($inventoryValuationBalance->quantity >= $detail['quantity']) {
+                    $inventoryValuationBalance->quantity -= $detail['quantity'];
+                    $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
 
-                break;
-            }
+                    break;
+                }
 
-            if ($inventoryValuationBalance->quantity < $quantity) {
-                $quantity = $quantity - $inventoryValuationBalance->quantity;
-                $inventoryValuationBalance->forceDelete();
-            }
-        }
-    }
-    private static function subtractFromLifoInventoryValuationBalance($productId, $quantity)
-    {
-        $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $productId)
-            ->where('type', 'lifo')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
-            if ($inventoryValuationBalance->quantity >= $quantity) {
-                $inventoryValuationBalance->quantity -= $quantity;
-                $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
-
-                break;
-            }
-
-            if ($inventoryValuationBalance->quantity < $quantity) {
-                $quantity = $quantity - $inventoryValuationBalance->quantity;
-                $inventoryValuationBalance->forceDelete();
+                if ($inventoryValuationBalance->quantity < $detail['quantity']) {
+                    $detail['quantity'] = $detail['quantity'] - $inventoryValuationBalance->quantity;
+                    $inventoryValuationBalance->forceDelete();
+                }
             }
         }
     }

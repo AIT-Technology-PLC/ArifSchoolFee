@@ -56,7 +56,7 @@ class Adjustment extends Model
         return true;
     }
 
-    public function inventoryValuationBalance()
+    public function canAffectInventoryValuation()
     {
         return true;
     }
