@@ -11,6 +11,7 @@ use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCustomFields;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
@@ -97,7 +98,8 @@ class UpdateSaleRequest extends FormRequest
             'due_date' => ['nullable', 'date', 'after:issued_on', 'required_if:payment_type,Credit Payment', 'prohibited_if:payment_type,Cash Payment'],
             'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
             'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
-            'has_withholding' => ['nullable', 'boolean']
+            'has_withholding' => ['nullable', 'boolean'],
+            'customField.*' => [new ValidateCustomFields('sale')],
         ];
     }
 }

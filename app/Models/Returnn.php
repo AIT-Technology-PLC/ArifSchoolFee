@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Returnn extends Model
 {
-    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Addable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, PricingTicket, HasUserstamps, Addable, HasCustomFields;
 
     protected $table = 'returns';
 

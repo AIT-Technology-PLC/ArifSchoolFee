@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Grn;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
@@ -22,6 +23,7 @@ class GrnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->customColumns('grn')
             ->editColumn('branch', fn ($grn) => $grn->warehouse->name)
             ->editColumn('purchase no', fn ($grn) => $grn->purchase->code ?? 'N/A')
             ->editColumn('status', fn ($grn) => view('components.datatables.grn-status', compact('grn')))
@@ -63,16 +65,22 @@ class GrnDatatable extends DataTable
                 'purchase:id,code',
                 'supplier:id,company_name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'grn')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
         $columns = [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('GRN No'),
             isFeatureEnabled('Purchase Management') ? Column::make('purchase no', 'purchase.code')->visible(false) : null,
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('supplier', 'supplier.company_name'),
             Column::make('description')->visible(false),

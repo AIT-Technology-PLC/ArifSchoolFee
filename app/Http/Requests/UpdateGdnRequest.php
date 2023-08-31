@@ -16,6 +16,7 @@ use App\Rules\CheckCustomerDepositBalance;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use App\Rules\ValidateCustomFields;
 
 class UpdateGdnRequest extends FormRequest
 {
@@ -97,6 +98,7 @@ class UpdateGdnRequest extends FormRequest
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
             'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'customField.*' => [new ValidateCustomFields('gdn')],
         ];
     }
 }

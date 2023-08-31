@@ -58,6 +58,8 @@ class SaleController extends Controller
 
             AutoBatchStoringAction::execute($sale, $request->validated('sale'), 'saleDetails');
 
+            $sale->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Sale'), new SalePrepared($sale));
 
             return $sale;
@@ -70,7 +72,7 @@ class SaleController extends Controller
     {
         $datatable->builder()->setTableId('sale-details-datatable');
 
-        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact']);
+        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact', 'customFieldValues.customField']);
 
         return $datatable->render('sales.show', compact('sale'));
     }
@@ -102,6 +104,8 @@ class SaleController extends Controller
             $sale->saleDetails()->createMany($request->validated('sale'));
 
             AutoBatchStoringAction::execute($sale, $request->validated('sale'), 'saleDetails');
+
+            $sale->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('sales.show', $sale->id);

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Product;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -31,6 +32,7 @@ class StoreSivRequest extends FormRequest
             'delivered_by' => ['nullable', 'string'],
             'issued_to' => ['nullable', 'string'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('siv')],
         ];
     }
 

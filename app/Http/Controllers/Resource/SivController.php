@@ -51,6 +51,8 @@ class SivController extends Controller
 
             $siv->sivDetails()->createMany($request->validated('siv'));
 
+            $siv->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve SIV'), new SivPrepared($siv));
 
             return $siv;
@@ -63,7 +65,7 @@ class SivController extends Controller
     {
         $datatable->builder()->setTableId('siv-details-datatable');
 
-        $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
+        $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'customFieldValues.customField']);
 
         return $datatable->render('sivs.show', compact('siv'));
     }
@@ -91,6 +93,8 @@ class SivController extends Controller
             $siv->sivDetails()->forceDelete();
 
             $siv->sivDetails()->createMany($request->validated('siv'));
+
+            $siv->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('sivs.show', $siv->id);

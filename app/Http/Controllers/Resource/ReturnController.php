@@ -60,6 +60,8 @@ class ReturnController extends Controller
                 Arr::where($request->validated('return'), fn($detail) => $detail['quantity'] > 0)
             );
 
+            $return->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Return'), new ReturnPrepared($return));
 
             return $return;
@@ -72,7 +74,7 @@ class ReturnController extends Controller
     {
         $datatable->builder()->setTableId('return-details-datatable');
 
-        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn.customer']);
+        $return->load(['returnDetails.product', 'returnDetails.warehouse', 'returnDetails.merchandiseBatch', 'customer', 'gdn.customer', 'customFieldValues.customField']);
 
         return $datatable->render('returns.show', compact('return'));
     }
@@ -103,6 +105,8 @@ class ReturnController extends Controller
             $return->returnDetails()->createMany(
                 Arr::where($request->validated('return'), fn($detail) => $detail['quantity'] > 0)
             );
+
+            $return->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('returns.show', $return->id);

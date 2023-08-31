@@ -8,6 +8,7 @@ use App\Models\GdnDetail;
 use Illuminate\Validation\Rule;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCustomFields;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\ValidateReturnQuantity;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,6 +44,7 @@ class UpdateReturnRequest extends FormRequest
             'customer_id' => ['nullable', 'integer','exclude_unless:gdn_id,null', new MustBelongToCompany('customers')],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('return')],
         ];
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\CustomField;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Yajra\DataTables\EloquentDataTable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::defaultSimpleView('pagination::simple-default');
+
+        EloquentDataTable::macro('customColumns', function ($modelType) {
+            $customFields = CustomField::active()->visibleOnColumns()->where('model_type', $modelType)->get();
+
+            foreach ($customFields as $customField) {
+                static::editColumn($customField->label, fn($model) => $model->customFieldValue($customField->id));
+            }
+
+            return static::addIndexColumn();
+        });
     }
 }

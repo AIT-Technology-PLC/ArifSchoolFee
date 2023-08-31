@@ -122,6 +122,15 @@
                         />
                     </div>
                 @endif
+                @foreach ($gdn->customFieldValues as $field)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            :icon="$field->customField->icon"
+                            :data="$field->value"
+                            :label="$field->customField->label"
+                        />
+                    </div>
+                @endforeach
                 <div class="column is-12">
                     <x-common.show-data-section
                         type="long"
@@ -257,6 +266,24 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
+                @endif
+                @if ($gdn->isApproved())
+                    @foreach (pads() as $pad)
+                        @if (in_array('gdns', $pad->convert_from))
+                            @can('convert', $pad->transactions->first())
+                                <x-common.dropdown-item>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('transactions.convert_from', [$pad->transactions->first()->id, 'target' => 'gdns', 'id' => $gdn->id]) }}"
+                                        mode="button"
+                                        icon="{{ $pad->icon }}"
+                                        label="Issue {{ $pad->name }}"
+                                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                    />
+                                </x-common.dropdown-item>
+                            @endcan
+                        @endif
+                    @endforeach
                 @endif
                 <x-common.dropdown-item>
                     <x-common.button

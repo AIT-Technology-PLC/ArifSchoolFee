@@ -206,6 +206,11 @@ class Company extends Model
         return $this->hasMany(Tax::class);
     }
 
+    public function customFields()
+    {
+        return $this->hasMany(CustomField::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);

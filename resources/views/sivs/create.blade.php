@@ -179,6 +179,10 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <x-common.custom-field-form
+                        model-type="siv"
+                        :input="old('customField')"
+                    />
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">

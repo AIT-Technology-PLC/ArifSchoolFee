@@ -3,8 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Returnn;
-use App\Traits\DataTableHtmlBuilder;
+use App\Models\CustomField;
 use Yajra\DataTables\Html\Column;
+use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
 class ReturnDatatable extends DataTable
@@ -21,6 +22,7 @@ class ReturnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->customColumns('return')
             ->editColumn('branch', fn($return) => $return->warehouse->name)
             ->editColumn('status', fn($return) => view('components.datatables.grn-status', ['grn' => $return]))
             ->filterColumn('status', function ($query, $keyword) {
@@ -68,16 +70,22 @@ class ReturnDatatable extends DataTable
                 'customer:id,company_name,tin',
                 'warehouse:id,name',
                 'gdn.customer',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'return')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Return No'),
             Column::make('DO No', 'gdn.code')->visible(false),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::computed('total price')->visible(false),
             Column::make('customer', 'gdn.customer.company_name'),

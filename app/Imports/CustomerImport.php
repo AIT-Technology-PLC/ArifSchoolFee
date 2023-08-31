@@ -24,11 +24,14 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
 
     public function model(array $row)
     {
-        if ($this->customers->where('company_name', $row['company_name'])->count()) {
+        $doesCustomerExist = $this->customers->where('company_name', $row['company_name'])->count()
+        || Customer::where('company_name', $row['company_name'])->exists();
+
+        if ($doesCustomerExist) {
             return null;
         }
 
-        return new Customer([
+        $customer = new Customer([
             'company_id' => userCompany()->id,
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
@@ -41,6 +44,10 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'country' => $row['country'] ?? '',
             'credit_amount_limit' => $row['credit_amount_limit'] ?? 0.00,
         ]);
+
+        $this->customers->push($customer);
+
+        return $customer;
     }
 
     public function rules(): array
@@ -55,6 +62,13 @@ class CustomerImport implements ToModel, WithHeadingRow, WithValidation, WithChu
             'country' => ['nullable', 'string', 'max:255'],
             'credit_amount_limit' => ['nullable', 'numeric', 'min:0'],
         ];
+    }
+
+    public function prepareForValidation($data, $index)
+    {
+        $data['company_name'] = str()->squish($data['company_name'] ?? '');
+
+        return $data;
     }
 
     public function chunkSize(): int

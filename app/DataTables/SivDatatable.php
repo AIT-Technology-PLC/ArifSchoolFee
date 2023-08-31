@@ -3,8 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Siv;
-use App\Traits\DataTableHtmlBuilder;
+use App\Models\CustomField;
 use Yajra\DataTables\Html\Column;
+use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Services\DataTable;
 
 class SivDatatable extends DataTable
@@ -21,6 +22,7 @@ class SivDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->customColumns('siv')
             ->editColumn('branch', fn ($siv) => $siv->warehouse->name)
             ->editColumn('status', fn ($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -64,15 +66,21 @@ class SivDatatable extends DataTable
                 'updatedBy:id,name',
                 'approvedBy:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'siv')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+    
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('SIV No'),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('issued_to')->title('Customer'),
             Column::make('purpose'),

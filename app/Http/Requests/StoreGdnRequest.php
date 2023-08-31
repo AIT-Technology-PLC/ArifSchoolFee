@@ -10,6 +10,7 @@ use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\ValidateCustomFields;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckCustomerCreditLimit;
@@ -92,6 +93,7 @@ class StoreGdnRequest extends FormRequest
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
             'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'customField.*' => [new ValidateCustomFields('gdn')],
         ];
     }
 }

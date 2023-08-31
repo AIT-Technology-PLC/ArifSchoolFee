@@ -60,6 +60,8 @@ class GdnController extends Controller
 
             AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
 
+            $gdn->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve GDN'), new GdnPrepared($gdn));
 
             return $gdn;
@@ -72,7 +74,7 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField']);
 
         $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'DO')->whereRelation('siv', 'ref_num', $gdn->code)->get();
 
@@ -115,6 +117,8 @@ class GdnController extends Controller
             $gdn->gdnDetails()->createMany($request->validated('gdn'));
 
             AutoBatchStoringAction::execute($gdn, $request->validated('gdn'), 'gdnDetails');
+
+            $gdn->createCustomFields($request->validated('customField'));
         }, 2);
 
         return redirect()->route('gdns.show', $gdn->id);

@@ -56,6 +56,8 @@ class GrnController extends Controller
 
             $grn->grnDetails()->createMany($request->validated('grn'));
 
+            $grn->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve GRN'), new GrnPrepared($grn));
 
             return $grn;
@@ -68,7 +70,7 @@ class GrnController extends Controller
     {
         $datatable->builder()->setTableId('grn-details-datatable');
 
-        $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase']);
+        $grn->load(['grnDetails.product', 'grnDetails.warehouse', 'supplier', 'purchase', 'customFieldValues.customField']);
 
         return $datatable->render('grns.show', compact('grn'));
     }
@@ -98,6 +100,8 @@ class GrnController extends Controller
             $grn->grnDetails()->forceDelete();
 
             $grn->grnDetails()->createMany($request->validated('grn'));
+
+            $grn->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('grns.show', $grn->id);

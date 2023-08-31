@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Gdn;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
@@ -22,6 +23,7 @@ class GdnDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
+            ->customColumns('gdn')
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
             ->editColumn('invoice no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
@@ -82,16 +84,22 @@ class GdnDatatable extends DataTable
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'gdn')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
         $columns = [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Delivery Order No'),
             isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('payment_type')->visible(false),
             Column::make('bank_name')->visible(false)->content('N/A'),
