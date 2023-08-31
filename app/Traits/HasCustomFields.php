@@ -28,6 +28,10 @@ trait HasCustomFields
 
     public function createCustomFields($data)
     {
+        if (empty($data)) {
+            return;
+        }
+
         $this->customFieldValues()->forceDelete();
 
         foreach ($data as $key => $value) {
