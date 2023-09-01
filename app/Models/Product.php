@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\InventoryValuationBalance;
+use App\Models\InventoryValuationHistory;
 use App\Models\Tax;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -48,6 +50,8 @@ class Product extends Model
         'jobDetailHistories',
         'inventoryHistories',
         'productReorders',
+        'inventoryValuationHistories',
+        'inventoryValuationBalances',
     ];
 
     protected static function booted()
@@ -196,16 +200,16 @@ class Product extends Model
     public function name(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => str()->squish($value),
-            set:fn($value) => $this->attributes['name'] = str()->squish($value),
+            get: fn($value) => str()->squish($value),
+            set: fn($value) => $this->attributes['name'] = str()->squish($value),
         );
     }
 
     public function code(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => str()->squish($value),
-            set:fn($value) => $this->attributes['code'] = str()->squish($value),
+            get: fn($value) => str()->squish($value),
+            set: fn($value) => $this->attributes['code'] = str()->squish($value),
         );
     }
 
@@ -312,5 +316,20 @@ class Product extends Model
         }
 
         return $reorderQuantityByWarehouse ?: $reorderQuantityGenerally;
+    }
+
+    public function inventoryValuationHistories()
+    {
+        return $this->hasMany(InventoryValuationHistory::class);
+    }
+
+    public function inventoryValuationBalances()
+    {
+        return $this->hasMany(InventoryValuationBalance::class);
+    }
+
+    public function isTypeProduct()
+    {
+        return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
     }
 }

@@ -30,4 +30,9 @@ class Damage extends Model
     {
         return $this->damageDetails;
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

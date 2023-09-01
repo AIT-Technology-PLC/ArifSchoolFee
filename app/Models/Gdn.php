@@ -91,4 +91,9 @@ class Gdn extends Model
             ->get()
             ->groupBy('warehouse_id');
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

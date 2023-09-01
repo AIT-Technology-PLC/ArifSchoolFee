@@ -35,6 +35,7 @@ class StoreProductRequest extends FormRequest
             'is_active_for_job' => ['required', 'boolean'],
             'reorder_level' => ['nullable', 'array'],
             'reorder_level.*' => ['nullable', 'numeric', 'min:0'],
+            'inventory_valuation_method' => ['required', 'string', Rule::in(['fifo', 'lifo', 'average'])],
         ];
     }
 }

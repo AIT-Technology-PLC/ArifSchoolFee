@@ -129,4 +129,9 @@ class Reservation extends Model
 
         $this->save();
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return true;
+    }
 }

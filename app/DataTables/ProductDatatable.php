@@ -36,6 +36,7 @@ class ProductDatatable extends DataTable
             ->editColumn('used_for_sale', fn($product) => $product->is_active_for_sale ? 'Yes' : 'No')
             ->editColumn('used_for_purchase', fn($product) => $product->is_active_for_purchase ? 'Yes' : 'No')
             ->editColumn('used_for_job', fn($product) => $product->is_active_for_job ? 'Yes' : 'No')
+            ->editColumn('inventory_valuation_method', fn($product) => $product->inventory_valuation_method ?? 'N/A')
             ->editColumn('added by', function ($product) {
                 return $product->createdBy->name;
             })
@@ -81,6 +82,7 @@ class ProductDatatable extends DataTable
             Column::make('description')->visible(false),
             Column::make('min_on_hand')->title('Reorder Level'),
             Column::make('tax_type', 'tax.type')->visible(false),
+            Column::make('inventory_valuation_method')->visible(false),
             Column::make('is_batchable')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_sale', 'is_active_for_sale')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_purchase', 'is_active_for_purchase')->searchable(false)->addClass('has-text-centered')->visible(false),
