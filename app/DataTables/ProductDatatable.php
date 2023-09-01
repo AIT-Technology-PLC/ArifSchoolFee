@@ -74,9 +74,6 @@ class ProductDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name')->title('Product'),
-            Column::make('lifo_unit_cost'),
-            Column::make('fifo_unit_cost'),
-            Column::make('average_unit_cost'),
             Column::make('code')->className('text-purple has-text-weight-medium')->content('N/A'),
             Column::make('category', 'productCategory.name'),
             Column::make('type'),
