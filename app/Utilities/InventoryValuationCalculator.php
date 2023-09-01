@@ -32,7 +32,7 @@ class InventoryValuationCalculator
 
             $product = Product::where('id', $detail['product_id'])->first();
 
-            $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity*unit_cost');
+            $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->selectRaw('SUM(quantity*unit_cost) as total_cost')->first()->total_cost;
 
             $totalQuantity = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity');
 
