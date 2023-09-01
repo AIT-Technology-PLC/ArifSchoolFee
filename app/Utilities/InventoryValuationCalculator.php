@@ -30,16 +30,16 @@ class InventoryValuationCalculator
                 ]);
             }
 
-            $InventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->get();
             $product = Product::where('id', $detail['product_id'])->first();
-            $sumQuantityUnitCost = $InventoryValuationBalances->sum(function ($InventoryValuationBalance) {
-                return $InventoryValuationBalance->quantity * $InventoryValuationBalance->unit_cost;
-            });
 
-            $sumQuantity = $InventoryValuationBalances->sum('quantity');
-            $newUnitCost = $sumQuantity ? $sumQuantityUnitCost / $sumQuantity : 0;
+            $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity*unit_cost');
+
+            $totalQuantity = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity');
+
+            $newUnitCost = $totalQuantity ? $totalCost / $totalQuantity : 0;
 
             $product->update([$method . '_unit_cost' => $newUnitCost]);
+
             InventoryValuationHistory::create([
                 'type' => $method,
                 'product_id' => $product->id,
@@ -51,12 +51,17 @@ class InventoryValuationCalculator
     private static function calcuateForAverage($detail)
     {
         $product = Product::where('id', $detail['product_id'])->first();
-        $currentQuantity = Merchandise::where('product_id', $detail['product_id'])->sum('available');
-        $currentTotalCost = $product->average_unit_cost * ($currentQuantity - $detail['quantity']);
-        $totalCost = $currentTotalCost + ($detail['quantity'] * $detail['unit_cost']);
-        $newAverageUnitCost = $currentQuantity ? $totalCost / $currentQuantity : 0;
+
+        $totalQuantity = Merchandise::where('product_id', $detail['product_id'])->sum('available');
+
+        $currentTotalCost = $product->average_unit_cost * ($totalQuantity - $detail['quantity']);
+
+        $newTotalCost = $currentTotalCost + ($detail['quantity'] * $detail['unit_cost']);
+
+        $newAverageUnitCost = $totalQuantity ? $newTotalCost / $totalQuantity : 0;
 
         $product->update(['average_unit_cost' => $newAverageUnitCost]);
+
         InventoryValuationHistory::create([
             'type' => 'average',
             'product_id' => $product->id,

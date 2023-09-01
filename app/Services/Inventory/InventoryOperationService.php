@@ -43,7 +43,7 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $to, false);
 
-            if ($model->canAffectInventoryValuation() && $detail->product->isTypeProduct()) {
+            if ($model->canAffectInventoryValuation()) {
                 InventoryValuationCalculator::calculate($detail, 'add');
             }
         }
@@ -70,9 +70,8 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $from);
 
-            if ($model->canAffectInventoryValuation() && $detail->product->isTypeProduct()) {
+            if ($model->canAffectInventoryValuation()) {
                 static::subtractFromInventoryValuationBalance($detail);
-
                 InventoryValuationCalculator::calculate($detail);
             }
         }
@@ -115,6 +114,32 @@ class InventoryOperationService
         $merchandiseBatch->quantity -= $detail['quantity'];
 
         $merchandiseBatch->save();
+    }
+
+    private static function subtractFromInventoryValuationBalance($detail)
+    {
+        foreach (['fifo', 'lifo'] as $method) {
+            $quantity = $detail['quantity'];
+
+            $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])
+                ->where('type', $method)
+                ->orderBy('created_at', $method == 'fifo' ? 'asc' : 'desc')
+                ->get();
+
+            foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
+                if ($inventoryValuationBalance->quantity >= $quantity) {
+                    $inventoryValuationBalance->quantity -= $quantity;
+                    $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
+
+                    break;
+                }
+
+                if ($inventoryValuationBalance->quantity < $quantity) {
+                    $quantity = $quantity - $inventoryValuationBalance->quantity;
+                    $inventoryValuationBalance->forceDelete();
+                }
+            }
+        }
     }
 
     public static function createInventoryHistory($model, $detail, $fromOrTo, $isSubtract = true)
@@ -270,35 +295,11 @@ class InventoryOperationService
         $inventoryTypeProducts = [];
 
         foreach ($details as $detail) {
-            if (!$products->find($detail['product_id'])->isTypeService()) {
+            if ($products->find($detail['product_id'])->isTypeProduct()) {
                 $inventoryTypeProducts[] = $detail;
             }
         }
 
         return $inventoryTypeProducts;
-    }
-
-    private static function subtractFromInventoryValuationBalance($detail)
-    {
-        foreach (['fifo', 'lifo'] as $method) {
-            $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])
-                ->where('type', $method)
-                ->orderBy('created_at', $method == 'fifo' ? 'asc' : 'desc')
-                ->get();
-
-            foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
-                if ($inventoryValuationBalance->quantity >= $detail['quantity']) {
-                    $inventoryValuationBalance->quantity -= $detail['quantity'];
-                    $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
-
-                    break;
-                }
-
-                if ($inventoryValuationBalance->quantity < $detail['quantity']) {
-                    $detail['quantity'] = $detail['quantity'] - $inventoryValuationBalance->quantity;
-                    $inventoryValuationBalance->forceDelete();
-                }
-            }
-        }
     }
 }
