@@ -17,4 +17,9 @@ class InventoryValuationBalance extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('quantity', '>', 0);
+    }
 }

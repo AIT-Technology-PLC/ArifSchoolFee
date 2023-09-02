@@ -26,6 +26,7 @@ class InventoryValuationCalculator
                     'type' => $method,
                     'product_id' => $detail['product_id'],
                     'quantity' => $detail['quantity'],
+                    'original_quantity' => $detail['quantity'],
                     'unit_cost' => $detail['unit_cost'] ?? $detail->product[$method . '_unit_cost'],
                 ]);
             }

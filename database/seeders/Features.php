@@ -275,6 +275,11 @@ class Features extends Seeder
                 ['is_enabled' => 1]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Inventory Valuation Report'],
+                ['is_enabled' => 1]
+            );
+
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');
