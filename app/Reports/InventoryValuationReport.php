@@ -28,7 +28,7 @@ class InventoryValuationReport
 
     private function setQuery()
     {
-        $this->query = Merchandise::query()
+        $this->query = Merchandise::query()->where('available', '>', 0)
             ->withoutGlobalScopes([BranchScope::class])
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
