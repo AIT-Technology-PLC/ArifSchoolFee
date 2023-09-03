@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InventoryValuationReportRequest;
-use App\Models\Warehouse;
 use App\Reports\InventoryValuationReport;
 
 class InventoryValuationReportController extends Controller
@@ -20,7 +19,7 @@ class InventoryValuationReportController extends Controller
 
         $warehouses = authUser()->getAllowedWarehouses('transactions');
 
-        $totalNumberOfBranches = Warehouse::where('is_active', 1)->count();
+        $totalNumberOfBranches = $warehouses->count();
 
         $inventoryValuationReports = new InventoryValuationReport($request->validated());
 

@@ -28,6 +28,11 @@ class Merchandise extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function scopeAvailable($query)
+    {
+        return $query->where('available', '>', 0);
+    }
+
     public function getOnHandAttribute()
     {
         return number_format(

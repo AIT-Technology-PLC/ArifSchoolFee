@@ -28,10 +28,12 @@ class InventoryValuationReport
 
     private function setQuery()
     {
-        $this->query = Merchandise::query()->where('available', '>', 0)
+        $this->query = Merchandise::query()
+            ->available()
             ->withoutGlobalScopes([BranchScope::class])
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('merchandises.warehouse_id', $this->filters['branches']))
             ->where('products.is_active', 1)
             ->where('warehouses.is_active', 1);
     }
@@ -50,7 +52,6 @@ class InventoryValuationReport
                 SUM(merchandises.available) AS quantity,
                 products.unit_of_measurement AS unit_of_measurement
             ')
-            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('merchandises.warehouse_id', $this->filters['branches']))
             ->groupBy('product_code', 'unit_of_measurement', 'unit_cost', 'product_name')
             ->get();
     }
@@ -68,7 +69,6 @@ class InventoryValuationReport
                 END * merchandises.available
             ) AS total_cost
         ')
-            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('merchandises.warehouse_id', $this->filters['branches']))
             ->groupBy('warehouses.name')
             ->get();
     }
