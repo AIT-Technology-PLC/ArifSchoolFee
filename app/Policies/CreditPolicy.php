@@ -40,4 +40,9 @@ class CreditPolicy
     {
         return $user->can('Settle Credit');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Credit');
+    }
 }
