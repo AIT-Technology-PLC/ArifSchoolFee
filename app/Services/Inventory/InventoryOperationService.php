@@ -121,7 +121,7 @@ class InventoryOperationService
         foreach (['fifo', 'lifo'] as $method) {
             $quantity = $detail['quantity'];
 
-            $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])
+            $inventoryValuationBalances = InventoryValuationBalance::available()->where('product_id', $detail['product_id'])
                 ->where('type', $method)
                 ->orderBy('created_at', $method == 'fifo' ? 'asc' : 'desc')
                 ->get();
@@ -129,14 +129,14 @@ class InventoryOperationService
             foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
                 if ($inventoryValuationBalance->quantity >= $quantity) {
                     $inventoryValuationBalance->quantity -= $quantity;
-                    $inventoryValuationBalance->quantity > 0 ? $inventoryValuationBalance->save() : $inventoryValuationBalance->forceDelete();
+                    $inventoryValuationBalance->save();
 
                     break;
                 }
 
                 if ($inventoryValuationBalance->quantity < $quantity) {
                     $quantity = $quantity - $inventoryValuationBalance->quantity;
-                    $inventoryValuationBalance->forceDelete();
+                    $inventoryValuationBalance->save();
                 }
             }
         }

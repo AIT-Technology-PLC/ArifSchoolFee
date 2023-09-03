@@ -383,6 +383,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Daily Inventory Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Transfer Report']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Summary Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Valuation Report']);
 
             //Customer Deposit
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Customer Deposit']);
