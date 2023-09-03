@@ -523,3 +523,8 @@ Route::post('/customer-deposits/{customerDeposit}/approve',
 Route::post('/credits/import',
     [Action\CreditController::class, 'import'])
     ->name('credits.import');
+
+// Debt
+Route::post('/debts/import',
+    [Action\DebtController::class, 'import'])
+    ->name('debts.import');

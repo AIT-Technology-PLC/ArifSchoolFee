@@ -55,6 +55,16 @@
 
     <x-common.content-wrapper>
         <x-content.header title="Debts">
+            @can('Import Debt')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Debt"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
             @can('Create Debt')
                 <x-common.button
                     tag="a"
@@ -67,8 +77,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted') ?? session('successMessage')" />
-            <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.success-message :message="session('deleted') ?? (session('successMessage') ?? session('imported'))" />
+            <x-common.fail-message :message="session('failedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
@@ -130,6 +140,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Debt')
+        <x-common.import
+            title="Import Debts"
+            action="{{ route('debts.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

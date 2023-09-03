@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use App\Models\Credit;
-use App\Models\Customer;
+use App\Models\Debt;
+use App\Models\Supplier;
 use App\Rules\MustBelongToCompany;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -12,42 +12,42 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class CreditImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
+class DebtImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
     use Importable;
 
-    private $credits;
+    private $debts;
 
     public function __construct()
     {
-        $this->credits = collect();
+        $this->debts = collect();
     }
 
     public function model(array $row)
     {
-        $credit = new Credit([
+        $debt = new Debt([
             'company_id' => userCompany()->id,
             'warehouse_id' => authUser()->warehouse_id,
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,
-            'code' => $this->credits->isEmpty() ? nextReferenceNumber('credits') : ($this->credits->last()->code + 1),
-            'customer_id' => Customer::where('company_name', $row['customer_name'])->first()->id,
-            'credit_amount' => $row['credit_amount'],
+            'code' => $this->debts->isEmpty() ? nextReferenceNumber('debts') : ($this->debts->last()->code + 1),
+            'supplier_id' => Supplier::where('company_name', $row['supplier_name'])->first()->id,
+            'debt_amount' => $row['debt_amount'],
             'issued_on' => $row['issued_on'] ?? now(),
             'due_date' => $row['due_date'] ?? (isset($row['issued_on']) ? carbon($row['issued_on'])->addDays(10) : now()->addDays(10)),
             'description' => $row['description'] ?? null,
         ]);
 
-        $this->credits->push($credit);
+        $this->debts->push($debt);
 
-        return $credit;
+        return $debt;
     }
 
     public function rules(): array
     {
         return [
-            'customer_name' => ['required', 'string', 'max:255', new MustBelongToCompany('customers', 'company_name')],
-            'credit_amount' => ['required', 'numeric', 'gt:0'],
+            'supplier_name' => ['required', 'string', 'max:255', new MustBelongToCompany('suppliers', 'company_name')],
+            'debt_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['nullable', 'required_unless:*.due_date,null', 'date', 'before_or_equal:now'],
             'due_date' => ['nullable', 'date', 'after:*.issued_on'],
             'description' => ['nullable', 'string'],
@@ -56,7 +56,7 @@ class CreditImport implements ToModel, WithHeadingRow, WithValidation, WithChunk
 
     public function prepareForValidation($data, $index)
     {
-        $data['customer_name'] = str()->squish($data['customer_name'] ?? '');
+        $data['supplier_name'] = str()->squish($data['supplier_name'] ?? '');
 
         return $data;
     }
@@ -74,15 +74,15 @@ class CreditImport implements ToModel, WithHeadingRow, WithValidation, WithChunk
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $rows = collect($validator->getData())->unique('customer_name');
+            $rows = collect($validator->getData())->unique('supplier_name');
 
             foreach ($rows as $key => $row) {
-                $customer = Customer::where('company_name', $row['customer_name'])->first();
+                $supplier = Supplier::where('company_name', $row['supplier_name'])->first();
 
-                $creditAmount = collect($validator->getData())->where('customer_name', $row['customer_name'])->sum('credit_amount');
+                $debtAmount = collect($validator->getData())->where('supplier_name', $row['supplier_name'])->sum('debt_amount');
 
-                if ($customer && $customer->hasReachedCreditLimit($creditAmount)) {
-                    $validator->errors()->add($key, 'The customer "' . $customer->company_name . '" has exceeded the credit amount limit.');
+                if ($supplier && $supplier->hasReachedDebtLimit($debtAmount)) {
+                    $validator->errors()->add($key, 'The supplier "' . $supplier->company_name . '" has exceeded the debt amount limit.');
                 }
             }
         });
