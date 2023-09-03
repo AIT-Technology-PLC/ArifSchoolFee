@@ -518,3 +518,13 @@ Route::get('/merchandise-batches/{merchandiseBatch}/convert-to-damage',
 Route::post('/customer-deposits/{customerDeposit}/approve',
     [Action\CustomerDepositController::class, 'approve'])
     ->name('customer-deposits.approve');
+
+// Credit
+Route::post('/credits/import',
+    [Action\CreditController::class, 'import'])
+    ->name('credits.import');
+
+// Debt
+Route::post('/debts/import',
+    [Action\DebtController::class, 'import'])
+    ->name('debts.import');

@@ -94,7 +94,7 @@ class CustomerDepositController extends Controller
 
     public function destroy(CustomerDeposit $customerDeposit)
     {
-        if ($customerDeposit->isApproved()) {
+        if ($customerDeposit->isApproved() && !authUser()->can('Delete Approved Customer Deposit')) {
             return back()->with('failedMessage', "You can't delete approved deposit");
         }
 

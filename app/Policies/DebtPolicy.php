@@ -40,4 +40,9 @@ class DebtPolicy
     {
         return $user->can('Settle Debt');
     }
+
+    public function import(User $user)
+    {
+        return $user->can('Import Debt');
+    }
 }

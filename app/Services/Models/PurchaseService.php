@@ -41,6 +41,10 @@ class PurchaseService
 
     public function convertToDebt($purchase)
     {
+        if ($purchase->isRejected()) {
+            return [false, 'This purchase is already cancelled.'];
+        }
+
         if (!$purchase->isApproved()) {
             return [false, 'Creating a debt for purchase that is not approved is not allowed.'];
         }
@@ -53,7 +57,7 @@ class PurchaseService
             return [false, 'A debt for this purchase was already created.'];
         }
 
-        if ($purchase->payment_type != 'Credit Payment') {
+        if ($purchase->payment_type != 'Credit Payment' || $purchase->grand_total_price == 0) {
             return [false, 'Creating a debt for purchase with 0.00 debt amount is not allowed.'];
         }
 

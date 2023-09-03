@@ -196,6 +196,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Credit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Credit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Settle Credit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Credit']);
 
             // Tender
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Tender']);
@@ -324,6 +325,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Debt']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Debt']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Settle Debt']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Debt']);
 
             // Other
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert To Debt']);
@@ -334,6 +336,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Expense']);
 
             //Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
@@ -387,6 +390,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Customer Deposit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Customer Deposit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Customer Deposit']);
 
             //Custom Field
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Custom Field']);
