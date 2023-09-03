@@ -158,6 +158,10 @@ class PurchaseService
 
     public function approveAndPurchase($purchase)
     {
+        if ($purchase->isRejected()) {
+            return [false, 'You can not approve a purchase that is rejected.'];
+        }
+
         if ($purchase->isApproved()) {
             return back()->with('failedMessage', 'This purchase is already approved.');
         }
@@ -172,6 +176,8 @@ class PurchaseService
 
         DB::transaction(function () use ($purchase) {
             (new ApproveTransactionAction)->execute($purchase);
+
+            $this->convertToDebt($purchase);
 
             $purchase->purchase();
 
