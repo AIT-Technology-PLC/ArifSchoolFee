@@ -334,6 +334,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Expense']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Expense']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Expense']);
 
             //Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale Report']);
@@ -387,6 +388,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Customer Deposit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Customer Deposit']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Customer Deposit']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Customer Deposit']);
 
             //Custom Field
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Custom Field']);

@@ -116,7 +116,7 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
-        if ($expense->isApproved()) {
+        if ($expense->isApproved() && !authUser()->can('Delete Approved Expense')) {
             return back()->with('failedMessage', 'You can not delete an expense that is approved.');
         }
 
