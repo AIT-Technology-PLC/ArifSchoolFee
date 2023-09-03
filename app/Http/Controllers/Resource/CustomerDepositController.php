@@ -98,6 +98,8 @@ class CustomerDepositController extends Controller
             return back()->with('failedMessage', "You can't delete approved deposit");
         }
 
+        $customerDeposit->customer->decrement('balance', $customerDeposit->amount);
+
         $customerDeposit->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
