@@ -33,7 +33,7 @@ class CreditPolicy
 
     public function delete(User $user, Credit $credit)
     {
-        return $this->isIssuedByMyBranch($user, $credit) && $user->can('Update Credit');
+        return $this->isIssuedByMyBranch($user, $credit) && $user->can('Delete Credit');
     }
 
     public function settle(User $user, Credit $credit)

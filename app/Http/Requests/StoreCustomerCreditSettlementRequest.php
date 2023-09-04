@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Credit;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreCustomerCreditSettlementRequest extends FormRequest
 {
@@ -15,7 +15,15 @@ class StoreCustomerCreditSettlementRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => ['numeric', 'gt:0', Rule::when($this->route('customer')->credits()->sum('credit_amount') == $this->route('customer')->credits()->sum('credit_amount_settled'), 'prohibited', 'required')],
+            'amount' => ['required', 'numeric', 'gt:0', function ($a, $value, $fail) {
+                $creditAmount = Credit::where('customer_id', $this->route('customer')->id)->unsettled()->sum('credit_amount');
+                $settledCreditAmount = Credit::where('customer_id', $this->route('customer')->id)->unsettled()->sum('credit_amount_settled');
+                $unsettledCreditAmount = $creditAmount - $settledCreditAmount;
+
+                if ($value > $unsettledCreditAmount) {
+                    $fail('The settlement amount has exceeded the credit amount.');
+                }
+            }],
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
