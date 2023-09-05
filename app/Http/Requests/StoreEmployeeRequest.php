@@ -41,6 +41,7 @@ class StoreEmployeeRequest extends FormRequest
             'adjustment.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'siv.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'hr.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
+            'transfer_source.*' => ['nullable', 'integer', new MustBelongToCompany('warehouses')],
             'gender' => ['required', 'string', 'max:255', Rule::in(['male', 'female'])],
             'address' => ['required', 'string', 'max:255'],
             'bank_name' => ['nullable', 'string', 'max:255', 'required_unless:bank_account,null'],

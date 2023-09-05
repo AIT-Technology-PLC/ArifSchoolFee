@@ -762,6 +762,27 @@
                                 </div>
                                 <div class="column is-3">
                                     <label
+                                        for="transfer_source[]"
+                                        class="label text-green"
+                                    > Transfer Source <sup class="has-text-danger"></sup> </label>
+                                    <x-forms.field>
+                                        @foreach ($warehouses as $warehouse)
+                                            <label class="checkbox mr-3 has-text-grey has-text-weight-light">
+                                                <input
+                                                    name="transfer_source[]"
+                                                    value="{{ $warehouse->id }}"
+                                                    type="checkbox"
+                                                    {{ isset($warehousePermissions['transfer_source']) ? ($warehousePermissions['transfer_source']->contains($warehouse) == $warehouse->id ? 'checked' : '') : '' }}
+                                                >
+                                                {{ $warehouse->name }}
+                                            </label>
+                                            <br>
+                                        @endforeach
+                                        <x-common.validation-error property="transfer_source.*" />
+                                    </x-forms.field>
+                                </div>
+                                <div class="column is-3">
+                                    <label
                                         for="siv[]"
                                         class="label text-green"
                                     > SIV <sup class="has-text-danger"></sup> </label>

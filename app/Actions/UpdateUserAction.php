@@ -39,7 +39,7 @@ class UpdateUserAction
 
             $this->action->execute(
                 $user,
-                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr'])
+                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr', 'transfer_source'])
             );
 
             $user->employee->employeeCompensations()->forceDelete();
