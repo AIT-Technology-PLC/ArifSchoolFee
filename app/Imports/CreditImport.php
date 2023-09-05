@@ -63,26 +63,28 @@ class CreditImport implements ToModel, WithHeadingRow, WithValidation, WithChunk
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $rows = collect($validator->getData())->unique('customer_name');
+            $rows = collect($validator->getData())->unique('customer_name')->toArray();
 
-            foreach ($rows as $key => $row) {
-                $customer = Customer::where('company_name', $row['customer_name'])->first();
+            foreach (array_chunk($rows, 50) as $chunkedRows) {
+                foreach ($chunkedRows as $key => $row) {
+                    $customer = Customer::where('company_name', $row['customer_name'])->first();
 
-                $creditAmount = collect($validator->getData())->where('customer_name', $row['customer_name'])->sum('credit_amount');
+                    $creditAmount = collect($validator->getData())->where('customer_name', $row['customer_name'])->sum('credit_amount');
 
-                if ($customer && $customer->hasReachedCreditLimit($creditAmount)) {
-                    $validator->errors()->add($key, 'The customer "' . $customer->company_name . '" has exceeded the credit amount limit.');
+                    if ($customer && $customer->hasReachedCreditLimit($creditAmount)) {
+                        $validator->errors()->add($key, 'The customer "' . $customer->company_name . '" has exceeded the credit amount limit.');
+                    }
                 }
             }
         });
