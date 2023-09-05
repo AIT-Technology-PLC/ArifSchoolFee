@@ -1,6 +1,5 @@
 <?php
 
-use App\Actions\SyncWarehousePermissionsAction;
 use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Database\Migrations\Migration;
@@ -21,7 +20,14 @@ return new class extends Migration
             User::with('warehouse.company')->get()->each(function ($user) {
                 $warehouseIds = Warehouse::where('company_id', $user->warehouse->company_id)->pluck('id')->toArray();
 
-                (new SyncWarehousePermissionsAction)->execute($user, ['transfer_source' => $warehouseIds]);
+                foreach ($warehouseIds as $warehouseId) {
+                    DB::table('user_warehouse')
+                        ->insert([
+                            'user_id' => $user->id,
+                            'warehouse_id' => $warehouseId,
+                            'type' => 'transfer_source',
+                        ]);
+                }
             });
         });
     }
