@@ -74,11 +74,11 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 }

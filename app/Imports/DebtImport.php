@@ -63,12 +63,12 @@ class DebtImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRe
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function withValidator($validator)

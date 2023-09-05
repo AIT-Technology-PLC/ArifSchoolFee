@@ -55,11 +55,11 @@ class BrandImport implements ToModel, WithHeadingRow, WithValidation, WithChunkR
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 }

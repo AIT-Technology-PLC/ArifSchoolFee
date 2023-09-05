@@ -44,11 +44,11 @@ class TenderStatusImport implements ToModel, WithHeadingRow, WithValidation, Wit
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 }
