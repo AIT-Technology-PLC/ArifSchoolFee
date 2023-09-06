@@ -8,26 +8,24 @@ class SupplierService
 {
     public function settleDebt($data, $supplier)
     {
-        $remainingAmount = $data['amount'];
+        $settlementAmount = $data['amount'];
 
         $debts = $supplier->debts()->unsettled()->oldest()->get();
 
-        return DB::transaction(function () use ($data, $debts, $remainingAmount) {
+        return DB::transaction(function () use ($data, $debts, $settlementAmount) {
             foreach ($debts as $debt) {
-                if ($remainingAmount == $debt->debtAmountUnsettled) {
+                if ($settlementAmount <= $debt->debtAmountUnsettled) {
+                    $data['amount'] = $settlementAmount;
                     $debt->debtSettlements()->create($data);
                     break;
                 }
-                if ($remainingAmount > $debt->debtAmountUnsettled) {
+
+                if ($settlementAmount > $debt->debtAmountUnsettled) {
                     $data['amount'] = $debt->debtAmountUnsettled;
-                    $remainingAmount -= $data['amount'];
+                    $settlementAmount -= $data['amount'];
                     $debt->debtSettlements()->create($data);
                     continue;
                 }
-
-                $data['amount'] = $remainingAmount;
-                $remainingAmount = 0;
-                $debt->debtSettlements()->create($data);
             }
 
             return [true, 'Amount settled successfully.'];
