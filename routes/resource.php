@@ -186,3 +186,9 @@ Route::resource('customer-deposits', Resource\CustomerDepositController::class);
 Route::resource('customers.customer-deposits', Resource\CustomerCustomerDepositController::class)->only('index');
 
 Route::resource('custom-fields', Resource\CustomFieldController::class)->except('show');
+
+Route::resource('cost-updates', Resource\CostUpdateController::class);
+
+Route::resource('cost-update-details', Resource\CostUpdateDetailController::class)->only(['destroy']);
+
+
