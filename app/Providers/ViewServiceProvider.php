@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\View\Composers\MerchandiseBatchComposer;
 use App\View\Composers\ProductComposer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -57,5 +58,7 @@ class ViewServiceProvider extends ServiceProvider
         ];
 
         View::composer($views, ProductComposer::class);
+
+        View::composer($views, MerchandiseBatchComposer::class);
     }
 }

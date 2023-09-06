@@ -60,11 +60,11 @@ class BillOfMaterialImport implements WithHeadingRow, ToModel, WithValidation, W
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 }

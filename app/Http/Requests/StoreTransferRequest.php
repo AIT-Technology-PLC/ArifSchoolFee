@@ -33,7 +33,7 @@ class StoreTransferRequest extends FormRequest
                 new BatchSelectionIsRequiredOrProhibited, 
                 Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
-            'transferred_from' => ['required', 'integer', new MustBelongToCompany('warehouses')],
+            'transferred_from' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transfer_source')->pluck('id'))],
             'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],

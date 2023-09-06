@@ -87,6 +87,7 @@
                                         x-bind:id="`reservation[${index}][merchandise_batch_id]`"
                                         x-bind:name="`reservation[${index}][merchandise_batch_id]`"
                                         x-model="reservation.merchandise_batch_id"
+                                        x-on:change="getInventoryLevel(index)"
                                     ></x-forms.select>
                                     <x-common.icon
                                         name="fas fa-th"
@@ -351,7 +352,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType().forSale(), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType().forSale(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (reservation) {
                         this.reservations = reservation;
@@ -395,9 +396,12 @@
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
+                    let batches = [];
 
                     select2.on("change", (event, haveData = false) => {
                         this.reservations[index].product_id = event.target.value;
+
+                        haveData || (this.reservations[index].merchandise_batch_id = null);
 
                         this.reservations[index].product_category_id =
                             Product.productCategoryId(
@@ -412,6 +416,14 @@
                             );
                         }
 
+                        if (this.reservations[index].product_id && this.reservations[index].warehouse_id) {
+                            batches = MerchandiseBatch.where(this.reservations[index].product_id, this.reservations[index].warehouse_id);
+                        }
+
+                        if (batches.length <= 1) {
+                            this.reservations[index].merchandise_batch_id = batches[0]?.id;
+                        }
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.reservations[index].product_id, this.reservations[index].product_category_id);
 
@@ -422,8 +434,7 @@
                             )[0].fixed_price : "";
                         }
 
-
-                        this.getInventoryLevel(index)
+                        this.getInventoryLevel(index);
                     });
                 },
                 getSelect2(index) {
@@ -433,19 +444,44 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (Company.isInventoryCheckerEnabled() && this.reservations[index].product_id && this.reservations[index].warehouse_id) {
-                        await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
-                        this.reservations[index].availableQuantity = Merchandise.merchandise;
+                    if (!Company.isInventoryCheckerEnabled() || !this.reservations[index].product_id || !this.reservations[index].warehouse_id) {
+                        return;
                     }
+
+                    this.reservations[index].availableQuantity = null;
+
+                    if (Product.isBatchable(this.reservations[index].product_id) && this.reservations[index].merchandise_batch_id) {
+                        let merchandiseBatch = MerchandiseBatch.whereBatchId(this.reservations[index].merchandise_batch_id);
+                        this.reservations[index].availableQuantity = merchandiseBatch?.quantity + " " + Product.whereProductId(this.reservations[index].product_id)?.unit_of_measurement;
+                        return;
+                    }
+
+                    await Merchandise.init(this.reservations[index].product_id, this.reservations[index].warehouse_id);
+
+                    this.reservations[index].availableQuantity = Merchandise.merchandise;
                 },
                 warehouseChanged(index) {
-                    this.getInventoryLevel(index);
+                    if (!Product.isBatchable(this.reservations[index].product_id) || Company.canSelectBatchNumberOnForms()) {
+                        this.getInventoryLevel(index);
+                    }
+
+                    let batches = [];
+
+                    this.reservations[index].merchandise_batch_id = null
 
                     MerchandiseBatch.appendMerchandiseBatches(
                         this.getMerchandiseBatchesSelect(index),
                         this.reservations[index].merchandise_batch_id,
                         MerchandiseBatch.where(this.reservations[index].product_id, this.reservations[index].warehouse_id),
-                    )
+                    );
+
+                    if (this.reservations[index].product_id && this.reservations[index].warehouse_id) {
+                        batches = MerchandiseBatch.where(this.reservations[index].product_id, this.reservations[index].warehouse_id);
+                    }
+
+                    if (batches.length <= 1) {
+                        this.reservations[index].merchandise_batch_id = batches[0]?.id;
+                    }
                 }
             }));
         });

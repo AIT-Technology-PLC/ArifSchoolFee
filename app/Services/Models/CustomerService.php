@@ -10,26 +10,24 @@ class CustomerService
 {
     public function settleCredit($data, $customer)
     {
-        $remainingAmount = $data['amount'];
+        $settlementAmount = $data['amount'];
 
         $credits = $customer->credits()->unsettled()->oldest()->get();
 
-        return DB::transaction(function () use ($data, $credits, $remainingAmount) {
+        return DB::transaction(function () use ($data, $credits, $settlementAmount) {
             foreach ($credits as $credit) {
-                if ($remainingAmount == $credit->creditAmountUnsettled) {
+                if ($settlementAmount <= $credit->creditAmountUnsettled) {
+                    $data['amount'] = $settlementAmount;
                     $credit->creditSettlements()->create($data);
                     break;
                 }
-                if ($remainingAmount > $credit->creditAmountUnsettled) {
+
+                if ($settlementAmount > $credit->creditAmountUnsettled) {
                     $data['amount'] = $credit->creditAmountUnsettled;
-                    $remainingAmount -= $data['amount'];
+                    $settlementAmount -= $data['amount'];
                     $credit->creditSettlements()->create($data);
                     continue;
                 }
-
-                $data['amount'] = $remainingAmount;
-                $remainingAmount = 0;
-                $credit->creditSettlements()->create($data);
             }
 
             return [true, 'Amount settled successfully.'];

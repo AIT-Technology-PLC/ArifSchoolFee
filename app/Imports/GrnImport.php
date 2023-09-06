@@ -74,11 +74,23 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            collect($validator->getData())
+                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->keys()
+                ->chunk(50)
+                ->each
+                ->each(fn($key) => $validator->errors()->add($key, 'Product name by product code or vice versa is not registered.'));
+        });
     }
 }

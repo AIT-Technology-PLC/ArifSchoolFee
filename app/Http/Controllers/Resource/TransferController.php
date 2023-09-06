@@ -10,7 +10,6 @@ use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Models\SivDetail;
 use App\Models\Transfer;
-use App\Models\Warehouse;
 use App\Notifications\TransferPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +43,7 @@ class TransferController extends Controller
 
     public function create()
     {
-        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $fromWarehouses = authUser()->getAllowedWarehouses('transfer_source');
 
         $toWarehouses = authUser()->getAllowedWarehouses('add');
 
@@ -91,7 +90,7 @@ class TransferController extends Controller
     {
         $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
 
-        $fromWarehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $fromWarehouses = authUser()->getAllowedWarehouses('transfer_source');
 
         $toWarehouses = authUser()->getAllowedWarehouses('add');
 

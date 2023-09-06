@@ -131,11 +131,11 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
     }
 }
