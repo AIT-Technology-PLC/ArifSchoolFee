@@ -91,6 +91,7 @@
                                         x-bind:id="`sale[${index}][merchandise_batch_id]`"
                                         x-bind:name="`sale[${index}][merchandise_batch_id]`"
                                         x-model="sale.merchandise_batch_id"
+                                        x-on:change="getInventoryLevel(index)"
                                     ></x-forms.select>
                                     <x-common.icon
                                         name="fas fa-th"
@@ -333,7 +334,7 @@
                 sales: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).forSale(), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).forSale(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (sale) {
                         this.sales = sale;
@@ -377,9 +378,12 @@
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
+                    let batches = [];
 
                     select2.on("change", (event, haveData = false) => {
                         this.sales[index].product_id = event.target.value;
+
+                        haveData || (this.sales[index].merchandise_batch_id = null);
 
                         this.sales[index].product_category_id =
                             Product.productCategoryId(
@@ -394,6 +398,14 @@
                             );
                         }
 
+                        if (this.sales[index].product_id && this.sales[index].warehouse_id) {
+                            batches = MerchandiseBatch.where(this.sales[index].product_id, this.sales[index].warehouse_id);
+                        }
+
+                        if (batches.length <= 1) {
+                            this.sales[index].merchandise_batch_id = batches[0]?.id;
+                        }
+
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.sales[index].product_id, this.sales[index].product_category_id);
 
@@ -404,7 +416,7 @@
                             )[0].fixed_price : "";
                         }
 
-                        this.getInventoryLevel(index)
+                        this.getInventoryLevel(index);
                     });
                 },
                 getSelect2(index) {
@@ -414,19 +426,44 @@
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
                 },
                 async getInventoryLevel(index) {
-                    if (Company.isInventoryCheckerEnabled() && this.sales[index].product_id && this.sales[index].warehouse_id) {
-                        await Merchandise.init(this.sales[index].product_id, this.sales[index].warehouse_id);
-                        this.sales[index].availableQuantity = Merchandise.merchandise;
+                    if (!Company.isInventoryCheckerEnabled() || !this.sales[index].product_id || !this.sales[index].warehouse_id) {
+                        return;
                     }
+
+                    this.sales[index].availableQuantity = null;
+
+                    if (Product.isBatchable(this.sales[index].product_id) && this.sales[index].merchandise_batch_id) {
+                        let merchandiseBatch = MerchandiseBatch.whereBatchId(this.sales[index].merchandise_batch_id);
+                        this.sales[index].availableQuantity = merchandiseBatch?.quantity + " " + Product.whereProductId(this.sales[index].product_id)?.unit_of_measurement;
+                        return;
+                    }
+
+                    await Merchandise.init(this.sales[index].product_id, this.sales[index].warehouse_id);
+
+                    this.sales[index].availableQuantity = Merchandise.merchandise;
                 },
                 warehouseChanged(index) {
-                    this.getInventoryLevel(index);
+                    if (!Product.isBatchable(this.sales[index].product_id) || Company.canSelectBatchNumberOnForms()) {
+                        this.getInventoryLevel(index);
+                    }
+
+                    let batches = [];
+
+                    this.sales[index].merchandise_batch_id = null
 
                     MerchandiseBatch.appendMerchandiseBatches(
                         this.getMerchandiseBatchesSelect(index),
                         this.sales[index].merchandise_batch_id,
                         MerchandiseBatch.where(this.sales[index].product_id, this.sales[index].warehouse_id),
-                    )
+                    );
+
+                    if (this.sales[index].product_id && this.sales[index].warehouse_id) {
+                        batches = MerchandiseBatch.where(this.sales[index].product_id, this.sales[index].warehouse_id);
+                    }
+
+                    if (batches.length <= 1) {
+                        this.sales[index].merchandise_batch_id = batches[0]?.id;
+                    }
                 }
             }));
         });
