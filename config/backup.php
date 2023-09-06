@@ -82,6 +82,13 @@ return [
             'databases' => [
                 'mysql',
             ],
+
+            'mysql' => [
+                 'dump' => [
+                      'useSingleTransaction' => true,
+                      'skipLockTables' => true,
+                  ],
+            ],
         ],
 
         /*
