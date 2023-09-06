@@ -790,8 +790,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment'))
-            @can('Read Product', 'Read Price', 'Read Price Increment')
+        @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Cost Update Management'))
+            @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Cost Update')
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -885,6 +885,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Brands
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Cost Update Management'))
+                                @can('Read Cost Update')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('cost-updates.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-tags"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Cost Updates
                                         </span>
                                     </div>
                                 @endcan

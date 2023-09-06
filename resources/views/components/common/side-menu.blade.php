@@ -803,8 +803,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
-        @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Brand')
+    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management'))
+        @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Brand', 'Read Cost Update')
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -890,6 +890,19 @@
                                         label="Brands"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('brands.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('brands.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Cost Update Management'))
+                            @can('Read Cost Update')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('cost-updates.index') }}"
+                                        label="Cost Updates"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('cost-updates.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('cost-updates.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
