@@ -74,15 +74,17 @@ class DebtImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRe
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $rows = collect($validator->getData())->unique('supplier_name');
+            $rows = collect($validator->getData())->unique('supplier_name')->toArray();
 
-            foreach ($rows as $key => $row) {
-                $supplier = Supplier::where('company_name', $row['supplier_name'])->first();
+            foreach (array_chunk($rows, 50) as $chunkedRows) {
+                foreach ($chunkedRows as $key => $row) {
+                    $supplier = Supplier::where('company_name', $row['supplier_name'])->first();
 
-                $debtAmount = collect($validator->getData())->where('supplier_name', $row['supplier_name'])->sum('debt_amount');
+                    $debtAmount = collect($validator->getData())->where('supplier_name', $row['supplier_name'])->sum('debt_amount');
 
-                if ($supplier && $supplier->hasReachedDebtLimit($debtAmount)) {
-                    $validator->errors()->add($key, 'The supplier "' . $supplier->company_name . '" has exceeded the debt amount limit.');
+                    if ($supplier && $supplier->hasReachedDebtLimit($debtAmount)) {
+                        $validator->errors()->add($key, 'You have has exceeded your debt limit with "' . $supplier->company_name . '".');
+                    }
                 }
             }
         });

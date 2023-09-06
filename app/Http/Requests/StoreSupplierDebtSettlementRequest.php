@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Debt;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreSupplierDebtSettlementRequest extends FormRequest
 {
@@ -15,7 +15,15 @@ class StoreSupplierDebtSettlementRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => ['numeric', 'gt:0', Rule::when($this->route('supplier')->debts()->sum('debt_amount') == $this->route('supplier')->debts()->sum('debt_amount_settled'), 'prohibited', 'required')],
+            'amount' => ['required', 'numeric', 'gt:0', function ($a, $value, $fail) {
+                $debtAmount = Debt::where('supplier_id', $this->route('supplier')->id)->unsettled()->sum('debt_amount');
+                $settledDebtAmount = Debt::where('supplier_id', $this->route('supplier')->id)->unsettled()->sum('debt_amount_settled');
+                $unsettledDebtAmount = $debtAmount - $settledDebtAmount;
+
+                if ($value > $unsettledDebtAmount) {
+                    $fail('The settlement amount has exceeded the debt amount.');
+                }
+            }],
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
