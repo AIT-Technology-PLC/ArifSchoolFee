@@ -21,7 +21,7 @@ class CostUpdateService
                 $quantity = Merchandise::where('product_id', $detail->product_id)->sum('available');
 
                 $product = Product::where('id', $detail->product_id)->first();
-
+              
                 InventoryValuationBalance::where('product_id', $detail->product_id)->where('type', 'average')->update(['quantity' => 0]);
 
                 InventoryValuationBalance::create([
@@ -36,7 +36,7 @@ class CostUpdateService
 
                 $currentTotalCostAverage = Product::where('id', $detail->product_id)->first()->average_unit_cost * $totalQuantityAverage;
 
-                $newAverageUnitCost = $totalQuantityAverage ? $currentTotalCostAverage / $totalQuantityAverage : 0;
+                $newAverageUnitCost = $totalQuantityAverage != 0? $currentTotalCostAverage / $totalQuantityAverage : 0;
 
                 $product->update(['average_unit_cost' => $newAverageUnitCost]);
 
