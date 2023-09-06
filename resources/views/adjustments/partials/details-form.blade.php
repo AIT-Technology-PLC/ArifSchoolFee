@@ -227,7 +227,7 @@
                 adjustments: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.init()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.init({{ Js::from($merchandiseBatches) }})]);
 
                     if (adjustment) {
                         this.adjustments = adjustment;

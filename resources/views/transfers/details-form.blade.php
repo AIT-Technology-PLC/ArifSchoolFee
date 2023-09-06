@@ -184,7 +184,7 @@
                 transfers: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.initAvailable()]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (transfer) {
                         this.transfers = transfer;

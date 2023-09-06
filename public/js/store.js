@@ -225,14 +225,8 @@ const BillOfMaterial = {
 const MerchandiseBatch = {
     merchandiseBatches: [],
 
-    async init() {
-        if (this.merchandiseBatches.length) {
-            return;
-        }
-
-        const response = await axios.get(`/api/merchandise-batches`);
-
-        this.merchandiseBatches = response.data;
+    init(merchandiseBatches) {
+        this.merchandiseBatches = merchandiseBatches;
     },
     all() {
         return this.merchandiseBatches;
@@ -244,8 +238,13 @@ const MerchandiseBatch = {
                 (!warehouseId || warehouseId == merchandiseBatch.warehouse_id)
         );
     },
-    async initAvailable() {
-        await Promise.resolve(MerchandiseBatch.init());
+    whereBatchId(merchandiseBatchId) {
+        return this.merchandiseBatches.find(
+            (merchandiseBatch) => merchandiseBatchId == merchandiseBatch.id
+        );
+    },
+    initAvailable(merchandiseBatches) {
+        this.init(merchandiseBatches);
 
         if (!this.merchandiseBatches.length) {
             return;
@@ -264,15 +263,18 @@ const MerchandiseBatch = {
 
         select.innerHTML = null;
 
-        let firstOption = new Option("Select Batch", "", false, "");
-        firstOption.disabled = true;
+        let firstOption = new Option("Select Batch", "", false, true);
+
+        firstOption.hidden = true;
         select.add(firstOption);
 
         merchandiseBatches.forEach((merchandiseBatch) => {
             let BatchNo = merchandiseBatch.name;
 
             if (merchandiseBatch.expires_on) {
-                BatchNo = `${BatchNo} (EXP. ${merchandiseBatch.expires_on})`;
+                BatchNo = `${BatchNo} (EXP. ${moment(
+                    merchandiseBatch.expires_on
+                ).format("LL")})`;
             }
 
             select.add(
