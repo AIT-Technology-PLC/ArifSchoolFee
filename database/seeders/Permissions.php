@@ -399,6 +399,15 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Custom Field']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Custom Field']);
 
+            // Cost Update
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Reject Cost Update']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Cost Update']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
