@@ -804,7 +804,7 @@
     @endif
 
     @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management'))
-        @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Brand', 'Read Cost Update')
+        @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Brand', 'Read Cost Update'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"

@@ -664,7 +664,7 @@
             @endif
 
             @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management'))
-                @can('Create Product', 'Create Price', 'Create Price Increment', 'Create Brand', 'Read Cost Update')
+                @canany(['Create Product', 'Create Price', 'Create Price Increment', 'Create Brand', 'Create Cost Update'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon

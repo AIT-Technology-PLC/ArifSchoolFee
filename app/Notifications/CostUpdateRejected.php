@@ -25,7 +25,7 @@ class CostUpdateRejected extends Notification
     {
         return [
             'icon' => 'tag',
-            'message' => 'Cost Update  has been rejected by ' . ucfirst($this->costUpdate->rejectedBy->name),
+            'message' => 'Cost Update has been rejected by ' . ucfirst($this->costUpdate->rejectedBy->name),
             'endpoint' => '/cost-updates/' . $this->costUpdate->id,
         ];
     }

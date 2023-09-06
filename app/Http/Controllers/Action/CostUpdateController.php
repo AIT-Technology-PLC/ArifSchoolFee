@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\RejectTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\CostUpdateImport;
 use App\Models\CostUpdate;
-use App\Notifications\CostUpdateRejected;
 use App\Services\Models\CostUpdateService;
 use Illuminate\Support\Facades\DB;
 
@@ -35,19 +33,11 @@ class CostUpdateController extends Controller
         return back()->with('successMessage', $message);
     }
 
-    public function reject(CostUpdate $costUpdate, RejectTransactionAction $action)
+    public function reject(CostUpdate $costUpdate)
     {
         $this->authorize('reject', $costUpdate);
 
-        if ($costUpdate->isApproved()) {
-            return back()->with('failedMessage', 'You can not reject a cost update that is approved.');
-        }
-
-        if ($costUpdate->isRejected()) {
-            return back()->with('failedMessage', 'This cost update is already rejected.');
-        }
-
-        [$isExecuted, $message] = $action->execute($costUpdate, new CostUpdateRejected($costUpdate), 'Read Cost Update');
+        [$isExecuted, $message] = $this->costUpdateService->reject($costUpdate);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

@@ -57,9 +57,9 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
             'product_category_name' => ['nullable', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
-            'average_unit_cost' => ['required', 'numeric', 'gte:0'],
-            'fifo_unit_cost' => ['nullable', 'numeric', 'gte:0'],
-            'lifo_unit_cost' => ['nullable', 'numeric', 'gte:0'],
+            'average_unit_cost' => ['required', 'numeric', 'gt:0'],
+            'fifo_unit_cost' => ['nullable', 'numeric', 'gt:0'],
+            'lifo_unit_cost' => ['nullable', 'numeric', 'gt:0'],
         ];
     }
 
@@ -74,11 +74,23 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function chunkSize(): int
     {
-        return 500;
+        return 50;
     }
 
     public function batchSize(): int
     {
-        return 500;
+        return 50;
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            collect($validator->getData())
+                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->keys()
+                ->chunk(50)
+                ->each
+                ->each(fn($key) => $validator->errors()->add($key, 'Product name by product code or vice versa is not registered.'));
+        });
     }
 }

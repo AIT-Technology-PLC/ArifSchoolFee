@@ -30,6 +30,7 @@ class CostUpdateDatatable extends DataTable
                     ->when($keyword == 'approved', fn($query) => $query->approved())
                     ->when($keyword == 'rejected', fn($query) => $query->rejected());
             })
+            ->editColumn('created at', fn($costUpdate) => $costUpdate->created_at->toFormattedDateString())
             ->editColumn('prepared by', fn($costUpdate) => $costUpdate->createdBy->name)
             ->editColumn('approved by', fn($costUpdate) => $costUpdate->approvedBy->name ?? 'N/A')
             ->editColumn('rejected by', fn($costUpdate) => $costUpdate->rejectedBy->name ?? 'N/A')
@@ -67,6 +68,7 @@ class CostUpdateDatatable extends DataTable
             Column::make('code')->className('has-text-centered')->title('Reference No'),
             Column::make('status')->orderable(false),
             Column::make('prepared by', 'createdBy.name'),
+            Column::make('created at'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('rejected by', 'rejectedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),

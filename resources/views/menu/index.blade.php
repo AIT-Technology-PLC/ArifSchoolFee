@@ -791,7 +791,7 @@
         @endif
 
         @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Cost Update Management'))
-            @can('Read Product', 'Read Price', 'Read Price Increment', 'Read Cost Update')
+            @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Cost Update'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
