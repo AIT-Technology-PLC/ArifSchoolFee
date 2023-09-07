@@ -36,17 +36,14 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function model(array $row)
     {
+        $product = Product::where('name', $row['product_name'])
+            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+            ->when(!empty($row['product_category_name']), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $row['product_category_name'])->id))
+            ->first();
+
         return new CostUpdateDetail([
             'cost_update_id' => $this->costUpdate->id,
-            'product_id' => $this->products
-                ->where('name', $row['product_name'])
-                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-                ->when(
-                    !is_null($row['product_category_name']) && $row['product_category_name'] != '',
-                    fn($q) => $q->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
-                )
-                ->first()
-                ->id,
+            'product_id' => $product->id,
             'average_unit_cost' => $row['average_unit_cost'],
             'fifo_unit_cost' => $row['fifo_unit_cost'] ?? null,
             'lifo_unit_cost' => $row['lifo_unit_cost'] ?? null,
@@ -99,8 +96,11 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
                 collect($validator->getData())
                     ->chunk(50)
                     ->each
-                    ->each(function ($detail, $key) use ($validator) {
-                        $product = Product::where('name', $detail['product_name'])->when(!empty($detail['product_code']), fn($q) => $q->where('code', $detail['product_code']))->first();
+                    ->each(function ($row, $key) use ($validator) {
+                        $product = Product::where('name', $row['product_name'])
+                            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                            ->when(!empty($row['product_category_name']), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $row['product_category_name'])->id))
+                            ->first();
 
                         if ($product) {
                             $quantity = Merchandise::where('product_id', $product->id)->sum('available');
