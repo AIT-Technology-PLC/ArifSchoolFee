@@ -7,7 +7,6 @@ use App\Actions\RejectTransactionAction;
 use App\Models\InventoryValuationBalance;
 use App\Models\InventoryValuationHistory;
 use App\Models\Merchandise;
-use App\Models\Product;
 use App\Notifications\CostUpdateApproved;
 use App\Notifications\CostUpdateRejected;
 use Illuminate\Support\Facades\DB;
@@ -19,22 +18,25 @@ class CostUpdateService
         return DB::transaction(function () use ($costUpdate) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($costUpdate, CostUpdateApproved::class, 'Read Cost Update');
 
+            if (!$isExecuted) {
+                DB::rollBack();
+                return [$isExecuted, $message];
+            }
+
             foreach ($costUpdate->costUpdateDetails as $detail) {
-                $quantity = Merchandise::withoutGlobalScopes([BranchScope::class])->where('product_id', $detail->product_id)->sum('available');
+                if ($detail->product->inventoryValuationHistories()->exists()) {
+                    DB::rollBack();
+                    return [false, $detail->product->name . ' has cost histories which can not be overridden.'];
+                }
 
-                $product = Product::where('id', $detail->product_id)->first();
+                $quantity = Merchandise::where('product_id', $detail->product_id)->sum('available');
 
-                InventoryValuationBalance::where('product_id', $detail->product_id)->where('type', 'average')->where('quantity', '>', 0)->update(['quantity' => 0]);
+                if ($quantity == 0) {
+                    DB::rollBack();
+                    return [false, $detail->product->name . ' is not available in inventory thus can not have cost.'];
+                }
 
-                InventoryValuationBalance::create([
-                    'type' => 'average',
-                    'product_id' => $detail->product_id,
-                    'quantity' => $quantity,
-                    'original_quantity' => $quantity,
-                    'unit_cost' => $detail->average_unit_cost,
-                ]);
-
-                $product->update(['average_unit_cost' => $detail->average_unit_cost]);
+                $detail->product->update(['average_unit_cost' => $detail->average_unit_cost]);
 
                 InventoryValuationHistory::create([
                     'type' => 'average',
@@ -43,11 +45,9 @@ class CostUpdateService
                 ]);
 
                 foreach (['fifo', 'lifo'] as $method) {
-                    if ($detail->{$method . '_unit_cost'} == null) {
-                        continue;
+                    if (is_null($detail->{$method . '_unit_cost'})) {
+                        $detail->{$method . '_unit_cost'} = $detail->average_unit_cost;
                     }
-
-                    InventoryValuationBalance::where('product_id', $detail->product_id)->where('type', $method)->where('quantity', '>', 0)->update(['quantity' => 0]);
 
                     InventoryValuationBalance::create([
                         'type' => $method,
@@ -57,7 +57,7 @@ class CostUpdateService
                         'unit_cost' => $detail->{$method . '_unit_cost'},
                     ]);
 
-                    $product->update([$method . '_unit_cost' => $detail->{$method . '_unit_cost'}]);
+                    $detail->product->update([$method . '_unit_cost' => $detail->{$method . '_unit_cost'}]);
 
                     InventoryValuationHistory::create([
                         'type' => $method,
@@ -65,11 +65,6 @@ class CostUpdateService
                         'unit_cost' => $detail->{$method . '_unit_cost'},
                     ]);
                 }
-            }
-
-            if (!$isExecuted) {
-                DB::rollBack();
-                return [$isExecuted, $message];
             }
 
             return [true, $message];

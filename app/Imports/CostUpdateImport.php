@@ -3,6 +3,8 @@
 namespace App\Imports;
 
 use App\Models\CostUpdateDetail;
+use App\Models\InventoryValuationHistory;
+use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
@@ -84,13 +86,34 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
-                ->keys()
-                ->chunk(50)
-                ->each
-                ->each(fn($key) => $validator->errors()->add($key, 'Product name by product code or vice versa is not registered.'));
-        });
+        $validator
+            ->after(function ($validator) {
+                collect($validator->getData())
+                    ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                    ->keys()
+                    ->chunk(50)
+                    ->each
+                    ->each(fn($key) => $validator->errors()->add($key, 'Product name by product code or vice versa is not registered.'));
+            })
+            ->after(function ($validator) {
+                collect($validator->getData())
+                    ->chunk(50)
+                    ->each
+                    ->each(function ($detail, $key) use ($validator) {
+                        $product = Product::where('name', $detail['product_name'])->when(!empty($detail['product_code']), fn($q) => $q->where('code', $detail['product_code']))->first();
+
+                        if ($product) {
+                            $quantity = Merchandise::where('product_id', $product->id)->sum('available');
+
+                            if ($quantity == 0) {
+                                $validator->errors()->add($key, 'Products that have no quantity can not have cost.');
+                            }
+
+                            if (InventoryValuationHistory::where('product_id', $product->id)->exists()) {
+                                $validator->errors()->add($key, 'This product has cost histories which can not be overridden.');
+                            }
+                        }
+                    });
+            });
     }
 }
