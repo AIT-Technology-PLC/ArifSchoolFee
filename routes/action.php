@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Action as Action;
+use Illuminate\Support\Facades\Route;
 
 // Permissions
 Route::get('/employees/{employee}/permissions/edit',
@@ -528,3 +528,16 @@ Route::post('/credits/import',
 Route::post('/debts/import',
     [Action\DebtController::class, 'import'])
     ->name('debts.import');
+
+// Cost Update
+Route::post('/cost-updates/{costUpdate}/approve',
+    [Action\CostUpdateController::class, 'approve'])
+    ->name('cost-updates.approve');
+
+Route::post('/cost-updates/{costUpdate}/reject',
+    [Action\CostUpdateController::class, 'reject'])
+    ->name('cost-updates.reject');
+
+Route::post('/cost-updates/import',
+    [Action\CostUpdateController::class, 'import'])
+    ->name('cost-updates.import');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CostUpdateDetail;
 use App\Models\InventoryValuationBalance;
 use App\Models\InventoryValuationHistory;
 use App\Models\Tax;
@@ -52,6 +53,7 @@ class Product extends Model
         'productReorders',
         'inventoryValuationHistories',
         'inventoryValuationBalances',
+        'costUpdateDetails',
     ];
 
     protected static function booted()
@@ -331,5 +333,10 @@ class Product extends Model
     public function isTypeProduct()
     {
         return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
+    }
+
+    public function costUpdateDetails()
+    {
+        return $this->hasMany(CostUpdateDetail::class);
     }
 }

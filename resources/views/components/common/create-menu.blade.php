@@ -663,8 +663,8 @@
                 @endcan
             @endif
 
-            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management'))
-                @can('Create Product', 'Create Price', 'Create Price Increment', 'Create Brand')
+            @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management'))
+                @canany(['Create Product', 'Create Price', 'Create Price Increment', 'Create Brand', 'Create Cost Update'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -745,6 +745,23 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Brand </span>
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Cost Update Management'))
+                                @can('Create Cost Update')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('cost-updates.create') }}"
+                                            icon="fas fa-tags"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Cost Update </span>
                                         </span>
                                     </div>
                                 @endcan

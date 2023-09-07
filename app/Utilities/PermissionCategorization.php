@@ -181,6 +181,10 @@ class PermissionCategorization
             'label' => 'Customer Deposit',
             'feature' => 'Customer Deposit Management',
         ],
+        'cost update' => [
+            'label' => 'Cost Update',
+            'feature' => 'Cost Update Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)
