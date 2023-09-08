@@ -339,4 +339,14 @@ class Product extends Model
     {
         return $this->hasMany(CostUpdateDetail::class);
     }
+
+    public function hasCost()
+    {
+        return !empty($this->average_unit_cost);
+    }
+
+    public function hasQuantity()
+    {
+        return $this->merchandises()->available()->exists();
+    }
 }

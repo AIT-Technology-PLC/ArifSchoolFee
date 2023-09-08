@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\InventoryValuationHistory;
-use App\Models\Merchandise;
 use App\Models\Product;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\UniqueReferenceNum;
@@ -33,13 +31,13 @@ class StoreCostUpdateRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('cost_updates'), new CanEditReferenceNumber('cost_updates')],
             'costUpdate' => ['required', 'array'],
             'costUpdate.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id')), function ($a, $value, $fail) {
-                $quantity = Merchandise::where('product_id', $value)->sum('available');
+                $product = Product::find($value);
 
-                if ($quantity == 0) {
+                if (!$product->hasQuantity()) {
                     $fail('Products that have no quantity can not have cost.');
                 }
 
-                if (InventoryValuationHistory::where('product_id', $value)->exists()) {
+                if ($product->hasCost()) {
                     $fail('This product has cost histories which can not be overridden.');
                 }
             }],

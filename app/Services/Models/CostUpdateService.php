@@ -24,17 +24,17 @@ class CostUpdateService
             }
 
             foreach ($costUpdate->costUpdateDetails as $detail) {
-                if ($detail->product->inventoryValuationHistories()->exists()) {
+                if ($detail->product->hasCost()) {
                     DB::rollBack();
                     return [false, $detail->product->name . ' has cost histories which can not be overridden.'];
                 }
 
-                $quantity = Merchandise::where('product_id', $detail->product_id)->sum('available');
-
-                if ($quantity == 0) {
+                if (!$detail->product->hasQuantity()) {
                     DB::rollBack();
                     return [false, $detail->product->name . ' is not available in inventory thus can not have cost.'];
                 }
+
+                $quantity = Merchandise::where('product_id', $detail->product_id)->sum('available');
 
                 $detail->product->update(['average_unit_cost' => $detail->average_unit_cost]);
 

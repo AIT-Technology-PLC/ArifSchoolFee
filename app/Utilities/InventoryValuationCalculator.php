@@ -11,6 +11,12 @@ class InventoryValuationCalculator
 {
     public static function calculate($detail, $operation = 'subtract')
     {
+        $product = Product::find($detail['product_id']);
+
+        if (!$product->hasCost() && $product->hasQuantity()) {
+            return;
+        }
+
         static::calcuateForLifoOrFifo($detail, $operation);
 
         if ($operation == 'add') {

@@ -3,8 +3,6 @@
 namespace App\Imports;
 
 use App\Models\CostUpdateDetail;
-use App\Models\InventoryValuationHistory;
-use App\Models\Merchandise;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
@@ -102,16 +100,12 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
                             ->when(!empty($row['product_category_name']), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $row['product_category_name'])->id))
                             ->first();
 
-                        if ($product) {
-                            $quantity = Merchandise::where('product_id', $product->id)->sum('available');
+                        if (!empty($product) && !$product->hasQuantity()) {
+                            $validator->errors()->add($key, 'Products that have no quantity can not have cost.');
+                        }
 
-                            if ($quantity == 0) {
-                                $validator->errors()->add($key, 'Products that have no quantity can not have cost.');
-                            }
-
-                            if (InventoryValuationHistory::where('product_id', $product->id)->exists()) {
-                                $validator->errors()->add($key, 'This product has cost histories which can not be overridden.');
-                            }
+                        if (!empty($product) && $product->hasCost()) {
+                            $validator->errors()->add($key, 'This product has cost histories which can not be overridden.');
                         }
                     });
             });
