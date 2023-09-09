@@ -16,11 +16,6 @@ class InventoryHistory extends Model
         'issued_on' => 'datetime',
     ];
 
-    public function merchandise()
-    {
-        return $this->belongsTo(Merchandise::class);
-    }
-
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
