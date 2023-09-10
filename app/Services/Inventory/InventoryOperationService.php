@@ -43,7 +43,7 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $to, false);
 
-            if ($model->canAffectInventoryValuation()) {
+            if ($model->canAffectInventoryValuation() && $to == 'available') {
                 InventoryValuationCalculator::calculate($detail, 'add');
             }
         }
@@ -70,7 +70,7 @@ class InventoryOperationService
 
             static::createInventoryHistory($model, $detail, $from);
 
-            if ($model->canAffectInventoryValuation()) {
+            if ($model->canAffectInventoryValuation() && $from == 'available') {
                 static::subtractFromInventoryValuationBalance($detail);
                 InventoryValuationCalculator::calculate($detail);
             }

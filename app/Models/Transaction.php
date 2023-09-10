@@ -144,4 +144,9 @@ class Transaction extends Model
 
         return !$this->isApproved() && !$this->isAdded() && !$this->isSubtracted() && $isDeletable;
     }
+
+    public function canAffectInventoryValuation()
+    {
+        return !$this->pad->isInventoryOperationNone();
+    }
 }

@@ -27,17 +27,21 @@ class InventoryValuationCalculator
     private static function calcuateForLifoOrFifo($detail, $operation)
     {
         foreach (['fifo', 'lifo'] as $method) {
+            $product = Product::where('id', $detail['product_id'])->first();
+
+            if (!isset($detail['unit_cost']) || $detail['unit_cost'] == 0) {
+                $detail['unit_cost'] = $detail->product[$method . '_unit_cost'];
+            }
+
             if ($operation == 'add') {
                 InventoryValuationBalance::create([
                     'type' => $method,
                     'product_id' => $detail['product_id'],
                     'quantity' => $detail['quantity'],
                     'original_quantity' => $detail['quantity'],
-                    'unit_cost' => $detail['unit_cost'] ?? $detail->product[$method . '_unit_cost'],
+                    'unit_cost' => $detail['unit_cost'],
                 ]);
             }
-
-            $product = Product::where('id', $detail['product_id'])->first();
 
             $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->selectRaw('SUM(quantity*unit_cost) as total_cost')->first()->total_cost;
 
@@ -58,6 +62,10 @@ class InventoryValuationCalculator
     private static function calcuateForAverage($detail)
     {
         $product = Product::where('id', $detail['product_id'])->first();
+
+        if (!isset($detail['unit_cost']) || $detail['unit_cost'] == 0) {
+            $detail['unit_cost'] = $product->average_unit_cost;
+        }
 
         $totalQuantity = Merchandise::where('product_id', $detail['product_id'])->sum('available');
 
