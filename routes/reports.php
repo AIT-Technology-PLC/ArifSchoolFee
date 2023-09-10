@@ -17,3 +17,5 @@ Route::get('/reports/inventory-transfer', [Report\InventoryTransferReportControl
 Route::get('/reports/credits', [Report\CreditReportController::class,'index'])->name('reports.credit');
 Route::get('/reports/inventory-summary', [Report\InventorySummaryReportController::class,'index'])->name('reports.inventory_summary');
 Route::get('/reports/inventory-valuation', [Report\InventoryValuationReportController::class,'index'])->name('reports.inventory_valuation');
+Route::get('/reports/profit', [Report\ProfitReportController::class, 'index'])->name('reports.profit');
+
