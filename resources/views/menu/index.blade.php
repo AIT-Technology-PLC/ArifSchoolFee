@@ -1081,8 +1081,22 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report', 'Inventory Summary Report', 'Inventory Valuation Report'))
-            @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report', 'Read Inventory Summary Report', 'Read Inventory Valuation Report'])
+        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report', 'Inventory Summary Report', 'Inventory Valuation Report', 'Profit Report'))
+            @canany([
+                'Read Sale Report',
+                'Read Return Report',
+                'Read Expense Report',
+                'Read Customer Report',
+                'Read Daily Inventory Report',
+                'Read Credit',
+                'Read Debt',
+                'Read Inventory Transfer Report',
+                'Read Credit Report',
+                'Read Inventory Summary Report',
+                'Read Inventory Valuation Report',
+                'Read
+                Profit Report',
+                ])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -1300,6 +1314,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Inventory Summary
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Profit Report'))
+                                @can('Read Profit Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.profit') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-hand-holding-dollar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Profit
                                         </span>
                                     </div>
                                 @endcan
