@@ -60,32 +60,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.label>
-                            Branch
-                        </x-forms.label>
-                        <x-forms.field class="has-text-centered">
-                            <x-forms.control>
-                                <x-forms.select
-                                    id="branches"
-                                    name="branches"
-                                    class="is-size-7-mobile is-fullwidth"
-                                >
-                                    <option disabled> Branches </option>
-                                    <option
-                                        value=""
-                                        @selected(request('branches') == '')
-                                    > All </option>
-                                    @foreach ($warehouses as $warehouse)
-                                        <option
-                                            value="{{ $warehouse->id }}"
-                                            @selected(request('branches') == $warehouse->id)
-                                        > {{ $warehouse->name }} </option>
-                                    @endforeach
-                                </x-forms.select>
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                 </div>
             </div>
         </div>
@@ -128,7 +102,7 @@
                 label="Ending Inventory Cost"
             ></x-common.index-insight>
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
                 :amount="number_format($profitReport->getTotalRevenueBeforeTax, 2)"
@@ -137,13 +111,22 @@
                 label="Revenue"
             ></x-common.index-insight>
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.index-insight
                 label-text-size="is-size-6"
-                :amount="number_format($profitReport->getTotalRevenueBeforeTax - $profitReport->getCostOfGoodsSold, 2)"
+                :amount="number_format($profitReport->getProfit, 2)"
                 border-color="#fff"
                 text-color="text-green"
                 label="Profit"
+            ></x-common.index-insight>
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.index-insight
+                label-text-size="is-size-6"
+                amount="{{ number_format($profitReport->getProfitMarginInPercentage, 2) }}%"
+                border-color="#fff"
+                text-color="text-green"
+                label="Profit Margin (%)"
             ></x-common.index-insight>
         </div>
         <div class="column is-12 p-lr-0">
@@ -169,9 +152,10 @@
                         <th><abbr> Product </abbr></th>
                         <th><abbr> Code </abbr></th>
                         <th><abbr> Unit </abbr></th>
-                        <th class="has-text-right"><abbr> Cost </abbr></th>
+                        <th class="has-text-right"><abbr> Cost of Goods Sold </abbr></th>
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                         <th class="has-text-right"><abbr> Profit </abbr></th>
+                        <th class="has-text-right"><abbr> Margin </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($profitReport->getProfitByProducts as $getProfitByProduct)
@@ -182,7 +166,8 @@
                                 <td> {{ $getProfitByProduct->product_unit_of_measurement }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByProduct->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByProduct->revenue, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($getProfitByProduct->revenue - $getProfitByProduct->total_cost, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($getProfitByProduct->profit, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format(($getProfitByProduct->profit / $getProfitByProduct->revenue) * 100, 2) }}% </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -210,9 +195,10 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Branch </abbr></th>
-                        <th class="has-text-right"><abbr> Cost </abbr></th>
+                        <th class="has-text-right"><abbr> Cost of Goods Sold </abbr></th>
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                         <th class="has-text-right"><abbr> Profit </abbr></th>
+                        <th class="has-text-right"><abbr> Margin </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($profitReport->getProfitByBranches as $getProfitByBranch)
@@ -221,7 +207,8 @@
                                 <td> {{ $getProfitByBranch->branch_name }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByBranch->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByBranch->revenue, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($getProfitByBranch->revenue - $getProfitByBranch->total_cost, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($getProfitByBranch->profit, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format(($getProfitByBranch->profit / $getProfitByBranch->revenue) * 100, 2) }}% </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -249,9 +236,10 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Category </abbr></th>
-                        <th class="has-text-right"><abbr> Cost </abbr></th>
+                        <th class="has-text-right"><abbr> Cost of Goods Sold </abbr></th>
                         <th class="has-text-right"><abbr> Revenue </abbr></th>
                         <th class="has-text-right"><abbr> Profit </abbr></th>
+                        <th class="has-text-right"><abbr> Margin </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($profitReport->getProfitByCategories as $getProfitByCategory)
@@ -260,7 +248,8 @@
                                 <td> {{ $getProfitByCategory->product_category_name }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByCategory->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByCategory->revenue, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($getProfitByCategory->revenue - $getProfitByCategory->total_cost, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format($getProfitByCategory->profit, 2) }} </td>
+                                <td class="has-text-right"> {{ number_format(($getProfitByCategory->profit / $getProfitByCategory->revenue) * 100, 2) }}% </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -289,9 +278,10 @@
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
                             <th><abbr> Brand </abbr></th>
-                            <th class="has-text-right"><abbr> Cost </abbr></th>
+                            <th class="has-text-right"><abbr> Cost of Goods Sold </abbr></th>
                             <th class="has-text-right"><abbr> Revenue </abbr></th>
                             <th class="has-text-right"><abbr> Profit </abbr></th>
+                            <th class="has-text-right"><abbr> Margin </abbr></th>
                         </x-slot>
                         <x-slot name="body">
                             @foreach ($profitReport->getProfitByBrands as $getProfitByBrand)
@@ -301,7 +291,8 @@
                                     <td> {{ $getProfitByBrand->brand_name }} </td>
                                     <td class="has-text-right"> {{ number_format($getProfitByBrand->total_cost, 2) }} </td>
                                     <td class="has-text-right"> {{ number_format($getProfitByBrand->revenue, 2) }} </td>
-                                    <td class="has-text-right"> {{ number_format($getProfitByBrand->revenue - $getProfitByBrand->total_cost, 2) }} </td>
+                                    <td class="has-text-right"> {{ number_format($getProfitByBrand->profit, 2) }} </td>
+                                    <td class="has-text-right"> {{ number_format(($getProfitByBrand->profit / $getProfitByBrand->revenue) * 100, 2) }}% </td>
                                 </tr>
                             @endforeach
                         </x-slot>

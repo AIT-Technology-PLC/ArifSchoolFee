@@ -41,6 +41,16 @@ class ProfitReport
         return (clone $this->details)->sum('line_price_before_tax');
     }
 
+    public function getProfit()
+    {
+        return $this->getTotalRevenueBeforeTax - $this->getCostOfGoodsSold;
+    }
+
+    public function getProfitMarginInPercentage()
+    {
+        return $this->getProfit / $this->getTotalRevenueBeforeTax * 100;
+    }
+
     public function getNewCosts()
     {
         return InventoryValuationBalance::query()
@@ -91,7 +101,15 @@ class ProfitReport
     public function getProfitByProducts()
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, product_name, product_code, product_unit_of_measurement')
+            ->selectRaw('
+                SUM(line_price_before_tax) AS revenue,
+                SUM(unit_cost*quantity) AS total_cost,
+                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(quantity) AS quantity,
+                product_name,
+                product_code,
+                product_unit_of_measurement
+            ')
             ->groupBy('product_id')
             ->orderByDesc('revenue')
             ->get();
@@ -100,7 +118,13 @@ class ProfitReport
     public function getProfitByCategories()
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, product_category_name')
+            ->selectRaw('
+                SUM(line_price_before_tax) AS revenue,
+                SUM(unit_cost*quantity) as total_cost,
+                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(quantity) AS quantity,
+                product_category_name
+            ')
             ->groupBy('product_category_id')
             ->orderByDesc('revenue')
             ->get();
@@ -109,7 +133,12 @@ class ProfitReport
     public function getProfitByBranches()
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, branch_name')
+            ->selectRaw('
+                SUM(line_price_before_tax) AS revenue,
+                SUM(unit_cost*quantity) as total_cost,
+                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                branch_name
+            ')
             ->groupBy('branch_id')
             ->orderByDesc('revenue')
             ->get();
@@ -118,7 +147,13 @@ class ProfitReport
     public function getProfitByBrands()
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, brand_name')
+            ->selectRaw('
+                SUM(line_price_before_tax) AS revenue,
+                SUM(unit_cost*quantity) as total_cost,
+                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(quantity) AS quantity,
+                brand_name
+            ')
             ->groupBy('brand_name')
             ->orderByDesc('revenue')
             ->get();
