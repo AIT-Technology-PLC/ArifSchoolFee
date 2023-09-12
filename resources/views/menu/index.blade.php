@@ -1094,8 +1094,7 @@
                 'Read Credit Report',
                 'Read Inventory Summary Report',
                 'Read Inventory Valuation Report',
-                'Read
-                Profit Report',
+                'Read Profit Report',
                 ])
                 <section class="mb-5">
                     <x-content.header>

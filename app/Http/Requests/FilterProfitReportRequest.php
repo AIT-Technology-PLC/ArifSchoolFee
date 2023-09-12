@@ -31,8 +31,6 @@ class FilterProfitReportRequest extends FormRequest
             'period' => ['required', 'array'],
             'period.*' => ['required', 'date'],
             'product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
-            'brand_id' => ['nullable', 'integer', new MustBelongToCompany('brands')],
-            'category_id' => ['nullable', 'integer', new MustBelongToCompany('product_categories')],
         ];
     }
 

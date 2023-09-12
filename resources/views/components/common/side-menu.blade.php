@@ -1066,8 +1066,7 @@
             'Read Credit Report',
             'Read Inventory Summary Report',
             'Read Inventory Valuation Report',
-            'Read
-            Profit Report',
+            'Read Profit Report',
             ])
             <ul
                 x-data="sideMenuAccordion"

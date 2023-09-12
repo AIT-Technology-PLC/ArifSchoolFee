@@ -8,13 +8,14 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Reports\ProfitReport;
-use App\Reports\SaleReport;
 
 class ProfitReportController extends Controller
 {
     public function __construct()
     {
         $this->middleware('isFeatureAccessible:Profit Report');
+        turnOffPreparedStatementEmulation();
+        turnOffMysqlStictMode();
     }
 
     public function index(FilterProfitReportRequest $request)
@@ -29,10 +30,8 @@ class ProfitReportController extends Controller
 
         $brands = Brand::orderBy('name')->get();
 
-        $profitReports = new ProfitReport($request->validated());
+        $profitReport = new ProfitReport($request->validated());
 
-        $saleReport = new SaleReport($request->validated());
-
-        return view('reports.profit', compact('warehouses', 'saleReport', 'profitReports', 'categories', 'products', 'brands'));
+        return view('reports.profit', compact('warehouses', 'profitReport', 'categories', 'products', 'brands'));
     }
 }

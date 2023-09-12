@@ -2,14 +2,14 @@
 
 namespace App\Reports;
 
-use App\Models\InventoryHistory;
 use App\Models\InventoryValuationBalance;
+use App\Models\Product;
 
 class ProfitReport
 {
-    private $query;
-
     private $filters;
+
+    private $details;
 
     public function __construct($filters)
     {
@@ -29,121 +29,98 @@ class ProfitReport
 
     private function setQuery()
     {
-        $this->query = InventoryHistory::query()
-            ->join('products', 'inventory_histories.product_id', '=', 'products.id')
-            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-            ->join('warehouses', 'inventory_histories.warehouse_id', '=', 'warehouses.id')
-            ->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
-            ->whereIn('warehouses.id', authUser()->getAllowedWarehouses('read')->pluck('id'))
-            ->where('products.type', '!=', 'Services')
-            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('inventory_histories.warehouse_id', $this->filters['branches']))
-            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('inventory_histories.issued_on', '>=', $this->filters['period'][0])->whereDate('inventory_histories.issued_on', '<=', $this->filters['period'][1]))
-            ->when(isset($this->filters['product_id']), fn($q) => $q->where('inventory_histories.product_id', $this->filters['product_id']))
-            ->when(isset($this->filters['brand_id']), fn($q) => $q->where('brand_id', $this->filters['brand_id']))
-            ->when(isset($this->filters['category_id']), fn($q) => $q->where('product_category_id', $this->filters['category_id']));
+        $source = ReportSource::getSalesReportInput($this->filters);
+
+        $this->details = $source['details'];
+
+        $this->master = $source['master'];
+    }
+
+    public function getTotalRevenueBeforeTax()
+    {
+        return (clone $this->details)->sum('line_price_before_tax');
     }
 
     public function getNewCosts()
     {
-        return InventoryValuationBalance::where('type', 'fifo')->when(isset($this->filters['period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['period'][0])->whereDate('created_at', '<=', $this->filters['period'][1]))->selectRaw('SUM(original_quantity*unit_cost) as total_cost')->first()->total_cost;
+        return InventoryValuationBalance::query()
+            ->when(isset($this->filters['product_id']), fn($query) => $query->where('product_id', $this->filters['product_id']))
+            ->where('type', 'lifo')
+            ->where('created_at', '>=', carbon($this->filters['period'][0])->startOfDay())
+            ->where('created_at', '<=', carbon($this->filters['period'][1])->endOfDay())
+            ->selectRaw('SUM(original_quantity*unit_cost) AS total_cost')
+            ->first()
+            ->total_cost;
     }
 
     public function getBeginningInventoryCost()
     {
-        return $this->query
-            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('inventory_histories.issued_on', '>', $this->filters['period'][0]))
-            ->selectRaw('SUM(CASE
-                        WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                        WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                        WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                        ELSE 0
-                    END) AS total_valuation')
-            ->first();
+        return Product::inventoryType()
+            ->when(isset($this->filters['product_id']), fn($query) => $query->where('id', $this->filters['product_id']))
+            ->selectRaw("
+                SUM(
+                   (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = products.id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= '" . carbon($this->filters['period'][0])->startOfDay() . "' AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.id DESC LIMIT 1)
+                   *
+                   (SELECT SUM(CASE WHEN inventory_histories.is_subtract = 1 THEN inventory_histories.quantity*(-1) ELSE inventory_histories.quantity END) FROM inventory_histories WHERE inventory_histories.product_id = products.id AND inventory_histories.issued_on < '" . carbon($this->filters['period'][0])->startOfDay() . "' AND inventory_histories.deleted_at IS NULL GROUP BY inventory_histories.product_id)
+                ) AS total_cost
+            ")
+            ->first()
+            ->total_cost;
     }
 
     public function getEndingInventoryCost()
     {
-        return $this->query
-            ->when(isset($this->filters['period']), fn($q) => $q->whereDate('inventory_histories.issued_on', '<=', $this->filters['period'][1]))
-            ->selectRaw('SUM(CASE
-                        WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                        WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                        WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                        ELSE 0
-                    END) AS total_valuation')
-            ->first();
+        return Product::inventoryType()
+            ->when(isset($this->filters['product_id']), fn($query) => $query->where('id', $this->filters['product_id']))
+            ->selectRaw("
+                SUM(
+                   (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = products.id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= '" . carbon($this->filters['period'][1])->endOfDay() . "' AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.id DESC LIMIT 1)
+                   *
+                   (SELECT SUM(CASE WHEN inventory_histories.is_subtract = 1 THEN inventory_histories.quantity*(-1) ELSE inventory_histories.quantity END) FROM inventory_histories WHERE inventory_histories.product_id = products.id AND inventory_histories.issued_on <= '" . carbon($this->filters['period'][1])->endOfDay() . "' AND inventory_histories.deleted_at IS NULL GROUP BY inventory_histories.product_id)
+                ) AS total_cost
+            ")
+            ->first()
+            ->total_cost;
     }
 
     public function getCostOfGoodsSold()
     {
-        return $this->getBeginningInventoryCost->total_valuation + $this->getNewCosts() - $this->getEndingInventoryCost()->total_valuation;
+        return ($this->getBeginningInventoryCost + $this->getNewCosts) - $this->getEndingInventoryCost;
     }
 
     public function getProfitByProducts()
     {
-        return (clone $this->query)
-            ->selectRaw('
-                products.name AS product_name,
-                SUM(
-                    CASE WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                        WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                        WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                        ELSE 0
-                    END
-                ) AS total_cost
-            ')
-            ->groupBy('product_id', 'product_name')
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, product_name, product_code, product_unit_of_measurement')
+            ->groupBy('product_id')
+            ->orderByDesc('revenue')
             ->get();
     }
 
     public function getProfitByCategories()
     {
-        return (clone $this->query)
-            ->selectRaw('
-            product_categories.name AS category_name,
-            SUM(
-                CASE WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                    WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                    WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                    ELSE 0
-                END
-            ) AS total_cost
-        ')
-            ->groupBy('product_categories.name')
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, product_category_name')
+            ->groupBy('product_category_id')
+            ->orderByDesc('revenue')
             ->get();
     }
 
-    public function getProfitByBranchs()
+    public function getProfitByBranches()
     {
-        return (clone $this->query)
-            ->selectRaw('
-            warehouses.name AS branch_name,
-            SUM(
-                CASE WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                    WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                    WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                    ELSE 0
-                END
-            ) AS total_cost
-        ')
-            ->groupBy('warehouses.name')
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, branch_name')
+            ->groupBy('branch_id')
+            ->orderByDesc('revenue')
             ->get();
     }
 
     public function getProfitByBrands()
     {
-        return (clone $this->query)
-            ->selectRaw('
-            brands.name AS brand_name,
-            SUM(
-                CASE WHEN products.inventory_valuation_method = "fifo" THEN inventory_histories.quantity * products.fifo_unit_cost
-                    WHEN products.inventory_valuation_method = "lifo" THEN inventory_histories.quantity * products.lifo_unit_cost
-                    WHEN products.inventory_valuation_method = "average" THEN inventory_histories.quantity * products.average_unit_cost
-                    ELSE 0
-                END
-            ) AS total_cost
-        ')
-            ->groupBy('brands.name')
+        return (clone $this->details)
+            ->selectRaw('SUM(line_price_before_tax) AS revenue, SUM(unit_cost*quantity) as total_cost, SUM(quantity) AS quantity, brand_name')
+            ->groupBy('brand_name')
+            ->orderByDesc('revenue')
             ->get();
     }
 }
