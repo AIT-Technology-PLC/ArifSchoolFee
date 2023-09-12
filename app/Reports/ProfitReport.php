@@ -104,7 +104,7 @@ class ProfitReport
             ->selectRaw('
                 SUM(line_price_before_tax) AS revenue,
                 SUM(unit_cost*quantity) AS total_cost,
-                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                COALESCE(SUM(line_price_before_tax) - SUM(unit_cost*quantity), 0) AS profit,
                 SUM(quantity) AS quantity,
                 product_name,
                 product_code,
@@ -120,8 +120,8 @@ class ProfitReport
         return (clone $this->details)
             ->selectRaw('
                 SUM(line_price_before_tax) AS revenue,
-                SUM(unit_cost*quantity) as total_cost,
-                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(unit_cost*quantity) AS total_cost,
+                COALESCE(SUM(line_price_before_tax) - SUM(unit_cost*quantity), 0) AS profit,
                 SUM(quantity) AS quantity,
                 product_category_name
             ')
@@ -135,8 +135,8 @@ class ProfitReport
         return (clone $this->details)
             ->selectRaw('
                 SUM(line_price_before_tax) AS revenue,
-                SUM(unit_cost*quantity) as total_cost,
-                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(unit_cost*quantity) AS total_cost,
+                COALESCE(SUM(line_price_before_tax) - SUM(unit_cost*quantity), 0) AS profit,
                 branch_name
             ')
             ->groupBy('branch_id')
@@ -149,8 +149,8 @@ class ProfitReport
         return (clone $this->details)
             ->selectRaw('
                 SUM(line_price_before_tax) AS revenue,
-                SUM(unit_cost*quantity) as total_cost,
-                SUM(line_price_before_tax) - SUM(unit_cost*quantity) AS profit,
+                SUM(unit_cost*quantity) AS total_cost,
+                COALESCE(SUM(line_price_before_tax) - SUM(unit_cost*quantity), 0) AS profit,
                 SUM(quantity) AS quantity,
                 brand_name
             ')
