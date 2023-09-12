@@ -123,7 +123,7 @@ class InventoryOperationService
 
             $inventoryValuationBalances = InventoryValuationBalance::available()->where('product_id', $detail['product_id'])
                 ->where('type', $method)
-                ->orderBy('created_at', $method == 'fifo' ? 'asc' : 'desc')
+                ->orderBy('id', $method == 'fifo' ? 'asc' : 'desc')
                 ->get();
 
             foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
