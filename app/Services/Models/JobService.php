@@ -52,16 +52,16 @@ class JobService
 
                 $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity, $job, $i) {
                     $detail['quantity'] = $detail['quantity'] * $quantity;
-                    $detail['model_type'] = get_class($job->jobDetails[$i]);
-                    $detail['model_id'] = $job->jobDetails[$i]->id;
 
                     return $detail;
-                });
+                })->toArray();
 
-                foreach ($details as $detail) {
-                    foreach ($detail as $detaill) {
+                foreach ($details as &$detail) {
+                    foreach ($detail as &$detaill) {
                         $detaill['type'] = "subtracted";
-                        $job->jobDetails[$i]->jobDetailHistories()->create($detaill);
+                        $jobHistory = $job->jobDetails[$i]->jobDetailHistories()->create($detaill);
+                        $detaill['model_type'] = get_class($jobHistory);
+                        $detaill['model_id'] = $jobHistory->id;
                     }
                 }
 
@@ -69,8 +69,6 @@ class JobService
                     'product_id' => $data[$i]['product_id'],
                     'quantity' => $data[$i]['wip'],
                     'warehouse_id' => $job->factory_id,
-                    'model_type' => get_class($job->jobDetails[$i]),
-                    'model_id' => $job->jobDetails[$i]->id,
                 ];
             }
 
@@ -140,33 +138,35 @@ class JobService
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                         'type' => 'added',
-                        'model_type' => get_class($job->jobDetails[$i]),
-                        'model_id' => $job->jobDetails[$i]->id,
                     ];
 
-                    $wipDetails[$i] = [
-                        'product_id' => $data[$i]['product_id'],
-                        'quantity' => $job->jobDetails[$i]->wip,
-                        'warehouse_id' => $job->factory_id,
-                    ];
+                    if ($job->jobDetails[$i]->wip > 0) {
+                        $wipDetails[$i] = [
+                            'product_id' => $data[$i]['product_id'],
+                            'quantity' => $job->jobDetails[$i]->wip,
+                            'warehouse_id' => $job->factory_id,
+                        ];
+                    }
 
                     $job->jobDetails[$i]->update(Arr::only($availableDetails[$i], ['product_id', 'wip', 'available']));
-                    $job->jobDetails[$i]->jobDetailHistories()->create(Arr::only($availableDetails[$i], ['product_id', 'type']) + ['quantity' => $data[$i]['available']]);
+                    $jobHistory = $job->jobDetails[$i]->jobDetailHistories()->create(Arr::only($availableDetails[$i], ['product_id', 'type']) + ['quantity' => $data[$i]['available']]);
+                    $availableDetails[$i]['model_type'] = get_class($jobHistory);
+                    $availableDetails[$i]['model_id'] = $jobHistory->id;
 
                     $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
                     $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
 
                     $details[$i] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity, $job, $i) {
                         $detail['quantity'] = $detail['quantity'] * $quantity;
-                        $detail['model_type'] = get_class($job->jobDetails[$i]);
-                        $detail['model_id'] = $job->jobDetails[$i]->id;
 
                         return $detail;
-                    });
+                    })->toArray();
 
-                    foreach ($details[$i] as $detail) {
+                    foreach ($details[$i] as &$detail) {
                         $detail['type'] = "subtracted";
-                        $job->jobDetails[$i]->jobDetailHistories()->create($detail);
+                        $jobHistory = $job->jobDetails[$i]->jobDetailHistories()->create($detail);
+                        $detail['model_type'] = get_class($jobHistory);
+                        $detail['model_id'] = $jobHistory->id;
                     }
                 }
 
@@ -180,12 +180,12 @@ class JobService
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                         'type' => 'added',
-                        'model_type' => get_class($job->jobDetails[$i]),
-                        'model_id' => $job->jobDetails[$i]->id,
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));
-                    $job->jobDetails[$i]->jobDetailHistories()->create($wipDetails[$i]);
+                    $jobHistory = $job->jobDetails[$i]->jobDetailHistories()->create($wipDetails[$i]);
+                    $wipDetails[$i]['model_type'] = get_class($jobHistory);
+                    $wipDetails[$i]['model_id'] = $jobHistory->id;
                 }
             }
 
