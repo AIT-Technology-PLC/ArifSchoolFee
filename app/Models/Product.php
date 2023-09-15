@@ -215,6 +215,13 @@ class Product extends Model
         );
     }
 
+    public function unitCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->{$this->inventory_valuation_method . '_unit_cost'},
+        );
+    }
+
     public function isProductLimited($onHandQuantity, $warehouseId)
     {
         return $this->getReorderQuantity($warehouseId) >= $onHandQuantity;

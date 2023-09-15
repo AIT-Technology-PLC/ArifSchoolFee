@@ -20,7 +20,8 @@ class BillOfMaterialDetailDatatable extends DataTable
             ->editColumn('quantity', function ($billOfMaterialDetail) {
                 return quantity($billOfMaterialDetail->quantity, $billOfMaterialDetail->product->unit_of_measurement);
             })
-
+            ->editColumn('unit_cost', fn($billOfMaterialDetail) => number_format($billOfMaterialDetail->product->unit_cost, 2))
+            ->editColumn('total_cost', fn($billOfMaterialDetail) => number_format($billOfMaterialDetail->product->unit_cost * $billOfMaterialDetail->quantity, 2))
             ->editColumn('actions', function ($billOfMaterialDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'bill-of-material-details',
@@ -49,6 +50,8 @@ class BillOfMaterialDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             Column::make('code', 'product.code'),
             Column::make('quantity'),
+            Column::computed('unit_cost'),
+            Column::computed('total_cost'),
             Column::computed('actions'),
         ];
 

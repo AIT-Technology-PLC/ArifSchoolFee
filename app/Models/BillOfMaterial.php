@@ -68,4 +68,23 @@ class BillOfMaterial extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function getUnitCost()
+    {
+        return $this
+            ->join('bill_of_material_details', 'bill_of_materials.id', '=', 'bill_of_material_details.bill_of_material_id')
+            ->join('products', 'bill_of_material_details.product_id', '=', 'products.id')
+            ->selectRaw('
+                SUM(
+                    CASE
+                        WHEN products.inventory_valuation_method = "fifo" THEN fifo_unit_cost
+                        WHEN products.inventory_valuation_method = "lifo" THEN lifo_unit_cost
+                        WHEN products.inventory_valuation_method = "average" THEN average_unit_cost
+                    ELSE 0
+                    END * bill_of_material_details.quantity
+                ) as unit_cost
+            ')
+            ->first()
+            ->unit_cost;
+    }
 }

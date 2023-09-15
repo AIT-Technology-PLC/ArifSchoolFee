@@ -142,6 +142,7 @@ class JobService
                         'type' => 'added',
                         'model_type' => get_class($job->jobDetails[$i]),
                         'model_id' => $job->jobDetails[$i]->id,
+                        'unit_cost' => $job->jobDetails[$i]->billOfMaterial->getUnitCost(),
                     ];
 
                     $wipDetails[$i] = [
@@ -182,6 +183,7 @@ class JobService
                         'type' => 'added',
                         'model_type' => get_class($job->jobDetails[$i]),
                         'model_id' => $job->jobDetails[$i]->id,
+                        'unit_cost' => $job->jobDetails[$i]->billOfMaterial->getUnitCost(),
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));

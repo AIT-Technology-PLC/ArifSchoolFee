@@ -35,6 +35,13 @@
                         label="Issued On"
                     />
                 </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar-day"
+                        :data="money($billOfMaterial->getUnitCost())"
+                        label="Unit Cost"
+                    />
+                </div>
             </div>
         </x-content.footer>
     </x-common.content-wrapper>

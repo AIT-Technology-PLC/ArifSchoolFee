@@ -29,8 +29,8 @@ class InventoryValuationCalculator
         foreach (['fifo', 'lifo'] as $method) {
             $product = Product::where('id', $detail['product_id'])->first();
 
-            if (!isset($detail['unit_cost']) || $detail['unit_cost'] == 0) {
-                $detail['unit_cost'] = $detail->product[$method . '_unit_cost'];
+            if ($operation == 'add' && (!isset($detail['unit_cost']) || $detail['unit_cost'] == 0)) {
+                $detail['unit_cost'] = $product->{$method . '_unit_cost'};
             }
 
             if ($operation == 'add') {
