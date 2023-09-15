@@ -54,7 +54,7 @@ class InventorySummaryReport
     public function getDamageReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Damage')
+            ->where('model_type', 'App\Models\DamageDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -70,7 +70,7 @@ class InventorySummaryReport
     public function getGrnReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Grn')
+            ->where('model_type', 'App\Models\GrnDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -86,7 +86,7 @@ class InventorySummaryReport
     public function getAdjustmentReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Adjustment')
+            ->where('model_type', 'App\Models\AdjustmentDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -102,7 +102,8 @@ class InventorySummaryReport
     public function getProductionReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Job')
+            ->where('model_type', 'App\Models\JobDetailHistory')
+            ->orWhere('model_type', 'App\Models\JobExtra')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -118,7 +119,7 @@ class InventorySummaryReport
     public function getTransferReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Transfer')
+            ->where('model_type', 'App\Models\TransferDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -135,7 +136,7 @@ class InventorySummaryReport
     public function getReturnReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Returnn')
+            ->where('model_type', 'App\Models\ReturnDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -151,7 +152,7 @@ class InventorySummaryReport
     public function getGdnReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Gdn')
+            ->where('model_type', 'App\Models\GdnDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -167,7 +168,7 @@ class InventorySummaryReport
     public function getSaleReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Sale')
+            ->where('model_type', 'App\Models\SaleDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -183,7 +184,7 @@ class InventorySummaryReport
     public function getReservationReports()
     {
         return (clone $this->query)
-            ->where('model_type', 'App\Models\Reservation')
+            ->where('model_type', 'App\Models\ReservationDetail')
             ->selectRaw('
                 warehouses.name AS branch_name,
                 products.name AS product_name,
@@ -199,9 +200,10 @@ class InventorySummaryReport
     public function getTransactionReports($padId)
     {
         return (clone $this->query)
-            ->join('transactions', 'inventory_histories.model_id', '=', 'transactions.id')
+            ->join('transaction_fields', 'inventory_histories.model_id', '=', 'transaction_fields.id')
+            ->join('transactions', 'transaction_fields.transaction_id', '=', 'transactions.id')
             ->join('pads', 'transactions.pad_id', '=', 'pads.id')
-            ->where('model_type', 'App\Models\Transaction')
+            ->where('model_type', 'App\Models\TransactionField')
             ->where('pads.id', $padId)
             ->where('pads.is_enabled', 1)
             ->selectRaw('
