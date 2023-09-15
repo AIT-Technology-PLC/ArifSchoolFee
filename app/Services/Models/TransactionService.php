@@ -260,6 +260,8 @@ class TransactionService
                     'batch_no' => $detail['batch_no'] ?? null,
                     'expires_on' => $detail['expires_on'] ?? null,
                     'line' => $detail['line'],
+                    'model_type' => TransactionField::class,
+                    'model_id' => $detail['id'],
                 ];
             });
 
