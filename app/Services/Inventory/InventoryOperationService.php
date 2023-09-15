@@ -129,7 +129,7 @@ class InventoryOperationService
         }
 
         InventoryHistory::firstOrCreate(
-            Arr::only($inventoryHistoryDetail, ['model_detail_type', 'model_detail_id']),
+            Arr::only($inventoryHistoryDetail, ['model_detail_type', 'model_detail_id', 'is_subtract']),
             Arr::only($detail, static::$properties) + $inventoryHistoryDetail
         );
     }
