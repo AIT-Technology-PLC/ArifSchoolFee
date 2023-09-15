@@ -110,7 +110,7 @@ trait TransactionAccessors
                         if ($this->pad->hasPrices()) {
                             $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
-                            $unitPrice = userCompany()->isPriceBeforeTax()
+                            $unitPrice = $transactionField->transaction->company->isPriceBeforeTax()
                             ? $data['unit_price']
                             : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
 
@@ -162,7 +162,7 @@ trait TransactionAccessors
                 if ($this->pad->hasPrices()) {
                     $data['unit_price'] = number_format($data['unit_price'] ?? 0, 2, thousands_separator:'');
 
-                    $unitPrice = userCompany()->isPriceBeforeTax()
+                    $unitPrice = $transactionField->transaction->company->isPriceBeforeTax()
                     ? $data['unit_price']
                     : number_format($data['unit_price'] / (1 + $taxAmount), 2, thousands_separator:'');
 
