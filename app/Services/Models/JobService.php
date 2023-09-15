@@ -50,8 +50,10 @@ class JobService
                 $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
                 $quantity = $data[$i]['wip'];
 
-                $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
+                $details[] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity, $job, $i) {
                     $detail['quantity'] = $detail['quantity'] * $quantity;
+                    $detail['model_type'] = get_class($job->jobDetails[$i]);
+                    $detail['model_id'] = $job->jobDetails[$i]->id;
 
                     return $detail;
                 });
@@ -67,6 +69,8 @@ class JobService
                     'product_id' => $data[$i]['product_id'],
                     'quantity' => $data[$i]['wip'],
                     'warehouse_id' => $job->factory_id,
+                    'model_type' => get_class($job->jobDetails[$i]),
+                    'model_id' => $job->jobDetails[$i]->id,
                 ];
             }
 
@@ -86,7 +90,6 @@ class JobService
             }
 
             if (isset($addDetails) && count($addDetails)) {
-
                 InventoryOperationService::add($addDetails, $job, 'wip');
             }
 
@@ -137,6 +140,8 @@ class JobService
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                         'type' => 'added',
+                        'model_type' => get_class($job->jobDetails[$i]),
+                        'model_id' => $job->jobDetails[$i]->id,
                     ];
 
                     $wipDetails[$i] = [
@@ -151,8 +156,10 @@ class JobService
                     $billOfMaterialdetails = $job->jobDetails[$i]->billOfMaterial->billOfMaterialDetails()->get(['product_id', 'quantity'])->toArray();
                     $billOfMaterialdetails = data_set($billOfMaterialdetails, '*.warehouse_id', $job->factory_id);
 
-                    $details[$i] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity) {
+                    $details[$i] = collect($billOfMaterialdetails)->transform(function ($detail) use ($quantity, $job, $i) {
                         $detail['quantity'] = $detail['quantity'] * $quantity;
+                        $detail['model_type'] = get_class($job->jobDetails[$i]);
+                        $detail['model_id'] = $job->jobDetails[$i]->id;
 
                         return $detail;
                     });
@@ -173,6 +180,8 @@ class JobService
                         'quantity' => $quantity,
                         'warehouse_id' => $job->factory_id,
                         'type' => 'added',
+                        'model_type' => get_class($job->jobDetails[$i]),
+                        'model_id' => $job->jobDetails[$i]->id,
                     ];
 
                     $job->jobDetails[$i]->update(Arr::only($wipDetails[$i], ['product_id', 'wip', 'available']));
@@ -218,7 +227,7 @@ class JobService
             return [false, 'This Product is already added to inventory.'];
         }
 
-        $detail = $jobExtra->only(['product_id', 'quantity']);
+        $detail = clone $jobExtra;
 
         $detail['warehouse_id'] = $jobExtra->job->factory_id;
 
@@ -249,7 +258,7 @@ class JobService
             return [false, 'This Product is already subtracted from inventory.'];
         }
 
-        $detail = $jobExtra->only(['product_id', 'quantity']);
+        $detail = clone $jobExtra;
 
         $detail['warehouse_id'] = $jobExtra->job->factory_id;
 
