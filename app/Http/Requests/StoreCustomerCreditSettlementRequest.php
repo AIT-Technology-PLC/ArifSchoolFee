@@ -27,7 +27,18 @@ class StoreCustomerCreditSettlementRequest extends FormRequest
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
-            'settled_at' => ['required', 'date'],
+            'settled_at' => ['required', 'date', function ($a, $value, $fail) {
+                $issuedOnDate = Credit::query()
+                    ->where('customer_id', $this->route('customer')->id)
+                    ->unsettled()
+                    ->whereDate('issued_on', '>', $value)
+                    ->max('issued_on');
+
+                if (!empty($issuedOnDate)) {
+                    $fail('The settlement date should be after ' . $issuedOnDate);
+                }
+
+            }],
             'description' => ['nullable', 'string'],
         ];
     }
