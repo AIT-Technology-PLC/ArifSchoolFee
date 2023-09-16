@@ -35,7 +35,7 @@ class StoreCustomerCreditSettlementRequest extends FormRequest
                     ->max('issued_on');
 
                 if (!empty($issuedOnDate)) {
-                    $fail('The settlement date should be after ' . $issuedOnDate);
+                    $fail('The settlement date should be after ' . carbon($issuedOnDate)->toDateString());
                 }
 
             }],

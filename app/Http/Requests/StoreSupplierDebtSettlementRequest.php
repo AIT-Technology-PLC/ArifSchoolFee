@@ -27,7 +27,18 @@ class StoreSupplierDebtSettlementRequest extends FormRequest
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
-            'settled_at' => ['required', 'date'],
+            'settled_at' => ['required', 'date', function ($a, $value, $fail) {
+                $issuedOnDate = Debt::query()
+                    ->where('supplier_id', $this->route('supplier')->id)
+                    ->unsettled()
+                    ->whereDate('issued_on', '>', $value)
+                    ->max('issued_on');
+
+                if (!empty($issuedOnDate)) {
+                    $fail('The settlement date should be after ' . carbon($issuedOnDate)->toDateString());
+                }
+
+            }],
             'description' => ['nullable', 'string'],
         ];
     }
