@@ -44,48 +44,6 @@ class FixInventoryHistoriesDataInconsistencies extends Command
         ini_set('max_execution_time', '-1');
 
         DB::transaction(function () {
-            Gdn::subtracted()->chunk(100, function ($gdns) {
-                foreach ($gdns as $gdn) {
-                    foreach ($gdn->gdnDetails()->orderBy('id', 'ASC')->get() as $gdnDetail) {
-                        InventoryHistory::query()
-                            ->where('is_subtract', 1)
-                            ->whereNull('model_detail_type')
-                            ->whereNull('model_detail_id')
-                            ->where('model_type', 'App\Models\Gdn')
-                            ->where('model_id', $gdnDetail->gdn_id)
-                            ->orderBy('id', 'ASC')
-                            ->limit(1)
-                            ->update([
-                                'model_detail_type' => get_class($gdnDetail),
-                                'model_detail_id' => $gdnDetail->id,
-                            ]);
-                    }
-                }
-            });
-
-            $this->info('gdn subtracted done');
-
-            Gdn::added()->chunk(100, function ($gdns) {
-                foreach ($gdns as $gdn) {
-                    foreach ($gdn->gdnDetails()->orderBy('id', 'ASC')->get() as $gdnDetail) {
-                        InventoryHistory::query()
-                            ->where('is_subtract', 0)
-                            ->whereNull('model_detail_type')
-                            ->whereNull('model_detail_id')
-                            ->where('model_type', 'App\Models\Gdn')
-                            ->where('model_id', $gdnDetail->gdn_id)
-                            ->orderBy('id', 'ASC')
-                            ->limit(1)
-                            ->update([
-                                'model_detail_type' => get_class($gdnDetail),
-                                'model_detail_id' => $gdnDetail->id,
-                            ]);
-                    }
-                }
-            });
-
-            $this->info('gdn added done');
-
             Sale::subtracted()->chunk(100, function ($sales) {
                 foreach ($sales as $sale) {
                     foreach ($sale->saleDetails()->orderBy('id', 'ASC')->get() as $saleDetail) {
@@ -127,6 +85,48 @@ class FixInventoryHistoriesDataInconsistencies extends Command
             });
 
             $this->info('sale added done');
+
+            Gdn::subtracted()->chunk(100, function ($gdns) {
+                foreach ($gdns as $gdn) {
+                    foreach ($gdn->gdnDetails()->orderBy('id', 'ASC')->get() as $gdnDetail) {
+                        InventoryHistory::query()
+                            ->where('is_subtract', 1)
+                            ->whereNull('model_detail_type')
+                            ->whereNull('model_detail_id')
+                            ->where('model_type', 'App\Models\Gdn')
+                            ->where('model_id', $gdnDetail->gdn_id)
+                            ->orderBy('id', 'ASC')
+                            ->limit(1)
+                            ->update([
+                                'model_detail_type' => get_class($gdnDetail),
+                                'model_detail_id' => $gdnDetail->id,
+                            ]);
+                    }
+                }
+            });
+
+            $this->info('gdn subtracted done');
+
+            Gdn::added()->chunk(100, function ($gdns) {
+                foreach ($gdns as $gdn) {
+                    foreach ($gdn->gdnDetails()->orderBy('id', 'ASC')->get() as $gdnDetail) {
+                        InventoryHistory::query()
+                            ->where('is_subtract', 0)
+                            ->whereNull('model_detail_type')
+                            ->whereNull('model_detail_id')
+                            ->where('model_type', 'App\Models\Gdn')
+                            ->where('model_id', $gdnDetail->gdn_id)
+                            ->orderBy('id', 'ASC')
+                            ->limit(1)
+                            ->update([
+                                'model_detail_type' => get_class($gdnDetail),
+                                'model_detail_id' => $gdnDetail->id,
+                            ]);
+                    }
+                }
+            });
+
+            $this->info('gdn added done');
 
             Grn::added()->chunk(100, function ($grns) {
                 foreach ($grns as $grn) {
