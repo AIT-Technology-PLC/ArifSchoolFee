@@ -44,7 +44,9 @@ class FixInventoryHistoriesDataInconsistencies extends Command
         ini_set('max_execution_time', '-1');
 
         DB::transaction(function () {
-            Sale::subtracted()->chunk(100, function ($sales) {
+            $this->info('Processing started ...');
+
+            Sale::subtracted()->chunk(50, function ($sales) {
                 foreach ($sales as $sale) {
                     foreach ($sale->saleDetails()->orderBy('id', 'ASC')->get() as $saleDetail) {
                         InventoryHistory::query()
@@ -65,7 +67,7 @@ class FixInventoryHistoriesDataInconsistencies extends Command
 
             $this->info('sale subtracted done');
 
-            Sale::added()->chunk(100, function ($sales) {
+            Sale::added()->chunk(50, function ($sales) {
                 foreach ($sales as $sale) {
                     foreach ($sale->saleDetails()->orderBy('id', 'ASC')->get() as $saleDetail) {
                         InventoryHistory::query()
