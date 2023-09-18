@@ -22,7 +22,7 @@ class UpdateCreditRequest extends FormRequest
             'customer_id' => ['required', 'integer', new MustBelongToCompany('customers')],
             'credit_amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
-            'due_date' => ['required', 'date', 'after:issued_on'],
+            'due_date' => ['nullable', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
         ];
     }

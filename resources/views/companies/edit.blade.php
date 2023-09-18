@@ -1052,6 +1052,40 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    @if (isFeatureEnabled('Credit Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="auto_generated_credit_issued_on_date">
+                                    Auto-generated Credit Issued On Date <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="auto_generated_credit_issued_on_date"
+                                        name="auto_generated_credit_issued_on_date"
+                                    >
+                                        <option
+                                            selected
+                                            disabled
+                                        >Select Type</option>
+                                        <option
+                                            value="approval_date"
+                                            @selected($company->auto_generated_credit_issued_on_date == 'approval_date')
+                                        >Approval Date</option>
+                                        <option
+                                            value="issuance_date"
+                                            @selected($company->auto_generated_credit_issued_on_date == 'issuance_date')
+                                        >Issuance Date</option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="auto_generated_credit_issued_on_date" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                 </div>
             </x-content.main>
             <x-content.footer>

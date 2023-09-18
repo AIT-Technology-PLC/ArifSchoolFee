@@ -29,7 +29,7 @@
                                     name="amount"
                                     type="number"
                                     placeholder="Amount"
-                                    value="{{ old('amount') ?? '.00' }}"
+                                    value="{{ old('amount') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"

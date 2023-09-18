@@ -102,7 +102,7 @@ class SaleService
             'cash_amount' => $sale->payment_in_cash,
             'credit_amount' => $sale->payment_in_credit,
             'credit_amount_settled' => 0.00,
-            'issued_on' => now(),
+            'issued_on' => $sale->company->creditIssuedOnDate($sale),
             'due_date' => $sale->due_date,
         ]);
 

@@ -48,7 +48,7 @@
                                     name="debt_amount"
                                     type="number"
                                     placeholder="Credit Amount"
-                                    value="{{ old('debt_amount') ?? '.00' }}"
+                                    value="{{ old('debt_amount') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"

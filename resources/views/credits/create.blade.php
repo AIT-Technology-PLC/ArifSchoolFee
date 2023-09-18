@@ -48,7 +48,7 @@
                                     name="credit_amount"
                                     type="number"
                                     placeholder="Credit Amount"
-                                    value="{{ old('credit_amount') ?? '.00' }}"
+                                    value="{{ old('credit_amount') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-money-check"
@@ -101,7 +101,7 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="due_date">
-                                Due Date <sup class="has-text-danger">*</sup>
+                                Due Date <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input

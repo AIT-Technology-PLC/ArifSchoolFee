@@ -69,7 +69,7 @@
                         label="Contact"
                     />
                 </div>
-                @if ($gdn->payment_in_credit > 0)
+                @if ($gdn->isPaymentInCredit() && !is_null($gdn->due_date))
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-calendar-day"
