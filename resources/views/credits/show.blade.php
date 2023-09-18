@@ -43,13 +43,15 @@
                         label="Issued On"
                     />
                 </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-calendar-day"
-                        :data="$credit->due_date->toFormattedDateString()"
-                        label="Due Date"
-                    />
-                </div>
+                @if (!is_null($credit->due_date))
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-calendar-day"
+                            :data="$credit->due_date->toFormattedDateString()"
+                            label="Due Date"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"

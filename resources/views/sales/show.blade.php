@@ -46,7 +46,7 @@
                         label="Payment Type"
                     />
                 </div>
-                @if ($sale->isPaymentInCredit())
+                @if ($sale->isPaymentInCredit() && !is_null($sale->due_date))
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-calendar-day"

@@ -45,7 +45,7 @@ class CreditDatatable extends DataTable
             ->editColumn('amount settled', fn ($credit) => userCompany()->currency.'. '.number_format($credit->credit_amount_settled, 2))
             ->editColumn('amount unsettled', fn ($credit) => userCompany()->currency.'. '.number_format($credit->credit_amount_unsettled, 2))
             ->editColumn('issued_on', fn ($credit) => $credit->issued_on->toFormattedDateString())
-            ->editColumn('due_date', fn ($credit) => $credit->due_date->toFormattedDateString())
+            ->editColumn('due_date', fn ($credit) => $credit->due_date?->toFormattedDateString() ?? 'N/A')
             ->editColumn('actions', function ($credit) {
                 return view('components.common.action-buttons', [
                     'model' => 'credits',

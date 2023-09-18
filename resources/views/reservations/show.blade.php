@@ -67,7 +67,7 @@
                         label="Expiry Date"
                     />
                 </div>
-                @if ($reservation->payment_in_credit > 0)
+                @if ($reservation->payment_in_credit > 0 && !is_null($reservation->due_date))
                     <div class="column is-6">
                         <x-common.show-data-section
                             icon="fas fa-calendar-day"
