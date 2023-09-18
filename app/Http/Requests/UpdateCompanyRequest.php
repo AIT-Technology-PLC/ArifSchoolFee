@@ -60,6 +60,7 @@ class UpdateCompanyRequest extends FormRequest
             'does_payroll_basic_salary_include_overtime' => ['sometimes', 'required', 'boolean'],
             'is_return_limited_by_sales' => ['sometimes', 'required', 'boolean'],
             'can_sale_subtract' => ['sometimes', 'required', 'boolean'],
+            'auto_generated_credit_issued_on_date' => ['sometimes', 'required', Rule::in(['approval_date', 'issuance_date'])],
         ];
     }
 

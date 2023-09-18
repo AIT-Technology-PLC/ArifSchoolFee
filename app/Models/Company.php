@@ -331,4 +331,13 @@ class Company extends Model
     {
         return $this->can_sale_subtract;
     }
+
+    public function creditIssuedOnDate($transaction)
+    {
+        if ($this->auto_generated_credit_issued_on_date == 'approval_date') {
+            return now();
+        }
+
+        return $transaction->issued_on;
+    }
 }

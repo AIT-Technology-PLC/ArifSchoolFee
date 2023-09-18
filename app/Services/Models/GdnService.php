@@ -110,7 +110,7 @@ class GdnService
             'cash_amount' => $gdn->payment_in_cash,
             'credit_amount' => $gdn->payment_in_credit,
             'credit_amount_settled' => 0.00,
-            'issued_on' => now(),
+            'issued_on' => $gdn->company->creditIssuedOnDate($gdn),
             'due_date' => $gdn->due_date,
         ]);
 
