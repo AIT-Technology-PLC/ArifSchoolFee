@@ -1053,7 +1053,20 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report', 'Inventory Summary Report', 'Inventory Valuation Report', 'Profit Report'))
+    @if (isFeatureEnabled(
+            'Sales Report',
+            'Return Report',
+            'Expense Report',
+            'Customer Report',
+            'Daily Inventory Level Report',
+            'Credit Management',
+            'Debt Management',
+            'Inventory Transfer Report',
+            'Credit Report',
+            'Inventory Summary Report',
+            'Inventory Valuation Report',
+            'Profit Report',
+            'Inventory In Transit Report'))
         @canany([
             'Read Sale Report',
             'Read Return Report',
@@ -1066,7 +1079,9 @@
             'Read Credit Report',
             'Read Inventory Summary Report',
             'Read Inventory Valuation Report',
-            'Read Profit Report',
+            'Read
+            Profit Report',
+            'Read Inventory In Transit Report',
             ])
             <ul
                 x-data="sideMenuAccordion"
@@ -1262,6 +1277,20 @@
                                         href="{{ route('reports.profit') }}"
                                         label="Profit"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.profit') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory In Transit Report'))
+                            @can('Read Inventory In Transit Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_in_transit') }}"
+                                        label="Inventory In Transit"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_in_transit') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
