@@ -120,13 +120,19 @@ class PurchaseController extends Controller
 
     public function destroy(Purchase $purchase)
     {
-        if ($purchase->isApproved()) {
-            return back()->with('failedMessage', 'You can not delete an approved purchase.');
+        if ($purchase->isCancelled()) {
+            return back()->with('failedMessage', 'You can not delete a cancelled purchase.');
+        }
+
+        if ($purchase->isPurchased()) {
+            return back()->with('failedMessage', 'You can not delete an executed purchase.');
         }
 
         if ($purchase->isRejected()) {
             return back()->with('failedMessage', 'You can not delete a rejected purchase.');
         }
+
+        abort_if($purchase->isApproved() && !authUser()->can('Delete Approved Purchase'), 403);
 
         $purchase->forceDelete();
 
