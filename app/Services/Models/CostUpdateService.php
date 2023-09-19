@@ -38,8 +38,12 @@ class CostUpdateService
 
                 $detail->product->update(['average_unit_cost' => $detail->average_unit_cost]);
 
-                InventoryValuationHistory::create([
+                InventoryValuationHistory::firstOrCreate([
                     'type' => 'average',
+                    'model_detail_type' => get_class($detail),
+                    'model_detail_id' => $detail->id,
+                    'operation' => 'initial',
+                ], [
                     'product_id' => $detail->product_id,
                     'unit_cost' => $detail->average_unit_cost,
                 ]);
@@ -49,8 +53,12 @@ class CostUpdateService
                         $detail->{$method . '_unit_cost'} = $detail->average_unit_cost;
                     }
 
-                    InventoryValuationBalance::create([
+                    InventoryValuationBalance::firstOrCreate([
                         'type' => $method,
+                        'model_detail_type' => get_class($detail),
+                        'model_detail_id' => $detail->id,
+                        'operation' => 'initial',
+                    ], [
                         'product_id' => $detail->product_id,
                         'quantity' => $quantity,
                         'original_quantity' => $quantity,
@@ -59,8 +67,12 @@ class CostUpdateService
 
                     $detail->product->update([$method . '_unit_cost' => $detail->{$method . '_unit_cost'}]);
 
-                    InventoryValuationHistory::create([
+                    InventoryValuationHistory::firstOrCreate([
                         'type' => $method,
+                        'model_detail_type' => get_class($detail),
+                        'model_detail_id' => $detail->id,
+                        'operation' => 'initial',
+                    ], [
                         'product_id' => $detail->product_id,
                         'unit_cost' => $detail->{$method . '_unit_cost'},
                     ]);
