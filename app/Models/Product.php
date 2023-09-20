@@ -349,7 +349,7 @@ class Product extends Model
 
     public function hasCost()
     {
-        return !empty($this->average_unit_cost);
+        return $this->inventoryValuationHistories()->exists();
     }
 
     public function hasQuantity()
