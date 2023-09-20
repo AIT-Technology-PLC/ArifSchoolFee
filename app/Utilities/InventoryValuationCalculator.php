@@ -13,7 +13,11 @@ class InventoryValuationCalculator
     {
         $product = Product::find($detail['product_id']);
 
-        if (!$product->hasCost() && $product->hasQuantity()) {
+        $quantity = $operation == 'subtract' ? $detail['quantity'] * -1 : $detail['quantity'];
+
+        $productHasQuantity = ($product->merchandises()->sum('available') - $quantity) > 0;
+
+        if (!$product->hasCost() && $productHasQuantity) {
             return;
         }
 
