@@ -277,7 +277,7 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Inventory Valuation Report'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(
@@ -287,7 +287,12 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Profit Report'],
-                ['is_enabled' => 1]
+                ['is_enabled' => 0]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Inventory Valuation'],
+                ['is_enabled' => 0]
             );
 
             Feature::updateOrCreate(

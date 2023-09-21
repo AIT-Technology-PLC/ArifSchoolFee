@@ -49,11 +49,13 @@ return new class extends Migration
 
         Schema::table('inventory_valuation_balances', function (Blueprint $table) {
             $table->dropUnique('inventory_valuation_balances_model_detail_type');
+            $table->dropColumn('operation');
             $table->dropMorphs('model_detail', 'inventory_valuation_balances_model_detail_morph_index');
         });
 
         Schema::table('inventory_valuation_histories', function (Blueprint $table) {
             $table->dropUnique('inventory_valuation_histories_model_detail_type');
+            $table->dropColumn('operation');
             $table->dropMorphs('model_detail', 'inventory_valuation_histories_model_detail_morph_index');
         });
     }

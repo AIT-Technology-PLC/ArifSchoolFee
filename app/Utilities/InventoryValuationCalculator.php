@@ -11,9 +11,17 @@ class InventoryValuationCalculator
 {
     public static function calculate($detail, $operation = 'subtract')
     {
+        if (!isFeatureEnabled('Inventory Valuation')) {
+            return;
+        }
+
         $product = Product::find($detail['product_id']);
 
-        if (!$product->hasCost() && $product->hasQuantity()) {
+        $quantity = $operation == 'subtract' ? $detail['quantity'] * -1 : $detail['quantity'];
+
+        $productHasQuantity = ($product->merchandises()->sum('available') - $quantity) > 0;
+
+        if (!$product->hasCost() && $productHasQuantity) {
             return;
         }
 
@@ -51,7 +59,11 @@ class InventoryValuationCalculator
 
             $totalQuantity = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity');
 
-            $newUnitCost = $totalQuantity ? $totalCost / $totalQuantity : 0;
+            $newUnitCost = $totalQuantity > 0 ? $totalCost / $totalQuantity : 0;
+
+            if ($operation == 'subtract' && $newUnitCost == 0) {
+                continue;
+            }
 
             $product->update([$method . '_unit_cost' => $newUnitCost]);
 
