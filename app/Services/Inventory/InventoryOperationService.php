@@ -135,6 +135,7 @@ class InventoryOperationService
                 }
 
                 if ($inventoryValuationBalance->quantity < $quantity) {
+                    $inventoryValuationBalance->quantity = 0;
                     $quantity = $quantity - $inventoryValuationBalance->quantity;
                     $inventoryValuationBalance->save();
                 }

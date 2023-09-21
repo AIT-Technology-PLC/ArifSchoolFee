@@ -282,11 +282,16 @@ class Features extends Seeder
 
             Feature::updateOrCreate(
                 ['name' => 'Cost Update Management'],
-                ['is_enabled' => 0]
+                ['is_enabled' => 1]
             );
 
             Feature::updateOrCreate(
                 ['name' => 'Profit Report'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
+                ['name' => 'Inventory Valuation'],
                 ['is_enabled' => 1]
             );
 

@@ -19,6 +19,8 @@ class CostUpdateController extends Controller
     {
         $this->middleware('isFeatureAccessible:Cost Update Management');
 
+        $this->middleware('isFeatureAccessible:Inventory Valuation');
+
         $this->authorizeResource(CostUpdate::class);
     }
 

@@ -48,6 +48,10 @@ class ProfitReport
 
     public function getProfitMarginInPercentage()
     {
+        if ($this->getTotalRevenueBeforeTax == 0) {
+            return 0;
+        }
+
         return $this->getProfit / $this->getTotalRevenueBeforeTax * 100;
     }
 
