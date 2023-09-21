@@ -70,9 +70,9 @@ class MerchandiseBatch extends Model
         return $query->whereDate('expires_on', '<=', today());
     }
 
-    public function scopenotExpired($query)
+    public function scopeNotExpired($query)
     {
-        return $query->whereDate('expires_on', '>', today());
+        return $query->whereDate('expires_on', '>', today())->orWhereNull('expires_on');
     }
 
     public function scopeNearToBeExpired($query)
