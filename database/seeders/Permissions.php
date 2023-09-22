@@ -411,6 +411,9 @@ class Permissions extends Seeder
             // Profit Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Profit Report']);
 
+            // Inventory Batch Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Batch Report']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
