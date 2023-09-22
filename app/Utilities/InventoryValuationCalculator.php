@@ -9,9 +9,9 @@ use App\Models\Product;
 
 class InventoryValuationCalculator
 {
-    public static function calculate($detail, $operation = 'subtract')
+    public static function calculate($model, $detail, $operation = 'subtract')
     {
-        if (!isFeatureEnabled('Inventory Valuation')) {
+        if (!isFeatureEnabledForCompany($model->company_id, 'Inventory Valuation')) {
             return;
         }
 
