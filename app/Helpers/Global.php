@@ -93,7 +93,13 @@ if (!function_exists('quantity')) {
 if (!function_exists('pads')) {
     function pads($module = null)
     {
-        $pads = Cache::store('array')->rememberForever(authUser()->id . '_' . 'pads', function () {
+        $key = 'pads';
+
+        if (auth()->check()) {
+            $key = authUser()->id . '_' . 'pads';
+        }
+
+        $pads = Cache::store('array')->rememberForever($key, function () {
             return Pad::enabled()->get();
         });
 
