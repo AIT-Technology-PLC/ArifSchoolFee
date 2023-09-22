@@ -49,6 +49,17 @@ if (!function_exists('isFeatureEnabled')) {
     }
 }
 
+if (!function_exists('isFeatureEnabledForCompany')) {
+    function isFeatureEnabledForCompany($companyId, ...$featureNames)
+    {
+        $enabledFeatures = Cache::store('array')->rememberForever($companyId . 'enabledFeatures', function () use ($companyId) {
+            return Feature::getAllEnabledFeaturesOfCompany($companyId);
+        });
+
+        return $enabledFeatures->merge(pads()->pluck('name'))->intersect($featureNames)->isNotEmpty();
+    }
+}
+
 if (!function_exists('money')) {
     function money($amount = 0.00, $currency = null)
     {
