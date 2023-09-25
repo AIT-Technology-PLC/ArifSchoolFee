@@ -29,7 +29,7 @@ return new class extends Migration
                 products.unit_of_measurement AS product_unit_of_measurement,
                 sale_details.quantity,
                 sale_details.unit_price,
-                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = sale_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= sales.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.created_at DESC LIMIT 1) AS unit_cost,
+                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = sale_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= sales.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.id DESC LIMIT 1) AS unit_cost,
                 brands.name AS brand_name,
                 IF(companies.is_price_before_vat=1, sale_details.unit_price, sale_details.unit_price/(1+taxes.amount))*sale_details.quantity AS line_price_before_tax,
                 IF(companies.is_price_before_vat=1, sale_details.unit_price, sale_details.unit_price/(1+taxes.amount))*sale_details.quantity*taxes.amount AS line_tax

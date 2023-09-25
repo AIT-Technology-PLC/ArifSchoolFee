@@ -31,7 +31,7 @@ return new class extends Migration
                 warehouses.name AS warehouse_name,
                 gdn_details.quantity,
                 gdn_details.unit_price,
-                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = gdn_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= gdns.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.created_at DESC LIMIT 1) AS unit_cost,
+                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = gdn_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= gdns.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.id DESC LIMIT 1) AS unit_cost,
                 gdn_details.discount,
                 brands.name AS brand_name,
                 IF(
