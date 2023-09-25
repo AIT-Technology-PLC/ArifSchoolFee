@@ -239,7 +239,7 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                        @elseif($masterPadField->isTagSelect())
+                        @elseif(!$masterPadField->hasRelation() && $masterPadField->isTagSelect())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -655,7 +655,7 @@
                                                     </x-forms.control>
                                                 </x-forms.field>
                                             </div>
-                                        @elseif($detailPadField->isTagSelect())
+                                        @elseif(!$detailPadField->hasRelation() && $detailPadField->isTagSelect())
                                             <div class="column is-6">
                                                 <x-forms.field>
                                                     <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
