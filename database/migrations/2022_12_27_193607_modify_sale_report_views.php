@@ -59,10 +59,6 @@ return new class extends Migration
                 sales.company_id,
                 sales.created_by,
                 users.name AS user_name,
-                CASE
-                    WHEN sales.approved_by IS NOT NULL THEN 'approved'
-                    ELSE 'not_approved'
-                END AS status,
                 sales.warehouse_id,
                 sales.warehouse_id AS branch_id,
                 warehouses.name AS branch_name,
@@ -89,7 +85,7 @@ return new class extends Migration
             INNER JOIN companies
                 ON sales.company_id = companies.id
             WHERE
-                sales.deleted_at IS NULL AND sales.cancelled_by IS NULL
+                sales.deleted_at IS NULL AND sales.cancelled_by IS NULL AND IF(companies.can_sale_subtract = 1, sales.subtracted_by IS NOT NULL, sales.approved_by IS NOT NULL)
             "
         );
     }

@@ -875,26 +875,18 @@
                                             selected
                                             disabled
                                         >Select Source</option>
-                                        <option
-                                            value="All Delivery Orders"
-                                            @selected($company->sales_report_source == 'All Delivery Orders')
-                                        >All Delivery Orders</option>
-                                        <option
-                                            value="Approved & Subtracted Delivery Orders"
-                                            @selected($company->sales_report_source == 'Approved & Subtracted Delivery Orders')
-                                        >Approved & Subtracted Delivery Orders</option>
-                                        <option
-                                            value="Subtracted Delivery Orders"
-                                            @selected($company->sales_report_source == 'Subtracted Delivery Orders')
-                                        >Subtracted Delivery Orders</option>
-                                        <option
-                                            value="All Invoices"
-                                            @selected($company->sales_report_source == 'All Invoices')
-                                        >All Invoices</option>
-                                        <option
-                                            value="Approved Invoices"
-                                            @selected($company->sales_report_source == 'Approved Invoices')
-                                        >Approved Invoices</option>
+                                        @if (isFeatureEnabled('Gdn Management'))
+                                            <option
+                                                value="Delivery Orders"
+                                                @selected($company->sales_report_source == 'Delivery Orders')
+                                            >Delivery Orders</option>
+                                        @endif
+                                        @if (isFeatureEnabled('Sale Management'))
+                                            <option
+                                                value="Invoices"
+                                                @selected($company->sales_report_source == 'Invoices')
+                                            >Invoices</option>
+                                        @endif
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-sort"

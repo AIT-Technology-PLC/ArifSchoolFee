@@ -72,11 +72,6 @@ return new class extends Migration
                 gdns.company_id,
                 gdns.created_by,
                 users.name AS user_name,
-                CASE
-                    WHEN gdns.subtracted_by IS NOT NULL THEN 'subtracted'
-                    WHEN gdns.approved_by IS NOT NULL THEN 'approved'
-                    ELSE 'not_approved'
-                END AS status,
                 gdns.warehouse_id,
                 gdns.warehouse_id AS branch_id,
                 warehouses.name AS branch_name,
@@ -111,7 +106,7 @@ return new class extends Migration
             INNER JOIN companies
                 ON gdns.company_id = companies.id
             WHERE
-                gdns.deleted_at IS NULL AND gdns.cancelled_by IS NULL
+                gdns.deleted_at IS NULL AND gdns.cancelled_by IS NULL AND gdns.subtracted_by IS NOT NULL
             "
         );
     }
