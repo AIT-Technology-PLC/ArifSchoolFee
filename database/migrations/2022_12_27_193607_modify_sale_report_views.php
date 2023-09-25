@@ -73,7 +73,11 @@ return new class extends Migration
                 sales.cash_received,
                 sales.issued_on,
                 (SELECT SUM(sale_detail_reports.line_price_before_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS subtotal_price,
-                (SELECT SUM(sale_detail_reports.line_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS total_tax
+                (SELECT SUM(sale_detail_reports.line_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS total_tax,
+                credits.credit_amount,
+                credits.credit_amount_settled,
+                (credits.credit_amount - credits.credit_amount_settled) AS credit_amount_unsettled,
+                credits.last_settled_at
             FROM
                 sales
             INNER JOIN warehouses
@@ -82,6 +86,8 @@ return new class extends Migration
                 ON sales.created_by = users.id
             LEFT JOIN customers
                 ON sales.customer_id = customers.id
+            LEFT JOIN credits
+                ON sales.id = credits.creditable_id AND credits.creditable_type = 'App\\\\Models\\\\Sale'
             INNER JOIN companies
                 ON sales.company_id = companies.id
             WHERE

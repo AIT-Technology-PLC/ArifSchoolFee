@@ -94,7 +94,11 @@ return new class extends Migration
                     gdns.discount IS NULL,
                     (SELECT SUM(gdn_detail_reports.line_tax) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id),
                     (SELECT SUM(gdn_detail_reports.line_tax) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) - (SELECT SUM(gdn_detail_reports.line_tax) FROM gdn_detail_reports WHERE gdn_detail_reports.gdn_id = gdns.id) * (gdns.discount / 100)
-                ) AS total_tax
+                ) AS total_tax,
+                credits.credit_amount,
+                credits.credit_amount_settled,
+                (credits.credit_amount - credits.credit_amount_settled) AS credit_amount_unsettled,
+                credits.last_settled_at
             FROM
                 gdns
             INNER JOIN warehouses
@@ -103,6 +107,8 @@ return new class extends Migration
                 ON gdns.created_by = users.id
             LEFT JOIN customers
                 ON gdns.customer_id = customers.id
+            LEFT JOIN credits
+                ON gdns.id = credits.creditable_id AND credits.creditable_type = 'App\\\\Models\\\\Gdn'
             INNER JOIN companies
                 ON gdns.company_id = companies.id
             WHERE
