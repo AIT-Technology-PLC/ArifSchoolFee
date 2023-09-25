@@ -657,6 +657,10 @@
                                                 class="help has-text-danger"
                                                 x-text="errors[`field.${index}.tag`]"
                                             ></span>
+                                            <span
+                                                class="help has-text-danger"
+                                                x-text="errors[`field.${index}.tag_type`]"
+                                            ></span>
                                         </x-forms.field>
                                     </div>
                                     <div class="column is-3">
@@ -889,7 +893,7 @@
                     return fieldType === "1";
                 },
                 isTagInput(tagName) {
-                    return tagName.toLowerCase() === "input";
+                    return tagName.toLowerCase() === "input" || tagName.toLowerCase() === "select";
                 },
             }));
         });

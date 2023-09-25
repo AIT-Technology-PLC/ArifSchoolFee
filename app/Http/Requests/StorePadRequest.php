@@ -55,7 +55,7 @@ class StorePadRequest extends FormRequest
             'field.*.is_printable' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_readonly' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.tag' => ['sometimes', 'required', 'string', 'required_with:field'],
-            'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input'],
+            'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input,select', 'exclude_unless:field.*.tag,input,select'],
         ];
     }
 }
