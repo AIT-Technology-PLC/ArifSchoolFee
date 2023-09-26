@@ -48,7 +48,6 @@ class SaleReportDataSheet implements FromQuery, WithTitle, WithHeadings
                     $query->from . '.branch_name AS branch',
                     $query->from . '.user_name AS salesperson',
                     $query->from . '.customer_name',
-                    $query->from . '.status',
                     $query->from . '.payment_type',
                     $query->from . '.cash_received',
                     $query->from . '.cash_received_type',

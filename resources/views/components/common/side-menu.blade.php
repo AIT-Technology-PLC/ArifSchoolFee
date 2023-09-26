@@ -1066,21 +1066,9 @@
             'Inventory Summary Report',
             'Inventory Valuation Report',
             'Profit Report',
-            'Sale By Payment'))
-        @canany([
-            'Read Sale Report',
-            'Read Return Report',
-            'Read Expense Report',
-            'Read Customer Report',
-            'Read Daily Inventory Report',
-            'Read Credit',
-            'Read Debt',
-            'Read Inventory Transfer Report',
-            'Read Credit Report',
-            'Read Inventory Summary Report',
-            'Read Inventory Valuation Report',
-            'Read Profit Report',
-            ])
+            'Sale By Payment Report'))
+        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report', 'Read Inventory Summary Report', 'Read Inventory Valuation Report', 'Read
+            Profit Report'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1281,7 +1269,7 @@
                             @endcan
                         @endif
 
-                        @if (isFeatureEnabled('Sale By Payment'))
+                        @if (isFeatureEnabled('Sale By Payment Report'))
                             @can('Read Sale Report')
                                 <li>
                                     <x-common.button

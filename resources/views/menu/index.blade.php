@@ -1094,7 +1094,7 @@
                 'Inventory Summary Report',
                 'Inventory Valuation Report',
                 'Profit Report',
-                'Sale By Payment'))
+                'Sale By Payment Report'))
             @canany([
                 'Read Sale Report',
                 'Read Return Report',
@@ -1350,7 +1350,7 @@
                                 @endcan
                             @endif
 
-                            @if (isFeatureEnabled('Sale By Payment'))
+                            @if (isFeatureEnabled('Sale By Payment Report'))
                                 @can('Read Sale Report')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a

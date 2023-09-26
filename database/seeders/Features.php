@@ -296,7 +296,7 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
-                ['name' => 'Sale By Payment'],
+                ['name' => 'Sale By Payment Report'],
                 ['is_enabled' => 1]
             );
 

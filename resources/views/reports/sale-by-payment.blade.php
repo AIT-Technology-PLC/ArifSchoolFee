@@ -287,14 +287,15 @@
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
                         <th><abbr> Date </abbr></th>
-                        <th><abbr> Transaction No </abbr></th>
+                        <th class="has-text-right"><abbr> {{ str()->singular(request('source') ?? userCompany()->sales_report_source) }} No </abbr></th>
                         <th><abbr> Customer </abbr></th>
-                        <th><abbr> Amount </abbr></th>
+                        <th><abbr> Payment Method </abbr></th>
+                        <th class="has-text-right"><abbr> Amount </abbr></th>
                         @if (request('payment_method') == '' || request('payment_method') == 'Credit Payment')
                             <th class="has-text-right"><abbr> Credit Amount </abbr></th>
                             <th class="has-text-right"><abbr> Settled Amount </abbr></th>
                             <th class="has-text-right"><abbr> Remaining Amount </abbr></th>
-                            <th><abbr> Last Settled Date </abbr></th>
+                            <th class="has-text-right"><abbr> Last Settled Date </abbr></th>
                         @endif
                     </x-slot>
                     <x-slot name="body">
@@ -302,12 +303,15 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td data-sort="{{ $salesByPaymentMethod->issued_on }}"> {{ carbon($salesByPaymentMethod->issued_on)->toDayDateTimeString() }} </td>
-                                <td> {{ $salesByPaymentMethod->code }} </td>
+                                <td class="has-text-right"> {{ $salesByPaymentMethod->code }} </td>
                                 <td> {{ $salesByPaymentMethod->customer_name ?? 'N/A' }} </td>
+                                <td> {{ $salesByPaymentMethod->payment_type }} </td>
                                 <td
                                     class="has-text-right"
                                     data-sort="{{ $salesByPaymentMethod->amount }}"
-                                > {{ number_format($salesByPaymentMethod->amount, 2) }} </td>
+                                >
+                                    {{ number_format($salesByPaymentMethod->amount, 2) }}
+                                </td>
                                 @if (request('payment_method') == '' || request('payment_method') == 'Credit Payment')
                                     <td
                                         class="has-text-right"
