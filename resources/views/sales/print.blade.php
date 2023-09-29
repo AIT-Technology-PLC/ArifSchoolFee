@@ -66,7 +66,7 @@
                 FS N<u>o</u>
             </h1>
             <h1 class="has-text-black is-size-6 pr-2">
-                {{ !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : '-' }}
+                {{ $sale->fs_number ?? '-' }}
             </h1>
         </aside>
         <aside
