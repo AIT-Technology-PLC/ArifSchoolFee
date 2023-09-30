@@ -20,7 +20,7 @@ class MerchandiseController extends Controller
             return false;
         }
 
-        if (!$product->exists || !$warehouse->exists) {
+        if (!$product->exists) {
             return false;
         }
 
@@ -28,7 +28,12 @@ class MerchandiseController extends Controller
             return false;
         }
 
-        $availableQuantity = Merchandise::where('product_id', $product->id)->where('warehouse_id', $warehouse->id)->first()->available ?? 0;
+        if (!$warehouse->exists) {
+            $availableQuantity = Merchandise::where('product_id', $product->id)->sum('available');
+
+        } else {
+            $availableQuantity = Merchandise::where('product_id', $product->id)->where('warehouse_id', $warehouse->id)->first()->available ?? 0;
+        }
 
         return str(number_format($availableQuantity, 2))->append(' ', $product->unit_of_measurement)->toString();
     }
