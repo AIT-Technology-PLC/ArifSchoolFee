@@ -417,9 +417,8 @@
                             )[0].fixed_price : "";
                         }
 
-                        this.getInventoryLevel(index);
-
                         if (!Product.isBatchable(this.gdns[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                            this.getInventoryLevel(index);
                             return;
                         }
 
@@ -436,6 +435,8 @@
                         if (batches.length <= 1) {
                             this.gdns[index].merchandise_batch_id = batches[0]?.id;
                         }
+
+                        this.getInventoryLevel(index);
                     });
                 },
                 getSelect2(index) {
@@ -484,6 +485,8 @@
                     if (batches.length <= 1) {
                         this.gdns[index].merchandise_batch_id = batches[0]?.id;
                     }
+
+                    this.getInventoryLevel(index);
                 }
             }));
         });

@@ -377,9 +377,8 @@
                             )[0].fixed_price : "";
                         }
 
-                        this.getInventoryLevel(index);
-
                         if (!Product.isBatchable(this.proformaInvoices[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                            this.getInventoryLevel(index);
                             return;
                         }
 
@@ -388,6 +387,8 @@
                             this.proformaInvoices[index].merchandise_batch_id,
                             MerchandiseBatch.where(this.proformaInvoices[index].product_id)
                         );
+
+                        this.getInventoryLevel(index);
                     });
                 },
                 summernote(index) {
