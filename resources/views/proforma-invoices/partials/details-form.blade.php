@@ -86,6 +86,7 @@
                                         x-bind:id="`proformaInvoice[${index}][merchandise_batch_id]`"
                                         x-bind:name="`proformaInvoice[${index}][merchandise_batch_id]`"
                                         x-model="proformaInvoice.merchandise_batch_id"
+                                        x-on:change="getInventoryLevel(index)"
                                     ></x-forms.select>
                                     <x-common.icon
                                         name="fas fa-th"
@@ -102,6 +103,15 @@
                     <div class="column is-3">
                         <x-forms.label x-bind:for="`proformaInvoice[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <sup
+                                    class="tag bg-lightpurple text-purple"
+                                    x-show="proformaInvoice.availableQuantity"
+                                    x-text="proformaInvoice.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(proformaInvoice.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(proformaInvoice.availableQuantity) > 0 }"
+                                >
+                                </sup>
+                            @endif
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -375,6 +385,7 @@
                             )[0].fixed_price : "";
                         }
 
+                        this.getInventoryLevel(index);
                     });
                 },
                 summernote(index) {
@@ -405,7 +416,24 @@
                 },
                 getMerchandiseBatchesSelect(index) {
                     return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
-                }
+                },
+                async getInventoryLevel(index) {
+                    if (!Company.isInventoryCheckerEnabled() || !this.proformaInvoices[index].product_id) {
+                        return;
+                    }
+
+                    this.proformaInvoices[index].availableQuantity = null;
+
+                    if (Product.isBatchable(this.proformaInvoices[index].product_id) && this.proformaInvoices[index].merchandise_batch_id) {
+                        let merchandiseBatch = MerchandiseBatch.whereBatchId(this.proformaInvoices[index].merchandise_batch_id);
+                        this.proformaInvoices[index].availableQuantity = merchandiseBatch?.quantity + " " + Product.whereProductId(this.proformaInvoices[index].product_id)?.unit_of_measurement;
+                        return;
+                    }
+
+                    await Merchandise.init(this.proformaInvoices[index].product_id, null);
+
+                    this.proformaInvoices[index].availableQuantity = Merchandise.merchandise;
+                },
             }));
         });
     </script>

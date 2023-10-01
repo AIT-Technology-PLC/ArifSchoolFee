@@ -11,8 +11,8 @@ Route::prefix('api')
     ->name('api.')
     ->group(function () {
         Route::middleware('auth:sanctum')
-        ->withoutMiddleware(['auth', 'isEmployeeEnabled'])
-        ->post('/sales/printed', [Api\SaleController::class, 'assignFSNumber']);
+            ->withoutMiddleware(['auth', 'isEmployeeEnabled'])
+            ->post('/sales/printed', [Api\SaleController::class, 'assignFSNumber']);
 
         Route::get('/products/{category}/by-category',
             [Api\ProductController::class, 'getproductsByCategory']);
@@ -20,7 +20,7 @@ Route::prefix('api')
         Route::get('/my-company',
             [Api\CompanyController::class, 'show']);
 
-        Route::get('merchandises/products/{product}/warehouses/{warehouse}',
+        Route::get('merchandises/products/{product}/warehouses/{warehouse?}',
             [Api\MerchandiseController::class, 'show']);
 
         Route::apiResource('products', Api\ProductController::class)->only('show');
@@ -45,6 +45,6 @@ Route::get('/warehouses/{warehouse}/merchandises',
     Invokable\MerchandiseInventoryLevelByWarehouseController::class)
     ->name('warehouses.merchandises');
 
-    Route::get('/payslips/payroll/{payroll}/employee/{employee}', 
+Route::get('/payslips/payroll/{payroll}/employee/{employee}',
     Invokable\PayslipController::class)
     ->name('payslips.print');
