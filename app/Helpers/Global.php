@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Lottery;
 
 if (!function_exists('authUser')) {
     function authUser(): User
@@ -34,8 +35,25 @@ if (!function_exists('limitReached')) {
 if (!function_exists('isFeatureEnabled')) {
     function isFeatureEnabled(...$featureNames)
     {
-        $enabledFeatures = Cache::store('array')->rememberForever(authUser()->id . '_' . 'enabledFeatures', function () {
+        $key = 'enabledFeatures';
+
+        if (auth()->check()) {
+            $key = authUser()->id . '_' . 'enabledFeatures';
+        }
+
+        $enabledFeatures = Cache::store('array')->rememberForever($key, function () {
             return Feature::getAllEnabledFeaturesOfCompany();
+        });
+
+        return $enabledFeatures->merge(pads()->pluck('name'))->intersect($featureNames)->isNotEmpty();
+    }
+}
+
+if (!function_exists('isFeatureEnabledForCompany')) {
+    function isFeatureEnabledForCompany($companyId, ...$featureNames)
+    {
+        $enabledFeatures = Cache::store('array')->rememberForever($companyId . 'enabledFeatures', function () use ($companyId) {
+            return Feature::getAllEnabledFeaturesOfCompany($companyId);
         });
 
         return $enabledFeatures->merge(pads()->pluck('name'))->intersect($featureNames)->isNotEmpty();
@@ -75,7 +93,13 @@ if (!function_exists('quantity')) {
 if (!function_exists('pads')) {
     function pads($module = null)
     {
-        $pads = Cache::store('array')->rememberForever(authUser()->id . '_' . 'pads', function () {
+        $key = 'pads';
+
+        if (auth()->check()) {
+            $key = authUser()->id . '_' . 'pads';
+        }
+
+        $pads = Cache::store('array')->rememberForever($key, function () {
             return Pad::enabled()->get();
         });
 
@@ -122,7 +146,7 @@ if (!function_exists('numberToWords')) {
             return 'N/A';
         }
 
-        $number = number_format($number, 2, thousands_separator:'');
+        $number = number_format($number, 2, thousands_separator: '');
 
         if (str($number)->after('.')->toString() != '00') {
             $decimals = str($number)->after('.')->append('/100')->prepend(' ')->toString();

@@ -24,8 +24,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('routine:daily')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+
+        $schedule->command('backup:run --disable-notifications')->withoutOverlapping()->evenInMaintenanceMode()->twiceDailyAt(12, 18, 45);
+
+        $schedule->command('pos:remove')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
+
+        $schedule->command('pos:void')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
+
+        $schedule->command('pos:approve')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
     }
 
     /**

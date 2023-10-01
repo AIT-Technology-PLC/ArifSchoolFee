@@ -36,4 +36,15 @@ class PointOfSaleService
 
         return (new $posClass($sale))->isVoid();
     }
+
+    public function exists($sale)
+    {
+        if (! $sale->warehouse->hasPosIntegration()) {
+            return [true, ''];
+        }
+
+        $posClass = str($sale->warehouse->pos_provider)->ucfirst()->prepend('App\\Integrations\\PointOfSale\\')->toString();
+
+        return (new $posClass($sale))->exists();
+    }
 }

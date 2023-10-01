@@ -84,7 +84,7 @@ class MerchandiseBatch extends Model
 
     public function isExpired()
     {
-        return is_null($this->expires_on) || $this->expires_on->isPast();
+        return !is_null($this->expires_on) && $this->expires_on->isPast();
     }
 
     public function isAvailable()

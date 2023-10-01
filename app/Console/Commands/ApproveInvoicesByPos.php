@@ -9,21 +9,21 @@ use App\Services\Models\SaleService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-class CorrectBadInvoices extends Command
+class ApproveInvoicesByPos extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'pos:correct-bad-invoices';
+    protected $signature = 'pos:approve';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Correct bad invoices';
+    protected $description = 'Approve invoices by POS';
 
     /**
      * Execute the console command.
@@ -34,9 +34,7 @@ class CorrectBadInvoices extends Command
     {
         ini_set('max_execution_time', '-1');
 
-        $badInvoices = collect();
-
-        DB::transaction(function () use ($pointOfSaleService, $saleService, $badInvoices) {
+        DB::transaction(function () use ($pointOfSaleService, $saleService) {
             $warehouses = Warehouse::with('company')->active()->whereNotNull('pos_provider')->whereNotNull('host_address')->get();
 
             foreach ($warehouses as $warehouse) {
@@ -44,7 +42,13 @@ class CorrectBadInvoices extends Command
                     continue;
                 }
 
-                $sales = Sale::whereNull('fs_number')->where('warehouse_id', $warehouse->id)->orderBy('id', 'ASC')->get();
+                $sales = Sale::query()
+                    ->notSubtracted()
+                    ->notCancelled()
+                    ->whereNull('fs_number')
+                    ->where('warehouse_id', $warehouse->id)
+                    ->orderBy('id', 'ASC')
+                    ->get();
 
                 foreach ($sales as $sale) {
                     [$isExecuted, $fsNumber] = $pointOfSaleService->getFsNumber($sale);
@@ -53,25 +57,18 @@ class CorrectBadInvoices extends Command
                         continue;
                     }
 
-                    $sale->undoCancel();
-
-                    $sale->approve();
+                    if (!$sale->isApproved()) {
+                        $sale->approve();
+                    }
 
                     $saleService->assignFSNumber([
                         'warehouse_id' => $sale->warehouse_id,
                         'invoice_number' => $sale->code,
                         'fs_number' => $fsNumber,
                     ]);
-
-                    $badInvoices->push([
-                        'sale_id' => $sale->id,
-                        'fs_number' => $fsNumber,
-                    ]);
                 }
             }
         });
-
-        $this->info($badInvoices);
 
         return Command::SUCCESS;
     }

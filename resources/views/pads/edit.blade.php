@@ -587,7 +587,7 @@
                                                 class="is-large is-left"
                                             />
                                         </x-forms.control>
-                                        @if ($padField->tag == 'input')
+                                        @if ($padField->tag == 'input' || $padField->tag == 'select')
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.input
                                                     type="text"
@@ -603,6 +603,7 @@
                                             </x-forms.control>
                                         @endif
                                         <x-common.validation-error property="field.{{ $loop->index }}.tag" />
+                                        <x-common.validation-error property="field.{{ $loop->index }}.tag_type" />
                                     </x-forms.field>
                                 </div>
                                 <div class="column is-3">

@@ -78,19 +78,27 @@ class Feature extends Model
         $feature->plans()->updateExistingPivot($plan->id, ['is_enabled' => $value]);
     }
 
-    public static function getAllEnabledFeaturesOfCompany()
+    public static function getAllEnabledFeaturesOfCompany($companyId = null)
     {
+        if (!is_null($companyId)) {
+            $company = Company::find($companyId);
+        }
+
+        if (auth()->check()) {
+            $company = userCompany();
+        }
+
         $enabledFeatures = DB::table('featurables')
             ->join('features', 'featurables.feature_id', 'features.id')
             ->where('features.is_enabled', 1)
-            ->where(function ($query) {
+            ->where(function ($query) use ($company) {
                 $query->where('featurables.featurable_type', 'App\\Models\\Plan')
-                    ->where('featurables.featurable_id', userCompany()->plan_id)
+                    ->where('featurables.featurable_id', $company->plan_id)
                     ->where('featurables.is_enabled', 1);
             })
-            ->orWhere(function ($query) {
+            ->orWhere(function ($query) use ($company) {
                 $query->where('featurables.featurable_type', 'App\\Models\\Company')
-                    ->where('featurables.featurable_id', userCompany()->id)
+                    ->where('featurables.featurable_id', $company->id)
                     ->where('featurables.is_enabled', 1);
             })
             ->pluck('features.name')
@@ -99,7 +107,7 @@ class Feature extends Model
         $disabledFeaturesForCompany = DB::table('featurables')
             ->join('features', 'featurables.feature_id', 'features.id')
             ->where('featurables.featurable_type', 'App\\Models\\Company')
-            ->where('featurables.featurable_id', userCompany()->id)
+            ->where('featurables.featurable_id', $company->id)
             ->where('featurables.is_enabled', 0)
             ->pluck('features.name')
             ->unique();
