@@ -296,6 +296,11 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+                ['name' => 'Sale By Payment Report'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
                 ['name' => 'Inventory Batch Report'],
                 ['is_enabled' => 1]
             );

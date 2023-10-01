@@ -1066,9 +1066,24 @@
             'Inventory Summary Report',
             'Inventory Valuation Report',
             'Profit Report',
-            'Inventory Batch Report'))
-        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report', 'Read Inventory Summary Report', 'Read Inventory Valuation Report', 'Read
-            Profit Report', 'Read Inventory Batch Report'])
+            'Inventory Batch Report',
+            'Sale By Payment Report'))
+        @canany([
+            'Read Sale Report',
+            'Read Return Report',
+            'Read Expense Report',
+            'Read Customer Report',
+            'Read Daily Inventory Report',
+            'Read Credit',
+            'Read Debt',
+            'Read Inventory Transfer Report',
+            'Read Credit Report',
+            'Read Inventory Summary Report',
+            'Read Inventory Valuation Report',
+            'Read
+            Profit Report',
+            'Read Inventory Batch Report',
+            ])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -1263,6 +1278,20 @@
                                         href="{{ route('reports.profit') }}"
                                         label="Profit"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.profit') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Sale By Payment Report'))
+                            @can('Read Sale Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.sale_by_payment') }}"
+                                        label="Sales By Payment"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sale_by_payment') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>

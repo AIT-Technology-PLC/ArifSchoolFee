@@ -119,7 +119,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Subtract Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Sale']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Assign FS Sale']);
 
             // Reservation

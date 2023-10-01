@@ -1094,7 +1094,8 @@
                 'Inventory Summary Report',
                 'Inventory Valuation Report',
                 'Profit Report',
-                'Inventory Batch Report'))
+                'Inventory Batch Report',
+                'Sale By Payment Report'))
             @canany([
                 'Read Sale Report',
                 'Read Return Report',
@@ -1109,7 +1110,7 @@
                 'Read Inventory Valuation Report',
                 'Read
                 Profit Report',
-                'Read Inventory Batch Report',
+                'Read Inventory Batch Report'
                 ])
                 <section class="mb-5">
                     <x-content.header>
@@ -1347,6 +1348,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Profit
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Sale By Payment Report'))
+                                @can('Read Sale Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.sale_by_payment') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-credit-card"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales By Payment
                                         </span>
                                     </div>
                                 @endcan

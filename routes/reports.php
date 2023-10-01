@@ -19,4 +19,5 @@ Route::get('/reports/inventory-summary', [Report\InventorySummaryReportControlle
 Route::get('/reports/inventory-valuation', [Report\InventoryValuationReportController::class,'index'])->name('reports.inventory_valuation');
 Route::get('/reports/profit', [Report\ProfitReportController::class, 'index'])->name('reports.profit');
 Route::get('/reports/Report/inventory-batch', [Report\InventoryBatchReportController::class, 'index'])->name('reports.inventory_batch');
+Route::get('/reports/sale-by-payment', [Report\SaleByPaymentReportController::class, 'index'])->name('reports.sale_by_payment');
 

@@ -142,4 +142,25 @@ class Peds implements PointOfSaleInterface
 
         return $data;
     }
+
+    public function exists()
+    {
+        try {
+            $response = Http::retry(2, throw :false)
+                ->connectTimeout(5)
+                ->timeout(5)
+                ->withHeaders($this->getHeaders())
+                ->post(str($this->hostAddress)->append('Exists')->toString(), $this->sale->code);
+
+            $data = true;
+
+            if (isset($response['Success'])) {
+                $data = $response['Success'];
+            }
+        } catch (ConnectionException $ex) {
+            $data = true;
+        }
+
+        return $data;
+    }
 }
