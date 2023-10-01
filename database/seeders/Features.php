@@ -295,6 +295,11 @@ class Features extends Seeder
                 ['is_enabled' => 0]
             );
 
+            Feature::updateOrCreate(
+                ['name' => 'Sale By Payment Report'],
+                ['is_enabled' => 1]
+            );
+
             $standard = Plan::firstWhere('name', 'standard');
             $professional = Plan::firstWhere('name', 'professional');
             $premium = Plan::firstWhere('name', 'premium');

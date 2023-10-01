@@ -31,7 +31,7 @@ class SaleDatatable extends DataTable
                     ->when($keyword == 'approved', fn($query) => $query->approved()->notCancelled())
                     ->when($keyword == 'cancelled', fn($query) => $query->cancelled());
             })
-            ->editColumn('fs_number', fn($sale) => !is_null($sale->fs_number) ? str()->padLeft($sale->fs_number, 8, 0) : 'N/A')
+            ->editColumn('fs_number', fn($sale) => $sale->fs_number ?? 'N/A')
             ->editColumn('total price', function ($sale) {
                 return userCompany()->isDiscountBeforeTax() ?
                 userCompany()->currency . '. ' . number_format($sale->grandTotalPrice, 2) :

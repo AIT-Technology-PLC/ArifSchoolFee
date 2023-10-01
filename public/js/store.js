@@ -338,7 +338,7 @@ const Supplier = {
 const Merchandise = {
     merchandise: {},
 
-    async init(productId, warehouseId) {
+    async init(productId, warehouseId = "") {
         const response = await axios.get(
             `/api/merchandises/products/${productId}/warehouses/${warehouseId}`
         );

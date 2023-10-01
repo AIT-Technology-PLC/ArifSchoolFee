@@ -113,9 +113,7 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
-        abort_if($sale->isSubtracted() || $sale->isCancelled(), 403);
-
-        abort_if($sale->isApproved() && !authUser()->can('Delete Approved Sale'), 403);
+        abort_if($sale->isApproved() || $sale->isCancelled(), 403);
 
         $sale->forceDelete();
 
