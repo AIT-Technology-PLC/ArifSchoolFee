@@ -169,7 +169,7 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                this.taxAmount(productId);
+                      this.taxAmount(productId);
         }
 
         return 0;
@@ -338,14 +338,10 @@ const Supplier = {
 const Merchandise = {
     merchandise: {},
 
-    async init(productId, warehouseId) {
-        let url = `/api/merchandises/products/${productId}/warehouses`;
-
-        if (warehouseId != null) {
-            url += `/${warehouseId}`;
-        }
-
-        const response = await axios.get(url);
+    async init(productId, warehouseId = "") {
+        const response = await axios.get(
+            `/api/merchandises/products/${productId}/warehouses/${warehouseId}`
+        );
 
         this.merchandise = response.data;
 

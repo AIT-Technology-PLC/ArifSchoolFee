@@ -367,14 +367,6 @@
                                 this.proformaInvoices[index].product_id
                             );
 
-                        if (Product.isBatchable(this.proformaInvoices[index].product_id) && Company.canSelectBatchNumberOnForms()) {
-                            MerchandiseBatch.appendMerchandiseBatches(
-                                this.getMerchandiseBatchesSelect(index),
-                                this.proformaInvoices[index].merchandise_batch_id,
-                                MerchandiseBatch.where(this.proformaInvoices[index].product_id)
-                            );
-                        }
-
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.proformaInvoices[index].product_id, this.proformaInvoices[index].product_category_id);
 
@@ -386,6 +378,16 @@
                         }
 
                         this.getInventoryLevel(index);
+
+                        if (!Product.isBatchable(this.proformaInvoices[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                            return;
+                        }
+
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.proformaInvoices[index].merchandise_batch_id,
+                            MerchandiseBatch.where(this.proformaInvoices[index].product_id)
+                        );
                     });
                 },
                 summernote(index) {
@@ -430,7 +432,7 @@
                         return;
                     }
 
-                    await Merchandise.init(this.proformaInvoices[index].product_id, null);
+                    await Merchandise.init(this.proformaInvoices[index].product_id);
 
                     this.proformaInvoices[index].availableQuantity = Merchandise.merchandise;
                 },

@@ -20,20 +20,14 @@ class MerchandiseController extends Controller
             return false;
         }
 
-        if (!$product->exists) {
-            return false;
-        }
-
         if ($product->isTypeService()) {
             return false;
         }
 
-        if (!$warehouse->exists) {
-            $availableQuantity = Merchandise::where('product_id', $product->id)->sum('available');
-
-        } else {
-            $availableQuantity = Merchandise::where('product_id', $product->id)->where('warehouse_id', $warehouse->id)->first()->available ?? 0;
-        }
+        $availableQuantity = Merchandise::query()
+            ->where('product_id', $product->id)
+            ->when($warehouse->exists, fn($q) => $q->where('warehouse_id', $warehouse->id))
+            ->sum('available');
 
         return str(number_format($availableQuantity, 2))->append(' ', $product->unit_of_measurement)->toString();
     }
