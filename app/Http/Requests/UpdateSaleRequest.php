@@ -30,7 +30,7 @@ class UpdateSaleRequest extends FormRequest
     {
         return [
             'code' => ['required', 'integer', new UniqueReferenceNum('sales', $this->route('sale')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
-            'fs_number' => ['sometimes', Rule::when($this->route('sale')->warehouse->hasPosIntegration() || !is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'numeric', Rule::notIn(Sale::pluck('fs_number'))],
+            'fs_number' => ['sometimes', Rule::when($this->route('sale')->warehouse->hasPosIntegration() || !is_null($this->route('sale')->fs_number), 'prohibited', 'nullable'), 'string', Rule::notIn(Sale::pluck('fs_number'))],
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new ValidateBackorder($this->input('sale')), new CheckProductStatus],
             'sale.*.warehouse_id' => ['sometimes', 'required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],

@@ -239,7 +239,7 @@
                                     </x-forms.control>
                                 </x-forms.field>
                             </div>
-                        @elseif($masterPadField->isTagSelect())
+                        @elseif(!$masterPadField->hasRelation() && $masterPadField->isTagSelect())
                             <div class="column is-6">
                                 <x-forms.field>
                                     <x-forms.label for="{{ $masterPadField->id }}">
@@ -256,10 +256,13 @@
                                                 selected
                                                 hidden
                                             >
-                                                Select Method
+                                                Select {{ $masterPadField->label }}
                                             </option>
-                                            <option value="Cash"> Cash </option>
-                                            <option value="Credit"> Credit </option>
+                                            @foreach (explode(',', $masterPadField->tag_type) as $option)
+                                                <option value="{{ $option }}">
+                                                    {{ $option }}
+                                                </option>
+                                            @endforeach
                                         </x-forms.select>
                                         <x-common.icon
                                             name="{{ $masterPadField->icon }}"
@@ -644,6 +647,39 @@
                                                             wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
                                                         >
                                                         </x-forms.textarea>
+                                                        <x-common.icon
+                                                            name="{{ $detailPadField->icon }}"
+                                                            class="is-large is-left"
+                                                        />
+                                                        <x-common.validation-error property="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}" />
+                                                    </x-forms.control>
+                                                </x-forms.field>
+                                            </div>
+                                        @elseif(!$detailPadField->hasRelation() && $detailPadField->isTagSelect())
+                                            <div class="column is-6">
+                                                <x-forms.field>
+                                                    <x-forms.label for="{{ $loop->parent->index }}{{ $detailPadField->id }}">
+                                                        {{ $detailPadField->label }} <sup class="has-text-danger">{{ $detailPadField->isRequired() ? '*' : '' }}</sup>
+                                                    </x-forms.label>
+                                                    <x-forms.control class="has-icons-left">
+                                                        <x-forms.select
+                                                            id="{{ $loop->parent->index }}{{ $detailPadField->id }}"
+                                                            class="is-fullwidth"
+                                                            wire:model.lazy="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                            wire:key="details.{{ $loop->parent->index }}.{{ $detailPadField->id }}"
+                                                        >
+                                                            <option
+                                                                selected
+                                                                hidden
+                                                            >
+                                                                Select {{ $detailPadField->label }}
+                                                            </option>
+                                                            @foreach (explode(',', $detailPadField->tag_type) as $option)
+                                                                <option value="{{ $option }}">
+                                                                    {{ $option }}
+                                                                </option>
+                                                            @endforeach
+                                                        </x-forms.select>
                                                         <x-common.icon
                                                             name="{{ $detailPadField->icon }}"
                                                             class="is-large is-left"

@@ -29,7 +29,7 @@ return new class extends Migration
                 products.unit_of_measurement AS product_unit_of_measurement,
                 sale_details.quantity,
                 sale_details.unit_price,
-                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = sale_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= sales.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.created_at DESC LIMIT 1) AS unit_cost,
+                (SELECT inventory_valuation_histories.unit_cost FROM inventory_valuation_histories WHERE inventory_valuation_histories.product_id = sale_details.product_id AND inventory_valuation_histories.type = products.inventory_valuation_method AND inventory_valuation_histories.created_at <= sales.issued_on AND inventory_valuation_histories.deleted_at is NULL ORDER BY inventory_valuation_histories.id DESC LIMIT 1) AS unit_cost,
                 brands.name AS brand_name,
                 IF(companies.is_price_before_vat=1, sale_details.unit_price, sale_details.unit_price/(1+taxes.amount))*sale_details.quantity AS line_price_before_tax,
                 IF(companies.is_price_before_vat=1, sale_details.unit_price, sale_details.unit_price/(1+taxes.amount))*sale_details.quantity*taxes.amount AS line_tax
@@ -59,10 +59,6 @@ return new class extends Migration
                 sales.company_id,
                 sales.created_by,
                 users.name AS user_name,
-                CASE
-                    WHEN sales.approved_by IS NOT NULL THEN 'approved'
-                    ELSE 'not_approved'
-                END AS status,
                 sales.warehouse_id,
                 sales.warehouse_id AS branch_id,
                 warehouses.name AS branch_name,
@@ -77,7 +73,11 @@ return new class extends Migration
                 sales.cash_received,
                 sales.issued_on,
                 (SELECT SUM(sale_detail_reports.line_price_before_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS subtotal_price,
-                (SELECT SUM(sale_detail_reports.line_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS total_tax
+                (SELECT SUM(sale_detail_reports.line_tax) FROM sale_detail_reports WHERE sale_detail_reports.sale_id = sales.id) AS total_tax,
+                credits.credit_amount,
+                credits.credit_amount_settled,
+                (credits.credit_amount - credits.credit_amount_settled) AS credit_amount_unsettled,
+                credits.last_settled_at
             FROM
                 sales
             INNER JOIN warehouses
@@ -86,10 +86,12 @@ return new class extends Migration
                 ON sales.created_by = users.id
             LEFT JOIN customers
                 ON sales.customer_id = customers.id
+            LEFT JOIN credits
+                ON sales.id = credits.creditable_id AND credits.creditable_type = 'App\\\\Models\\\\Sale'
             INNER JOIN companies
                 ON sales.company_id = companies.id
             WHERE
-                sales.deleted_at IS NULL AND sales.cancelled_by IS NULL
+                sales.deleted_at IS NULL AND sales.cancelled_by IS NULL AND IF(companies.can_sale_subtract = 1, sales.subtracted_by IS NOT NULL, sales.approved_by IS NOT NULL)
             "
         );
     }

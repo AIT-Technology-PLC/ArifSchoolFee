@@ -12,6 +12,31 @@
         <div class="quickview-body">
             <div class="quickview-block">
                 <div class="columns is-marginless is-vcentered is-multiline is-mobile">
+                    @if (isFeatureEnabled('Sale Management') && isFeatureEnabled('Gdn Management'))
+                        <div class="column is-12">
+                            <x-forms.label>
+                                Source
+                            </x-forms.label>
+                            <x-forms.field class="has-text-centered">
+                                <x-forms.control>
+                                    <x-forms.select
+                                        id="source"
+                                        name="source"
+                                        class="is-size-7-mobile is-fullwidth"
+                                    >
+                                        <option
+                                            value="Delivery Orders"
+                                            @selected((request('source') ?? userCompany()->sales_report_source) == 'Delivery Orders')
+                                        > Delivery Orders </option>
+                                        <option
+                                            value="Invoices"
+                                            @selected((request('source') ?? userCompany()->sales_report_source) == 'Invoices')
+                                        > Invoices </option>
+                                    </x-forms.select>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-12">
                         <x-forms.label>
                             Period

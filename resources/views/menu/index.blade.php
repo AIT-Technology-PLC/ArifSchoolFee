@@ -1097,7 +1097,20 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sales Report', 'Return Report', 'Expense Report', 'Customer Report', 'Daily Inventory Level Report', 'Credit Management', 'Debt Management', 'Inventory Transfer Report', 'Credit Report', 'Inventory Summary Report', 'Inventory Valuation Report', 'Profit Report'))
+        @if (isFeatureEnabled(
+                'Sales Report',
+                'Return Report',
+                'Expense Report',
+                'Customer Report',
+                'Daily Inventory Level Report',
+                'Credit Management',
+                'Debt Management',
+                'Inventory Transfer Report',
+                'Credit Report',
+                'Inventory Summary Report',
+                'Inventory Valuation Report',
+                'Profit Report',
+                'Sale By Payment Report'))
             @canany([
                 'Read Sale Report',
                 'Read Return Report',
@@ -1349,6 +1362,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Profit
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Sale By Payment Report'))
+                                @can('Read Sale Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.sale_by_payment') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-credit-card"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Sales By Payment
                                         </span>
                                     </div>
                                 @endcan

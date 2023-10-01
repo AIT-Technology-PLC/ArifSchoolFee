@@ -407,22 +407,6 @@
                                 this.gdns[index].product_id
                             );
 
-                        if (Product.isBatchable(this.gdns[index].product_id) && Company.canSelectBatchNumberOnForms()) {
-                            MerchandiseBatch.appendMerchandiseBatches(
-                                this.getMerchandiseBatchesSelect(index),
-                                this.gdns[index].merchandise_batch_id,
-                                MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
-                            );
-                        }
-
-                        if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {
-                            batches = MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id);
-                        }
-
-                        if (batches.length <= 1) {
-                            this.gdns[index].merchandise_batch_id = batches[0]?.id;
-                        }
-
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.gdns[index].product_id, this.gdns[index].product_category_id);
 
@@ -431,6 +415,25 @@
                             ).length ? Product.prices(
                                 this.gdns[index].product_id
                             )[0].fixed_price : "";
+                        }
+
+                        if (!Product.isBatchable(this.gdns[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                            this.getInventoryLevel(index);
+                            return;
+                        }
+
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.gdns[index].merchandise_batch_id,
+                            MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id),
+                        );
+
+                        if (this.gdns[index].product_id && this.gdns[index].warehouse_id) {
+                            batches = MerchandiseBatch.where(this.gdns[index].product_id, this.gdns[index].warehouse_id);
+                        }
+
+                        if (batches.length <= 1) {
+                            this.gdns[index].merchandise_batch_id = batches[0]?.id;
                         }
 
                         this.getInventoryLevel(index);
@@ -460,8 +463,9 @@
                     this.gdns[index].availableQuantity = Merchandise.merchandise;
                 },
                 warehouseChanged(index) {
-                    if (!Product.isBatchable(this.gdns[index].product_id) || Company.canSelectBatchNumberOnForms()) {
+                    if (!Product.isBatchable(this.gdns[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
                         this.getInventoryLevel(index);
+                        return;
                     }
 
                     let batches = [];
@@ -481,6 +485,8 @@
                     if (batches.length <= 1) {
                         this.gdns[index].merchandise_batch_id = batches[0]?.id;
                     }
+
+                    this.getInventoryLevel(index);
                 }
             }));
         });
