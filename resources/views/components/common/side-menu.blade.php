@@ -476,6 +476,17 @@
                                     />
                                 </li>
                             @endcan
+                            @can('Update Merchandise Batch')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('merchandise-batches.index') }}"
+                                        label="Batches"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('merchandise-batches.*') ? 'text-green has-text-weight-bold' : '' }} "
+                                        x-init="{{ request()->routeIs('merchandise-batches.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
                         @endif
                         @if (isFeatureEnabled('Warehouse Management'))
                             @can('Read Warehouse')
@@ -1067,8 +1078,21 @@
             'Inventory Valuation Report',
             'Profit Report',
             'Sale By Payment Report'))
-        @canany(['Read Sale Report', 'Read Return Report', 'Read Expense Report', 'Read Customer Report', 'Read Daily Inventory Report', 'Read Credit', 'Read Debt', 'Read Inventory Transfer Report', 'Read Credit Report', 'Read Inventory Summary Report', 'Read Inventory Valuation Report', 'Read
-            Profit Report'])
+        @canany([
+            'Read Sale Report',
+            'Read Return Report',
+            'Read Expense Report',
+            'Read Customer Report',
+            'Read Daily Inventory Report',
+            'Read Credit',
+            'Read Debt',
+            'Read Inventory Transfer Report',
+            'Read Credit Report',
+            'Read Inventory Summary Report',
+            'Read Inventory Valuation Report',
+            'Read
+            Profit Report',
+            ])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
