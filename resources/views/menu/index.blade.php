@@ -356,7 +356,7 @@
         @endif
 
         @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV', 'Update Merchandise Batch'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -384,6 +384,22 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Inventory Level
+                                        </span>
+                                    </div>
+                                @endcan
+                                @can('Update Merchandise Batch')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('merchandise-batches.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-th"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Merchandise Batch
                                         </span>
                                     </div>
                                 @endcan
@@ -1094,6 +1110,7 @@
                 'Inventory Summary Report',
                 'Inventory Valuation Report',
                 'Profit Report',
+                'Inventory Batch Report',
                 'Sale By Payment Report',
                 'Inventory In Transit Report'))
             @canany([
@@ -1110,7 +1127,8 @@
                 'Read Inventory Valuation Report',
                 'Read
                 Profit Report',
-                'Read Inventory In Transit Report'
+                'Read Inventory Batch Report',
+                'Read Inventory In Transit Report',
                 ])
                 <section class="mb-5">
                     <x-content.header>
@@ -1367,6 +1385,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Sales By Payment
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Inventory Batch Report'))
+                                @can('Read Inventory Batch Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.inventory_batch') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-th"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Inventory Batch
                                         </span>
                                     </div>
                                 @endcan

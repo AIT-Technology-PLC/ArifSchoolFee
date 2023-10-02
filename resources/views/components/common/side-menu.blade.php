@@ -476,6 +476,17 @@
                                     />
                                 </li>
                             @endcan
+                            @can('Update Merchandise Batch')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('merchandise-batches.index') }}"
+                                        label="Batches"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('merchandise-batches.*') ? 'text-green has-text-weight-bold' : '' }} "
+                                        x-init="{{ request()->routeIs('merchandise-batches.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
                         @endif
                         @if (isFeatureEnabled('Warehouse Management'))
                             @can('Read Warehouse')
@@ -1066,6 +1077,7 @@
             'Inventory Summary Report',
             'Inventory Valuation Report',
             'Profit Report',
+            'Inventory Batch Report',
             'Sale By Payment Report',
             'Inventory In Transit Report'))
         @canany([
@@ -1082,6 +1094,7 @@
             'Read Inventory Valuation Report',
             'Read
             Profit Report',
+            'Read Inventory Batch Report',
             'Read Inventory In Transit Report',
             ])
             <ul
@@ -1292,6 +1305,20 @@
                                         href="{{ route('reports.sale_by_payment') }}"
                                         label="Sales By Payment"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sale_by_payment') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory Batch Report'))
+                            @can('Read Inventory Batch Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_batch') }}"
+                                        label="Inventory Batch"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_batch') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>

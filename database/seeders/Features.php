@@ -301,6 +301,11 @@ class Features extends Seeder
             );
 
             Feature::updateOrCreate(
+                ['name' => 'Inventory Batch Report'],
+                ['is_enabled' => 1]
+            );
+
+            Feature::updateOrCreate(
                 ['name' => 'Inventory In Transit Report'],
                 ['is_enabled' => 1]
             );
