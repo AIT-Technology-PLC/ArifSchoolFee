@@ -1077,6 +1077,7 @@
             'Inventory Summary Report',
             'Inventory Valuation Report',
             'Profit Report',
+            'Inventory Batch Report',
             'Sale By Payment Report'))
         @canany([
             'Read Sale Report',
@@ -1090,8 +1091,8 @@
             'Read Credit Report',
             'Read Inventory Summary Report',
             'Read Inventory Valuation Report',
-            'Read
-            Profit Report',
+            'Read Profit Report',
+            'Read Inventory Batch Report',
             ])
             <ul
                 x-data="sideMenuAccordion"
@@ -1301,6 +1302,20 @@
                                         href="{{ route('reports.sale_by_payment') }}"
                                         label="Sales By Payment"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sale_by_payment') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory Batch Report'))
+                            @can('Read Inventory Batch Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_batch') }}"
+                                        label="Inventory Batch"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_batch') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>

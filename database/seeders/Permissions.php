@@ -410,6 +410,9 @@ class Permissions extends Seeder
             // Profit Report
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Profit Report']);
 
+            // Inventory Batch Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Inventory Batch Report']);
+
             //Update Merchandise Batch
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Merchandise Batch']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Merchandise Batch']);
