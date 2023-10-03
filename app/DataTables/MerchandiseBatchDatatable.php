@@ -20,7 +20,7 @@ class MerchandiseBatchDatatable extends DataTable
             ->editColumn('code', fn($merchandiseBatch) => $merchandiseBatch->code ?? 'N/A')
             ->editColumn('unit', fn($merchandiseBatch) => $merchandiseBatch->unit)
             ->editColumn('batch_no', fn($merchandiseBatch) => $merchandiseBatch->batch_no)
-            ->editColumn('expires_on', fn($merchandiseBatch) => $merchandiseBatch->expires_on?->toFormattedDateString())
+            ->editColumn('expires_on', fn($merchandiseBatch) => view('components.datatables.inventory-batch-tag', ['content' => $merchandiseBatch->expires_on]))
             ->editColumn('quantity', fn($merchandiseBatch) => $merchandiseBatch->quantity)
             ->editColumn('actions', function ($merchandiseBatch) {
                 return view('components.common.action-buttons', [

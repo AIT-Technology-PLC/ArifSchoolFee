@@ -1,3 +1,3 @@
-<span class="tag is-small {{ empty($content) || $content > now() ? 'btn-green' : 'btn-purple' }} is-outlined has-text-weight-medium">
+<span class="tag is-small {{ empty($content) || $content > now() ? 'bg-lightgreen text-green' : 'bg-lightpurple text-purple' }}">
     {{ $content?->toFormattedDateString() ?? 'N/A' }}
 </span>
