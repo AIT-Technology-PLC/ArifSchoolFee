@@ -19,7 +19,7 @@ class ReservationDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($reservation) => route('reservations.show', $reservation->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($reservation) => $reservation->warehouse->name)
             ->editColumn('status', fn($reservation) => view('components.datatables.reservation-status', compact('reservation')))

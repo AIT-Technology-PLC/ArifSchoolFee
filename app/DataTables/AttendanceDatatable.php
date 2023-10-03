@@ -20,7 +20,7 @@ class AttendanceDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($attendance) => route('attendances.show', $attendance->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($attendance) => $attendance->warehouse->name)
             ->editColumn('status', fn($attendance) => view('components.datatables.attendance-status', compact('attendance')))

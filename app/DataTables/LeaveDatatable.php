@@ -20,7 +20,7 @@ class LeaveDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($leave) => route('leaves.show', $leave->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($leave) => $leave->warehouse->name)
             ->editColumn('status', fn($leave) => view('components.datatables.leave-status', compact('leave')))

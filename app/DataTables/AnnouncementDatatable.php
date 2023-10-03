@@ -20,7 +20,7 @@ class AnnouncementDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($announcement) => route('announcements.show', $announcement->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('status', fn($announcement) => view('components.datatables.announcement-status', compact('announcement')))
             ->editColumn('prepared by', fn($announcement) => $announcement->createdBy->name)

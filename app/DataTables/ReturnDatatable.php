@@ -20,7 +20,7 @@ class ReturnDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($return) => route('returns.show', $return->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('return')
             ->editColumn('branch', fn($return) => $return->warehouse->name)

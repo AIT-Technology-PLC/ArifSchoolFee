@@ -21,7 +21,7 @@ class GdnDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($gdn) => route('gdns.show', $gdn->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('gdn')
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)

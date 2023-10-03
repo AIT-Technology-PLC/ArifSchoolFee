@@ -20,7 +20,7 @@ class PriceDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($product) => route('products.prices.index', $product->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('product', fn($product) => $product->name)
             ->editColumn('code', fn($product) => $product->code ?: '-')

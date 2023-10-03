@@ -19,7 +19,7 @@ class CustomerDepositDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($customerDeposit) => route('customer-deposits.show', $customerDeposit->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('customer', function ($customerDeposit) {
                 return view('components.datatables.link', [

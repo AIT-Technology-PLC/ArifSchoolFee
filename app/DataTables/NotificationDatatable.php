@@ -20,7 +20,7 @@ class NotificationDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($notification) => route('notifications.show', $notification->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('notification', fn($notification) => $notification->data['message'])
             ->editColumn('status', fn($notification) => view('components.datatables.notification-status', compact('notification')))

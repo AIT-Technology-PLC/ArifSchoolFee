@@ -20,7 +20,7 @@ class ExpenseClaimDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($expenseClaim) => route('expense-claims.show', $expenseClaim->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($expenseClaim) => $expenseClaim->warehouse->name)
             ->editColumn('status', fn($expenseClaim) => view('components.datatables.expense-claim-status', compact('expenseClaim')))

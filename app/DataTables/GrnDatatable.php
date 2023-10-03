@@ -21,7 +21,7 @@ class GrnDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($grn) => route('grns.show', $grn->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('grn')
             ->editColumn('branch', fn($grn) => $grn->warehouse->name)

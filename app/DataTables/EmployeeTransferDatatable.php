@@ -20,7 +20,7 @@ class EmployeeTransferDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($employeeTransfer) => route('employee-transfers.show', $employeeTransfer->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('issued_on', fn($employeeTransfer) => $employeeTransfer->issued_on->toFormattedDateString())
             ->editColumn('status', fn($employeeTransfer) => view('components.datatables.employee-transfer-status', compact('employeeTransfer')))

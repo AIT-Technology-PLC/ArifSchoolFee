@@ -19,7 +19,7 @@ class TransferDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($transfer) => route('transfers.show', $transfer->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($transfer) => $transfer->warehouse->name)
             ->editColumn('status', fn($transfer) => view('components.datatables.transfer-status', compact('transfer')))

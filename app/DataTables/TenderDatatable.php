@@ -19,7 +19,7 @@ class TenderDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($tender) => route('tenders.show', $tender->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($tender) => $tender->warehouse->name)
             ->editColumn('checklist completion', fn($tender) => $tender->tenderChecklistsCompletionRate . '%')

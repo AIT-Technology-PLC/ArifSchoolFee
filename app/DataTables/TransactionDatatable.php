@@ -41,7 +41,7 @@ class TransactionDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($transaction) => route('transactions.show', $transaction['id']),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ]);
 
         foreach ($this->padFields as $padField) {

@@ -19,7 +19,7 @@ class PurchaseDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($purchase) => route('purchases.show', $purchase->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($purchase) => $purchase->warehouse->name)
             ->editColumn('status', fn($purchase) => view('components.datatables.purchase-status', compact('purchase')))

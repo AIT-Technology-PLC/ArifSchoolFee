@@ -19,7 +19,7 @@ class DebtDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($debt) => route('debts.show', $debt->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($debt) => $debt->warehouse->name)
             ->editColumn('purchase no', function ($debt) {

@@ -20,7 +20,7 @@ class SivDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($siv) => route('sivs.show', $siv->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('siv')
             ->editColumn('branch', fn($siv) => $siv->warehouse->name)

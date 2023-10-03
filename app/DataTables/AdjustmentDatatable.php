@@ -19,7 +19,7 @@ class AdjustmentDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($adjustment) => route('adjustments.show', $adjustment->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($adjustment) => $adjustment->warehouse->name)
             ->editColumn('status', fn($adjustment) => view('components.datatables.adjustment-status', compact('adjustment')))

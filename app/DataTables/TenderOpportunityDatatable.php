@@ -19,7 +19,7 @@ class TenderOpportunityDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($tenderOpportunity) => route('tender-opportunities.show', $tenderOpportunity->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('customer', fn($tenderOpportunity) => $tenderOpportunity->customer->company_name ?? 'N/A')
             ->editColumn('status', fn($tenderOpportunity) => $tenderOpportunity->tenderStatus->status ?? 'N/A')

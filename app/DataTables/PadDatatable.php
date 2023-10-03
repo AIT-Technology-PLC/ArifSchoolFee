@@ -19,7 +19,7 @@ class PadDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($pad) => route('pads.show', $pad->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('status', fn($pad) => view('components.datatables.pad-status', compact('pad')))
             ->filterColumn('status', function ($query, $keyword) {

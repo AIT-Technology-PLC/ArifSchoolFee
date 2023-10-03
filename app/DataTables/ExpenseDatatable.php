@@ -20,7 +20,7 @@ class ExpenseDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($expense) => route('expenses.show', $expense->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($expense) => $expense->warehouse->name)
             ->editColumn('status', fn($expense) => view('components.datatables.expense-status', compact('expense')))

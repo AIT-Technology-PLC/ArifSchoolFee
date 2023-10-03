@@ -20,7 +20,7 @@ class JobDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($job) => route('jobs.show', $job->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($job) => $job->warehouse->name)
             ->editColumn('prepared by', fn($job) => $job->createdBy->name)

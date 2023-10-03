@@ -20,7 +20,7 @@ class SaleDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($sale) => route('sales.show', $sale->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('sale')
             ->editColumn('branch', fn($sale) => $sale->warehouse->name)

@@ -20,7 +20,7 @@ class CostUpdateDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($costUpdate) => route('cost-updates.show', $costUpdate->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('Reference No', fn($costUpdate) => $costUpdate->costUpdate->code ?? 'N/A')
             ->editColumn('status', fn($costUpdate) => view('components.datatables.cost-update-status', compact('costUpdate')))

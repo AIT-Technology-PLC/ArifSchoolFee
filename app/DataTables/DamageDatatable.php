@@ -19,7 +19,7 @@ class DamageDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($damage) => route('damages.show', $damage->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($damage) => $damage->warehouse->name)
             ->editColumn('status', fn($damage) => view('components.datatables.damage-status', ['damage' => $damage]))

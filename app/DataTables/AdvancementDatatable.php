@@ -20,7 +20,7 @@ class AdvancementDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($advancement) => route('advancements.show', $advancement->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('issued_on', fn($advancement) => $advancement->issued_on->toFormattedDateString())
             ->editColumn('branch', fn($advancement) => $advancement->warehouse->name)
