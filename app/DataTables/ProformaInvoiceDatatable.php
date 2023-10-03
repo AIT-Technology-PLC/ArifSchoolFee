@@ -85,7 +85,7 @@ class ProformaInvoiceDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Proforma Invoices_' . date('YmdHis');
     }

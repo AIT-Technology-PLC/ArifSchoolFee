@@ -100,7 +100,7 @@ class ReservationDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Reservations_' . date('YmdHis');
     }

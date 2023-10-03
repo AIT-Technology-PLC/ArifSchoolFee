@@ -62,7 +62,7 @@ class TransferDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Transfer Details_' . date('YmdHis');
     }

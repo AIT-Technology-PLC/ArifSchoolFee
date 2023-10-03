@@ -71,7 +71,7 @@ class SaleDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Sale Details_' . date('YmdHis');
     }

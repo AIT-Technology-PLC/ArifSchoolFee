@@ -2,10 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\Siv;
 use App\Models\CustomField;
-use Yajra\DataTables\Html\Column;
+use App\Models\Siv;
 use App\Traits\DataTableHtmlBuilder;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class SivDatatable extends DataTable
@@ -18,31 +18,31 @@ class SivDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($siv) => route('sivs.show', $siv->id),
+                'data-url' => fn($siv) => route('sivs.show', $siv->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
             ->customColumns('siv')
-            ->editColumn('branch', fn ($siv) => $siv->warehouse->name)
-            ->editColumn('status', fn ($siv) => view('components.datatables.siv-status', compact('siv')))
+            ->editColumn('branch', fn($siv) => $siv->warehouse->name)
+            ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'approved', fn ($query) => $query->approved())
-                    ->when($keyword == 'waiting-approval', fn ($query) => $query->notApproved());
+                    ->when($keyword == 'approved', fn($query) => $query->approved())
+                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved());
             })
-            ->editColumn('issued_to', fn ($siv) => $siv->issued_to ?: 'N/A')
+            ->editColumn('issued_to', fn($siv) => $siv->issued_to ?: 'N/A')
             ->editColumn('purpose', function ($siv) {
-                if (! $siv->purpose) {
+                if (!$siv->purpose) {
                     return 'N/A';
                 }
 
-                return $siv->purpose.($siv->ref_num ? ' No: '.$siv->ref_num : '');
+                return $siv->purpose . ($siv->ref_num ? ' No: ' . $siv->ref_num : '');
             })
-            ->editColumn('description', fn ($siv) => view('components.datatables.searchable-description', ['description' => $siv->description]))
-            ->editColumn('issued_on', fn ($siv) => $siv->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($siv) => $siv->createdBy->name)
-            ->editColumn('approved by', fn ($siv) => $siv->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($siv) => $siv->updatedBy->name)
+            ->editColumn('description', fn($siv) => view('components.datatables.searchable-description', ['description' => $siv->description]))
+            ->editColumn('issued_on', fn($siv) => $siv->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($siv) => $siv->createdBy->name)
+            ->editColumn('approved by', fn($siv) => $siv->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($siv) => $siv->updatedBy->name)
             ->editColumn('actions', function ($siv) {
                 return view('components.common.action-buttons', [
                     'model' => 'sivs',
@@ -58,9 +58,9 @@ class SivDatatable extends DataTable
         return $siv
             ->newQuery()
             ->select('sivs.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('sivs.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn ($query) => $query->approved())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('sivs.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->approved())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -75,7 +75,7 @@ class SivDatatable extends DataTable
         foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'siv')->pluck('label') as $label) {
             $customFields[] = Column::make($label, 'customFieldValues.value');
         }
-    
+
         return [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
@@ -98,8 +98,8 @@ class SivDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Store Issue Vouchers_'.date('YmdHis');
+        return 'Store Issue Vouchers_' . date('YmdHis');
     }
 }

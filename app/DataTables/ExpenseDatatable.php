@@ -99,7 +99,7 @@ class ExpenseDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Expense_' . date('YmdHis');
     }

@@ -1,29 +1,33 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\Merchandise;
+use App\Models\Pad;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Notifications\TransactionPrepared;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Services\Models\TransactionService;
 use App\Traits\PadFileUploads;
+use App\Utilities\Notifiables;
 use App\Utilities\PadBatchSelectionIsRequiredOrProhibited;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class EditTransaction extends Component
+class CreateTransaction extends Component
 {
     use AuthorizesRequests, WithFileUploads, PadFileUploads;
 
-    public $transaction;
-
     public $pad;
+
+    public $currentReferenceCode;
 
     public $masterPadFields;
 
@@ -43,21 +47,27 @@ class EditTransaction extends Component
 
     public $details;
 
+    public $masterPadFieldsTypeFile;
+
+    public $detailPadFieldsTypeFile;
+
     public $code;
 
     public $excludedTransactions;
 
     public $issued_on;
 
+    public $status = '';
+
     public $padStatuses;
 
-    public function mount(Transaction $transaction)
+    public function mount(Pad $pad, $master, $details)
     {
-        abort_if(!$transaction->pad->isEnabled(), 403);
+        abort_if(!$pad->isEnabled(), 403);
 
-        $this->transaction = $transaction;
+        $this->pad = $pad;
 
-        $this->pad = $this->transaction->pad;
+        $this->currentReferenceCode = $this->pad->transactions()->max('code') + 1;
 
         $this->masterPadFields = $this->pad->padFields()->with('padRelation')->masterFields()->get();
 
@@ -73,24 +83,21 @@ class EditTransaction extends Component
 
         $this->products = Product::active()->get();
 
-        $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
+        $this->master = $master;
 
-        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->values()->all();
+        $this->details = $details;
 
         $this->masterPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->masterFields()->get(['id'])->toArray());
 
         $this->detailPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->detailFields()->get(['id'])->toArray());
 
-        $this->code = $this->transaction->code;
+        $this->code = $this->currentReferenceCode;
 
-        $this->excludedTransactions = Transaction::query()
-            ->where('pad_id', '<>', $this->pad->id)
-            ->orWhere('id', $this->transaction->id)
-            ->pluck('id');
+        $this->excludedTransactions = Transaction::where('pad_id', '<>', $this->pad->id)->pluck('id');
 
-        $this->issued_on = $this->transaction->issued_on->toDateTimeLocalString();
+        $this->issued_on = now()->toDateTimeLocalString();
 
-        $this->padStatuses = collect();
+        $this->padStatuses = $pad->padStatuses()->active()->get();
     }
 
     public function addDetail()
@@ -104,41 +111,27 @@ class EditTransaction extends Component
 
         $this->details = array_values($this->details);
 
-        $this->dispatchBrowserEvent('select2-removed');
+        $this->dispatch('select2-removed');
     }
 
-    public function update()
+    public function store()
     {
-        $descriptionPadField = $this->masterPadFields->firstWhere('label', 'Description');
+        $this->authorize('create', [Transaction::class, $this->pad]);
 
-        if (!$this->transaction->canBeEdited() && $descriptionPadField && isset($this->validate()['master'][$descriptionPadField->id])) {
-            $this->transaction
-                ->transactionFields()
-                ->updateOrCreate(
-                    ['pad_field_id' => $descriptionPadField->id],
-                    ['value' => $this->validate()['master'][$descriptionPadField->id]]
-                );
-
-            return redirect()->route('transactions.show', $this->transaction->id);
-        }
-
-        if (!$this->transaction->canBeEdited()) {
-            return redirect()->route('transactions.show', $this->transaction->id)
-                ->with('failedMessage', 'You can not edit this transaction.');
-        }
-
-        $this->authorize('update', $this->transaction);
-
-        DB::transaction(function () {
-            (new TransactionService)->update($this->transaction, $this->validate());
+        $transaction = DB::transaction(function () {
+            $transaction = (new TransactionService)->store($this->pad, $this->validate());
 
             (new TransactionService)->updateFileUploads(
-                $this->transaction,
+                $transaction,
                 $this->validatedUploads($this->getDataForValidation($this->rules())['master'], $this->getDataForValidation($this->rules())['details'])
             );
+
+            Notification::send(Notifiables::forPad($transaction->pad), new TransactionPrepared($transaction));
+
+            return $transaction;
         });
 
-        return redirect()->route('transactions.show', $this->transaction->id);
+        return redirect()->route('transactions.show', $transaction->id);
     }
 
     public function render()
@@ -149,8 +142,9 @@ class EditTransaction extends Component
     protected function rules()
     {
         $rules = [
-            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
+            'code' => ['required', 'integer', new UniqueReferenceNum('transactions', $this->excludedTransactions)],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
+            'status' => [Rule::requiredIf($this->padStatuses->isNotEmpty()), 'string'],
         ];
 
         if ($this->pad->hasDetailPadFields()) {
@@ -193,7 +187,7 @@ class EditTransaction extends Component
             if ($detailPadField->isBatchNoField() || $detailPadField->isMerchandiseBatchField()) {
                 unset($rules[$key][array_search('string', $rules[$key])]);
                 unset($rules[$key][array_search('nullable', $rules[$key])]);
-                $rules[$key][] = Rule::foreach (
+                $rules[$key][] = Rule::foreach(
                     fn($v, $a) =>
                     (new PadBatchSelectionIsRequiredOrProhibited(
                         !$this->pad->isInventoryOperationAdd(),

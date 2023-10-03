@@ -106,7 +106,7 @@ class PurchaseDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Purchase Details_' . date('YmdHis');
     }

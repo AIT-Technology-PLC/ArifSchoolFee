@@ -47,7 +47,7 @@ class AttendanceDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'AttendanceDetail_' . date('YmdHis');
     }

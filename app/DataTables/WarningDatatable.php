@@ -72,7 +72,7 @@ class WarningDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Warning_' . date('YmdHis');
     }

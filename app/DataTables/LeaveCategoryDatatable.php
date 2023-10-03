@@ -50,7 +50,7 @@ class LeaveCategoryDatatable extends DataTable
             Column::computed('actions')->className('actions'),
         ];
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'LeaveCategory_' . date('YmdHis');
     }

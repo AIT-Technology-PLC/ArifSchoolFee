@@ -85,7 +85,7 @@ class LeaveDatatable extends DataTable
 
         return Arr::where($columns, fn($column) => $column != null);
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'Leave_' . date('YmdHis');
     }

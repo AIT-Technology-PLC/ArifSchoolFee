@@ -19,26 +19,26 @@ class GrnDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($grn) => route('grns.show', $grn->id),
+                'data-url' => fn($grn) => route('grns.show', $grn->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
             ->customColumns('grn')
-            ->editColumn('branch', fn ($grn) => $grn->warehouse->name)
-            ->editColumn('purchase no', fn ($grn) => $grn->purchase->code ?? 'N/A')
-            ->editColumn('status', fn ($grn) => view('components.datatables.grn-status', compact('grn')))
+            ->editColumn('branch', fn($grn) => $grn->warehouse->name)
+            ->editColumn('purchase no', fn($grn) => $grn->purchase->code ?? 'N/A')
+            ->editColumn('status', fn($grn) => view('components.datatables.grn-status', compact('grn')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting-approval', fn ($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn ($query) => $query->notAdded()->approved())
-                    ->when($keyword == 'added', fn ($query) => $query->added());
+                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->notAdded()->approved())
+                    ->when($keyword == 'added', fn($query) => $query->added());
             })
-            ->editColumn('supplier', fn ($grn) => $grn->supplier->company_name ?? 'N/A')
-            ->editColumn('description', fn ($grn) => view('components.datatables.searchable-description', ['description' => $grn->description]))
-            ->editColumn('issued_on', fn ($grn) => $grn->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($grn) => $grn->createdBy->name)
-            ->editColumn('approved by', fn ($grn) => $grn->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($grn) => $grn->updatedBy->name)
+            ->editColumn('supplier', fn($grn) => $grn->supplier->company_name ?? 'N/A')
+            ->editColumn('description', fn($grn) => view('components.datatables.searchable-description', ['description' => $grn->description]))
+            ->editColumn('issued_on', fn($grn) => $grn->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($grn) => $grn->createdBy->name)
+            ->editColumn('approved by', fn($grn) => $grn->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($grn) => $grn->updatedBy->name)
             ->editColumn('actions', function ($grn) {
                 return view('components.common.action-buttons', [
                     'model' => 'grns',
@@ -54,10 +54,10 @@ class GrnDatatable extends DataTable
         return $grn
             ->newQuery()
             ->select('grns.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('grns.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn ($query) => $query->notAdded()->approved())
-            ->when(request('status') == 'added', fn ($query) => $query->added())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('grns.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->notAdded()->approved())
+            ->when(request('status') == 'added', fn($query) => $query->added())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -91,11 +91,11 @@ class GrnDatatable extends DataTable
             Column::computed('actions')->className('actions'),
         ];
 
-        return Arr::where($columns, fn ($column) => $column != null);
+        return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Goods Received Notes_'.date('YmdHis');
+        return 'Goods Received Notes_' . date('YmdHis');
     }
 }

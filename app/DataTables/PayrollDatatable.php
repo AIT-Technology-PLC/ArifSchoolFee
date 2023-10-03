@@ -80,7 +80,7 @@ class PayrollDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Payroll_' . date('YmdHis');
     }

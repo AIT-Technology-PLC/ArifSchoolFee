@@ -15,14 +15,14 @@ class ProductPerWarehouseDatatable extends DataTable
     {
         return datatables()
             ->collection($query)
-            ->editColumn('date', fn ($item) => $item['date']->toDateString())
-            ->editColumn('type', fn ($item) => view('components.datatables.purple-solid-tag', ['content' => $item['type']]))
-            ->editColumn('code', fn ($item) => view('components.datatables.link', [
+            ->editColumn('date', fn($item) => $item['date']->toDateString())
+            ->editColumn('type', fn($item) => view('components.datatables.purple-solid-tag', ['content' => $item['type']]))
+            ->editColumn('code', fn($item) => view('components.datatables.link', [
                 'url' => $item['url'],
                 'label' => $item['code'],
             ]))
-            ->editColumn('quantity', fn ($item) => view('components.datatables.item-quantity', compact('item')))
-            ->editColumn('details', fn ($item) => $item['details'])
+            ->editColumn('quantity', fn($item) => view('components.datatables.item-quantity', compact('item')))
+            ->editColumn('details', fn($item) => $item['details'])
             ->editColumn('balance', function ($item) {
                 return view('components.datatables.green-solid-tag', [
                     'amount' => $item['balance'],
@@ -50,8 +50,8 @@ class ProductPerWarehouseDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Product Movement History'.date('YmdHis');
+        return 'Product Movement History' . date('YmdHis');
     }
 }

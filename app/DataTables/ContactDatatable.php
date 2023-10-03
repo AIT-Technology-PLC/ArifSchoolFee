@@ -53,7 +53,7 @@ class ContactDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Contact_' . date('YmdHis');
     }

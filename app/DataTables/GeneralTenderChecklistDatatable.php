@@ -15,11 +15,11 @@ class GeneralTenderChecklistDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('type', fn ($generalTenderChecklist) => $generalTenderChecklist->tenderChecklistType->name)
-            ->editColumn('description', fn ($generalTenderChecklist) => view('components.datatables.searchable-description', ['description' => $generalTenderChecklist->description]))
-            ->editColumn('added on', fn ($generalTenderChecklist) => $generalTenderChecklist->created_at->toDayDateTimeString())
-            ->editColumn('added by', fn ($generalTenderChecklist) => $generalTenderChecklist->createdBy->name)
-            ->editColumn('edited by', fn ($generalTenderChecklist) => $generalTenderChecklist->updatedBy->name)
+            ->editColumn('type', fn($generalTenderChecklist) => $generalTenderChecklist->tenderChecklistType->name)
+            ->editColumn('description', fn($generalTenderChecklist) => view('components.datatables.searchable-description', ['description' => $generalTenderChecklist->description]))
+            ->editColumn('added on', fn($generalTenderChecklist) => $generalTenderChecklist->created_at->toDayDateTimeString())
+            ->editColumn('added by', fn($generalTenderChecklist) => $generalTenderChecklist->createdBy->name)
+            ->editColumn('edited by', fn($generalTenderChecklist) => $generalTenderChecklist->updatedBy->name)
             ->editColumn('actions', function ($generalTenderChecklist) {
                 return view('components.common.action-buttons', [
                     'model' => 'general-tender-checklists',
@@ -56,8 +56,8 @@ class GeneralTenderChecklistDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'GeneralTenderChecklists_'.date('YmdHis');
+        return 'GeneralTenderChecklists_' . date('YmdHis');
     }
 }

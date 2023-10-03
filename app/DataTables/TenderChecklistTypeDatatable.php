@@ -15,12 +15,12 @@ class TenderChecklistTypeDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('confidential', fn ($tenderChecklistType) => view('components.datatables.tender-checklist-type-confidentiality', compact('tenderChecklistType')))
-            ->editColumn('checklists', fn ($tenderChecklistType) => $tenderChecklistType->general_tender_checklists_count)
-            ->editColumn('description', fn ($tenderChecklistType) => view('components.datatables.searchable-description', ['description' => $tenderChecklistType->description]))
-            ->editColumn('added on', fn ($tenderChecklistType) => $tenderChecklistType->created_at->toFormattedDateString())
-            ->editColumn('added by', fn ($tenderChecklistType) => $tenderChecklistType->createdBy->name)
-            ->editColumn('edited by', fn ($tenderChecklistType) => $tenderChecklistType->updatedBy->name)
+            ->editColumn('confidential', fn($tenderChecklistType) => view('components.datatables.tender-checklist-type-confidentiality', compact('tenderChecklistType')))
+            ->editColumn('checklists', fn($tenderChecklistType) => $tenderChecklistType->general_tender_checklists_count)
+            ->editColumn('description', fn($tenderChecklistType) => view('components.datatables.searchable-description', ['description' => $tenderChecklistType->description]))
+            ->editColumn('added on', fn($tenderChecklistType) => $tenderChecklistType->created_at->toFormattedDateString())
+            ->editColumn('added by', fn($tenderChecklistType) => $tenderChecklistType->createdBy->name)
+            ->editColumn('edited by', fn($tenderChecklistType) => $tenderChecklistType->updatedBy->name)
             ->editColumn('actions', function ($tenderChecklistType) {
                 return view('components.common.action-buttons', [
                     'model' => 'tender-checklist-types',
@@ -58,8 +58,8 @@ class TenderChecklistTypeDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Tender Checklist Types_'.date('YmdHis');
+        return 'Tender Checklist Types_' . date('YmdHis');
     }
 }

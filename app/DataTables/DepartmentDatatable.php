@@ -54,7 +54,7 @@ class DepartmentDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Departments_' . date('YmdHis');
     }

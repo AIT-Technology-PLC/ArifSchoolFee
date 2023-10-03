@@ -93,7 +93,7 @@ class ProductDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Product_' . date('YmdHis');
     }

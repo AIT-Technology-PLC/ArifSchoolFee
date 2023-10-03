@@ -69,7 +69,7 @@ class CustomFieldDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Custom Fields_' . date('YmdHis');
     }

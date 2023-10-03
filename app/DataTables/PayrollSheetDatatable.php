@@ -93,7 +93,7 @@ class PayrollSheetDatatable extends DataTable
         return $columns->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Payroll Sheet_' . date('YmdHis');
     }

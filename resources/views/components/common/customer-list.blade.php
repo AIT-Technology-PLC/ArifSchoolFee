@@ -24,7 +24,7 @@
 @push('scripts')
     <script>
         window.addEventListener('customer-created', event => {
-            $(".customer-list").trigger("change", event.detail.customer);
+            $(".customer-list").trigger("change", event.detail[0].customer);
         })
 
         document.addEventListener("alpine:init", () => {

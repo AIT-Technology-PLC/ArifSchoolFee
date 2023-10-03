@@ -2,10 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\Returnn;
 use App\Models\CustomField;
-use Yajra\DataTables\Html\Column;
+use App\Models\Returnn;
 use App\Traits\DataTableHtmlBuilder;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class ReturnDatatable extends DataTable
@@ -100,7 +100,7 @@ class ReturnDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Return_' . date('YmdHis');
     }

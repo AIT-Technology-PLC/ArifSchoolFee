@@ -68,7 +68,7 @@ class ProformaInvoiceDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Proforma Invoice Details_' . date('YmdHis');
     }

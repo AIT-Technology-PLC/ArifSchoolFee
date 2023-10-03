@@ -15,10 +15,10 @@ class ProductCategoryDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('products', fn ($category) => $category->products_count)
-            ->editColumn('added on', fn ($category) => $category->created_at->toFormattedDateString())
-            ->editColumn('created by', fn ($category) => $category->createdBy->name)
-            ->editColumn('edited by', fn ($category) => $category->updatedBy->name)
+            ->editColumn('products', fn($category) => $category->products_count)
+            ->editColumn('added on', fn($category) => $category->created_at->toFormattedDateString())
+            ->editColumn('created by', fn($category) => $category->createdBy->name)
+            ->editColumn('edited by', fn($category) => $category->updatedBy->name)
             ->editColumn('actions', function ($category) {
                 return view('components.common.action-buttons', [
                     'model' => 'categories',
@@ -54,8 +54,8 @@ class ProductCategoryDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Product Categories_'.date('YmdHis');
+        return 'Product Categories_' . date('YmdHis');
     }
 }

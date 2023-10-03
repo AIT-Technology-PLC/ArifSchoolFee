@@ -126,7 +126,7 @@ class ExpiredInventoryDatatable extends DataTable
             ->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'ExpiredInventory_' . date('YmdHis');
     }

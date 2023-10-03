@@ -49,7 +49,7 @@ class EmployeeTransferDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'EmployeeTransferDetail_' . date('YmdHis');
     }

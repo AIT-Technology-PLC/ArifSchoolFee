@@ -57,7 +57,7 @@ class PriceDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Price_' . date('YmdHis');
     }

@@ -51,7 +51,7 @@ class CostUpdateDetailDatatable extends DataTable
             Column::computed('actions'),
         ];
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'CostUpdateDetail_' . date('YmdHis');
     }

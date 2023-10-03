@@ -17,18 +17,18 @@ class PadDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($pad) => route('pads.show', $pad->id),
+                'data-url' => fn($pad) => route('pads.show', $pad->id),
                 'x-data' => 'showRowDetails',
                 '@click' => 'showDetails',
             ])
-            ->editColumn('status', fn ($pad) => view('components.datatables.pad-status', compact('pad')))
+            ->editColumn('status', fn($pad) => view('components.datatables.pad-status', compact('pad')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'enabled', fn ($query) => $query->enabled())
-                    ->when($keyword == 'disabled', fn ($query) => $query->disabled());
+                    ->when($keyword == 'enabled', fn($query) => $query->enabled())
+                    ->when($keyword == 'disabled', fn($query) => $query->disabled());
             })
-            ->editColumn('created on', fn ($pad) => $pad->created_at->toFormattedDateString())
-            ->editColumn('created by', fn ($pad) => $pad->createdBy->name)
+            ->editColumn('created on', fn($pad) => $pad->created_at->toFormattedDateString())
+            ->editColumn('created by', fn($pad) => $pad->createdBy->name)
             ->editColumn('actions', function ($pad) {
                 return view('components.common.action-buttons', [
                     'model' => 'pads',
@@ -43,8 +43,8 @@ class PadDatatable extends DataTable
     {
         return $pad
             ->newQuery()
-            ->when(request('status') == 'enabled', fn ($query) => $query->enabled())
-            ->when(request('status') == 'disabled', fn ($query) => $query->disabled())
+            ->when(request('status') == 'enabled', fn($query) => $query->enabled())
+            ->when(request('status') == 'disabled', fn($query) => $query->disabled())
             ->select('pads.*')
             ->with([
                 'createdBy:id,name',
@@ -66,8 +66,8 @@ class PadDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Pads_'.date('YmdHis');
+        return 'Pads_' . date('YmdHis');
     }
 }

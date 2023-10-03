@@ -15,16 +15,16 @@ class PadFieldDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('relationship_type', fn ($padField) => $padField->padRelation->relationship_type ?? '-')
-            ->editColumn('model_name', fn ($padField) => $padField->padRelation->model_name ?? '-')
-            ->editColumn('representative_column', fn ($padField) => $padField->padRelation->representative_column ?? '-')
-            ->editColumn('component_name', fn ($padField) => $padField->padRelation->component_name ?? '-')
-            ->editColumn('is_master_field', fn ($padField) => $padField->is_master_field ? 'Yes' : 'No')
-            ->editColumn('is_required', fn ($padField) => $padField->is_required ? 'Yes' : 'No')
-            ->editColumn('is_visible', fn ($padField) => $padField->is_visible ? 'Yes' : 'No')
-            ->editColumn('is_printable', fn ($padField) => $padField->is_printable ? 'Yes' : 'No')
-            ->editColumn('is_readonly', fn ($padField) => $padField->is_readonly ? 'Yes' : 'No')
-            ->editColumn('tag_type', fn ($padField) => $padField->tag_type ?? '-')
+            ->editColumn('relationship_type', fn($padField) => $padField->padRelation->relationship_type ?? '-')
+            ->editColumn('model_name', fn($padField) => $padField->padRelation->model_name ?? '-')
+            ->editColumn('representative_column', fn($padField) => $padField->padRelation->representative_column ?? '-')
+            ->editColumn('component_name', fn($padField) => $padField->padRelation->component_name ?? '-')
+            ->editColumn('is_master_field', fn($padField) => $padField->is_master_field ? 'Yes' : 'No')
+            ->editColumn('is_required', fn($padField) => $padField->is_required ? 'Yes' : 'No')
+            ->editColumn('is_visible', fn($padField) => $padField->is_visible ? 'Yes' : 'No')
+            ->editColumn('is_printable', fn($padField) => $padField->is_printable ? 'Yes' : 'No')
+            ->editColumn('is_readonly', fn($padField) => $padField->is_readonly ? 'Yes' : 'No')
+            ->editColumn('tag_type', fn($padField) => $padField->tag_type ?? '-')
             ->editColumn('actions', function ($padField) {
                 return view('components.common.action-buttons', [
                     'model' => 'pad-fields',
@@ -65,8 +65,8 @@ class PadFieldDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Pad Fields_'.date('YmdHis');
+        return 'Pad Fields_' . date('YmdHis');
     }
 }
