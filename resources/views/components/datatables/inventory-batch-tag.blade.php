@@ -1,13 +1,3 @@
-@if (!isset($content))
-    <span class="tag is-small bg-green has-text-white">
-        N/A
-    </span>
-@elseif ($content < now())
-    <span class="tag is-small bg-purple has-text-white">
-        {{ $content->toFormattedDateString() }}
-    </span>
-@elseif($content > now())
-    <span class="tag is-small bg-green has-text-white">
-        {{ $content->toFormattedDateString() }}
-    </span>
-@endif
+<span class="tag is-small {{ empty($content) || $content > now() ? 'btn-green' : 'btn-purple' }} is-outlined has-text-weight-medium">
+    {{ $content?->toFormattedDateString() ?? 'N/A' }}
+</span>

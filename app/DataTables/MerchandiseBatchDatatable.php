@@ -11,11 +11,6 @@ class MerchandiseBatchDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
-    public function __construct()
-    {
-        $this->warehouses = authUser()->getAllowedWarehouses('read');
-    }
-
     public function dataTable($query)
     {
         return datatables()
@@ -23,6 +18,7 @@ class MerchandiseBatchDatatable extends DataTable
             ->editColumn('branch', fn($merchandiseBatch) => $merchandiseBatch->branch)
             ->editColumn('product', fn($merchandiseBatch) => $merchandiseBatch->product)
             ->editColumn('code', fn($merchandiseBatch) => $merchandiseBatch->code ?? 'N/A')
+            ->editColumn('unit', fn($merchandiseBatch) => $merchandiseBatch->unit)
             ->editColumn('batch_no', fn($merchandiseBatch) => $merchandiseBatch->batch_no)
             ->editColumn('expires_on', fn($merchandiseBatch) => $merchandiseBatch->expires_on?->toFormattedDateString())
             ->editColumn('quantity', fn($merchandiseBatch) => $merchandiseBatch->quantity)
@@ -44,12 +40,15 @@ class MerchandiseBatchDatatable extends DataTable
             ->select('merchandise_batches.*')
             ->join('merchandises', 'merchandise_batches.merchandise_id', '=', 'merchandises.id')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('merchandises.warehouse_id', request('branch')))
+            ->when(request('availability') == 'available', fn($q) => $q->available())
+            ->when(request('availability') == 'out_of_stock', fn($q) => $q->where('merchandise_batches.quantity', '=', 0))
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
             ->selectRaw('
                 warehouses.name AS branch,
                 products.name AS product,
                 products.code as code,
+                products.unit_of_measurement as unit,
                 merchandise_batches.quantity as quantity,
                 merchandise_batches.batch_no as batch_no,
                 merchandise_batches.expires_on as expires_on')->get();
@@ -62,6 +61,7 @@ class MerchandiseBatchDatatable extends DataTable
             Column::make('branch'),
             Column::make('product'),
             Column::make('code'),
+            Column::make('unit'),
             Column::make('batch_no'),
             Column::make('expires_on')->title('Expiry Date'),
             Column::make('quantity'),

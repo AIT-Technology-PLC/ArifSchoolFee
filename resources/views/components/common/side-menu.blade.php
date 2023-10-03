@@ -431,7 +431,7 @@
     @endif
 
     @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-        @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV'])
+        @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV', 'Read Merchandise Batch'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -476,7 +476,7 @@
                                     />
                                 </li>
                             @endcan
-                            @can('Update Merchandise Batch')
+                            @can('Read Merchandise Batch')
                                 <li>
                                     <x-common.button
                                         tag="a"
@@ -1314,7 +1314,7 @@
                                     <x-common.button
                                         tag="a"
                                         href="{{ route('reports.inventory_batch') }}"
-                                        label="Inventory Batch"
+                                        label="Batches"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_batch') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />

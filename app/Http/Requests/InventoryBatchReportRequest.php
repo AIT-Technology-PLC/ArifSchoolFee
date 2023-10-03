@@ -28,8 +28,8 @@ class InventoryBatchReportRequest extends FormRequest
         return [
             'branches' => ['required', 'array'],
             'branches.*' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transactions')->pluck('id'))],
-            'expiry' => ['nullable', 'string', Rule::in(['Expired', 'Near Expiry', 'Usable'])],
-            'availability' => ['nullable', 'string', Rule::in(['Available', 'Out of Stock'])],
+            'expiry' => ['nullable', 'string', Rule::in(['expired', 'near_expired', 'usable'])],
+            'availability' => ['nullable', 'string', Rule::in(['available', 'out_of_stock'])],
             'product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
         ];
     }

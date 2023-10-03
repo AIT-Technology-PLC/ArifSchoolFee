@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inventory Batch Report')
+@section('title', 'Batch Report')
 
 @section('content')
     <x-common.fail-message :message="session('failedMessage')" />
@@ -23,16 +23,23 @@
                                     <option
                                         disabled
                                         selected
+                                        value=""
                                     > Availability </option>
                                     <option
-                                        value="Available"
-                                        @selected(request('availability') == 'Available')
+                                        value=""
+                                        @selected(request('availability') == '')
+                                    >
+                                        All
+                                    </option>
+                                    <option
+                                        value="available"
+                                        @selected(request('availability') == 'available')
                                     >
                                         Available
                                     </option>
                                     <option
-                                        value="Out of Stock"
-                                        @selected(request('availability') == 'Out of Stock')
+                                        value="out_of_stock"
+                                        @selected(request('availability') == 'out_of_stock')
                                     >
                                         Out of Stock
                                     </option>
@@ -54,22 +61,27 @@
                                     <option
                                         disabled
                                         selected
+                                        value=""
                                     > Expiry </option>
                                     <option
-                                        value="Expired"
-                                        @selected(request('Expiry') == 'Expired')
+                                        value=""
+                                        @selected(request('expiry') == '')
+                                    >All</option>
+                                    <option
+                                        value="expired"
+                                        @selected(request('expiry') == 'expired')
                                     >
                                         Expired
                                     </option>
                                     <option
-                                        value="Near Expiry"
-                                        @selected(request('Expiry') == 'Near Expiry')
+                                        value="near_expired"
+                                        @selected(request('expiry') == 'near_expired')
                                     >
                                         Near Expiry
                                     </option>
                                     <option
-                                        value="Usable"
-                                        @selected(request('Expiry') == 'Usable')
+                                        value="usable"
+                                        @selected(request('expiry') == 'usable')
                                     >
                                         Usable
                                     </option>
@@ -152,7 +164,7 @@
                             <i class="fas fa-th"></i>
                         </span>
                         <span>
-                            Inventory Batch
+                            Batch
                         </span>
                     </h1>
                 </x-slot:header>

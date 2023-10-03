@@ -44,11 +44,11 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="datetime-local"
+                                    type="date"
                                     name="expires_on"
                                     id="expires_on"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $merchandiseBatch->expires_on?->toDateTimeLocalString() }}"
+                                    value="{{ $merchandiseBatch->expires_on?->toDateString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"

@@ -22,12 +22,12 @@ class MerchandiseBatchController extends Controller
 
         $batches = MerchandiseBatch::count();
 
-        return $datatable->render('batches.index', compact('batches'));
+        return $datatable->render('merchandise-batches.index', compact('batches'));
     }
 
     public function edit(MerchandiseBatch $merchandiseBatch)
     {
-        return view('batches.edit', compact('merchandiseBatch'));
+        return view('merchandise-batches.edit', compact('merchandiseBatch'));
     }
 
     public function update(UpdateMerchandiseBatchRequest $request, MerchandiseBatch $merchandiseBatch)

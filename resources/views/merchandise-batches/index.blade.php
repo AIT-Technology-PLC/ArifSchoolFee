@@ -19,7 +19,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
-            <x-datatables.filter filters="'branch'">
+            <x-datatables.filter filters="'branch', 'availability'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
                         <div class="column is-3 p-lr-0 pt-0">
@@ -48,6 +48,43 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="availability"
+                                    name="availability"
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.availability"
+                                    x-on:change="add('availability')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    > Availability </option>
+                                    <option
+                                        value="all"
+                                        @selected(request('availability') == 'all')
+                                    >
+                                        All
+                                    </option>
+                                    <option
+                                        value="available"
+                                        @selected(request('availability') == 'available')
+                                    >
+                                        Available
+                                    </option>
+                                    <option
+                                        value="out_of_stock"
+                                        @selected(request('availability') == 'out_of_stock')
+                                    >
+                                        Out of Stock
+                                    </option>
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-datatables.filter>
             <div>

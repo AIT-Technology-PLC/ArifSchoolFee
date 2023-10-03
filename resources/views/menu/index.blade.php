@@ -356,7 +356,7 @@
         @endif
 
         @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
-            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV', 'Update Merchandise Batch'])
+            @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV', 'Read Merchandise Batch'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -387,7 +387,7 @@
                                         </span>
                                     </div>
                                 @endcan
-                                @can('Update Merchandise Batch')
+                                @can('Read Merchandise Batch')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
                                             href="{{ route('merchandise-batches.index') }}"
@@ -399,7 +399,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Merchandise Batch
+                                            Batches
                                         </span>
                                     </div>
                                 @endcan
@@ -1400,7 +1400,7 @@
                                         </a>
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
-                                            Inventory Batch
+                                            Batches
                                         </span>
                                     </div>
                                 @endcan
