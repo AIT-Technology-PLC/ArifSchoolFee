@@ -11,7 +11,7 @@ class MerchandiseBatchController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('isFeatureAccessible:Merchandise Inventory');
+        $this->middleware('isFeatureAccessible:Batch Management');
 
         $this->authorizeResource(MerchandiseBatch::class);
     }
