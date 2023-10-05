@@ -355,7 +355,7 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Merchandise Inventory', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
+        @if (isFeatureEnabled('Merchandise Inventory', 'Batch Management', 'Warehouse Management', 'Grn Management', 'Transfer Management', 'Damage Management', 'Inventory Adjustment', 'Siv Management'))
             @canany(['Read Available Inventory', 'Read Warehouse', 'Read GRN', 'Read Transfer', 'Read Damage', 'Read Adjustment', 'Read SIV', 'Read Merchandise Batch'])
                 <section class="mb-5">
                     <x-content.header>
@@ -387,6 +387,9 @@
                                         </span>
                                     </div>
                                 @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Batch Management'))
                                 @can('Read Merchandise Batch')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
                                         <a
