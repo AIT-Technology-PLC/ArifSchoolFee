@@ -75,7 +75,7 @@ class ReceivableDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Receivable_' . date('YmdHis');
     }

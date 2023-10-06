@@ -21,7 +21,7 @@ class GdnDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($gdn) => route('gdns.show', $gdn->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('gdn')
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
@@ -122,7 +122,7 @@ class GdnDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Delivery Orders_' . date('YmdHis');
     }

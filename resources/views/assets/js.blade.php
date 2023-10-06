@@ -16,18 +16,6 @@
 
 <script
     type="text/javascript"
-    src="https://unpkg.com/@alpinejs/collapse@3.4.2/dist/cdn.min.js"
-    defer
-></script>
-
-<script
-    type="text/javascript"
-    src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"
-    defer
-></script>
-
-<script
-    type="text/javascript"
     src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
 ></script>
 

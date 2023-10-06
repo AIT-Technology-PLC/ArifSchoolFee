@@ -19,7 +19,7 @@ class ProformaInvoiceDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($proformaInvoice) => route('proforma-invoices.show', $proformaInvoice->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('branch', fn($proformaInvoice) => $proformaInvoice->warehouse->name)
             ->editColumn('code', fn($proformaInvoice) => $proformaInvoice->reference)
@@ -93,7 +93,7 @@ class ProformaInvoiceDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Proforma Invoices_' . date('YmdHis');
     }

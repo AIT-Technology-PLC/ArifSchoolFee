@@ -49,7 +49,7 @@ class InventoryTransferReportDatatable extends DataTable
             Column::make('prepared_by'),
         ];
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryLevelReport_' . date('YmdHis');
     }

@@ -66,7 +66,7 @@ class GrnDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'GRN Details_' . date('YmdHis');
     }

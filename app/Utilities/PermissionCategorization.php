@@ -185,6 +185,10 @@ class PermissionCategorization
             'label' => 'Cost Update',
             'feature' => 'Cost Update Management',
         ],
+        'merchandise batch' => [
+            'label' => 'Batch',
+            'feature' => 'Batch Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)

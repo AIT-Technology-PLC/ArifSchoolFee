@@ -125,7 +125,7 @@ class ReservedInventoryDatatable extends DataTable
             ->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryLevel_' . date('YmdHis');
     }

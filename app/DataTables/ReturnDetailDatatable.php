@@ -69,7 +69,7 @@ class ReturnDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Return Details_' . date('YmdHis');
     }

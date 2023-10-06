@@ -54,7 +54,7 @@ class CompensationAdjustmentDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'CompensationAdjustmentDetail_' . date('YmdHis');
     }

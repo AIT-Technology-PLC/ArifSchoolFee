@@ -15,8 +15,8 @@ class BillOfMaterialDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('product', fn ($billOfMaterialDetail) => $billOfMaterialDetail->product->name)
-            ->editColumn('code', fn ($billOfMaterialDetail) => $billOfMaterialDetail->product->code ?? 'N/A')
+            ->editColumn('product', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->name)
+            ->editColumn('code', fn($billOfMaterialDetail) => $billOfMaterialDetail->product->code ?? 'N/A')
             ->editColumn('quantity', function ($billOfMaterialDetail) {
                 return quantity($billOfMaterialDetail->quantity, $billOfMaterialDetail->product->unit_of_measurement);
             })
@@ -58,8 +58,8 @@ class BillOfMaterialDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'BillOfMaterialDetail_'.date('YmdHis');
+        return 'BillOfMaterialDetail_' . date('YmdHis');
     }
 }

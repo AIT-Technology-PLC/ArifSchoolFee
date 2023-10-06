@@ -18,19 +18,19 @@ class NotificationDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($notification) => route('notifications.show', $notification->id),
+                'data-url' => fn($notification) => route('notifications.show', $notification->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
-            ->editColumn('notification', fn ($notification) => $notification->data['message'])
-            ->editColumn('status', fn ($notification) => view('components.datatables.notification-status', compact('notification')))
+            ->editColumn('notification', fn($notification) => $notification->data['message'])
+            ->editColumn('status', fn($notification) => view('components.datatables.notification-status', compact('notification')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'seen', fn ($query) => $query->read())
-                    ->when($keyword == 'unseen', fn ($query) => $query->unread());
+                    ->when($keyword == 'seen', fn($query) => $query->read())
+                    ->when($keyword == 'unseen', fn($query) => $query->unread());
             })
-            ->editColumn('created_at', fn ($notification) => $notification->created_at->toDayDateTimeString())
-            ->editColumn('read_at', fn ($notification) => $notification->read_at ? $notification->read_at->toDayDateTimeString() : '')
+            ->editColumn('created_at', fn($notification) => $notification->created_at->toDayDateTimeString())
+            ->editColumn('read_at', fn($notification) => $notification->read_at ? $notification->read_at->toDayDateTimeString() : '')
             ->editColumn('actions', function ($notification) {
                 return view('components.datatables.notification-action', compact('notification'));
             })
@@ -43,8 +43,8 @@ class NotificationDatatable extends DataTable
             ->newQuery()
             ->whereMorphRelation('notifiable', User::class, 'notifiable_id', authUser()->id)
             ->select('notifications.*')
-            ->when(request('status') == 'seen', fn ($query) => $query->read())
-            ->when(request('status') == 'unseen', fn ($query) => $query->unread());
+            ->when(request('status') == 'seen', fn($query) => $query->read())
+            ->when(request('status') == 'unseen', fn($query) => $query->unread());
     }
 
     protected function getColumns()
@@ -59,8 +59,8 @@ class NotificationDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Notifications_'.date('YmdHis');
+        return 'Notifications_' . date('YmdHis');
     }
 }

@@ -41,7 +41,7 @@ class ProductPriceDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'ProductPrice_' . date('YmdHis');
     }

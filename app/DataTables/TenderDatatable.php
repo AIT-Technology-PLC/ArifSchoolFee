@@ -17,22 +17,22 @@ class TenderDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($tender) => route('tenders.show', $tender->id),
+                'data-url' => fn($tender) => route('tenders.show', $tender->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($tender) => $tender->warehouse->name)
-            ->editColumn('checklist completion', fn ($tender) => $tender->tenderChecklistsCompletionRate.'%')
-            ->editColumn('customer', fn ($tender) => $tender->customer->company_name ?? 'N/A')
-            ->editColumn('price', fn ($tender) => view('components.datatables.searchable-description', ['description' => $tender->price]))
-            ->editColumn('payment_term', fn ($tender) => view('components.datatables.searchable-description', ['description' => $tender->payment_term]))
-            ->editColumn('lots', fn ($tender) => $tender->tender_lots_count)
-            ->editColumn('description', fn ($tender) => view('components.datatables.searchable-description', ['description' => $tender->description]))
-            ->editColumn('published_on', fn ($tender) => $tender->published_on->toFormattedDateString())
-            ->editColumn('closing_date', fn ($tender) => $tender->closing_date->toDayDateTimeString())
-            ->editColumn('opening_date', fn ($tender) => $tender->opening_date->toDayDateTimeString())
-            ->editColumn('prepared by', fn ($tender) => $tender->createdBy->name)
-            ->editColumn('edited by', fn ($tender) => $tender->updatedBy->name)
+            ->editColumn('branch', fn($tender) => $tender->warehouse->name)
+            ->editColumn('checklist completion', fn($tender) => $tender->tenderChecklistsCompletionRate . '%')
+            ->editColumn('customer', fn($tender) => $tender->customer->company_name ?? 'N/A')
+            ->editColumn('price', fn($tender) => view('components.datatables.searchable-description', ['description' => $tender->price]))
+            ->editColumn('payment_term', fn($tender) => view('components.datatables.searchable-description', ['description' => $tender->payment_term]))
+            ->editColumn('lots', fn($tender) => $tender->tender_lots_count)
+            ->editColumn('description', fn($tender) => view('components.datatables.searchable-description', ['description' => $tender->description]))
+            ->editColumn('published_on', fn($tender) => $tender->published_on->toFormattedDateString())
+            ->editColumn('closing_date', fn($tender) => $tender->closing_date->toDayDateTimeString())
+            ->editColumn('opening_date', fn($tender) => $tender->opening_date->toDayDateTimeString())
+            ->editColumn('prepared by', fn($tender) => $tender->createdBy->name)
+            ->editColumn('edited by', fn($tender) => $tender->updatedBy->name)
             ->editColumn('actions', function ($tender) {
                 return view('components.common.action-buttons', [
                     'model' => 'tenders',
@@ -48,7 +48,7 @@ class TenderDatatable extends DataTable
         return $tender
             ->newQuery()
             ->select('tenders.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('tenders.warehouse_id', request('branch')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('tenders.warehouse_id', request('branch')))
             ->withCount('tenderLots')
             ->with([
                 'createdBy:id,name',
@@ -86,8 +86,8 @@ class TenderDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Tenders_'.date('YmdHis');
+        return 'Tenders_' . date('YmdHis');
     }
 }

@@ -15,9 +15,9 @@ class TenderStatusDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('description', fn ($tenderStatus) => view('components.datatables.searchable-description', ['description' => $tenderStatus->description]))
-            ->editColumn('added by', fn ($tenderStatus) => $tenderStatus->createdBy->name)
-            ->editColumn('edited by', fn ($tenderStatus) => $tenderStatus->updatedBy->name)
+            ->editColumn('description', fn($tenderStatus) => view('components.datatables.searchable-description', ['description' => $tenderStatus->description]))
+            ->editColumn('added by', fn($tenderStatus) => $tenderStatus->createdBy->name)
+            ->editColumn('edited by', fn($tenderStatus) => $tenderStatus->updatedBy->name)
             ->editColumn('actions', function ($tenderStatus) {
                 return view('components.common.action-buttons', [
                     'model' => 'tender-statuses',
@@ -51,8 +51,8 @@ class TenderStatusDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'TenderStatuses_'.date('YmdHis');
+        return 'TenderStatuses_' . date('YmdHis');
     }
 }

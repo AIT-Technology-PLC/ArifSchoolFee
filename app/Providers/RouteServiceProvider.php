@@ -26,7 +26,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
 
         $this->routes(function () {
             // Auth Controllers
@@ -48,18 +50,6 @@ class RouteServiceProvider extends ServiceProvider
             // Report Controllers
             Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
                 ->group(base_path('routes/reports.php'));
-        });
-    }
-
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
-    {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
 }

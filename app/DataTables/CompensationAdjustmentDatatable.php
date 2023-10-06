@@ -20,7 +20,7 @@ class CompensationAdjustmentDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($compensationAdjustment) => route('compensation-adjustments.show', $compensationAdjustment->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('issued_on', fn($compensationAdjustment) => $compensationAdjustment->issued_on->toFormattedDateString())
             ->editColumn('starting_period', fn($compensationAdjustment) => $compensationAdjustment->starting_period->toDateString())
@@ -74,7 +74,7 @@ class CompensationAdjustmentDatatable extends DataTable
 
         return Arr::where($columns, fn($column) => $column != null);
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'CompensationAdjustment_' . date('YmdHis');
     }

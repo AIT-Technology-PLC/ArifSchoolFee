@@ -73,7 +73,7 @@ class ReservationDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Reservation Details_' . date('YmdHis');
     }

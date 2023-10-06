@@ -17,26 +17,26 @@ class TransferDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($transfer) => route('transfers.show', $transfer->id),
+                'data-url' => fn($transfer) => route('transfers.show', $transfer->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($transfer) => $transfer->warehouse->name)
-            ->editColumn('status', fn ($transfer) => view('components.datatables.transfer-status', compact('transfer')))
+            ->editColumn('branch', fn($transfer) => $transfer->warehouse->name)
+            ->editColumn('status', fn($transfer) => view('components.datatables.transfer-status', compact('transfer')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting approval', fn ($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn ($query) => $query->approved()->notSubtracted())
-                    ->when($keyword == 'subtracted', fn ($query) => $query->subtracted()->notAdded())
-                    ->when($keyword == 'added', fn ($query) => $query->added());
+                    ->when($keyword == 'waiting approval', fn($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->approved()->notSubtracted())
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted()->notAdded())
+                    ->when($keyword == 'added', fn($query) => $query->added());
             })
-            ->editColumn('from', fn ($transfer) => $transfer->transferredFrom->name)
-            ->editColumn('to', fn ($transfer) => $transfer->transferredTo->name)
-            ->editColumn('description', fn ($transfer) => view('components.datatables.searchable-description', ['description' => $transfer->description]))
-            ->editColumn('issued_on', fn ($transfer) => $transfer->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($transfer) => $transfer->createdBy->name)
-            ->editColumn('approved by', fn ($transfer) => $transfer->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($transfer) => $transfer->updatedBy->name)
+            ->editColumn('from', fn($transfer) => $transfer->transferredFrom->name)
+            ->editColumn('to', fn($transfer) => $transfer->transferredTo->name)
+            ->editColumn('description', fn($transfer) => view('components.datatables.searchable-description', ['description' => $transfer->description]))
+            ->editColumn('issued_on', fn($transfer) => $transfer->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($transfer) => $transfer->createdBy->name)
+            ->editColumn('approved by', fn($transfer) => $transfer->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($transfer) => $transfer->updatedBy->name)
             ->editColumn('actions', function ($transfer) {
                 return view('components.common.action-buttons', [
                     'model' => 'transfers',
@@ -52,11 +52,11 @@ class TransferDatatable extends DataTable
         return $transfer
             ->newQuery()
             ->select('transfers.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('transfers.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn ($query) => $query->approved()->notSubtracted())
-            ->when(request('status') == 'subtracted', fn ($query) => $query->subtracted()->notAdded())
-            ->when(request('status') == 'added', fn ($query) => $query->added())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('transfers.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->approved()->notSubtracted())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notAdded())
+            ->when(request('status') == 'added', fn($query) => $query->added())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -85,8 +85,8 @@ class TransferDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Transfer_'.date('YmdHis');
+        return 'Transfer_' . date('YmdHis');
     }
 }

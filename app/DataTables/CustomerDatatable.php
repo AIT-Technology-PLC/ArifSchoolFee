@@ -83,7 +83,7 @@ class CustomerDatatable extends DataTable
         ])->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Customer_' . date('YmdHis');
     }

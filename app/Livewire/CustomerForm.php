@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\Customer;
 use App\Services\Models\CustomerService;
@@ -44,13 +44,15 @@ class CustomerForm extends Component
 
         $customer = (new CustomerService)->store($this->validate()['customer']);
 
-        $this->dispatchBrowserEvent('customer-created', ['customer' => $customer]);
+        $this->dispatch('customer-created', ['customer' => $customer]);
 
         if ($this->hasRedirect) {
             return redirect()->route('customers.index');
         }
 
         $this->reset();
+
+        !empty($this->customer['credit_amount_limit']) ?: ($this->customer['credit_amount_limit'] = 0);
     }
 
     public function update()

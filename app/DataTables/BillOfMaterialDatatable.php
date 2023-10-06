@@ -20,7 +20,7 @@ class BillOfMaterialDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($billOfMaterial) => route('bill-of-materials.show', $billOfMaterial->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
 
             ->editColumn('name', fn($billOfMaterial) => $billOfMaterial->name)
@@ -77,7 +77,7 @@ class BillOfMaterialDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'BillOfMaterial_' . date('YmdHis');
     }

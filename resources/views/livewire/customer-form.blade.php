@@ -3,7 +3,7 @@
     method="POST"
     enctype="multipart/form-data"
     novalidate
-    wire:submit.prevent="{{ $method }}"
+    wire:submit="{{ $method }}"
 >
     @csrf
 
@@ -25,7 +25,7 @@
                             type="text"
                             placeholder="Company Name"
                             wire:focusout="fetchByCompanyName"
-                            wire:model.defer="customer.company_name"
+                            wire:model="customer.company_name"
                         />
                         <x-common.icon
                             name="fas fa-building"
@@ -47,7 +47,7 @@
                                 name="credit_amount_limit"
                                 type="number"
                                 placeholder="Credit Limit"
-                                wire:model.defer="customer.credit_amount_limit"
+                                wire:model="customer.credit_amount_limit"
                             />
                             <x-common.icon
                                 name="fas fa-dollar-sign"
@@ -70,7 +70,7 @@
                             type="number"
                             placeholder="Tin No"
                             wire:focusout="fetchByTin"
-                            wire:model.defer="customer.tin"
+                            wire:model="customer.tin"
                         />
                         <x-common.icon
                             name="fas fa-hashtag"
@@ -91,7 +91,7 @@
                             name="address"
                             type="text"
                             placeholder="Address"
-                            wire:model.defer="customer.address"
+                            wire:model="customer.address"
                         />
                         <x-common.icon
                             name="fas fa-map-marker-alt"
@@ -112,7 +112,7 @@
                             name="contact_name"
                             type="text"
                             placeholder="Contact Name"
-                            wire:model.defer="customer.contact_name"
+                            wire:model="customer.contact_name"
                         />
                         <x-common.icon
                             name="fas fa-address-book"
@@ -133,7 +133,7 @@
                             name="email"
                             type="text"
                             placeholder="Email Address"
-                            wire:model.defer="customer.email"
+                            wire:model="customer.email"
                         />
                         <x-common.icon
                             name="fas fa-at"
@@ -154,7 +154,7 @@
                             name="phone"
                             type="text"
                             placeholder="Phone/Telephone"
-                            wire:model.defer="customer.phone"
+                            wire:model="customer.phone"
                         />
                         <x-common.icon
                             name="fas fa-phone"
@@ -174,7 +174,7 @@
                             class="is-fullwidth"
                             id="country"
                             name="country"
-                            wire:model.defer="customer.country"
+                            wire:model="customer.country"
                         >
                             <option
                                 selected
@@ -208,7 +208,7 @@
                                 type="file"
                                 id="business_license_attachment"
                                 name="business_license_attachment"
-                                wire:model.defer="customer.business_license_attachment"
+                                wire:model="customer.business_license_attachment"
                             />
                             <span class="file-cta bg-green has-text-white">
                                 <x-common.icon
@@ -242,7 +242,7 @@
                             name="business_license_expires_on"
                             id="business_license_expires_on"
                             placeholder="mm/dd/yyyy"
-                            wire:model.defer="customer.business_license_expires_on"
+                            wire:model="customer.business_license_expires_on"
                         />
                         <x-common.icon
                             name="fas fa-calendar-alt"

@@ -52,7 +52,7 @@ class ExpenseDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'ExpenseDetail_' . date('YmdHis');
     }

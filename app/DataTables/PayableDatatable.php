@@ -75,7 +75,7 @@ class PayableDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Payable_' . date('YmdHis');
     }

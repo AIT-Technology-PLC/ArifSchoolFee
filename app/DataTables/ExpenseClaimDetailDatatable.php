@@ -45,7 +45,7 @@ class ExpenseClaimDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'ExpenseClaimDetail_' . date('YmdHis');
     }

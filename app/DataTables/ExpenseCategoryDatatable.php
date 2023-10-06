@@ -49,7 +49,7 @@ class ExpenseCategoryDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'ExpenseCategory_' . date('YmdHis');
     }

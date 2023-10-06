@@ -45,7 +45,7 @@ class InventoryBatchReportDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryBatchReport_' . date('YmdHis');
     }

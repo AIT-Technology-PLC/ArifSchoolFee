@@ -20,7 +20,7 @@ class PriceIncrementDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($priceIncrement) => route('price-increments.show', $priceIncrement->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('code', fn($priceIncrement) => $priceIncrement->code)
             ->editColumn('status', fn($priceIncrement) => view('components.datatables.price-increment-status', compact('priceIncrement')))
@@ -70,7 +70,7 @@ class PriceIncrementDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'PriceIncrement_' . date('YmdHis');
     }

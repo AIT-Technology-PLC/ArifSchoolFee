@@ -20,7 +20,7 @@ class SaleDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($sale) => route('sales.show', $sale->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->customColumns('sale')
             ->editColumn('branch', fn($sale) => $sale->warehouse->name)
@@ -109,7 +109,7 @@ class SaleDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Sales Invoice_' . date('YmdHis');
     }
