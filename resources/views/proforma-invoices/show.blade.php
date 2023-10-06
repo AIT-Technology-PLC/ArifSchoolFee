@@ -232,13 +232,14 @@
             @include('proforma-invoices.partials.open-restore-expired-pi-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
     @endif
-    @if ($proformaInvoice->isConverted() && !$proformaInvoice->isAssociated())
-        @can('Create Sale')
-            @include('proforma-invoices.partials.open-select-sale-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
-        @endcan
 
+    @if ($proformaInvoice->isConverted() && !$proformaInvoice->isAssociated())
         @can('Create GDN')
             @include('proforma-invoices.partials.open-select-gdn-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+
+        @can('Create Sale')
+            @include('proforma-invoices.partials.open-select-sale-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
     @endif
 @endsection
