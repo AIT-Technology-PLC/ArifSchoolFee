@@ -115,6 +115,8 @@ class SaleController extends Controller
     {
         abort_if($sale->isApproved() || $sale->isCancelled(), 403);
 
+        $sale->proformaInvoice?->dissociated();
+
         $sale->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

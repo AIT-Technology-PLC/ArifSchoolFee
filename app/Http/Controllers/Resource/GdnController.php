@@ -134,6 +134,8 @@ class GdnController extends Controller
 
         abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
+        $gdn->proformaInvoice?->dissociated();
+
         $gdn->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');

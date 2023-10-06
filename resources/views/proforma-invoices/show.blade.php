@@ -126,30 +126,34 @@
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
-                    @can('Create GDN')
-                        <x-common.dropdown-item>
-                            <x-common.button
-                                tag="a"
-                                href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
-                                mode="button"
-                                icon="fas fa-file-invoice"
-                                label="Convert to DO"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                    @can('Create Sale')
-                        <x-common.dropdown-item>
-                            <x-common.button
-                                tag="a"
-                                href="{{ route('proforma-invoices.convert_to_sale', $proformaInvoice->id) }}"
-                                mode="button"
-                                icon="fas fa-cash-register"
-                                label="Issue Invoice"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
+                    @if (!$proformaInvoice->isAssociated())
+                        @can('Create GDN')
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    @click="$dispatch('open-select-gdn-warehouse-modal')"
+                                    icon="fas fa-file-invoice"
+                                    label="Convert to DO"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endif
+                    @if (!$proformaInvoice->isAssociated())
+                        @can('Create Sale')
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    @click="$dispatch('open-select-sale-warehouse-modal')"
+                                    icon="fas fa-cash-register"
+                                    label="Issue Invoice"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
+                    @endif
                     @foreach (pads() as $pad)
                         @if (in_array('proforma-invoices', $pad->convert_from))
                             @can('convert', $pad->transactions->first())
@@ -226,6 +230,15 @@
     @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConverted())
         @can('Restore Proforma Invoice')
             @include('proforma-invoices.partials.open-restore-expired-pi-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+    @endif
+    @if ($proformaInvoice->isConverted() && !$proformaInvoice->isAssociated())
+        @can('Create Sale')
+            @include('proforma-invoices.partials.open-select-sale-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+
+        @can('Create GDN')
+            @include('proforma-invoices.partials.open-select-gdn-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
     @endif
 @endsection

@@ -23,6 +23,12 @@ class ProformaInvoiceDatatable extends DataTable
             ])
             ->editColumn('branch', fn($proformaInvoice) => $proformaInvoice->warehouse->name)
             ->editColumn('code', fn($proformaInvoice) => $proformaInvoice->reference)
+            ->editColumn('transaction', function ($proformaInvoice) {
+                return view('components.datatables.link', [
+                    'url' => !is_null($proformaInvoice->proformaInvoiceable_id) ? route((new $proformaInvoice->proformaInvoiceable_type())->getTable() . '.show', $proformaInvoice->proformaInvoiceable_id) : 'javascript:void(0)',
+                    'label' => !is_null($proformaInvoice->proformaInvoiceable_id) ? $proformaInvoice->proformaInvoiceable_type::find($proformaInvoice->proformaInvoiceable_id)->code : 'N/A',
+                ]);
+            })
             ->editColumn('status', fn($proformaInvoice) => view('components.datatables.proforma-invoice-status', compact('proformaInvoice')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -56,6 +62,7 @@ class ProformaInvoiceDatatable extends DataTable
             ->when(is_numeric(request('branch')), fn($query) => $query->where('proforma_invoices.warehouse_id', request('branch')))
             ->when(request('status') == 'pending', fn($query) => $query->pending())
             ->when(request('status') == 'confirmed', fn($query) => $query->converted())
+            ->when(request('status') == 'converted', fn($query) => $query->associated())
             ->when(request('status') == 'cancelled', fn($query) => $query->notPending()->notConverted())
             ->with([
                 'createdBy:id,name',
@@ -72,6 +79,7 @@ class ProformaInvoiceDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->title('PI No'),
+            Column::computed('transaction')->className('has-text-centered actions'),
             Column::make('status')->orderable(false),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),

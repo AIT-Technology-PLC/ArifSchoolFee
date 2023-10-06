@@ -71,7 +71,7 @@ Route::get('/proforma-invoices/{proformaInvoice}/print',
     [Action\ProformaInvoiceController::class, 'printed'])
     ->name('proforma-invoices.print');
 
-Route::get('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
+Route::post('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
     [Action\ProformaInvoiceController::class, 'convertToGdn'])
     ->name('proforma-invoices.convert_to_gdn');
 
@@ -87,7 +87,7 @@ Route::post('/proforma-invoices/{proformaInvoice}/close',
     [Action\ProformaInvoiceController::class, 'close'])
     ->name('proforma-invoices.close');
 
-Route::get('/proforma-invoices/{proforma_invoice}/convert-to-sale',
+Route::post('/proforma-invoices/{proforma_invoice}/convert-to-sale',
     [Action\ProformaInvoiceController::class, 'convertToSale'])
     ->name('proforma-invoices.convert_to_sale');
 
@@ -541,3 +541,5 @@ Route::post('/cost-updates/{costUpdate}/reject',
 Route::post('/cost-updates/import',
     [Action\CostUpdateController::class, 'import'])
     ->name('cost-updates.import');
+
+

@@ -65,7 +65,7 @@ class ProformaInvoice extends Model
 
     public function scopeConverted($query)
     {
-        return $query->whereNotNull('converted_by');
+        return $query->whereNotNull('converted_by')->where('proformaInvoiceable_id', null);
     }
 
     public function scopeNotConverted($query)
@@ -113,7 +113,7 @@ class ProformaInvoice extends Model
 
     public function isConverted()
     {
-        return !$this->is_pending && $this->converted_by;
+        return !$this->is_pending && $this->converted_by && is_null($this->proformaInvoiceable_id);
     }
 
     public function isPending()
@@ -134,6 +134,39 @@ class ProformaInvoice extends Model
     public function restore()
     {
         $this->is_pending = 1;
+
+        $this->save();
+    }
+
+    public function proformaInvoiceable()
+    {
+        return $this->morphTo();
+    }
+
+    public function isAssociated()
+    {
+        return !is_null($this->proformaInvoiceable_id);
+    }
+
+    public function scopeAssociated($query)
+    {
+        return $query->whereNotNull('proformaInvoiceable_id');
+    }
+
+    public function dissociated()
+    {
+        $this->proformaInvoiceable_id = null;
+
+        $this->proformaInvoiceable_type = null;
+
+        $this->save();
+    }
+
+    public function associate($model)
+    {
+        $this->proformaInvoiceable_type = get_class($model);
+
+        $this->proformaInvoiceable_id = $model->id;
 
         $this->save();
     }
