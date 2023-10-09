@@ -83,6 +83,10 @@ class GdnController extends Controller
 
     public function edit(Gdn $gdn)
     {
+        if ($gdn->belongsToTransaction()) {
+            return back()->with('failedMessage', 'Delivery orders issued from other transaction cannot be edited.');
+        }
+
         $sales = Sale::latest('code')->get();
 
         $warehouses = authUser()->getAllowedWarehouses('sales');
@@ -94,9 +98,9 @@ class GdnController extends Controller
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
     {
-        if ($gdn->reservation()->exists()) {
+        if ($gdn->belongsToTransaction()) {
             return redirect()->route('gdns.show', $gdn->id)
-                ->with('failedMessage', 'Delivery orders issued from reservations cannot be edited.');
+                ->with('failedMessage', 'Delivery orders issued from other transaction cannot be edited.');
         }
 
         if ($gdn->isCancelled()) {
@@ -126,8 +130,8 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
-        if ($gdn->reservation()->exists()) {
-            return back()->with('failedMessage', 'Delivery orders issued from reservations cannot be deleted.');
+        if ($gdn->belongsToTransaction()) {
+            return back()->with('failedMessage', 'Delivery orders issued from other transaction cannot be deleted.');
         }
 
         abort_if($gdn->isSubtracted() || $gdn->isCancelled(), 403);

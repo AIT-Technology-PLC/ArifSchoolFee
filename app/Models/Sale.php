@@ -89,4 +89,9 @@ class Sale extends Model
     {
         return true;
     }
+
+    public function belongsToTransaction()
+    {
+        return $this->proformaInvoice()->exists();
+    }
 }
