@@ -79,9 +79,9 @@ Route::post('/proforma-invoices/{proformaInvoice}/cancel',
     [Action\ProformaInvoiceController::class, 'cancel'])
     ->name('proforma-invoices.cancel');
 
-Route::post('/proforma-invoices/{proformaInvoice}/convert',
-    [Action\ProformaInvoiceController::class, 'convert'])
-    ->name('proforma-invoices.convert');
+Route::post('/proforma-invoices/{proformaInvoice}/confirm',
+    [Action\ProformaInvoiceController::class, 'confirm'])
+    ->name('proforma-invoices.confirm');
 
 Route::post('/proforma-invoices/{proformaInvoice}/close',
     [Action\ProformaInvoiceController::class, 'close'])

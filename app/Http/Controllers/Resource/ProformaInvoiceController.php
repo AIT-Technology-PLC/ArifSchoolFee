@@ -29,11 +29,11 @@ class ProformaInvoiceController extends Controller
 
         $totalProformaInvoices = ProformaInvoice::count();
 
-        $totalConverted = ProformaInvoice::converted()->count();
+        $totalConverted = ProformaInvoice::confirmed()->count();
 
         $totalPending = ProformaInvoice::pending()->count();
 
-        $totalCancelled = ProformaInvoice::notPending()->notConverted()->count();
+        $totalCancelled = ProformaInvoice::notPending()->notConfirmed()->count();
 
         return $datatable->render('proforma-invoices.index', compact('totalProformaInvoices', 'totalConverted', 'totalPending', 'totalCancelled'));
     }
@@ -104,7 +104,7 @@ class ProformaInvoiceController extends Controller
 
     public function destroy(ProformaInvoice $proformaInvoice)
     {
-        abort_if($proformaInvoice->isConverted(), 403);
+        abort_if($proformaInvoice->isConfirmed(), 403);
 
         abort_if($proformaInvoice->isCancelled() && !authUser()->can('Delete Cancelled Proforma Invoice'), 403);
 

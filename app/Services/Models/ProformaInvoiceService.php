@@ -14,7 +14,7 @@ class ProformaInvoiceService
             return [false, 'This Proforma Invoice is cancelled.', ''];
         }
 
-        if (!$proformaInvoice->isConverted()) {
+        if (!$proformaInvoice->isConfirmed()) {
             return [false, 'This Proforma Invoice is not confirmed yet.', ''];
         }
 
@@ -59,7 +59,7 @@ class ProformaInvoiceService
 
     public function close($proformaInvoice)
     {
-        if (!$proformaInvoice->isConverted()) {
+        if (!$proformaInvoice->isConfirmed()) {
             return [false, 'This Proforma Invoice is not confirmed yet.'];
         }
 
@@ -78,7 +78,7 @@ class ProformaInvoiceService
             return [false, 'This Proforma Invoice is cancelled.', ''];
         }
 
-        if (!$proformaInvoice->isConverted()) {
+        if (!$proformaInvoice->isConfirmed()) {
             return [false, 'This Proforma Invoice is not confirmed yet.', ''];
         }
 

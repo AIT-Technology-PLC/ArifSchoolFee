@@ -68,12 +68,12 @@ class ProformaInvoice extends Model
         return Str::of($prefix)->append('/', $this->code);
     }
 
-    public function scopeConverted($query)
+    public function scopeConfirmed($query)
     {
         return $query->whereNotNull('converted_by')->whereNull('proforma_invoiceable_id');
     }
 
-    public function scopeNotConverted($query)
+    public function scopeNotConfirmed($query)
     {
         return $query->whereNull('converted_by');
     }
@@ -98,7 +98,7 @@ class ProformaInvoice extends Model
         return $this->proformaInvoiceDetails;
     }
 
-    public function convert()
+    public function confirm()
     {
         $this->converted_by = authUser()->id;
 
@@ -116,7 +116,7 @@ class ProformaInvoice extends Model
         $this->save();
     }
 
-    public function isConverted()
+    public function isConfirmed()
     {
         return !$this->is_pending && $this->converted_by && is_null($this->proforma_invoiceable_id);
     }

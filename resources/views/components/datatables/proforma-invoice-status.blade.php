@@ -9,15 +9,15 @@
     </span>
 @endif
 @if ($proformaInvoice->isAssociated())
-    <span class="tag bg-gold has-text-white">
+    <span class="tag bg-green has-text-white">
         <span class="icon">
-            <i class="fas fa-check-circle"></i>
+            <i class="fas fa-check-double"></i>
         </span>
         <span>
             Converted
         </span>
     </span>
-@elseif ($proformaInvoice->isConverted())
+@elseif ($proformaInvoice->isConfirmed())
     <span class="tag bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>

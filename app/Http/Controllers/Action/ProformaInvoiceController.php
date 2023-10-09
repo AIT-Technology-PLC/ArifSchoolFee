@@ -23,19 +23,19 @@ class ProformaInvoiceController extends Controller
         $this->proformaInvoiceService = $proformaInvoiceService;
     }
 
-    public function convert(ProformaInvoice $proformaInvoice)
+    public function confirm(ProformaInvoice $proformaInvoice)
     {
-        $this->authorize('convert', $proformaInvoice);
+        $this->authorize('confirm', $proformaInvoice);
 
         if ($proformaInvoice->isCancelled()) {
             return back()->with('failedMessage', 'This Proforma Invoice is cancelled');
         }
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 
-        $proformaInvoice->convert();
+        $proformaInvoice->confirm();
 
         return back();
     }
@@ -44,7 +44,7 @@ class ProformaInvoiceController extends Controller
     {
         $this->authorize('cancel', $proformaInvoice);
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'Cancelling a confirmed Proforma Invoice is not allowed.');
         }
 
@@ -117,7 +117,7 @@ class ProformaInvoiceController extends Controller
     {
         $this->authorize('restore', $proformaInvoice);
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 

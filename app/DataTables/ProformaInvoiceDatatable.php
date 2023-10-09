@@ -34,8 +34,8 @@ class ProformaInvoiceDatatable extends DataTable
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'pending', fn($query) => $query->pending())
-                    ->when($keyword == 'confirmed', fn($query) => $query->converted())
-                    ->when($keyword == 'cancelled', fn($query) => $query->notPending()->notConverted());
+                    ->when($keyword == 'confirmed', fn($query) => $query->confirmed())
+                    ->when($keyword == 'cancelled', fn($query) => $query->notPending()->notConfirmed());
             })
             ->editColumn('customer', fn($proformaInvoice) => $proformaInvoice->customer->company_name ?? 'N/A')
             ->editColumn('customer_tin', fn($proformaInvoice) => $proformaInvoice->customer->tin ?? 'N/A')
@@ -62,9 +62,9 @@ class ProformaInvoiceDatatable extends DataTable
             ->select('proforma_invoices.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('proforma_invoices.warehouse_id', request('branch')))
             ->when(request('status') == 'pending', fn($query) => $query->pending())
-            ->when(request('status') == 'confirmed', fn($query) => $query->converted())
+            ->when(request('status') == 'confirmed', fn($query) => $query->confirmed())
             ->when(request('status') == 'converted', fn($query) => $query->associated())
-            ->when(request('status') == 'cancelled', fn($query) => $query->notPending()->notConverted())
+            ->when(request('status') == 'cancelled', fn($query) => $query->notPending()->notConfirmed())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',

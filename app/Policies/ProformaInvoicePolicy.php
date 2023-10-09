@@ -36,7 +36,7 @@ class ProformaInvoicePolicy
         return $this->isIssuedByMyBranch($user, $proformaInvoice) && $user->can('Delete Proforma Invoice');
     }
 
-    public function convert(User $user, ProformaInvoice $proformaInvoice)
+    public function confirm(User $user, ProformaInvoice $proformaInvoice)
     {
         return $user->can('Convert Proforma Invoice');
     }
