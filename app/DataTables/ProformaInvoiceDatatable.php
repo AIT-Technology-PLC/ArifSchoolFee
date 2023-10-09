@@ -25,8 +25,9 @@ class ProformaInvoiceDatatable extends DataTable
             ->editColumn('code', fn($proformaInvoice) => $proformaInvoice->reference)
             ->editColumn('transaction', function ($proformaInvoice) {
                 return view('components.datatables.link', [
-                    'url' => !is_null($proformaInvoice->proformaInvoiceable_id) ? route((new $proformaInvoice->proformaInvoiceable_type())->getTable() . '.show', $proformaInvoice->proformaInvoiceable_id) : 'javascript:void(0)',
-                    'label' => !is_null($proformaInvoice->proformaInvoiceable_id) ? $proformaInvoice->proformaInvoiceable_type::find($proformaInvoice->proformaInvoiceable_id)->code : 'N/A',
+                    'url' => $proformaInvoice->isAssociated() ? route((new $proformaInvoice->proforma_invoiceable_type())->getTable() . '.show', $proformaInvoice->proforma_invoiceable_id) : 'javascript:void(0)',
+                    'label' => $proformaInvoice->isAssociated() ? $proformaInvoice->proforma_invoiceable_type::find($proformaInvoice->proforma_invoiceable_id)->code : 'N/A',
+                    'target' => '_blank',
                 ]);
             })
             ->editColumn('status', fn($proformaInvoice) => view('components.datatables.proforma-invoice-status', compact('proformaInvoice')))

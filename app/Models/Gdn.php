@@ -55,7 +55,7 @@ class Gdn extends Model
 
     public function proformaInvoice()
     {
-        return $this->morphOne(ProformaInvoice::class, 'proformaInvoiceable');
+        return $this->morphOne(ProformaInvoice::class, 'proforma_invoiceable');
     }
 
     public function contact()

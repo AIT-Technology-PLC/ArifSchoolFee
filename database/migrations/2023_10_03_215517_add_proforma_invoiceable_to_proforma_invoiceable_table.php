@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('proforma_invoices', function (Blueprint $table) {
-            $table->after('code', fn($t) => $t->nullableMorphs('proformaInvoiceable'));
+            $table->after('code', fn($t) => $t->nullableMorphs('proforma_invoiceable', 'pi'));
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('proforma_invoiceable', function (Blueprint $table) {
+        Schema::table('proforma_invoices', function (Blueprint $table) {
             $table->dropColumn(['proforma_invoiceable_id', 'proforma_invoiceable_type']);
         });
     }

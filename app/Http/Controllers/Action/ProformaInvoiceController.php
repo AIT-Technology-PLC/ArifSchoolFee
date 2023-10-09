@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateAssociatePiToDoInvoiceRequest;
+use App\Http\Requests\ConvertProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceExpiresOnRequest;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
@@ -74,7 +74,7 @@ class ProformaInvoiceController extends Controller
         return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode', 'havingBatch'))->stream();
     }
 
-    public function convertToGdn(UpdateAssociatePiToDoInvoiceRequest $request, ProformaInvoice $proformaInvoice)
+    public function convertToGdn(ConvertProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Gdn::class);
 
@@ -100,7 +100,7 @@ class ProformaInvoiceController extends Controller
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
 
-    public function convertToSale(UpdateAssociatePiToDoInvoiceRequest $request, ProformaInvoice $proformaInvoice)
+    public function convertToSale(ConvertProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Sale::class);
 

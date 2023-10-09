@@ -8,13 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class ProformaInvoiceService
 {
-    public function convertToGdn($proformaInvoice, $request)
+    public function convertToGdn($proformaInvoice, $data)
     {
+        if ($proformaInvoice->isCancelled()) {
+            return [false, 'This Proforma Invoice is cancelled.', ''];
+        }
+
         if (!$proformaInvoice->isConverted()) {
             return [false, 'This Proforma Invoice is not confirmed yet.', ''];
         }
 
-        if (!is_null($proformaInvoice->proformaInvoiceable_id)) {
+        if ($proformaInvoice->isAssociated()) {
             return [false, 'This Proforma Invoice is already converted.', ''];
         }
 
@@ -22,33 +26,30 @@ class ProformaInvoiceService
             return [false, 'This Proforma Invoice is closed.', ''];
         }
 
-        $gdnDetails = collect($proformaInvoice->proformaInvoiceDetails)
-            ->map(function ($item) use ($request) {
-                $item['warehouse_id'] = $request['warehouse_id'];
+        $details = collect($proformaInvoice->proformaInvoiceDetails)
+            ->map(function ($item) use ($data) {
+                $item['warehouse_id'] = $data['warehouse_id'];
                 $item['unit_price'] = $item['unit_price_after_discount'];
 
                 return $item;
             });
 
-        $gdn = DB::transaction(function () use ($request, $proformaInvoice, $gdnDetails) {
+        $gdn = DB::transaction(function () use ($data, $proformaInvoice, $details) {
             $gdn = Gdn::create([
-                'customer_id' => $request['customer_id'] ?? null,
+                'customer_id' => $data['customer_id'] ?? null,
                 'contact_id' => $proformaInvoice->contact_id ?? null,
                 'code' => nextReferenceNumber('gdns'),
-                'payment_type' => $request['payment_type'],
-                'cash_received_type' => $request['cash_received_type'],
-                'cash_received' => $request['cash_received'],
+                'payment_type' => $data['payment_type'],
+                'cash_received_type' => $data['cash_received_type'],
+                'cash_received' => $data['cash_received'],
                 'description' => $proformaInvoice->description ?? '',
                 'issued_on' => now(),
-                'due_date' => $request['due_date'],
+                'due_date' => $data['due_date'],
             ]);
 
-            $gdn->gdnDetails()->createMany(
-                $gdnDetails
-                    ->toArray()
-            );
+            $gdn->gdnDetails()->createMany($details->toArray());
 
-            $proformaInvoice->associate($gdn);
+            $proformaInvoice->proformaInvoiceable()->associate($gdn)->save();
 
             return $gdn;
         });
@@ -71,13 +72,17 @@ class ProformaInvoiceService
         return [true, ''];
     }
 
-    public function convertToSale($proformaInvoice, $request)
+    public function convertToSale($proformaInvoice, $data)
     {
+        if ($proformaInvoice->isCancelled()) {
+            return [false, 'This Proforma Invoice is cancelled.', ''];
+        }
+
         if (!$proformaInvoice->isConverted()) {
             return [false, 'This Proforma Invoice is not confirmed yet.', ''];
         }
 
-        if (!is_null($proformaInvoice->proformaInvoiceable_id)) {
+        if ($proformaInvoice->isAssociated()) {
             return [false, 'This Proforma Invoice is already converted.', ''];
         }
 
@@ -85,34 +90,31 @@ class ProformaInvoiceService
             return [false, 'This Proforma Invoice is closed.', ''];
         }
 
-        $saleDetails = collect($proformaInvoice->proformaInvoiceDetails)
-            ->map(function ($item) use ($request) {
-                $item['warehouse_id'] = $request['warehouse_id'];
+        $details = collect($proformaInvoice->proformaInvoiceDetails)
+            ->map(function ($item) use ($data) {
+                $item['warehouse_id'] = $data['warehouse_id'];
                 $item['unit_price'] = $item['unit_price_after_discount'];
                 unset($item['discount']);
 
                 return $item;
             });
 
-        $sale = DB::transaction(function () use ($request, $proformaInvoice, $saleDetails) {
+        $sale = DB::transaction(function () use ($data, $proformaInvoice, $details) {
             $sale = Sale::create([
-                'customer_id' => $request['customer_id'] ?? null,
+                'customer_id' => $data['customer_id'] ?? null,
                 'contact_id' => $proformaInvoice->contact_id ?? null,
                 'code' => nextReferenceNumber('sales'),
-                'payment_type' => $request['payment_type'],
-                'cash_received_type' => $request['cash_received_type'],
-                'cash_received' => $request['cash_received'],
+                'payment_type' => $data['payment_type'],
+                'cash_received_type' => $data['cash_received_type'],
+                'cash_received' => $data['cash_received'],
                 'description' => $proformaInvoice->description ?? '',
                 'issued_on' => now(),
-                'due_date' => $request['due_date'],
+                'due_date' => $data['due_date'],
             ]);
 
-            $sale->saleDetails()->createMany(
-                $saleDetails
-                    ->toArray()
-            );
+            $sale->saleDetails()->createMany($details->toArray());
 
-            $proformaInvoice->associate($sale);
+            $proformaInvoice->proformaInvoiceable()->associate($sale)->save();
 
             return $sale;
         });

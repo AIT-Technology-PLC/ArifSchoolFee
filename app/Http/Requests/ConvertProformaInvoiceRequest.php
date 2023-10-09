@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\ProformaInvoiceDetail;
+use App\Models\MerchandiseBatch;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
 use App\Rules\MustBelongToCompany;
@@ -10,7 +10,7 @@ use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateAssociatePiToDoInvoiceRequest extends FormRequest
+class ConvertProformaInvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,21 +29,21 @@ class UpdateAssociatePiToDoInvoiceRequest extends FormRequest
      */
     public function rules()
     {
-        $gdnDetails = ProformaInvoiceDetail::where('proforma_invoice_id', $this->route('proforma_invoice')->id)->get();
+        $details = $this->route('proforma_invoice')->proformaInvoiceDetails;
 
         return [
             'warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(
                     $this->get('discount'),
-                    $gdnDetails,
+                    $details,
                     $this->get('payment_type'),
                     $this->get('cash_received_type'),
                     $this->get('cash_received')
                 ),
                 new CheckCustomerDepositBalance(
                     $this->get('discount'),
-                    $gdnDetails,
+                    $details,
                     $this->get('payment_type'),
                 ),
             ],
@@ -70,7 +70,7 @@ class UpdateAssociatePiToDoInvoiceRequest extends FormRequest
                 new VerifyCashReceivedAmountIsValid(
                     $this->get('payment_type'),
                     $this->get('discount'),
-                    $gdnDetails,
+                    $details,
                     $this->get('cash_received_type')
                 ),
             ],
@@ -79,6 +79,21 @@ class UpdateAssociatePiToDoInvoiceRequest extends FormRequest
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
             'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'merchandiseBatches.*' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($a, $v, $f) {
+                $exists = MerchandiseBatch::whereRelation('merchandise', 'warehouse_id', $this->input('warehouse_id'))->where('id', $v)->exists();
+
+                if (!empty($v) && !$exists) {
+                    $f('Batch No:' . $v . ' does not exists in the selected branch.');
+                }
+            }],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'customer_id' => $this->route('proforma_invoice')->customer_id,
+            'merchandiseBatches' => $this->route('proforma_invoice')->proformaInvoiceDetails()->pluck('merchandise_batch_id')->toArray(),
+        ]);
     }
 }

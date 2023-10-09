@@ -126,34 +126,6 @@
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
-                    @if (!$proformaInvoice->isAssociated())
-                        @can('Create GDN')
-                            <x-common.dropdown-item>
-                                <x-common.button
-                                    tag="button"
-                                    mode="button"
-                                    @click="$dispatch('open-select-gdn-warehouse-modal')"
-                                    icon="fas fa-file-invoice"
-                                    label="Convert to DO"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @endif
-                    @if (!$proformaInvoice->isAssociated())
-                        @can('Create Sale')
-                            <x-common.dropdown-item>
-                                <x-common.button
-                                    tag="button"
-                                    mode="button"
-                                    @click="$dispatch('open-select-sale-warehouse-modal')"
-                                    icon="fas fa-cash-register"
-                                    label="Issue Invoice"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endcan
-                    @endif
                     @foreach (pads() as $pad)
                         @if (in_array('proforma-invoices', $pad->convert_from))
                             @can('convert', $pad->transactions->first())
@@ -170,6 +142,34 @@
                             @endcan
                         @endif
                     @endforeach
+                @endif
+                @if (isFeatureEnabled('Gdn Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
+                    @can('Create GDN')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-convert-to-gdn-modal')"
+                                icon="fas fa-file-invoice"
+                                label="Issue Delivery Order"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (isFeatureEnabled('Sale Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
+                    @can('Create Sale')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-convert-to-sale-modal')"
+                                icon="fas fa-cash-register"
+                                label="Issue Invoice"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
                 @if (!$proformaInvoice->isCancelled())
                     <x-common.dropdown-item>
@@ -233,13 +233,15 @@
         @endcan
     @endif
 
-    @if ($proformaInvoice->isConverted() && !$proformaInvoice->isAssociated())
+    @if (isFeatureEnabled('Gdn Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
         @can('Create GDN')
-            @include('proforma-invoices.partials.open-select-gdn-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
+            @include('proforma-invoices.partials.convert-to-gdn-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
+    @endif
 
+    @if (isFeatureEnabled('Sale Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
         @can('Create Sale')
-            @include('proforma-invoices.partials.open-select-sale-warehouse-modal', ['proformaInvoice' => $proformaInvoice])
+            @include('proforma-invoices.partials.convert-to-sale-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
     @endif
 @endsection

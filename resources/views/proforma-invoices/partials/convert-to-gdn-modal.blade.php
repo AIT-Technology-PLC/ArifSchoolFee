@@ -1,6 +1,6 @@
 <div
     x-data="toggler"
-    @open-select-sale-warehouse-modal.window="toggle"
+    @open-convert-to-gdn-modal.window="toggle"
     class="modal is-active"
     x-cloak
     x-show="!isHidden"
@@ -12,21 +12,22 @@
     ></div>
     <div class="modal-content p-lr-20">
         <x-common.content-wrapper>
-            <x-content.header title="Warehouse And Payment Detail" />
+            <x-content.header title="Issue Delivery Order" />
             <form
-                id="sale"
-                action="{{ route('proforma-invoices.convert_to_sale', $proformaInvoice->id) }}"
+                id="gdn"
+                action="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate
             >
                 @csrf
                 <x-content.main>
+                    <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
                     <div class="columns is-marginless is-multiline">
-                        <div class="column is-6">
+                        <div class="column is-12">
                             <x-forms.field>
                                 <x-forms.label for="warehouse_id">
-                                    Warehouse <sup class="has-text-danger">*</sup>
+                                    From <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select
@@ -50,21 +51,6 @@
                                         class="is-large is-left"
                                     />
                                     <x-common.validation-error property="warehouse_id" />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-6">
-                            <x-forms.field>
-                                <x-forms.label for="customer_id">
-                                    Customer <sup class="has-text-danger"></sup>
-                                </x-forms.label>
-                                <x-forms.control class="select is-fullwidth has-icons-left">
-                                    <x-common.customer-list :selected-id="$proformaInvoice->customer_id ?? ''" />
-                                    <x-common.icon
-                                        name="fas fa-user"
-                                        class="is-small is-left"
-                                    />
-                                    <x-common.validation-error property="customer_id" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
