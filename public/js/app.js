@@ -495,7 +495,8 @@ document.addEventListener("alpine:init", () => {
                     this.paymentType === "" ||
                     this.paymentType === "Credit Payment" ||
                     this.paymentType === "Cash Payment" ||
-                    this.paymentType === "Deposits"
+                    this.paymentType === "Deposits" ||
+                    this.paymentType === "TeleBirr"
                 );
             },
 
