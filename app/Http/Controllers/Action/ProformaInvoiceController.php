@@ -19,6 +19,10 @@ class ProformaInvoiceController extends Controller
     public function __construct(ProformaInvoiceService $proformaInvoiceService)
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');
+        
+        $this->middleware('isFeatureAccessible:Sale Management')->only('convertToSale');
+        
+        $this->middleware('isFeatureAccessible:Gdn Management')->only('convertToGdn');
 
         $this->proformaInvoiceService = $proformaInvoiceService;
     }
