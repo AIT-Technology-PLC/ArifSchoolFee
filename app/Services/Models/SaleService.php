@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
+use App\Exceptions\InventoryHistoryDuplicateEntryException;
 use App\Models\Sale;
 use App\Notifications\SaleApproved;
 use App\Services\Integrations\PointOfSaleService;
@@ -226,11 +227,15 @@ class SaleService
         }
 
         DB::transaction(function () use ($sale, $data) {
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+            try {
+                InventoryOperationService::subtract($sale->saleDetails, $sale);
 
-            $sale->assignFSNumber($data['fs_number']);
+                $sale->assignFSNumber($data['fs_number']);
 
-            $sale->subtract();
+                $sale->subtract();
+            } catch (InventoryHistoryDuplicateEntryException $ex) {
+                DB::rollBack();
+            }
         });
 
         return [true, 'Invoice found and FS assigned successfully.'];
