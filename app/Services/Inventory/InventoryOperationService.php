@@ -175,7 +175,7 @@ class InventoryOperationService
             );
         } catch (QueryException $ex) {
             if ($ex->errorInfo[1] == 1062) {
-                throw new InventoryHistoryDuplicateEntryException('');
+                throw new InventoryHistoryDuplicateEntryException;
             }
 
             throw $ex;
