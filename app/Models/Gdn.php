@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ProformaInvoice;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
@@ -50,6 +51,11 @@ class Gdn extends Model
     public function credit()
     {
         return $this->morphOne(Credit::class, 'creditable');
+    }
+
+    public function proformaInvoice()
+    {
+        return $this->morphOne(ProformaInvoice::class, 'proformaInvoiceable');
     }
 
     public function contact()

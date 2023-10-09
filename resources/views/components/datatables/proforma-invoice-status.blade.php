@@ -8,7 +8,16 @@
         </span>
     </span>
 @endif
-@if ($proformaInvoice->isConverted())
+@if ($proformaInvoice->isAssociated())
+    <span class="tag bg-gold has-text-white">
+        <span class="icon">
+            <i class="fas fa-check-circle"></i>
+        </span>
+        <span>
+            Converted
+        </span>
+    </span>
+@elseif ($proformaInvoice->isConverted())
     <span class="tag bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateAssociatePiToDoInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceExpiresOnRequest;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Models\Sale;
 use App\Services\Models\ProformaInvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProformaInvoiceController extends Controller
@@ -74,17 +74,17 @@ class ProformaInvoiceController extends Controller
         return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode', 'havingBatch'))->stream();
     }
 
-    public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
+    public function convertToGdn(UpdateAssociatePiToDoInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Gdn::class);
 
-        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToGdn($proformaInvoice);
+        [$isExecuted, $message, $gdn] = $this->proformaInvoiceService->convertToGdn($proformaInvoice, $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        return redirect()->route('gdns.create')->withInput($request->merge($data)->all());
+        return redirect()->route('gdns.show', $gdn->id);
     }
 
     public function close(ProformaInvoice $proformaInvoice)
@@ -100,17 +100,17 @@ class ProformaInvoiceController extends Controller
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
 
-    public function convertToSale(Request $request, ProformaInvoice $proformaInvoice)
+    public function convertToSale(UpdateAssociatePiToDoInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Sale::class);
 
-        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToSale($proformaInvoice);
+        [$isExecuted, $message, $sale] = $this->proformaInvoiceService->convertToSale($proformaInvoice, $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        return redirect()->route('sales.create')->withInput($request->merge($data)->all());
+        return redirect()->route('sales.show', $sale->id);
     }
 
     public function restore(UpdateProformaInvoiceExpiresOnRequest $request, ProformaInvoice $proformaInvoice)
