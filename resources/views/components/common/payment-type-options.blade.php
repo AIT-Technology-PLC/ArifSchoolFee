@@ -1,4 +1,4 @@
-@props(['selectedPaymentType' => '', 'paymentType' => ['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Deposits', 'Cheque']])
+@props(['selectedPaymentType' => '', 'paymentType' => ['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Deposits', 'Cheque', 'TeleBirr']])
 
 <option
     selected
@@ -45,4 +45,11 @@
         value="Cheque"
         @selected($selectedPaymentType == 'Cheque')
     >Cheque</option>
+@endif
+
+@if (in_array('TeleBirr', $paymentType))
+    <option
+        value="TeleBirr"
+        @selected($selectedPaymentType == 'TeleBirr')
+    >TeleBirr</option>
 @endif
