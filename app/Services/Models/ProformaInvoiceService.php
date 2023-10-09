@@ -92,7 +92,7 @@ class ProformaInvoiceService
 
         $details = collect($proformaInvoice->proformaInvoiceDetails)
             ->map(function ($item) use ($data) {
-                $item['warehouse_id'] = $data['warehouse_id'];
+                $item['warehouse_id'] = $data['warehouse_id'] ?? null;
                 $item['unit_price'] = $item['unit_price_after_discount'];
                 unset($item['discount']);
 

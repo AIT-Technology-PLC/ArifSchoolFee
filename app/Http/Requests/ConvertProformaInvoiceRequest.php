@@ -32,7 +32,7 @@ class ConvertProformaInvoiceRequest extends FormRequest
         $details = $this->route('proforma_invoice')->proformaInvoiceDetails;
 
         return [
-            'warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
+            'warehouse_id' => ['sometimes', 'required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
                 new CheckCustomerCreditLimit(
                     $this->get('discount'),
@@ -82,7 +82,7 @@ class ConvertProformaInvoiceRequest extends FormRequest
             'merchandiseBatches.*' => ['nullable', 'integer', new MustBelongToCompany('merchandise_batches'), function ($a, $v, $f) {
                 $exists = MerchandiseBatch::whereRelation('merchandise', 'warehouse_id', $this->input('warehouse_id'))->where('id', $v)->exists();
 
-                if (!empty($v) && !$exists) {
+                if (!empty($this->input('warehouse_id')) && !empty($v) && !$exists) {
                     $f('Batch No:' . $v . ' does not exists in the selected branch.');
                 }
             }],
