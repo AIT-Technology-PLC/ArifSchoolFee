@@ -176,7 +176,7 @@
 @push('scripts')
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.store('transferredFrom', null);
+            Alpine.store('transferredFrom');
 
             Alpine.data("transferMasterDetailForm", ({
                 transfer
