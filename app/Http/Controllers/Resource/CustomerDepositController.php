@@ -30,7 +30,7 @@ class CustomerDepositController extends Controller
 
         $totalAvailableBalance = Customer::sum('balance');
 
-        $totalDeposits = CustomerDeposit::sum('amount');
+        $totalDeposits = CustomerDeposit::approved()->sum('amount');
 
         return $datatable->render('customer-deposits.index', compact('totalCustomerDeposits', 'totalAvailableBalance', 'totalDeposits'));
     }
@@ -98,9 +98,13 @@ class CustomerDepositController extends Controller
             return back()->with('failedMessage', "You can't delete approved deposit");
         }
 
-        $customerDeposit->customer->decrement('balance', $customerDeposit->amount);
+        DB::transaction(function () use ($customerDeposit) {
+            if ($customerDeposit->isApproved()) {
+                $customerDeposit->customer->decrement('balance', $customerDeposit->amount);
+            }
 
-        $customerDeposit->forceDelete();
+            $customerDeposit->forceDelete();
+        });
 
         return back()->with('deleted', 'Deleted successfully.');
     }

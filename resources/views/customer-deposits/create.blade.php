@@ -100,14 +100,15 @@
                                 <div class="column is-6">
                                     <x-forms.field>
                                         <x-forms.label x-bind:for="`customerDeposit[${index}][deposited_at]`">
-                                            Deposited At <sup class="has-text-danger">*</sup>
+                                            Deposit Date <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
                                         <x-forms.control class="has-icons-left">
                                             <x-forms.input
-                                                type="datetime-local"
+                                                type="date"
                                                 x-bind:id="`customerDeposit[${index}][deposited_at]`"
                                                 x-bind:name="`customerDeposit[${index}][deposited_at]`"
                                                 x-model="customerDeposit.deposited_at"
+                                                x-init="customerDeposit.deposited_at ?? (customerDeposit.deposited_at = '{{ now()->toDateString() }}')"
                                             />
                                             <x-common.icon
                                                 name="fas fa-calendar-alt"
