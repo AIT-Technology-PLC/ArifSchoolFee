@@ -730,7 +730,7 @@
 
                     $(this).val(value).trigger('change');
                 });
-            }, "1");
+            });
         }
 
         function summerNote(element, property) {
