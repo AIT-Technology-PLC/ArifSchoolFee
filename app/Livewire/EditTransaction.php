@@ -79,7 +79,7 @@ class EditTransaction extends Component
 
         $this->master = $this->transaction->transactionFields()->masterFields()->pluck('value', 'pad_field_id')->toArray();
 
-        $this->details = $this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->values()->all();
+        $this->details = array_values($this->transaction->transactionFields()->detailFields()->get()->groupBy('line')->map->pluck('value', 'pad_field_id')->toArray());
 
         $this->masterPadFieldsTypeFile = collect($this->pad->padFields()->inputTypeFile()->masterFields()->get(['id'])->toArray());
 
@@ -197,7 +197,7 @@ class EditTransaction extends Component
             if ($detailPadField->isBatchNoField() || $detailPadField->isMerchandiseBatchField()) {
                 unset($rules[$key][array_search('string', $rules[$key])]);
                 unset($rules[$key][array_search('nullable', $rules[$key])]);
-                $rules[$key][] = Rule::foreach (
+                $rules[$key][] = Rule::foreach(
                     fn($v, $a) =>
                     (new PadBatchSelectionIsRequiredOrProhibited(
                         !$this->pad->isInventoryOperationAdd(),

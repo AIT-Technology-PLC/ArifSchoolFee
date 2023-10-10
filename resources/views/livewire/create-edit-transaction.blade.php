@@ -724,11 +724,13 @@
         }
 
         function triggerSelect2Change() {
-            $('.select2-picker').each(function(index, element) {
-                let value = $(this).closest('.control').attr('data-selected-value');
+            setTimeout(() => {
+                $('.select2-picker').each(function(index, element) {
+                    let value = $(this).closest('.control').attr('data-selected-value');
 
-                $(this).val(value).trigger('change');
-            });
+                    $(this).val(value).trigger('change');
+                });
+            }, "1");
         }
 
         function summerNote(element, property) {
