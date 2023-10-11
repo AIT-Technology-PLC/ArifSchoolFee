@@ -22,7 +22,7 @@ class CreateCompanyAction
             'name' => $data['company_name'],
             'currency' => 'ETB',
             'enabled' => 0,
-            'plan_id' => Plan::firstWhere('name', 'v2-professional')->id,
+            'plan_id' => Plan::firstWhere('name', 'v3-professional')->id,
             'paid_time_off_amount' => 16,
         ]);
 
