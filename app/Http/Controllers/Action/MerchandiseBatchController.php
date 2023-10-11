@@ -13,14 +13,16 @@ class MerchandiseBatchController extends Controller
 
     public function __construct(MerchandiseBatchService $merchandiseBatchService)
     {
-        $this->middleware('isFeatureAccessible:Merchandise Inventory');
+        $this->middleware('isFeatureAccessible:Batch Management');
+        
+        $this->middleware('isFeatureAccessible:Damage Management');
 
         $this->merchandiseBatchService = $merchandiseBatchService;
     }
 
     public function convertToDamage(MerchandiseBatch $merchandiseBatch)
     {
-        $this->authorize('expired', $merchandiseBatch->merchandise);
+        $this->authorize('damage', $merchandiseBatch);
 
         $this->authorize('create', Damage::class);
 
