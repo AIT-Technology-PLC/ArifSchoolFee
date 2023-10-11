@@ -236,7 +236,7 @@ class SaleService
             } catch (InventoryHistoryDuplicateEntryException $ex) {
                 DB::rollBack();
             }
-        });
+        }, 2);
 
         return [true, 'Invoice found and FS assigned successfully.'];
     }
