@@ -122,13 +122,9 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
-        if ($sale->belongsToTransaction()) {
-            return back()->with('failedMessage', 'Invoices issued from other transaction cannot be deleted.');
-        }
-
         abort_if($sale->isApproved() || $sale->isCancelled(), 403);
 
-        $sale->proformaInvoice->proformaInvoiceable()->dissociate($sale)->save();
+        $sale->proformaInvoice?->proformaInvoiceable()->dissociate($sale)->save();
 
         $sale->forceDelete();
 

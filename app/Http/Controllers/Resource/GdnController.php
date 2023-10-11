@@ -130,15 +130,15 @@ class GdnController extends Controller
 
     public function destroy(Gdn $gdn)
     {
-        if ($gdn->belongsToTransaction()) {
-            return back()->with('failedMessage', 'Delivery orders issued from other transaction cannot be deleted.');
+        if ($gdn->reservation()->exists()) {
+            return back()->with('failedMessage', 'Delivery orders issued from reservations cannot be deleted.');
         }
 
         abort_if($gdn->isSubtracted() || $gdn->isCancelled(), 403);
 
         abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
-        $gdn->proformaInvoice->proformaInvoiceable()->dissociate($gdn)->save();
+        $gdn->proformaInvoice?->proformaInvoiceable()->dissociate($gdn)->save();
 
         $gdn->forceDelete();
 
