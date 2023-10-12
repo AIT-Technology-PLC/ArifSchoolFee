@@ -5,21 +5,14 @@
                 class="navbar-item is-hidden-touch pl-0"
                 href="/"
             >
-                <img
-                    src="{{ asset('img/logo.webp') }}"
-                    width="120"
-                    style="max-height: 70px"
-                >
-                <span class="has-text-white has-text-weight-light is-size-4 mb-1">
-                    Smart<span class="has-text-weight-bold">Work&trade;</span>
-                </span>
+                <span class="has-text-white has-text-weight-light is-size-3 swera-demo-font">ONRICA</span>
             </a>
             <a
                 class="navbar-item is-hidden-desktop"
                 href="#"
             >
-                <span class="has-text-white has-text-weight-light is-size-4">
-                    Smart<span class="has-text-weight-bold">Work&trade;</span>
+                <span class="has-text-white has-text-weight-light is-size-4 swera-demo-font">
+                    ONRICA
                 </span>
             </a>
             <a

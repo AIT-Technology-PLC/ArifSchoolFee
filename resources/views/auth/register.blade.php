@@ -1,7 +1,7 @@
 @extends('auth.layout.auth')
 
 @section('title')
-    Sign up - Onrica SmartWork
+    Sign up - Onrica
 @endsection
 
 @section('content')
