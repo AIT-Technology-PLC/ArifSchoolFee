@@ -57,6 +57,12 @@ class ProductController extends Controller
                 $request->safe()->except(['name', 'code', 'product_category_id', 'reorder_level'] + ['company_id' => userCompany()->id])
             );
 
+            $validatedData = $request->validated();
+
+            if (!$product->isProductSingle() && isset($validatedData['productBundle'])) {
+                $product->productBundles()->createMany($validatedData['productBundle']);
+            }
+
             foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
                 $product->productReorders()->create([
                     'warehouse_id' => $key,
@@ -91,6 +97,14 @@ class ProductController extends Controller
             $product->update($request->validated());
 
             $product->productReorders()->forceDelete();
+
+            $product->productBundles()->forceDelete();
+
+            $validatedData = $request->validated();
+
+            if (!$product->isProductSingle() && isset($validatedData['productBundle'])) {
+                $product->productBundles()->createMany($validatedData['productBundle']);
+            }
 
             foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
                 $product->productReorders()->create([
