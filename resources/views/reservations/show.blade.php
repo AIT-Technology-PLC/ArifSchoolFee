@@ -137,45 +137,32 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if ($reservation->reservable && !$reservation->reservable->isSubtracted())
-                    @can('Cancel Reservation')
+                @if (!$reservation->isCancelled() && !$reservation->isConverted() && $reservation->isReserved() && isFeatureEnabled('Gdn Management', 'Sale Management') && authUser()->can('Convert Reservation'))
+                    @if (isFeatureEnabled('Gdn Management'))
                         <x-common.dropdown-item>
                             <x-common.transaction-button
-                                :route="route('reservations.cancel', $reservation->id)"
-                                action="cancel"
-                                intention="cancel this reservation"
-                                icon="fas fa-times-circle"
-                                label="Cancel"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                @elseif($reservation->isReserved())
-                    @can('Convert Reservation')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('reservations.convert', $reservation->id)"
-                                action="convert"
-                                intention="convert this reservation to delivery order"
+                                :route="route('reservations.convert_to_gdn', $reservation->id)"
+                                action="issue"
+                                intention="issue delivery order from this reservation"
                                 icon="fas fa-check-circle"
-                                label="Convert to DO"
+                                label="Issue Delivery Order"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
-                    @endcan
-                    @can('Cancel Reservation')
+                    @endif
+                    @if (isFeatureEnabled('Sale Management') && userCompany()->canSaleSubtract())
                         <x-common.dropdown-item>
                             <x-common.transaction-button
-                                :route="route('reservations.cancel', $reservation->id)"
-                                action="cancel"
-                                intention="cancel this reservation"
-                                icon="fas fa-times-circle"
-                                label="Cancel"
+                                :route="route('reservations.convert_to_sale', $reservation->id)"
+                                action="issue"
+                                intention="issue invoice from this reservation"
+                                icon="fas fa-check-circle"
+                                label="Issue Invoice"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
-                    @endcan
-                @elseif($reservation->isApproved())
+                    @endif
+                @elseif(!$reservation->isCancelled() && !$reservation->isReserved() && $reservation->isApproved())
                     @can('Make Reservation')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -188,19 +175,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                    @can('Cancel Reservation')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('reservations.cancel', $reservation->id)"
-                                action="cancel"
-                                intention="cancel this reservation"
-                                icon="fas fa-times-circle"
-                                label="Cancel"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                @elseif (!$reservation->isApproved() && authUser()->can(['Approve Reservation', 'Make Reservation']))
+                @elseif (!$reservation->isCancelled() && !$reservation->isApproved() && authUser()->can(['Approve Reservation', 'Make Reservation']))
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('reservations.approve_and_reserve', $reservation->id)"
@@ -211,7 +186,7 @@
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
-                @else
+                @elseif(!$reservation->isCancelled() && !$reservation->isApproved())
                     @can('Approve Reservation')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -225,6 +200,22 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
+
+                @if (!$reservation->isCancelled() && $reservation->isApproved() && (!$reservation->isConverted() || !$reservation->reservable->isSubtracted()))
+                    @can('Cancel Reservation')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('reservations.cancel', $reservation->id)"
+                                action="cancel"
+                                intention="cancel this reservation"
+                                icon="fas fa-times-circle"
+                                label="Cancel"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+
                 @if ($reservation->isApproved() && !$reservation->isCancelled())
                     <x-common.dropdown-item>
                         <x-common.button
@@ -238,6 +229,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
+
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
@@ -256,9 +248,9 @@
             @if ($reservation->isCancelled())
                 <x-common.fail-message message="This reservation is cancelled" />
             @elseif ($reservation->isConverted())
-                <x-common.success-message message="This reservation is successfully converted to Delivery Order" />
+                <x-common.success-message message="This reservation is successfully converted." />
             @elseif ($reservation->isReserved())
-                <x-common.fail-message message="Products listed below are reserved but not sold or converted to DO." />
+                <x-common.fail-message message="Products listed below are reserved but not sold or converted." />
             @elseif($reservation->isApproved())
                 <x-common.fail-message message="This Reservation is approved but products are not yet reserved." />
             @else

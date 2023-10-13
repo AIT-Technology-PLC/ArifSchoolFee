@@ -5,6 +5,7 @@ namespace App\Services\Models;
 use App\Actions\ApproveTransactionAction;
 use App\Actions\AutoBatchStoringAction;
 use App\Models\Gdn;
+use App\Models\Sale;
 use App\Services\Inventory\InventoryOperationService;
 use Illuminate\Support\Facades\DB;
 
@@ -90,7 +91,7 @@ class ReservationService
         }
 
         if ($reservation->isConverted() && $reservation->reservable->isSubtracted()) {
-            return [false, 'This reservation cannot be cancelled, it has been converted to DO.'];
+            return [false, 'This reservation cannot be cancelled, it has been converted.'];
         }
 
         if (!$reservation->isConverted() && !$reservation->isReserved()) {
@@ -133,7 +134,7 @@ class ReservationService
         }
 
         if ($reservation->isConverted()) {
-            return [false, 'This reservation is already converted to Delivery Order.'];
+            return [false, 'This reservation is already converted.'];
         }
 
         DB::transaction(function () use ($reservation) {
@@ -199,6 +200,58 @@ class ReservationService
             InventoryOperationService::add($reservation->reservationDetails, $reservation, 'reserved');
 
             $reservation->reserve();
+        });
+
+        return [true, ''];
+    }
+
+    public function convertToSale($reservation, $user)
+    {
+        if (!$reservation->company->canSaleSubtract()) {
+            return [false, 'Invoice can not subtract from inventory. Contact your System Manager.'];
+        }
+
+        if (!$user->hasWarehousePermission('sales',
+            $reservation->reservationDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permissions to convert to one or more of the warehouses.'];
+        }
+
+        if (!$reservation->isReserved()) {
+            return [false, 'This reservation is not reserved yet.'];
+        }
+
+        if ($reservation->isConverted()) {
+            return [false, 'This reservation is already converted.'];
+        }
+
+        DB::transaction(function () use ($reservation) {
+            $reservation->convert();
+
+            $sale = Sale::create([
+                'customer_id' => $reservation->customer_id ?? null,
+                'contact_id' => $reservation->contact_id ?? null,
+                'code' => nextReferenceNumber('sales'),
+                'payment_type' => $reservation->payment_type,
+                'cash_received_type' => $reservation->cash_received_type,
+                'cash_received' => $reservation->cash_received,
+                'description' => $reservation->description ?? '',
+                'issued_on' => now(),
+                'due_date' => $reservation->due_date,
+            ]);
+
+            $reservationDetails = $reservation->reservationDetails
+                ->map(function ($detail) {
+                    $detail = $detail->only('warehouse_id', 'product_id', 'merchandise_batch_id', 'quantity', 'unit_price_after_discount', 'description');
+                    $detail['unit_price'] = $detail['unit_price_after_discount'];
+                    unset($detail['unit_price_after_discount']);
+
+                    return $detail;
+                })
+                ->toArray();
+
+            $sale->saleDetails()->createMany($reservationDetails);
+
+            $sale->reservation()->save($reservation);
         });
 
         return [true, ''];

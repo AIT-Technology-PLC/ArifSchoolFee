@@ -6,6 +6,7 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Gdn;
 use App\Models\Reservation;
+use App\Models\Sale;
 use App\Notifications\ReservationApproved;
 use App\Notifications\ReservationCancelled;
 use App\Notifications\ReservationConverted;
@@ -22,6 +23,10 @@ class ReservationController extends Controller
     public function __construct(ReservationService $reservationService)
     {
         $this->middleware('isFeatureAccessible:Reservation Management');
+
+        $this->middleware('isFeatureAccessible:Gdn Management')->only('convertToGdn');
+
+        $this->middleware('isFeatureAccessible:Sale Management')->only('convertToSale');
 
         $this->reservationService = $reservationService;
     }
@@ -94,7 +99,7 @@ class ReservationController extends Controller
         return back();
     }
 
-    public function convert(Reservation $reservation)
+    public function convertToGdn(Reservation $reservation)
     {
         $this->authorize('convert', $reservation);
 
@@ -129,6 +134,26 @@ class ReservationController extends Controller
         Notification::send(
             Notifiables::byPermissionAndWarehouse('Read Reservation', $reservation->reservationDetails->pluck('warehouse_id'), $reservation->createdBy),
             new ReservationMade($reservation)
+        );
+
+        return back();
+    }
+
+    public function convertToSale(Reservation $reservation)
+    {
+        $this->authorize('convert', $reservation);
+
+        $this->authorize('create', Sale::class);
+
+        [$isExecuted, $message] = $this->reservationService->convertToSale($reservation, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byNextActionPermission('Approve Sale', $reservation->createdBy),
+            new ReservationConverted($reservation)
         );
 
         return back();

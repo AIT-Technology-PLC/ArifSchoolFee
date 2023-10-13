@@ -122,6 +122,10 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
+        if ($sale->reservation()->exists()) {
+            return back()->with('failedMessage', 'Invoices issued from reservations cannot be deleted.');
+        }
+
         abort_if($sale->isApproved() || $sale->isCancelled(), 403);
 
         $sale->proformaInvoice?->proformaInvoiceable()->dissociate($sale)->save();

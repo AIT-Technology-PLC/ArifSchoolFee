@@ -108,7 +108,7 @@ class GdnController extends Controller
         }
 
         if ($gdn->isApproved()) {
-            $gdn->update($request->safe()->only('sale_id', 'description'));
+            $gdn->update($request->safe()->only('description'));
 
             return redirect()->route('gdns.show', $gdn->id);
         }

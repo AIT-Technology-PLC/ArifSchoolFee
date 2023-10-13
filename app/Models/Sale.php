@@ -59,6 +59,11 @@ class Sale extends Model
         return $this->morphOne(ProformaInvoice::class, 'proforma_invoiceable');
     }
 
+    public function reservation()
+    {
+        return $this->morphOne(Reservation::class, 'reservable');
+    }
+
     public function details()
     {
         return $this->saleDetails;
@@ -92,6 +97,6 @@ class Sale extends Model
 
     public function belongsToTransaction()
     {
-        return $this->proformaInvoice()->exists();
+        return $this->reservation()->exists() || $this->proformaInvoice()->exists();
     }
 }

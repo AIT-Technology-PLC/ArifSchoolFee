@@ -137,14 +137,16 @@ class SaleService
             return [false, 'This Invoice is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale) {
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+        DB::transaction(function () use ($sale, $from) {
+            InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
             $sale->subtract();
         });
@@ -179,13 +181,15 @@ class SaleService
             return [false, 'This Invoice is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale) {
+        DB::transaction(function () use ($sale, $from) {
             (new ApproveTransactionAction)->execute($sale);
 
             if ($sale->payment_type == 'Deposits') {
@@ -194,7 +198,7 @@ class SaleService
 
             $this->convertToCredit($sale);
 
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+            InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
             $sale->subtract();
         });
@@ -220,15 +224,17 @@ class SaleService
             return [false, 'Integration is not set up for this branch.'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale, $data) {
+        DB::transaction(function () use ($sale, $data, $from) {
             try {
-                InventoryOperationService::subtract($sale->saleDetails, $sale);
+                InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
                 $sale->assignFSNumber($data['fs_number']);
 

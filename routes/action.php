@@ -216,9 +216,13 @@ Route::post('/reservations/{reservation}/approve',
     [Action\ReservationController::class, 'approve'])
     ->name('reservations.approve');
 
-Route::post('/reservations/{reservation}/convert',
-    [Action\ReservationController::class, 'convert'])
-    ->name('reservations.convert');
+Route::post('/reservations/{reservation}/convert-to-gdn',
+    [Action\ReservationController::class, 'convertToGdn'])
+    ->name('reservations.convert_to_gdn');
+
+Route::post('/reservations/{reservation}/convert-to-sale',
+    [Action\ReservationController::class, 'convertToSale'])
+    ->name('reservations.convert_to_sale');
 
 Route::post('/reservations/{reservation}/cancel',
     [Action\ReservationController::class, 'cancel'])
