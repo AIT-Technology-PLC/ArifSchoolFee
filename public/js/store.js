@@ -32,7 +32,7 @@ const Product = {
     },
     forJob() {
         this.products = this.products.filter(
-            (product) => product.is_active && product.is_active_for_job
+            (product) => product.is_active && product.is_active_for_job && product.is_product_single
         );
 
         return this;
@@ -46,7 +46,14 @@ const Product = {
     },
     rawMaterial() {
         this.products = this.products.filter(
-            (product) => product.type == "Raw Material"
+            (product) => product.type == "Raw Material" && product.is_product_single
+        );
+
+        return this;
+    },
+    singleProduct() {
+        this.products = this.products.filter(
+            (product) => product.is_product_single
         );
 
         return this;
@@ -169,7 +176,7 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                      this.taxAmount(productId);
+                this.taxAmount(productId);
         }
 
         return 0;

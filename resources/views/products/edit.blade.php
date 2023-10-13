@@ -14,7 +14,7 @@
         >
             @csrf
             @method('PATCH')
-            <x-content.main x-data="productType('{{ $product->type }}', '{{ $product->is_batchable }}', '{{ $product->batch_priority }}', '{{ $product->is_active }}')">
+            <x-content.main x-data="productType('{{ $product->type }}', '{{ $product->is_batchable }}', '{{ $product->batch_priority }}', '{{ $product->is_active }}', '{{ $product->is_product_single }}')">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-12">
                         <x-forms.field>
@@ -446,9 +446,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6"
+                    <div
+                        class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }">
+                        x-bind:class="{ 'is-hidden': isTypeService }"
+                    >
                         <x-forms.field>
                             <x-forms.label for="inventory_valuation_method">
                                 Inventory Valuation Method <sup class="has-text-danger">*</sup>
@@ -489,6 +491,30 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="inventory_valuation_method" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_product_single">
+                                Is Product Single <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_product_single"
+                                    name="is_product_single"
+                                    x-model="isProductSingle"
+                                    x-on:change="changeProductStatus"
+                                >
+                                    <option value="1"> Yes </option>
+                                    <option value="0"> No </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_product_single" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -541,6 +567,21 @@
                             @endforeach
                         </div>
                     </div>
+                </section>
+                <section
+                    class="mt-5"
+                    x-cloak
+                    x-bind:class="{ 'is-hidden': isProductSingle == 1 }"
+                >
+                    <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
+                        <h1 class="text-green is-size-5">
+                            Component Form
+                        </h1>
+                    </div>
+                    @include('products.partials.details-form', [
+                        'data' => ['productBundle' => old('productBundle') ?? $product->productBundles],
+                        'productId' => $product->id,
+                    ])
                 </section>
                 @if (!is_null($product->properties))
                     <div class="columns is-marginless is-multiline">
