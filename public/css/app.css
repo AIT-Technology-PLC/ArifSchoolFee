@@ -75,7 +75,8 @@
 }
 
 .shadow-hover:hover {
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02) !important;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+        0 0 0 1px rgba(10, 10, 10, 0.02) !important;
 }
 
 .btn-purple {
@@ -174,18 +175,18 @@ nav {
 }
 
 @media screen and (min-width: 1024px) {
-     ::-webkit-scrollbar {
+    ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
     }
-     ::-webkit-scrollbar-track {
+    ::-webkit-scrollbar-track {
         background: #edf7f2;
     }
-     ::-webkit-scrollbar-thumb {
+    ::-webkit-scrollbar-thumb {
         background: #b1cfbf;
         border-radius: 10px;
     }
-     ::-webkit-scrollbar-thumb:hover {
+    ::-webkit-scrollbar-thumb:hover {
         background: #77aa90;
     }
     /* Firefox Scrollbar */
@@ -214,19 +215,19 @@ nav {
     }
 }
 
-.is-green>progress::-webkit-progress-value {
+.is-green > progress::-webkit-progress-value {
     background-color: #3d8660 !important;
 }
 
-.is-purple>progress::-webkit-progress-value {
+.is-purple > progress::-webkit-progress-value {
     background-color: #863d63 !important;
 }
 
-.is-blue>progress::-webkit-progress-value {
+.is-blue > progress::-webkit-progress-value {
     background-color: #3d6386 !important;
 }
 
-.is-gold>progress::-webkit-progress-value {
+.is-gold > progress::-webkit-progress-value {
     background-color: #86843d !important;
 }
 
@@ -253,7 +254,8 @@ td {
     font-size: small;
     font-weight: 500;
     padding: 7px;
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+        0 0 0 1px rgba(10, 10, 10, 0.02);
     border-radius: 6px;
 }
 
@@ -475,7 +477,6 @@ td {
     cursor: pointer !important;
 }
 
-
 /* Override bootstrap table classes */
 
 .table.table-bordered {
@@ -487,9 +488,7 @@ td {
     border-width: 1px !important;
 }
 
-
 /* Override bootstrap table classes */
-
 
 /* DataTable Styles */
 
@@ -619,7 +618,6 @@ div.dataTables_wrapper div.dataTables_processing {
         text-align: center !important;
     }
 }
-
 
 /* DataTable Styles */
 
@@ -758,7 +756,7 @@ div.dataTables_wrapper div.dataTables_processing {
     float: right;
     background-color: #3d8660;
     color: white !important;
-    font-weight: 400!important;
+    font-weight: 400 !important;
 }
 
 .note-modal-title {
@@ -786,3 +784,7 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 /* Summernote styles */
+
+.swera-demo-font {
+    font-family: "Swera Demo", sans-serif;
+}

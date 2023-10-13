@@ -24,4 +24,9 @@ class MerchandiseBatchPolicy
     {
         return $user->can('Update Merchandise Batch');
     }
+
+    public function damage(User $user, MerchandiseBatch $merchandiseBatch)
+    {
+        return $user->can('Damage Merchandise Batch');
+    }
 }

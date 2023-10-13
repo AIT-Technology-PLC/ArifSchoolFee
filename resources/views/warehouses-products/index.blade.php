@@ -44,8 +44,8 @@
                                     {{ $merchandiseBatch->quantity }} {{ $product->unit_of_measurement }}
                                 </td>
                                 <td>
-                                    @if ($merchandiseBatch->isExpired() && $merchandiseBatch->isAvailable())
-                                        @can('Create Damage')
+                                    @if ($merchandiseBatch->isExpired() && $merchandiseBatch->isAvailable() && isFeatureEnabled('Damage Management') && isFeatureEnabled('Batch Management'))
+                                        @can(['Create Damage', 'Damage Merchandise Batch'])
                                             <x-common.button
                                                 tag="a"
                                                 href="{{ route('merchandise-batches.convert_to_damage', $merchandiseBatch->id) }}"
