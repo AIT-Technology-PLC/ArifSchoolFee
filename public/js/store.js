@@ -46,7 +46,7 @@ const Product = {
     },
     rawMaterial() {
         this.products = this.products.filter(
-            (product) => product.type == "Raw Material" && product.is_product_single
+            (product) => product.type == "Raw Material"
         );
 
         return this;

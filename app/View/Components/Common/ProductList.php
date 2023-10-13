@@ -38,7 +38,7 @@ class ProductList extends Component
         $this->key = $key;
 
         $this->products = Cache::store('array')->rememberForever(authUser()->id . '_' . 'productLists', function () {
-            return Product::active()->where('is_product_single', 1)
+            return Product::active()
                 ->select(['id', 'product_category_id', 'name', 'code'])
                 ->when($this->excludedProducts, fn($query) => $query->whereNotIn('id', $this->excludedProducts->toArray()))
                 ->with('productCategory:id,name')
