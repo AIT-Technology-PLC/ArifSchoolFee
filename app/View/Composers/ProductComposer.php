@@ -30,6 +30,7 @@ class ProductComposer
                 'products.is_active_for_sale',
                 'products.is_active_for_purchase',
                 'products.is_active_for_job',
+                'products.is_product_single',
                 'product_categories.name AS product_category_name',
                 'taxes.type AS tax_name',
             ])

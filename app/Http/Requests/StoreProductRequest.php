@@ -36,6 +36,10 @@ class StoreProductRequest extends FormRequest
             'reorder_level' => ['nullable', 'array'],
             'reorder_level.*' => ['nullable', 'numeric', 'min:0'],
             'inventory_valuation_method' => ['required', 'string', Rule::in(['fifo', 'lifo', 'average'])],
+            'is_product_single' => ['required', 'boolean'],
+            'productBundle' => ['nullable', 'array', 'required_if:is_product_single,0'],
+            'productBundle.*.component_id' => ['nullable', 'integer', 'required_if:is_product_single,0', new MustBelongToCompany('products')],
+            'productBundle.*.quantity' => ['nullable', 'numeric', 'gt:0', 'required_if:is_product_single,0'],
         ];
     }
 }

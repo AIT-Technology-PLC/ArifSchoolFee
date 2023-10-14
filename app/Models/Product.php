@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\CostUpdateDetail;
 use App\Models\InventoryValuationBalance;
 use App\Models\InventoryValuationHistory;
+use App\Models\ProductBundle;
 use App\Models\Tax;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -26,6 +27,7 @@ class Product extends Model
         'is_active_for_sale' => 'integer',
         'is_active_for_purchase' => 'integer',
         'is_active_for_job' => 'integer',
+        'is_product_single' => 'integer',
     ];
 
     protected $cascadeDeletes = [
@@ -54,6 +56,7 @@ class Product extends Model
         'inventoryValuationHistories',
         'inventoryValuationBalances',
         'costUpdateDetails',
+        'productBundles',
     ];
 
     protected static function booted()
@@ -299,7 +302,7 @@ class Product extends Model
 
     public function scopeActiveForJob($query)
     {
-        return $query->where('is_active', 1)->where('is_active_for_job', 1);
+        return $query->where('is_active', 1)->where('is_active_for_job', 1)->where('is_product_single', 1);
     }
 
     public function scopeRawMaterial($query)
@@ -355,5 +358,15 @@ class Product extends Model
     public function hasQuantity()
     {
         return $this->merchandises()->available()->exists();
+    }
+
+    public function productBundles()
+    {
+        return $this->hasMany(ProductBundle::class);
+    }
+
+    public function isProductSingle()
+    {
+        return $this->is_product_single == 1;
     }
 }
