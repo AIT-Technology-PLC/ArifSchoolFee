@@ -19,6 +19,7 @@ class ProductPerWarehouseHistoryService
         TransactionDetailHistoryService::class,
         JobDetailHistoryService::class,
         JobExtraHistoryService::class,
+        BundleDetailHistoryService::class,
     ];
 
     private $warehouse;
