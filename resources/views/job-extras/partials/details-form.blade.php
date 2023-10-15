@@ -56,7 +56,7 @@
                                     x-model="jobExtra.product_id"
                                     x-init="select2(index)"
                                     included-products="jobs"
-                                    :type="['Raw Material']"
+                                    raw-material
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

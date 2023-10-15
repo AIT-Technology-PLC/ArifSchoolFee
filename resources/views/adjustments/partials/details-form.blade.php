@@ -58,7 +58,7 @@
                                     x-bind:name="`adjustment[${index}][product_id]`"
                                     x-model="adjustment.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Material', 'Finished Goods']"
+                                    inventory-type
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

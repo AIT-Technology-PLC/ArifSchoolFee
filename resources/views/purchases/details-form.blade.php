@@ -55,8 +55,8 @@
                                     x-bind:name="`purchase[${index}][product_id]`"
                                     x-model="purchase.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Material', 'Finished Goods']"
                                     included-products="purchases"
+                                    inventory-type
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

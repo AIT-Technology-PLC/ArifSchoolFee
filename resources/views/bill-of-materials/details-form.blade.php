@@ -50,13 +50,12 @@
                                 style="width: 70%"
                             >
                                 <x-common.new-product-list
-                                    :type="['Raw Material']"
                                     class="product-list"
                                     x-bind:id="`billOfMaterial[${index}][product_id]`"
                                     x-bind:name="`billOfMaterial[${index}][product_id]`"
                                     x-model="billOfMaterial.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Material']"
+                                    raw-material
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

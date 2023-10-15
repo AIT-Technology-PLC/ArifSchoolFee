@@ -34,7 +34,7 @@
                                 <x-common.new-product-list
                                     id="product_id"
                                     name="product_id"
-                                    :type="['Finished Goods']"
+                                    finished-goods
                                     x-bind:value="`{{ old('product_id', $billOfMaterial->product_id) }}`"
                                 />
                                 <x-common.icon

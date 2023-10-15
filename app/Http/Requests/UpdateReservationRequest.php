@@ -30,7 +30,7 @@ class UpdateReservationRequest extends FormRequest
             'code' => ['required', 'string', new UniqueReferenceNum('reservations', $this->route('reservation')->id),
                 Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'reservation' => ['required', 'array'],
-            'reservation.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->activeForSale()->pluck('id')), new ValidateBackorder($this->input('reservation')), new CheckProductStatus],
+            'reservation.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new ValidateBackorder($this->input('reservation')), new CheckProductStatus],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
             'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('reservation'))],

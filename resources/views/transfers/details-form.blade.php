@@ -66,7 +66,7 @@
                                     x-bind:name="`transfer[${index}][product_id]`"
                                     x-model="transfer.product_id"
                                     x-init="select2(index)"
-                                    :type="['Raw Material', 'Finished Goods']"
+                                    inventory-type
                                 />
                                 <x-common.icon
                                     name="fas fa-th"

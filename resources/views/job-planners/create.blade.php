@@ -71,7 +71,7 @@
                                                 x-model="jobPlanner.product_id"
                                                 x-init="select2(index)"
                                                 included-products="jobs"
-                                                :type="['Finished Goods']"
+                                                finished-goods
                                             />
                                             <x-common.icon
                                                 name="fas fa-th"
