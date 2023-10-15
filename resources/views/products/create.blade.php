@@ -13,9 +13,15 @@
             novalidate
         >
             @csrf
-            <x-content.main x-data="productType('{{ old('type') }}', '{{ old('is_batchable', 0) }}', '{{ old('batch_priority') }}', '{{ old('is_active', 1) }}', '{{ old('is_product_single', 1) }}')">
+            <x-content.main x-data="productType(
+                '{{ old('type') }}',
+                '{{ old('is_batchable', 0) }}',
+                '{{ old('batch_priority') }}',
+                '{{ old('is_active', 1) }}',
+                '{{ old('is_product_single', 1) }}'
+            )">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-12">
+                    <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="type">
                                 Type <sup class="has-text-danger">*</sup>
@@ -35,6 +41,29 @@
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="is_product_single">
+                                Product or Bundle <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_product_single"
+                                    name="is_product_single"
+                                    x-model="isProductSingle"
+                                >
+                                    <option value="1"> Product </option>
+                                    <option value="0"> Bundle </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_product_single" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
@@ -136,7 +165,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
+                        x-bind:class="{ 'is-hidden': isTypeService || !isSingle() }"
                     >
                         <x-forms.field>
                             <x-forms.label for="min_on_hand">
@@ -196,7 +225,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
+                        x-bind:class="{ 'is-hidden': isTypeService || !isSingle() }"
                     >
                         <x-forms.field>
                             <x-forms.label for="supplier_id">
@@ -232,7 +261,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
+                        x-show="!isTypeService && isSingle"
                     >
                         <x-forms.field>
                             <x-forms.label for="is_batchable">
@@ -260,7 +289,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isBatchable == 0 }"
+                        x-show="isBatchable == 1 && isSingle"
                     >
                         <x-forms.field>
                             <x-forms.label for="batch_priority">
@@ -292,6 +321,7 @@
                     <div
                         class="column is-6"
                         x-cloak
+                        x-show="isSingle()"
                     >
                         <x-forms.field>
                             <x-forms.label for="brand_id">
@@ -336,7 +366,6 @@
                                     id="is_active"
                                     name="is_active"
                                     x-model="isActive"
-                                    x-on:change="changeActiveStatus"
                                 >
                                     <option value="1"> Active </option>
                                     <option value="0"> Inactive </option>
@@ -493,30 +522,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="is_product_single">
-                                Is Product Single <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left ">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="is_product_single"
-                                    name="is_product_single"
-                                    x-model="isProductSingle"
-                                    x-on:change="changeProductStatus"
-                                >
-                                    <option value="1"> Yes </option>
-                                    <option value="0"> No </option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-sort"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="is_product_single" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
@@ -534,7 +539,10 @@
                         </x-forms.field>
                     </div>
                 </div>
-                <section class="mt-5">
+                <section
+                    class="mt-5"
+                    x-show="isSingle"
+                >
                     <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
                         <h1 class="text-green is-size-5">
                             Reorder Levels
@@ -570,11 +578,11 @@
                 <section
                     class="mt-5"
                     x-cloak
-                    x-bind:class="{ 'is-hidden': isProductSingle == 1 }"
+                    x-show="!isSingle()"
                 >
                     <div class="box radius-bottom-0 mb-0 has-background-white-bis p-3">
                         <h1 class="text-green is-size-5">
-                            Component Form
+                            Bundle Details
                         </h1>
                     </div>
                     @include('products.partials.details-form', [
@@ -582,24 +590,6 @@
                         'productId' => null,
                     ])
                 </section>
-                <div
-                    id="newForm"
-                    class="columns is-marginless is-multiline is-hidden"
-                ></div>
-                <div class="columns is-marginless is-multiline">
-                    <div class="column is-12">
-                        <x-forms.field class="mt-5">
-                            <x-common.button
-                                id="addNewForm"
-                                tag="button"
-                                type="button"
-                                mode="button"
-                                label=" Add More Forms"
-                                class="bg-purple has-text-white is-small ml-3 mt-6"
-                            />
-                        </x-forms.field>
-                    </div>
-                </div>
             </x-content.main>
             <x-content.footer>
                 <x-common.save-button />

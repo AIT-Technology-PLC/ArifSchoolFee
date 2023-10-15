@@ -310,15 +310,19 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $product = $products->find($detail['product_id']);
 
-            if ($product->isTypeProduct() && $product->isProductSingle()) {
+            if (!$product->isTypeProduct()) {
+                continue;
+            }
+
+            if ($product->isProductSingle()) {
                 $inventoryTypeProducts[] = $detail;
             }
 
-            if (!$product->isProductSingle() && $product->isTypeProduct()) {
+            if (!$product->isProductSingle()) {
                 $bundleDetails = $product->productBundles()->get();
 
                 foreach ($bundleDetails as $bundleDetail) {
-                    $newDetail = clone $detail;
+                    $newDetail = is_object($detail) ? clone $detail : $detail;
                     $newDetail['product_id'] = $bundleDetail->component_id;
                     $newDetail['quantity'] = $bundleDetail->quantity * $detail['quantity'];
 

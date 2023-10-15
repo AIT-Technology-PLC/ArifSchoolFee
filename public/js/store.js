@@ -25,33 +25,40 @@ const Product = {
     },
     forPurchase() {
         this.products = this.products.filter(
-            (product) => product.is_active && product.is_active_for_purchase
+            (product) =>
+                product.is_active &&
+                product.is_active_for_purchase &&
+                product.is_product_single
         );
 
         return this;
     },
     forJob() {
         this.products = this.products.filter(
-            (product) => product.is_active && product.is_active_for_job && product.is_product_single
+            (product) =>
+                product.is_active &&
+                product.is_active_for_job &&
+                product.is_product_single
         );
 
         return this;
     },
     inventoryType() {
         this.products = this.products.filter(
-            (product) => product.type != "Services"
+            (product) => product.type != "Services" && product.is_product_single
         );
 
         return this;
     },
     rawMaterial() {
         this.products = this.products.filter(
-            (product) => product.type == "Raw Material"
+            (product) =>
+                product.type == "Raw Material" && product.is_product_single
         );
 
         return this;
     },
-    singleProduct() {
+    single() {
         this.products = this.products.filter(
             (product) => product.is_product_single
         );
@@ -61,6 +68,13 @@ const Product = {
     finishedGoods() {
         this.products = this.products.filter(
             (product) => product.type == "Finished Goods"
+        );
+
+        return this;
+    },
+    nonBatchable() {
+        this.products = this.products.filter(
+            (product) => !product.is_batchable && product.is_product_single
         );
 
         return this;
@@ -84,7 +98,7 @@ const Product = {
     isBatchable(productId) {
         let product = this.whereProductId(productId);
 
-        return product?.is_batchable;
+        return product?.is_batchable && product?.is_product_single;
     },
     productCategoryId(productId) {
         let product = this.whereProductId(productId);
@@ -176,7 +190,7 @@ const Product = {
             return Company.isPriceBeforeTax()
                 ? unitPrice * quantity - discountValue
                 : (unitPrice * quantity - discountValue) /
-                this.taxAmount(productId);
+                      this.taxAmount(productId);
         }
 
         return 0;

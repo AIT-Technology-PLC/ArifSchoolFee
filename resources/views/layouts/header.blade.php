@@ -2,18 +2,10 @@
     <div class="container is-fluid p-lr-0">
         <div class="navbar-brand">
             <a
-                class="navbar-item is-hidden-touch pl-0"
+                class="navbar-item pl-0 p-lr-10"
                 href="/"
             >
-                <span class="has-text-white has-text-weight-light is-size-3 swera-demo-font">ONRICA</span>
-            </a>
-            <a
-                class="navbar-item is-hidden-desktop"
-                href="#"
-            >
-                <span class="has-text-white has-text-weight-light is-size-4 swera-demo-font">
-                    ONRICA
-                </span>
+                <span class="has-text-white has-text-weight-light is-size-4 swera-demo-font">ONRICA</span>
             </a>
             <a
                 x-data

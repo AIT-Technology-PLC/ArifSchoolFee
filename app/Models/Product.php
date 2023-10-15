@@ -187,19 +187,39 @@ class Product extends Model
         return $this->hasMany(ProductReorder::class);
     }
 
-    public function setPropertiesAttribute($array)
+    public function priceIncrementDetails()
     {
-        $properties = [];
+        return $this->hasMany(PriceIncrementDetail::class);
+    }
 
-        foreach ($array as $item) {
-            if (is_null($item['key']) || is_null($item['value'])) {
-                continue;
-            }
+    public function jobDetailHistories()
+    {
+        return $this->hasMany(JobDetailHistory::class);
+    }
 
-            $properties[] = $item;
-        }
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
 
-        $this->attributes['properties'] = json_encode($properties);
+    public function inventoryValuationHistories()
+    {
+        return $this->hasMany(InventoryValuationHistory::class);
+    }
+
+    public function inventoryValuationBalances()
+    {
+        return $this->hasMany(InventoryValuationBalance::class);
+    }
+
+    public function costUpdateDetails()
+    {
+        return $this->hasMany(CostUpdateDetail::class);
+    }
+
+    public function productBundles()
+    {
+        return $this->hasMany(ProductBundle::class);
     }
 
     public function name(): Attribute
@@ -225,64 +245,34 @@ class Product extends Model
         );
     }
 
-    public function isProductLimited($onHandQuantity, $warehouseId)
+    public function setPropertiesAttribute($array)
     {
-        return $this->getReorderQuantity($warehouseId) >= $onHandQuantity;
-    }
+        $properties = [];
 
-    public function isTypeService()
-    {
-        return $this->type == 'Services';
+        foreach ($array as $item) {
+            if (is_null($item['key']) || is_null($item['value'])) {
+                continue;
+            }
+
+            $properties[] = $item;
+        }
+
+        $this->attributes['properties'] = json_encode($properties);
     }
 
     public function scopeInventoryType($query)
     {
-        return $query->where('type', '!=', 'Services');
+        return $query->where('type', '!=', 'Services')->where('is_product_single', 1);
     }
 
     public function scopeBatchable($query)
     {
-        return $query->where('is_batchable', 1);
+        return $query->where('is_batchable', 1)->where('is_product_single', 1);
     }
 
-    public function isLifo()
+    public function scopeNonBatchable($query)
     {
-        return $this->batch_priority == 'lifo';
-    }
-
-    public function isBatchable()
-    {
-        return $this->is_batchable == 1;
-    }
-
-    public function priceIncrementDetails()
-    {
-        return $this->hasMany(PriceIncrementDetail::class);
-    }
-
-    public function jobDetailHistories()
-    {
-        return $this->hasMany(JobDetailHistory::class);
-    }
-
-    public function inventoryHistories()
-    {
-        return $this->hasMany(InventoryHistory::class);
-    }
-
-    public function isActiveForSale()
-    {
-        return $this->is_active_for_sale == 1;
-    }
-
-    public function isActiveForPurchase()
-    {
-        return $this->is_active_for_purchase == 1;
-    }
-
-    public function isActiveForJob()
-    {
-        return $this->is_active_for_job == 1;
+        return $query->where('is_batchable', 0)->where('is_product_single', 1);
     }
 
     public function scopeActive($query)
@@ -297,7 +287,7 @@ class Product extends Model
 
     public function scopeActiveForPurchase($query)
     {
-        return $query->where('is_active', 1)->where('is_active_for_purchase', 1);
+        return $query->where('is_active', 1)->where('is_active_for_purchase', 1)->where('is_product_single', 1);
     }
 
     public function scopeActiveForJob($query)
@@ -307,12 +297,77 @@ class Product extends Model
 
     public function scopeRawMaterial($query)
     {
-        return $query->where('type', 'Raw Material');
+        return $query->where('type', 'Raw Material')->where('is_product_single', 1);
     }
 
     public function scopeFinishedGoods($query)
     {
         return $query->where('type', 'Finished Goods');
+    }
+
+    public function isProductLimited($onHandQuantity, $warehouseId)
+    {
+        return $this->getReorderQuantity($warehouseId) >= $onHandQuantity;
+    }
+
+    public function isTypeService()
+    {
+        return $this->type == 'Services';
+    }
+
+    public function isLifo()
+    {
+        return $this->batch_priority == 'lifo';
+    }
+
+    public function isBatchable()
+    {
+        return $this->is_batchable == 1 && $this->is_product_single == 1;
+    }
+
+    public function isActiveForSale()
+    {
+        return $this->is_active_for_sale == 1;
+    }
+
+    public function isActiveForPurchase()
+    {
+        return $this->is_active_for_purchase == 1 && $this->is_product_single == 1;
+    }
+
+    public function isActiveForJob()
+    {
+        return $this->is_active_for_job == 1 && $this->is_product_single == 1;
+    }
+
+    public function isTypeProduct()
+    {
+        return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
+    }
+
+    public function isProductSingle()
+    {
+        return $this->is_product_single == 1;
+    }
+
+    public function isBundleAndUsed()
+    {
+        return $this->is_product_single == 0 &&
+            (
+            $this->gdnDetails()->exists() ||
+            $this->saleDetails()->exists() ||
+            $this->reservationDetails()->exists()
+        );
+    }
+
+    public function hasCost()
+    {
+        return $this->inventoryValuationHistories()->exists();
+    }
+
+    public function hasQuantity()
+    {
+        return $this->merchandises()->available()->exists();
     }
 
     public function getReorderQuantity($warehouseId = null)
@@ -328,45 +383,5 @@ class Product extends Model
         }
 
         return $reorderQuantityByWarehouse ?: $reorderQuantityGenerally;
-    }
-
-    public function inventoryValuationHistories()
-    {
-        return $this->hasMany(InventoryValuationHistory::class);
-    }
-
-    public function inventoryValuationBalances()
-    {
-        return $this->hasMany(InventoryValuationBalance::class);
-    }
-
-    public function isTypeProduct()
-    {
-        return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
-    }
-
-    public function costUpdateDetails()
-    {
-        return $this->hasMany(CostUpdateDetail::class);
-    }
-
-    public function hasCost()
-    {
-        return $this->inventoryValuationHistories()->exists();
-    }
-
-    public function hasQuantity()
-    {
-        return $this->merchandises()->available()->exists();
-    }
-
-    public function productBundles()
-    {
-        return $this->hasMany(ProductBundle::class);
-    }
-
-    public function isProductSingle()
-    {
-        return $this->is_product_single == 1;
     }
 }

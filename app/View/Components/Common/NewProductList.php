@@ -14,17 +14,22 @@ class NewProductList extends Component
 
     public $type;
 
-    public function __construct($type = [], $includedProducts = null)
+    public $onlyNonBatchables;
+
+    public function __construct($type = [], $includedProducts = null, $onlyNonBatchables = false)
     {
         $this->type = $type;
 
         $this->includedProducts = $includedProducts;
+
+        $this->onlyNonBatchables = $onlyNonBatchables;
 
         $cacheName = str('newProductLists')->append(authUser()->id, 'newProductLists', implode($this->type))->toString();
 
         $this->products = Cache::store('array')->rememberForever($cacheName, function () {
             return Product::active()
                 ->select(['id', 'product_category_id', 'name', 'code', 'type', 'description'])
+                ->when($this->onlyNonBatchables, fn($query) => $query->nonBatchable())
                 ->when(!empty($this->type), fn($q) => $q->whereIn('type', $this->type))
                 ->when($this->includedProducts == 'sales', fn($query) => $query->activeForSale())
                 ->when($this->includedProducts == 'purchases', fn($query) => $query->activeForPurchase())

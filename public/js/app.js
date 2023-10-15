@@ -805,7 +805,13 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data(
         "productType",
-        (type = "", isBatchable = "0", batchPriority = "", isActive = "1", isProductSingle = "1") => ({
+        (
+            type = "",
+            isBatchable = "0",
+            batchPriority = "",
+            isActive = "1",
+            isProductSingle = "1"
+        ) => ({
             type: "",
             isBatchable: "0",
             batchPriority: "",
@@ -820,7 +826,6 @@ document.addEventListener("alpine:init", () => {
                 this.isActive = isActive;
                 this.isProductSingle = isProductSingle;
                 this.changeProductType();
-                this.changeActiveStatus();
             },
 
             changeProductType() {
@@ -834,16 +839,8 @@ document.addEventListener("alpine:init", () => {
                 this.isTypeService = false;
             },
 
-            changeActiveStatus() {
-                if (this.isActive === "0") {
-                    return;
-                }
-            },
-
-            changeProductStatus() {
-                if (this.isProductSingle === "0") {
-                    return;
-                }
+            isSingle() {
+                return this.isProductSingle == 1;
             },
         })
     );

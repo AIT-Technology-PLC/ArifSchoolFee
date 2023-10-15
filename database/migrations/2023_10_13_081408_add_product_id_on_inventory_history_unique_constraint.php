@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('inventory_histories', function (Blueprint $table) {
             $table->dropUnique('inventory_histories_model_detail_is_subtract');
 
-            $table->unique(['model_detail_type', 'model_detail_id', 'product_id', 'is_subtract'], 'inventory_histories_model_detail_is_subtract');
+            $table->unique(['product_id', 'model_detail_type', 'model_detail_id', 'is_subtract'], 'inventory_histories_model_detail_is_subtract');
         });
 
     }
@@ -24,6 +24,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('inventory_histories', function (Blueprint $table) {
+            $table->dropUnique('inventory_histories_model_detail_is_subtract');
+
+            $table->unique(['model_detail_type', 'model_detail_id', 'is_subtract'], 'inventory_histories_model_detail_is_subtract');
+        });
     }
 };

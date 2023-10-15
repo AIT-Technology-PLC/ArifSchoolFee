@@ -57,13 +57,11 @@ class ProductController extends Controller
                 $request->safe()->except(['name', 'code', 'product_category_id', 'reorder_level'] + ['company_id' => userCompany()->id])
             );
 
-            $validatedData = $request->validated();
-
-            if (!$product->isProductSingle() && isset($validatedData['productBundle'])) {
-                $product->productBundles()->createMany($validatedData['productBundle']);
+            if (!$product->isProductSingle()) {
+                $product->productBundles()->createMany($request->validated('productBundle'));
             }
 
-            foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
+            foreach (Arr::whereNotNull($request->validated('reorder_level') ?? []) as $key => $value) {
                 $product->productReorders()->create([
                     'warehouse_id' => $key,
                     'quantity' => $value,
@@ -93,6 +91,12 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+        if ($product->isBundleAndUsed()) {
+            $product->update($request->safe()->only(['name', 'code', 'unit_of_measurement', 'product_category_id', 'tax_id', 'is_active']));
+
+            return redirect()->route('products.index');
+        }
+
         DB::transaction(function () use ($request, $product) {
             $product->update($request->validated());
 
@@ -100,13 +104,11 @@ class ProductController extends Controller
 
             $product->productBundles()->forceDelete();
 
-            $validatedData = $request->validated();
-
-            if (!$product->isProductSingle() && isset($validatedData['productBundle'])) {
-                $product->productBundles()->createMany($validatedData['productBundle']);
+            if (!$product->isProductSingle()) {
+                $product->productBundles()->createMany($request->validated('productBundle'));
             }
 
-            foreach (Arr::whereNotNull($request->validated('reorder_level')) as $key => $value) {
+            foreach (Arr::whereNotNull($request->validated('reorder_level') ?? []) as $key => $value) {
                 $product->productReorders()->create([
                     'warehouse_id' => $key,
                     'quantity' => $value,
@@ -119,6 +121,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if ($product->isBundleAndUsed()) {
+            return back()->with('failedMessage', 'A bundle product that has been used can not be deleted.');
+        }
+
         $product->delete();
 
         return back()->with('deleted', 'Deleted successfully.');

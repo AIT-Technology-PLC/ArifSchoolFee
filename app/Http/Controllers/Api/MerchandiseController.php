@@ -20,7 +20,7 @@ class MerchandiseController extends Controller
             return false;
         }
 
-        if ($product->isTypeService()) {
+        if ($product->isTypeService() || !$product->isProductSingle()) {
             return false;
         }
 

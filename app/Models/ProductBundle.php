@@ -16,4 +16,9 @@ class ProductBundle extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function component()
+    {
+        return $this->belongsTo(Product::class, 'component_id');
+    }
 }

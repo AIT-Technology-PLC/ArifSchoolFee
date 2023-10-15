@@ -116,7 +116,7 @@
                 billOfMaterials: [],
 
                 async init() {
-                    await Product.init({{ Js::from($products) }}).rawMaterial().singleProduct();
+                    await Product.init({{ Js::from($products) }}).rawMaterial();
 
                     if (billOfMaterial) {
                         this.billOfMaterials = billOfMaterial;
