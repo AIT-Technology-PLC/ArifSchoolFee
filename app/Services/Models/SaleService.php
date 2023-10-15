@@ -63,7 +63,7 @@ class SaleService
             }
 
             if ($sale->company->canSaleSubtract() && $sale->isSubtracted()) {
-                InventoryOperationService::add($sale->gdnDetails, $sale);
+                InventoryOperationService::add($sale->saleDetails, $sale);
                 $sale->add();
             }
 
