@@ -328,6 +328,7 @@
                                                             x-init="select2;
                                                             bindData($el, 'details.{{ $loop->parent->index }}.{{ $detailPadField->id }}')"
                                                             wire:ignore
+                                                            :only-single-products="$pad->isInventoryOperationAdd()"
                                                         />
                                                         <x-common.icon
                                                             name="fas fa-th"

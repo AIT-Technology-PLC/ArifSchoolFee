@@ -20,12 +20,15 @@ class ProductList extends Component
 
     public $key;
 
+    public $onlySingleProducts;
+
     public function __construct(
         $name = null,
         $selectedProductId = null,
         $tags = false,
         $excludedProducts = null,
-        $key = '[product_id]'
+        $key = '[product_id]',
+        $onlySingleProducts = true
     ) {
         $this->name = $name;
 
@@ -37,9 +40,12 @@ class ProductList extends Component
 
         $this->key = $key;
 
+        $this->onlySingleProducts = $onlySingleProducts;
+
         $this->products = Cache::store('array')->rememberForever(authUser()->id . '_' . 'productLists', function () {
             return Product::active()
                 ->select(['id', 'product_category_id', 'name', 'code'])
+                ->when($this->onlySingleProducts, fn($query) => $query->where('is_product_single', 1))
                 ->when($this->excludedProducts, fn($query) => $query->whereNotIn('id', $this->excludedProducts->toArray()))
                 ->with('productCategory:id,name')
                 ->orderBy('name')

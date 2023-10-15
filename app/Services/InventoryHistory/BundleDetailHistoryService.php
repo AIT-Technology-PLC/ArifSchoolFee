@@ -5,11 +5,13 @@ namespace App\Services\InventoryHistory;
 use App\Interfaces\DetailHistoryServiceInterface;
 use App\Models\Gdn;
 use App\Models\GdnDetail;
+use App\Models\Product;
 use App\Models\ProductBundle;
 use App\Models\Reservation;
 use App\Models\ReservationDetail;
 use App\Models\Sale;
 use App\Models\SaleDetail;
+use App\Models\Transaction;
 use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -22,13 +24,23 @@ class BundleDetailHistoryService implements DetailHistoryServiceInterface
 
     private $history;
 
+    private $bundleProductIds;
+
+    private $saleDetails;
+
+    private $gdnDetails;
+
+    private $reservationDetails;
+
+    private $transactionDetails;
+
     private function get()
     {
-        $bundleProductIds = ProductBundle::where('component_id', $this->product->id)->distinct('product_id')->pluck('product_id');
+        $this->bundleProductIds = ProductBundle::where('component_id', $this->product->id)->distinct('product_id')->pluck('product_id');
 
         $this->saleDetails = SaleDetail::query()
             ->where('warehouse_id', $this->warehouse->id)
-            ->whereIn('product_id', $bundleProductIds)
+            ->whereIn('product_id', $this->bundleProductIds)
             ->whereIn('sale_id', function ($query) {
                 $query->select('id')
                     ->from('sales')
@@ -45,7 +57,7 @@ class BundleDetailHistoryService implements DetailHistoryServiceInterface
 
         $this->gdnDetails = GdnDetail::query()
             ->where('warehouse_id', $this->warehouse->id)
-            ->whereIn('product_id', $bundleProductIds)
+            ->whereIn('product_id', $this->bundleProductIds)
             ->whereIn('gdn_id', function ($query) {
                 $query->select('id')
                     ->from('gdns')
@@ -62,7 +74,7 @@ class BundleDetailHistoryService implements DetailHistoryServiceInterface
 
         $this->reservationDetails = ReservationDetail::query()
             ->where('warehouse_id', $this->warehouse->id)
-            ->whereIn('product_id', $bundleProductIds)
+            ->whereIn('product_id', $this->bundleProductIds)
             ->whereIn('reservation_id', function ($query) {
                 $query->select('id')
                     ->from('reservations')
@@ -87,6 +99,39 @@ class BundleDetailHistoryService implements DetailHistoryServiceInterface
                     return $query->withoutGlobalScopes([BranchScope::class])->with(['customer']);
                 }]
             );
+
+        $this->transactionDetails = collect();
+
+        $transactions = Transaction::query()
+            ->with([
+                'transactionFields' => function ($query) {
+                    return $query->where(function ($query) {
+                        $query->where('key', 'subtracted_by')
+                            ->orWhere('key', 'added_by');
+                    });
+                },
+            ])
+            ->whereHas('transactionFields', function ($query) {
+                return $query->where(function ($query) {
+                    $query->where('key', 'subtracted_by')
+                        ->orWhere('key', 'added_by');
+                });
+            })
+            ->get();
+
+        if ($transactions->isNotEmpty()) {
+            $transactions
+                ->each(function ($transaction) {
+                    $transaction
+                        ->transactionDetails
+                        ->whereIn('line', $transaction->transactionFields->pluck('line')->unique())
+                        ->each(function ($transactionDetail) {
+                            if ($this->bundleProductIds->contains($transactionDetail['product_id']) && $transactionDetail['warehouse_id'] == $this->warehouse->id) {
+                                $this->transactionDetails->push($transactionDetail);
+                            }
+                        });
+                });
+        }
     }
 
     private function format()
@@ -137,6 +182,22 @@ class BundleDetailHistoryService implements DetailHistoryServiceInterface
                     'unit_of_measurement' => $productBundle->component->unit_of_measurement,
                     'details' => Str::of($reservationDetail->reservation->customer->company_name ?? 'Unknown')->prepend('Reserved for '),
                     'function' => 'subtract',
+                ];
+            }
+        }
+
+        foreach ($this->transactionDetails as $transactionDetail) {
+            foreach (Product::find($transactionDetail['product_id'])->productBundles()->where('component_id', $this->product->id)->get() as $productBundle) {
+                $data[] = [
+                    'type' => str()->upper($transactionDetail['transaction']->pad->abbreviation),
+                    'url' => '/transactions/' . $transactionDetail['transaction']->id,
+                    'code' => $transactionDetail['transaction']->code,
+                    'date' => $transactionDetail['transaction']->issued_on,
+                    'quantity' => number_format($transactionDetail['quantity'] * $productBundle->quantity, 2, thousands_separator: ''),
+                    'balance' => 0.00,
+                    'unit_of_measurement' => $productBundle->component->unit_of_measurement,
+                    'details' => str($transactionDetail['transaction']->pad->inventory_operation_type)->append('ed', ' in ', $this->warehouse->name)->ucfirst(),
+                    'function' => $transactionDetail['transaction']->pad->inventory_operation_type,
                 ];
             }
         }
