@@ -20,14 +20,26 @@ class MerchandiseController extends Controller
             return false;
         }
 
-        if ($product->isTypeService() || !$product->isProductSingle()) {
+        if ($product->isTypeService()) {
             return false;
         }
 
-        $availableQuantity = Merchandise::query()
-            ->where('product_id', $product->id)
-            ->when($warehouse->exists, fn($q) => $q->where('warehouse_id', $warehouse->id))
-            ->sum('available');
+        if (!$product->isProductSingle()) {
+            $merchandise = Merchandise::query()
+                ->whereIn('product_id', $product->productBundles()->pluck('component_id'))
+                ->when($warehouse->exists, fn($q) => $q->where('warehouse_id', $warehouse->id))
+                ->orderBy('available', 'ASC')
+                ->first();
+
+            $availableQuantity = $merchandise->available / $product->productBundles()->where('component_id', $merchandise->product_id)->first()->quantity;
+        }
+
+        if ($product->isProductSingle()) {
+            $availableQuantity = Merchandise::query()
+                ->where('product_id', $product->id)
+                ->when($warehouse->exists, fn($q) => $q->where('warehouse_id', $warehouse->id))
+                ->sum('available');
+        }
 
         return str(number_format($availableQuantity, 2))->append(' ', $product->unit_of_measurement)->toString();
     }
