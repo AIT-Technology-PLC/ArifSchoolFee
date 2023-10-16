@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\Merchandise;
 use App\Models\Pad;
@@ -46,6 +46,10 @@ class CreateTransaction extends Component
     public $master;
 
     public $details;
+
+    public $masterPadFieldsTypeFile;
+
+    public $detailPadFieldsTypeFile;
 
     public $code;
 
@@ -107,7 +111,7 @@ class CreateTransaction extends Component
 
         $this->details = array_values($this->details);
 
-        $this->dispatchBrowserEvent('select2-removed');
+        $this->dispatch('select2-removed');
     }
 
     public function store()
@@ -183,7 +187,7 @@ class CreateTransaction extends Component
             if ($detailPadField->isBatchNoField() || $detailPadField->isMerchandiseBatchField()) {
                 unset($rules[$key][array_search('string', $rules[$key])]);
                 unset($rules[$key][array_search('nullable', $rules[$key])]);
-                $rules[$key][] = Rule::foreach (
+                $rules[$key][] = Rule::foreach(
                     fn($v, $a) =>
                     (new PadBatchSelectionIsRequiredOrProhibited(
                         !$this->pad->isInventoryOperationAdd(),

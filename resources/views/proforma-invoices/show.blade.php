@@ -93,7 +93,7 @@
                     @can('Convert Proforma Invoice')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
-                                :route="route('proforma-invoices.convert', $proformaInvoice->id)"
+                                :route="route('proforma-invoices.confirm', $proformaInvoice->id)"
                                 action="confirm"
                                 intention="confirm this proforma invoice"
                                 icon="fas fa-check-circle"
@@ -115,7 +115,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ($proformaInvoice->isConverted() && !$proformaInvoice->isClosed())
+                @if ($proformaInvoice->isConfirmed() && !$proformaInvoice->isClosed())
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('proforma-invoices.close', $proformaInvoice->id)"
@@ -126,30 +126,6 @@
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
-                    @can('Create GDN')
-                        <x-common.dropdown-item>
-                            <x-common.button
-                                tag="a"
-                                href="{{ route('proforma-invoices.convert_to_gdn', $proformaInvoice->id) }}"
-                                mode="button"
-                                icon="fas fa-file-invoice"
-                                label="Convert to DO"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                    @can('Create Sale')
-                        <x-common.dropdown-item>
-                            <x-common.button
-                                tag="a"
-                                href="{{ route('proforma-invoices.convert_to_sale', $proformaInvoice->id) }}"
-                                mode="button"
-                                icon="fas fa-cash-register"
-                                label="Issue Invoice"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
                     @foreach (pads() as $pad)
                         @if (in_array('proforma-invoices', $pad->convert_from))
                             @can('convert', $pad->transactions->first())
@@ -166,6 +142,34 @@
                             @endcan
                         @endif
                     @endforeach
+                @endif
+                @if (isFeatureEnabled('Gdn Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConfirmed() && !$proformaInvoice->isClosed())
+                    @can('Create GDN')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-convert-to-gdn-modal')"
+                                icon="fas fa-file-invoice"
+                                label="Issue Delivery Order"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
+                @if (isFeatureEnabled('Sale Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConfirmed() && !$proformaInvoice->isClosed())
+                    @can('Create Sale')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-convert-to-sale-modal')"
+                                icon="fas fa-cash-register"
+                                label="Issue Invoice"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
                 @if (!$proformaInvoice->isCancelled())
                     <x-common.dropdown-item>
@@ -190,7 +194,7 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
-                @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConverted())
+                @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConfirmed())
                     @can('Restore Proforma Invoice')
                         <x-common.dropdown-item>
                             <x-common.button
@@ -211,7 +215,7 @@
             <x-common.fail-message :message="session('failedMessage')" />
             @if ($proformaInvoice->isCancelled())
                 <x-common.fail-message message="This Proforma Invoice has been cancelled." />
-            @elseif ($proformaInvoice->isConverted())
+            @elseif ($proformaInvoice->isConfirmed())
                 <x-common.success-message message="This Proforma Invoice has been confirmed." />
             @elseif ($proformaInvoice->isPending())
                 <x-common.fail-message message="This Proforma Invoice is still pending." />
@@ -223,9 +227,21 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConverted())
+    @if ($proformaInvoice->isExpired() && !$proformaInvoice->isConfirmed())
         @can('Restore Proforma Invoice')
             @include('proforma-invoices.partials.open-restore-expired-pi-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+    @endif
+
+    @if (isFeatureEnabled('Gdn Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConfirmed() && !$proformaInvoice->isClosed())
+        @can('Create GDN')
+            @include('proforma-invoices.partials.convert-to-gdn-modal', ['proformaInvoice' => $proformaInvoice])
+        @endcan
+    @endif
+
+    @if (isFeatureEnabled('Sale Management') && !$proformaInvoice->isAssociated() && $proformaInvoice->isConfirmed() && !$proformaInvoice->isClosed())
+        @can('Create Sale')
+            @include('proforma-invoices.partials.convert-to-sale-modal', ['proformaInvoice' => $proformaInvoice])
         @endcan
     @endif
 @endsection

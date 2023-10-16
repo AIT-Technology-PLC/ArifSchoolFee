@@ -60,7 +60,7 @@ class AvailableInventoryDatatable extends DataTable
 
     public function query()
     {
-        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user:authUser())->pluck('id');
+        $limitedProducts = (new MerchandiseProductService)->getLimitedMerchandiseProductsQuery(user: authUser())->pluck('id');
 
         $availableMerchandises = Merchandise::query()
             ->join('products', 'merchandises.product_id', '=', 'products.id')
@@ -138,7 +138,7 @@ class AvailableInventoryDatatable extends DataTable
             ->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryLevel_' . date('YmdHis');
     }

@@ -82,7 +82,7 @@ class InventoryLevelReportDatatable extends DataTable
             ->filter()
             ->toArray();
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryLevelReport_' . date('YmdHis');
     }

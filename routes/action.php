@@ -71,7 +71,7 @@ Route::get('/proforma-invoices/{proformaInvoice}/print',
     [Action\ProformaInvoiceController::class, 'printed'])
     ->name('proforma-invoices.print');
 
-Route::get('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
+Route::post('/proforma-invoices/{proforma_invoice}/convert-to-gdn',
     [Action\ProformaInvoiceController::class, 'convertToGdn'])
     ->name('proforma-invoices.convert_to_gdn');
 
@@ -79,15 +79,15 @@ Route::post('/proforma-invoices/{proformaInvoice}/cancel',
     [Action\ProformaInvoiceController::class, 'cancel'])
     ->name('proforma-invoices.cancel');
 
-Route::post('/proforma-invoices/{proformaInvoice}/convert',
-    [Action\ProformaInvoiceController::class, 'convert'])
-    ->name('proforma-invoices.convert');
+Route::post('/proforma-invoices/{proformaInvoice}/confirm',
+    [Action\ProformaInvoiceController::class, 'confirm'])
+    ->name('proforma-invoices.confirm');
 
 Route::post('/proforma-invoices/{proformaInvoice}/close',
     [Action\ProformaInvoiceController::class, 'close'])
     ->name('proforma-invoices.close');
 
-Route::get('/proforma-invoices/{proforma_invoice}/convert-to-sale',
+Route::post('/proforma-invoices/{proforma_invoice}/convert-to-sale',
     [Action\ProformaInvoiceController::class, 'convertToSale'])
     ->name('proforma-invoices.convert_to_sale');
 
@@ -216,9 +216,13 @@ Route::post('/reservations/{reservation}/approve',
     [Action\ReservationController::class, 'approve'])
     ->name('reservations.approve');
 
-Route::post('/reservations/{reservation}/convert',
-    [Action\ReservationController::class, 'convert'])
-    ->name('reservations.convert');
+Route::post('/reservations/{reservation}/convert-to-gdn',
+    [Action\ReservationController::class, 'convertToGdn'])
+    ->name('reservations.convert_to_gdn');
+
+Route::post('/reservations/{reservation}/convert-to-sale',
+    [Action\ReservationController::class, 'convertToSale'])
+    ->name('reservations.convert_to_sale');
 
 Route::post('/reservations/{reservation}/cancel',
     [Action\ReservationController::class, 'cancel'])
@@ -541,3 +545,5 @@ Route::post('/cost-updates/{costUpdate}/reject',
 Route::post('/cost-updates/import',
     [Action\CostUpdateController::class, 'import'])
     ->name('cost-updates.import');
+
+

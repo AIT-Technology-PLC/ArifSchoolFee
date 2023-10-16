@@ -77,7 +77,7 @@ class GdnDetailDatatable extends DataTable
         return collect($columns)->filter()->toArray();
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'DO Details_' . date('YmdHis');
     }

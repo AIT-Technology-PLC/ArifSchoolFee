@@ -17,23 +17,23 @@ class AdjustmentDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($adjustment) => route('adjustments.show', $adjustment->id),
+                'data-url' => fn($adjustment) => route('adjustments.show', $adjustment->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
-            ->editColumn('branch', fn ($adjustment) => $adjustment->warehouse->name)
-            ->editColumn('status', fn ($adjustment) => view('components.datatables.adjustment-status', compact('adjustment')))
+            ->editColumn('branch', fn($adjustment) => $adjustment->warehouse->name)
+            ->editColumn('status', fn($adjustment) => view('components.datatables.adjustment-status', compact('adjustment')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'waiting-approval', fn ($query) => $query->notApproved())
-                    ->when($keyword == 'approved', fn ($query) => $query->notAdjusted()->approved())
-                    ->when($keyword == 'adjusted', fn ($query) => $query->adjusted());
+                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved())
+                    ->when($keyword == 'approved', fn($query) => $query->notAdjusted()->approved())
+                    ->when($keyword == 'adjusted', fn($query) => $query->adjusted());
             })
-            ->editColumn('description', fn ($adjustment) => view('components.datatables.searchable-description', ['description' => $adjustment->description]))
-            ->editColumn('issued_on', fn ($adjustment) => $adjustment->issued_on->toFormattedDateString())
-            ->editColumn('prepared by', fn ($adjustment) => $adjustment->createdBy->name)
-            ->editColumn('approved by', fn ($adjustment) => $adjustment->approvedBy->name ?? 'N/A')
-            ->editColumn('edited by', fn ($adjustment) => $adjustment->updatedBy->name)
+            ->editColumn('description', fn($adjustment) => view('components.datatables.searchable-description', ['description' => $adjustment->description]))
+            ->editColumn('issued_on', fn($adjustment) => $adjustment->issued_on->toFormattedDateString())
+            ->editColumn('prepared by', fn($adjustment) => $adjustment->createdBy->name)
+            ->editColumn('approved by', fn($adjustment) => $adjustment->approvedBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($adjustment) => $adjustment->updatedBy->name)
             ->editColumn('actions', function ($adjustment) {
                 return view('components.common.action-buttons', [
                     'model' => 'adjustments',
@@ -49,10 +49,10 @@ class AdjustmentDatatable extends DataTable
         return $adjustment
             ->newQuery()
             ->select('adjustments.*')
-            ->when(is_numeric(request('branch')), fn ($query) => $query->where('adjustments.warehouse_id', request('branch')))
-            ->when(request('status') == 'waiting approval', fn ($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn ($query) => $query->notAdjusted()->approved())
-            ->when(request('status') == 'adjusted', fn ($query) => $query->adjusted())
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('adjustments.warehouse_id', request('branch')))
+            ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
+            ->when(request('status') == 'approved', fn($query) => $query->notAdjusted()->approved())
+            ->when(request('status') == 'adjusted', fn($query) => $query->adjusted())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -77,8 +77,8 @@ class AdjustmentDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'Adjustments_'.date('YmdHis');
+        return 'Adjustments_' . date('YmdHis');
     }
 }

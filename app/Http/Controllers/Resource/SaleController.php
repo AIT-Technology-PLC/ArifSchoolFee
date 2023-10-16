@@ -79,6 +79,10 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
+        if ($sale->belongsToTransaction()) {
+            return back()->with('failedMessage', 'Invoices issued from other transaction cannot be edited.');
+        }
+
         if ($sale->isApproved() || $sale->isCancelled()) {
             return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
         }
@@ -92,6 +96,11 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
+        if ($sale->belongsToTransaction()) {
+            return redirect()->route('sales.show', $sale->id)
+                ->with('failedMessage', 'Invoices issued from other transaction cannot be edited.');
+        }
+
         if ($sale->isApproved() || $sale->isCancelled()) {
             return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
         }
@@ -113,7 +122,13 @@ class SaleController extends Controller
 
     public function destroy(Sale $sale)
     {
+        if ($sale->reservation()->exists()) {
+            return back()->with('failedMessage', 'Invoices issued from reservations cannot be deleted.');
+        }
+
         abort_if($sale->isApproved() || $sale->isCancelled(), 403);
+
+        $sale->proformaInvoice?->proformaInvoiceable()->dissociate($sale)->save();
 
         $sale->forceDelete();
 

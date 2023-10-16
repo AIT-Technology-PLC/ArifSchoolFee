@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ProformaInvoice;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
@@ -53,6 +54,16 @@ class Sale extends Model
         return $this->morphOne(Credit::class, 'creditable');
     }
 
+    public function proformaInvoice()
+    {
+        return $this->morphOne(ProformaInvoice::class, 'proforma_invoiceable');
+    }
+
+    public function reservation()
+    {
+        return $this->morphOne(Reservation::class, 'reservable');
+    }
+
     public function details()
     {
         return $this->saleDetails;
@@ -82,5 +93,10 @@ class Sale extends Model
     public function canAffectInventoryValuation()
     {
         return true;
+    }
+
+    public function belongsToTransaction()
+    {
+        return $this->reservation()->exists() || $this->proformaInvoice()->exists();
     }
 }

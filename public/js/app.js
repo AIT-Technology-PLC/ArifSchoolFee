@@ -1,6 +1,6 @@
 const d = document;
 
-const addKeyValueInputFields = (function () {
+const addKeyValueInputFields = (function() {
     let index = 0;
     const newForm = d.getElementById("newForm");
 
@@ -10,7 +10,7 @@ const addKeyValueInputFields = (function () {
 
     newForm.classList.remove("is-hidden");
 
-    return function () {
+    return function() {
         const keyValueFieldPair = `
             <div class="column is-6">
                 <div class="field">
@@ -134,7 +134,7 @@ function initiateDataTables() {
             {
                 extend: "pdfHtml5",
                 orientation: "landscape",
-                customize: function (doc) {
+                customize: function(doc) {
                     doc.content[1].margin = [0, 0, 0, 0];
                 },
                 exportOptions: {
@@ -160,7 +160,7 @@ function initializeSummernote() {
             ["insert", ["picture"]],
         ],
         callbacks: {
-            onPaste: function (e) {
+            onPaste: function(e) {
                 var bufferText = (
                     (e.originalEvent || e).clipboardData || window.clipboardData
                 ).getData("Text");
@@ -168,7 +168,7 @@ function initializeSummernote() {
                 e.preventDefault();
 
                 // Firefox fix
-                setTimeout(function () {
+                setTimeout(function() {
                     document.execCommand("insertText", false, bufferText);
                 }, 10);
             },
@@ -495,7 +495,8 @@ document.addEventListener("alpine:init", () => {
                     this.paymentType === "" ||
                     this.paymentType === "Credit Payment" ||
                     this.paymentType === "Cash Payment" ||
-                    this.paymentType === "Deposits"
+                    this.paymentType === "Deposits" ||
+                    this.paymentType === "TeleBirr"
                 );
             },
 
@@ -804,20 +805,27 @@ document.addEventListener("alpine:init", () => {
 
     Alpine.data(
         "productType",
-        (type = "", isBatchable = "0", batchPriority = "", isActive = "1") => ({
+        (
+            type = "",
+            isBatchable = "0",
+            batchPriority = "",
+            isActive = "1",
+            isProductSingle = "1"
+        ) => ({
             type: "",
             isBatchable: "0",
             batchPriority: "",
             isTypeService: false,
             isActive: "1",
+            isProductSingle: "1",
 
             init() {
                 this.type = type;
                 this.isBatchable = isBatchable;
                 this.batchPriority = batchPriority;
                 this.isActive = isActive;
+                this.isProductSingle = isProductSingle;
                 this.changeProductType();
-                this.changeActiveStatus();
             },
 
             changeProductType() {
@@ -831,10 +839,8 @@ document.addEventListener("alpine:init", () => {
                 this.isTypeService = false;
             },
 
-            changeActiveStatus() {
-                if (this.isActive === "0") {
-                    return;
-                }
+            isSingle() {
+                return this.isProductSingle == 1;
             },
         })
     );

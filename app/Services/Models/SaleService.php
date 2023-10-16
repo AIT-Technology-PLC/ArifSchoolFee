@@ -4,6 +4,7 @@ namespace App\Services\Models;
 
 use App\Actions\ApproveTransactionAction;
 use App\Actions\ConvertToSivAction;
+use App\Exceptions\InventoryHistoryDuplicateEntryException;
 use App\Models\Sale;
 use App\Notifications\SaleApproved;
 use App\Services\Integrations\PointOfSaleService;
@@ -62,7 +63,7 @@ class SaleService
             }
 
             if ($sale->company->canSaleSubtract() && $sale->isSubtracted()) {
-                InventoryOperationService::add($sale->gdnDetails, $sale);
+                InventoryOperationService::add($sale->saleDetails, $sale);
                 $sale->add();
             }
 
@@ -136,14 +137,16 @@ class SaleService
             return [false, 'This Invoice is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale) {
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+        DB::transaction(function () use ($sale, $from) {
+            InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
             $sale->subtract();
         });
@@ -178,13 +181,15 @@ class SaleService
             return [false, 'This Invoice is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale) {
+        DB::transaction(function () use ($sale, $from) {
             (new ApproveTransactionAction)->execute($sale);
 
             if ($sale->payment_type == 'Deposits') {
@@ -193,7 +198,7 @@ class SaleService
 
             $this->convertToCredit($sale);
 
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+            InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
             $sale->subtract();
         });
@@ -219,19 +224,25 @@ class SaleService
             return [false, 'Integration is not set up for this branch.'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails);
+        $from = $sale->reservation()->exists() ? 'reserved' : 'available';
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($sale->saleDetails, $from);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
-        DB::transaction(function () use ($sale, $data) {
-            InventoryOperationService::subtract($sale->saleDetails, $sale);
+        DB::transaction(function () use ($sale, $data, $from) {
+            try {
+                InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
-            $sale->assignFSNumber($data['fs_number']);
+                $sale->assignFSNumber($data['fs_number']);
 
-            $sale->subtract();
-        });
+                $sale->subtract();
+            } catch (InventoryHistoryDuplicateEntryException $ex) {
+                DB::rollBack();
+            }
+        }, 2);
 
         return [true, 'Invoice found and FS assigned successfully.'];
     }

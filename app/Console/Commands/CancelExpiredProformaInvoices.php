@@ -35,7 +35,7 @@ class CancelExpiredProformaInvoices extends Command
                 $proformaInvoices = ProformaInvoice::query()
                     ->where('company_id', $company->id)
                     ->pending()
-                    ->notConverted()
+                    ->notConfirmed()
                     ->expired()
                     ->get();
 

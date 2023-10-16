@@ -65,7 +65,7 @@ class DamageDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Damage Details_' . date('YmdHis');
     }

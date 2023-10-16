@@ -20,7 +20,7 @@ class AdvancementDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($advancement) => route('advancements.show', $advancement->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('issued_on', fn($advancement) => $advancement->issued_on->toFormattedDateString())
             ->editColumn('branch', fn($advancement) => $advancement->warehouse->name)
@@ -70,7 +70,7 @@ class AdvancementDatatable extends DataTable
 
         return Arr::where($columns, fn($column) => $column != null);
     }
-    protected function filename()
+    protected function filename(): string
     {
         return 'Advancement_' . date('YmdHis');
     }

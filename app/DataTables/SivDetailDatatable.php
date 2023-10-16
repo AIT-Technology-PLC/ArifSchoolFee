@@ -15,7 +15,7 @@ class SivDetailDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('from', fn ($sivDetail) => $sivDetail->warehouse->name)
+            ->editColumn('from', fn($sivDetail) => $sivDetail->warehouse->name)
             ->editColumn('product', function ($sivDetail) {
                 return view('components.datatables.product-code', [
                     'product' => $sivDetail->product->name,
@@ -25,7 +25,7 @@ class SivDetailDatatable extends DataTable
             ->editColumn('quantity', function ($sivDetail) {
                 return quantity($sivDetail->quantity, $sivDetail->product->unit_of_measurement);
             })
-            ->editColumn('description', fn ($sivDetail) => nl2br(e($sivDetail->description)))
+            ->editColumn('description', fn($sivDetail) => nl2br(e($sivDetail->description)))
             ->editColumn('actions', function ($sivDetail) {
                 return view('components.common.action-buttons', [
                     'model' => 'siv-details',
@@ -60,8 +60,8 @@ class SivDetailDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'SIV Details_'.date('YmdHis');
+        return 'SIV Details_' . date('YmdHis');
     }
 }

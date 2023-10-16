@@ -12,17 +12,13 @@ class InventoryBatchReportDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
-    public function __construct()
-    {
-        $this->warehouses = authUser()->getAllowedWarehouses('read');
-    }
-
     public function dataTable($query)
     {
         return datatables()
             ->collection($query->all())
             ->editColumn('product', fn($merchandiseBatch) => $merchandiseBatch->name)
             ->editColumn('code', fn($merchandiseBatch) => $merchandiseBatch->code ?? 'N/A')
+            ->editColumn('unit', fn($merchandiseBatch) => $merchandiseBatch->unit)
             ->editColumn('batch_no', fn($merchandiseBatch) => $merchandiseBatch->batch_no)
             ->editColumn('expires_on', fn($merchandiseBatch) => view('components.datatables.inventory-batch-tag', ['content' => $merchandiseBatch->expires_on]))
             ->editColumn('quantity', fn($merchandiseBatch) => $merchandiseBatch->quantity)
@@ -42,13 +38,14 @@ class InventoryBatchReportDatatable extends DataTable
             Column::computed('#'),
             Column::make('product'),
             Column::make('code'),
+            Column::make('unit'),
             Column::make('batch_no'),
             Column::make('expires_on')->title('Expiry Date'),
             Column::make('quantity'),
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryBatchReport_' . date('YmdHis');
     }

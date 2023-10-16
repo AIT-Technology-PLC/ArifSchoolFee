@@ -20,7 +20,7 @@ class PayrollDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($payroll) => route('payrolls.show', $payroll->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
             ->editColumn('status', fn($payroll) => view('components.datatables.payroll-status', compact('payroll')))
             ->editColumn('bank_name', fn($payroll) => $payroll->company->payroll_bank_name ?? 'N/A')
@@ -80,7 +80,7 @@ class PayrollDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Payroll_' . date('YmdHis');
     }

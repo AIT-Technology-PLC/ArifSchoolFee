@@ -55,7 +55,7 @@ class BrandDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Brand_' . date('YmdHis');
     }

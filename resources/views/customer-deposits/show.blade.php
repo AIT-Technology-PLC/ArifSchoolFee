@@ -57,15 +57,15 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar-day"
-                        :data="$customerDeposit->issued_on->toDayDateTimeString()"
+                        :data="$customerDeposit->issued_on->toFormattedDateString()"
                         label="Issued On"
                     />
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fa-solid fa-calendar-day"
-                        :data="$customerDeposit->deposited_at->toDayDateTimeString()"
-                        label="Deposited At"
+                        :data="$customerDeposit->deposited_at->toFormattedDateString()"
+                        label="Deposit Date"
                     />
                 </div>
                 <div class="column is-6">

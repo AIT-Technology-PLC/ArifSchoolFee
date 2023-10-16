@@ -53,7 +53,7 @@ class DebtSettlementDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'DebtSettlement_' . date('YmdHis');
     }

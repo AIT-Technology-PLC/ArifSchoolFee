@@ -63,7 +63,7 @@ class ReservationDetail extends Model
                         Reservation::withoutGlobalScopes([BranchScope::class])
                             ->whereHasMorph(
                                 'reservable',
-                                [Gdn::class],
+                                [Gdn::class, Sale::class],
                                 function (Builder $query) {
                                     $query->withoutGlobalScopes([BranchScope::class])
                                         ->whereNotNull('subtracted_by');

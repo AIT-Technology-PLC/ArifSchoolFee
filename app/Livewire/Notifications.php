@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
 
@@ -21,7 +21,7 @@ class Notifications extends Component
     {
         $this->unreadNotifications = authUser()->unreadNotifications;
 
-        $this->emit('notificationComponentRefreshed', $this->unreadNotifications->count());
+        $this->dispatch('notificationComponentRefreshed', $this->unreadNotifications->count());
     }
 
     public function render()

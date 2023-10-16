@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConvertProformaInvoiceRequest;
 use App\Http\Requests\UpdateProformaInvoiceExpiresOnRequest;
 use App\Models\Gdn;
 use App\Models\ProformaInvoice;
 use App\Models\Sale;
 use App\Services\Models\ProformaInvoiceService;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProformaInvoiceController extends Controller
@@ -19,23 +19,27 @@ class ProformaInvoiceController extends Controller
     public function __construct(ProformaInvoiceService $proformaInvoiceService)
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');
+        
+        $this->middleware('isFeatureAccessible:Sale Management')->only('convertToSale');
+        
+        $this->middleware('isFeatureAccessible:Gdn Management')->only('convertToGdn');
 
         $this->proformaInvoiceService = $proformaInvoiceService;
     }
 
-    public function convert(ProformaInvoice $proformaInvoice)
+    public function confirm(ProformaInvoice $proformaInvoice)
     {
-        $this->authorize('convert', $proformaInvoice);
+        $this->authorize('confirm', $proformaInvoice);
 
         if ($proformaInvoice->isCancelled()) {
             return back()->with('failedMessage', 'This Proforma Invoice is cancelled');
         }
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 
-        $proformaInvoice->convert();
+        $proformaInvoice->confirm();
 
         return back();
     }
@@ -44,7 +48,7 @@ class ProformaInvoiceController extends Controller
     {
         $this->authorize('cancel', $proformaInvoice);
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'Cancelling a confirmed Proforma Invoice is not allowed.');
         }
 
@@ -74,17 +78,17 @@ class ProformaInvoiceController extends Controller
         return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode', 'havingBatch'))->stream();
     }
 
-    public function convertToGdn(Request $request, ProformaInvoice $proformaInvoice)
+    public function convertToGdn(ConvertProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Gdn::class);
 
-        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToGdn($proformaInvoice);
+        [$isExecuted, $message, $gdn] = $this->proformaInvoiceService->convertToGdn($proformaInvoice, $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        return redirect()->route('gdns.create')->withInput($request->merge($data)->all());
+        return redirect()->route('gdns.show', $gdn->id);
     }
 
     public function close(ProformaInvoice $proformaInvoice)
@@ -100,24 +104,24 @@ class ProformaInvoiceController extends Controller
         return back()->with('successMessage', 'Proforma Invoice closed and archived successfully.');
     }
 
-    public function convertToSale(Request $request, ProformaInvoice $proformaInvoice)
+    public function convertToSale(ConvertProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('create', Sale::class);
 
-        [$isExecuted, $message, $data] = $this->proformaInvoiceService->convertToSale($proformaInvoice);
+        [$isExecuted, $message, $sale] = $this->proformaInvoiceService->convertToSale($proformaInvoice, $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        return redirect()->route('sales.create')->withInput($request->merge($data)->all());
+        return redirect()->route('sales.show', $sale->id);
     }
 
     public function restore(UpdateProformaInvoiceExpiresOnRequest $request, ProformaInvoice $proformaInvoice)
     {
         $this->authorize('restore', $proformaInvoice);
 
-        if ($proformaInvoice->isConverted()) {
+        if ($proformaInvoice->isConfirmed()) {
             return back()->with('failedMessage', 'This Proforma Invoice is already confirmed');
         }
 

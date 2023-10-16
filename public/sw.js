@@ -10,7 +10,7 @@ const { registerRoute, setCatchHandler } = workbox.routing;
 skipWaiting();
 clientsClaim();
 
-const VERSION = 110;
+const VERSION = 115;
 const PRECACHE = "precache-v5";
 const RUNTIME = "runtime-v5";
 
@@ -59,6 +59,18 @@ precacheAndRoute(
         },
         {
             url: "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css",
+            revision: null,
+        },
+        {
+            url: "https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css",
+            revision: null,
+        },
+        {
+            url: "https://cdn.jsdelivr.net/npm/bulma-quickview@2.0.0/dist/css/bulma-quickview.min.css",
+            revision: null,
+        },
+        {
+            url: "https://fonts.cdnfonts.com/css/swera-demo",
             revision: null,
         },
         {

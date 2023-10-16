@@ -41,7 +41,7 @@ class TransactionDatatable extends DataTable
             ->setRowAttr([
                 'data-url' => fn($transaction) => route('transactions.show', $transaction['id']),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ]);
 
         foreach ($this->padFields as $padField) {
@@ -167,7 +167,7 @@ class TransactionDatatable extends DataTable
         return Arr::where($columns, fn($column) => $column != null);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'Transactions_' . date('YmdHis');
     }

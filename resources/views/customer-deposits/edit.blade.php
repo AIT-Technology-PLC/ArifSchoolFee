@@ -54,15 +54,15 @@
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="deposited_at">
-                                Deposited At <sup class="has-text-danger">*</sup>
+                                Deposit Date <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="datetime-local"
+                                    type="date"
                                     name="deposited_at"
                                     id="deposited_at"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ old('deposited_at', $customerDeposit->deposited_at->toDateTimeLocalString()) }}"
+                                    value="{{ old('deposited_at', $customerDeposit->deposited_at->toDateString()) }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"

@@ -59,7 +59,6 @@
                                     x-model="reservation.product_id"
                                     x-init="select2(index)"
                                     included-products="sales"
-                                    :type="['Raw Material', 'Finished Goods']"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
@@ -352,7 +351,7 @@
                 reservations: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType().forSale(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).forSale(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (reservation) {
                         this.reservations = reservation;

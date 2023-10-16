@@ -17,17 +17,17 @@ class TenderOpportunityDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn ($tenderOpportunity) => route('tender-opportunities.show', $tenderOpportunity->id),
+                'data-url' => fn($tenderOpportunity) => route('tender-opportunities.show', $tenderOpportunity->id),
                 'x-data' => 'showRowDetails',
-                '@click' => 'showDetails',
+                'x-on:click' => 'showDetails',
             ])
-            ->editColumn('customer', fn ($tenderOpportunity) => $tenderOpportunity->customer->company_name ?? 'N/A')
-            ->editColumn('status', fn ($tenderOpportunity) => $tenderOpportunity->tenderStatus->status ?? 'N/A')
-            ->editColumn('published_on', fn ($tenderOpportunity) => $tenderOpportunity->published_on->toFormattedDateString())
+            ->editColumn('customer', fn($tenderOpportunity) => $tenderOpportunity->customer->company_name ?? 'N/A')
+            ->editColumn('status', fn($tenderOpportunity) => $tenderOpportunity->tenderStatus->status ?? 'N/A')
+            ->editColumn('published_on', fn($tenderOpportunity) => $tenderOpportunity->published_on->toFormattedDateString())
             ->editColumn('price', function ($tenderOpportunity) {
                 return money($tenderOpportunity->price, $tenderOpportunity->currency);
             })
-            ->editColumn('prepared by', fn ($tenderOpportunity) => $tenderOpportunity->createdBy->name)
+            ->editColumn('prepared by', fn($tenderOpportunity) => $tenderOpportunity->createdBy->name)
             ->editColumn('actions', function ($tenderOpportunity) {
                 return view('components.common.action-buttons', [
                     'model' => 'tender-opportunities',
@@ -65,8 +65,8 @@ class TenderOpportunityDatatable extends DataTable
         ];
     }
 
-    protected function filename()
+    protected function filename(): string
     {
-        return 'TenderOpportunity_'.date('YmdHis');
+        return 'TenderOpportunity_' . date('YmdHis');
     }
 }

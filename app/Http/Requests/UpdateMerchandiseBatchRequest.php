@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateMerchandiseBatchRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class UpdateMerchandiseBatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'batch_no' => ['required', 'string', 'unique:merchandise_batches,batch_no,' . $this->route('merchandise_batch')->id],
+            'batch_no' => ['required', 'string', Rule::unique('merchandise_batches')->withoutTrashed()->ignore($this->route('merchandise_batch')->id)],
             'expires_on' => ['nullable', 'date'],
         ];
     }

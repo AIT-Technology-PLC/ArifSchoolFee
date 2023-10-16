@@ -2,6 +2,7 @@
 
 namespace App\Services\Inventory;
 
+use App\Exceptions\InventoryHistoryDuplicateEntryException;
 use App\Models\InventoryHistory;
 use App\Models\InventoryValuationBalance;
 use App\Models\Merchandise;
@@ -10,6 +11,7 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use App\Utilities\InventoryValuationCalculator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Arr;
 
 class InventoryOperationService
@@ -25,6 +27,8 @@ class InventoryOperationService
         }
 
         foreach ($details as $detail) {
+            static::createInventoryHistory($model, $detail, $to, false);
+
             $merchandise = Merchandise::firstOrCreate(
                 [
                     'product_id' => $detail['product_id'],
@@ -40,8 +44,6 @@ class InventoryOperationService
             $merchandise->save();
 
             static::addToBatch($detail, $merchandise, $to);
-
-            static::createInventoryHistory($model, $detail, $to, false);
 
             if ($model->canAffectInventoryValuation() && $to == 'available') {
                 InventoryValuationCalculator::calculate($model, $detail, 'add');
@@ -60,6 +62,8 @@ class InventoryOperationService
         $merchandises = Merchandise::all();
 
         foreach ($details as $detail) {
+            static::createInventoryHistory($model, $detail, $from);
+
             $merchandise = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($from, '>=', $detail['quantity'])->first();
 
             $merchandise->$from = $merchandise->$from - $detail['quantity'];
@@ -67,8 +71,6 @@ class InventoryOperationService
             $merchandise->save();
 
             static::subtractFromBatch($detail, $merchandise, $from);
-
-            static::createInventoryHistory($model, $detail, $from);
 
             if ($model->canAffectInventoryValuation() && $from == 'available') {
                 static::subtractFromInventoryValuationBalance($detail);
@@ -166,10 +168,17 @@ class InventoryOperationService
             $detail = $detail->only(static::$properties);
         }
 
-        InventoryHistory::firstOrCreate(
-            Arr::only($inventoryHistoryDetail, ['model_detail_type', 'model_detail_id', 'is_subtract']),
-            Arr::only($detail, static::$properties) + $inventoryHistoryDetail
-        );
+        try {
+            InventoryHistory::create(
+                Arr::only($detail, static::$properties) + $inventoryHistoryDetail
+            );
+        } catch (QueryException $ex) {
+            if ($ex->errorInfo[1] == 1062) {
+                throw new InventoryHistoryDuplicateEntryException;
+            }
+
+            throw $ex;
+        }
     }
 
     public static function unavailableProducts($details, $in = 'available')
@@ -299,8 +308,26 @@ class InventoryOperationService
         $inventoryTypeProducts = [];
 
         foreach ($details as $detail) {
-            if ($products->find($detail['product_id'])->isTypeProduct()) {
+            $product = $products->find($detail['product_id']);
+
+            if (!$product->isTypeProduct()) {
+                continue;
+            }
+
+            if ($product->isProductSingle()) {
                 $inventoryTypeProducts[] = $detail;
+            }
+
+            if (!$product->isProductSingle()) {
+                $bundleDetails = $product->productBundles()->get();
+
+                foreach ($bundleDetails as $bundleDetail) {
+                    $newDetail = is_object($detail) ? clone $detail : $detail;
+                    $newDetail['product_id'] = $bundleDetail->component_id;
+                    $newDetail['quantity'] = $bundleDetail->quantity * $detail['quantity'];
+
+                    $inventoryTypeProducts[] = $newDetail;
+                }
             }
         }
 
