@@ -38,7 +38,7 @@ class TempCommand extends Command
                     'product' => Product::find($detail['product_id'])->name,
                     'unit' => $detail['unit'],
                     'quantity' => $detail['quantity'],
-                    'prepared_by' => $$transaction->createdBy->name,
+                    'prepared_by' => $transaction->createdBy->name,
                     'warehouse' => Warehouse::find($detail['warehouse_id'])->name,
                 ];
             }
