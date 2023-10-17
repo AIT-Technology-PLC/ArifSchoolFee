@@ -43,6 +43,7 @@ class PermissionCategorization
         'sale' => [
             'label' => 'Invoice',
             'feature' => 'Sale Management',
+            'include' => ['Read Profit Report'],
         ],
         'proforma invoice' => [
             'label' => 'Proforma Invoice',
@@ -76,7 +77,7 @@ class PermissionCategorization
         'customer' => [
             'label' => 'Customer',
             'feature' => 'Customer Management',
-            'exclude' => ['Customer Deposit']
+            'exclude' => ['Customer Deposit'],
         ],
         'credit' => [
             'label' => 'Credit',

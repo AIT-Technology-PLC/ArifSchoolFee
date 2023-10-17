@@ -267,4 +267,114 @@ class TransactionService
 
         return is_null($line) ? $transactionDetails : $transactionDetails->where('line', $line);
     }
+
+    public function approveAndSubtract($transaction, $user, $line = null)
+    {
+        if (!$transaction->pad->isApprovable()) {
+            return [false, 'This feature is not approvable.'];
+        }
+
+        if ($transaction->isApproved()) {
+            return [false, 'This transaction is already approved.'];
+        }
+
+        if (!$transaction->pad->isInventoryOperationSubtract()) {
+            return [false, 'This transaction can not be subtracted from inventory.'];
+        }
+
+        if ($transaction->isSubtracted()) {
+            return [false, 'This transaction is already subtracted from inventory.'];
+        }
+
+        $subtractedLines = $transaction->transactionFields()->where('key', 'subtracted_by')->whereNotNull('line')->pluck('line')->unique();
+
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $subtractedLines);
+
+        if ($transactionDetails->isEmpty()) {
+            return [false, 'This transaction has no products.'];
+        }
+
+        if (!$user->hasWarehousePermission('subtract',
+            $transactionDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
+        }
+
+        if (!is_null($line) && TransactionField::isSubtracted($transaction, $line)) {
+            return [false, 'This product is already subtracted from inventory.'];
+        }
+
+        $unavailableProducts = InventoryOperationService::unavailableProducts($transactionDetails);
+
+        if ($unavailableProducts->isNotEmpty()) {
+            return [false, $unavailableProducts];
+        }
+
+        DB::transaction(function () use ($transaction, $transactionDetails, $line) {
+            $transaction->approve();
+
+            InventoryOperationService::subtract($transactionDetails, $transaction);
+
+            if (!is_null($line)) {
+                TransactionField::subtract($transaction, $line);
+            }
+
+            if (is_null($line)) {
+                $transaction->subtract();
+            }
+        });
+
+        return [true, ''];
+    }
+
+    public function approveAndAdd($transaction, $user, $line = null)
+    {
+        if (!$transaction->pad->isApprovable()) {
+            return [false, 'This feature is not approvable.'];
+        }
+
+        if ($transaction->isApproved()) {
+            return [false, 'This transaction is already approved.'];
+        }
+
+        if (!$transaction->pad->isInventoryOperationAdd()) {
+            return [false, 'This transaction can not be added to inventory.'];
+        }
+
+        if ($transaction->isAdded()) {
+            return [false, 'This transaction is already added to inventory.'];
+        }
+
+        $addedLines = $transaction->transactionFields()->where('key', 'added_by')->whereNotNull('line')->pluck('line')->unique();
+
+        $transactionDetails = $this->formatTransactionDetails($transaction, $line)->whereNotIn('line', $addedLines);
+
+        if ($transactionDetails->isEmpty()) {
+            return [false, 'This transaction has no products.'];
+        }
+
+        if (!$user->hasWarehousePermission('add',
+            $transactionDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to add to one or more of the warehouses.'];
+        }
+
+        if (!is_null($line) && TransactionField::isAdded($transaction, $line)) {
+            return [false, 'This product is already added to inventory.'];
+        }
+
+        DB::transaction(function () use ($transaction, $transactionDetails, $line) {
+            $transaction->approve();
+
+            InventoryOperationService::add($transactionDetails, $transaction);
+
+            if (!is_null($line)) {
+                TransactionField::add($transaction, $line);
+            }
+
+            if (is_null($line)) {
+                $transaction->add();
+            }
+        });
+
+        return [true, ''];
+    }
 }
