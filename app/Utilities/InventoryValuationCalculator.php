@@ -43,12 +43,12 @@ class InventoryValuationCalculator
 
             if ($operation == 'add') {
                 InventoryValuationBalance::firstOrCreate([
+                    'product_id' => $detail['product_id'],
                     'type' => $method,
                     'model_detail_type' => $detail['model_type'] ?? get_class($detail),
                     'model_detail_id' => $detail['model_id'] ?? $detail->id,
                     'operation' => $operation,
                 ], [
-                    'product_id' => $detail['product_id'],
                     'quantity' => $detail['quantity'],
                     'original_quantity' => $detail['quantity'],
                     'unit_cost' => $detail['unit_cost'],
@@ -68,12 +68,12 @@ class InventoryValuationCalculator
             $product->update([$method . '_unit_cost' => $newUnitCost]);
 
             InventoryValuationHistory::firstOrCreate([
+                'product_id' => $product->id,
                 'type' => $method,
                 'model_detail_type' => $detail['model_type'] ?? get_class($detail),
                 'model_detail_id' => $detail['model_id'] ?? $detail->id,
                 'operation' => $operation,
             ], [
-                'product_id' => $product->id,
                 'unit_cost' => $newUnitCost,
             ]);
         }
@@ -98,12 +98,12 @@ class InventoryValuationCalculator
         $product->update(['average_unit_cost' => $newAverageUnitCost]);
 
         InventoryValuationHistory::firstOrCreate([
+            'product_id' => $product->id,
             'type' => 'average',
             'model_detail_type' => $detail['model_type'] ?? get_class($detail),
             'model_detail_id' => $detail['model_id'] ?? $detail->id,
             'operation' => 'add',
         ], [
-            'product_id' => $product->id,
             'unit_cost' => $newAverageUnitCost,
         ]);
     }

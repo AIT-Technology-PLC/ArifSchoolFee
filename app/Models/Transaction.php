@@ -149,4 +149,9 @@ class Transaction extends Model
     {
         return !$this->pad->isInventoryOperationNone();
     }
+
+    public function canReverseInventoryValuation()
+    {
+        return false;
+    }
 }

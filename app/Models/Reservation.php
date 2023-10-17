@@ -134,4 +134,9 @@ class Reservation extends Model
     {
         return true;
     }
+
+    public function canReverseInventoryValuation()
+    {
+        return true;
+    }
 }

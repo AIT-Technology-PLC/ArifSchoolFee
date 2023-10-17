@@ -45,7 +45,16 @@ class InventoryOperationService
 
             static::addToBatch($detail, $merchandise, $to);
 
-            if ($model->canAffectInventoryValuation() && $to == 'available') {
+            if ($to != 'available') {
+                continue;
+            }
+
+            if ($model->canReverseInventoryValuation()) {
+                static::reverseInventoryValuationBalance($detail);
+                continue;
+            }
+
+            if ($model->canAffectInventoryValuation()) {
                 InventoryValuationCalculator::calculate($model, $detail, 'add');
             }
         }
@@ -137,8 +146,37 @@ class InventoryOperationService
                 }
 
                 if ($inventoryValuationBalance->quantity < $quantity) {
-                    $inventoryValuationBalance->quantity = 0;
                     $quantity = $quantity - $inventoryValuationBalance->quantity;
+                    $inventoryValuationBalance->quantity = 0;
+                    $inventoryValuationBalance->save();
+                }
+            }
+        }
+    }
+
+    private static function reverseInventoryValuationBalance($detail)
+    {
+        foreach (['fifo', 'lifo'] as $method) {
+            $quantity = $detail['quantity'];
+
+            $inventoryValuationBalances = InventoryValuationBalance::where('product_id', $detail['product_id'])
+                ->where('type', $method)
+                ->orderBy('id', 'DESC')
+                ->get();
+
+            foreach ($inventoryValuationBalances as $inventoryValuationBalance) {
+                $difference = $inventoryValuationBalance->original_quantity - $inventoryValuationBalance->quantity;
+
+                if ($difference >= $quantity) {
+                    $inventoryValuationBalance->quantity += $quantity;
+                    $inventoryValuationBalance->save();
+
+                    break;
+                }
+
+                if ($difference < $quantity) {
+                    $inventoryValuationBalance->quantity += $difference;
+                    $quantity = $quantity - $difference;
                     $inventoryValuationBalance->save();
                 }
             }

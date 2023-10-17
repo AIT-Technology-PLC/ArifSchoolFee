@@ -103,6 +103,11 @@ class Gdn extends Model
         return true;
     }
 
+    public function canReverseInventoryValuation()
+    {
+        return true;
+    }
+
     public function belongsToTransaction()
     {
         return $this->reservation()->exists() || $this->proformaInvoice()->exists();
