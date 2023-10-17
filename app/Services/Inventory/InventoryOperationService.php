@@ -51,6 +51,7 @@ class InventoryOperationService
 
             if ($model->canReverseInventoryValuation()) {
                 static::reverseInventoryValuationBalance($detail);
+                InventoryValuationCalculator::calcuateNewUnitCost($detail, 'add');
                 continue;
             }
 
