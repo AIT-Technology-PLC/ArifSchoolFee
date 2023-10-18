@@ -2,6 +2,8 @@
 
 namespace App\Services\Models;
 
+use App\Models\Supplier;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SupplierService
@@ -29,6 +31,39 @@ class SupplierService
             }
 
             return [true, 'Amount settled successfully.'];
+        });
+    }
+
+    public function store($data)
+    {
+        return DB::transaction(function () use ($data) {
+            $supplier = Supplier::firstOrCreate(
+                Arr::only($data, 'company_name') + ['company_id' => userCompany()->id],
+                Arr::except($data, 'company_name') + ['company_id' => userCompany()->id]
+            );
+
+            if (!empty($data['business_license_attachment'])) {
+                $supplier->update([
+                    'business_license_attachment' => $data['business_license_attachment']->store('supplier_business_licence', 'public'),
+                ]);
+            }
+
+            return $supplier;
+        });
+    }
+
+    public function update($supplier, $data)
+    {
+        return DB::transaction(function () use ($supplier, $data) {
+            $supplier->update($data);
+
+            if (!empty($data['business_license_attachment']) && is_object($data['business_license_attachment'])) {
+                $supplier->update([
+                    'business_license_attachment' => $data['business_license_attachment']->store('supplier_business_licence', 'public'),
+                ]);
+            }
+
+            return $supplier;
         });
     }
 }
