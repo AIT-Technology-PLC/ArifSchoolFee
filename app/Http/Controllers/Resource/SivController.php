@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\AutoBatchStoringAction;
 use App\DataTables\SivDatatable;
 use App\DataTables\SivDetailDatatable;
 use App\Http\Controllers\Controller;
@@ -28,11 +29,13 @@ class SivController extends Controller
 
         $totalSivs = Siv::count();
 
-        $totalApproved = Siv::approved()->count();
+        $totalApproved = Siv::notSubtracted()->approved()->count();
+
+        $totalSubtracted = Siv::subtracted()->count();
 
         $totalNotApproved = Siv::notApproved()->count();
 
-        return $datatable->render('sivs.index', compact('totalSivs', 'totalApproved', 'totalNotApproved'));
+        return $datatable->render('sivs.index', compact('totalSivs', 'totalApproved', 'totalNotApproved', 'totalSubtracted'));
     }
 
     public function create()
@@ -50,6 +53,8 @@ class SivController extends Controller
             $siv = Siv::create($request->safe()->except('siv'));
 
             $siv->sivDetails()->createMany($request->validated('siv'));
+
+            AutoBatchStoringAction::execute($siv, $request->validated('siv'), 'sivDetails');
 
             $siv->createCustomFields($request->validated('customField'));
 
@@ -93,6 +98,8 @@ class SivController extends Controller
             $siv->sivDetails()->forceDelete();
 
             $siv->sivDetails()->createMany($request->validated('siv'));
+
+            AutoBatchStoringAction::execute($siv, $request->validated('siv'), 'sivDetails');
 
             $siv->createCustomFields($request->validated('customField'));
         });
