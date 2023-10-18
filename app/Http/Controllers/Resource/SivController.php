@@ -29,7 +29,7 @@ class SivController extends Controller
 
         $totalSivs = Siv::count();
 
-        $totalApproved = Siv::notSubtracted()->approved()->count();
+        $totalApproved = userCompany()->canSivSubtract() ? Siv::notSubtracted()->approved()->count() : Siv::approved()->count();
 
         $totalSubtracted = Siv::subtracted()->count();
 
