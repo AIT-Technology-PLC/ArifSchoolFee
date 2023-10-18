@@ -1078,6 +1078,36 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    @if (isFeatureEnabled('Siv Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="can_siv_subtract_from_inventory">
+                                    Allow Subtracting By SIV <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left ">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="can_siv_subtract_from_inventory"
+                                        name="can_siv_subtract_from_inventory"
+                                    >
+                                        <option
+                                            value="0"
+                                            @checked(!$company->canSivSubtract())
+                                        > No </option>
+                                        <option
+                                            value="1"
+                                            @checked($company->canSivSubtract())
+                                        > Yes </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="can_siv_subtract_from_inventory" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                 </div>
             </x-content.main>
             <x-content.footer>
