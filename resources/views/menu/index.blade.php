@@ -1114,7 +1114,8 @@
                 'Inventory Valuation Report',
                 'Profit Report',
                 'Inventory Batch Report',
-                'Sale By Payment Report'))
+                'Sale By Payment Report',
+                'Inventory In Transit Report'))
             @canany([
                 'Read Sale Report',
                 'Read Return Report',
@@ -1127,8 +1128,10 @@
                 'Read Credit Report',
                 'Read Inventory Summary Report',
                 'Read Inventory Valuation Report',
-                'Read Profit Report',
-                'Read Inventory Batch Report'
+                'Read
+                Profit Report',
+                'Read Inventory Batch Report',
+                'Read Inventory In Transit Report',
                 ])
                 <section class="mb-5">
                     <x-content.header>
@@ -1404,6 +1407,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Batches
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Inventory In Transit Report'))
+                                @can('Read Inventory In Transit Report')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('reports.inventory_in_transit') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Inventory In Transit
                                         </span>
                                     </div>
                                 @endcan
