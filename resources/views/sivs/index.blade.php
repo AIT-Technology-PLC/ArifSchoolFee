@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-4 p-lr-0">
+        <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.total-model
                 model="Store Issue Vouchers"
                 :amount="$totalSivs"
                 icon="fas fa-file-export"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.index-insight
                 :amount="$totalApproved"
                 border-color="#3d8660"
@@ -19,7 +19,17 @@
                 label="Approved"
             />
         </div>
-        <div class="column is-4 p-lr-0">
+        @if (userCompany()->canSivSubtract())
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    :amount="$totalSubtracted"
+                    border-color="#3d8660"
+                    text-color="text-gold"
+                    label="Subtracted"
+                />
+            </div>
+        @endif
+        <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.index-insight
                 :amount="$totalNotApproved"
                 border-color="#863d63"
@@ -95,6 +105,9 @@
                                     @foreach (['Waiting Approval', 'Approved'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
                                     @endforeach
+                                    @if (userCompany()->canSivSubtract())
+                                        <option value="subtracted"> Subtracted </option>
+                                    @endif
                                 </x-forms.select>
                             </x-forms.control>
                         </x-forms.field>
