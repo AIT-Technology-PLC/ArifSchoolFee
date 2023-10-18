@@ -34,6 +34,7 @@ class Company extends Model
         'does_payroll_basic_salary_include_overtime' => 'integer',
         'is_return_limited_by_sales' => 'integer',
         'can_sale_subtract' => 'integer',
+        'can_siv_subtract_from_inventory' => 'integer',
     ];
 
     public function plan()
@@ -339,5 +340,10 @@ class Company extends Model
         }
 
         return $transaction->issued_on;
+    }
+
+    public function canSivSubtract()
+    {
+        return $this->can_siv_subtract_from_inventory;
     }
 }
