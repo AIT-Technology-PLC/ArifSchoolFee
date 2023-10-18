@@ -140,6 +140,8 @@ class GdnController extends Controller
 
         $gdn->proformaInvoice?->proformaInvoiceable()->dissociate($gdn)->save();
 
+        $gdn->siv?->forceDelete();
+
         $gdn->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
