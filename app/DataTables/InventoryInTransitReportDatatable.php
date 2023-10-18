@@ -5,8 +5,6 @@ namespace App\DataTables;
 use App\Http\Requests\InventoryInTransitReportRequest;
 use App\Reports\InventoryInTransitReport;
 use App\Traits\DataTableHtmlBuilder;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -14,44 +12,44 @@ class InventoryInTransitReportDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
+    private $filters;
+
     public function __construct(InventoryInTransitReportRequest $request)
     {
-        $this->request = $request;
+        $this->filters = $request->validated();
     }
 
     public function dataTable($query)
     {
-        $collection = Collection::make($query->all());
-
-        $collectionClass = $collection->isEmpty() ? null : get_class($collection->first());
-
-        if ($collectionClass == 'App\Models\PurchaseDetail') {
+        if ($this->filters['transaction_type'] == 'purchases') {
             return datatables()
                 ->collection($query->all())
-                ->editColumn('date', fn($purchaseDetail) => $purchaseDetail->purchase->purchased_on?->toFormattedDateString())
+                ->editColumn('date', fn($purchaseDetail) => $purchaseDetail->purchase->purchased_on->toFormattedDateString())
                 ->editColumn('product', fn($purchaseDetail) => $purchaseDetail->product->name)
                 ->editColumn('code', fn($purchaseDetail) => $purchaseDetail->product->code ?? 'N/A')
+                ->editColumn('unit', fn($purchaseDetail) => $purchaseDetail->product->unit_of_measurement)
                 ->editColumn('quantity', fn($purchaseDetail) => $purchaseDetail->quantity)
                 ->editColumn('supplier', fn($purchaseDetail) => $purchaseDetail->supplier->company_name ?? 'N/A')
-                ->editColumn('prepared_by', fn($purchaseDetail) => $purchaseDetail->purchase->createdBy->name ?? 'N/A')
+                ->editColumn('prepared_by', fn($purchaseDetail) => $purchaseDetail->purchase->createdBy->name)
                 ->addIndexColumn();
         }
 
         return datatables()
             ->collection($query->all())
-            ->editColumn('date', fn($transferDetail) => $transferDetail->transfer->issued_on?->toFormattedDateString())
+            ->editColumn('date', fn($transferDetail) => $transferDetail->transfer->issued_on->toFormattedDateString())
             ->editColumn('product', fn($transferDetail) => $transferDetail->product->name)
             ->editColumn('code', fn($transferDetail) => $transferDetail->product->code ?? 'N/A')
+            ->editColumn('unit', fn($transferDetail) => $transferDetail->product->unit_of_measurement)
             ->editColumn('quantity', fn($transferDetail) => $transferDetail->quantity)
-            ->editColumn('source', fn($transferDetail) => $transferDetail->transfer->transferredFrom->name ?? 'N/A')
-            ->editColumn('destination', fn($transferDetail) => $transferDetail->transfer->transferredTo->name ?? 'N/A')
-            ->editColumn('prepared_by', fn($transferDetail) => $transferDetail->transfer->createdBy->name ?? 'N/A')
+            ->editColumn('source', fn($transferDetail) => $transferDetail->transfer->transferredFrom->name)
+            ->editColumn('destination', fn($transferDetail) => $transferDetail->transfer->transferredTo->name)
+            ->editColumn('prepared_by', fn($transferDetail) => $transferDetail->transfer->createdBy->name)
             ->addIndexColumn();
     }
 
-    public function query(InventoryInTransitReportRequest $request)
+    public function query()
     {
-        $inventoryInTransitReport = new InventoryInTransitReport($request->validated());
+        $inventoryInTransitReport = new InventoryInTransitReport($this->filters);
 
         return $inventoryInTransitReport->getinventoryInTransits;
     }
@@ -64,15 +62,16 @@ class InventoryInTransitReportDatatable extends DataTable
             Column::make('prepared_by'),
             Column::make('product'),
             Column::make('code'),
+            Column::make('unit'),
             Column::make('quantity'),
-            $this->request->validated('transaction_type') == 'transfers' ? Column::make('source') : Column::make('supplier'),
-            $this->request->validated('transaction_type') == 'transfers' ? Column::make('destination') : null,
+            $this->filters['transaction_type'] == 'transfers' ? Column::make('source') : Column::make('supplier'),
+            $this->filters['transaction_type'] == 'transfers' ? Column::make('destination') : null,
         ];
 
-        return Arr::where($columns, fn($column) => $column != null);
+        return array_filter($columns);
     }
 
-    protected function filename()
+    protected function filename(): string
     {
         return 'InventoryInTransitReport_' . date('YmdHis');
     }

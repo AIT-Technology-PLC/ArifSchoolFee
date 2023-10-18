@@ -25,14 +25,28 @@ class InventoryInTransitReportRequest extends FormRequest
     public function rules()
     {
         return [
-            'transaction_type' => ['nullable', 'string', Rule::in(['transfers', 'purchases'])],
+            'transaction_type' => ['required', 'string', Rule::in(['transfers', 'purchases'])],
         ];
     }
 
     public function prepareForValidation()
     {
+        $transactionType = null;
+
+        if (!empty($this->input('transaction_type'))) {
+            return;
+        }
+
+        if (isFeatureEnabled('Transfer Management')) {
+            $transactionType = 'transfers';
+        }
+
+        if (!isFeatureEnabled('Transfer Management') && isFeatureEnabled('Purchase Management')) {
+            $transactionType = 'purchases';
+        }
+
         $this->merge([
-            'transaction_type' => $this->input('transaction_type') ?: 'transfers',
+            'transaction_type' => $transactionType,
         ]);
     }
 }

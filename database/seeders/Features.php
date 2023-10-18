@@ -714,6 +714,7 @@ class Features extends Seeder
                     'Credit Report',
                     'Purchase Report',
                     'Supplier Report',
+                    'Inventory In Transit Report',
                     'User Management',
                     'General Settings',
                     'Notification Management',

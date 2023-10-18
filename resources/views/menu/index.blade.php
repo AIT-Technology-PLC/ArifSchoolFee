@@ -1420,7 +1420,7 @@
                                             class="general-menu-item button text-green bg-lightgreen is-borderless"
                                         >
                                             <span class="icon is-size-5">
-                                                <i class="fas fa-chart-bar"></i>
+                                                <i class="fas fa-truck-moving"></i>
                                             </span>
                                         </a>
                                         <br>
