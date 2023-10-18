@@ -21,7 +21,7 @@ Route::resource('sale-details', Resource\SaleDetailController::class)->only('des
 
 Route::resource('notifications', Resource\NotificationController::class)->except(['create', 'store', 'edit']);
 
-Route::resource('suppliers', Resource\SupplierController::class)->except('show');
+Route::resource('suppliers', Resource\SupplierController::class)->except(['store', 'update', 'show']);
 
 Route::resource('warehouses', Resource\WarehouseController::class)->except(['show', 'destroy']);
 

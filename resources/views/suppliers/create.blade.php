@@ -5,17 +5,8 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="New Supplier" />
-        <form
-            id="formOne"
-            action="{{ route('suppliers.store') }}"
-            method="POST"
-            enctype="multipart/form-data"
-            novalidate
-        >
-            @csrf
+        
+        <livewire:supplier-form :has-redirect="true"/>
 
-            @include('suppliers.partials.form', ['supplier' => session()->getOldInput()])
-
-        </form>
     </x-common.content-wrapper>
 @endsection

@@ -5,18 +5,12 @@
 @section('content')
     <x-common.content-wrapper>
         <x-content.header title="Edit Supplier" />
-        <form
-            id="formOne"
-            action="{{ route('suppliers.update', $supplier->id) }}"
-            method="POST"
-            enctype="multipart/form-data"
-            novalidate
-        >
-            @csrf
-            @method('PATCH')
 
-            @include('suppliers.partials.form', ['supplier' => $supplier])
+        <livewire:supplier-form
+            :has-redirect="true"
+            :supplier="$supplier"
+            method="update"
+        />
 
-        </form>
     </x-common.content-wrapper>
 @endsection
