@@ -24,6 +24,13 @@ class SivDatatable extends DataTable
             ])
             ->customColumns('siv')
             ->editColumn('branch', fn($siv) => $siv->warehouse->name)
+            ->editColumn('transaction', function ($siv) {
+                return view('components.datatables.link', [
+                    'url' => $siv->isAssociated() ? route((new $siv->sivable_type())->getTable() . '.show', $siv->sivable_id) : 'javascript:void(0)',
+                    'label' => $siv->isAssociated() ? $siv->sivable_type::find($siv->sivable_id)->code : 'N/A',
+                    'target' => '_blank',
+                ]);
+            })
             ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -80,6 +87,7 @@ class SivDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('SIV No'),
+            Column::computed('transaction')->className('has-text-centered actions'),
             ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('issued_to')->title('Customer'),
