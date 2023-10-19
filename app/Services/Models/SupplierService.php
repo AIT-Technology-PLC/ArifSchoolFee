@@ -12,7 +12,7 @@ class SupplierService
     {
         $settlementAmount = $data['amount'];
 
-        $debts = $supplier->debts()->unsettled()->oldest()->get();
+        $debts = $supplier->debts()->whereDate('issued_on', '<=', $data['settled_at'])->unsettled()->oldest()->get();
 
         return DB::transaction(function () use ($data, $debts, $settlementAmount) {
             foreach ($debts as $debt) {

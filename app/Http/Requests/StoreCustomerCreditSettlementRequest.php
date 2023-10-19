@@ -16,8 +16,18 @@ class StoreCustomerCreditSettlementRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'numeric', 'gt:0', function ($a, $value, $fail) {
-                $creditAmount = Credit::where('customer_id', $this->route('customer')->id)->unsettled()->sum('credit_amount');
-                $settledCreditAmount = Credit::where('customer_id', $this->route('customer')->id)->unsettled()->sum('credit_amount_settled');
+                $creditAmount = Credit::query()
+                    ->where('customer_id', $this->route('customer')->id)
+                    ->whereDate('issued_on', '<=', $this->input('settled_at'))
+                    ->unsettled()
+                    ->sum('credit_amount');
+
+                $settledCreditAmount = Credit::query()
+                    ->where('customer_id', $this->route('customer')->id)
+                    ->whereDate('issued_on', '<=', $this->input('settled_at'))
+                    ->unsettled()
+                    ->sum('credit_amount_settled');
+
                 $unsettledCreditAmount = $creditAmount - $settledCreditAmount;
 
                 if ($value > $unsettledCreditAmount) {
@@ -27,18 +37,7 @@ class StoreCustomerCreditSettlementRequest extends FormRequest
             'method' => ['required', 'string'],
             'bank_name' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
             'reference_number' => ['nullable', 'string', 'required_unless:method,Cash', 'exclude_if:method,Cash'],
-            'settled_at' => ['required', 'date', function ($a, $value, $fail) {
-                $issuedOnDate = Credit::query()
-                    ->where('customer_id', $this->route('customer')->id)
-                    ->unsettled()
-                    ->whereDate('issued_on', '>', $value)
-                    ->max('issued_on');
-
-                if (!empty($issuedOnDate)) {
-                    $fail('The settlement date should be after ' . carbon($issuedOnDate)->toDateString());
-                }
-
-            }],
+            'settled_at' => ['required', 'date'],
             'description' => ['nullable', 'string'],
         ];
     }
