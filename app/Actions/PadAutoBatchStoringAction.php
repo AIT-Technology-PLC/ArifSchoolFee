@@ -13,6 +13,10 @@ class PadAutoBatchStoringAction
             return;
         }
 
+        if ($transaction->pad->padFields()->where('label', 'Batch')->doesntExist()) {
+            return;
+        }
+
         $occupiedMerchandiseBatches = [];
 
         $batchableProductIds = Product::batchable()->pluck('id');
