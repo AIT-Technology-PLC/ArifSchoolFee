@@ -12,7 +12,7 @@ class CustomerService
     {
         $settlementAmount = $data['amount'];
 
-        $credits = $customer->credits()->unsettled()->oldest()->get();
+        $credits = $customer->credits()->whereDate('issued_on', '<=', $data['settled_at'])->unsettled()->oldest()->get();
 
         return DB::transaction(function () use ($data, $credits, $settlementAmount) {
             foreach ($credits as $credit) {

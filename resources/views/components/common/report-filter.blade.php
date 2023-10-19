@@ -69,6 +69,8 @@
             class="button btn-purple is-outlined has-text-weight-medium is-size-7-mobile"
         />
     @endif
+
+    {{ $buttons ?? null }}
 </div>
 
 @push('scripts')
