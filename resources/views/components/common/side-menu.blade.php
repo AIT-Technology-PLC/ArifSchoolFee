@@ -1080,7 +1080,8 @@
             'Inventory Valuation Report',
             'Profit Report',
             'Inventory Batch Report',
-            'Sale By Payment Report'))
+            'Sale By Payment Report',
+            'Inventory In Transit Report'))
         @canany([
             'Read Sale Report',
             'Read Return Report',
@@ -1093,8 +1094,10 @@
             'Read Credit Report',
             'Read Inventory Summary Report',
             'Read Inventory Valuation Report',
-            'Read Profit Report',
+            'Read
+            Profit Report',
             'Read Inventory Batch Report',
+            'Read Inventory In Transit Report',
             ])
             <ul
                 x-data="sideMenuAccordion"
@@ -1318,6 +1321,20 @@
                                         href="{{ route('reports.inventory_batch') }}"
                                         label="Batches"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_batch') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
+                        @if (isFeatureEnabled('Inventory In Transit Report'))
+                            @can('Read Inventory In Transit Report')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('reports.inventory_in_transit') }}"
+                                        label="Inventory In Transit"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.inventory_in_transit') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>

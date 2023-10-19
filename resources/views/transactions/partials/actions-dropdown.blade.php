@@ -1,5 +1,27 @@
 <x-common.dropdown name="Actions">
-    @if ($transaction->pad->isApprovable() && !$transaction->isApproved())
+    @if ($transaction->pad->isApprovable() && !$transaction->isApproved() && $transaction->pad->isInventoryOperationSubtract() && !$transaction->isSubtracted() && authUser()->can(['approve', 'subtract'], $transaction))
+        <x-common.dropdown-item>
+            <x-common.transaction-button
+                :route="route('transactions.approve_and_subtract', $transaction->id)"
+                action="approve & subtract"
+                intention="approve & subtract this transaction"
+                icon="fas fa-minus-circle"
+                label="Approve & Subtract"
+                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+            />
+        </x-common.dropdown-item>
+    @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved() && $transaction->pad->isInventoryOperationAdd() && !$transaction->isAdded() && authUser()->can(['approve', 'add'], $transaction))
+        <x-common.dropdown-item>
+            <x-common.transaction-button
+                :route="route('transactions.approve_and_add', $transaction->id)"
+                action="approve & add"
+                intention="approve & add this transaction"
+                icon="fas fa-plus-circle"
+                label="Approve & Add"
+                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+            />
+        </x-common.dropdown-item>
+    @elseif ($transaction->pad->isApprovable() && !$transaction->isApproved())
         @can('approve', $transaction)
             <x-common.dropdown-item>
                 <x-common.transaction-button

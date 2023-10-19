@@ -319,6 +319,11 @@ class Features extends Seeder
             ['is_enabled' => 1]
         );
 
+        Feature::updateOrCreate(
+            ['name' => 'Inventory In Transit Report'],
+            ['is_enabled' => 1]
+        );
+
         $this->features = Feature::all();
     }
 
@@ -709,6 +714,7 @@ class Features extends Seeder
                     'Credit Report',
                     'Purchase Report',
                     'Supplier Report',
+                    'Inventory In Transit Report',
                     'User Management',
                     'General Settings',
                     'Notification Management',

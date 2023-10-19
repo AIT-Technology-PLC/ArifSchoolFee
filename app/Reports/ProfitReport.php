@@ -162,4 +162,9 @@ class ProfitReport
             ->orderByDesc('revenue')
             ->get();
     }
+
+    public function getCostOfGoodsAvailableForSale()
+    {
+        return $this->getBeginningInventoryCost + $this->getNewCosts;
+    }
 }

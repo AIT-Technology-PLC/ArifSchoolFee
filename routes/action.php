@@ -362,6 +362,8 @@ Route::post('/attendances/{attendance}/import',
 Route::controller(Action\TransactionController::class)->group(function () {
     Route::post('/transactions/{transaction}/approve', 'approve')->name('transactions.approve');
     Route::post('/transactions/{transaction}/subtract', 'subtract')->name('transactions.subtract');
+    Route::post('/transactions/{transaction}/approve-and-subtract', 'approveAndSubtract')->name('transactions.approve_and_subtract');
+    Route::post('/transactions/{transaction}/approve-and-add', 'approveAndAdd')->name('transactions.approve_and_add');
     Route::post('/transactions/{transaction}/add', 'add')->name('transactions.add');
     Route::get('/transactions/{transaction}/print', 'printed')->name('transactions.print');
     Route::get('/transactions/{transaction}/convert-to', 'convertTo')->name('transactions.convert_to');

@@ -18,6 +18,8 @@ Route::get('/reports/credits', [Report\CreditReportController::class,'index'])->
 Route::get('/reports/inventory-summary', [Report\InventorySummaryReportController::class,'index'])->name('reports.inventory_summary');
 Route::get('/reports/inventory-valuation', [Report\InventoryValuationReportController::class,'index'])->name('reports.inventory_valuation');
 Route::get('/reports/profit', [Report\ProfitReportController::class, 'index'])->name('reports.profit');
+Route::get('/reports/profit/print', [Report\ProfitReportController::class, 'printed'])->name('reports.profit_print');
 Route::get('/reports/batches', [Report\InventoryBatchReportController::class, 'index'])->name('reports.inventory_batch');
 Route::get('/reports/sale-by-payment', [Report\SaleByPaymentReportController::class, 'index'])->name('reports.sale_by_payment');
+Route::get('/reports/inventory-in-transit', [Report\InventoryInTransitReportController::class, 'index'])->name('reports.inventory_in_transit');
 
