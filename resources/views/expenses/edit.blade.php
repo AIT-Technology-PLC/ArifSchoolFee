@@ -83,36 +83,23 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="supplier_id">
-                                Supplier <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="supplier_id"
-                                    name="supplier_id"
-                                >
-                                    <option
-                                        selected
-                                        disabled
-                                    >Select Supplier</option>
-                                    @foreach ($suppliers as $supplier)
-                                        <option
-                                            value="{{ $supplier->id }}"
-                                            {{ $expense->supplier_id == $supplier->id ? 'selected' : '' }}
-                                        >{{ $supplier->company_name }}</option>
-                                    @endforeach
-                                    <option value="">None</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-address-card"
-                                    class="is-small is-left"
-                                />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
+                    @if (isFeatureEnabled('Supplier Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="supplier_id">
+                                    Supplier <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left select is-fullwidth">
+                                    <x-common.supplier-list :selected-id="old('supplier_id', $expense->supplier_id)" />
+                                    <x-common.icon
+                                        name="fas fa-address-card"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="supplier_id" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="contact_id">

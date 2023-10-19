@@ -43,39 +43,19 @@ class InventoryValuationCalculator
 
             if ($operation == 'add') {
                 InventoryValuationBalance::firstOrCreate([
+                    'product_id' => $detail['product_id'],
                     'type' => $method,
                     'model_detail_type' => $detail['model_type'] ?? get_class($detail),
                     'model_detail_id' => $detail['model_id'] ?? $detail->id,
                     'operation' => $operation,
                 ], [
-                    'product_id' => $detail['product_id'],
                     'quantity' => $detail['quantity'],
                     'original_quantity' => $detail['quantity'],
                     'unit_cost' => $detail['unit_cost'],
                 ]);
             }
 
-            $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->selectRaw('SUM(quantity*unit_cost) as total_cost')->first()->total_cost;
-
-            $totalQuantity = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity');
-
-            $newUnitCost = $totalQuantity > 0 ? $totalCost / $totalQuantity : 0;
-
-            if ($operation == 'subtract' && $newUnitCost == 0) {
-                continue;
-            }
-
-            $product->update([$method . '_unit_cost' => $newUnitCost]);
-
-            InventoryValuationHistory::firstOrCreate([
-                'type' => $method,
-                'model_detail_type' => $detail['model_type'] ?? get_class($detail),
-                'model_detail_id' => $detail['model_id'] ?? $detail->id,
-                'operation' => $operation,
-            ], [
-                'product_id' => $product->id,
-                'unit_cost' => $newUnitCost,
-            ]);
+            static::calcuateNewUnitCost($detail, $operation, $method);
         }
     }
 
@@ -98,13 +78,44 @@ class InventoryValuationCalculator
         $product->update(['average_unit_cost' => $newAverageUnitCost]);
 
         InventoryValuationHistory::firstOrCreate([
+            'product_id' => $product->id,
             'type' => 'average',
             'model_detail_type' => $detail['model_type'] ?? get_class($detail),
             'model_detail_id' => $detail['model_id'] ?? $detail->id,
             'operation' => 'add',
         ], [
-            'product_id' => $product->id,
             'unit_cost' => $newAverageUnitCost,
         ]);
+    }
+
+    public static function calcuateNewUnitCost($detail, $operation, $requestMethods = ['fifo', 'lifo'])
+    {
+        $methods = is_array($requestMethods) ? $requestMethods : [$requestMethods];
+
+        foreach ($methods as $method) {
+            $product = Product::where('id', $detail['product_id'])->first();
+
+            $totalCost = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->selectRaw('SUM(quantity*unit_cost) as total_cost')->first()->total_cost;
+
+            $totalQuantity = InventoryValuationBalance::where('product_id', $detail['product_id'])->where('type', $method)->sum('quantity');
+
+            $newUnitCost = $totalQuantity > 0 ? $totalCost / $totalQuantity : 0;
+
+            if ($operation == 'subtract' && $newUnitCost == 0) {
+                return;
+            }
+
+            $product->update([$method . '_unit_cost' => $newUnitCost]);
+
+            InventoryValuationHistory::firstOrCreate([
+                'product_id' => $product->id,
+                'type' => $method,
+                'model_detail_type' => $detail['model_type'] ?? get_class($detail),
+                'model_detail_id' => $detail['model_id'] ?? $detail->id,
+                'operation' => $operation,
+            ], [
+                'unit_cost' => $newUnitCost,
+            ]);
+        }
     }
 }

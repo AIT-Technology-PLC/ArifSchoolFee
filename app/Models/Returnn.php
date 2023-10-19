@@ -47,6 +47,11 @@ class Returnn extends Model
 
     public function canAffectInventoryValuation()
     {
-        return true;
+        return !$this->company->isReturnLimitedBySales();
+    }
+
+    public function canReverseInventoryValuation()
+    {
+        return $this->company->isReturnLimitedBySales();
     }
 }

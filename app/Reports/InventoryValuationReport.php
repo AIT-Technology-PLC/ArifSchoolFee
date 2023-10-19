@@ -89,6 +89,6 @@ class InventoryValuationReport
 
     public function getTotalProductsInInventory()
     {
-        return (clone $this->query)->sum('available');
+        return (clone $this->query)->distinct('product_id')->count();
     }
 }

@@ -157,4 +157,48 @@ class TransactionController extends Controller
 
         return back()->with('successMessage', 'Status updated to ' . $transaction->status);
     }
+
+    public function approveAndSubtract(Transaction $transaction)
+    {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
+        $this->authorize('approve', $transaction);
+
+        $this->authorize('subtract', $transaction);
+
+        [$isExecuted, $message] = $this->transactionService->approveAndSubtract($transaction, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
+            new TransactionSubtracted($transaction)
+        );
+
+        return back()->with('successMessage', $message);
+    }
+
+    public function approveAndAdd(Transaction $transaction)
+    {
+        abort_if(!$transaction->pad->isEnabled(), 403);
+
+        $this->authorize('approve', $transaction);
+
+        $this->authorize('add', $transaction);
+
+        [$isExecuted, $message] = $this->transactionService->approveAndAdd($transaction, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::forPad($transaction->pad, $transaction->createdBy),
+            new TransactionAdded($transaction)
+        );
+
+        return back()->with('successMessage', $message);
+    }
 }

@@ -32,7 +32,7 @@
                                     <i class="fas fa-{{ $unreadNotification->data['icon'] }}"></i>
                                 </span>
                             </div>
-                            <div class="column is-11 pl-1 pb-0">
+                            <div class="column is-11 pl-1 pb-0 has-text-weight-medium">
                                 <span>
                                     {{ $unreadNotification->data['message'] }}
                                 </span>

@@ -45,4 +45,9 @@ class Grn extends Model
     {
         return true;
     }
+
+    public function canReverseInventoryValuation()
+    {
+        return false;
+    }
 }

@@ -58,4 +58,9 @@ class Transfer extends Model
     {
         return false;
     }
+
+    public function canReverseInventoryValuation()
+    {
+        return false;
+    }
 }

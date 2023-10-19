@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Reports\ProfitReport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProfitReportController extends Controller
 {
@@ -33,5 +34,16 @@ class ProfitReportController extends Controller
         $profitReport = new ProfitReport($request->validated());
 
         return view('reports.profit', compact('warehouses', 'profitReport', 'categories', 'products', 'brands'));
+    }
+
+    public function printed(FilterProfitReportRequest $request)
+    {
+        abort_if(authUser()->cannot('Read Profit Report'), 403);
+
+        $filters = $request->validated();
+
+        $profitReport = new ProfitReport($filters);
+
+        return Pdf::loadView('reports.profit-print', compact('profitReport', 'filters'))->stream();
     }
 }

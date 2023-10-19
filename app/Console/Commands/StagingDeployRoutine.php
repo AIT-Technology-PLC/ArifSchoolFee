@@ -64,6 +64,7 @@ class StagingDeployRoutine extends Command
         Artisan::call('db:seed Features --force');
         Artisan::call('db:seed Integrations --force');
         Artisan::call('db:seed Permissions --force');
+        Artisan::call('db:seed CreateOrReplaceSalesReportViews --force');
 
         Artisan::call('optimize:cache');
 
