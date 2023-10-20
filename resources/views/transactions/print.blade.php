@@ -178,7 +178,7 @@
         @endif
     </footer>
 
-    @if (array_search('description', $columns['master']) &&
+    @if (isset($transaction->transactionMasters->toArray()['description']) &&
             str($transaction->transactionMasters->toArray()['description'])->stripTags()->squish()->length())
         <section
             class="page-break my-6"
