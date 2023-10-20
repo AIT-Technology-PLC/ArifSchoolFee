@@ -20,10 +20,10 @@ class ValidateCustomFields implements ImplicitRule
     {
         $customFieldId = str($attribute)->afterLast('.')->toString();
 
-        $customField = CustomField::active()->find($customFieldId);
+        $customField = CustomField::active()->where('model_type', $this->routeParameter)->find($customFieldId);
 
         if (!$customField) {
-            $this->message = 'This field is not available at the moment.';
+            $this->message = 'This field is not available.';
             return false;
         }
 
