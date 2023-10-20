@@ -25,19 +25,4 @@ class Plan extends Model
     {
         return $this->morphToMany(Feature::class, 'featurable')->withPivot('is_enabled');
     }
-
-    public function isStandard()
-    {
-        return $this->name == 'standard';
-    }
-
-    public function isProfessional()
-    {
-        return $this->name == 'professional';
-    }
-
-    public function isPremium()
-    {
-        return $this->name == 'premium';
-    }
 }
