@@ -5,9 +5,11 @@ namespace App\Http\Requests;
 use App\Models\Product;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CanEditReferenceNumber;
+use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,9 +28,9 @@ class StoreSivRequest extends FormRequest
             'purpose' => ['nullable', 'string'],
             'ref_num' => ['nullable', 'required_unless:purpose,null', 'prohibited_if:purpose,null', 'string'],
             'siv' => ['required', 'array'],
-            'siv.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->pluck('id'))],
+            'siv.*.product_id' => ['required', 'integer', Rule::in(Product::active()->inventoryType()->pluck('id')), Rule::when(userCompany()->canSivSubtract(), new ValidateBackorder($this->input('siv')))],
             'siv.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('siv')->pluck('id'))],
-            'siv.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'siv.*.quantity' => ['required', 'numeric', 'gt:0', Rule::when(userCompany()->canSivSubtract(), new CheckBatchQuantity($this->input('siv')))],
             'siv.*.description' => ['nullable', 'string'],
             'siv.*.merchandise_batch_id' => [
                 new BatchSelectionIsRequiredOrProhibited,

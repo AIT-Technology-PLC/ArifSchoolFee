@@ -16,6 +16,11 @@ const Product = {
 
         return product?.type != "Services";
     },
+    active() {
+        this.products = this.products.filter((product) => product.is_active);
+
+        return this;
+    },
     forSale() {
         this.products = this.products.filter(
             (product) => product.is_active && product.is_active_for_sale

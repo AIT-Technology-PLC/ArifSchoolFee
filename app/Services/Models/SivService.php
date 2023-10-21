@@ -10,13 +10,13 @@ class SivService
 {
     public function subtract($siv, $user)
     {
-        if (!$user->hasWarehousePermission('subtract',
-            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
-        }
-
         if (!userCompany()->canSivSubtract()) {
             return [false, 'Subtracting Siv is not allow. Contact your System Manager.'];
+        }
+
+        if (!$user->hasWarehousePermission('siv',
+            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
         if (!$siv->isApproved()) {
@@ -27,14 +27,14 @@ class SivService
             return [false, 'This Siv is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($siv->sivDetails, 'available');
+        $unavailableProducts = InventoryOperationService::unavailableProducts($siv->sivDetails);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
         }
 
         DB::transaction(function () use ($siv) {
-            InventoryOperationService::subtract($siv->sivDetails, $siv, 'available');
+            InventoryOperationService::subtract($siv->sivDetails, $siv);
 
             $siv->subtract();
         });
@@ -44,13 +44,13 @@ class SivService
 
     public function approveAndSubtract($siv, $user)
     {
-        if (!$user->hasWarehousePermission('subtract',
-            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
-            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
-        }
-
         if (!userCompany()->canSivSubtract()) {
             return [false, 'Subtracting Siv is not allow. Contact your System Manager.'];
+        }
+
+        if (!$user->hasWarehousePermission('siv',
+            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
+            return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
         }
 
         if ($siv->isApproved()) {
@@ -61,7 +61,7 @@ class SivService
             return [false, 'This Siv is already subtracted from inventory'];
         }
 
-        $unavailableProducts = InventoryOperationService::unavailableProducts($siv->sivDetails, 'available');
+        $unavailableProducts = InventoryOperationService::unavailableProducts($siv->sivDetails);
 
         if ($unavailableProducts->isNotEmpty()) {
             return [false, $unavailableProducts];
@@ -70,7 +70,7 @@ class SivService
         DB::transaction(function () use ($siv) {
             (new ApproveTransactionAction)->execute($siv);
 
-            InventoryOperationService::subtract($siv->sivDetails, $siv, 'available');
+            InventoryOperationService::subtract($siv->sivDetails, $siv);
 
             $siv->subtract();
         });

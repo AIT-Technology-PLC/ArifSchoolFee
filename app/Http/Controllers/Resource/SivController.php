@@ -29,7 +29,7 @@ class SivController extends Controller
 
         $totalSivs = Siv::count();
 
-        $totalApproved = userCompany()->canSivSubtract() ? Siv::notSubtracted()->approved()->count() : Siv::approved()->count();
+        $totalApproved = Siv::notSubtracted()->approved()->count();
 
         $totalSubtracted = Siv::subtracted()->count();
 
@@ -77,6 +77,10 @@ class SivController extends Controller
 
     public function edit(Siv $siv)
     {
+        if ($siv->isSubtracted()) {
+            return back()->with('failedMessage', 'Subtracted SIVs can not be edited.');
+        }
+
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
         $warehouses = authUser()->getAllowedWarehouses('siv');
@@ -86,7 +90,7 @@ class SivController extends Controller
 
     public function update(UpdateSivRequest $request, Siv $siv)
     {
-        if ($siv->isApproved()) {
+        if (!$siv->isSubtracted() && $siv->isApproved()) {
             $siv->update($request->only('description'));
 
             return redirect()->route('sivs.show', $siv->id);
@@ -109,10 +113,9 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
-        abort_if(
-            $siv->isApproved() && authUser()->cannot('Delete Approved SIV'),
-            403
-        );
+        abort_if($siv->isSubtracted(), 403);
+
+        abort_if($siv->isApproved() && authUser()->cannot('Delete Approved SIV'), 403);
 
         $siv->forceDelete();
 

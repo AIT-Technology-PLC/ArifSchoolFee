@@ -31,7 +31,10 @@
             </x-forms.field>
             <div class="box has-background-white-bis radius-top-0">
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(siv.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(siv.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.label x-bind:for="`siv[${index}][product_id]`">
                             Product <sup class="has-text-danger">*</sup>
                         </x-forms.label>
@@ -68,7 +71,39 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-4"
+                            x-show="Product.isBatchable(siv.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`siv[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`siv[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`siv[${index}][merchandise_batch_id]`"
+                                        x-model="siv.merchandise_batch_id"
+                                        x-on:change="getInventoryLevel(index)"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`siv.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    <div
+                        class="column is-6"
+                        x-bind:class="{ 'is-6': !Product.isBatchable(siv.product_id) || !{{ userCompany()->canSelectBatchNumberOnForms() }}, 'is-4': Product.isBatchable(siv.product_id) && {{ userCompany()->canSelectBatchNumberOnForms() }} }"
+                    >
                         <x-forms.field>
                             <x-forms.label x-bind:for="`siv[${index}][warehouse_id]`">
                                 From <sup class="has-text-danger">*</sup>
@@ -133,35 +168,6 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    @if (userCompany()->canSelectBatchNumberOnForms())
-                        <div
-                            class="column is-6"
-                            x-show="Product.isBatchable(siv.product_id)"
-                        >
-                            <x-forms.label x-bind:for="`siv[${index}][merchandise_batch_id]`">
-                                Batch No <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.field class="has-addons">
-                                <x-forms.control class="has-icons-left is-expanded">
-                                    <x-forms.select
-                                        class="merchandise-batches is-fullwidth"
-                                        x-bind:id="`siv[${index}][merchandise_batch_id]`"
-                                        x-bind:name="`siv[${index}][merchandise_batch_id]`"
-                                        x-model="siv.merchandise_batch_id"
-                                        x-on:change="getInventoryLevel(index)"
-                                    ></x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-th"
-                                        class="is-small is-left"
-                                    />
-                                    <span
-                                        class="help has-text-danger"
-                                        x-text="$store.errors.getErrors(`siv.${index}.merchandise_batch_id`)"
-                                    ></span>
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label x-bind:for="`siv[${index}][description]`">
@@ -210,7 +216,7 @@
                 sivs: [],
 
                 async init() {
-                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).active().inventoryType(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (siv) {
                         this.sivs = siv;

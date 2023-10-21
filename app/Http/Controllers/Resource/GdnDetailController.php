@@ -16,7 +16,7 @@ class GdnDetailController extends Controller
     {
         $this->authorize('delete', $gdnDetail->gdn);
 
-        abort_if($gdnDetail->gdn->reservation()->exists(), 403);
+        abort_if($gdnDetail->gdn->belongsToTransaction(), 403);
 
         abort_if($gdnDetail->gdn->isSubtracted() || $gdnDetail->gdn->isCancelled(), 403);
 
