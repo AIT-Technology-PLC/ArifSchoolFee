@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SivDetail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -90,5 +91,10 @@ class MerchandiseBatch extends Model
     public function isAvailable()
     {
         return $this->quantity > 0;
+    }
+
+    public function sivDetails()
+    {
+        return $this->hasMany(SivDetail::class);
     }
 }

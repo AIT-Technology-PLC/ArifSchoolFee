@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,6 +30,10 @@ class UpdateSivRequest extends FormRequest
             'siv.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('siv')->pluck('id'))],
             'siv.*.quantity' => ['required', 'numeric', 'gt:0'],
             'siv.*.description' => ['nullable', 'string'],
+            'siv.*.merchandise_batch_id' => [
+                new BatchSelectionIsRequiredOrProhibited,
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+            ],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'received_by' => ['nullable', 'string'],
             'delivered_by' => ['nullable', 'string'],

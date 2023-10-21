@@ -80,6 +80,7 @@
                                     x-bind:id="`siv[${index}][warehouse_id]`"
                                     x-bind:name="`siv[${index}][warehouse_id]`"
                                     x-model="siv.warehouse_id"
+                                    x-on:change="warehouseChanged(index)"
                                 >
                                     @foreach ($warehouses as $warehouse)
                                         <option
@@ -102,6 +103,15 @@
                     <div class="column is-6">
                         <x-forms.label x-bind:for="`siv[${index}][quantity]`">
                             Quantity <sup class="has-text-danger">*</sup>
+                            @if (userCompany()->isInventoryCheckerEnabled())
+                                <sup
+                                    class="tag bg-lightpurple text-purple"
+                                    x-show="siv.availableQuantity"
+                                    x-text="siv.availableQuantity"
+                                    x-bind:class="{ 'bg-lightpurple text-purple': parseFloat(siv.availableQuantity) <= 0, 'bg-lightgreen text-green': parseFloat(siv.availableQuantity) > 0 }"
+                                >
+                                </sup>
+                            @endif
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">
@@ -123,6 +133,35 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (userCompany()->canSelectBatchNumberOnForms())
+                        <div
+                            class="column is-6"
+                            x-show="Product.isBatchable(siv.product_id)"
+                        >
+                            <x-forms.label x-bind:for="`siv[${index}][merchandise_batch_id]`">
+                                Batch No <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.field class="has-addons">
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.select
+                                        class="merchandise-batches is-fullwidth"
+                                        x-bind:id="`siv[${index}][merchandise_batch_id]`"
+                                        x-bind:name="`siv[${index}][merchandise_batch_id]`"
+                                        x-model="siv.merchandise_batch_id"
+                                        x-on:change="getInventoryLevel(index)"
+                                    ></x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <span
+                                        class="help has-text-danger"
+                                        x-text="$store.errors.getErrors(`siv.${index}.merchandise_batch_id`)"
+                                    ></span>
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label x-bind:for="`siv[${index}][description]`">
@@ -171,7 +210,7 @@
                 sivs: [],
 
                 async init() {
-                    await Product.init({{ Js::from($products) }}).inventoryType();
+                    await Promise.all([Company.init(), Product.init({{ Js::from($products) }}).inventoryType(), MerchandiseBatch.initAvailable({{ Js::from($merchandiseBatches) }})]);
 
                     if (siv) {
                         this.sivs = siv;
@@ -199,6 +238,14 @@
                         this.sivs.forEach((siv, i) => {
                             if (i >= index) {
                                 Product.changeProductCategory(this.getSelect2(i), siv.product_id, siv.product_category_id);
+
+                                if (Product.isBatchable(this.sivs[i].product_id) && Company.canSelectBatchNumberOnForms()) {
+                                    MerchandiseBatch.appendMerchandiseBatches(
+                                        this.getMerchandiseBatchesSelect(i),
+                                        this.sivs[i].merchandise_batch_id,
+                                        MerchandiseBatch.where(this.sivs[i].product_id, this.sivs[i].warehouse_id),
+                                    );
+                                }
                             }
                         })
                     );
@@ -207,9 +254,12 @@
                 },
                 select2(index) {
                     let select2 = initializeSelect2(this.$el);
+                    let batches = [];
 
                     select2.on("change", (event, haveData = false) => {
                         this.sivs[index].product_id = event.target.value;
+
+                        haveData || (this.sivs[index].merchandise_batch_id = null);
 
                         this.sivs[index].product_category_id =
                             Product.productCategoryId(
@@ -219,10 +269,77 @@
                         if (!haveData) {
                             Product.changeProductCategory(select2, this.sivs[index].product_id, this.sivs[index].product_category_id);
                         }
+
+                        if (!Product.isBatchable(this.sivs[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                            this.getInventoryLevel(index);
+                            return;
+                        }
+
+                        MerchandiseBatch.appendMerchandiseBatches(
+                            this.getMerchandiseBatchesSelect(index),
+                            this.sivs[index].merchandise_batch_id,
+                            MerchandiseBatch.where(this.sivs[index].product_id, this.sivs[index].warehouse_id),
+                        );
+
+                        if (this.sivs[index].product_id && this.sivs[index].warehouse_id) {
+                            batches = MerchandiseBatch.where(this.sivs[index].product_id, this.sivs[index].warehouse_id);
+                        }
+
+                        if (batches.length <= 1) {
+                            this.sivs[index].merchandise_batch_id = batches[0]?.id;
+                        }
+
+                        this.getInventoryLevel(index);
                     });
                 },
                 getSelect2(index) {
                     return $(".product-list").eq(index);
+                },
+                getMerchandiseBatchesSelect(index) {
+                    return document.getElementsByClassName("merchandise-batches")[index].firstElementChild;
+                },
+                async getInventoryLevel(index) {
+                    if (!Company.isInventoryCheckerEnabled() || !this.sivs[index].product_id || !this.sivs[index].warehouse_id) {
+                        return;
+                    }
+
+                    this.sivs[index].availableQuantity = null;
+
+                    if (Product.isBatchable(this.sivs[index].product_id) && this.sivs[index].merchandise_batch_id) {
+                        let merchandiseBatch = MerchandiseBatch.whereBatchId(this.sivs[index].merchandise_batch_id);
+                        this.sivs[index].availableQuantity = merchandiseBatch?.quantity + " " + Product.whereProductId(this.sivs[index].product_id)?.unit_of_measurement;
+                        return;
+                    }
+
+                    await Merchandise.init(this.sivs[index].product_id, this.sivs[index].warehouse_id);
+
+                    this.sivs[index].availableQuantity = Merchandise.merchandise;
+                },
+                warehouseChanged(index) {
+                    if (!Product.isBatchable(this.sivs[index].product_id) || !Company.canSelectBatchNumberOnForms()) {
+                        this.getInventoryLevel(index);
+                        return;
+                    }
+
+                    let batches = [];
+
+                    this.sivs[index].merchandise_batch_id = null
+
+                    MerchandiseBatch.appendMerchandiseBatches(
+                        this.getMerchandiseBatchesSelect(index),
+                        this.sivs[index].merchandise_batch_id,
+                        MerchandiseBatch.where(this.sivs[index].product_id, this.sivs[index].warehouse_id),
+                    );
+
+                    if (this.sivs[index].product_id && this.sivs[index].warehouse_id) {
+                        batches = MerchandiseBatch.where(this.sivs[index].product_id, this.sivs[index].warehouse_id);
+                    }
+
+                    if (batches.length <= 1) {
+                        this.sivs[index].merchandise_batch_id = batches[0]?.id;
+                    }
+
+                    this.getInventoryLevel(index);
                 }
             }));
         });

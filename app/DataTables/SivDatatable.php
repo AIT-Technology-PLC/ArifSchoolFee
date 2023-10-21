@@ -27,7 +27,9 @@ class SivDatatable extends DataTable
             ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
-                    ->when($keyword == 'approved', fn($query) => $query->approved())
+                    ->when(userCompany()->canSivSubtract() && $keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
+                    ->when(!userCompany()->canSivSubtract() && $keyword == 'approved', fn($query) => $query->approved())
+                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted())
                     ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved());
             })
             ->editColumn('issued_to', fn($siv) => $siv->issued_to ?: 'N/A')
@@ -42,6 +44,7 @@ class SivDatatable extends DataTable
             ->editColumn('issued_on', fn($siv) => $siv->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($siv) => $siv->createdBy->name)
             ->editColumn('approved by', fn($siv) => $siv->approvedBy->name ?? 'N/A')
+            ->editColumn('subtracted by', fn($siv) => $siv->subtractedBy->name ?? 'N/A')
             ->editColumn('edited by', fn($siv) => $siv->updatedBy->name)
             ->editColumn('actions', function ($siv) {
                 return view('components.common.action-buttons', [
@@ -60,11 +63,14 @@ class SivDatatable extends DataTable
             ->select('sivs.*')
             ->when(is_numeric(request('branch')), fn($query) => $query->where('sivs.warehouse_id', request('branch')))
             ->when(request('status') == 'waiting approval', fn($query) => $query->notApproved())
-            ->when(request('status') == 'approved', fn($query) => $query->approved())
+            ->when(userCompany()->canSivSubtract() && request('status') == 'approved', fn($query) => $query->notSubtracted()->approved())
+            ->when(!userCompany()->canSivSubtract() && request('status') == 'approved', fn($query) => $query->approved())
+            ->when(request('status') == 'subtracted', fn($query) => $query->subtracted())
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
+                'subtractedBy:id,name',
                 'warehouse:id,name',
                 'customFieldValues.customField',
             ]);
@@ -93,6 +99,7 @@ class SivDatatable extends DataTable
             Column::make('issued_on')->className('has-text-right'),
             Column::make('prepared by', 'createdBy.name'),
             Column::make('approved by', 'approvedBy.name')->visible(false),
+            userCompany()->canSivSubtract() ? Column::make('subtracted by', 'subtractedBy.name')->visible(false) : null,
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
         ];

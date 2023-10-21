@@ -25,6 +25,8 @@ class SivDetailDatatable extends DataTable
             ->editColumn('quantity', function ($sivDetail) {
                 return quantity($sivDetail->quantity, $sivDetail->product->unit_of_measurement);
             })
+            ->editColumn('batch_no', fn($sivDetail) => $sivDetail->merchandiseBatch?->batch_no)
+            ->editColumn('expires_on', fn($sivDetail) => $sivDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
             ->editColumn('description', fn($sivDetail) => nl2br(e($sivDetail->description)))
             ->editColumn('actions', function ($sivDetail) {
                 return view('components.common.action-buttons', [
@@ -45,6 +47,7 @@ class SivDetailDatatable extends DataTable
             ->with([
                 'warehouse',
                 'product',
+                'merchandiseBatch',
             ]);
     }
 
@@ -55,6 +58,8 @@ class SivDetailDatatable extends DataTable
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity'),
+            Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
+            Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('description')->visible(false),
             Column::computed('actions'),
         ];
