@@ -106,7 +106,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if ((userCompany()->canSivSubtract() && $siv->isSubtracted()) || (!userCompany()->canSivSubtract() && $siv->isApproved()))
+                @if ($siv->isSubtracted() || ($siv->isApproved() && (!userCompany()->canSivSubtract() || $siv->isAssociated())))
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="a"

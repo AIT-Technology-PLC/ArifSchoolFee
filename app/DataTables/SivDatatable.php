@@ -82,7 +82,7 @@ class SivDatatable extends DataTable
             Column::computed('transaction')->className('has-text-centered actions'),
             ...($customFields ?? []),
             Column::computed('status'),
-            Column::make('issued_to')->title('Customer'),
+            Column::make('issued_to'),
             Column::make('received_by')
                 ->title('Receiver')
                 ->className('is-capitalized')
