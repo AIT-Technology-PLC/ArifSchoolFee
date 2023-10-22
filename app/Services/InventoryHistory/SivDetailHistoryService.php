@@ -34,7 +34,7 @@ class SivDetailHistoryService implements DetailHistoryServiceInterface
                 'quantity' => $sivDetail->quantity,
                 'balance' => 0.00,
                 'unit_of_measurement' => $this->product->unit_of_measurement,
-                'details' => Str::of($sivDetail->siv->customer->company_name ?? 'Unknown')->prepend('Submitted to '),
+                'details' => Str::of($sivDetail->siv->issued_to ?? 'Unknown')->prepend('Submitted to '),
                 'function' => 'subtract',
             ];
         });

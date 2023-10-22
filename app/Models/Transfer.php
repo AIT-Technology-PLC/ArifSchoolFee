@@ -49,6 +49,11 @@ class Transfer extends Model
         return $this->belongsTo(Warehouse::class, 'transferred_to')->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
+    public function siv()
+    {
+        return $this->morphOne(Siv::class, 'sivable');
+    }
+
     public static function withBranchScope()
     {
         return false;

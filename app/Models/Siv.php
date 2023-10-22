@@ -32,6 +32,15 @@ class Siv extends Model
         return $this->morphTo();
     }
 
+    public function isSubtracted()
+    {
+        if (is_null($this->subtracted_by) && !$this->sivable?->isSubtracted()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function isAssociated()
     {
         return !is_null($this->sivable_id);

@@ -77,67 +77,6 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="purpose">
-                                Purpose <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="purpose"
-                                    name="purpose"
-                                >
-                                    <option
-                                        disabled
-                                        selected
-                                    > Select Purpose </option>
-                                    <option
-                                        value="DO"
-                                        {{ old('purpose') == 'DO' ? 'selected' : '' }}
-                                    > Delivery Order </option>
-                                    <option
-                                        value="Invoice"
-                                        {{ old('purpose') == 'Invoice' ? 'selected' : '' }}
-                                    > Invoice </option>
-                                    <option
-                                        value="Transfer"
-                                        {{ old('purpose') == 'Transfer' ? 'selected' : '' }}
-                                    > Transfer </option>
-                                    <option
-                                        value="Expo"
-                                        {{ old('purpose') == 'Expo' ? 'selected' : '' }}
-                                    > Expo </option>
-                                    <option value="">None</option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-question"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="purpose" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="ref_num">
-                                Ref N<u>o</u> <sup class="has-text-danger"></sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    name="ref_num"
-                                    id="ref_num"
-                                    value="{{ old('ref_num') ?? '' }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-hashtag"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="ref_num" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-6">
                         <x-forms.label for="received_by">
                             Received By <sup class="has-text-danger"></sup>
                         </x-forms.label>

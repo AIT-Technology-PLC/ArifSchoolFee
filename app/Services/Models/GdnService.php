@@ -10,7 +10,6 @@ use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Sale;
-use App\Models\Siv;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
@@ -142,8 +141,6 @@ class GdnService
 
         $siv = (new ConvertToSivAction)->execute(
             $gdn,
-            'DO',
-            $gdn->code,
             $gdn->customer->company_name ?? '',
             $gdn->approved_by,
             $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity']),
@@ -286,7 +283,7 @@ class GdnService
                 InventoryOperationService::add($gdn->gdnDetails, $gdn);
                 $gdn->add();
                 $gdn->sale?->cancel();
-                Siv::where('purpose', 'DO')->where('ref_num', $gdn->code)->forceDelete();
+                $gdn->siv?->forceDelete();
             }
         });
 

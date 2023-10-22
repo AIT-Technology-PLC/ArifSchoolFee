@@ -76,6 +76,10 @@ class TransferService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
+        if ($transfer->siv()->exists()) {
+            return [false, 'Siv for this transfer was already created.', ''];
+        }
+
         if (!$transfer->isSubtracted()) {
             return [false, 'This transfer is not subtracted yet.', ''];
         }
@@ -89,10 +93,8 @@ class TransferService
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
 
         $siv = (new ConvertToSivAction)->execute(
-            null,
-            'Transfer',
-            $transfer->code,
-            null,
+            $transfer,
+            $transfer->transferredTo->name,
             $transfer->approved_by,
             collect($transferDetails),
         );

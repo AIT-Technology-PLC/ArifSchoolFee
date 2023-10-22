@@ -26,27 +26,13 @@ class SivDatatable extends DataTable
             ->editColumn('branch', fn($siv) => $siv->warehouse->name)
             ->editColumn('transaction', function ($siv) {
                 return view('components.datatables.link', [
-                    'url' => $siv->isAssociated() ? route((new $siv->sivable_type())->getTable() . '.show', $siv->sivable_id) : 'javascript:void(0)',
-                    'label' => $siv->isAssociated() ? $siv->sivable_type::find($siv->sivable_id)->code : 'N/A',
+                    'url' => $siv->isAssociated() ? route($siv->sivable->getTable() . '.show', $siv->sivable_id) : 'javascript:void(0)',
+                    'label' => $siv->isAssociated() ? $siv->sivable->code : 'N/A',
                     'target' => '_blank',
                 ]);
             })
             ->editColumn('status', fn($siv) => view('components.datatables.siv-status', compact('siv')))
-            ->filterColumn('status', function ($query, $keyword) {
-                $query
-                    ->when(userCompany()->canSivSubtract() && $keyword == 'approved', fn($query) => $query->notSubtracted()->approved())
-                    ->when(!userCompany()->canSivSubtract() && $keyword == 'approved', fn($query) => $query->approved())
-                    ->when($keyword == 'subtracted', fn($query) => $query->subtracted())
-                    ->when($keyword == 'waiting-approval', fn($query) => $query->notApproved());
-            })
             ->editColumn('issued_to', fn($siv) => $siv->issued_to ?: 'N/A')
-            ->editColumn('purpose', function ($siv) {
-                if (!$siv->purpose) {
-                    return 'N/A';
-                }
-
-                return $siv->purpose . ($siv->ref_num ? ' No: ' . $siv->ref_num : '');
-            })
             ->editColumn('description', fn($siv) => view('components.datatables.searchable-description', ['description' => $siv->description]))
             ->editColumn('issued_on', fn($siv) => $siv->issued_on->toFormattedDateString())
             ->editColumn('prepared by', fn($siv) => $siv->createdBy->name)
@@ -89,15 +75,14 @@ class SivDatatable extends DataTable
             $customFields[] = Column::make($label, 'customFieldValues.value');
         }
 
-        return [
+        return array_filter([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('SIV No'),
             Column::computed('transaction')->className('has-text-centered actions'),
             ...($customFields ?? []),
-            Column::make('status')->orderable(false),
+            Column::computed('status'),
             Column::make('issued_to')->title('Customer'),
-            Column::make('purpose'),
             Column::make('received_by')
                 ->title('Receiver')
                 ->className('is-capitalized')
@@ -110,7 +95,7 @@ class SivDatatable extends DataTable
             userCompany()->canSivSubtract() ? Column::make('subtracted by', 'subtractedBy.name')->visible(false) : null,
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

@@ -10,7 +10,6 @@ use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Gdn;
 use App\Models\Sale;
-use App\Models\SivDetail;
 use App\Notifications\GdnPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -74,11 +73,9 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField']);
+        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField', 'siv.sivDetails']);
 
-        $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'DO')->whereRelation('siv', 'ref_num', $gdn->code)->get();
-
-        return $datatable->render('gdns.show', compact('gdn', 'sivDetails'));
+        return $datatable->render('gdns.show', compact('gdn'));
     }
 
     public function edit(Gdn $gdn)
@@ -139,8 +136,6 @@ class GdnController extends Controller
         abort_if($gdn->isApproved() && !authUser()->can('Delete Approved GDN'), 403);
 
         $gdn->proformaInvoice?->proformaInvoiceable()->dissociate($gdn)->save();
-
-        $gdn->siv?->forceDelete();
 
         $gdn->forceDelete();
 

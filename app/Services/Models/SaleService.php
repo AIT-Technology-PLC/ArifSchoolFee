@@ -65,6 +65,7 @@ class SaleService
             if ($sale->company->canSaleSubtract() && $sale->isSubtracted()) {
                 InventoryOperationService::add($sale->saleDetails, $sale);
                 $sale->add();
+                $sale->siv?->forceDelete();
             }
 
             return [true, 'Invoice cancelled successfully'];
@@ -268,8 +269,6 @@ class SaleService
 
         $siv = (new ConvertToSivAction)->execute(
             $sale,
-            'Invoice',
-            $sale->code,
             $sale->customer->company_name ?? '',
             $sale->approved_by,
             $sale->saleDetails()->get(['product_id', 'warehouse_id', 'quantity']),

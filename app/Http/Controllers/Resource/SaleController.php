@@ -72,7 +72,7 @@ class SaleController extends Controller
     {
         $datatable->builder()->setTableId('sale-details-datatable');
 
-        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact', 'customFieldValues.customField']);
+        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact', 'customFieldValues.customField', 'siv.sivDetails']);
 
         return $datatable->render('sales.show', compact('sale'));
     }
@@ -124,8 +124,6 @@ class SaleController extends Controller
         abort_if($sale->isApproved() || $sale->isCancelled(), 403);
 
         $sale->proformaInvoice?->proformaInvoiceable()->dissociate($sale)->save();
-
-        $sale->siv?->forceDelete();
 
         $sale->forceDelete();
 

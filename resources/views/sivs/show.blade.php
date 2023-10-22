@@ -30,20 +30,6 @@
                 </div>
                 <div class="column is-6">
                     <x-common.show-data-section
-                        icon="fas fa-question"
-                        :data="$siv->purpose ?? 'N/A'"
-                        label="Purpose"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-hashtag"
-                        :data="$siv->ref_num ?? 'N/A'"
-                        label="Ref No"
-                    />
-                </div>
-                <div class="column is-6">
-                    <x-common.show-data-section
                         icon="fas fa-user"
                         :data="$siv->received_by ?? 'N/A'"
                         label="Receiver Name"

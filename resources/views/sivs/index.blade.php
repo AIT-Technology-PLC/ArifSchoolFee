@@ -11,14 +11,6 @@
                 icon="fas fa-file-export"
             />
         </div>
-        <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
-            <x-common.index-insight
-                :amount="$totalApproved"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Approved"
-            />
-        </div>
         @if (userCompany()->canSivSubtract())
             <div class="column is-3 p-lr-0">
                 <x-common.index-insight
@@ -29,6 +21,14 @@
                 />
             </div>
         @endif
+        <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
+            <x-common.index-insight
+                :amount="$totalApproved"
+                border-color="#3d8660"
+                text-color="text-green"
+                label="Approved"
+            />
+        </div>
         <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.index-insight
                 :amount="$totalNotApproved"

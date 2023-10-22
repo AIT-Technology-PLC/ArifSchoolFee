@@ -8,7 +8,6 @@ use App\DataTables\TransferDetailDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
-use App\Models\SivDetail;
 use App\Models\Transfer;
 use App\Notifications\TransferPrepared;
 use App\Utilities\Notifiables;
@@ -79,11 +78,9 @@ class TransferController extends Controller
     {
         $datatable->builder()->setTableId('transfer-details');
 
-        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
+        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo', 'siv.sivDetails']);
 
-        $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'Transfer')->whereRelation('siv', 'ref_num', $transfer->code)->get();
-
-        return $datatable->render('transfers.show', compact('transfer', 'sivDetails'));
+        return $datatable->render('transfers.show', compact('transfer'));
     }
 
     public function edit(Transfer $transfer)

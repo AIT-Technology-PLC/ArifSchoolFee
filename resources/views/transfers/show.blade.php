@@ -104,7 +104,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed())
+                @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed() && $transfer->siv()->doesntExist())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -146,7 +146,7 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
-    @if (isFeatureEnabled('Siv Management') && $sivDetails->count())
+    @if (isFeatureEnabled('Siv Management') && $transfer->siv?->sivDetails->count())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Store Issue Vouchers" />
             <x-content.footer>
@@ -161,7 +161,7 @@
                         <th> From </th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($sivDetails as $sivDetail)
+                        @foreach ($transfer->siv->sivDetails as $sivDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">

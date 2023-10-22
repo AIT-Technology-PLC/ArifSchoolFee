@@ -77,6 +77,10 @@ class SivController extends Controller
 
     public function edit(Siv $siv)
     {
+        if ($siv->isAssociated()) {
+            return back()->with('failedMessage', 'SIVs issued from other transactions cannot be edited.');
+        }
+
         if ($siv->isSubtracted()) {
             return back()->with('failedMessage', 'Subtracted SIVs can not be edited.');
         }
@@ -90,6 +94,10 @@ class SivController extends Controller
 
     public function update(UpdateSivRequest $request, Siv $siv)
     {
+        if ($siv->isAssociated()) {
+            return redirect()->route('sivs.show', $siv->id)->with('failedMessage', 'SIVs issued from other transactions cannot be edited.');
+        }
+
         if (!$siv->isSubtracted() && $siv->isApproved()) {
             $siv->update($request->only('description'));
 
@@ -113,6 +121,10 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
+        if ($siv->isAssociated()) {
+            return back()->with('failedMessage', 'SIVs issued from other transactions cannot be deleted.');
+        }
+
         abort_if($siv->isSubtracted(), 403);
 
         abort_if($siv->isApproved() && authUser()->cannot('Delete Approved SIV'), 403);

@@ -315,7 +315,7 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
-    @if (isFeatureEnabled('Siv Management') && $sivDetails->count())
+    @if (isFeatureEnabled('Siv Management') && $gdn->siv?->sivDetails->count())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Store Issue Vouchers" />
             <x-content.footer>
@@ -330,7 +330,7 @@
                         <th> From </th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($sivDetails as $sivDetail)
+                        @foreach ($gdn->siv->sivDetails as $sivDetail)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td class="is-capitalized">

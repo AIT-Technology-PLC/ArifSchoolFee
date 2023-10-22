@@ -64,17 +64,26 @@
                 {{ $siv->issued_on->toFormattedDateString() }}
             </h1>
         </aside>
-        <aside
-            class="is-pulled-left"
-            style="width: 25% !important"
-        >
-            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
-                Purpose
-            </h1>
-            <h1 class="has-text-black is-size-6 pr-2">
-                {{ $siv->purpose }}{{ $siv->ref_num ? ' No: ' . $siv->ref_num : '' }}
-            </h1>
-        </aside>
+        @if ($siv->isAssociated())
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                    Purpose
+                </h1>
+                <h1 class="has-text-black is-size-6 pr-2">
+                    @if (str($siv->sivable_type)->endsWith('Gdn'))
+                        DO
+                    @elseif(str($siv->sivable_type)->endsWith('Transfer'))
+                        Transfer
+                    @elseif(str($siv->sivable_type)->endsWith('Sale'))
+                        Invoice
+                    @endif
+                    {{ ' No: ' . $siv->sivable->code }}
+                </h1>
+            </aside>
+        @endif
         @if ($siv->issued_to)
             <aside
                 class="is-pulled-left"
