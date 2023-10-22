@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Notification;
 
 class ConvertToSivAction
 {
-    public function execute($model, $issuedTo, $approvedBy, $details)
+    public function execute($model, $issuedTo, $details)
     {
-        return DB::transaction(function () use ($model, $issuedTo, $approvedBy, $details) {
+        return DB::transaction(function () use ($model, $issuedTo, $details) {
             $siv = $model->siv()->create([
                 'code' => nextReferenceNumber('sivs'),
                 'issued_on' => now(),
                 'issued_to' => $issuedTo,
-                'approved_by' => userCompany()->isConvertToSivAsApproved() ? $approvedBy : null,
+                'approved_by' => userCompany()->isConvertToSivAsApproved() ? $model->approved_by : null,
             ]);
 
             $siv->sivDetails()->createMany($details->toArray());

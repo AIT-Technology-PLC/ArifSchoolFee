@@ -270,7 +270,6 @@ class SaleService
         $siv = (new ConvertToSivAction)->execute(
             $sale,
             $sale->customer->company_name ?? '',
-            $sale->approved_by,
             $sale->saleDetails()->get(['product_id', 'warehouse_id', 'quantity']),
         );
 

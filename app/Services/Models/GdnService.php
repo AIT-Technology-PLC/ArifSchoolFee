@@ -142,7 +142,6 @@ class GdnService
         $siv = (new ConvertToSivAction)->execute(
             $gdn,
             $gdn->customer->company_name ?? '',
-            $gdn->approved_by,
             $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'quantity']),
         );
 

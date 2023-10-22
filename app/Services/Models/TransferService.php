@@ -95,7 +95,6 @@ class TransferService
         $siv = (new ConvertToSivAction)->execute(
             $transfer,
             $transfer->transferredTo->name,
-            $transfer->approved_by,
             collect($transferDetails),
         );
 
