@@ -6,7 +6,7 @@
     <div class="columns is-marginless is-multiline">
         <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.total-model
-                model="Store Issue Vouchers"
+                model="{{ userCompany()->canSivSubtract() ? 'SIVs' : 'Store Issue Vouchers' }}"
                 :amount="$totalSivs"
                 icon="fas fa-file-export"
             />
