@@ -124,6 +124,10 @@ class GdnService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
+        if ($gdn->siv()->exists()) {
+            return [false, 'Siv for this delivery order was already created.', ''];
+        }
+
         if ($gdn->isCancelled()) {
             return [false, 'This Delivery Order is cancelled.', ''];
         }
@@ -137,6 +141,7 @@ class GdnService
         }
 
         $siv = (new ConvertToSivAction)->execute(
+            $gdn,
             'DO',
             $gdn->code,
             $gdn->customer->company_name ?? '',

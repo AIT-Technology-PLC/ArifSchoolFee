@@ -205,7 +205,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled())
+                @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && $sale->siv()->doesntExist())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button

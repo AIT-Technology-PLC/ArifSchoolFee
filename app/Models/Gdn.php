@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\ProformaInvoice;
+use App\Models\Siv;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
@@ -56,6 +57,11 @@ class Gdn extends Model
     public function proformaInvoice()
     {
         return $this->morphOne(ProformaInvoice::class, 'proforma_invoiceable');
+    }
+
+    public function siv()
+    {
+        return $this->morphOne(Siv::class, 'sivable');
     }
 
     public function contact()

@@ -254,6 +254,10 @@ class SaleService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
+        if ($sale->siv()->exists()) {
+            return [false, 'Siv for this invoice was already created.'];
+        }
+
         if ($sale->isCancelled()) {
             return [false, 'This Invoice is cancelled.', ''];
         }
@@ -263,6 +267,7 @@ class SaleService
         }
 
         $siv = (new ConvertToSivAction)->execute(
+            $sale,
             'Invoice',
             $sale->code,
             $sale->customer->company_name ?? '',

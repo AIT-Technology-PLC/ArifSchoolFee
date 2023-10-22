@@ -27,6 +27,16 @@ class Siv extends Model
         return $this->hasMany(SivDetail::class);
     }
 
+    public function sivable()
+    {
+        return $this->morphTo();
+    }
+
+    public function isAssociated()
+    {
+        return !is_null($this->sivable_id);
+    }
+
     public function canAffectInventoryValuation()
     {
         return true;

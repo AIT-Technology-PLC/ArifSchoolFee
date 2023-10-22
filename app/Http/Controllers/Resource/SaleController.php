@@ -125,6 +125,8 @@ class SaleController extends Controller
 
         $sale->proformaInvoice?->proformaInvoiceable()->dissociate($sale)->save();
 
+        $sale->siv?->forceDelete();
+
         $sale->forceDelete();
 
         return back()->with('deleted', 'Deleted successfully.');
