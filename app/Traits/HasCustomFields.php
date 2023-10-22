@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\CustomFieldValue;
+use Illuminate\Support\Arr;
 
 trait HasCustomFields
 {
@@ -28,11 +29,11 @@ trait HasCustomFields
 
     public function createCustomFields($data)
     {
-        $data = array_filter($data);
-
         if (empty($data)) {
             return;
         }
+
+        $data = Arr::whereNotNull($data);
 
         $this->customFieldValues()->forceDelete();
 
