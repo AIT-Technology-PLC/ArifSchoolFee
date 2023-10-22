@@ -137,6 +137,14 @@ Route::post('/sivs/{siv}/approve',
     [Action\SivController::class, 'approve'])
     ->name('sivs.approve');
 
+Route::post('/sivs/{siv}/approve-and-subtract',
+    [Action\SivController::class, 'approveAndSubtract'])
+    ->name('sivs.approve_and_subtract');
+
+Route::post('/sivs/{siv}/subtract',
+    [Action\SivController::class, 'subtract'])
+    ->name('sivs.subtract');
+
 // Returns
 Route::get('/returns/{return}/print',
     [Action\ReturnController::class, 'printed'])
@@ -547,5 +555,3 @@ Route::post('/cost-updates/{costUpdate}/reject',
 Route::post('/cost-updates/import',
     [Action\CostUpdateController::class, 'import'])
     ->name('cost-updates.import');
-
-

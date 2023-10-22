@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Actions\AutoBatchStoringAction;
 use App\DataTables\SivDatatable;
 use App\DataTables\SivDetailDatatable;
 use App\Http\Controllers\Controller;
@@ -28,11 +29,13 @@ class SivController extends Controller
 
         $totalSivs = Siv::count();
 
-        $totalApproved = Siv::approved()->count();
+        $totalApproved = Siv::notSubtracted()->approved()->count();
+
+        $totalSubtracted = Siv::subtracted()->count();
 
         $totalNotApproved = Siv::notApproved()->count();
 
-        return $datatable->render('sivs.index', compact('totalSivs', 'totalApproved', 'totalNotApproved'));
+        return $datatable->render('sivs.index', compact('totalSivs', 'totalApproved', 'totalNotApproved', 'totalSubtracted'));
     }
 
     public function create()
@@ -50,6 +53,8 @@ class SivController extends Controller
             $siv = Siv::create($request->safe()->except('siv'));
 
             $siv->sivDetails()->createMany($request->validated('siv'));
+
+            AutoBatchStoringAction::execute($siv, $request->validated('siv'), 'sivDetails');
 
             $siv->createCustomFields($request->validated('customField'));
 
@@ -72,6 +77,10 @@ class SivController extends Controller
 
     public function edit(Siv $siv)
     {
+        if ($siv->isSubtracted()) {
+            return back()->with('failedMessage', 'Subtracted SIVs can not be edited.');
+        }
+
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
         $warehouses = authUser()->getAllowedWarehouses('siv');
@@ -81,7 +90,7 @@ class SivController extends Controller
 
     public function update(UpdateSivRequest $request, Siv $siv)
     {
-        if ($siv->isApproved()) {
+        if (!$siv->isSubtracted() && $siv->isApproved()) {
             $siv->update($request->only('description'));
 
             return redirect()->route('sivs.show', $siv->id);
@@ -94,6 +103,8 @@ class SivController extends Controller
 
             $siv->sivDetails()->createMany($request->validated('siv'));
 
+            AutoBatchStoringAction::execute($siv, $request->validated('siv'), 'sivDetails');
+
             $siv->createCustomFields($request->validated('customField'));
         });
 
@@ -102,10 +113,9 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
-        abort_if(
-            $siv->isApproved() && authUser()->cannot('Delete Approved SIV'),
-            403
-        );
+        abort_if($siv->isSubtracted(), 403);
+
+        abort_if($siv->isApproved() && authUser()->cannot('Delete Approved SIV'), 403);
 
         $siv->forceDelete();
 

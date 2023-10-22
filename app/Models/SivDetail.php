@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MerchandiseBatch;
 use App\Scopes\ActiveWarehouseScope;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,5 +33,30 @@ class SivDetail extends Model
     public function parentModel()
     {
         return $this->siv;
+    }
+
+    public function merchandiseBatch()
+    {
+        return $this->belongsTo(MerchandiseBatch::class);
+    }
+
+    public function getByWarehouseAndProduct($warehouse, $product)
+    {
+        return $this->where([
+            ['warehouse_id', $warehouse->id],
+            ['product_id', $product->id],
+        ])
+            ->whereIn('siv_id', function ($query) {
+                $query->select('id')
+                    ->from('sivs')
+                    ->where('company_id', userCompany()->id)
+                    ->whereNotNull('subtracted_by');
+            })
+            ->get()
+            ->load([
+                'siv' => function ($query) {
+                    return $query->withoutGlobalScopes([BranchScope::class]);
+                }]
+            );
     }
 }

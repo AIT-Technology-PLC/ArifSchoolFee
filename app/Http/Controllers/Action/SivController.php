@@ -6,15 +6,21 @@ use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
 use App\Notifications\SivApproved;
+use App\Notifications\SivSubtracted;
+use App\Services\Models\SivService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Notification;
 
 class SivController extends Controller
 {
-    public function __construct()
+    private $sivService;
+
+    public function __construct(SivService $sivService)
     {
         $this->middleware('isFeatureAccessible:Siv Management');
+
+        $this->sivService = $sivService;
     }
 
     public function approve(Siv $siv, ApproveTransactionAction $action)
@@ -53,5 +59,43 @@ class SivController extends Controller
         $havingCode = $siv->sivDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
 
         return Pdf::loadView('sivs.print', compact('siv', 'havingCode'))->stream();
+    }
+
+    public function subtract(Siv $siv)
+    {
+        $this->authorize('subtract', $siv);
+
+        [$isExecuted, $message] = $this->sivService->subtract($siv, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read SIV', $siv->sivDetails->pluck('warehouse_id'), $siv->createdBy),
+            new SivSubtracted($siv)
+        );
+
+        return back();
+    }
+
+    public function approveAndSubtract(Siv $siv)
+    {
+        $this->authorize('approve', $siv);
+
+        $this->authorize('subtract', $siv);
+
+        [$isExecuted, $message] = $this->sivService->approveAndSubtract($siv, authUser());
+
+        if (!$isExecuted) {
+            return back()->with('failedMessage', $message);
+        }
+
+        Notification::send(
+            Notifiables::byPermissionAndWarehouse('Read SIV', $siv->sivDetails->pluck('warehouse_id'), $siv->createdBy),
+            new SivSubtracted($siv)
+        );
+
+        return back();
     }
 }

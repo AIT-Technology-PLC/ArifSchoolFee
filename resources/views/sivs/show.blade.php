@@ -82,7 +82,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if ($siv->isApproved())
+                @if ((!userCompany()->canSivSubtract() && $siv->isApproved()) || (userCompany()->canSivSubtract() && $siv->isSubtracted()))
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="a"
@@ -91,6 +91,17 @@
                             mode="button"
                             icon="fas fa-print"
                             label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @elseif (userCompany()->canSivSubtract() && !$siv->isApproved() && authUser()->can(['Approve SIV', 'Subtract SIV']))
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('sivs.approve_and_subtract', $siv->id)"
+                            action="approve & subtract"
+                            intention="approve & subtract this siv"
+                            icon="fas fa-minus-circle"
+                            label="Approve & Subtract"
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
@@ -103,6 +114,19 @@
                                 intention="approve this SIV"
                                 icon="fas fa-signature"
                                 label="Approve"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @elseif(userCompany()->canSivSubtract() && !$siv->isSubtracted())
+                    @can('Subtract SIV')
+                        <x-common.dropdown-item>
+                            <x-common.transaction-button
+                                :route="route('sivs.subtract', $siv->id)"
+                                action="subtract"
+                                intention="subtract this SIV"
+                                icon="fas fa-signature"
+                                label="Subtract"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
@@ -123,7 +147,9 @@
         <x-content.footer>
             <x-common.fail-message :message="session('failedMessage')" />
             <x-common.success-message :message="session('successMessage')" />
-            @if ($siv->isApproved())
+            @if (userCompany()->canSivSubtract() && $siv->isSubtracted())
+                <x-common.success-message message="Product(s) listed below have been subtracted from your Inventory." />
+            @elseif ($siv->isApproved())
                 <x-common.success-message message="This SIV has been approved successfully." />
             @elseif (!$siv->isApproved())
                 <x-common.fail-message message="This SIV is not approved." />

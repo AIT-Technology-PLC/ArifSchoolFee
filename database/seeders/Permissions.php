@@ -102,6 +102,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved SIV']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Subtract SIV']);
 
             // Merchandise
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Available Inventory']);

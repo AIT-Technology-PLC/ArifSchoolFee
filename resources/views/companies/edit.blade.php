@@ -1018,27 +1018,25 @@
                                 <x-forms.label for="can_sale_subtract">
                                     Allow Subtracting By Invoice <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
-                                <x-forms.control>
-                                    <label class="radio has-text-grey">
-                                        <input
-                                            type="radio"
-                                            name="can_sale_subtract"
-                                            value="1"
-                                            class="mt-3"
-                                            @checked($company->canSaleSubtract())
-                                        >
-                                        Yes
-                                    </label>
-                                    <br>
-                                    <label class="radio has-text-grey mt-2">
-                                        <input
-                                            type="radio"
-                                            name="can_sale_subtract"
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="can_sale_subtract"
+                                        name="can_sale_subtract"
+                                    >
+                                        <option
                                             value="0"
-                                            @checked(!$company->canSaleSubtract())
-                                        >
-                                        No
-                                    </label>
+                                            @selected(!$company->canSaleSubtract())
+                                        > No </option>
+                                        <option
+                                            value="1"
+                                            @selected($company->canSaleSubtract())
+                                        > Yes </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
                                     <x-common.validation-error property="can_sale_subtract" />
                                 </x-forms.control>
                             </x-forms.field>
@@ -1074,6 +1072,36 @@
                                         class="is-small is-left"
                                     />
                                     <x-common.validation-error property="auto_generated_credit_issued_on_date" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
+                    @if (isFeatureEnabled('Siv Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="can_siv_subtract_from_inventory">
+                                    Allow Subtracting By SIV <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="can_siv_subtract_from_inventory"
+                                        name="can_siv_subtract_from_inventory"
+                                    >
+                                        <option
+                                            value="0"
+                                            @selected(!$company->canSivSubtract())
+                                        > No </option>
+                                        <option
+                                            value="1"
+                                            @selected($company->canSivSubtract())
+                                        > Yes </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="can_siv_subtract_from_inventory" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

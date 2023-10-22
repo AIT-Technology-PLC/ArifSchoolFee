@@ -40,4 +40,9 @@ class SivPolicy
     {
         return $user->can('Approve SIV');
     }
+
+    public function subtract(User $user, Siv $siv)
+    {
+        return $user->can('Subtract SIV');
+    }
 }
