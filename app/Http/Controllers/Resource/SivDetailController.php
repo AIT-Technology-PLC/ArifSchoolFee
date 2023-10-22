@@ -16,6 +16,10 @@ class SivDetailController extends Controller
     {
         $this->authorize('delete', $sivDetail->siv);
 
+        if ($sivDetail->siv->isAssociated()) {
+            return back()->with('failedMessage', 'SIVs issued from other transactions cannot be deleted.');
+        }
+
         abort_if($sivDetail->siv->isSubtracted(), 403);
 
         abort_if($sivDetail->siv->isApproved() && authUser()->cannot('Delete Approved SIV'), 403);

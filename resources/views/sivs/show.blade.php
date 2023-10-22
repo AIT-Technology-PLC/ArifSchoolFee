@@ -68,19 +68,7 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                @if ((!userCompany()->canSivSubtract() && $siv->isApproved()) || (userCompany()->canSivSubtract() && $siv->isSubtracted()))
-                    <x-common.dropdown-item>
-                        <x-common.button
-                            tag="a"
-                            href="{{ route('sivs.print', $siv->id) }}"
-                            target="_blank"
-                            mode="button"
-                            icon="fas fa-print"
-                            label="Print"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                        />
-                    </x-common.dropdown-item>
-                @elseif (userCompany()->canSivSubtract() && !$siv->isApproved() && authUser()->can(['Approve SIV', 'Subtract SIV']))
+                @if (userCompany()->canSivSubtract() && !$siv->isAssociated() && !$siv->isApproved() && authUser()->can(['Approve SIV', 'Subtract SIV']))
                     <x-common.dropdown-item>
                         <x-common.transaction-button
                             :route="route('sivs.approve_and_subtract', $siv->id)"
@@ -104,7 +92,7 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
-                @elseif(userCompany()->canSivSubtract() && !$siv->isSubtracted())
+                @elseif(userCompany()->canSivSubtract() && !$siv->isAssociated() && !$siv->isSubtracted())
                     @can('Subtract SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -117,6 +105,19 @@
                             />
                         </x-common.dropdown-item>
                     @endcan
+                @endif
+                @if ((userCompany()->canSivSubtract() && $siv->isSubtracted()) || (!userCompany()->canSivSubtract() && $siv->isApproved()))
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('sivs.print', $siv->id) }}"
+                            target="_blank"
+                            mode="button"
+                            icon="fas fa-print"
+                            label="Print"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                 @endif
                 <x-common.dropdown-item>
                     <x-common.button

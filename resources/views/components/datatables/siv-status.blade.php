@@ -1,4 +1,4 @@
-@if (userCompany()->canSivSubtract() && $siv->isSubtracted())
+@if ($siv->isSubtracted())
     <span class="tag is-small bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>

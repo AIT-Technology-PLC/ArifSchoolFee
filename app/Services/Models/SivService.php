@@ -14,6 +14,10 @@ class SivService
             return [false, 'Subtracting Siv is not allow. Contact your System Manager.'];
         }
 
+        if ($siv->isAssociated()) {
+            return [false, 'SIVs issued from other transactions can not be subtracted.'];
+        }
+
         if (!$user->hasWarehousePermission('siv',
             $siv->sivDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to subtract from one or more of the warehouses.'];
@@ -46,6 +50,10 @@ class SivService
     {
         if (!userCompany()->canSivSubtract()) {
             return [false, 'Subtracting Siv is not allow. Contact your System Manager.'];
+        }
+
+        if ($siv->isAssociated()) {
+            return [false, 'SIVs issued from other transactions can not be subtracted.'];
         }
 
         if (!$user->hasWarehousePermission('siv',

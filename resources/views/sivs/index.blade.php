@@ -16,7 +16,7 @@
                 <x-common.index-insight
                     :amount="$totalSubtracted"
                     border-color="#3d8660"
-                    text-color="text-gold"
+                    text-color="text-green"
                     label="Subtracted"
                 />
             </div>
@@ -24,8 +24,8 @@
         <div class="column p-lr-0 {{ userCompany()->canSivSubtract() ? 'is-3' : 'is-4' }}">
             <x-common.index-insight
                 :amount="$totalApproved"
-                border-color="#3d8660"
-                text-color="text-green"
+                border-color="{{ userCompany()->canSivSubtract() ? '#86843d' : '#3d8660' }}"
+                text-color="{{ userCompany()->canSivSubtract() ? 'text-gold' : 'text-green' }}"
                 label="Approved"
             />
         </div>
@@ -75,8 +75,7 @@
                                             Branches
                                         </option>
                                         <option value="all"> All </option>
-                                        @foreach (authUser()->getAllowedWarehouses('transactions')
-        as $warehouse)
+                                        @foreach (authUser()->getAllowedWarehouses('transactions') as $warehouse)
                                             <option value="{{ $warehouse->id }}"> {{ $warehouse->name }} </option>
                                         @endforeach
                                     </x-forms.select>
