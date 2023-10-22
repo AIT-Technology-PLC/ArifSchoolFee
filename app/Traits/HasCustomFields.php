@@ -28,6 +28,8 @@ trait HasCustomFields
 
     public function createCustomFields($data)
     {
+        $data = array_filter($data);
+
         if (empty($data)) {
             return;
         }
