@@ -16,22 +16,23 @@ return new class extends Migration
     public function up(): void
     {
         Siv::whereNotNull('purpose')->whereNotNull('ref_num')->whereNot('purpose', 'Expo')->get()->each(function ($siv) {
-            if ($siv->purpose == 'DO') {
+            if ($siv->purpose == 'DO' && Gdn::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
                 $siv->sivable_type = Gdn::class;
                 $siv->sivable_id = Gdn::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
+                $siv->save();
             }
 
-            if ($siv->purpose == 'Invoice') {
+            if ($siv->purpose == 'Invoice' && Sale::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
                 $siv->sivable_type = Sale::class;
                 $siv->sivable_id = Sale::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
+                $siv->save();
             }
 
-            if ($siv->purpose == 'Transfer') {
+            if ($siv->purpose == 'Transfer' && Transfer::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
                 $siv->sivable_type = Transfer::class;
                 $siv->sivable_id = Transfer::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
+                $siv->save();
             }
-
-            $siv->save();
         });
 
         Schema::table('sivs', function (Blueprint $table) {
