@@ -280,6 +280,8 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
+    <x-common.transaction-siv-details :siv-details="$sale->siv?->sivDetails" />
+
     @if (isFeatureEnabled('Gdn Management') && $sale->gdns()->count())
         <x-common.content-wrapper class="mt-5">
             <x-content.header title="Delivery Orders" />
