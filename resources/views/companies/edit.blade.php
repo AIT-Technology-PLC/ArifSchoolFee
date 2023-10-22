@@ -1025,13 +1025,13 @@
                                         name="can_sale_subtract"
                                     >
                                         <option
-                                            value="0"
-                                            @selected(!$company->canSaleSubtract())
-                                        > No </option>
-                                        <option
                                             value="1"
                                             @selected($company->canSaleSubtract())
                                         > Yes </option>
+                                        <option
+                                            value="0"
+                                            @selected(!$company->canSaleSubtract())
+                                        > No </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-sort"
@@ -1089,13 +1089,13 @@
                                         name="can_siv_subtract_from_inventory"
                                     >
                                         <option
-                                            value="0"
-                                            @selected(!$company->canSivSubtract())
-                                        > No </option>
-                                        <option
                                             value="1"
                                             @selected($company->canSivSubtract())
                                         > Yes </option>
+                                        <option
+                                            value="0"
+                                            @selected(!$company->canSivSubtract())
+                                        > No </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-sort"

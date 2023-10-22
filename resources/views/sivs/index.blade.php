@@ -54,6 +54,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @if (authUser()->getAllowedWarehouses('transactions')->count() > 1)
