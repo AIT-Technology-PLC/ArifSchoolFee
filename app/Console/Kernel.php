@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('routine:daily')->withoutOverlapping()->evenInMaintenanceMode()->daily();
 
-        $schedule->command('backup:run --disable-notifications')->withoutOverlapping()->evenInMaintenanceMode()->twiceDailyAt(12, 18, 45);
+        $schedule->command('backup:run --disable-notifications')->withoutOverlapping()->evenInMaintenanceMode()->everySixHours(45)->unlessBetween('01:00', '12:00');
 
         $schedule->command('pos:remove')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
 
