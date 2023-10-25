@@ -108,6 +108,10 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <x-common.custom-field-form
+                        model-type="reservation"
+                        :input="old('customField') ?? $reservation->customFieldsAsKeyValue()"
+                    />
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="description">

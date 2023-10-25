@@ -66,6 +66,8 @@ class ReservationController extends Controller
 
             AutoBatchStoringAction::execute($reservation, $request->validated('reservation'), 'reservationDetails');
 
+            $reservation->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Reservation'), new ReservationPrepared($reservation));
 
             return $reservation;
@@ -78,7 +80,7 @@ class ReservationController extends Controller
     {
         $datatable->builder()->setTableId('reservation-details-datatable');
 
-        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'reservationDetails.merchandiseBatch', 'customer', 'contact']);
+        $reservation->load(['reservationDetails.product', 'reservationDetails.warehouse', 'reservationDetails.merchandiseBatch', 'customer', 'contact', 'customFieldValues.customField']);
 
         return $datatable->render('reservations.show', compact('reservation'));
     }

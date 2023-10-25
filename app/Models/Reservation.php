@@ -6,6 +6,7 @@ use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\CalculateCreditPayment;
 use App\Traits\Cancellable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
-    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, Cancellable, PricingTicket, HasUserstamps, CalculateCreditPayment;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, Approvable, Cancellable, PricingTicket, HasUserstamps, CalculateCreditPayment, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
