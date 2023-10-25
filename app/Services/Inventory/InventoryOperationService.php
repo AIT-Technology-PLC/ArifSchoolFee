@@ -263,7 +263,7 @@ class InventoryOperationService
     {
         $unavailableProducts = collect();
 
-        $merchandiseBatches = MerchandiseBatch::whereHas('merchandise')->with('merchandise')->get();
+        $merchandiseBatches = MerchandiseBatch::with('merchandise')->get();
 
         $batchableProducts = Product::batchable()->get();
 

@@ -255,7 +255,7 @@ class TransactionService
                 return [
                     'product_id' => Product::firstWhere('id', $detail['product_id'])->id,
                     'warehouse_id' => Warehouse::firstWhere('id', $detail['warehouse_id'])->id,
-                    'merchandise_batch_id' => MerchandiseBatch::whereHas('merchandise')->firstWhere('id', $detail['merchandise_batch_id'] ?? null)?->id,
+                    'merchandise_batch_id' => MerchandiseBatch::firstWhere('id', $detail['merchandise_batch_id'] ?? null)?->id,
                     'quantity' => $detail['quantity'],
                     'batch_no' => $detail['batch_no'] ?? null,
                     'expires_on' => $detail['expires_on'] ?? null,
