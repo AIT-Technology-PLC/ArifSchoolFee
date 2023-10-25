@@ -88,7 +88,7 @@ class TransferService
             return [false, 'This transfer is already closed.', ''];
         }
 
-        $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
+        $transferDetails = $transfer->transferDetails()->get(['product_id', 'merchandise_batch_id', 'quantity'])->toArray();
 
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
 

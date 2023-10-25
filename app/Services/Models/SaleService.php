@@ -270,7 +270,7 @@ class SaleService
         $siv = (new ConvertToSivAction)->execute(
             $sale,
             $sale->customer->company_name ?? '',
-            $sale->saleDetails()->get(['product_id', 'warehouse_id', 'quantity']),
+            $sale->saleDetails()->get(['product_id', 'merchandise_batch_id', 'warehouse_id', 'quantity']),
         );
 
         return [true, '', $siv];
