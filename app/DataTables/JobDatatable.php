@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Job;
 use App\Traits\DataTableHtmlBuilder;
 use Illuminate\Support\Arr;
@@ -22,6 +23,7 @@ class JobDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('job')
             ->editColumn('branch', fn($job) => $job->warehouse->name)
             ->editColumn('prepared by', fn($job) => $job->createdBy->name)
             ->editColumn('issued_on', fn($job) => $job->issued_on->toFormattedDateString())
@@ -65,15 +67,21 @@ class JobDatatable extends DataTable
                 'closedBy:id,name',
                 'factory:id,name',
                 'customer:id,company_name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'job')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
         $columns = [
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Jobs No'),
+            ...($customFields ?? []),
             Column::computed('status')->orderable(false),
             Column::computed('schedule')->orderable(false)->searchable(false),
             Column::make('factory', 'factory.name'),

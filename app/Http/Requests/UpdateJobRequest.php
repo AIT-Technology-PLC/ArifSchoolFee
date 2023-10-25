@@ -6,6 +6,7 @@ use App\Models\BillOfMaterial;
 use App\Models\Product;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -35,6 +36,7 @@ class UpdateJobRequest extends FormRequest
                 }
             }],
             'job.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'customField.*' => [new ValidateCustomFields('job')],
         ];
     }
 }
