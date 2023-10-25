@@ -16,7 +16,6 @@ class MerchandiseBatchController extends Controller
     {
 
         $merchandiseBatches = MerchandiseBatch::available()
-            ->whereHas('merchandise')
             ->with(['merchandise.product', 'merchandise.warehouse'])
             ->orderBy('expires_on')
             ->get();
