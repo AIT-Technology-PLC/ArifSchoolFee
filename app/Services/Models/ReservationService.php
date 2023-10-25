@@ -166,6 +166,8 @@ class ReservationService
             $gdn->gdnDetails()->createMany($reservationDetails);
 
             $gdn->reservation()->save($reservation);
+
+            $gdn->storeConvertedCustomFields($reservation, 'gdn');
         });
 
         return [true, ''];
@@ -252,6 +254,8 @@ class ReservationService
             $sale->saleDetails()->createMany($reservationDetails);
 
             $sale->reservation()->save($reservation);
+
+            $sale->storeConvertedCustomFields($reservation, 'sale');
         });
 
         return [true, ''];

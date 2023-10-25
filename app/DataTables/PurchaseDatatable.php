@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Purchase;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class PurchaseDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('purchase')
             ->editColumn('branch', fn($purchase) => $purchase->warehouse->name)
             ->editColumn('status', fn($purchase) => view('components.datatables.purchase-status', compact('purchase')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -74,16 +77,22 @@ class PurchaseDatatable extends DataTable
                 'supplier:id,company_name',
                 'contact:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'purchase')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Purchase No'),
             Column::make('type')->visible(false),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::computed('total cost')->addClass('has-text-right'),
             Column::make('supplier', 'supplier.company_name')->visible(false),
@@ -96,7 +105,7 @@ class PurchaseDatatable extends DataTable
             Column::make('cancelled by', 'cancelledBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

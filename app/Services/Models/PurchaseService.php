@@ -34,6 +34,7 @@ class PurchaseService
             'purchase_id' => $purchase->id,
             'supplier_id' => $purchase->supplier_id,
             'grn' => $purchaseDetails,
+            'customField' => $purchase->convertedCustomFields('grn'),
         ];
 
         return [true, '', $data];
@@ -69,15 +70,19 @@ class PurchaseService
             return [false, 'You exceed debt amount limit provided by this company.'];
         }
 
-        $purchase->debt()->create([
-            'supplier_id' => $purchase->supplier_id,
-            'code' => nextReferenceNumber('debts'),
-            'cash_amount' => $purchase->payment_in_cash,
-            'debt_amount' => $purchase->payment_in_debt,
-            'debt_amount_settled' => 0.00,
-            'issued_on' => now(),
-            'due_date' => $purchase->due_date,
-        ]);
+        DB::transaction(function () use ($purchase) {
+            $debt = $purchase->debt()->create([
+                'supplier_id' => $purchase->supplier_id,
+                'code' => nextReferenceNumber('debts'),
+                'cash_amount' => $purchase->payment_in_cash,
+                'debt_amount' => $purchase->payment_in_debt,
+                'debt_amount_settled' => 0.00,
+                'issued_on' => now(),
+                'due_date' => $purchase->due_date,
+            ]);
+
+            $debt->storeConvertedCustomFields($purchase, 'debt');
+        });
 
         return [true, ''];
     }

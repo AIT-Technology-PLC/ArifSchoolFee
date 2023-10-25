@@ -88,13 +88,19 @@ class TransferService
 
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
 
-        $siv = (new ConvertToSivAction)->execute(
-            'Transfer',
-            $transfer->code,
-            null,
-            $transfer->approved_by,
-            collect($transferDetails),
-        );
+        $siv = DB::transaction(function () use ($transfer, $transferDetails) {
+            $siv = (new ConvertToSivAction)->execute(
+                'Transfer',
+                $transfer->code,
+                null,
+                $transfer->approved_by,
+                collect($transferDetails),
+            );
+
+            $siv->storeConvertedCustomFields($transfer, 'siv');
+
+            return $siv;
+        });
 
         return [true, '', $siv];
     }
