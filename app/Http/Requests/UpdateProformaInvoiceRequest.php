@@ -3,14 +3,15 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
-use Illuminate\Validation\Rule;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\MustBelongToCompany;
 use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use Illuminate\Validation\Rule;
 
 class UpdateProformaInvoiceRequest extends FormRequest
 {
@@ -38,9 +39,10 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice.*.specification' => ['nullable', 'string'],
             'proformaInvoice.*.merchandise_batch_id' => [
-                new BatchSelectionIsRequiredOrProhibited, 
-                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                new BatchSelectionIsRequiredOrProhibited,
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
+            'customField.*' => [new ValidateCustomFields('proformainvoice')],
         ];
     }
 }
