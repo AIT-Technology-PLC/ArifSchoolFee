@@ -9,6 +9,7 @@ use App\Http\Requests\StoreCreditRequest;
 use App\Http\Requests\UpdateCreditRequest;
 use App\Models\Credit;
 use App\Models\Customer;
+use Illuminate\Support\Facades\DB;
 
 class CreditController extends Controller
 {
@@ -53,7 +54,13 @@ class CreditController extends Controller
             return back()->withInput()->with('failedMessage', 'The customer has exceeded the credit amount limit');
         }
 
-        $credit = Credit::create($request->validated());
+        $credit = DB::transaction(function () use ($request) {
+            $credit = Credit::create($request->validated());
+
+            $credit->createCustomFields($request->validated('customField'));
+
+            return $credit;
+        });
 
         return redirect()->route('credits.show', $credit->id);
     }
@@ -92,7 +99,11 @@ class CreditController extends Controller
                 ->with('failedMessage', 'Credit amount cannot be less than credit settlements.');
         }
 
-        $credit->update($request->validated());
+        DB::transaction(function () use ($credit, $request) {
+            $credit->update($request->validated());
+
+            $credit->createCustomFields($request->validated('customField'));
+        });
 
         return redirect()->route('credits.show', $credit->id);
     }
@@ -101,7 +112,7 @@ class CreditController extends Controller
     {
         $datatable->builder()->setTableId('credit-settlements-datatable');
 
-        $credit->load(['creditable', 'customer']);
+        $credit->load(['creditable', 'customer', 'customFieldValues.customField']);
 
         return $datatable->render('credits.show', compact('credit'));
     }
