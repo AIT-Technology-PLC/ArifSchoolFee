@@ -8,6 +8,7 @@ use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
 use App\Traits\Closable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\Subtractable;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transfer extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, Approvable, HasUserstamps, Addable, Subtractable, Closable;
+    use MultiTenancy, Branchable, SoftDeletes, Approvable, HasUserstamps, Addable, Subtractable, Closable, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

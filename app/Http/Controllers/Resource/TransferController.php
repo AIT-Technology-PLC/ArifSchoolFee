@@ -67,6 +67,8 @@ class TransferController extends Controller
                 'transferDetails'
             );
 
+            $transfer->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Transfer'), new TransferPrepared($transfer));
 
             return $transfer;
@@ -79,7 +81,7 @@ class TransferController extends Controller
     {
         $datatable->builder()->setTableId('transfer-details');
 
-        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo']);
+        $transfer->load(['transferDetails.product', 'transferDetails.merchandiseBatch', 'transferredFrom', 'transferredTo', 'customFieldValues.customField']);
 
         $sivDetails = SivDetail::with('product', 'warehouse', 'siv')->whereRelation('siv', 'purpose', 'Transfer')->whereRelation('siv', 'ref_num', $transfer->code)->get();
 
@@ -118,6 +120,8 @@ class TransferController extends Controller
                 data_fill($transferDetailsData, '*.warehouse_id', $transfer->transferred_from),
                 'transferDetails'
             );
+
+            $transfer->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('transfers.show', $transfer->id);
