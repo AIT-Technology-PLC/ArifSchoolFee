@@ -39,7 +39,7 @@ class StoreProductRequest extends FormRequest
             'inventory_valuation_method' => ['required', 'string', Rule::in(['fifo', 'lifo', 'average'])],
             'is_product_single' => ['required', 'boolean'],
             'productBundle' => ['nullable', 'array', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
-            'productBundle.*.component_id' => ['nullable', 'integer', 'distinct', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1', Rule::in(Product::nonBatchable()->pluck('id'))],
+            'productBundle.*.component_id' => ['nullable', 'integer', 'distinct', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1', Rule::in(Product::pluck('id'))],
             'productBundle.*.quantity' => ['nullable', 'numeric', 'gt:0', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
         ];
     }

@@ -346,6 +346,8 @@ class InventoryOperationService
 
         $inventoryTypeProducts = [];
 
+        $occupiedMerchandiseBatches = [];
+
         foreach ($details as $detail) {
             $product = $products->find($detail['product_id']);
 
@@ -358,14 +360,56 @@ class InventoryOperationService
             }
 
             if (!$product->isProductSingle()) {
-                $bundleDetails = $product->productBundles()->get();
+                $bundleDetails = $product->productBundles()->with('component')->get();
 
                 foreach ($bundleDetails as $bundleDetail) {
                     $newDetail = is_object($detail) ? clone $detail : $detail;
                     $newDetail['product_id'] = $bundleDetail->component_id;
                     $newDetail['quantity'] = $bundleDetail->quantity * $detail['quantity'];
 
-                    $inventoryTypeProducts[] = $newDetail;
+                    if (!$bundleDetail->component->isTypeProduct()) {
+                        continue;
+                    }
+
+                    if (!$bundleDetail->component->isBatchable()) {
+                        $inventoryTypeProducts[] = $newDetail;
+                        continue;
+                    }
+
+                    if ($bundleDetail->component->isBatchable()) {
+                        $merchandiseBatches = MerchandiseBatch::available()
+                            ->whereNotIn('id', $occupiedMerchandiseBatches)
+                            ->whereRelation('merchandise', 'product_id', $newDetail['product_id'])
+                            ->whereRelation('merchandise', 'warehouse_id', $newDetail['warehouse_id'])
+                            ->when($bundleDetail->component->isLifo(), fn($q) => $q->orderBy('expires_on', 'DESC'))
+                            ->when(!$bundleDetail->component->isLifo(), fn($q) => $q->orderBy('expires_on', 'ASC'))
+                            ->get();
+
+                        foreach ($merchandiseBatches as $merchandiseBatch) {
+                            $newDetail['merchandise_batch_id'] = $merchandiseBatch->id;
+
+                            $originalQuantity = $newDetail['quantity'];
+
+                            $newDetail['quantity'] = $merchandiseBatch->quantity >= $newDetail['quantity'] ? $newDetail['quantity'] : $merchandiseBatch->quantity;
+
+                            $inventoryTypeProducts[] = $newDetail;
+
+                            $newDetail['quantity'] = $originalQuantity;
+
+                            if ($newDetail['quantity'] >= $merchandiseBatch->quantity) {
+                                $occupiedMerchandiseBatches[] = $merchandiseBatch->id;
+                            }
+
+                            if ($merchandiseBatch->quantity >= $newDetail['quantity']) {
+                                break;
+                            }
+
+                            if ($newDetail['quantity'] > $merchandiseBatch->quantity) {
+                                $difference = $newDetail['quantity'] - $merchandiseBatch->quantity;
+                                $newDetail['quantity'] = $difference;
+                            }
+                        }
+                    }
                 }
             }
         }

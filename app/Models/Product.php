@@ -270,11 +270,6 @@ class Product extends Model
         return $query->where('is_batchable', 1)->where('is_product_single', 1);
     }
 
-    public function scopeNonBatchable($query)
-    {
-        return $query->where('is_batchable', 0)->where('is_product_single', 1);
-    }
-
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
