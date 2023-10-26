@@ -16,6 +16,8 @@ class SaleDetailController extends Controller
     {
         $this->authorize('delete', $saleDetail->sale);
 
+        abort_if($saleDetail->sale->reservation()->exists(), 403);
+
         abort_if($saleDetail->sale->isApproved() || $saleDetail->sale->isCancelled(), 403);
 
         $saleDetail->forceDelete();
