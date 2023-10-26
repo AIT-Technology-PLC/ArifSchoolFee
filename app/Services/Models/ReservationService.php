@@ -38,7 +38,7 @@ class ReservationService
 
             $reservation->reservationDetails()->createMany($updatedReservationDetails);
 
-            $reservation->createCustomFields($updatedReservation['customField']);
+            $reservation->createCustomFields($updatedReservation['customField'] ?? []);
 
             AutoBatchStoringAction::execute($reservation, $updatedReservationDetails, 'reservationDetails');
 
