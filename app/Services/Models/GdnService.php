@@ -103,15 +103,19 @@ class GdnService
             return [false, 'The customer has exceeded the credit amount limit.'];
         }
 
-        $gdn->credit()->create([
-            'customer_id' => $gdn->customer_id,
-            'code' => nextReferenceNumber('credits'),
-            'cash_amount' => $gdn->payment_in_cash,
-            'credit_amount' => $gdn->payment_in_credit,
-            'credit_amount_settled' => 0.00,
-            'issued_on' => $gdn->company->creditIssuedOnDate($gdn),
-            'due_date' => $gdn->due_date,
-        ]);
+        DB::transaction(function () use ($gdn) {
+            $credit = $gdn->credit()->create([
+                'customer_id' => $gdn->customer_id,
+                'code' => nextReferenceNumber('credits'),
+                'cash_amount' => $gdn->payment_in_cash,
+                'credit_amount' => $gdn->payment_in_credit,
+                'credit_amount_settled' => 0.00,
+                'issued_on' => $gdn->company->creditIssuedOnDate($gdn),
+                'due_date' => $gdn->due_date,
+            ]);
+
+            $credit->storeConvertedCustomFields($gdn, 'credit');
+        });
 
         return [true, ''];
     }
@@ -139,12 +143,17 @@ class GdnService
             return [false, 'This Delivery Order is closed.', ''];
         }
 
-        $siv = (new ConvertToSivAction)->execute(
-            $gdn,
-            $gdn->customer->company_name ?? '',
-            $gdn->gdnDetails()->get(['product_id', 'merchandise_batch_id', 'warehouse_id', 'quantity']),
-        );
+        $siv = DB::transaction(function () use ($gdn) {
+            $siv = (new ConvertToSivAction)->execute(
+                $gdn,
+                $gdn->customer->company_name ?? '',
+                $gdn->gdnDetails()->get(['product_id', 'merchandise_batch_id', 'warehouse_id', 'quantity']),
+            );
 
+            $siv->storeConvertedCustomFields($gdn, 'siv');
+
+            return $siv;
+        });
         return [true, '', $siv];
     }
 
@@ -248,6 +257,8 @@ class GdnService
             );
 
             $gdn->convertToSale();
+
+            $sale->storeConvertedCustomFields($gdn, 'sale');
 
             return $sale;
         });

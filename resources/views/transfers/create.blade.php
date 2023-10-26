@@ -111,7 +111,11 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <x-common.custom-field-form
+                        model-type="transfer"
+                        :input="old('customField')"
+                    />
+                    <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
                                 Description <sup class="has-text-danger"></sup>

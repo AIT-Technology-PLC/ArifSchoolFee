@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,6 +24,7 @@ class UpdateDebtRequest extends FormRequest
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['required', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('debt')],
         ];
     }
 }

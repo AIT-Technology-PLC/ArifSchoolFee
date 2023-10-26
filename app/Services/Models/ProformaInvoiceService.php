@@ -51,6 +51,8 @@ class ProformaInvoiceService
 
             $proformaInvoice->proformaInvoiceable()->associate($gdn)->save();
 
+            $gdn->storeConvertedCustomFields($proformaInvoice, 'gdn');
+
             return $gdn;
         });
 
@@ -115,6 +117,8 @@ class ProformaInvoiceService
             $sale->saleDetails()->createMany($details->toArray());
 
             $proformaInvoice->proformaInvoiceable()->associate($sale)->save();
+
+            $sale->storeConvertedCustomFields($proformaInvoice, 'sale');
 
             return $sale;
         });

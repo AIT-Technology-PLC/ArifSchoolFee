@@ -313,6 +313,7 @@ class JobService
         $data = [
             'customer_id' => $job->customer_id ?? '',
             'sale' => $jobDetails,
+            'customField' => $job->convertedCustomFields('sale'),
         ];
 
         return [true, '', $data];

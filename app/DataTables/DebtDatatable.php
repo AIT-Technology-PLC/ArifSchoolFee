@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Debt;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class DebtDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('debt')
             ->editColumn('branch', fn($debt) => $debt->warehouse->name)
             ->editColumn('purchase no', function ($debt) {
                 return view('components.datatables.link', [
@@ -75,6 +78,7 @@ class DebtDatatable extends DataTable
                 'purchase:id,code',
                 'supplier:id,company_name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
@@ -83,12 +87,17 @@ class DebtDatatable extends DataTable
         $isHidden = isFeatureEnabled('Purchase Management') ? '' : 'is-hidden';
         $requestHasSupplier = request()->routeIs('suppliers.debts.index');
 
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'debt')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Debt No'),
             Column::make('purchase no', 'purchase.code')
                 ->className('has-text-centered actions ' . $isHidden),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('supplier', 'supplier.company_name')->className('actions')->visible(!$requestHasSupplier),
             Column::make('debt amount', 'debt_amount'),
@@ -97,7 +106,7 @@ class DebtDatatable extends DataTable
             Column::make('issued_on'),
             Column::make('due_date')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use App\Rules\UniqueReferenceNum;
 use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCreditRequest extends FormRequest
 {
@@ -24,6 +25,7 @@ class UpdateCreditRequest extends FormRequest
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['nullable', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('credit')],
         ];
     }
 }

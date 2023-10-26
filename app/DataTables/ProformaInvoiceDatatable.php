@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\ProformaInvoice;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class ProformaInvoiceDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('proformainvoice')
             ->editColumn('branch', fn($proformaInvoice) => $proformaInvoice->warehouse->name)
             ->editColumn('code', fn($proformaInvoice) => $proformaInvoice->reference)
             ->editColumn('transaction', function ($proformaInvoice) {
@@ -71,16 +74,22 @@ class ProformaInvoiceDatatable extends DataTable
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'proformainvoice')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->title('PI No'),
             Column::computed('transaction')->className('has-text-centered actions'),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('customer', 'customer.company_name'),
             Column::make('customer_tin', 'customer.tin')->visible(false)->title('Customer TIN'),
@@ -91,7 +100,7 @@ class ProformaInvoiceDatatable extends DataTable
             Column::make('prepared by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

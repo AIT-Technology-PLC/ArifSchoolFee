@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Branchable;
 use App\Traits\Closable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 
 class ProformaInvoice extends Model
 {
-    use MultiTenancy, Branchable, HasFactory, SoftDeletes, PricingTicket, HasUserstamps, Closable;
+    use MultiTenancy, Branchable, HasFactory, SoftDeletes, PricingTicket, HasUserstamps, Closable, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

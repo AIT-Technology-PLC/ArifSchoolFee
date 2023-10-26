@@ -7,6 +7,7 @@ use App\Rules\CheckProductStatus;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -72,6 +73,7 @@ class UpdatePurchaseRequest extends FormRequest
             'purchase.*.vat_rate' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.surtax' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.withholding_tax' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
+            'customField.*' => [new ValidateCustomFields('purchase')],
         ];
     }
 }

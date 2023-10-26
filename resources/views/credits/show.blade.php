@@ -80,6 +80,15 @@
                         label="Unsettled Amount in {{ userCompany()->currency }}"
                     />
                 </div>
+                @foreach ($credit->customFieldValues as $field)
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            :icon="$field->customField->icon"
+                            :data="$field->value"
+                            :label="$field->customField->label"
+                        />
+                    </div>
+                @endforeach
                 @if (!is_null($credit->description))
                     <div class="column is-12">
                         <x-common.show-data-section
