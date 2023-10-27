@@ -77,13 +77,6 @@ const Product = {
 
         return this;
     },
-    nonBatchable() {
-        this.products = this.products.filter(
-            (product) => !product.is_batchable && product.is_product_single
-        );
-
-        return this;
-    },
     all() {
         return this.products;
     },

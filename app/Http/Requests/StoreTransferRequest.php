@@ -3,15 +3,16 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
-use Illuminate\Validation\Rule;
-use App\Rules\ValidateBackorder;
-use App\Rules\CheckBatchQuantity;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\MustBelongToCompany;
-use App\Rules\CheckValidBatchNumber;
-use App\Rules\CanEditReferenceNumber;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use App\Rules\CanEditReferenceNumber;
+use App\Rules\CheckBatchQuantity;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
+use App\Rules\ValidateCustomFields;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTransferRequest extends FormRequest
 {
@@ -30,13 +31,14 @@ class StoreTransferRequest extends FormRequest
             'transfer.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('transfer'))],
             'transfer.*.description' => ['nullable', 'string'],
             'transfer.*.merchandise_batch_id' => [
-                new BatchSelectionIsRequiredOrProhibited, 
-                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                new BatchSelectionIsRequiredOrProhibited,
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
             'transferred_from' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('transfer_source')->pluck('id'))],
             'transferred_to' => ['required', 'integer', 'different:transferred_from', Rule::in(authUser()->getAllowedWarehouses('add')->pluck('id'))],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('transfer')],
         ];
     }
 }

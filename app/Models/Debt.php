@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Branchable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Debt extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, HasFactory;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, HasFactory, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 

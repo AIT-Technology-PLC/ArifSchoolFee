@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\CustomField;
 use App\Models\CustomFieldValue;
 use Illuminate\Support\Arr;
 
@@ -45,5 +46,33 @@ trait HasCustomFields
         }
 
         !empty($customFields) ? $this->customFieldValues()->createMany($customFields) : null;
+    }
+
+    public function convertedCustomFields($convertedToFeature)
+    {
+        $data = [];
+
+        if (!method_exists($this, 'customFieldValues')) {
+            return $data;
+        }
+
+        foreach ($this->customFieldValues()->with('customField')->get() as $customFieldValue) {
+            $customField = CustomField::where('model_type', $convertedToFeature)->where('label', $customFieldValue->customField->label)->first();
+
+            if (empty($customField)) {
+                continue;
+            }
+
+            $data[$customField->id] = $customFieldValue->value;
+        }
+
+        return $data;
+    }
+
+    public function storeConvertedCustomFields($sourceModel, $convertedToFeature)
+    {
+        $this->createCustomFields(
+            $sourceModel->convertedCustomFields($convertedToFeature)
+        );
     }
 }

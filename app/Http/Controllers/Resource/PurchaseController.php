@@ -61,6 +61,8 @@ class PurchaseController extends Controller
 
             $purchase->purchaseDetails()->createMany($request->validated('purchase'));
 
+            $purchase->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Purchase'), new PurchasePrepared($purchase));
 
             return $purchase;
@@ -73,7 +75,7 @@ class PurchaseController extends Controller
     {
         $datatable->builder()->setTableId('purchase-details-datatable');
 
-        $purchase->load(['purchaseDetails.purchase', 'supplier', 'contact', 'grns']);
+        $purchase->load(['purchaseDetails.purchase', 'supplier', 'contact', 'grns', 'customFieldValues.customField']);
 
         return $datatable->render('purchases.show', compact('purchase'));
     }
@@ -113,6 +115,8 @@ class PurchaseController extends Controller
             $purchase->purchaseDetails()->forceDelete();
 
             $purchase->purchaseDetails()->createMany($request->validated('purchase'));
+
+            $purchase->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('purchases.show', $purchase->id);

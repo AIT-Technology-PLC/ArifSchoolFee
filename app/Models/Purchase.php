@@ -8,6 +8,7 @@ use App\Traits\Branchable;
 use App\Traits\CalculateDebtPayment;
 use App\Traits\Cancellable;
 use App\Traits\Closable;
+use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Purchase extends Model
 {
-    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, CalculateDebtPayment, Approvable, Rejectable, Cancellable;
+    use MultiTenancy, Branchable, SoftDeletes, HasUserstamps, PricingTicket, Closable, CalculateDebtPayment, Approvable, Rejectable, Cancellable, HasCustomFields;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -61,7 +62,7 @@ class Purchase extends Model
         return number_format(
             $this->subtotalPrice * $this->localTaxRate,
             2,
-            thousands_separator:''
+            thousands_separator: ''
         );
     }
 

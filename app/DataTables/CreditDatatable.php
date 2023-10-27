@@ -3,7 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Credit;
+use App\Models\CustomField;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class CreditDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('credit')
             ->editColumn('branch', fn($credit) => $credit->warehouse->name)
             ->editColumn('transaction no', function ($credit) {
                 return view('components.datatables.link', [
@@ -75,6 +78,7 @@ class CreditDatatable extends DataTable
                 'creditable',
                 'customer:id,company_name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
@@ -82,11 +86,16 @@ class CreditDatatable extends DataTable
     {
         $requestHasCustomer = request()->routeIs('customers.credits.index');
 
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'credit')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Credit No'),
             Column::computed('transaction no')->className('has-text-centered actions'),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('customer', 'customer.company_name')->className('actions')->visible(!$requestHasCustomer),
             Column::make('credit amount', 'credit_amount'),
@@ -95,7 +104,7 @@ class CreditDatatable extends DataTable
             Column::make('issued_on'),
             Column::make('due_date')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

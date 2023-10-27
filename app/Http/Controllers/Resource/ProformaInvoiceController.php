@@ -54,6 +54,8 @@ class ProformaInvoiceController extends Controller
 
             AutoBatchStoringAction::execute($proformaInvoice, $request->validated('proformaInvoice'), 'proformaInvoiceDetails');
 
+            $proformaInvoice->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Convert Proforma Invoice'), new ProformaInvoicePrepared($proformaInvoice));
 
             return $proformaInvoice;
@@ -66,7 +68,7 @@ class ProformaInvoiceController extends Controller
     {
         $datatable->builder()->setTableId('proforma-invoice-details-datatable');
 
-        $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'customer', 'contact']);
+        $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'customer', 'contact', 'customFieldValues.customField']);
 
         return $datatable->render('proforma-invoices.show', compact('proformaInvoice'));
     }
@@ -97,6 +99,8 @@ class ProformaInvoiceController extends Controller
             $proformaInvoice->proformaInvoiceDetails()->createMany($request->validated('proformaInvoice'));
 
             AutoBatchStoringAction::execute($proformaInvoice, $request->validated('proformaInvoice'), 'proformaInvoiceDetails');
+
+            $proformaInvoice->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('proforma-invoices.show', $proformaInvoice->id);

@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Reservation;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class ReservationDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('reservation')
             ->editColumn('branch', fn($reservation) => $reservation->warehouse->name)
             ->editColumn('status', fn($reservation) => view('components.datatables.reservation-status', compact('reservation')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -75,15 +78,21 @@ class ReservationDatatable extends DataTable
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'reservation')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Reservation No'),
+            ...($customFields ?? []),
             Column::make('status')->orderable(false),
             Column::make('payment_type')->visible(false),
             Column::computed('total price')->visible(false),
@@ -97,7 +106,7 @@ class ReservationDatatable extends DataTable
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

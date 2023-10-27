@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\SivDetail;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,6 +16,13 @@ class MerchandiseBatch extends Model
     protected $casts = [
         'expires_on' => 'date',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(function (Builder $builder) {
+            $builder->has('merchandise');
+        });
+    }
 
     public function merchandise()
     {

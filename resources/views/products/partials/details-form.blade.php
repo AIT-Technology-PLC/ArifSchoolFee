@@ -56,7 +56,6 @@
                                      x-bind:name="`productBundle[${index}][component_id]`"
                                      x-model="productBundle.component_id"
                                      x-init="select2(index)"
-                                     only-non-batchables
                                  />
                                  <x-common.icon
                                      name="fas fa-th"
@@ -116,7 +115,7 @@
                  productBundles: [],
 
                  async init() {
-                     await Product.init({{ Js::from($products) }}).nonBatchable();
+                     await Product.init({{ Js::from($products) }});
 
                      if (productBundle) {
                          this.productBundles = productBundle;

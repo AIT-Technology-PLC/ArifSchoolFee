@@ -11,19 +11,15 @@ class NewProductList extends Component
 
     public $includedProducts;
 
-    public $onlyNonBatchables;
-
     public $inventoryType;
 
     public $rawMaterial;
 
     public $finishedGoods;
 
-    public function __construct($includedProducts = null, $onlyNonBatchables = false, $inventoryType = false, $rawMaterial = false, $finishedGoods = false)
+    public function __construct($includedProducts = null, $inventoryType = false, $rawMaterial = false, $finishedGoods = false)
     {
         $this->includedProducts = $includedProducts;
-
-        $this->onlyNonBatchables = $onlyNonBatchables;
 
         $this->inventoryType = $inventoryType;
 
@@ -33,7 +29,6 @@ class NewProductList extends Component
 
         $this->products = Product::active()
             ->select(['id', 'product_category_id', 'name', 'code', 'type', 'description'])
-            ->when($this->onlyNonBatchables, fn($query) => $query->nonBatchable())
             ->when($this->inventoryType, fn($q) => $q->inventoryType())
             ->when($this->rawMaterial, fn($q) => $q->rawMaterial())
             ->when($this->finishedGoods, fn($q) => $q->finishedGoods())

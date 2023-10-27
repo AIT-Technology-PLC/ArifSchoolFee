@@ -88,15 +88,21 @@ class TransferService
             return [false, 'This transfer is already closed.', ''];
         }
 
-        $transferDetails = $transfer->transferDetails()->get(['product_id', 'quantity'])->toArray();
+        $transferDetails = $transfer->transferDetails()->get(['product_id', 'merchandise_batch_id', 'quantity'])->toArray();
 
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
 
-        $siv = (new ConvertToSivAction)->execute(
-            $transfer,
-            $transfer->transferredTo->name,
-            collect($transferDetails),
-        );
+        $siv = DB::transaction(function () use ($transfer, $transferDetails) {
+            $siv = (new ConvertToSivAction)->execute(
+                $transfer,
+                $transfer->transferredTo->name,
+                collect($transferDetails),
+            );
+
+            $siv->storeConvertedCustomFields($transfer, 'siv');
+
+            return $siv;
+        });
 
         return [true, '', $siv];
     }

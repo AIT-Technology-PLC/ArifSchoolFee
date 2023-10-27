@@ -38,6 +38,8 @@ class ReservationService
 
             $reservation->reservationDetails()->createMany($updatedReservationDetails);
 
+            $reservation->createCustomFields($updatedReservation['customField'] ?? []);
+
             AutoBatchStoringAction::execute($reservation, $updatedReservationDetails, 'reservationDetails');
 
             $reservation->approved_by = null;
@@ -166,6 +168,8 @@ class ReservationService
             $gdn->gdnDetails()->createMany($reservationDetails);
 
             $gdn->reservation()->save($reservation);
+
+            $gdn->storeConvertedCustomFields($reservation, 'gdn');
         });
 
         return [true, ''];
@@ -252,6 +256,8 @@ class ReservationService
             $sale->saleDetails()->createMany($reservationDetails);
 
             $sale->reservation()->save($reservation);
+
+            $sale->storeConvertedCustomFields($reservation, 'sale');
         });
 
         return [true, ''];

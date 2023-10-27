@@ -51,6 +51,8 @@ class JobController extends Controller
 
             $job->jobDetails()->createMany($request->validated('job'));
 
+            $job->createCustomFields($request->validated('customField'));
+
             Notification::send(Notifiables::byNextActionPermission('Approve Job'), new JobCreated($job));
 
             return $job;
@@ -63,7 +65,7 @@ class JobController extends Controller
     {
         $datatable->builder()->setTableId('job-details-datatable');
 
-        $job->load(['jobDetails', 'jobExtras.product', 'jobExtras.executedBy']);
+        $job->load(['jobDetails', 'jobExtras.product', 'jobExtras.executedBy', 'customFieldValues.customField']);
 
         return $datatable->render('jobs.show', compact('job'));
     }
@@ -93,6 +95,8 @@ class JobController extends Controller
             $job->jobDetails()->forceDelete();
 
             $job->jobDetails()->createMany($request->validated('job'));
+
+            $job->createCustomFields($request->validated('customField'));
         });
 
         return redirect()->route('jobs.show', $job->id);

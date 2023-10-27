@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\CanEditReferenceNumber;
 use App\Rules\MustBelongToCompany;
 use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateCustomFields;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDebtRequest extends FormRequest
@@ -23,6 +24,7 @@ class StoreDebtRequest extends FormRequest
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'due_date' => ['required', 'date', 'after:issued_on'],
             'description' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('debt')],
         ];
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\DataTables;
 
+use App\Models\CustomField;
 use App\Models\Transfer;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,6 +23,7 @@ class TransferDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
+            ->customColumns('transfer')
             ->editColumn('branch', fn($transfer) => $transfer->warehouse->name)
             ->editColumn('status', fn($transfer) => view('components.datatables.transfer-status', compact('transfer')))
             ->filterColumn('status', function ($query, $keyword) {
@@ -64,12 +67,17 @@ class TransferDatatable extends DataTable
                 'transferredFrom:id,name',
                 'transferredTo:id,name',
                 'warehouse:id,name',
+                'customFieldValues.customField',
             ]);
     }
 
     protected function getColumns()
     {
-        return [
+        foreach (CustomField::active()->visibleOnColumns()->where('model_type', 'transfer')->pluck('label') as $label) {
+            $customFields[] = Column::make($label, 'customFieldValues.value');
+        }
+
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Transfer No'),
@@ -82,7 +90,7 @@ class TransferDatatable extends DataTable
             Column::make('approved by', 'approvedBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

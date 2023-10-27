@@ -121,10 +121,6 @@ class SivController extends Controller
 
     public function destroy(Siv $siv)
     {
-        if ($siv->isAssociated()) {
-            return back()->with('failedMessage', 'SIVs issued from other transactions cannot be deleted.');
-        }
-
         abort_if($siv->isSubtracted(), 403);
 
         abort_if($siv->isApproved() && authUser()->cannot('Delete Approved SIV'), 403);

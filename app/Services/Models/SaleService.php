@@ -98,15 +98,19 @@ class SaleService
             return [false, 'The customer has exceeded the credit amount limit.'];
         }
 
-        $sale->credit()->create([
-            'customer_id' => $sale->customer_id,
-            'code' => nextReferenceNumber('credits'),
-            'cash_amount' => $sale->payment_in_cash,
-            'credit_amount' => $sale->payment_in_credit,
-            'credit_amount_settled' => 0.00,
-            'issued_on' => $sale->company->creditIssuedOnDate($sale),
-            'due_date' => $sale->due_date,
-        ]);
+        DB::transaction(function () use ($sale) {
+            $credit = $sale->credit()->create([
+                'customer_id' => $sale->customer_id,
+                'code' => nextReferenceNumber('credits'),
+                'cash_amount' => $sale->payment_in_cash,
+                'credit_amount' => $sale->payment_in_credit,
+                'credit_amount_settled' => 0.00,
+                'issued_on' => $sale->company->creditIssuedOnDate($sale),
+                'due_date' => $sale->due_date,
+            ]);
+
+            $credit->storeConvertedCustomFields($sale, 'credit');
+        });
 
         return [true, ''];
     }
@@ -271,11 +275,17 @@ class SaleService
             return [false, 'This Invoice is not subtracted yet.', ''];
         }
 
-        $siv = (new ConvertToSivAction)->execute(
-            $sale,
-            $sale->customer->company_name ?? '',
-            userCompany()->isPartialDeliveriesEnabled() ? collect($sivDetails) : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
-        );
+        $siv = DB::transaction(function () use ($sale, $sivDetails) {
+            $siv = (new ConvertToSivAction)->execute(
+                $sale,
+                $sale->customer->company_name ?? '',
+                userCompany()->isPartialDeliveriesEnabled() ? collect($sivDetails) : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
+            );
+
+            $siv->storeConvertedCustomFields($sale, 'siv');
+
+            return $siv;
+        });
 
         return [true, '', $siv];
     }

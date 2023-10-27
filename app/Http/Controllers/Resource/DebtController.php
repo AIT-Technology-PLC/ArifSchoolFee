@@ -9,6 +9,7 @@ use App\Http\Requests\StoreDebtRequest;
 use App\Http\Requests\UpdateDebtRequest;
 use App\Models\Debt;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 
 class DebtController extends Controller
 {
@@ -55,7 +56,13 @@ class DebtController extends Controller
             return back()->withInput()->with('failedMessage', 'You can not exceed debt amount limit provided by this company');
         }
 
-        $debt = Debt::create($request->validated());
+        $debt = DB::transaction(function () use ($request) {
+            $debt = Debt::create($request->validated());
+
+            $debt->createCustomFields($request->validated('customField'));
+
+            return $debt;
+        });
 
         return redirect()->route('debts.show', $debt->id);
     }
@@ -64,7 +71,7 @@ class DebtController extends Controller
     {
         $datatable->builder()->setTableId('debt-settlements-datatable');
 
-        $debt->load(['purchase', 'supplier']);
+        $debt->load(['purchase', 'supplier', 'customFieldValues.customField']);
 
         return $datatable->render('debts.show', compact('debt'));
     }
@@ -105,7 +112,11 @@ class DebtController extends Controller
                 ->with('failedMessage', 'Debt amount cannot be less than debt settlements.');
         }
 
-        $debt->update($request->validated());
+        DB::transaction(function () use ($debt, $request) {
+            $debt->update($request->validated());
+
+            $debt->createCustomFields($request->validated('customField'));
+        });
 
         return redirect()->route('debts.show', $debt->id);
     }
