@@ -118,4 +118,9 @@ class Gdn extends Model
     {
         return $this->reservation()->exists() || $this->proformaInvoice()->exists();
     }
+
+    public function isFullyDelivered()
+    {
+        return $this->gdnDetails()->sum('delivered_quantity') == $this->gdnDetails()->sum('quantity');
+    }
 }

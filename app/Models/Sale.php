@@ -110,4 +110,9 @@ class Sale extends Model
     {
         return $this->reservation()->exists() || $this->proformaInvoice()->exists();
     }
+
+    public function isFullyDelivered()
+    {
+        return $this->saleDetails()->sum('delivered_quantity') == $this->saleDetails()->sum('quantity');
+    }
 }
