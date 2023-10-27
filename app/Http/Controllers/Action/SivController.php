@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Action;
 
-use App\Actions\ApproveTransactionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Siv;
-use App\Notifications\SivApproved;
 use App\Notifications\SivSubtracted;
 use App\Services\Models\SivService;
 use App\Utilities\Notifiables;
@@ -23,27 +21,17 @@ class SivController extends Controller
         $this->sivService = $sivService;
     }
 
-    public function approve(Siv $siv, ApproveTransactionAction $action)
+    public function approve(Siv $siv)
     {
         $this->authorize('approve', $siv);
 
-        if (!authUser()->hasWarehousePermission('siv',
-            $siv->sivDetails->pluck('warehouse_id')->toArray())) {
-            return back()->with('failedMessage', 'You do not have permission to approve in one or more of the warehouses.');
-        }
-
-        [$isExecuted, $message] = $action->execute($siv);
+        [$isExecuted, $message] = $this->sivService->approve($siv);
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
         }
 
-        Notification::send(
-            Notifiables::byPermissionAndWarehouse('Read SIV', $siv->sivDetails->pluck('warehouse_id'), $siv->createdBy),
-            new SivApproved($siv)
-        );
-
-        return back();
+        return back()->with('successMessage', $message);
     }
 
     public function printed(Siv $siv)

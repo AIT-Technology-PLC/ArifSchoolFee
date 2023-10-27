@@ -248,19 +248,23 @@ class SaleService
         return [true, 'Invoice found and FS assigned successfully.'];
     }
 
-    public function convertToSiv($sale, $user)
+    public function convertToSiv($sale, $user, $sivDetails)
     {
         if (!$user->hasWarehousePermission('siv',
             $sale->saleDetails->pluck('warehouse_id')->toArray())) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if ($sale->siv()->exists()) {
+        if ($sale->siv()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
             return [false, 'Siv for this invoice was already created.'];
         }
 
         if ($sale->isCancelled()) {
             return [false, 'This Invoice is cancelled.', ''];
+        }
+
+        if ($sale->isFullyDelivered()) {
+            return [false, 'This Invoice is fully delivered.', ''];
         }
 
         if (!$sale->isSubtracted()) {
@@ -270,7 +274,7 @@ class SaleService
         $siv = (new ConvertToSivAction)->execute(
             $sale,
             $sale->customer->company_name ?? '',
-            $sale->saleDetails()->get(['product_id', 'warehouse_id', 'quantity']),
+            userCompany()->isPartialDeliveriesEnabled() ? collect($sivDetails) : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
         );
 
         return [true, '', $siv];
