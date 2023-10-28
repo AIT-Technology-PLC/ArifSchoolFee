@@ -100,21 +100,15 @@
         <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
             <thead>
                 <tr class="is-borderless">
-                    <td
-                        colspan="5"
-                        class="is-borderless"
-                    >&nbsp;</td>
+                    <td class="is-borderless">&nbsp;</td>
                 </tr>
                 <tr class="is-borderless">
-                    <td
-                        colspan="5"
-                        class="is-borderless"
-                    >&nbsp;</td>
+                    <td class="is-borderless">&nbsp;</td>
                 </tr>
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    @if ($havingCode)
+                    @if (userCompany()->showProductCodeOnPrintouts())
                         <th>Code</th>
                     @endif
                     <th>Quantity</th>
@@ -127,7 +121,7 @@
                     <tr>
                         <td> {{ $loop->index + 1 }} </td>
                         <td> {{ $sivDetail->product->name }} </td>
-                        @if ($havingCode)
+                        @if (userCompany()->showProductCodeOnPrintouts())
                             <td> {{ $sivDetail->product->code ?? '-' }} </td>
                         @endif
                         <td> {{ number_format($sivDetail->quantity, 2) }} </td>

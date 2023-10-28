@@ -50,8 +50,6 @@ class SivController extends Controller
 
         $siv->load(['sivDetails.product', 'sivDetails.warehouse', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        $havingCode = $siv->sivDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
-
-        return Pdf::loadView('sivs.print', compact('siv', 'havingCode'))->stream();
+        return Pdf::loadView('sivs.print', compact('siv'))->stream();
     }
 }

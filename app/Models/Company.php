@@ -34,6 +34,7 @@ class Company extends Model
         'does_payroll_basic_salary_include_overtime' => 'integer',
         'is_return_limited_by_sales' => 'integer',
         'can_sale_subtract' => 'integer',
+        'show_product_code_on_printouts' => 'integer',
     ];
 
     public function plan()
@@ -219,7 +220,7 @@ class Company extends Model
     public function email(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => str()->lower($value) ?? ''
+            get: fn($value) => str()->lower($value) ?? ''
         );
     }
 
@@ -339,5 +340,10 @@ class Company extends Model
         }
 
         return $transaction->issued_on;
+    }
+
+    public function showProductCodeOnPrintouts()
+    {
+        return $this->show_product_code_on_printouts;
     }
 }
