@@ -62,6 +62,7 @@ class UpdateCompanyRequest extends FormRequest
             'can_sale_subtract' => ['sometimes', 'required', 'boolean'],
             'auto_generated_credit_issued_on_date' => ['sometimes', 'required', Rule::in(['approval_date', 'issuance_date'])],
             'can_siv_subtract_from_inventory' => ['sometimes', 'required', 'boolean'],
+            'show_product_code_on_printouts' => ['required', 'boolean'],
         ];
     }
 

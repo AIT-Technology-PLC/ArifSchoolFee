@@ -35,6 +35,7 @@ class Company extends Model
         'is_return_limited_by_sales' => 'integer',
         'can_sale_subtract' => 'integer',
         'can_siv_subtract_from_inventory' => 'integer',
+        'show_product_code_on_printouts' => 'integer',
     ];
 
     public function plan()
@@ -220,7 +221,7 @@ class Company extends Model
     public function email(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => str()->lower($value) ?? ''
+            get: fn($value) => str()->lower($value) ?? ''
         );
     }
 
@@ -345,5 +346,10 @@ class Company extends Model
     public function canSivSubtract()
     {
         return $this->can_siv_subtract_from_inventory;
+    }
+
+    public function showProductCodeOnPrintouts()
+    {
+        return $this->show_product_code_on_printouts;
     }
 }

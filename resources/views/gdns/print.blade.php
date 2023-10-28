@@ -88,21 +88,15 @@
         <table class="table is-bordered is-hoverable is-fullwidth is-narrow is-size-7 is-transparent-color">
             <thead>
                 <tr class="is-borderless">
-                    <td
-                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                        class="is-borderless"
-                    >&nbsp;</td>
+                    <td class="is-borderless">&nbsp;</td>
                 </tr>
                 <tr class="is-borderless">
-                    <td
-                        colspan="{{ 5 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                        class="is-borderless"
-                    >&nbsp;</td>
+                    <td class="is-borderless">&nbsp;</td>
                 </tr>
                 <tr>
                     <th>#</th>
                     <th>Product</th>
-                    @if ($havingCode)
+                    @if (userCompany()->showProductCodeOnPrintouts())
                         <th>Code</th>
                     @endif
                     @if ($havingBatch)
@@ -125,7 +119,7 @@
                         <td>
                             {{ $gdnDetail->product->name }}
                         </td>
-                        @if ($havingCode)
+                        @if (userCompany()->showProductCodeOnPrintouts())
                             <td> {{ $gdnDetail->product->code ?? '-' }} </td>
                         @endif
                         @if ($havingBatch)
@@ -143,7 +137,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -151,7 +145,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -159,7 +153,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
@@ -168,7 +162,7 @@
                 @if (!userCompany()->isDiscountBeforeTax())
                     <tr>
                         <td
-                            colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">Discount</td>
@@ -176,7 +170,7 @@
                     </tr>
                     <tr>
                         <td
-                            colspan="{{ 4 + ($havingCode ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold">

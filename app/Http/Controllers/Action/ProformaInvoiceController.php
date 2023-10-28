@@ -19,9 +19,9 @@ class ProformaInvoiceController extends Controller
     public function __construct(ProformaInvoiceService $proformaInvoiceService)
     {
         $this->middleware('isFeatureAccessible:Proforma Invoice');
-        
+
         $this->middleware('isFeatureAccessible:Sale Management')->only('convertToSale');
-        
+
         $this->middleware('isFeatureAccessible:Gdn Management')->only('convertToGdn');
 
         $this->proformaInvoiceService = $proformaInvoiceService;
@@ -71,11 +71,9 @@ class ProformaInvoiceController extends Controller
 
         $proformaInvoice->load(['proformaInvoiceDetails.product', 'proformaInvoiceDetails.merchandiseBatch', 'warehouse', 'customer', 'contact', 'company']);
 
-        $havingCode = $proformaInvoice->proformaInvoiceDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
-
         $havingBatch = $proformaInvoice->proformaInvoiceDetails()->with('merchandiseBatch')->get()->pluck('merchandiseBatch')->pluck('batch_no')->filter()->isNotEmpty();
 
-        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingCode', 'havingBatch'))->stream();
+        return Pdf::loadView('proforma-invoices.print', compact('proformaInvoice', 'havingBatch'))->stream();
     }
 
     public function convertToGdn(ConvertProformaInvoiceRequest $request, ProformaInvoice $proformaInvoice)

@@ -62,11 +62,9 @@ class SaleController extends Controller
 
         $sale->load(['saleDetails.product', 'saleDetails.merchandiseBatch', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        $havingCode = $sale->saleDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
-
         $havingBatch = $sale->saleDetails()->with('merchandiseBatch')->get()->pluck('merchandiseBatch')->pluck('batch_no')->filter()->isNotEmpty();
 
-        return Pdf::loadView('sales.print', compact('sale', 'havingCode', 'havingBatch'))->stream();
+        return Pdf::loadView('sales.print', compact('sale', 'havingBatch'))->stream();
     }
 
     public function convertToCredit(Sale $sale)
