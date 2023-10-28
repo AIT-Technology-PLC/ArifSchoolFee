@@ -25,11 +25,19 @@ class CustomFieldController extends Controller
 
     public function create()
     {
+        if (limitReached('custom-field', CustomField::active()->count())) {
+            return back()->with('failedMessage', __('messages.limit_reached', ['limit' => 'custom fields']));
+        }
+
         return view('custom-fields.create');
     }
 
     public function store(StoreCustomFieldRequest $request)
     {
+        if (limitReached('custom-field', CustomField::active()->count())) {
+            return back()->with('failedMessage', __('messages.limit_reached', ['limit' => 'custom fields']));
+        }
+
         DB::transaction(function () use ($request) {
             foreach ($request->validated('customField') as $customField) {
                 CustomField::create($customField);
@@ -46,6 +54,12 @@ class CustomFieldController extends Controller
 
     public function update(UpdateCustomFieldRequest $request, CustomField $customField)
     {
+        if (!$customField->isActive() && $request->validated('is_active') && limitReached('custom-field', CustomField::active()->count())) {
+            $customField->update($request->safe()->except('is_active'));
+
+            return redirect()->route('custom-fields.index')->with('failedMessage', __('messages.limit_reached', ['limit' => 'custom fields']));
+        }
+
         $customField->update($request->validated());
 
         return redirect()->route('custom-fields.index');
