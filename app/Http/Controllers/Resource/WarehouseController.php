@@ -32,6 +32,10 @@ class WarehouseController extends Controller
 
     public function create()
     {
+        if (limitReached('warehouse', Warehouse::active()->count())) {
+            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
+        }
+
         return view('warehouses.create');
     }
 
@@ -59,7 +63,7 @@ class WarehouseController extends Controller
         if (! $warehouse->isActive() && $request->validated('is_active') && limitReached('warehouse', Warehouse::active()->count())) {
             $warehouse->update($request->safe()->except('is_active'));
 
-            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
+            return redirect()->route('warehouses.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'branches']));
         }
 
         $warehouse->update($request->validated());
