@@ -76,7 +76,7 @@ class TransferService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if ($transfer->siv()->exists()) {
+        if ($transfer->sivs()->exists()) {
             return [false, 'Siv for this transfer was already created.', ''];
         }
 

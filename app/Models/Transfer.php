@@ -50,9 +50,14 @@ class Transfer extends Model
         return $this->belongsTo(Warehouse::class, 'transferred_to')->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
-    public function siv()
+    public function sivs()
     {
-        return $this->morphOne(Siv::class, 'sivable');
+        return $this->morphMany(Siv::class, 'sivable');
+    }
+
+    public function details()
+    {
+        return data_set($this->transferDetails, '*.warehouse', $this->transferred_from);
     }
 
     public static function withBranchScope()
@@ -68,5 +73,10 @@ class Transfer extends Model
     public function canReverseInventoryValuation()
     {
         return false;
+    }
+
+    public function isFullyDelivered()
+    {
+        return true;
     }
 }

@@ -113,7 +113,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed() && $transfer->siv()->doesntExist())
+                @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed() && $transfer->sivs()->doesntExist())
                     @can('Create SIV')
                         <x-common.dropdown-item>
                             <x-common.transaction-button
@@ -156,7 +156,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    <x-common.transaction-siv-details :siv-details="$transfer->siv?->sivDetails" />
+    <x-common.transaction-siv-details :sivs="$transfer->sivs" />
 @endsection
 
 @push('scripts')
