@@ -72,7 +72,7 @@ class SaleController extends Controller
     {
         $datatable->builder()->setTableId('sale-details-datatable');
 
-        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact', 'customFieldValues.customField', 'siv.sivDetails']);
+        $sale->load(['saleDetails.product', 'saleDetails.warehouse', 'saleDetails.merchandiseBatch', 'gdns', 'customer', 'contact', 'customFieldValues.customField', 'sivs.sivDetails']);
 
         return $datatable->render('sales.show', compact('sale'));
     }

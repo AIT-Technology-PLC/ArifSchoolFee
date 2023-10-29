@@ -127,7 +127,7 @@ class GdnService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if ($gdn->siv()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
+        if ($gdn->sivs()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
             return [false, 'Siv for this delivery order was already created.', ''];
         }
 
@@ -297,7 +297,7 @@ class GdnService
                 InventoryOperationService::add($gdn->gdnDetails, $gdn);
                 $gdn->add();
                 $gdn->sale?->cancel();
-                $gdn->siv?->forceDelete();
+                $gdn->sivs()->forceDelete();
             }
         });
 

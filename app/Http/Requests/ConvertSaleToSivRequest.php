@@ -31,7 +31,7 @@ class ConvertSaleToSivRequest extends FormRequest
             'sale' => ['required', 'array'],
             'sale.*.product_id' => ['required', 'integer', Rule::in(Product::active()->inventoryType()->pluck('id'))],
             'sale.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sale')->pluck('id'))],
-            'sale.*.quantity' => ['required', 'numeric', 'min:0', new ValidateDeleveredQuantity($this->route('sale')->id, 'Sale')],
+            'sale.*.quantity' => ['required', 'numeric', 'gt:0', new ValidateDeleveredQuantity($this->route('sale')->id, 'Sale')],
             'sale.*.merchandise_batch_id' => ['nullable',
                 new BatchSelectionIsRequiredOrProhibited,
                 Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),

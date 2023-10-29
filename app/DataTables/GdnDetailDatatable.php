@@ -25,6 +25,9 @@ class GdnDetailDatatable extends DataTable
             ->editColumn('quantity', function ($gdnDetail) {
                 return quantity($gdnDetail->quantity, $gdnDetail->product->unit_of_measurement);
             })
+            ->editColumn('delivered_quantity', function ($gdnDetail) {
+                return quantity($gdnDetail->delivered_quantity, $gdnDetail->product->unit_of_measurement);
+            })
             ->editColumn('returned_quantity', function ($gdnDetail) {
                 return quantity($gdnDetail->returned_quantity, $gdnDetail->product->unit_of_measurement);
             })
@@ -64,6 +67,7 @@ class GdnDetailDatatable extends DataTable
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
+            Column::make('delivered_quantity')->addClass('has-text-right')->visible(false),
             Column::make('returned_quantity')->addClass('has-text-right')->visible(false),
             Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),

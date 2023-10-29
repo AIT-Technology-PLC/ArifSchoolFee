@@ -25,6 +25,9 @@ class SaleDetailDatatable extends DataTable
             ->editColumn('quantity', function ($saleDetail) {
                 return quantity($saleDetail->quantity, $saleDetail->product->unit_of_measurement);
             })
+            ->editColumn('delivered_quantity', function ($saleDetail) {
+                return quantity($saleDetail->delivered_quantity, $saleDetail->product->unit_of_measurement);
+            })
             ->editColumn('batch_no', fn($saleDetail) => $saleDetail->merchandiseBatch?->batch_no)
             ->editColumn('expires_on', fn($saleDetail) => $saleDetail->merchandiseBatch?->expires_on?->toFormattedDateString())
             ->editColumn('unit_price', fn($saleDetail) => money($saleDetail->unit_price))
@@ -60,6 +63,7 @@ class SaleDetailDatatable extends DataTable
             Column::make('product', 'product.name'),
             userCompany()->canSaleSubtract() ? Column::make('warehouse', 'warehouse.name') : null,
             Column::make('quantity')->addClass('has-text-right'),
+            Column::make('delivered_quantity')->addClass('has-text-right')->visible(false),
             Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('unit_price')->addClass('has-text-right'),

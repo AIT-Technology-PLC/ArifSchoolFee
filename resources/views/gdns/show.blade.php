@@ -239,7 +239,7 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->siv()->doesntExist() || !$gdn->isFullyDelivered()))
+                @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->sivs()->doesntExist() || !$gdn->isFullyDelivered()))
                     @can('Create SIV')
                         @if (userCompany()->isPartialDeliveriesEnabled())
                             <x-common.dropdown-item>
@@ -329,9 +329,9 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    <x-common.transaction-siv-details :siv-details="$gdn->siv?->sivDetails" />
+    <x-common.transaction-siv-details :sivs="$gdn->sivs" />
 
-    @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->siv()->doesntExist() || !$gdn->isFullyDelivered()))
+    @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->sivs()->doesntExist() || !$gdn->isFullyDelivered()))
         @can('Create SIV')
             @if (userCompany()->isPartialDeliveriesEnabled())
                 @include('gdns.partials.siv-details', ['gdnDetails' => $gdn->gdnDetails])

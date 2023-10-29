@@ -60,9 +60,9 @@ class Sale extends Model
         return $this->morphOne(ProformaInvoice::class, 'proforma_invoiceable');
     }
 
-    public function siv()
+    public function sivs()
     {
-        return $this->morphOne(Siv::class, 'sivable');
+        return $this->morphMany(Siv::class, 'sivable');
     }
 
     public function reservation()

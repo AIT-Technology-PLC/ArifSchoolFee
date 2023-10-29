@@ -65,7 +65,7 @@ class SaleService
             if ($sale->company->canSaleSubtract() && $sale->isSubtracted()) {
                 InventoryOperationService::add($sale->saleDetails, $sale);
                 $sale->add();
-                $sale->siv?->forceDelete();
+                $sale->sivs()->forceDelete();
             }
 
             return [true, 'Invoice cancelled successfully'];
@@ -259,7 +259,7 @@ class SaleService
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
         }
 
-        if ($sale->siv()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
+        if ($sale->sivs()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
             return [false, 'Siv for this invoice was already created.'];
         }
 

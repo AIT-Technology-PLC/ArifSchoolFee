@@ -1106,11 +1106,11 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    @if (isFeatureEnabled(['Sale Management', 'Gdn Management']))
+                    @if (isFeatureEnabled('Sale Management', 'Gdn Management'))
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="is_partial_deliveries_enabled">
-                                    Partial Deliveries Enabled <sup class="has-text-danger">*</sup>
+                                    Partial Deliveries <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select
@@ -1121,11 +1121,11 @@
                                         <option
                                             value="1"
                                             @selected($company->isPartialDeliveriesEnabled())
-                                        > Yes </option>
+                                        > Enabled </option>
                                         <option
                                             value="0"
                                             @selected(!$company->isPartialDeliveriesEnabled())
-                                        > No </option>
+                                        > Disabled </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-sort"
