@@ -15,6 +15,7 @@ use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\Traits\Subtractable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -74,6 +75,13 @@ class Gdn extends Model
         return $this->hasMany(Returnn::class);
     }
 
+    public function deliveredPercentage(): Attribute
+    {
+        return Attribute::get(
+            fn() => number_format($this->gdnDetails()->selectRaw('SUM(delivered_quantity/quantity)*100 AS average')->value('average'), 1)
+        );
+    }
+
     public function details()
     {
         return $this->gdnDetails;
@@ -121,6 +129,13 @@ class Gdn extends Model
 
     public function isFullyDelivered()
     {
-        return $this->gdnDetails()->sum('delivered_quantity') == $this->gdnDetails()->sum('quantity');
+        return $this->gdnDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
+    }
+
+    public function isPartiallyDelivered()
+    {
+        $deliveredQuantity = $this->gdnDetails()->sum('delivered_quantity');
+
+        return ($this->gdnDetails()->sum('quantity') > $deliveredQuantity) && $deliveredQuantity > 0;
     }
 }

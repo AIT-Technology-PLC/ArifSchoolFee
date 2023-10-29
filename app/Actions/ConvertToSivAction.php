@@ -21,6 +21,8 @@ class ConvertToSivAction
                 'approved_by' => userCompany()->isConvertToSivAsApproved() ? $model->approved_by : null,
             ]);
 
+            $details = $details->where('quantity', '>', 0);
+
             $siv->sivDetails()->createMany($details->toArray());
 
             if (userCompany()->isConvertToSivAsApproved()) {

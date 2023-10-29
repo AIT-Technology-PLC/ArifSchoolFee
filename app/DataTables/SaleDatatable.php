@@ -25,6 +25,7 @@ class SaleDatatable extends DataTable
             ->customColumns('sale')
             ->editColumn('branch', fn($sale) => $sale->warehouse->name)
             ->editColumn('status', fn($sale) => view('components.datatables.sale-status', compact('sale')))
+            ->editColumn('delivery_status', fn($sale) => view('components.datatables.delivery-status', ['model' => $sale]))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
@@ -94,6 +95,7 @@ class SaleDatatable extends DataTable
             Column::make('fs_number')->className('has-text-centered')->title('FS No'),
             ...($customFields ?? []),
             Column::computed('status'),
+            userCompany()->isPartialDeliveriesEnabled() ? Column::computed('delivery_status') : null,
             Column::make('payment_type')->visible(false),
             Column::computed('total price'),
             Column::make('customer', 'customer.company_name'),

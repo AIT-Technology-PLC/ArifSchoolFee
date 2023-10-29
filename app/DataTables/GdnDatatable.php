@@ -27,6 +27,7 @@ class GdnDatatable extends DataTable
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
             ->editColumn('invoice no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
+            ->editColumn('delivery_status', fn($gdn) => view('components.datatables.delivery-status', ['model' => $gdn]))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
                     ->when($keyword == 'waiting approval', fn($query) => $query->notApproved()->notCancelled())
@@ -101,6 +102,7 @@ class GdnDatatable extends DataTable
             isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
             ...($customFields ?? []),
             Column::make('status')->orderable(false),
+            userCompany()->isPartialDeliveriesEnabled() ? Column::computed('delivery_status') : null,
             Column::make('payment_type')->visible(false),
             Column::make('bank_name')->visible(false)->content('N/A'),
             Column::make('reference_number')->visible(false)->content('N/A'),

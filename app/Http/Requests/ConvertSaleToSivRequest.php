@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
 use App\Rules\ValidateDeleveredQuantity;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,14 +25,16 @@ class ConvertSaleToSivRequest extends FormRequest
      */
     public function rules(): array
     {
+        $saleDetails = $this->route('sale')->saleDetails;
+
         return [
             'sale' => ['sometimes', 'required', 'array'],
-            'sale.*.product_id' => ['required_with:sale', 'integer', Rule::in(Product::active()->inventoryType()->pluck('id'))],
-            'sale.*.warehouse_id' => ['required_with:sale', 'integer', Rule::in(authUser()->getAllowedWarehouses('sale')->pluck('id'))],
-            'sale.*.quantity' => ['required_with:sale', 'numeric', 'gt:0', new ValidateDeleveredQuantity($this->route('sale'))],
+            'sale.*.product_id' => ['required_with:sale', 'integer', Rule::in($saleDetails->pluck('product_id'))],
+            'sale.*.warehouse_id' => ['required_with:sale', 'integer', Rule::in($saleDetails->pluck('warehouse_id'))],
+            'sale.*.quantity' => ['required_with:sale', 'numeric', 'min:0', new ValidateDeleveredQuantity($this->route('sale'))],
             'sale.*.merchandise_batch_id' => ['nullable',
                 new BatchSelectionIsRequiredOrProhibited,
-                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', Rule::in($saleDetails->pluck('merchandise_batch_id')), new CheckValidBatchNumber]),
             ],
         ];
     }

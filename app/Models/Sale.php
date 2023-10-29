@@ -15,6 +15,7 @@ use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
 use App\Traits\Subtractable;
 use App\Utilities\Price;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -70,6 +71,13 @@ class Sale extends Model
         return $this->morphOne(Reservation::class, 'reservable');
     }
 
+    public function deliveredPercentage(): Attribute
+    {
+        return Attribute::get(
+            fn() => number_format($this->saleDetails()->selectRaw('SUM(delivered_quantity/quantity)*100 AS average')->value('average'), 1)
+        );
+    }
+
     public function details()
     {
         return $this->saleDetails;
@@ -113,6 +121,13 @@ class Sale extends Model
 
     public function isFullyDelivered()
     {
-        return $this->saleDetails()->sum('delivered_quantity') == $this->saleDetails()->sum('quantity');
+        return $this->saleDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
+    }
+
+    public function isPartiallyDelivered()
+    {
+        $deliveredQuantity = $this->saleDetails()->sum('delivered_quantity');
+
+        return ($this->saleDetails()->sum('quantity') > $deliveredQuantity) && $deliveredQuantity > 0;
     }
 }

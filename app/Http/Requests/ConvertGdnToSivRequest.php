@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Product;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckValidBatchNumber;
-use App\Rules\MustBelongToCompany;
 use App\Rules\ValidateDeleveredQuantity;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,14 +25,16 @@ class ConvertGdnToSivRequest extends FormRequest
      */
     public function rules(): array
     {
+        $gdnDetails = $this->route('gdn')->gdnDetails;
+
         return [
-            'gdn' => ['required', 'array'],
-            'gdn.*.product_id' => ['required', 'integer', Rule::in(Product::active()->inventoryType()->pluck('id'))],
-            'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('gdn')->pluck('id'))],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new ValidateDeleveredQuantity($this->route('gdn'))],
+            'gdn' => ['sometimes', 'required', 'array'],
+            'gdn.*.product_id' => ['required_with:gdn', 'integer', Rule::in($gdnDetails->pluck('product_id'))],
+            'gdn.*.warehouse_id' => ['required_with:gdn', 'integer', Rule::in($gdnDetails->pluck('warehouse_id'))],
+            'gdn.*.quantity' => ['required_with:gdn', 'numeric', 'min:0', new ValidateDeleveredQuantity($this->route('gdn'))],
             'gdn.*.merchandise_batch_id' => ['nullable',
                 new BatchSelectionIsRequiredOrProhibited,
-                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', Rule::in($gdnDetails->pluck('merchandise_batch_id')), new CheckValidBatchNumber]),
             ],
         ];
     }
