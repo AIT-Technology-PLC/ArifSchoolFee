@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConvertSaleToSivRequest;
 use App\Models\Sale;
 use App\Models\Siv;
 use App\Notifications\SaleSubtracted;
@@ -118,11 +119,11 @@ class SaleController extends Controller
         return back();
     }
 
-    public function convertToSiv(Sale $sale)
+    public function convertToSiv(Sale $sale, ConvertSaleToSivRequest $request)
     {
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->saleService->convertToSiv($sale, authUser());
+        [$isExecuted, $message, $siv] = $this->saleService->convertToSiv($sale, authUser(), $request->validated('sale'));
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

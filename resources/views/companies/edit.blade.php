@@ -1106,6 +1106,36 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    @if (isFeatureEnabled(['Sale Management', 'Gdn Management']))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="is_partial_deliveries_enabled">
+                                    Partial Deliveries Enabled <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="is_partial_deliveries_enabled"
+                                        name="is_partial_deliveries_enabled"
+                                    >
+                                        <option
+                                            value="1"
+                                            @selected($company->isPartialDeliveriesEnabled())
+                                        > Yes </option>
+                                        <option
+                                            value="0"
+                                            @selected(!$company->isPartialDeliveriesEnabled())
+                                        > No </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="is_partial_deliveries_enabled" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-6">
                         <x-forms.field>
                             <x-forms.label for="show_product_code_on_printouts">

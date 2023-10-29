@@ -35,6 +35,7 @@ class Company extends Model
         'is_return_limited_by_sales' => 'integer',
         'can_sale_subtract' => 'integer',
         'can_siv_subtract_from_inventory' => 'integer',
+        'is_partial_deliveries_enabled' => 'integer',
         'show_product_code_on_printouts' => 'integer',
     ];
 
@@ -348,6 +349,11 @@ class Company extends Model
         return $this->can_siv_subtract_from_inventory;
     }
 
+    public function isPartialDeliveriesEnabled()
+    {
+        return $this->is_partial_deliveries_enabled;
+    }
+  
     public function showProductCodeOnPrintouts()
     {
         return $this->show_product_code_on_printouts;

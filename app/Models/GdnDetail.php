@@ -70,4 +70,9 @@ class GdnDetail extends Model
                 }]
             );
     }
+
+    public function isFullyDelivered()
+    {
+        return $this->quantity == $this->delivered_quantity;
+    }
 }

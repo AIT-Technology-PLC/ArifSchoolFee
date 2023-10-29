@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Action;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConvertGdnToSivRequest;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Gdn;
@@ -12,6 +13,7 @@ use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
 use App\Utilities\Notifiables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -65,11 +67,11 @@ class GdnController extends Controller
         return Pdf::loadView('gdns.print', compact('gdn', 'havingBatch'))->stream();
     }
 
-    public function convertToSiv(Gdn $gdn)
+    public function convertToSiv(Gdn $gdn, ConvertGdnToSivRequest $request)
     {
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn, authUser());
+        [$isExecuted, $message, $siv] = $this->gdnService->convertToSiv($gdn, authUser(), $request->validated('gdn'));
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);
@@ -127,7 +129,7 @@ class GdnController extends Controller
         $this->authorize('import', Gdn::class);
 
         ini_set('max_execution_time', '-1');
-        
+
         $formattedData = $this->gdnService->formattedFromExcel($importFileRequest->validated('file'));
 
         DB::transaction(function () use ($formattedData) {

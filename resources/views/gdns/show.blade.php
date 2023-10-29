@@ -239,18 +239,31 @@
                         />
                     </x-common.dropdown-item>
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && $gdn->siv()->doesntExist())
+                @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->siv()->doesntExist() || !$gdn->isFullyDelivered()))
                     @can('Create SIV')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('gdns.convert_to_siv', $gdn->id)"
-                                action="attach"
-                                intention="attach SIV to this delivery order"
-                                icon="fas fa-file-export"
-                                label="Attach SIV"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
+                        @if (userCompany()->isPartialDeliveriesEnabled())
+                            <x-common.dropdown-item>
+                                <x-common.button
+                                    tag="button"
+                                    mode="button"
+                                    @click="$dispatch('open-siv-details-modal')"
+                                    icon="fas fa-file-export"
+                                    label="Attach SIV"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @else
+                            <x-common.dropdown-item>
+                                <x-common.transaction-button
+                                    :route="route('gdns.convert_to_siv', $gdn->id)"
+                                    action="attach"
+                                    intention="attach SIV to this delivery order"
+                                    icon="fas fa-file-export"
+                                    label="Attach SIV"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endif
                     @endcan
                 @endif
                 @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && !$gdn->isConvertedToSale() && isFeatureEnabled('Sale Management'))
@@ -317,6 +330,15 @@
     </x-common.content-wrapper>
 
     <x-common.transaction-siv-details :siv-details="$gdn->siv?->sivDetails" />
+
+    @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->siv()->doesntExist() || !$gdn->isFullyDelivered()))
+        @can('Create SIV')
+            @if (userCompany()->isPartialDeliveriesEnabled())
+                @include('gdns.partials.siv-details', ['gdnDetails' => $gdn->gdnDetails])
+            @endif
+        @endcan
+    @endif
+
 @endsection
 
 @push('scripts')
