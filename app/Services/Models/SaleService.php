@@ -279,7 +279,9 @@ class SaleService
             $siv = (new ConvertToSivAction)->execute(
                 $sale,
                 $sale->customer->company_name ?? '',
-                userCompany()->isPartialDeliveriesEnabled() ? collect($sivDetails) : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
+                userCompany()->isPartialDeliveriesEnabled()
+                ? collect($sivDetails)
+                : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
             );
 
             $siv->storeConvertedCustomFields($sale, 'siv');

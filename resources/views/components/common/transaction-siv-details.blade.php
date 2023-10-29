@@ -1,4 +1,4 @@
-@if (isFeatureEnabled('Siv Management') && $sivs)
+@if (isFeatureEnabled('Siv Management') && $sivs->isNotEmpty())
     <x-common.content-wrapper class="mt-5">
         <x-content.header title="Store Issue Vouchers" />
         <x-content.footer>

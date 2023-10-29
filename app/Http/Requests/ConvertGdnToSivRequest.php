@@ -31,7 +31,7 @@ class ConvertGdnToSivRequest extends FormRequest
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', Rule::in(Product::active()->inventoryType()->pluck('id'))],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('gdn')->pluck('id'))],
-            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new ValidateDeleveredQuantity($this->route('gdn')->id,'Do')],
+            'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new ValidateDeleveredQuantity($this->route('gdn'))],
             'gdn.*.merchandise_batch_id' => ['nullable',
                 new BatchSelectionIsRequiredOrProhibited,
                 Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),

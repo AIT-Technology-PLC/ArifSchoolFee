@@ -340,11 +340,9 @@
         </x-common.content-wrapper>
     @endif
 
-    @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs()->doesntExist() || !$sale->isFullyDelivered()))
+    @if (userCompany()->isPartialDeliveriesEnabled() && isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs()->doesntExist() || !$sale->isFullyDelivered()))
         @can('Create SIV')
-            @if (userCompany()->isPartialDeliveriesEnabled())
-                @include('sales.partials.siv-details', ['saleDetails' => $sale->saleDetails])
-            @endif
+            @include('sales.partials.siv-details', ['saleDetails' => $sale->saleDetails])
         @endcan
     @endif
 

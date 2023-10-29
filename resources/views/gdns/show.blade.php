@@ -331,11 +331,9 @@
 
     <x-common.transaction-siv-details :sivs="$gdn->sivs" />
 
-    @if (isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->sivs()->doesntExist() || !$gdn->isFullyDelivered()))
+    @if (userCompany()->isPartialDeliveriesEnabled() && isFeatureEnabled('Siv Management') && $gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && ($gdn->sivs()->doesntExist() || !$gdn->isFullyDelivered()))
         @can('Create SIV')
-            @if (userCompany()->isPartialDeliveriesEnabled())
-                @include('gdns.partials.siv-details', ['gdnDetails' => $gdn->gdnDetails])
-            @endif
+            @include('gdns.partials.siv-details', ['gdnDetails' => $gdn->gdnDetails])
         @endcan
     @endif
 

@@ -151,7 +151,9 @@ class GdnService
             $siv = (new ConvertToSivAction)->execute(
                 $gdn,
                 $gdn->customer->company_name ?? '',
-                userCompany()->isPartialDeliveriesEnabled() ? collect($sivDetails) : $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
+                userCompany()->isPartialDeliveriesEnabled()
+                ? collect($sivDetails)
+                : $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
             );
 
             $siv->storeConvertedCustomFields($gdn, 'siv');

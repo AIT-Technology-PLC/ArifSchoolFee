@@ -19,28 +19,7 @@ class SivService
         return DB::transaction(function () use ($siv) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($siv, SivApproved::class, 'Read SIV');
 
-            if (!userCompany()->isConvertToSivAsApproved() && ($siv->sivable instanceof \App\Models\Gdn  || $siv->sivable instanceof \App\Models\Sale)) {
-                if ($siv->sivable instanceof \App\Models\Gdn) {
-                    $details = $siv->sivable->gdnDetails;
-                } else {
-                    $details = $siv->sivable->saleDetails;
-                }
-
-                foreach ($siv->sivDetails as $sivDetail) {
-                    $modelDetails = $details->filter(function ($detail) use ($sivDetail) {
-                        return $detail->product_id == $sivDetail->product_id &&
-                        $detail->merchandise_batch_id == $sivDetail->merchandise_batch_id &&
-                        $detail->warehouse_id == $sivDetail->warehouse_id &&
-                        $detail->delivered_quantity < $detail->quantity;
-                    });
-
-                    if ($modelDetails->isNotEmpty()) {
-                        $modelDetail = $modelDetails->first();
-                        $modelDetail->delivered_quantity += $sivDetail->quantity;
-                        $modelDetail->save();
-                    }
-                }
-            }
+            $this->deliverSiv($siv);
 
             if (!$isExecuted) {
                 return [$isExecuted, $message];
@@ -126,5 +105,26 @@ class SivService
         });
 
         return [true, ''];
+    }
+
+    public function deliverSiv($siv)
+    {
+        if ($siv->sivable?->isFullyDelivered()) {
+            return;
+        }
+
+        foreach ($siv->sivDetails as $sivDetail) {
+            $modelDetails = $siv->sivable->details()
+                ->where('product_id', $sivDetail->product_id)
+                ->where('merchandise_batch_id', $sivDetail->merchandise_batch_id)
+                ->where('warehouse_id', $sivDetail->warehouse_id)
+                ->filter(fn($detail) => $detail->quantity > $detail->delivered_quantity);
+
+            if ($modelDetails->isNotEmpty()) {
+                $modelDetail = $modelDetails->first();
+                $modelDetail->delivered_quantity += $sivDetail->quantity;
+                $modelDetail->save();
+            }
+        }
     }
 }

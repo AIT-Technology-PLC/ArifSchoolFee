@@ -1106,7 +1106,7 @@
                             </x-forms.field>
                         </div>
                     @endif
-                    @if (isFeatureEnabled('Sale Management', 'Gdn Management'))
+                    @if (isFeatureEnabled('Siv Management') && isFeatureEnabled('Sale Management', 'Gdn Management'))
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="is_partial_deliveries_enabled">
