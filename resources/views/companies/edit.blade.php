@@ -1136,6 +1136,34 @@
                             </x-forms.field>
                         </div>
                     @endif
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="show_product_code_on_printouts">
+                                Product Code Visibility On Printouts <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="show_product_code_on_printouts"
+                                    name="show_product_code_on_printouts"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected($company->show_product_code_on_printouts)
+                                    >Show</option>
+                                    <option
+                                        value="0"
+                                        @selected(!$company->show_product_code_on_printouts)
+                                    >Hide</option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="show_product_code_on_printouts" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

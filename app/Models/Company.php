@@ -36,6 +36,7 @@ class Company extends Model
         'can_sale_subtract' => 'integer',
         'can_siv_subtract_from_inventory' => 'integer',
         'is_partial_deliveries_enabled' => 'integer',
+        'show_product_code_on_printouts' => 'integer',
     ];
 
     public function plan()
@@ -351,5 +352,10 @@ class Company extends Model
     public function isPartialDeliveriesEnabled()
     {
         return $this->is_partial_deliveries_enabled;
+    }
+  
+    public function showProductCodeOnPrintouts()
+    {
+        return $this->show_product_code_on_printouts;
     }
 }

@@ -76,9 +76,7 @@ class ReservationController extends Controller
 
         $reservation->load(['reservationDetails.product', 'customer', 'contact', 'warehouse', 'company', 'createdBy', 'approvedBy']);
 
-        $havingCode = $reservation->reservationDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
-
-        return Pdf::loadView('reservations.print', compact('reservation', 'havingCode'))->stream();
+        return Pdf::loadView('reservations.print', compact('reservation'))->stream();
     }
 
     public function cancel(Reservation $reservation)

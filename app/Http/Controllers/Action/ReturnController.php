@@ -44,9 +44,7 @@ class ReturnController extends Controller
 
         $return->load(['returnDetails.product', 'customer', 'warehouse', 'company', 'gdn.customer', 'createdBy', 'approvedBy']);
 
-        $havingCode = $return->returnDetails()->with('product')->get()->pluck('product')->pluck('code')->filter()->isNotEmpty();
-
-        return Pdf::loadView('returns.print', compact('return', 'havingCode'))->stream();
+        return Pdf::loadView('returns.print', compact('return'))->stream();
     }
 
     public function add(Returnn $return, ReturnService $returnService)

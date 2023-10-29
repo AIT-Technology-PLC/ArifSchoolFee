@@ -13,12 +13,16 @@ class Limits extends Seeder
 
     private $userLimit;
 
+    private $customFieldLimit;
+
     public function run()
     {
         DB::transaction(function () {
             $this->warehouseLimit = Limit::firstOrCreate(['name' => 'warehouse']);
 
             $this->userLimit = Limit::firstOrCreate(['name' => 'user']);
+
+            $this->customFieldLimit = Limit::firstOrCreate(['name' => 'custom-field']);
 
             $this->v1Limits();
 

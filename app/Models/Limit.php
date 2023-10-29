@@ -24,6 +24,8 @@ class Limit extends Model
 
     public function isLimitReached($limitName, $currentAmount)
     {
+        $allowedAmount = 0;
+
         $limit = $this->where('name', $limitName)->first();
 
         $limitByCompany = $limit->companies()->wherePivot('limitable_id', userCompany()->id)->first();
