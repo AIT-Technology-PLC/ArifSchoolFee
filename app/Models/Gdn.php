@@ -82,6 +82,24 @@ class Gdn extends Model
         );
     }
 
+    public function scopeDelivered($query)
+    {
+        return $query->has('gdnDetails')->whereDoesntHave('gdnDetails', fn($q) => $q->whereColumn('quantity', '<>', 'delivered_quantity'));
+    }
+
+    public function scopePartiallyDelivered($query)
+    {
+        return $query
+            ->whereHas('gdnDetails', fn($q) => $q->where('delivered_quantity', '>', 0)->whereColumn('delivered_quantity', '<', 'quantity'));
+    }
+
+    public function scopeNotDelivered($query)
+    {
+        return $query
+            ->has('gdnDetails')
+            ->whereDoesntHave('gdnDetails', fn($q) => $q->where('delivered_quantity', '>', 0));
+    }
+
     public function details()
     {
         return $this->gdnDetails;

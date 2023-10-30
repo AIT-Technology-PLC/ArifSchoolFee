@@ -74,6 +74,9 @@ class GdnDatatable extends DataTable
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled()->notClosed())
             ->when(request('status') == 'voided', fn($query) => $query->cancelled())
             ->when(request('status') == 'closed', fn($query) => $query->closed())
+            ->when(request('deliveryStatus') == 'fully delivered', fn($query) => $query->delivered())
+            ->when(request('deliveryStatus') == 'partially delivered', fn($query) => $query->partiallyDelivered())
+            ->when(request('deliveryStatus') == 'not delivered', fn($query) => $query->notDelivered())
             ->with([
                 'gdnDetails',
                 'createdBy:id,name',

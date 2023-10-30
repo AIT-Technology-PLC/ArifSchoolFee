@@ -78,6 +78,24 @@ class Sale extends Model
         );
     }
 
+    public function scopeDelivered($query)
+    {
+        return $query->has('saleDetails')->whereDoesntHave('saleDetails', fn($q) => $q->whereColumn('quantity', '<>', 'delivered_quantity'));
+    }
+
+    public function scopePartiallyDelivered($query)
+    {
+        return $query
+            ->whereHas('saleDetails', fn($q) => $q->where('delivered_quantity', '>', 0)->whereColumn('delivered_quantity', '<', 'quantity'));
+    }
+
+    public function scopeNotDelivered($query)
+    {
+        return $query
+            ->has('saleDetails')
+            ->whereDoesntHave('saleDetails', fn($q) => $q->where('delivered_quantity', '>', 0));
+    }
+
     public function details()
     {
         return $this->saleDetails;

@@ -70,6 +70,9 @@ class SaleDatatable extends DataTable
             ->when(!userCompany()->canSaleSubtract() && request('status') == 'approved', fn($query) => $query->approved()->notCancelled())
             ->when(request('status') == 'subtracted', fn($query) => $query->subtracted()->notCancelled())
             ->when(request('status') == 'voided', fn($query) => $query->cancelled())
+            ->when(request('deliveryStatus') == 'fully delivered', fn($query) => $query->delivered())
+            ->when(request('deliveryStatus') == 'partially delivered', fn($query) => $query->partiallyDelivered())
+            ->when(request('deliveryStatus') == 'not delivered', fn($query) => $query->notDelivered())
             ->with([
                 'saleDetails',
                 'createdBy:id,name',
