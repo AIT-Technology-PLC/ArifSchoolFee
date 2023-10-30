@@ -121,7 +121,7 @@ class Sale extends Model
 
     public function isFullyDelivered()
     {
-        return $this->saleDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
+        return $this->saleDetails()->exists() && $this->saleDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
     }
 
     public function isPartiallyDelivered()
