@@ -58,17 +58,19 @@
                 {{ $sale->code }}
             </h1>
         </aside>
-        <aside
-            class="is-pulled-left"
-            style="width: 25% !important"
-        >
-            <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
-                FS N<u>o</u>
-            </h1>
-            <h1 class="has-text-black is-size-6 pr-2">
-                {{ $sale->fs_number ?? '-' }}
-            </h1>
-        </aside>
+        @if (!empty($sale->fs_number))
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                    FS N<u>o</u>
+                </h1>
+                <h1 class="has-text-black is-size-6 pr-2">
+                    {{ $sale->fs_number ?? '-' }}
+                </h1>
+            </aside>
+        @endif
         <aside
             class="is-pulled-left"
             style="width: 25% !important"
