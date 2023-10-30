@@ -33,9 +33,7 @@ class InventoryValuationReport
             ->withoutGlobalScopes([BranchScope::class])
             ->join('products', 'merchandises.product_id', '=', 'products.id')
             ->join('warehouses', 'merchandises.warehouse_id', '=', 'warehouses.id')
-            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('merchandises.warehouse_id', $this->filters['branches']))
-            ->where('products.is_active', 1)
-            ->where('warehouses.is_active', 1);
+            ->when(isset($this->filters['branches']), fn($q) => $q->whereIn('merchandises.warehouse_id', $this->filters['branches']));
     }
 
     public function getValuationByProducts()
