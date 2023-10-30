@@ -80,6 +80,19 @@
                 {{ $proformaInvoice->expires_on->toFormattedDateString() }}
             </h1>
         </aside>
+        @foreach ($proformaInvoice->printableCustomFields(1) as $field)
+            <aside
+                class="is-pulled-left"
+                style="width: 25% !important"
+            >
+                <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                    {{ $field->customField->label }}
+                </h1>
+                <h1 class="has-text-black is-size-6 pr-2">
+                    {{ $field->value }}
+                </h1>
+            </aside>
+        @endforeach
     </section>
 
     <section class="pt-5 has-text-centered">
