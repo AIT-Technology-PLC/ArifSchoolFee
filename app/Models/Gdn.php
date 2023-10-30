@@ -129,7 +129,7 @@ class Gdn extends Model
 
     public function isFullyDelivered()
     {
-        return $this->gdnDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
+        return $this->gdnDetails()->exists() && $this->gdnDetails()->whereColumn('quantity', '<>', 'delivered_quantity')->doesntExist();
     }
 
     public function isPartiallyDelivered()
