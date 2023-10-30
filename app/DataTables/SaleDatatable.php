@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\CustomField;
 use App\Models\Sale;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -88,7 +89,7 @@ class SaleDatatable extends DataTable
             $customFields[] = Column::make($label, 'customFieldValues.value');
         }
 
-        return [
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Invoice No'),
@@ -108,7 +109,7 @@ class SaleDatatable extends DataTable
             Column::make('voided by', 'cancelledBy.name')->visible(false),
             Column::make('edited by', 'updatedBy.name')->visible(false),
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string
