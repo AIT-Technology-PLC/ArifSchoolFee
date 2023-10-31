@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Exchange;
 use App\Models\ProformaInvoice;
 use App\Models\Siv;
 use App\Traits\Addable;
@@ -147,5 +148,21 @@ class Sale extends Model
         $deliveredQuantity = $this->saleDetails()->sum('delivered_quantity');
 
         return ($this->saleDetails()->sum('quantity') > $deliveredQuantity) && $deliveredQuantity > 0;
+    }
+
+    public function exchange()
+    {
+        return $this->morphOne(Exchange::class, 'exchangeable');
+    }
+
+    public static function getValidSalesForReturn($forceIncludedSale = null)
+    {
+        return static::query()
+            ->subtracted()
+            ->notCancelled()
+            ->when(!is_null($forceIncludedSale), fn($q) => $q->orWhere('id', $forceIncludedSale))
+            ->orderByDesc('code')
+            ->get()
+            ->groupBy('warehouse_id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ExchangeDetail;
 use App\Models\SivDetail;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -104,5 +105,10 @@ class MerchandiseBatch extends Model
     public function sivDetails()
     {
         return $this->hasMany(SivDetail::class);
+    }
+
+    public function exchangeDetails()
+    {
+        return $this->hasMany(ExchangeDetail::class);
     }
 }

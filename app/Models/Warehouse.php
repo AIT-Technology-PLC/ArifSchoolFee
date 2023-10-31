@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ExchangeDetail;
 use App\Scopes\ActiveWarehouseScope;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
@@ -36,6 +37,7 @@ class Warehouse extends Model
         'fromTransfers',
         'toTransfers',
         'productReorders',
+        'exchangeDetails',
     ];
 
     public static function booted()
@@ -168,5 +170,10 @@ class Warehouse extends Model
     public function hasPosIntegration()
     {
         return $this->company->hasIntegration('Point of Sale') && !is_null($this->pos_provider) && !is_null($this->host_address);
+    }
+
+    public function exchangeDetails()
+    {
+        return $this->hasMany(ExchangeDetail::class);
     }
 }

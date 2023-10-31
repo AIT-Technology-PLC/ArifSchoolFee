@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Exchange;
 use App\Models\ProformaInvoice;
 use App\Models\Siv;
 use App\Traits\Addable;
@@ -63,6 +64,11 @@ class Gdn extends Model
     public function sivs()
     {
         return $this->morphMany(Siv::class, 'sivable');
+    }
+
+    public function exchange()
+    {
+        return $this->morphOne(Exchange::class, 'exchangeable');
     }
 
     public function contact()
