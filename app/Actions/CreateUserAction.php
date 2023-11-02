@@ -24,6 +24,7 @@ class CreateUserAction
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'warehouse_id' => $data['warehouse_id'],
+            'is_admin' => 0,
         ]);
     }
 

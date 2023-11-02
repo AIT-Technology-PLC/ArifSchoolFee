@@ -11,7 +11,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}"
     >
-    <title> @yield('title') - {{ userCompany()->name }} </title>
+    <title> @yield('title') - {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }} </title>
     @include('assets.css')
     @include('pwa.tags')
 </head>
@@ -33,7 +33,7 @@
                 class="column is-one-fifth-desktop is-full-touch py-5 scroller is-overflow is-hidden-touch"
                 x-bind:class="{ 'is-hidden-touch': isHidden, 'is-hidden-desktop': !isSideMenuOpenedOnLaptop }"
             >
-                <x-common.side-menu />
+                <x-dynamic-component :component="authUser()->sideMenuComponent" />
             </div>
             <div
                 id="contentRight"

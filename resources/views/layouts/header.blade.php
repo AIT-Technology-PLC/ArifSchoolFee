@@ -7,17 +7,19 @@
             >
                 <span class="has-text-white has-text-weight-light is-size-4 swera-demo-font">ONRICA</span>
             </a>
-            <a
-                x-data
-                @click="$dispatch('open-create-modal')"
-                class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right"
-                data-title="Create New ..."
-            >
-                <span class="icon">
-                    <i class="fas fa-plus"></i>
-                </span>
-            </a>
-            <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop" />
+            @if (!authUser()->isAdmin())
+                <a
+                    x-data
+                    @click="$dispatch('open-create-modal')"
+                    class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right"
+                    data-title="Create New ..."
+                >
+                    <span class="icon">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </a>
+            @endif
+            <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop {{ authUser()->isAdmin() ? 'to-the-right' : '' }}" />
             <span
                 x-data="toggler"
                 @click="toggle;$dispatch('side-menu-opened')"
@@ -39,7 +41,7 @@
                             <i class="fas fa-building"></i>
                         </span>
                         <span class="is-capitalized">
-                            {{ userCompany()->name }}
+                            {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }}
                         </span>
                     </h1>
                 </a>
@@ -58,7 +60,7 @@
                         ></i>
                     </span>
                 </a>
-                @if (isFeatureEnabled('Announcement Management'))
+                @if (!authUser()->isAdmin() && isFeatureEnabled('Announcement Management'))
                     <a
                         href="{{ route('announcements.board', ['sort' => 'latest']) }}"
                         class="navbar-item has-text-white link-text"
@@ -73,7 +75,7 @@
                     href="/"
                     id="mainMenuButton"
                     class="navbar-item has-text-white link-text"
-                    data-title="Main Menu"
+                    data-title="{{ authUser()->isAdmin() ? '' : 'Main Menu' }}"
                 >
                     <span class="icon">
                         <i class="fas fa-home"></i>
@@ -109,16 +111,18 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                <a
-                    x-data
-                    @click="$dispatch('open-create-modal')"
-                    class="navbar-item has-text-white link-text"
-                    data-title="Create New ..."
-                >
-                    <span class="icon">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                </a>
+                @if (!authUser()->isAdmin())
+                    <a
+                        x-data
+                        @click="$dispatch('open-create-modal')"
+                        class="navbar-item has-text-white link-text"
+                        data-title="Create New ..."
+                    >
+                        <span class="icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </a>
+                @endif
                 <livewire:notification-counter class="navbar-item has-text-white link-text" />
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
@@ -142,46 +146,48 @@
                         class="navbar-dropdown is-boxed"
                         style="left: -68px !important"
                     >
-                        <a
-                            href="{{ route('employees.show', authUser()->employee->id) }}"
-                            class="navbar-item text-green"
-                        >
-                            <span class="icon is-medium">
-                                <i class="fas fa-address-card"></i>
-                            </span>
-                            <span>
-                                My Profile
-                            </span>
-                        </a>
-                        @if (isFeatureEnabled('Leave Management'))
-                            <hr class="navbar-divider">
+                        @if (!authUser()->isAdmin())
                             <a
-                                href="{{ route('leaves.request.create') }}"
+                                href="{{ route('employees.show', authUser()->employee->id) }}"
                                 class="navbar-item text-green"
                             >
                                 <span class="icon is-medium">
-                                    <i class="fa-solid fa-umbrella-beach"></i>
+                                    <i class="fas fa-address-card"></i>
                                 </span>
                                 <span>
-                                    Request Leave
+                                    My Profile
                                 </span>
                             </a>
-                        @endif
-                        @if (isFeatureEnabled('Expense Claim'))
+                            @if (isFeatureEnabled('Leave Management'))
+                                <hr class="navbar-divider">
+                                <a
+                                    href="{{ route('leaves.request.create') }}"
+                                    class="navbar-item text-green"
+                                >
+                                    <span class="icon is-medium">
+                                        <i class="fa-solid fa-umbrella-beach"></i>
+                                    </span>
+                                    <span>
+                                        Request Leave
+                                    </span>
+                                </a>
+                            @endif
+                            @if (isFeatureEnabled('Expense Claim'))
+                                <hr class="navbar-divider">
+                                <a
+                                    href="{{ route('expense-claims.request.create') }}"
+                                    class="navbar-item text-green"
+                                >
+                                    <span class="icon is-medium">
+                                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                                    </span>
+                                    <span>
+                                        Request Expense Claim
+                                    </span>
+                                </a>
+                            @endif
                             <hr class="navbar-divider">
-                            <a
-                                href="{{ route('expense-claims.request.create') }}"
-                                class="navbar-item text-green"
-                            >
-                                <span class="icon is-medium">
-                                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                                </span>
-                                <span>
-                                    Request Expense Claim
-                                </span>
-                            </a>
                         @endif
-                        <hr class="navbar-divider">
                         <a
                             href="{{ route('password.edit') }}"
                             class="navbar-item text-green"
@@ -221,7 +227,9 @@
                 </div>
             </div>
         </div>
-        <x-common.create-menu />
+        @if (!authUser()->isAdmin())
+            <x-common.create-menu />
+        @endif
         <livewire:notifications />
     </div>
 </nav>

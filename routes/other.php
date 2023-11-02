@@ -4,8 +4,7 @@ use App\Http\Controllers\Api as Api;
 use App\Http\Controllers\Invokable as Invokable;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'menu.index')->name('home');
-
+Route::get('/', Invokable\HomeController::class)->name('home');
 
 Route::prefix('api')
     ->name('api.')

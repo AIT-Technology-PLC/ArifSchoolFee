@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\ActiveWarehouseScope;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,9 +52,19 @@ class User extends Authenticatable
         return $this->belongsToMany(PadPermission::class);
     }
 
+    public function sideMenuComponent(): Attribute
+    {
+        return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : 'common.side-menu');
+    }
+
     public function isEnabled()
     {
         return $this->employee->enabled;
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin && $this->employee->exists;
     }
 
     public function isAccessAllowed()

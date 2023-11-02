@@ -50,6 +50,13 @@ class RouteServiceProvider extends ServiceProvider
             // Report Controllers
             Route::middleware(['web', 'auth', 'isEmployeeEnabled'])
                 ->group(base_path('routes/reports.php'));
+
+            // Admin Controllers
+            Route::middleware(['web', 'auth'])
+                ->prefix('admin')
+                ->name('admin.')
+                ->group(base_path('routes/admin.php'));
         });
+
     }
 }

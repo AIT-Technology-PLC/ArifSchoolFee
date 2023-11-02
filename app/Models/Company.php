@@ -219,6 +219,11 @@ class Company extends Model
         return $query->where('enabled', 1);
     }
 
+    public function scopeDisabled($query)
+    {
+        return $query->where('enabled', 0);
+    }
+
     public function email(): Attribute
     {
         return Attribute::make(
