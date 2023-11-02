@@ -587,8 +587,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
-        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact'])
+    @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management', 'Exchange Management'))
+        @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact', 'Read Exchange'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -712,6 +712,21 @@
                                 </li>
                             @endcan
                         @endif
+
+                        @if (isFeatureEnabled('Exchange Management'))
+                            @can('Read Exchange')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('exchanges.index') }}"
+                                        label="Exchanges"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('exchanges.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('exchanges.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+
                         @foreach (pads('Sales & Customers') as $pad)
                             @canpad('Read', $pad)
                             <li>
