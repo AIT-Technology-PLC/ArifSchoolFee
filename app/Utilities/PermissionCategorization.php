@@ -190,6 +190,10 @@ class PermissionCategorization
             'label' => 'Batch',
             'feature' => 'Batch Management',
         ],
+        'exchange' => [
+            'label' => 'Exchange',
+            'feature' => 'Exchange Management',
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)

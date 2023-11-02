@@ -422,6 +422,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Merchandise Batch']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Damage Merchandise Batch']);
 
+            // Exchange
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Exchange']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Exchange']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Exchange']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Exchange']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Approve Exchange']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Execute Exchange']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
