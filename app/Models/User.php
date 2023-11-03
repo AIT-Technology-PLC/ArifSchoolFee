@@ -64,11 +64,15 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin && $this->employee->exists;
+        return $this->is_admin && is_null($this->employee);
     }
 
     public function isAccessAllowed()
     {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
         return $this->employee->company->isEnabled() && $this->isEnabled() &&
             ($this->hasRole('System Manager') || $this->warehouse?->isActive());
     }

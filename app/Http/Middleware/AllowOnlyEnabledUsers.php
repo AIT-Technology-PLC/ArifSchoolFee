@@ -16,7 +16,7 @@ class AllowOnlyEnabledUsers
      */
     public function handle($request, Closure $next)
     {
-        if (authUser()->isAdmin() || authUser()->isAccessAllowed()) {
+        if (authUser()->isAccessAllowed()) {
             return $next($request);
         }
 
