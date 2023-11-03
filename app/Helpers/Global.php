@@ -35,6 +35,10 @@ if (!function_exists('limitReached')) {
 if (!function_exists('isFeatureEnabled')) {
     function isFeatureEnabled(...$featureNames)
     {
+        if (auth()->check() && authUser()->isAdmin()) {
+            return true;
+        }
+
         $key = 'enabledFeatures';
 
         if (auth()->check()) {

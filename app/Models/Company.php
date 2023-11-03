@@ -214,6 +214,11 @@ class Company extends Model
         return $this->hasMany(CustomField::class);
     }
 
+    public function pads()
+    {
+        return $this->hasMany(Pad::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
@@ -358,7 +363,7 @@ class Company extends Model
     {
         return $this->is_partial_deliveries_enabled;
     }
-  
+
     public function showProductCodeOnPrintouts()
     {
         return $this->show_product_code_on_printouts;

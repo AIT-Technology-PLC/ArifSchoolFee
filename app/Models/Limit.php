@@ -46,4 +46,15 @@ class Limit extends Model
 
         return false;
     }
+
+    public static function getAllLimitsOfCompany($company)
+    {
+        return $company
+            ->plan
+            ->limits()
+            ->pluck('amount', 'name')
+            ->merge(
+                $company->limits()->pluck('amount', 'name')
+            );
+    }
 }

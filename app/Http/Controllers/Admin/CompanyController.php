@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\Admin\CompanyDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Feature;
+use App\Models\Limit;
 
 class CompanyController extends Controller
 {
@@ -32,6 +34,12 @@ class CompanyController extends Controller
     {
         abort_if(!authUser()->isAdmin(), 403);
 
-        return view('admin.companies.show', compact('company'));
+        $company->load(['integrations', 'pads', 'customFields']);
+
+        $limits = Limit::getAllLimitsOfCompany($company);
+
+        $features = Feature::getAllEnabledFeaturesOfCompany($company->id);
+
+        return view('admin.companies.show', compact('company', 'limits', 'features'));
     }
 }
