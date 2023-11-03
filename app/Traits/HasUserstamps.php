@@ -9,14 +9,14 @@ trait HasUserstamps
     protected static function bootHasUserstamps()
     {
         static::creating(function ($model) {
-            if (auth()->check()) {
+            if (auth()->check() && !authUser()->isAdmin()) {
                 $model->created_by = authUser()->id;
                 $model->updated_by = authUser()->id;
             }
         });
 
         static::updating(function ($model) {
-            if (auth()->check()) {
+            if (auth()->check() && !authUser()->isAdmin()) {
                 $model->updated_by = authUser()->id;
             }
         });

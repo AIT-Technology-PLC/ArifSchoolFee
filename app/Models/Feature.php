@@ -84,8 +84,12 @@ class Feature extends Model
             $company = Company::find($companyId);
         }
 
-        if (auth()->check()) {
+        if (auth()->check() && !authUser()->isAdmin()) {
             $company = userCompany();
+        }
+
+        if (!isset($company)) {
+            return collect();
         }
 
         $enabledFeatures = DB::table('featurables')

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\CreateCompanyAction;
 use App\DataTables\Admin\CompanyDatatable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Feature;
 use App\Models\Limit;
 use App\Models\Plan;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -25,7 +28,24 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('admin.companies.create');
+        $plans = Plan::enabled()->get();
+
+        $limits = Limit::all();
+
+        return view('admin.companies.create', compact('plans', 'limits'));
+    }
+
+    public function store(StoreCompanyRequest $request, CreateCompanyAction $createCompanyAction)
+    {
+        $user = DB::transaction(function () use ($request, $createCompanyAction) {
+            $user = $createCompanyAction->execute($request->safe()->except('limit'));
+
+            $user->employee->company->limits()->sync($request->safe()->only('limit')['limit']);
+
+            return $user;
+        });
+
+        return redirect()->route('admin.companies.show', $user->employee->company_id);
     }
 
     public function edit(Company $company)

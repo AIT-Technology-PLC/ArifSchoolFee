@@ -40,7 +40,7 @@ class CreateUserAction
                 Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr', 'transfer_source'])
             );
 
-            if (auth()->check() && isFeatureEnabled('Compensation Management') && isset($data['employeeCompensation'])) {
+            if (auth()->check() && !authUser()->isAdmin() && isFeatureEnabled('Compensation Management') && isset($data['employeeCompensation'])) {
                 $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
             }
 

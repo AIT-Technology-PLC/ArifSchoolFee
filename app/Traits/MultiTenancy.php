@@ -12,7 +12,7 @@ trait MultiTenancy
         static::addGlobalScope(new CompanyScope);
 
         static::creating(function ($model) {
-            if (auth()->check()) {
+            if (auth()->check() && !authUser()->isAdmin()) {
                 $model->company()->associate(userCompany());
             }
         });
