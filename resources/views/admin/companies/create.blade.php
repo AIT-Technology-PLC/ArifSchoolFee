@@ -164,7 +164,7 @@
                             Employee Password <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     id="password"
                                     name="password"
@@ -178,7 +178,7 @@
                                 />
                                 <x-common.validation-error property="password" />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     id="password-confirm"
                                     type="password"
