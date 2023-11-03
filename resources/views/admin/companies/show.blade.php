@@ -19,6 +19,17 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <hr class="navbar-divider">
+                <x-common.dropdown-item>
+                    <x-common.transaction-button
+                        :route="route('admin.companies.toggle_activation', $company->id)"
+                        action="{{ $company->isEnabled() ? 'deactivate' : 'activate' }}"
+                        intention="{{ $company->isEnabled() ? 'deactivate' : 'activate' }} this company account"
+                        icon="fas {{ $company->isEnabled() ? 'fa-times-circle' : 'fa-check-circle' }}"
+                        label="{{ $company->isEnabled() ? 'Deactivate' : 'Activate' }}"
+                        class="has-text-weight-bold is-small {{ $company->isEnabled() ? 'text-purple' : 'text-green' }} is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
@@ -46,11 +57,18 @@
                     />
                 </div>
                 <div class="column is-6">
-                    <x-common.show-data-section
-                        icon="fas fa-info-circle"
-                        :data="$company->isEnabled() ? 'Active' : 'Deactivated'"
-                        label="Status"
-                    />
+                    <div class="columns is-marginless is-vcentered is-mobile {{ $company->isEnabled() ? 'text-green' : 'text-purple' }}">
+                        <div class="column is-1">
+                            <x-common.icon
+                                name="fas {{ $company->isEnabled() ? 'fa-check-circle' : 'fa-times-circle' }}"
+                                class="is-size-3"
+                            />
+                        </div>
+                        <div class="column m-lr-20">
+                            <div class="is-size- has-text-weight-bold"> {{ $company->isEnabled() ? 'Active' : 'Deactivated' }} </div>
+                            <div class="is-uppercase is-size-7"> Status </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </x-content.footer>

@@ -368,4 +368,11 @@ class Company extends Model
     {
         return $this->show_product_code_on_printouts;
     }
+
+    public function toggleActivation()
+    {
+        $this->isEnabled() ? $this->enabled = 0 : $this->enabled = 1;
+
+        $this->save();
+    }
 }
