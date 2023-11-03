@@ -128,7 +128,7 @@
                                     name="name"
                                     type="text"
                                     placeholder="Employee Name"
-                                    value="{{ old('name') }}"
+                                    value="{{ old('name', 'Onrica Support') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-user"
@@ -149,7 +149,7 @@
                                     name="email"
                                     type="email"
                                     placeholder="Employee Email"
-                                    value="{{ old('email') }}"
+                                    value="{{ old('email', '@onrica.com') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-at"
