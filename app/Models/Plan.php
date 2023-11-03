@@ -25,4 +25,9 @@ class Plan extends Model
     {
         return $this->morphToMany(Feature::class, 'featurable')->withPivot('is_enabled');
     }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('is_enabled', 1);
+    }
 }
