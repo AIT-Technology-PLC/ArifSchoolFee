@@ -20,4 +20,9 @@ class Integration extends Model
     {
         return $this->belongsToMany(Company::class)->withPivot('is_enabled');
     }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('is_enabled', 1);
+    }
 }

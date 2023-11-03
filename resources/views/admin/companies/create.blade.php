@@ -93,6 +93,32 @@
                     @endforeach
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="integrations[]">
+                                Integrations <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    x-init="initializeSelect2($el, '')"
+                                    class="is-fullwidth is-multiple"
+                                    id="integrations[]"
+                                    name="integrations[]"
+                                    multiple
+                                >
+                                    @foreach ($integrations as $integration)
+                                        <option
+                                            value="{{ $integration->id }}"
+                                            @selected(in_array($integration->id, old('integrations', [])))
+                                        >
+                                            {{ $integration->name }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.validation-error property="integrations.*" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="name">
                                 Employee Name <sup class="has-text-danger">*</sup>
                             </x-forms.label>
