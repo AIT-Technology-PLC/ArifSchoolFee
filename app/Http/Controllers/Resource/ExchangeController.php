@@ -56,12 +56,13 @@ class ExchangeController extends Controller
 
         $exchangeableId = !is_null($request->validated('gdn_id')) ? $request->validated('gdn_id') : $request->validated('sale_id');
 
-        $request['exchangeable_id'] = $exchangeableId;
-
         $model = new $modelClass();
 
-        $exchange = DB::transaction(function () use ($request, $model) {
+        $exchange = DB::transaction(function () use ($request, $model, $exchangeableId) {
             $exchange = $model->exchange()->create($request->safe()->except('exchange'));
+
+            $exchange->exchangeable_id = $exchangeableId;
+            $exchange->save();
 
             $exchange->exchangeDetails()->createMany($request->validated('exchange'));
 
