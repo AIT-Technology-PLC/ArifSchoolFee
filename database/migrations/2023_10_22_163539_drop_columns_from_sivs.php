@@ -6,6 +6,7 @@ use App\Models\Siv;
 use App\Models\Transfer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -15,24 +16,43 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Siv::whereNotNull('purpose')->whereNotNull('ref_num')->whereNot('purpose', 'Expo')->get()->each(function ($siv) {
-            if ($siv->purpose == 'DO' && Gdn::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
-                $siv->sivable_type = Gdn::class;
-                $siv->sivable_id = Gdn::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
-                $siv->save();
-            }
+        ini_set('max_execution_time', '-1');
 
-            if ($siv->purpose == 'Invoice' && Sale::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
-                $siv->sivable_type = Sale::class;
-                $siv->sivable_id = Sale::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
-                $siv->save();
-            }
+        DB::transaction(function () {
+            Siv::with(['approvedBy', 'createdBy'])->whereNotNull('purpose')->whereNotNull('ref_num')->whereNot('purpose', 'Expo')->get()->each(function ($siv) {
+                $warehouseId = $siv->company->isConvertToSivAsApproved() && $siv->isApproved() ? $siv->approvedBy->warehouse_id : $siv->createdBy->warehouse_id;
 
-            if ($siv->purpose == 'Transfer' && Transfer::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->exists()) {
-                $siv->sivable_type = Transfer::class;
-                $siv->sivable_id = Transfer::where('warehouse_id', $siv->createdBy->warehouse_id)->where('code', $siv->ref_num)->first()->id;
-                $siv->save();
-            }
+                $isFound = false;
+
+                if (!$isFound && $siv->purpose == 'DO' && Gdn::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->exists()) {
+                    $siv->sivable_type = Gdn::class;
+                    $siv->sivable_id = Gdn::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->first()->id;
+                    $siv->description = $siv->description . ' ' . $siv->purpose . ': ' . $siv->ref_num;
+                    $siv->save();
+                    $isFound = true;
+                }
+
+                if (!$isFound && $siv->purpose == 'Invoice' && Sale::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->exists()) {
+                    $siv->sivable_type = Sale::class;
+                    $siv->sivable_id = Sale::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->first()->id;
+                    $siv->description = $siv->description . ' ' . $siv->purpose . ': ' . $siv->ref_num;
+                    $siv->save();
+                    $isFound = true;
+                }
+
+                if (!$isFound && $siv->purpose == 'Transfer' && Transfer::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->exists()) {
+                    $siv->sivable_type = Transfer::class;
+                    $siv->sivable_id = Transfer::where('warehouse_id', $warehouseId)->where('code', $siv->ref_num)->first()->id;
+                    $siv->description = $siv->description . ' ' . $siv->purpose . ': ' . $siv->ref_num;
+                    $siv->save();
+                    $isFound = true;
+                }
+
+                if (!$isFound) {
+                    $siv->description = $siv->description . ' ' . $siv->purpose . ': ' . $siv->ref_num;
+                    $siv->save();
+                }
+            });
         });
 
         Schema::table('sivs', function (Blueprint $table) {

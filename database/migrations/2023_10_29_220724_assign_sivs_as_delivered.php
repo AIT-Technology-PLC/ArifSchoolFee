@@ -12,6 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        ini_set('max_execution_time', '-1');
+
         DB::transaction(function () {
             Gdn::with('gdnDetails')
                 ->subtracted()
@@ -29,7 +31,6 @@ return new class extends Migration
                             ->flatten()
                             ->where('product_id', $gdnDetail->product_id)
                             ->where('warehouse_id', $gdnDetail->warehouse_id)
-                            ->when($gdnDetail->merchandise_batch_id, fn($q) => $q->where('merchandise_batch_id', $gdnDetail->merchandise_batch_id))
                             ->sum('quantity');
 
                         $gdnDetail->save();
@@ -52,7 +53,6 @@ return new class extends Migration
                             ->flatten()
                             ->where('product_id', $saleDetail->product_id)
                             ->where('warehouse_id', $saleDetail->warehouse_id)
-                            ->when($saleDetail->merchandise_batch_id, fn($q) => $q->where('merchandise_batch_id', $saleDetail->merchandise_batch_id))
                             ->sum('quantity');
 
                         $saleDetail->save();
