@@ -56,8 +56,8 @@ class Returnn extends Model
         return $this->company->isReturnLimitedBySales();
     }
 
-    public function exchange()
+    public function exchanges()
     {
-        return $this->hasOne(Exchange::class);
+        return $this->hasMany(Exchange::class);
     }
 }

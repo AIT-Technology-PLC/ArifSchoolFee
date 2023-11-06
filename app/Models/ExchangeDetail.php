@@ -7,7 +7,6 @@ use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Scopes\ActiveWarehouseScope;
-use App\Traits\HasCustomFields;
 use App\Traits\PricingProduct;
 use App\Traits\TouchParentUserstamp;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ExchangeDetail extends Model
 {
-    use SoftDeletes, PricingProduct, HasCustomFields, TouchParentUserstamp;
+    use SoftDeletes, PricingProduct, TouchParentUserstamp;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -25,7 +24,7 @@ class ExchangeDetail extends Model
 
     public function exchange()
     {
-        $this->belongsTo(Exchange::class);
+        return $this->belongsTo(Exchange::class);
     }
 
     public function exchangeDetailable()
