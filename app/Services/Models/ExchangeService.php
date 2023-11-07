@@ -78,6 +78,8 @@ class ExchangeService
         $exchange->exchangeable()->associate($gdn)->save();
 
         $exchange->exchangeDetails->each(function ($exchangeDetail) use ($gdn) {
+            $exchangeDetail->returned_quantity = 0;
+
             $gdnDetail = $gdn->gdnDetails()->create($exchangeDetail->toArray());
 
             $exchangeDetail->exchangeDetailable()->associate($gdnDetail)->save();
@@ -107,6 +109,8 @@ class ExchangeService
         $exchange->exchangeable()->associate($sale)->save();
 
         $exchange->exchangeDetails->each(function ($exchangeDetail) use ($sale) {
+            $exchangeDetail->returned_quantity = 0;
+
             $saleDetail = $sale->saleDetails()->create($exchangeDetail->toArray());
 
             $exchangeDetail->exchangeDetailable()->associate($saleDetail)->save();
@@ -134,7 +138,7 @@ class ExchangeService
 
         $exchange->save();
 
-        $details = collect($exchange->exchangeDetail)
+        $details = collect($exchange->exchangeDetails)
             ->map(function ($item) {
                 $item['quantity'] = $item['returned_quantity'];
 
