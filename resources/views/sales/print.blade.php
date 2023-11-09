@@ -164,43 +164,30 @@
                 <tr>
                     <td
                         colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                        class="is-borderless"
-                    ></td>
+                        rowspan="5"
+                        class="is-borderless has-text-weight-medium "
+                    >
+                        {{ str(numberToWords($sale->grandTotalPrice))->title() }} {{ userCompany()->currency }}
+                    </td>
                     <td class="has-text-weight-bold">Sub-Total</td>
                     <td class="has-text-right">{{ number_format($sale->subtotalPrice, 2) }}</td>
                 </tr>
                 <tr>
-                    <td
-                        colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                        class="is-borderless"
-                    ></td>
                     <td class="has-text-weight-bold">Tax</td>
                     <td class="has-text-right">{{ number_format($sale->tax, 2) }}</td>
                 </tr>
                 @if ($sale->hasWithholding())
                     <tr>
-                        <td
-                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                            class="is-borderless"
-                        ></td>
                         <td class="has-text-weight-bold">Withholding Tax ({{ userCompany()->withholdingTaxes['tax_rate'] * 100 }}%)</td>
                         <td class="has-text-right">{{ number_format($sale->totalWithheldAmount, 2) }}</td>
                     </tr>
                 @endif
                 <tr>
-                    <td
-                        colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                        class="is-borderless"
-                    ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
                     <td class="has-text-right has-text-weight-bold">{{ number_format($sale->grandTotalPrice, 2) }}</td>
                 </tr>
                 @if ($sale->hasWithholding())
                     <tr>
-                        <td
-                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
-                            class="is-borderless"
-                        ></td>
                         <td class="has-text-weight-bold"></td>
                         <td class="has-text-right has-text-weight-bold">{{ number_format($sale->grandTotalPrice - $sale->totalWithheldAmount, 2) }}</td>
                     </tr>
