@@ -71,10 +71,12 @@ class CompanyController extends Controller
     {
         $company->load(['integrations', 'pads', 'customFields']);
 
-        $limits = Limit::getAllLimitsOfCompany($company);
+        $companyLimits = Limit::getAllLimitsOfCompany($company);
+
+        $limits = Limit::all();
 
         $features = Feature::getAllEnabledFeaturesOfCompany($company->id);
 
-        return view('admin.companies.show', compact('company', 'limits', 'features'));
+        return view('admin.companies.show', compact('company', 'companyLimits', 'features', 'limits'));
     }
 }

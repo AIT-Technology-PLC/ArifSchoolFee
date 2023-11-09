@@ -19,6 +19,16 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        @click="$dispatch('open-company-limits-modal')"
+                        icon="fas fa-diagram-project"
+                        label="Manage Resources"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 <hr class="navbar-divider">
                 <x-common.dropdown-item>
                     <x-common.transaction-button
@@ -33,6 +43,7 @@
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>
+            <x-common.success-message :message="session('successMessage')" />
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
@@ -99,10 +110,10 @@
                         <th class="has-text-right"><abbr> Amount </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($limits as $limit => $amount)
+                        @foreach ($companyLimits as $companyLimit => $amount)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ str()->title($limit) }} </td>
+                                <td> {{ str()->title($companyLimit) }} </td>
                                 <td class="has-text-right"> {{ number_format($amount, 2) }} </td>
                             </tr>
                         @endforeach
@@ -255,4 +266,6 @@
             </x-content.footer>
         </div>
     </div>
+
+    @include('admin.limits.edit', ['company' => $company])
 @endsection

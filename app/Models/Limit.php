@@ -57,4 +57,17 @@ class Limit extends Model
                 $company->limits()->pluck('amount', 'name')
             );
     }
+
+    public function getLimitAmountOfCompany($company)
+    {
+        $amount = $this->companies()->firstWhere('companies.id', $company->id)?->pivot->amount ?? null;
+
+        if (!is_null($amount)) {
+            return $amount;
+        }
+
+        $amount = $this->plans()->firstWhere('plans.id', $company->plan_id)?->pivot->amount;
+
+        return $amount;
+    }
 }
