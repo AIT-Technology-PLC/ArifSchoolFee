@@ -39,6 +39,16 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        @click="$dispatch('open-company-features-modal')"
+                        icon="fas fa-cubes"
+                        label="Manage Features"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 <hr class="navbar-divider">
                 <x-common.dropdown-item>
                     <x-common.transaction-button
@@ -173,7 +183,7 @@
                         <span class="icon mr-1">
                             <i class="fas fa-cubes"></i>
                         </span>
-                        <span>Features</span>
+                        <span>Features By Plan</span>
                     </h1>
                 </x-slot:header>
             </x-content.header>
@@ -189,10 +199,46 @@
                         <th><abbr> Feature </abbr></th>
                     </x-slot>
                     <x-slot name="body">
-                        @foreach ($features as $feature)
+                        @foreach ($planFeatures as $planFeature)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ str()->title($feature) }} </td>
+                                <td> {{ str()->title($planFeature->name) }} </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
+
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-cubes"></i>
+                        </span>
+                        <span>Additional Features</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu="[5]"
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Feature </abbr></th>
+                        <th><abbr> Status </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($companyFeatures as $companyFeature)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ str()->title($companyFeature->name) }} </td>
+                                <td> {{ $companyFeature->pivot->is_enabled ? 'Enabled' : 'Disabled' }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -280,4 +326,6 @@
     @include('admin.limits.edit', ['company' => $company])
 
     @include('admin.integrations.edit', ['company' => $company])
+
+    @include('admin.features.edit', ['company' => $company])
 @endsection
