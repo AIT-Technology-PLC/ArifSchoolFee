@@ -29,6 +29,16 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        @click="$dispatch('open-company-integrations-modal')"
+                        icon="fas fa-code"
+                        label="Manage Integrations"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 <hr class="navbar-divider">
                 <x-common.dropdown-item>
                     <x-common.transaction-button
@@ -268,4 +278,6 @@
     </div>
 
     @include('admin.limits.edit', ['company' => $company])
+
+    @include('admin.integrations.edit', ['company' => $company])
 @endsection

@@ -77,6 +77,8 @@ class CompanyController extends Controller
 
         $features = Feature::getAllEnabledFeaturesOfCompany($company->id);
 
-        return view('admin.companies.show', compact('company', 'companyLimits', 'features', 'limits'));
+        $integrations = Integration::enabled()->get();
+
+        return view('admin.companies.show', compact('company', 'companyLimits', 'features', 'limits', 'integrations'));
     }
 }
