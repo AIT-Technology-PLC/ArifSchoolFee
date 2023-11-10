@@ -49,6 +49,16 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        @click="$dispatch('open-company-reset-modal')"
+                        icon="fas fa-power-off"
+                        label="Reset Account"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 <hr class="navbar-divider">
                 <x-common.dropdown-item>
                     <x-common.transaction-button
@@ -64,6 +74,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
                     <x-common.show-data-section
@@ -328,4 +339,6 @@
     @include('admin.integrations.edit', ['company' => $company])
 
     @include('admin.features.edit', ['company' => $company])
+
+    @include('admin.companies.partials.reset', ['company' => $company])
 @endsection

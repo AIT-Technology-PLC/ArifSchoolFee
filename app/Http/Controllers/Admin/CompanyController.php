@@ -83,6 +83,8 @@ class CompanyController extends Controller
 
         $features = Feature::all();
 
-        return view('admin.companies.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits', 'integrations', 'features'));
+        $tables = ['brands', 'product_categories', 'products', 'contacts', 'customers', 'suppliers', 'purchases', 'prices', 'price_increments'];
+
+        return view('admin.companies.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits', 'integrations', 'features', 'tables'));
     }
 }

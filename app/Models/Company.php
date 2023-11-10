@@ -169,6 +169,16 @@ class Company extends Model
         return $this->hasMany(Credit::class);
     }
 
+    public function debts()
+    {
+        return $this->hasMany(Debt::class);
+    }
+
+    public function customerDeposits()
+    {
+        return $this->hasMany(CustomerDeposit::class);
+    }
+
     public function prices()
     {
         return $this->hasMany(Price::class);
@@ -217,6 +227,26 @@ class Company extends Model
     public function pads()
     {
         return $this->hasMany(Pad::class);
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+    public function inventoryHistories()
+    {
+        return $this->hasMany(InventoryHistory::class);
+    }
+
+    public function inventoryValuationBalances()
+    {
+        return $this->hasMany(InventoryValuationBalance::class);
+    }
+
+    public function inventoryValuationHistories()
+    {
+        return $this->hasMany(InventoryValuationHistory::class);
     }
 
     public function scopeEnabled($query)
