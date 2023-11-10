@@ -75,8 +75,9 @@ php artisan storage:link
 php artisan serve
 ```
 
-## Login Credentials
+## Admin Login Credentials
 
-| Email            | Password |
-| ---------------- | -------- |
-| admin@onrica.com | password |
+| User Type | Email            | Password      |
+| --------- | ---------------- | ------------- |
+| ADMIN     | admin@onrica.com | adminpassword |
+| USER      | user@onrica.com  | userpassword  |

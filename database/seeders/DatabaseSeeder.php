@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             Integrations::class,
             Permissions::class,
             CreateNewCompany::class,
+            CreateAdminUser::class,
         ]);
     }
 }

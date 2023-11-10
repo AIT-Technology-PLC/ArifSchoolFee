@@ -12,13 +12,15 @@ class CreateNewCompany extends Seeder
 {
     public function run(Faker $faker, CreateCompanyAction $action)
     {
-        DB::transaction(function () use ($faker, $action) {
-            $action->execute([
+        $user = DB::transaction(function () use ($faker, $action) {
+            return $action->execute([
                 'company_name' => $faker->company,
                 'name' => $faker->name,
-                'email' => User::count() ? $faker->unique()->safeEmail : 'admin@onrica.com',
-                'password' => 'password',
+                'email' => User::count() ? $faker->unique()->safeEmail : 'user@onrica.com',
+                'password' => 'userpassword',
             ]);
         });
+
+        $this->command->table(['email', 'password'], [[$user->email, 'userpassword']]);
     }
 }
