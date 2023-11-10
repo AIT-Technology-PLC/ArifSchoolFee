@@ -69,7 +69,7 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
-        $company->load(['integrations', 'pads', 'customFields']);
+        $company->load(['integrations', 'pads', 'customFields', 'limits', 'plan.limits']);
 
         $companyLimits = Limit::getAllLimitsOfCompany($company);
 
