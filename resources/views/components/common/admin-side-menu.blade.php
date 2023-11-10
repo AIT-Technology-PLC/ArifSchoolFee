@@ -88,10 +88,10 @@
         <li>
             <x-common.button
                 tag="a"
-                {{-- href="{{ route('admin.users.index') }}" --}}
+                href="{{ route('admin.users.index') }}"
                 class="text-green is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"
-                {{-- x-init="{{ request()->routeIs('admin.users.*') ? 'activateAccordion' : '' }}" --}}
+                x-init="{{ request()->routeIs('admin.users.*') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
                     name="fas fa-user-group"

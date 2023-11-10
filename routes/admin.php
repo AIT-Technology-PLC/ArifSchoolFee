@@ -9,3 +9,4 @@ Route::post('companies/{company}/integrations', Admin\CompanyIntegrationControll
 Route::post('companies/{company}/limits', Admin\CompanyLimitController::class)->name('companies.limits.update');
 Route::post('companies/{company}/toggle', Admin\CompanyToggleActivationController::class)->name('companies.toggle_activation');
 Route::resource('companies', Admin\CompanyController::class);
+Route::resource('users', Admin\UserController::class)->except(['show', 'destroy']);
