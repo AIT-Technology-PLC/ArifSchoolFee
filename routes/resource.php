@@ -192,3 +192,7 @@ Route::resource('cost-updates', Resource\CostUpdateController::class);
 Route::resource('cost-update-details', Resource\CostUpdateDetailController::class)->only(['destroy']);
 
 Route::resource('merchandise-batches', Resource\MerchandiseBatchController::class)->only(['index', 'edit', 'update']);
+
+Route::resource('exchanges', Resource\ExchangeController::class);
+
+Route::resource('exchange-details', Resource\ExchangeDetailController::class)->only(['destroy']);

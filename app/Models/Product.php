@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\CostUpdateDetail;
+use App\Models\ExchangeDetail;
 use App\Models\InventoryValuationBalance;
 use App\Models\InventoryValuationHistory;
 use App\Models\ProductBundle;
@@ -57,6 +58,7 @@ class Product extends Model
         'inventoryValuationBalances',
         'costUpdateDetails',
         'productBundles',
+        'exchangeDetails',
     ];
 
     protected static function booted()
@@ -378,5 +380,10 @@ class Product extends Model
         }
 
         return $reorderQuantityByWarehouse ?: $reorderQuantityGenerally;
+    }
+
+    public function exchangeDetails()
+    {
+        return $this->hasMany(ExchangeDetail::class);
     }
 }

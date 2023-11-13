@@ -546,8 +546,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
-            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact'])
+        @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management', 'Exchange Management'))
+            @canany(['Read Sale', 'Read GDN', 'Read Proforma Invoice', 'Read Reservation', 'Read Return', 'Read Customer', 'Read Contact', 'Read Exchange'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -689,6 +689,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Contacts
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Exchange Management'))
+                                @can('Read Exchange')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('exchanges.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Exchanges
                                         </span>
                                     </div>
                                 @endcan

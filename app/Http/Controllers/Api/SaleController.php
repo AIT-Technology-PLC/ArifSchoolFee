@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Sale;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Models\SaleService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class SaleController extends Controller
@@ -39,5 +40,10 @@ class SaleController extends Controller
             'is_success' => $isExecuted,
             'message' => $message,
         ]);
+    }
+
+    public function show(Sale $sale)
+    {
+        return $sale->load(['saleDetails.product']);
     }
 }

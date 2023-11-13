@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ExchangeDetail;
 use App\Scopes\ActiveWarehouseScope;
 use App\Scopes\BranchScope;
 use App\Traits\PricingProduct;
@@ -68,5 +69,10 @@ class SaleDetail extends Model
     public function isFullyDelivered()
     {
         return $this->quantity == $this->delivered_quantity;
+    }
+
+    public function exchangeDetail()
+    {
+        return $this->morphOne(ExchangeDetail::class, 'exchange_detailable');
     }
 }

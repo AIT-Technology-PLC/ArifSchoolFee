@@ -555,3 +555,20 @@ Route::post('/cost-updates/{costUpdate}/reject',
 Route::post('/cost-updates/import',
     [Action\CostUpdateController::class, 'import'])
     ->name('cost-updates.import');
+
+//Exchange
+Route::post('/exchanges/{exchange}/approve',
+    [Action\ExchangeController::class, 'approve'])
+    ->name('exchanges.approve');
+
+Route::post('/execute/{exchange}/execute',
+    [Action\ExchangeController::class, 'execute'])
+    ->name('exchanges.execute');
+
+Route::post('/exchanges/{exchange}/approve-and-execute',
+    [Action\ExchangeController::class, 'approveAndExecute'])
+    ->name('exchanges.approve_and_execute');
+
+Route::get('/exchanges/{exchange}/print',
+    [Action\ExchangeController::class, 'printed'])
+    ->name('exchanges.print');

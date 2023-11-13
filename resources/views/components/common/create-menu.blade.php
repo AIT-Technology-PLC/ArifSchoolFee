@@ -445,8 +445,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management'))
-                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Customer', 'Create Contact'])
+            @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management', 'Exchange Management'))
+                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Customer', 'Create Contact', 'Read Exchange'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -566,6 +566,22 @@
                                         />
                                         <br>
                                         <span class="is-size-7"> New Contact </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Exchange Management'))
+                                @can('Create Exchange')
+                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
+                                        <x-common.button
+                                            tag="a"
+                                            mode="button"
+                                            href="{{ route('exchanges.create') }}"
+                                            icon="fa-solid fa-arrow-right-arrow-left"
+                                            class="text-green bg-lightgreen is-borderless"
+                                        />
+                                        <br>
+                                        <span class="is-size-7"> New Exchanges </span>
                                     </div>
                                 @endcan
                             @endif

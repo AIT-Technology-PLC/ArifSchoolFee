@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Exchange;
 use App\Traits\Addable;
 use App\Traits\Approvable;
 use App\Traits\Branchable;
@@ -53,5 +54,10 @@ class Returnn extends Model
     public function canReverseInventoryValuation()
     {
         return $this->company->isReturnLimitedBySales();
+    }
+
+    public function exchanges()
+    {
+        return $this->hasMany(Exchange::class);
     }
 }
