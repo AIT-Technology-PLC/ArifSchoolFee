@@ -37,6 +37,7 @@ class Company extends Model
         'can_siv_subtract_from_inventory' => 'integer',
         'is_partial_deliveries_enabled' => 'integer',
         'show_product_code_on_printouts' => 'integer',
+        'is_in_training' => 'integer',
     ];
 
     public function plan()
@@ -404,5 +405,10 @@ class Company extends Model
         $this->isEnabled() ? $this->enabled = 0 : $this->enabled = 1;
 
         $this->save();
+    }
+
+    public function isInTraining()
+    {
+        return $this->is_in_training;
     }
 }

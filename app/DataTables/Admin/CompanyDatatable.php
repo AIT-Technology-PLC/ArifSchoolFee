@@ -24,6 +24,7 @@ class CompanyDatatable extends DataTable
             ->editColumn('name', fn($company) => $company->name)
             ->editColumn('status', fn($company) => view('components.datatables.company-status', compact('company')))
             ->editColumn('plan', fn($company) => $company->plan->name)
+            ->editColumn('is_in_training', fn($company) => $company->isInTraining() ? 'Training Mode' : 'Live Mode')
             ->editColumn('created_at', fn($company) => $company->created_at->toFormattedDateString())
             ->editColumn('actions', function ($company) {
                 return view('components.common.action-buttons', [
@@ -53,6 +54,7 @@ class CompanyDatatable extends DataTable
             Column::make('name')->addClass('has-text-weight-bold'),
             Column::computed('status'),
             Column::make('plan', 'plan.name'),
+            Column::make('is_in_training')->title('Mode'),
             Column::make('created_at')->addClass('has-text-right'),
             Column::computed('actions')->className('actions'),
         ];

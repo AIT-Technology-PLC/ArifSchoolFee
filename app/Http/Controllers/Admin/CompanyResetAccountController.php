@@ -11,6 +11,10 @@ class CompanyResetAccountController extends Controller
 {
     public function __invoke(CompanyResetAccountRequest $request, Company $company)
     {
+        if (!$company->isInTraining()) {
+            return back()->with('failedMessage', 'Account is in LIVE mode and can not be reset.');
+        }
+
         DB::transaction(function () use ($request, $company) {
             if ($request->validated('reset_inventory')) {
                 $this->resetInventory($company);

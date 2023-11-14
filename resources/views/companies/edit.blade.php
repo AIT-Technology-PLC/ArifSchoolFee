@@ -182,6 +182,34 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="is_in_training">
+                                Usage Mode <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="is_in_training"
+                                    name="is_in_training"
+                                >
+                                    <option
+                                        value="1"
+                                        @selected($company->isInTraining())
+                                    > Training (Testing) </option>
+                                    <option
+                                        value="0"
+                                        @selected(!$company->isInTraining())
+                                    > Live </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-building-lock"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="is_in_training" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="sector">
                                 Business Sector <sup class="has-text-danger"></sup>
                             </x-forms.label>

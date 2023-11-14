@@ -49,16 +49,18 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        @click="$dispatch('open-company-reset-modal')"
-                        icon="fas fa-power-off"
-                        label="Reset Account"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
+                @if ($company->isInTraining())
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="button"
+                            mode="button"
+                            @click="$dispatch('open-company-reset-modal')"
+                            icon="fas fa-power-off"
+                            label="Reset Account"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endif
                 <hr class="navbar-divider">
                 <x-common.dropdown-item>
                     <x-common.transaction-button
