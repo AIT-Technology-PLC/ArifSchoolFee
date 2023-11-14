@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckProductStatus;
 use App\Rules\CheckSupplierDebtLimit;
 use App\Rules\MustBelongToCompany;
@@ -66,6 +67,8 @@ class UpdatePurchaseRequest extends FormRequest
             'purchase' => ['required', 'array'],
             'purchase.*.product_id' => ['required', 'integer', Rule::in(Product::inventoryType()->activeForPurchase()->pluck('id')), new CheckProductStatus('activeForPurchase')],
             'purchase.*.quantity' => ['required', 'numeric', 'gt:0'],
+            'purchase.*.batch_no' => [new BatchSelectionIsRequiredOrProhibited(false), Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['string'])],
+            'purchase.*.expires_on' => ['nullable', 'date'],
             'purchase.*.unit_price' => ['required', 'numeric', 'min:0'],
             'purchase.*.amount' => ['nullable', 'numeric', 'gt:0', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],
             'purchase.*.duty_rate' => ['nullable', 'numeric', 'min:0', 'max:100', 'required_if:type,Import', 'prohibited_if:type,Local Purchase'],

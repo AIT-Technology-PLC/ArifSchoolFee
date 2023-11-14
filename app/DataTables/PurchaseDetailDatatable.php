@@ -24,6 +24,8 @@ class PurchaseDetailDatatable extends DataTable
             ->editColumn('quantity', function ($purchaseDetail) {
                 return quantity($purchaseDetail->quantity, $purchaseDetail->product->unit_of_measurement);
             })
+            ->editColumn('batch_no', fn($purchaseDetail) => $purchaseDetail->batch_no)
+            ->editColumn('expires_on', fn($purchaseDetail) => $purchaseDetail->expires_on?->toFormattedDateString())
             ->editColumn('unit_cost', fn($purchaseDetail) => number_format($purchaseDetail->unit_price, 4))
             ->editColumn('unit_cost_in_local_currency', fn($purchaseDetail) => number_format($purchaseDetail->unitPriceInLocalCurrency, 4))
             ->editColumn('total_cost', fn($purchaseDetail) => number_format($purchaseDetail->totalPrice, 2))
@@ -67,6 +69,8 @@ class PurchaseDetailDatatable extends DataTable
             Column::computed('#'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),
+            Column::make('batch_no')->content('N/A')->visible(false),
+            Column::make('expires_on')->content('N/A')->visible(false),
 
             Column::make('unit_cost', 'unit_price')
                 ->addClass('has-text-right')

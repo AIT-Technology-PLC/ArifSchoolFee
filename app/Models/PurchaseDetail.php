@@ -13,6 +13,10 @@ class PurchaseDetail extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'expires_on' => 'date',
+    ];
+
     public function purchase()
     {
         return $this->belongsTo(Purchase::class);
@@ -39,15 +43,15 @@ class PurchaseDetail extends Model
             return $this->unit_price * $this->quantity;
         }
 
-        $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator:'');
+        $totalPrice = number_format($this->unit_price * $this->quantity, 2, thousands_separator: '');
         $discount = ($this->discount ?? 0.00) / 100;
         $discountAmount = 0.00;
 
         if (userCompany()->isDiscountBeforeTax()) {
-            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator:'');
+            $discountAmount = number_format($totalPrice * $discount, 2, thousands_separator: '');
         }
 
-        return number_format($totalPrice - $discountAmount, 2, thousands_separator:'');
+        return number_format($totalPrice - $discountAmount, 2, thousands_separator: '');
     }
 
     public function getTotalPriceInLocalCurrencyAttribute()
