@@ -6,15 +6,22 @@ const Product = {
 
         return this;
     },
-    isTypeServices(productId) {
+    isTypeService(productId) {
         let product = this.whereProductId(productId);
 
         return product?.type == "Services";
     },
-    isTypeProduct(productId) {
+    isInventoryProduct(productId) {
         let product = this.whereProductId(productId);
 
-        return product?.type != "Services";
+        return (
+            product?.type == "Raw Material" || product?.type == "Finished Goods"
+        );
+    },
+    isNonInventoryProduct(productId) {
+        let product = this.whereProductId(productId);
+
+        return product?.type == "Non-inventory Product";
     },
     active() {
         this.products = this.products.filter((product) => product.is_active);
@@ -50,7 +57,10 @@ const Product = {
     },
     inventoryType() {
         this.products = this.products.filter(
-            (product) => product.type != "Services" && product.is_product_single
+            (product) =>
+                (product.type == "Raw Material" ||
+                    product.type == "Finished Goods") &&
+                product.is_product_single
         );
 
         return this;
@@ -394,10 +404,15 @@ const Pricing = {
         let withheldAmount = 0;
 
         let serviceSubTotal = this.subTotal(
-            items.filter((item) => Product.isTypeServices(item.product_id))
+            items.filter((item) => Product.isTypeService(item.product_id))
         );
+
         let productSubTotal = this.subTotal(
-            items.filter((item) => Product.isTypeProduct(item.product_id))
+            items.filter(
+                (item) =>
+                    Product.isInventoryProduct(item.product_id) ||
+                    Product.isNonInventoryProduct(item.product_id)
+            )
         );
 
         if (

@@ -816,6 +816,7 @@ document.addEventListener("alpine:init", () => {
             isBatchable: "0",
             batchPriority: "",
             isTypeService: false,
+            isNonInventoryProduct: false,
             isActive: "1",
             isProductSingle: "1",
 
@@ -829,14 +830,19 @@ document.addEventListener("alpine:init", () => {
             },
 
             changeProductType() {
-                if (this.type === "Services") {
+                if (
+                    this.type === "Services" ||
+                    this.type === "Non-inventory Product"
+                ) {
                     this.isBatchable = "0";
                     this.batchPriority = "";
                     this.isTypeService = true;
+                    this.isNonInventoryProduct = true;
                     return;
                 }
 
                 this.isTypeService = false;
+                this.isNonInventoryProduct = false;
             },
 
             isSingle() {

@@ -166,7 +166,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService || !isSingle() }"
+                        x-bind:class="{ 'is-hidden': isTypeService || isNonInventoryProduct || !isSingle() }"
                     >
                         <x-forms.field>
                             <x-forms.label for="min_on_hand">
@@ -226,7 +226,7 @@
                     @if (isFeatureEnabled('Supplier Management'))
                         <div
                             class="column is-6"
-                            x-bind:class="{ 'is-hidden': isTypeService }"
+                            x-bind:class="{ 'is-hidden': isTypeService || isNonInventoryProduct }"
                         >
                             <x-forms.field>
                                 <x-forms.label for="supplier_id">
@@ -246,7 +246,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-show="!isTypeService && isSingle"
+                        x-show="!isTypeService && !isNonInventoryProduct && isSingle"
                     >
                         <x-forms.field>
                             <x-forms.label for="is_batchable">
@@ -462,7 +462,7 @@
                     <div
                         class="column is-6"
                         x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService }"
+                        x-bind:class="{ 'is-hidden': isTypeService || isNonInventoryProduct }"
                     >
                         <x-forms.field>
                             <x-forms.label for="inventory_valuation_method">
@@ -572,7 +572,6 @@
                     </div>
                     @include('products.partials.details-form', [
                         'data' => ['productBundle' => old('productBundle') ?? $product->productBundles],
-                        'productId' => $product->id,
                     ])
                 </section>
             </x-content.main>
