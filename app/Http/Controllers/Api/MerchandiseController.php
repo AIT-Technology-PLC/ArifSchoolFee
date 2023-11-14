@@ -44,7 +44,7 @@ class MerchandiseController extends Controller
         }
 
         if ($merchandises->count() == $product->productBundles()->count()) {
-            $availableQuantity = $merchandises->first()->available / $product->productBundles()->where('component_id', $merchandises->first()->product_id)->first()->quantity;
+            $availableQuantity = (int) $merchandises->first()->available / $product->productBundles()->where('component_id', $merchandises->first()->product_id)->first()->quantity;
         }
 
         return str(number_format($availableQuantity, 2))->append(' ', $product->unit_of_measurement)->toString();
