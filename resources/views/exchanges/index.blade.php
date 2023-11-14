@@ -13,26 +13,26 @@
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
-                :amount="$totalNotApproved"
+                :amount="$totalExecuted"
                 border-color="#3d8660"
-                text-color="text-gold"
-                label="Waitting Approval"
+                text-color="text-green"
+                label="Executed"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
                 :amount="$totalApproved"
-                border-color="#3d8660"
-                text-color="text-blue"
-                label="Aproved"
+                border-color="#86843d"
+                text-color="text-gold"
+                label="Approved"
             />
         </div>
         <div class="column is-3 p-lr-0">
             <x-common.index-insight
-                :amount="$totalExecuted"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Executed"
+                :amount="$totalNotApproved"
+                border-color="#863d63"
+                text-color="text-purple"
+                label="Waiting Approval"
             />
         </div>
     </div>

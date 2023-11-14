@@ -17,6 +17,27 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
+                            <x-forms.label for="code">
+                                Exchange Number <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="number"
+                                    name="code"
+                                    id="code"
+                                    :readonly="!userCompany()->isEditingReferenceNumberEnabled()"
+                                    value="{{ $currentExchangeCode }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="code" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
                             <x-forms.label for="gdn_id">
                                 Delivery Order No
                                 <sup class="has-text-danger">
@@ -98,7 +119,7 @@
                 </div>
             </x-content.main>
 
-            @include('exchanges.details-form', ['data' => session()->getOldInput()])
+            @include('exchanges.partials.details-form', ['data' => session()->getOldInput()])
 
             <x-content.footer>
                 <x-common.save-button />

@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('exchange_details', function (Blueprint $table) {
             $table->id();
             $table->nullableMorphs('exchange_detailable', 'exchangedetail');
+            $table->decimal('returned_quantity', 22);
+            
             $table->foreignId('exchange_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('warehouse_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('merchandise_batch_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
-            $table->decimal('returned_quantity', 22);
             $table->decimal('quantity', 22);
             $table->decimal('unit_price', 22, 2);
             $table->timestamps();

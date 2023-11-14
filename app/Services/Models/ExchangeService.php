@@ -55,7 +55,7 @@ class ExchangeService
                 $this->executeSale($exchange);
             }
 
-            $exchange->executed();
+            $exchange->execute();
         });
 
         return [true, ''];
@@ -182,7 +182,7 @@ class ExchangeService
                 $this->executeSale($exchange);
             }
 
-            $exchange->executed();
+            $exchange->execute();
         });
 
         return [true, ''];

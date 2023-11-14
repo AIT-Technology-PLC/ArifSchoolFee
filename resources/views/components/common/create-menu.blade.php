@@ -446,7 +446,7 @@
             @endif
 
             @if (isFeatureEnabled('Sale Management', 'Gdn Management', 'Proforma Invoice', 'Reservation Management', 'Return Management', 'Customer Management', 'Contact Management', 'Exchange Management'))
-                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Customer', 'Create Contact', 'Read Exchange'])
+                @canany(['Create Sale', 'Create GDN', 'Create Proforma Invoice', 'Create Reservation', 'Create Return', 'Create Customer', 'Create Contact', 'Create Exchange'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon

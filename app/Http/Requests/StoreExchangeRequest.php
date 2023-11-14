@@ -4,10 +4,12 @@ namespace App\Http\Requests;
 
 use App\Models\Product;
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use App\Rules\CanEditReferenceNumber;
 use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateBackorder;
 use App\Rules\ValidateCustomFields;
 use App\Rules\ValidatePrice;
@@ -33,6 +35,7 @@ class StoreExchangeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'code' => ['required', 'integer', new UniqueReferenceNum('exchanges'), new CanEditReferenceNumber('exchanges')],
             'gdn_id' => ['nullable', 'integer', 'prohibited_unless:sale_id,null', new MustBelongToCompany('gdns')],
             'sale_id' => ['nullable', 'integer', 'prohibited_unless:gdn_id,null', new MustBelongToCompany('sales')],
             'exchange' => ['required', 'array'],

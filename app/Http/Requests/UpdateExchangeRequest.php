@@ -8,9 +8,11 @@ use App\Rules\CheckBatchQuantity;
 use App\Rules\CheckProductStatus;
 use App\Rules\CheckValidBatchNumber;
 use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateBackorder;
 use App\Rules\ValidateCustomFields;
 use App\Rules\ValidatePrice;
+use App\Rules\ValidateReturnQuantity;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,6 +34,7 @@ class UpdateExchangeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'code' => ['required', 'integer', new UniqueReferenceNum('exchanges', $this->route('exchange')->id), Rule::excludeIf(!userCompany()->isEditingReferenceNumberEnabled())],
             'gdn_id' => ['nullable', 'integer', 'prohibited_unless:sale_id,null', new MustBelongToCompany('gdns')],
             'sale_id' => ['nullable', 'integer', 'prohibited_unless:gdn_id,null', new MustBelongToCompany('sales')],
             'exchange' => ['required', 'array'],

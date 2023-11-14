@@ -29,7 +29,7 @@ Route::prefix('api')
         Route::apiResource('merchandise-batches', Api\MerchandiseBatchController::class)->only('index');
         Route::apiResource('compensations', Api\CompensationController::class)->only('index');
         Route::apiResource('gdns', Api\GdnController::class)->only('show');
-        Route::apiResource('sales', Api\SaleController::class);
+        Route::apiResource('sales', Api\SaleController::class)->only('show');
     });
 
 Route::get('/history/products/{product}/warehouses/{warehouse}',

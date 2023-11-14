@@ -34,7 +34,7 @@ class ExchangeController extends Controller
 
         $totalNotApproved = Exchange::notApproved()->count();
 
-        $totalExecuted = Exchange::query()->executed()->count();
+        $totalExecuted = Exchange::executed()->count();
 
         return $datatable->render('exchanges.index', compact('totalExchanges', 'totalExecuted', 'totalApproved', 'totalNotApproved'));
     }
@@ -47,7 +47,9 @@ class ExchangeController extends Controller
 
         $sales = Sale::getValidSalesForReturn();
 
-        return view('exchanges.create', compact('gdns', 'warehouses', 'sales'));
+        $currentExchangeCode = nextReferenceNumber('exchanges');
+
+        return view('exchanges.create', compact('gdns', 'warehouses', 'sales', 'currentExchangeCode'));
     }
 
     public function store(StoreExchangeRequest $request)

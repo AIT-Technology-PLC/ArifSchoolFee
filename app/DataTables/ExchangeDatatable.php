@@ -24,6 +24,7 @@ class ExchangeDatatable extends DataTable
                 'x-on:click' => 'showDetails',
             ])
             ->customColumns('exchange')
+            ->editColumn('branch', fn($exchange) => $exchange->warehouse->name)
             ->editColumn('status', fn($exchange) => view('components.datatables.exchange-status', compact('exchange')))
             ->filterColumn('status', function ($query, $keyword) {
                 $query
@@ -57,6 +58,7 @@ class ExchangeDatatable extends DataTable
             ->when(request('status') == 'executed', fn($query) => $query->executed())
             ->with([
                 'exchangeDetails',
+                'warehouse:id,name',
                 'createdBy:id,name',
                 'updatedBy:id,name',
                 'approvedBy:id,name',
@@ -73,6 +75,8 @@ class ExchangeDatatable extends DataTable
 
         $columns = [
             Column::computed('#'),
+            Column::make('branch', 'warehouse.name')->visible(false),
+            Column::make('code')->className('has-text-centered')->title('Exchange No'),
             Column::make('status')->orderable(false),
             Column::make('created_at')->visible(false)->title('Prepared on'),
             Column::make('prepared by', 'createdBy.name'),
