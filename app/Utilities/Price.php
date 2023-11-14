@@ -105,7 +105,9 @@ class Price
 
         $serviceSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => Product::find($detail['product_id'])->isTypeService()));
 
-        $productSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => !Product::find($detail['product_id'])->isTypeService()));
+        $productSubtotal = static::getSubtotalPrice(
+            $details->filter(fn($detail) => Product::find($detail['product_id'])->isInventoryProduct() || Product::find($detail['product_id'])->isNonInventoryProduct())
+        );
 
         if ($serviceSubtotal >= userCompany()->withholdingTaxes['rules']['Services']) {
             $withheldAmount += ($serviceSubtotal * userCompany()->withholdingTaxes['tax_rate']);

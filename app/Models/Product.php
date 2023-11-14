@@ -262,7 +262,7 @@ class Product extends Model
 
     public function scopeInventoryType($query)
     {
-        return $query->where('type', '!=', 'Services')->where('is_product_single', 1);
+        return $query->whereIn('type', ['Raw Material', 'Finished Goods'])->where('is_product_single', 1);
     }
 
     public function scopeBatchable($query)
@@ -335,9 +335,14 @@ class Product extends Model
         return $this->is_active_for_job == 1 && $this->is_product_single == 1;
     }
 
-    public function isTypeProduct()
+    public function isInventoryProduct()
     {
         return $this->type == 'Finished Goods' || $this->type == 'Raw Material';
+    }
+
+    public function isNonInventoryProduct()
+    {
+        return $this->type == 'Non-inventory Product';
     }
 
     public function isProductSingle()

@@ -351,7 +351,7 @@ class InventoryOperationService
         foreach ($details as $detail) {
             $product = $products->find($detail['product_id']);
 
-            if (!$product->isTypeProduct()) {
+            if (!$product->isInventoryProduct()) {
                 continue;
             }
 
@@ -367,7 +367,7 @@ class InventoryOperationService
                     $newDetail['product_id'] = $bundleDetail->component_id;
                     $newDetail['quantity'] = $bundleDetail->quantity * $detail['quantity'];
 
-                    if (!$bundleDetail->component->isTypeProduct()) {
+                    if (!$bundleDetail->component->isInventoryProduct()) {
                         continue;
                     }
 
