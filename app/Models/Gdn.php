@@ -84,7 +84,7 @@ class Gdn extends Model
     public function deliveredPercentage(): Attribute
     {
         return Attribute::get(
-            fn() => number_format($this->gdnDetails()->selectRaw('SUM(delivered_quantity/quantity)*100 AS average')->value('average'), 1)
+            fn() => number_format($this->gdnDetails()->selectRaw('(SUM(delivered_quantity) / SUM(quantity)) * 100 AS average')->value('average'), 1)
         );
     }
 
