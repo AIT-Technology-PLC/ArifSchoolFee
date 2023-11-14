@@ -572,7 +572,6 @@
                     </div>
                     @include('products.partials.details-form', [
                         'data' => ['productBundle' => old('productBundle') ?? $product->productBundles],
-                        'productId' => $product->id,
                     ])
                 </section>
             </x-content.main>

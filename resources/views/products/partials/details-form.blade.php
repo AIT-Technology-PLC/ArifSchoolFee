@@ -102,7 +102,7 @@
          mode="button"
          label="Add More Item"
          class="bg-purple has-text-white is-small ml-3 mt-6"
-         x-on:click="add({{ $productId }})"
+         x-on:click="add"
      />
  </x-content.main>
 
@@ -129,20 +129,6 @@
                  },
                  add() {
                      this.productBundles.push({});
-                 },
-                 async add(productId = null) {
-                     if (!productId) {
-                         this.productBundles.push({});
-                         return;
-                     }
-
-                     await Promise.resolve(
-                         this.productBundles.push({
-                             product_id: productId
-                         })
-                     );
-
-                     await Promise.resolve($(".product-list").trigger("change"));
                  },
                  async remove(index) {
                      if (this.productBundles.length <= 0) {

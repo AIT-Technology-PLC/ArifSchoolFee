@@ -571,7 +571,6 @@
                     </div>
                     @include('products.partials.details-form', [
                         'data' => session()->getOldInput(),
-                        'productId' => null,
                     ])
                 </section>
             </x-content.main>

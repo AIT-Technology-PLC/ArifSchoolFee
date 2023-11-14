@@ -66,7 +66,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? session('imported')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+            <x-common.fail-message :message="session('limitReachedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             <x-datatables.filter filters="'branch', 'status'">
                 <div class="columns is-marginless is-vcentered">
                     @can('Read Employee')
