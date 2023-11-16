@@ -930,8 +930,8 @@
                 @endcanany
             @endif
 
-            @if (isFeatureEnabled('Pad Management', 'Custom Field Management') || (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management')))
-                @canany(['Create Pad', 'Create Employee', 'Create Custom Field'])
+            @if (isFeatureEnabled('Custom Field Management') || (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management')))
+                @canany(['Create Employee', 'Create Custom Field'])
                     <x-content.header>
                         <x-slot name="header">
                             <x-common.icon
@@ -943,22 +943,6 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Pad Management'))
-                                @can('Create Pad')
-                                    <div class="column is-3-tablet is-4-mobile has-text-centered text-green">
-                                        <x-common.button
-                                            tag="a"
-                                            mode="button"
-                                            href="{{ route('pads.create') }}"
-                                            icon="fas fa-book"
-                                            class="text-green bg-lightgreen is-borderless"
-                                        />
-                                        <br>
-                                        <span class="is-size-7"> New Pad </span>
-                                    </div>
-                                @endcan
-                            @endif
-
                             @if (isFeatureEnabled('Custom Field Management'))
                                 @can('Create Custom Field')
                                     <div class="column is-3-tablet is-4-mobile has-text-centered text-green">

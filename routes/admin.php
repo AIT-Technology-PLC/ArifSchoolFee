@@ -11,3 +11,4 @@ Route::post('companies/{company}/toggle', Admin\CompanyToggleActivationControlle
 Route::resource('companies', Admin\CompanyController::class);
 Route::resource('users', Admin\UserController::class)->except(['show', 'destroy']);
 Route::resource('companies.pads', Admin\CompanyPadController::class)->shallow()->except(['index']);
+Route::resource('pad-fields', Admin\PadFieldController::class)->only(['destroy']);

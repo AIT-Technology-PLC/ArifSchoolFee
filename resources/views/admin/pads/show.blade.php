@@ -4,7 +4,31 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="General Information" />
+        <x-content.header title="General Information">
+            <x-common.dropdown name="Actions">
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('admin.pads.edit', $pad->id) }}"
+                        mode="button"
+                        icon="fas fa-pen"
+                        label="Edit"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
+                <hr class="navbar-divider">
+                <x-common.dropdown-item>
+                    <x-common.transaction-button
+                        :route="route('admin.pads.destroy', $pad->id)"
+                        action="delete"
+                        intention="delete this pad feature"
+                        icon="fas fa-times-circle"
+                        label="Delete"
+                        class="has-text-weight-bold is-small text-purple is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
+            </x-common.dropdown>
+        </x-content.header>
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
                 <div class="column is-6">
@@ -90,23 +114,7 @@
     </x-common.content-wrapper>
 
     <x-common.content-wrapper class="mt-5">
-        <x-content.header
-            title="Details"
-            is-mobile
-        >
-            <x-common.dropdown name="Actions">
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.pads.edit', $pad->id) }}"
-                        mode="button"
-                        icon="fas fa-pen"
-                        label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-            </x-common.dropdown>
-        </x-content.header>
+        <x-content.header title="Details" />
         <x-content.footer>
             <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
             {{ $dataTable->table() }}

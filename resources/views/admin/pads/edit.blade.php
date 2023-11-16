@@ -390,7 +390,7 @@
                     </div>
                 </div>
 
-                @include('pads.partials.statuses', ['data' => ['status' => old('status', $pad->padStatuses)]])
+                @include('admin.pads.partials.statuses', ['data' => ['status' => old('status', $pad->padStatuses)]])
 
                 <div
                     x-data="padMasterDetailForm({{ Js::from(['field' => old('field', $pad->padFields)]) }})"

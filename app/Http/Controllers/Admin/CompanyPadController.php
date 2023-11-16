@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\PadFieldDatatable;
+use App\DataTables\Admin\PadFieldDatatable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePadRequest;
-use App\Http\Requests\UpdatePadRequest;
+use App\Http\Requests\Admin\StorePadRequest;
+use App\Http\Requests\Admin\UpdatePadRequest;
 use App\Models\Company;
 use App\Models\Pad;
 use App\Services\Models\PadService;

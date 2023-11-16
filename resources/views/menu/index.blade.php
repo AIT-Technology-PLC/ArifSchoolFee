@@ -1455,8 +1455,8 @@
             @endcanany
         @endif
 
-        @if (isFeatureEnabled('Pad Management', 'User Management', 'General Settings', 'Custom Field Management'))
-            @canany(['Read Pad', 'Read Employee', 'Update Company', 'Read Custom Field'])
+        @if (isFeatureEnabled('User Management', 'General Settings', 'Custom Field Management'))
+            @canany(['Read Employee', 'Update Company', 'Read Custom Field'])
                 <section>
                     <x-content.header>
                         <x-slot name="header">
@@ -1470,25 +1470,6 @@
                     </x-content.header>
                     <x-content.footer>
                         <div class="columns is-marginless is-multiline is-mobile">
-                            @if (isFeatureEnabled('Pad Management'))
-                                @can('Read Pad')
-                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
-                                        <a
-                                            href="{{ route('pads.index') }}"
-                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
-                                        >
-                                            <span class="icon is-size-5">
-                                                <i class="fas fa-book"></i>
-                                            </span>
-                                        </a>
-                                        <br>
-                                        <span class="is-size-6 is-size-7-mobile text-green">
-                                            Pads
-                                        </span>
-                                    </div>
-                                @endcan
-                            @endif
-
                             @if (isFeatureEnabled('Custom Field Management'))
                                 @can('Read Custom Field')
                                     <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">

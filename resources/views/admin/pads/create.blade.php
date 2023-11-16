@@ -388,7 +388,7 @@
                     </div>
                 </div>
 
-                @include('pads.partials.statuses', ['data' => session()->getOldInput()])
+                @include('admin.pads.partials.statuses', ['data' => session()->getOldInput()])
 
                 <div
                     x-data="padMasterDetailForm({{ Js::from(session()->getOldInput()) }})"

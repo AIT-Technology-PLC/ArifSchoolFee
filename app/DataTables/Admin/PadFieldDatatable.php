@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables;
+namespace App\DataTables\Admin;
 
 use App\Models\PadField;
 use App\Traits\DataTableHtmlBuilder;
@@ -27,7 +27,7 @@ class PadFieldDatatable extends DataTable
             ->editColumn('tag_type', fn($padField) => $padField->tag_type ?? '-')
             ->editColumn('actions', function ($padField) {
                 return view('components.common.action-buttons', [
-                    'model' => 'pad-fields',
+                    'model' => 'admin.pad-fields',
                     'id' => $padField->id,
                     'buttons' => ['delete'],
                 ]);
