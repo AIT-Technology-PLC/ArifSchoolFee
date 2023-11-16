@@ -430,6 +430,13 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Exchange']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Execute Exchange']);
 
+            // Admin Panel
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Companies']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Users']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Subscriptions']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Pads']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Resets']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -599,7 +606,7 @@ class Permissions extends Seeder
                 'Update SIV',
             ]);
 
-            $systemManager->syncPermissions(Permission::all());
+            $systemManager->syncPermissions(Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->get());
 
             $tenderOfficer->syncPermissions([
                 'Create Tender',

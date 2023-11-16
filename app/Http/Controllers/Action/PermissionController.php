@@ -21,7 +21,7 @@ class PermissionController extends Controller
 
         $this->authorize('update', $employee);
 
-        $permissions = Permission::oldest()->pluck('name');
+        $permissions = Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->oldest()->pluck('name');
 
         $permissionCategories = PermissionCategorization::getPermissionCategories();
 

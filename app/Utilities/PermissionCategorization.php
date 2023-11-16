@@ -210,7 +210,7 @@ class PermissionCategorization
                         return;
                     }
 
-                    return str($permission)->containsAll(static::PERMISSION_CATEGORIES[$key]['exclude']);
+                    return str($permission)->contains(static::PERMISSION_CATEGORIES[$key]['exclude']);
                 })
                 ->toArray();
 

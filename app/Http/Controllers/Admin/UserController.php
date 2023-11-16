@@ -55,7 +55,9 @@ class UserController extends Controller
 
         $user->update($request->validated());
 
-        $user->syncPermissions($request->validated('permissions'));
+        if ($user->isNot(authUser())) {
+            $user->syncPermissions($request->validated('permissions'));
+        }
 
         return redirect()->route('admin.users.index')->with('successMessage', 'User updated successfully');
     }
