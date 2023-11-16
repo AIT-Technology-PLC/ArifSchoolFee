@@ -10,3 +10,4 @@ Route::post('companies/{company}/limits', Admin\CompanyLimitController::class)->
 Route::post('companies/{company}/toggle', Admin\CompanyToggleActivationController::class)->name('companies.toggle_activation');
 Route::resource('companies', Admin\CompanyController::class);
 Route::resource('users', Admin\UserController::class)->except(['show', 'destroy']);
+Route::resource('companies.pads', Admin\CompanyPadController::class)->shallow()->except(['index']);

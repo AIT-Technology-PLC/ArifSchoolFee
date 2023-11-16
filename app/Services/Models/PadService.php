@@ -2,16 +2,19 @@
 
 namespace App\Services\Models;
 
-use App\Models\Pad;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class PadService
 {
-    public function store($data)
+    public function store($data, $company = null)
     {
-        return DB::transaction(function () use ($data) {
-            $pad = Pad::create(Arr::except($data, ['field']));
+        if (is_null($company)) {
+            $company = userCompany();
+        }
+
+        return DB::transaction(function () use ($data, $company) {
+            $pad = $company->pads()->create(Arr::except($data, ['field']));
 
             if (isset($data['status'])) {
                 $pad->padStatuses()->createMany($data['status']);

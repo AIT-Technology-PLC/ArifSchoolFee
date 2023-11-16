@@ -49,6 +49,16 @@
                         class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('admin.companies.pads.create', $company) }}"
+                        mode="button"
+                        icon="fas fa-folder-open"
+                        label="Create Pad"
+                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
                 @if ($company->isInTraining())
                     <x-common.dropdown-item>
                         <x-common.button
@@ -282,6 +292,7 @@
                         <th><abbr> Pads </abbr></th>
                         <th><abbr> Inventory </abbr></th>
                         <th><abbr> Status </abbr></th>
+                        <th><abbr> Actions </abbr></th>
                     </x-slot>
                     <x-slot name="body">
                         @foreach ($company->pads as $pad)
@@ -290,6 +301,15 @@
                                 <td> {{ str()->title($pad->name) }} </td>
                                 <td> {{ str()->title($pad->getInventoryOperationType()) }} </td>
                                 <td> {{ $pad->isEnabled() ? 'Enabled' : 'Disabled' }} </td>
+                                <td>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('admin.pads.show', $company->id) }}"
+                                        mode="button"
+                                        label="View"
+                                        class="btn-green is-outlined has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+                                    />
+                                </td>
                             </tr>
                         @endforeach
                     </x-slot>
