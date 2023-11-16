@@ -326,7 +326,7 @@ class Features extends Seeder
 
         Feature::updateOrCreate(
             ['name' => 'Exchange Management'],
-            ['is_enabled' => 1]
+            ['is_enabled' => 0]
         );
 
         $this->features = Feature::all();
