@@ -304,7 +304,7 @@
                                 <td>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('admin.pads.show', $company->id) }}"
+                                        href="{{ route('admin.pads.show', $pad->id) }}"
                                         mode="button"
                                         label="View"
                                         class="btn-green is-outlined has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"

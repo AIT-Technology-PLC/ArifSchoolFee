@@ -65,7 +65,7 @@
                                     type="text"
                                     name="icon"
                                     id="icon"
-                                    value="{{ old('icon') }}"
+                                    value="{{ old('icon') ?? 'fas fa-' }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-icons"
@@ -145,7 +145,7 @@
                                     name="print_paper_size"
                                     type="text"
                                     placeholder="Page Size"
-                                    value="{{ old('print_paper_size') }}"
+                                    value="{{ old('print_paper_size') ?? 'A4' }}"
                                     autocomplete="print_paper_size"
                                 />
                                 <x-common.icon
@@ -189,13 +189,13 @@
                             <x-forms.label for="convert_to">
                                 Convert To <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control>
                                 <x-forms.select
+                                    x-init="initializeSelect2($el, '')"
                                     class="is-fullwidth is-multiple"
                                     id="convert_to"
                                     name="convert_to[]"
                                     multiple
-                                    size="2"
                                 >
                                     @foreach ($features as $feature)
                                         <option
@@ -206,10 +206,6 @@
                                         </option>
                                     @endforeach
                                 </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
                                 <x-common.validation-error property="convert_to" />
                             </x-forms.control>
                         </x-forms.field>
@@ -219,13 +215,13 @@
                             <x-forms.label for="convert_from">
                                 Convert From <sup class="has-text-danger"></sup>
                             </x-forms.label>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control>
                                 <x-forms.select
+                                    x-init="initializeSelect2($el, '')"
                                     class="is-fullwidth is-multiple"
                                     id="convert_from"
                                     name="convert_from[]"
                                     multiple
-                                    size="2"
                                 >
                                     @foreach ($features as $feature)
                                         <option
@@ -236,15 +232,11 @@
                                         </option>
                                     @endforeach
                                 </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-th"
-                                    class="is-small is-left"
-                                />
                                 <x-common.validation-error property="convert_from" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-one-fifth">
                         <x-forms.field>
                             <x-forms.label>
                                 Approvable <sup class="has-text-danger">*</sup>
@@ -274,7 +266,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-one-fifth">
                         <x-forms.field>
                             <x-forms.label>
                                 Printable <sup class="has-text-danger">*</sup>
@@ -304,7 +296,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-one-fifth">
                         <x-forms.field>
                             <x-forms.label>
                                 Prices <sup class="has-text-danger">*</sup>
@@ -334,7 +326,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-one-fifth">
                         <x-forms.field>
                             <x-forms.label>
                                 Payment Terms <sup class="has-text-danger">*</sup>
@@ -364,7 +356,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-one-fifth">
                         <x-forms.field>
                             <x-forms.label>
                                 Enabled <sup class="has-text-danger">*</sup>
@@ -431,32 +423,32 @@
                             </x-forms.field>
                             <div class="box has-background-white-bis radius-top-0">
                                 <div class="columns is-marginless is-multiline">
-                                    <div class="column is-12 has-text-centered">
+                                    <div
+                                        class="column is-12"
+                                        x-bind:class="{ 'is-12': !isFieldRelational(field.is_relational_field), 'is-6': isFieldRelational(field.is_relational_field) }"
+                                    >
                                         <x-forms.field>
                                             <x-forms.label>
-                                                Relational Field <sup class="has-text-danger">*</sup>
+                                                Field Type <sup class="has-text-danger">*</sup>
                                             </x-forms.label>
                                             <x-forms.control class="has-icons-left">
-                                                <x-forms.label class="radio is-inline">
-                                                    <input
-                                                        type="radio"
-                                                        x-bind:name="`field[${index}][is_relational_field]`"
-                                                        x-bind:id="`field[${index}][is_relational_field]`"
-                                                        value="1"
-                                                        x-model="field.is_relational_field"
-                                                    />
-                                                    Yes
-                                                </x-forms.label>
-                                                <x-forms.label class="radio is-inline">
-                                                    <input
-                                                        type="radio"
-                                                        x-bind:name="`field[${index}][is_relational_field]`"
-                                                        x-bind:id="`field[${index}][is_relational_field]`"
-                                                        value="0"
-                                                        x-model="field.is_relational_field"
-                                                    />
-                                                    No
-                                                </x-forms.label>
+                                                <x-forms.select
+                                                    class="is-fullwidth"
+                                                    x-bind:name="`field[${index}][is_relational_field]`"
+                                                    x-bind:id="`field[${index}][is_relational_field]`"
+                                                    x-model="field.is_relational_field"
+                                                >
+                                                    <option value="1">
+                                                        From System
+                                                    </option>
+                                                    <option value="0">
+                                                        New Field
+                                                    </option>
+                                                </x-forms.select>
+                                                <x-common.icon
+                                                    name="fas fa-sort"
+                                                    class="is-small is-left"
+                                                />
                                                 <span
                                                     class="help has-text-danger"
                                                     x-text="errors[`field.${index}.is_relational_field`]"
@@ -465,116 +457,41 @@
                                         </x-forms.field>
                                     </div>
                                     <div
+                                        class="column is-6"
                                         x-show="isFieldRelational(field.is_relational_field)"
-                                        class="column is-4"
                                     >
                                         <x-forms.field>
-                                            <x-forms.label x-bind:for="`field[${index}][relationship_type]`">
-                                                Relationship Type <sup class="has-text-danger">*</sup>
+                                            <x-forms.label x-bind:for="`field[${index}][list]`">
+                                                Lists <sup class="has-text-danger">*</sup>
                                             </x-forms.label>
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.select
                                                     class="is-fullwidth"
-                                                    x-bind:id="`field[${index}][relationship_type]`"
-                                                    x-bind:name="`field[${index}][relationship_type]`"
-                                                    x-model="field.relationship_type"
+                                                    x-bind:id="`field[${index}][list]`"
+                                                    x-bind:name="`field[${index}][list]`"
+                                                    x-model="field.list"
                                                 >
-                                                    @foreach (App\Models\Pad::RELATIONSHIP_TYPES as $relationshipType)
-                                                        <option value="{{ $relationshipType }}">
-                                                            {{ $relationshipType }}
+                                                    @foreach (App\Models\Pad::COMPONENTS as $component)
+                                                        <option value="{{ $component }}">
+                                                            {{ str($component)->title() }}
                                                         </option>
                                                     @endforeach
                                                 </x-forms.select>
                                                 <x-common.icon
-                                                    name="fas fa-exchange-alt"
+                                                    name="fas fa-sort"
                                                     class="is-small is-left"
                                                 />
                                                 <span
                                                     class="help has-text-danger"
-                                                    x-text="errors[`field.${index}.relationship_type`]"
+                                                    x-text="errors[`field.${index}.list`]"
                                                 ></span>
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
                                     <div
-                                        x-show="isFieldRelational(field.is_relational_field)"
                                         class="column is-4"
+                                        x-show="!isFieldRelational(field.is_relational_field)"
                                     >
-                                        <x-forms.label for="`field[${index}][model_name]`">
-                                            Model Name <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.field>
-                                            <x-forms.control class="has-icons-left">
-                                                <x-forms.input
-                                                    type="text"
-                                                    x-bind:name="`field[${index}][model_name]`"
-                                                    x-bind:id="`field[${index}][model_name]`"
-                                                    x-model="field.model_name"
-                                                />
-                                                <x-common.icon
-                                                    name="fas fa-square"
-                                                    class="is-large is-left"
-                                                />
-                                            </x-forms.control>
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="errors[`field.${index}.model_name`]"
-                                            ></span>
-                                        </x-forms.field>
-                                    </div>
-                                    <div
-                                        x-show="isFieldRelational(field.is_relational_field)"
-                                        class="column is-4"
-                                    >
-                                        <x-forms.label for="`field[${index}][representative_column]`">
-                                            Representative Column <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.field>
-                                            <x-forms.control class="has-icons-left">
-                                                <x-forms.input
-                                                    type="text"
-                                                    x-bind:name="`field[${index}][representative_column]`"
-                                                    x-bind:id="`field[${index}][representative_column]`"
-                                                    x-model="field.representative_column"
-                                                />
-                                                <x-common.icon
-                                                    name="fas fa-square"
-                                                    class="is-large is-left"
-                                                />
-                                            </x-forms.control>
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="errors[`field.${index}.representative_column`]"
-                                            ></span>
-                                        </x-forms.field>
-                                    </div>
-                                    <div
-                                        x-show="isFieldRelational(field.is_relational_field)"
-                                        class="column is-4"
-                                    >
-                                        <x-forms.label for="`field[${index}][component_name]`">
-                                            Component <sup class="has-text-danger">*</sup>
-                                        </x-forms.label>
-                                        <x-forms.field>
-                                            <x-forms.control class="has-icons-left">
-                                                <x-forms.input
-                                                    type="text"
-                                                    x-bind:name="`field[${index}][component_name]`"
-                                                    x-bind:id="`field[${index}][component_name]`"
-                                                    x-model="field.component_name"
-                                                />
-                                                <x-common.icon
-                                                    name="fas fa-key"
-                                                    class="is-large is-left"
-                                                />
-                                            </x-forms.control>
-                                            <span
-                                                class="help has-text-danger"
-                                                x-text="errors[`field.${index}.component_name`]"
-                                            ></span>
-                                        </x-forms.field>
-                                    </div>
-                                    <div class="column is-4">
                                         <x-forms.label for="`field[${index}][label]`">
                                             Label <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -597,7 +514,10 @@
                                             ></span>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-4">
+                                    <div
+                                        class="column is-4"
+                                        x-show="!isFieldRelational(field.is_relational_field)"
+                                    >
                                         <x-forms.label for="`field[${index}][icon]`">
                                             Icon <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -620,18 +540,32 @@
                                             ></span>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-4">
+                                    <div
+                                        class="column is-4"
+                                        x-show="!isFieldRelational(field.is_relational_field)"
+                                    >
                                         <x-forms.label for="`field[${index}][tag]`">
-                                            Tag <sup class="has-text-danger">*</sup>
+                                            Form Type <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
-                                        <x-forms.field x-bind:class="{ 'has-addons': isTagInput(field.tag) }">
+                                        <x-forms.field x-bind:class="{ 'has-addons': isTagInput(field.tag) || isTagSelect(field.tag) }">
                                             <x-forms.control class="has-icons-left">
-                                                <x-forms.input
-                                                    type="text"
+                                                <x-forms.select
+                                                    class="is-fullwidth"
                                                     x-bind:name="`field[${index}][tag]`"
                                                     x-bind:id="`field[${index}][tag]`"
                                                     x-model="field.tag"
-                                                />
+                                                    x-on:change="tagChanged(index)"
+                                                >
+                                                    <option
+                                                        value=""
+                                                        hidden
+                                                    >
+                                                        Select Form Type
+                                                    </option>
+                                                    <option value="input">Regular</option>
+                                                    <option value="select">Dropdown</option>
+                                                    <option value="textarea">Text Editor</option>
+                                                </x-forms.select>
                                                 <x-common.icon
                                                     name="fas fa-code"
                                                     class="is-large is-left"
@@ -641,9 +575,34 @@
                                                 x-show="isTagInput(field.tag)"
                                                 class="has-icons-left"
                                             >
+                                                <x-forms.select
+                                                    class="is-fullwidth"
+                                                    x-bind:name="`field[${index}][tag_type]`"
+                                                    x-bind:id="`field[${index}][tag_type]`"
+                                                    x-model="field.tag_type"
+                                                >
+                                                    <option
+                                                        value=""
+                                                        hidden
+                                                    >
+                                                        Select Type
+                                                    </option>
+                                                    <option value="text">Text</option>
+                                                    <option value="number">Number</option>
+                                                    <option value="file">Attachment</option>
+                                                    <option value="date">Date</option>
+                                                </x-forms.select>
+                                                <x-common.icon
+                                                    name="fas fa-code"
+                                                    class="is-large is-left"
+                                                />
+                                            </x-forms.control>
+                                            <x-forms.control
+                                                x-show="isTagSelect(field.tag)"
+                                                class="has-icons-left"
+                                            >
                                                 <x-forms.input
                                                     type="text"
-                                                    placeholder="Input Type (e.g. text, number ...)"
                                                     x-bind:name="`field[${index}][tag_type]`"
                                                     x-bind:id="`field[${index}][tag_type]`"
                                                     x-model="field.tag_type"
@@ -663,7 +622,7 @@
                                             ></span>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-3">
+                                    <div class="column is-one-fifth">
                                         <x-forms.field>
                                             <x-forms.label>
                                                 Master Field <sup class="has-text-danger">*</sup>
@@ -696,7 +655,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-3">
+                                    <div class="column is-one-fifth">
                                         <x-forms.field>
                                             <x-forms.label>
                                                 Required <sup class="has-text-danger">*</sup>
@@ -729,10 +688,10 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-3">
+                                    <div class="column is-one-fifth">
                                         <x-forms.field>
                                             <x-forms.label>
-                                                Column Visibility <sup class="has-text-danger">*</sup>
+                                                Table Visibility <sup class="has-text-danger">*</sup>
                                             </x-forms.label>
                                             <x-forms.control class="has-icons-left">
                                                 <x-forms.label class="radio is-inline">
@@ -762,7 +721,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-3">
+                                    <div class="column is-one-fifth">
                                         <x-forms.field>
                                             <x-forms.label>
                                                 Printable <sup class="has-text-danger">*</sup>
@@ -795,7 +754,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-3">
+                                    <div class="column is-one-fifth">
                                         <x-forms.field>
                                             <x-forms.label>
                                                 Readonly <sup class="has-text-danger">*</sup>
@@ -893,8 +852,14 @@
                     return fieldType === "1";
                 },
                 isTagInput(tagName) {
-                    return tagName.toLowerCase() === "input" || tagName.toLowerCase() === "select";
+                    return tagName.toLowerCase() === "input";
                 },
+                isTagSelect(tagName) {
+                    return tagName.toLowerCase() === "select";
+                },
+                tagChanged(index) {
+                    this.fields[index].tag_type = '';
+                }
             }));
         });
     </script>

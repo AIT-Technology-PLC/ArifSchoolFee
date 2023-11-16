@@ -98,7 +98,7 @@
                 <x-common.dropdown-item>
                     <x-common.button
                         tag="a"
-                        href="{{ route('pads.edit', $pad->id) }}"
+                        href="{{ route('admin.pads.edit', $pad->id) }}"
                         mode="button"
                         icon="fas fa-pen"
                         label="Edit"

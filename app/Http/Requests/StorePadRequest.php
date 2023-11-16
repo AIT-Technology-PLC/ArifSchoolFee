@@ -31,7 +31,7 @@ class StorePadRequest extends FormRequest
             'print_orientation' => ['required', 'string'],
             'print_paper_size' => ['required', 'string'],
 
-            'field' => ['required', 'array'],
+            'field' => ['nullable', 'array'],
             'status' => ['nullable', 'array'],
 
             'status.*.name' => ['sometimes', 'required', 'string', 'distinct', 'required_with:status'],
@@ -42,20 +42,17 @@ class StorePadRequest extends FormRequest
             'status.*.is_deletable' => ['nullable', 'boolean', 'required_with:status'],
 
             'field.*.is_relational_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
-            'field.*.relationship_type' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
-            'field.*.model_name' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
-            'field.*.representative_column' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
-            'field.*.component_name' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0'],
+            'field.*.list' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0', Rule::in(Pad::COMPONENTS)],
 
-            'field.*.label' => ['sometimes', 'required', 'string', 'required_with:field'],
-            'field.*.icon' => ['sometimes', 'required', 'string', 'required_with:field'],
+            'field.*.label' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
+            'field.*.icon' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
+            'field.*.tag' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
+            'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input,select'],
             'field.*.is_master_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_required' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_visible' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_printable' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.is_readonly' => ['sometimes', 'required', 'boolean', 'required_with:field'],
-            'field.*.tag' => ['sometimes', 'required', 'string', 'required_with:field'],
-            'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input,select'],
         ];
     }
 }

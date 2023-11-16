@@ -44,11 +44,14 @@ class Pad extends Model
         'General Settings',
     ];
 
-    public const RELATIONSHIP_TYPES = [
-        'Belongs To',
-        'Belongs To Many',
-        'Has One',
-        'Has Many',
+
+    public const COMPONENTS = [
+        'supplier',
+        'customer',
+        'user',
+        'warehouse',
+        'product',
+        'contact',
     ];
 
     public function padFields()
@@ -74,16 +77,16 @@ class Pad extends Model
     public function convertTo(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => !is_null($value) ? explode(',', $value) : [],
-            set:fn($value) => implode(',', $value)
+            get: fn($value) => !is_null($value) ? explode(',', $value) : [],
+            set: fn($value) => implode(',', $value)
         );
     }
 
     public function convertFrom(): Attribute
     {
         return Attribute::make(
-            get:fn($value) => !is_null($value) ? explode(',', $value) : [],
-            set:fn($value) => implode(',', $value)
+            get: fn($value) => !is_null($value) ? explode(',', $value) : [],
+            set: fn($value) => implode(',', $value)
         );
     }
 

@@ -9,7 +9,6 @@ use App\Http\Requests\UpdatePadRequest;
 use App\Models\Company;
 use App\Models\Pad;
 use App\Services\Models\PadService;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class CompanyPadController extends Controller
 {
@@ -47,12 +46,8 @@ class CompanyPadController extends Controller
     {
         $features = (new Pad)->converts();
 
-        $pricesFields = $this->padService->generatePriceFields()->pluck('label');
-
-        $excludedPadFields = $this->padService->generatePaymentTermFields()->pluck('label')->merge($pricesFields);
-
-        $pad->load(['padStatuses', 'padFields' => function ($query) use ($excludedPadFields) {
-            $query->with('padRelation')->whereNotIn('label', $excludedPadFields);
+        $pad->load(['padStatuses', 'padFields' => function ($query) {
+            $query->whereDoesntHave('padRelation')->with('padRelation');
         }]);
 
         return view('admin.pads.edit', compact('pad', 'features'));
@@ -68,6 +63,8 @@ class CompanyPadController extends Controller
     public function destroy(Pad $pad)
     {
         abort_if($pad->isEnabled(), 403);
+
+        abort_if(!$pad->isInventoryOperationNone() && $pad->transactions()->exists(), 403);
 
         $pad->delete();
 
