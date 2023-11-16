@@ -10,6 +10,8 @@ class CompanyLimitController extends Controller
 {
     public function __invoke(UpdateCompanyLimitRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $company->limits()->sync(
             collect($request->validated('limit'))->whereNotNull('amount')->toArray()
         );

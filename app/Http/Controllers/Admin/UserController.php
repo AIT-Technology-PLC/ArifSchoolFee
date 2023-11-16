@@ -13,6 +13,8 @@ class UserController extends Controller
 {
     public function index(UserDatatable $datatable)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         $totalUsers = User::where('is_admin', 1)->count();
 
         return $datatable->render('admin.users.index', compact('totalUsers'));
@@ -20,6 +22,8 @@ class UserController extends Controller
 
     public function create()
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         $permissions = Permission::where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')->get();
 
         return view('admin.users.create', compact('permissions'));
@@ -27,6 +31,8 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         $user = User::create($request->validated() + ['is_admin' => true]);
 
         $user->syncPermissions($request->validated('permissions'));
@@ -36,6 +42,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         if (!$user->isAdmin()) {
             return back()->with('failedMessage', 'User not found.');
         }
@@ -49,6 +57,8 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         if (!$user->isAdmin()) {
             return redirect()->route('admin.users.index')->with('failedMessage', 'User not found.');
         }

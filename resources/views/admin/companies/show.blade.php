@@ -9,79 +9,87 @@
             is-mobile
         >
             <x-common.dropdown name="Actions">
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.companies.edit', $company->id) }}"
-                        mode="button"
-                        icon="fas fa-pen"
-                        label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        @click="$dispatch('open-company-limits-modal')"
-                        icon="fas fa-diagram-project"
-                        label="Manage Resources"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        @click="$dispatch('open-company-integrations-modal')"
-                        icon="fas fa-code"
-                        label="Manage Integrations"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        @click="$dispatch('open-company-features-modal')"
-                        icon="fas fa-cubes"
-                        label="Manage Features"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.companies.pads.create', $company) }}"
-                        mode="button"
-                        icon="fas fa-folder-open"
-                        label="Create Pad"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                @if ($company->isInTraining())
+                @can('Manage Admin Panel Companies')
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.companies.edit', $company->id) }}"
+                            mode="button"
+                            icon="fas fa-pen"
+                            label="Edit"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                     <x-common.dropdown-item>
                         <x-common.button
                             tag="button"
                             mode="button"
-                            @click="$dispatch('open-company-reset-modal')"
-                            icon="fas fa-power-off"
-                            label="Reset Account"
+                            @click="$dispatch('open-company-limits-modal')"
+                            icon="fas fa-diagram-project"
+                            label="Manage Resources"
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="button"
+                            mode="button"
+                            @click="$dispatch('open-company-integrations-modal')"
+                            icon="fas fa-code"
+                            label="Manage Integrations"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="button"
+                            mode="button"
+                            @click="$dispatch('open-company-features-modal')"
+                            icon="fas fa-cubes"
+                            label="Manage Features"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endcan
+                @can('Manage Admin Panel Pads')
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.companies.pads.create', $company) }}"
+                            mode="button"
+                            icon="fas fa-folder-open"
+                            label="Create Pad"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endcan
+                @if ($company->isInTraining())
+                    @can('Manage Admin Panel Resets')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-company-reset-modal')"
+                                icon="fas fa-power-off"
+                                label="Reset Account"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
                 @endif
-                <hr class="navbar-divider">
-                <x-common.dropdown-item>
-                    <x-common.transaction-button
-                        :route="route('admin.companies.toggle_activation', $company->id)"
-                        action="{{ $company->isEnabled() ? 'deactivate' : 'activate' }}"
-                        intention="{{ $company->isEnabled() ? 'deactivate' : 'activate' }} this company account"
-                        icon="fas {{ $company->isEnabled() ? 'fa-times-circle' : 'fa-check-circle' }}"
-                        label="{{ $company->isEnabled() ? 'Deactivate' : 'Activate' }}"
-                        class="has-text-weight-bold is-small {{ $company->isEnabled() ? 'text-purple' : 'text-green' }} is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
+                @can('Manage Admin Panel Companies')
+                    <hr class="navbar-divider">
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('admin.companies.toggle_activation', $company->id)"
+                            action="{{ $company->isEnabled() ? 'deactivate' : 'activate' }}"
+                            intention="{{ $company->isEnabled() ? 'deactivate' : 'activate' }} this company account"
+                            icon="fas {{ $company->isEnabled() ? 'fa-times-circle' : 'fa-check-circle' }}"
+                            label="{{ $company->isEnabled() ? 'Deactivate' : 'Activate' }}"
+                            class="has-text-weight-bold is-small {{ $company->isEnabled() ? 'text-purple' : 'text-green' }} is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endcan
             </x-common.dropdown>
         </x-content.header>
         <x-content.footer>

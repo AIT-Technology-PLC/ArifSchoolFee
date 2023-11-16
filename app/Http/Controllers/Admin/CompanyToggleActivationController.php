@@ -9,6 +9,8 @@ class CompanyToggleActivationController extends Controller
 {
     public function __invoke(Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $company->toggleActivation();
 
         return back();

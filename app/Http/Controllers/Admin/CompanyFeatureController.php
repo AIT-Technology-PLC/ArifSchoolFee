@@ -14,6 +14,8 @@ class CompanyFeatureController extends Controller
      */
     public function __invoke(UpdateCompanyFeatureRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         DB::transaction(function () use ($request, $company) {
             $company->features()->syncWithoutDetaching(
                 collect($request->validated('enable'))->mapWithKeys(fn($i, $k) => [$i => ['is_enabled' => 1]])->toArray()

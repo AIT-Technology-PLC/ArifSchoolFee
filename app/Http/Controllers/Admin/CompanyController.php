@@ -29,6 +29,8 @@ class CompanyController extends Controller
 
     public function create()
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $plans = Plan::enabled()->get();
 
         $limits = Limit::all();
@@ -40,6 +42,8 @@ class CompanyController extends Controller
 
     public function store(StoreCompanyRequest $request, CreateCompanyAction $createCompanyAction)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $user = DB::transaction(function () use ($request, $createCompanyAction) {
             $user = $createCompanyAction->execute($request->safe()->except('limit'));
 
@@ -55,6 +59,8 @@ class CompanyController extends Controller
 
     public function edit(Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $plans = Plan::enabled()->get();
 
         return view('admin.companies.edit', compact('company', 'plans'));
@@ -62,6 +68,8 @@ class CompanyController extends Controller
 
     public function update(UpdateCompanyRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $company->update($request->validated());
 
         return redirect()->route('admin.companies.show', $company);

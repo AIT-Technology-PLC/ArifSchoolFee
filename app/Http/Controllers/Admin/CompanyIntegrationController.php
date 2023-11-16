@@ -13,6 +13,8 @@ class CompanyIntegrationController extends Controller
      */
     public function __invoke(UpdateCompanyIntegrationRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
+
         $company->integrations()->syncWithPivotValues(
             $request->validated('integrations'),
             ['is_enabled' => 1]

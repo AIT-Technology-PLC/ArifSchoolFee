@@ -4,30 +4,35 @@
 
 @section('content')
     <x-common.content-wrapper>
-        <x-content.header title="General Information">
-            <x-common.dropdown name="Actions">
-                <x-common.dropdown-item>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.pads.edit', $pad->id) }}"
-                        mode="button"
-                        icon="fas fa-pen"
-                        label="Edit"
-                        class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-                <hr class="navbar-divider">
-                <x-common.dropdown-item>
-                    <x-common.transaction-button
-                        :route="route('admin.pads.destroy', $pad->id)"
-                        action="delete"
-                        intention="delete this pad feature"
-                        icon="fas fa-times-circle"
-                        label="Delete"
-                        class="has-text-weight-bold is-small text-purple is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                    />
-                </x-common.dropdown-item>
-            </x-common.dropdown>
+        <x-content.header
+            title="General Information"
+            is-mobile
+        >
+            @can('Manage Admin Panel Pads')
+                <x-common.dropdown name="Actions">
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.pads.edit', $pad->id) }}"
+                            mode="button"
+                            icon="fas fa-pen"
+                            label="Edit"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                    <hr class="navbar-divider">
+                    <x-common.dropdown-item>
+                        <x-common.transaction-button
+                            :route="route('admin.pads.destroy', $pad->id)"
+                            action="delete"
+                            intention="delete this pad feature"
+                            icon="fas fa-times-circle"
+                            label="Delete"
+                            class="has-text-weight-bold is-small text-purple is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                </x-common.dropdown>
+            @endcan
         </x-content.header>
         <x-content.footer>
             <div class="columns is-marginless is-multiline">
@@ -84,7 +89,7 @@
         </x-content.footer>
     </x-common.content-wrapper>
 
-    <x-common.content-wrapper>
+    <x-common.content-wrapper class="mt-5">
         <x-content.header title="Actions Allowed" />
         <x-content.footer>
             <div class="columns is-marginless is-multiline">

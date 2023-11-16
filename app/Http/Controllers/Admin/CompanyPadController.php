@@ -21,6 +21,8 @@ class CompanyPadController extends Controller
 
     public function create(Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
+
         $features = (new Pad)->converts();
 
         return view('admin.pads.create', compact('features', 'company'));
@@ -28,6 +30,8 @@ class CompanyPadController extends Controller
 
     public function store(StorePadRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
+
         $pad = $this->padService->store($request->validated(), $company);
 
         return redirect()->route('admin.pads.show', $pad->id);
@@ -44,6 +48,8 @@ class CompanyPadController extends Controller
 
     public function edit(Pad $pad)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
+
         $features = (new Pad)->converts();
 
         $pad->load(['padStatuses', 'padFields' => function ($query) {
@@ -55,6 +61,8 @@ class CompanyPadController extends Controller
 
     public function update(UpdatePadRequest $request, Pad $pad)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
+
         $pad = $this->padService->update($pad, $request->validated());
 
         return redirect()->route('admin.pads.show', $pad->id);
@@ -62,6 +70,8 @@ class CompanyPadController extends Controller
 
     public function destroy(Pad $pad)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
+
         abort_if($pad->isEnabled(), 403);
 
         abort_if(!$pad->isInventoryOperationNone() && $pad->transactions()->exists(), 403);

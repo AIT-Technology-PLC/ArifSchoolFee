@@ -30,15 +30,20 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Companies">
-            <x-common.button
-                tag="a"
-                href="{{ route('admin.companies.create') }}"
-                mode="button"
-                icon="fas fa-plus-circle"
-                label="Create Company"
-                class="btn-green is-outlined is-small"
-            />
+        <x-content.header
+            title="Companies"
+            is-mobile
+        >
+            @can('Manage Admin Panel Companies')
+                <x-common.button
+                    tag="a"
+                    href="{{ route('admin.companies.create') }}"
+                    mode="button"
+                    icon="fas fa-plus-circle"
+                    label="Create Company"
+                    class="btn-green is-outlined is-small"
+                />
+            @endcan
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? session('imported')" />

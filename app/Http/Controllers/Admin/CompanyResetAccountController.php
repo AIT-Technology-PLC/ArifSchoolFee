@@ -11,6 +11,8 @@ class CompanyResetAccountController extends Controller
 {
     public function __invoke(CompanyResetAccountRequest $request, Company $company)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Resets'), 403);
+
         if (!$company->isInTraining()) {
             return back()->with('failedMessage', 'Account is in LIVE mode and can not be reset.');
         }
