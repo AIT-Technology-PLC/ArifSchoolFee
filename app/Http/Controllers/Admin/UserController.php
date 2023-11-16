@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Models\User;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -19,12 +20,16 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('admin.users.create');
+        $permissions = Permission::where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')->get();
+
+        return view('admin.users.create', compact('permissions'));
     }
 
     public function store(StoreUserRequest $request)
     {
-        User::create($request->validated() + ['is_admin' => true]);
+        $user = User::create($request->validated() + ['is_admin' => true]);
+
+        $user->syncPermissions($request->validated('permissions'));
 
         return redirect()->route('admin.users.index')->with('successMessage', 'User created successfully');
     }
@@ -35,7 +40,11 @@ class UserController extends Controller
             return back()->with('failedMessage', 'User not found.');
         }
 
-        return view('admin.users.edit', compact('user'));
+        $user->load(['permissions']);
+
+        $permissions = Permission::where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')->get();
+
+        return view('admin.users.edit', compact('user', 'permissions'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
@@ -45,6 +54,8 @@ class UserController extends Controller
         }
 
         $user->update($request->validated());
+
+        $user->syncPermissions($request->validated('permissions'));
 
         return redirect()->route('admin.users.index')->with('successMessage', 'User updated successfully');
     }

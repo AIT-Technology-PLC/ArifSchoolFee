@@ -58,6 +58,34 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="permissions[]">
+                                Permissions <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    x-init="initializeSelect2($el, '')"
+                                    class="is-fullwidth is-multiple"
+                                    id="permissions[]"
+                                    name="permissions[]"
+                                    multiple
+                                    style="width: 100% !important"
+                                >
+                                    @foreach ($permissions as $permission)
+                                        <option
+                                            value="{{ $permission->name }}"
+                                            @selected(in_array($permission->name, old('permissions', $user->permissions->pluck('name')->toArray())))
+                                        >
+                                            {{ $permission->name }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select>
+                                <x-common.validation-error property="permissions.*" />
+                                <x-common.validation-error property="permissions.*" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>
