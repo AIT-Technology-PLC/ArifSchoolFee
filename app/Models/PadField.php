@@ -59,6 +59,11 @@ class PadField extends Model
         return $query->where('tag_type', 'file');
     }
 
+    public function scopeExcludeReservedLabels($query, $pad)
+    {
+        return $query->whereNotIn('label', static::reservedLabels($pad));
+    }
+
     public function isMasterField()
     {
         return $this->is_master_field;
@@ -142,5 +147,39 @@ class PadField extends Model
     public function isMerchandiseBatchField()
     {
         return $this->label == 'Batch' && $this->padRelation()->exists();
+    }
+
+    public static function reservedLabels($inventoryOperationType = null, $hasPrices = null, $pad = null)
+    {
+        if (!is_null($pad)) {
+            $inventoryOperationType = $pad->inventory_operation_type;
+            $hasPrices = $pad->has_prices;
+        }
+
+        $labels = collect([
+            'Unit Price',
+            'Payment Method',
+            'Cash Received',
+            'Credit Due Date',
+            'Batch No',
+            'Expires On',
+            'Batch',
+            'Supplier',
+            'Customer',
+            'User',
+            'Warehouse',
+            'Product',
+            'Contact',
+        ]);
+
+        if ($inventoryOperationType != 'none') {
+            $labels->push('Quantity', 'To', 'From');
+        }
+
+        if ($hasPrices) {
+            $labels->push('Quantity');
+        }
+
+        return $labels->toArray();
     }
 }

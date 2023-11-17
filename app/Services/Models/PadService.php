@@ -33,8 +33,6 @@ class PadService
 
             $this->createPriceFields($pad);
 
-            $this->createPaymentTermFields($pad);
-
             $this->createBatchFieldsForAddingPads($pad);
 
             $this->createBatchFieldsForNonAddingPads($pad);
@@ -74,6 +72,8 @@ class PadService
             $this->createModelFields($pad, $data['field'] ?? null);
 
             $this->createOrUpdatePadPermissions($pad, false);
+
+            $this->createPriceFields($pad);
 
             return $pad;
         });
@@ -119,8 +119,10 @@ class PadService
 
     private function createPriceFields($pad)
     {
-        $fields = [
-            [
+        $fields = [];
+
+        if ($pad->isInventoryOperationNone()) {
+            $fields[] = [
                 'label' => 'Quantity',
                 'icon' => 'fas fa-balance-scale',
                 'is_master_field' => 0,
@@ -130,62 +132,30 @@ class PadService
                 'is_readonly' => 0,
                 'tag' => 'input',
                 'tag_type' => 'number',
-            ],
-            [
-                'label' => 'Unit Price',
-                'icon' => 'fas fa-dollar-sign',
-                'is_master_field' => 0,
-                'is_required' => 1,
-                'is_visible' => 1,
-                'is_printable' => 1,
-                'is_readonly' => 0,
-                'tag' => 'input',
-                'tag_type' => 'number',
-            ],
+            ];
+        }
+
+        $fields[] = [
+            'label' => 'Unit Price',
+            'icon' => 'fas fa-dollar-sign',
+            'is_master_field' => 0,
+            'is_required' => 1,
+            'is_visible' => 1,
+            'is_printable' => 1,
+            'is_readonly' => 0,
+            'tag' => 'input',
+            'tag_type' => 'number',
         ];
 
-        $pad->padFields()->createMany($fields);
-    }
+        $pad->padFields()->whereIn('label', Arr::pluck($fields, 'label'))->forceDelete();
 
-    private function createPaymentTermFields($pad)
-    {
-        $fields = [
-            [
-                'label' => 'Payment Method',
-                'icon' => 'fas fa-credit-card',
-                'is_master_field' => 1,
-                'is_required' => 1,
-                'is_visible' => 1,
-                'is_printable' => 1,
-                'is_readonly' => 0,
-                'tag' => 'select',
-                'tag_type' => '',
-            ],
-            [
-                'label' => 'Cash Received',
-                'icon' => 'fas fa-money-bill',
-                'is_master_field' => 1,
-                'is_required' => 1,
-                'is_visible' => 0,
-                'is_printable' => 1,
-                'is_readonly' => 0,
-                'tag' => 'input',
-                'tag_type' => 'number',
-            ],
-            [
-                'label' => 'Credit Due Date',
-                'icon' => 'fas fa-calendar',
-                'is_master_field' => 1,
-                'is_required' => 0,
-                'is_visible' => 0,
-                'is_printable' => 1,
-                'is_readonly' => 0,
-                'tag' => 'input',
-                'tag_type' => 'date',
-            ],
-        ];
+        if (!$pad->hasPrices()) {
+            return;
+        }
 
-        $pad->padFields()->createMany($fields);
+        foreach ($fields as $field) {
+            $pad->padFields()->firstOrCreate($field);
+        }
     }
 
     private function createBatchFieldsForAddingPads($pad)

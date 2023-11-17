@@ -52,8 +52,8 @@ class CompanyPadController extends Controller
 
         $features = (new Pad)->converts();
 
-        $pad->load(['padStatuses', 'padFields' => function ($query) {
-            $query->whereDoesntHave('padRelation')->with('padRelation');
+        $pad->load(['padStatuses', 'padFields' => function ($query) use($pad){
+            $query->whereDoesntHave('padRelation')->excludeReservedLabels($pad)->with('padRelation');
         }]);
 
         return view('admin.pads.edit', compact('pad', 'features'));

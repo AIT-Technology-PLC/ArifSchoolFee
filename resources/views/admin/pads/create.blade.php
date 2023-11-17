@@ -236,7 +236,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-one-fifth">
+                    <div class="column is-3">
                         <x-forms.field>
                             <x-forms.label>
                                 Approvable <sup class="has-text-danger">*</sup>
@@ -266,7 +266,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-one-fifth">
+                    <div class="column is-3">
                         <x-forms.field>
                             <x-forms.label>
                                 Printable <sup class="has-text-danger">*</sup>
@@ -296,7 +296,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-one-fifth">
+                    <div class="column is-3">
                         <x-forms.field>
                             <x-forms.label>
                                 Prices <sup class="has-text-danger">*</sup>
@@ -326,37 +326,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-one-fifth">
-                        <x-forms.field>
-                            <x-forms.label>
-                                Payment Terms <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="has_payment_term"
-                                        id="has_payment_term"
-                                        value="1"
-                                        @checked(old('has_payment_term') == 1)
-                                    />
-                                    Yes
-                                </x-forms.label>
-                                <x-forms.label class="radio is-inline">
-                                    <input
-                                        type="radio"
-                                        name="has_payment_term"
-                                        id="has_payment_term"
-                                        value="0"
-                                        @checked(old('has_payment_term') == 0)
-                                    />
-                                    No
-                                </x-forms.label>
-                                <x-common.validation-error property="has_payment_term" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-one-fifth">
+                    <div class="column is-3">
                         <x-forms.field>
                             <x-forms.label>
                                 Enabled <sup class="has-text-danger">*</sup>

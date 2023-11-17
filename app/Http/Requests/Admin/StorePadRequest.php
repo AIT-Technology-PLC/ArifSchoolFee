@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Pad;
+use App\Models\PadField;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,7 +24,6 @@ class StorePadRequest extends FormRequest
             'is_approvable' => ['required', 'boolean'],
             'is_printable' => ['required', 'boolean'],
             'has_prices' => ['required', 'boolean'],
-            'has_payment_term' => ['required', 'boolean'],
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
             'convert_to' => ['nullable', 'array', Rule::in((new Pad)->converts())],
@@ -44,7 +44,8 @@ class StorePadRequest extends FormRequest
             'field.*.is_relational_field' => ['sometimes', 'required', 'boolean', 'required_with:field'],
             'field.*.list' => ['nullable', 'string', 'required_if:field.*.is_relational_field,1', 'exclude_if:field.*.is_relational_field,0', Rule::in(Pad::COMPONENTS)],
 
-            'field.*.label' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
+            'field.*.label' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1',
+                Rule::notIn(PadField::reservedLabels($this->input('inventory_operation_type'), $this->input('has_prices')))],
             'field.*.icon' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
             'field.*.tag' => ['nullable', 'string', 'required_if:field.*.is_relational_field,0', 'exclude_if:field.*.is_relational_field,1'],
             'field.*.tag_type' => ['nullable', 'string', 'required_if:field.*.tag,input', 'exclude_unless:field.*.tag,input,select'],
