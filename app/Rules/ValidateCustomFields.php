@@ -35,6 +35,7 @@ class ValidateCustomFields implements ImplicitRule
         $doesValueExists = $customField
             ->customFieldValues()
             ->where('value', $value)
+            ->where('warehouse_id', authUser()->warehouse_id)
             ->when(!empty(request()->route($this->routeParameter)), fn($q) => $q->whereNot('custom_field_valuable_id', request()->route($this->routeParameter)->id))
             ->exists();
 
