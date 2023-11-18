@@ -20,7 +20,7 @@ class TransactionController extends Controller
 
         $transactions = Transaction::where('pad_id', $pad->id)->get();
 
-        $padStatuses = $pad->padStatuses()->active()->get();
+        $pad->load(['padStatuses' => fn($q) => $q->active()]);
 
         $data = [];
 
@@ -72,7 +72,7 @@ class TransactionController extends Controller
                 ->count();
         }
 
-        return $datatable->render('transactions.index', compact('pad', 'transactions', 'data', 'padStatuses'));
+        return $datatable->render('transactions.index', compact('pad', 'transactions', 'data'));
     }
 
     public function create(Pad $pad)

@@ -20,7 +20,6 @@ class Pad extends Model
         'is_approvable' => 'boolean',
         'is_printable' => 'boolean',
         'has_prices' => 'boolean',
-        'has_payment_term' => 'boolean',
         'is_enabled' => 'boolean',
     ];
 
@@ -148,11 +147,6 @@ class Pad extends Model
     public function hasPrices()
     {
         return $this->has_prices;
-    }
-
-    public function hasPaymentTerm()
-    {
-        return $this->has_payment_term;
     }
 
     public function hasDetailPadFields()

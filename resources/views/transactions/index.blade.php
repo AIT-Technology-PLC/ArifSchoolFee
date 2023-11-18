@@ -67,7 +67,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted')" />
             @if (
-                $padStatuses->isNotEmpty() ||
+                $pad->padStatuses->isNotEmpty() ||
                     authUser()->getAllowedWarehouses('transactions')->isNotEmpty() ||
                     !$pad->isInventoryOperationNone() ||
                     $pad->isApprovable())
@@ -100,7 +100,7 @@
                                 </x-forms.field>
                             </div>
                         @endif
-                        @if ($padStatuses->isNotEmpty())
+                        @if ($pad->padStatuses->isNotEmpty())
                             <div class="column is-3 p-lr-0 pt-0">
                                 <x-forms.field class="has-text-centered">
                                     <x-forms.control>
@@ -119,7 +119,7 @@
                                                 Statuses
                                             </option>
                                             <option value="all"> All </option>
-                                            @foreach ($padStatuses as $padStatus)
+                                            @foreach ($pad->padStatuses as $padStatus)
                                                 <option value="{{ str()->lower($padStatus->name) }}"> {{ $padStatus->name }} </option>
                                             @endforeach
                                         </x-forms.select>

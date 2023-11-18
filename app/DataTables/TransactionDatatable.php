@@ -30,7 +30,7 @@ class TransactionDatatable extends DataTable
             ->where('is_visible', 1)
             ->get();
 
-        $this->padStatuses = request()->route('pad')->padStatuses()->active()->get();
+        $this->padStatuses = request()->route('pad')->padStatuses->where('is_active', 1);
     }
 
     public function dataTable($query)
