@@ -355,7 +355,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ str()->title($customField->label) }} </td>
                                 <td> {{ str()->title($customField->model_type) }} </td>
-                                <td> {{ $pad->isEnabled() ? 'Enabled' : 'Disabled' }} </td>
+                                <td> {{ $customField->isActive() ? 'Enabled' : 'Disabled' }} </td>
                             </tr>
                         @endforeach
                     </x-slot>
