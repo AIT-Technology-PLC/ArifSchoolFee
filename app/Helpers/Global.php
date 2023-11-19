@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Lottery;
 
 if (!function_exists('authUser')) {
     function authUser(): User
@@ -35,15 +34,15 @@ if (!function_exists('limitReached')) {
 if (!function_exists('isFeatureEnabled')) {
     function isFeatureEnabled(...$featureNames)
     {
-        if (auth()->check() && authUser()->isAdmin()) {
+        if (!auth()->check()) {
+            return false;
+        }
+
+        if (authUser()->isAdmin()) {
             return true;
         }
 
-        $key = 'enabledFeatures';
-
-        if (auth()->check()) {
-            $key = authUser()->id . '_' . 'enabledFeatures';
-        }
+        $key = authUser()->id . '_' . 'enabledFeatures';
 
         $enabledFeatures = Cache::store('array')->rememberForever($key, function () {
             return Feature::getAllEnabledFeaturesOfCompany();
