@@ -61,7 +61,9 @@ class CompanyController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        $plans = Plan::enabled()->get();
+        $company->load(['plan']);
+
+        $plans = Plan::enabled()->get()->push($company->plan)->unique();
 
         return view('admin.companies.edit', compact('company', 'plans'));
     }
