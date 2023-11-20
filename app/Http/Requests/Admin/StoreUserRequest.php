@@ -19,8 +19,8 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'permissions' => ['required', 'array'],
-            'permissions.*' => ['required', 'string', Rule::exists(Permission::class, 'name')->where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')],
+            'permissions' => ['nullable', 'array'],
+            'permissions.*' => ['nullable', 'string', Rule::exists(Permission::class, 'name')->where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')],
         ];
     }
 }
