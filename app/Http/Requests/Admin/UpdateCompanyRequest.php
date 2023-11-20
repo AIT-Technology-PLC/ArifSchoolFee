@@ -17,7 +17,7 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'plan_id' => ['required', 'integer', Rule::in(Plan::enabled()->pluck('id'))],
+            'plan_id' => ['required', 'integer', Rule::in(Plan::pluck('id'))],
         ];
     }
 }
