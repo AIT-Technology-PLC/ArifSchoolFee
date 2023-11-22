@@ -266,6 +266,11 @@ class Company extends Model
         return $query->where('enabled', 0);
     }
 
+    public function scopeExpiredSubscriptions($query)
+    {
+        return $query->whereNotNull('subscription_expires_on')->where('subscription_expires_on', '<', today());
+    }
+
     public function email(): Attribute
     {
         return Attribute::make(
@@ -409,6 +414,13 @@ class Company extends Model
     public function toggleActivation()
     {
         $this->isEnabled() ? $this->enabled = 0 : $this->enabled = 1;
+
+        $this->save();
+    }
+
+    public function deactivate()
+    {
+        $this->enabled = 0;
 
         $this->save();
     }

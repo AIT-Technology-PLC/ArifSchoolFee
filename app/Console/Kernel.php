@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('pos:void')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
 
         $schedule->command('pos:approve')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
+
+        // $schedule->command('company:deactivate')->withoutOverlapping()->evenInMaintenanceMode()->daily();
     }
 
     /**
@@ -42,7 +44,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
