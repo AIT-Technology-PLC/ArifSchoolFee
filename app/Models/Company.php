@@ -431,6 +431,15 @@ class Company extends Model
 
     public function canCreateNewSubscription()
     {
-        return is_null($this->subscription_expires_on) || today()->diffInDays($this->subscription_expires_on, false) <= 30;
+        return is_null($this->subscription_expires_on) || $this->isSubscriptionNearExpiry();
+    }
+
+    public function isSubscriptionNearExpiry()
+    {
+        if (is_null($this->subscription_expires_on)) {
+            return false;
+        }
+
+        return today()->diffInDays($this->subscription_expires_on, false) <= 30;
     }
 }

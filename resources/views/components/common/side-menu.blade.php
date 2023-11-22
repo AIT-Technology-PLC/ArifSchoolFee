@@ -17,6 +17,11 @@
                     <div class="has-text-grey is-size-7 is-capitalized">
                         {{ authUser()->employee->position ?? 'Job: Not Assigned' }}
                     </div>
+                    @if (userCompany()->isSubscriptionNearExpiry())
+                        <div class="text-purple is-size-7 has-text-weight-bold is-capitalized mt-3">
+                            DAYS LEFT: {{ today()->diffInDays(userCompany()->subscription_expires_on, false) }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="buttons is-hidden-tablet ml-3 mt-5">
