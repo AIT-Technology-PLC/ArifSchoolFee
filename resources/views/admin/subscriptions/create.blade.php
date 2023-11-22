@@ -41,7 +41,7 @@
                                         @foreach ($plans as $plan)
                                             <option
                                                 value="{{ $plan->id }}"
-                                                @selected($plan->id == old('plan_id'))
+                                                @selected($plan->id == old('plan_id', $company->plan_id))
                                             >
                                                 {{ $plan->name }}
                                             </option>

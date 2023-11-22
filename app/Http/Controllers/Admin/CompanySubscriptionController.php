@@ -28,7 +28,7 @@ class CompanySubscriptionController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Subscriptions'), 403);
 
-        $plans = Plan::enabled()->get();
+        $plans = Plan::enabled()->get()->push($subscription->company->plan)->unique();
 
         return view('admin.subscriptions.edit', compact('subscription', 'plans'));
     }

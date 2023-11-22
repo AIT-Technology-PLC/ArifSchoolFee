@@ -17,7 +17,7 @@ class StoreSubscriptionRequest extends FormRequest
     {
         return [
             'months' => ['required', 'integer', 'gte:1'],
-            'plan_id' => ['required', 'integer', Rule::in(Plan::enabled()->pluck('id'))],
+            'plan_id' => ['required', 'integer', Rule::in(Plan::pluck('id'))],
         ];
     }
 }

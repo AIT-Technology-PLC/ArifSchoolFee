@@ -93,7 +93,7 @@ class CompanyController extends Controller
 
         $features = Feature::all();
 
-        $plans = Plan::enabled()->get();
+        $plans = Plan::enabled()->get()->push($company->plan)->unique();
 
         $tables = ['brands', 'product_categories', 'products', 'contacts', 'customers', 'suppliers', 'purchases', 'prices', 'price_increments'];
 

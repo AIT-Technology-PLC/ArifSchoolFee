@@ -30,7 +30,7 @@ class Subscription extends Model
 
     public function expiresOn(): Attribute
     {
-        return Attribute::get(fn() => $this->starts_on->addMonths($this->months));
+        return Attribute::get(fn() => $this->starts_on?->addMonths($this->months));
     }
 
     public function approve()

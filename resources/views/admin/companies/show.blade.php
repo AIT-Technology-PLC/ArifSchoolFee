@@ -406,15 +406,31 @@
                         @foreach ($company->subscriptions as $subscription)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $subscription->starts_on->toFormattedDateString() }} </td>
-                                <td> {{ $subscription->expiresOn->toFormattedDateString() }} </td>
+                                <td> {{ $subscription->starts_on?->toFormattedDateString() ?? 'Not set' }} </td>
+                                <td> {{ $subscription->expiresOn?->toFormattedDateString() ?? 'Not set' }} </td>
                                 <td> {{ today()->diffInDays($subscription->expiresOn, false) }} </td>
                                 <td>
-                                    <x-common.action-buttons
-                                        :buttons="['edit', 'delete']"
-                                        model="admin.subscriptions"
-                                        :id="$subscription->id"
-                                    />
+                                    @if (!$subscription->isApproved())
+                                        @can('Manage Admin Panel Subscriptions')
+                                            @can('Manage Admin Panel Subscriptions')
+                                                <x-common.action-buttons
+                                                    :buttons="['edit', 'delete']"
+                                                    model="admin.subscriptions"
+                                                    :id="$subscription->id"
+                                                />
+                                            @endcan
+                                            <x-common.transaction-button
+                                                :route="route('admin.subscriptions.approve', $subscription->id)"
+                                                action="approve"
+                                                intention="approve this subscription"
+                                                icon="fas fa-file-contract"
+                                                data-title="Approve"
+                                                class="has-text-weight-medium is-small text-green px-2 py-0 is-transparent-color"
+                                            />
+                                        @endcan
+                                    @else
+                                        No actions
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
