@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnDelete();
             $table->foreignId('plan_id')->nullable()->constrained()->nullOnDelete()->cascadeOnDelete();
-            $table->date('starts_on');
+            $table->date('starts_on')->nullable();
             $table->integer('months');
             $table->boolean('is_approved')->default(0);
             $table->timestamps();
@@ -32,6 +32,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropColumn('subscription_expires_on');
+        });
+
         Schema::dropIfExists('subscriptions');
     }
 };

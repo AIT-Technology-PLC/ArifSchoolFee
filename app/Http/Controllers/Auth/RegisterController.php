@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Actions\CreateCompanyAction;
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return DB::transaction(function () use ($data) {
+            $data['subscriptions'] = [
+                'plan_id' => Plan::firstWhere('name', 'v3-professional')->id,
+                'months' => 12,
+            ];
+
             return $this->action->execute($data);
         });
     }

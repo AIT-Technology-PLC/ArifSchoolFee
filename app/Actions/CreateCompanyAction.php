@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Actions\CreateUserAction;
 use App\Models\Company;
-use App\Models\Plan;
 use App\Models\Warehouse;
 
 class CreateCompanyAction
@@ -22,9 +21,12 @@ class CreateCompanyAction
             'name' => $data['company_name'],
             'currency' => 'ETB',
             'enabled' => 0,
-            'plan_id' => $data['plan_id'] ?? Plan::firstWhere('name', 'v3-professional')->id,
             'paid_time_off_amount' => 16,
         ]);
+
+        $subscription = $company->subscriptions()->create($data['subscriptions']);
+
+        $subscription->approve();
 
         $warehouse = Warehouse::create([
             'company_id' => $company->id,

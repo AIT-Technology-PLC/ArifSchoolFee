@@ -46,6 +46,8 @@ class Subscription extends Model
         }
 
         $this->save();
+
+        $this->company->subscribe($this);
     }
 
     public function isApproved()

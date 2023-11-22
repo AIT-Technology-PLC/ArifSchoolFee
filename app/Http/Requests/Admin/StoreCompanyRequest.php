@@ -18,7 +18,8 @@ class StoreCompanyRequest extends FormRequest
     {
         return [
             'company_name' => ['required', 'string', 'max:255'],
-            'plan_id' => ['required', 'integer', Rule::in(Plan::enabled()->pluck('id'))],
+            'subscriptions.plan_id' => ['required', 'integer', Rule::in(Plan::enabled()->pluck('id'))],
+            'subscriptions.months' => ['required', 'integer', 'gte:1'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],

@@ -38,14 +38,14 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="plan_id">
+                            <x-forms.label for="subscriptions[plan_id]">
                                 Plan <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    id="plan_id"
-                                    name="plan_id"
+                                    id="subscriptions[plan_id]"
+                                    name="subscriptions[plan_id]"
                                 >
                                     <option
                                         selected
@@ -54,7 +54,7 @@
                                     @foreach ($plans as $plan)
                                         <option
                                             value="{{ $plan->id }}"
-                                            @selected($plan->id == old('plan_id'))
+                                            @selected($plan->id == (old('subscriptions')['plan_id'] ?? ''))
                                         >
                                             {{ $plan->name }}
                                         </option>
@@ -64,7 +64,28 @@
                                     name="fas fa-tag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="plan_id" />
+                                <x-common.validation-error property="subscriptions.plan_id" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label for="subscriptions[months]">
+                            Subscription Months <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="subscriptions[months]"
+                                    name="subscriptions[months]"
+                                    type="number"
+                                    placeholder="Months (e.g. 12)"
+                                    value="{{ old('subscriptions')['months'] ?? 12 }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-calendar"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="subscriptions.months" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

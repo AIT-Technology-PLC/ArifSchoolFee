@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Actions\CreateCompanyAction;
+use App\Models\Plan;
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,10 @@ class CreateNewCompany extends Seeder
                 'name' => $faker->name,
                 'email' => User::count() ? $faker->unique()->safeEmail : 'user@onrica.com',
                 'password' => 'userpassword',
+                'subscriptions' => [
+                    'plan_id' => Plan::firstWhere('name', 'v3-professional')->id,
+                    'months' => 12,
+                ],
             ]);
         });
 

@@ -417,4 +417,15 @@ class Company extends Model
     {
         return $this->is_in_training;
     }
+
+    public function subscribe($subscription)
+    {
+        $this->subscription_expires_on = $subscription->expiresOn;
+
+        $this->plan_id = $subscription->plan_id;
+
+        $this->enabled = 1;
+
+        $this->save();
+    }
 }
