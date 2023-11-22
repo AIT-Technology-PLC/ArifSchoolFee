@@ -79,7 +79,7 @@ class CompanyController extends Controller
 
     public function show(Company $company)
     {
-        $company->load(['integrations', 'pads', 'customFields', 'limits', 'plan.limits']);
+        $company->load(['integrations', 'pads', 'customFields', 'limits', 'plan.limits', 'subscriptions']);
 
         $companyLimits = Limit::getAllLimitsOfCompany($company);
 
@@ -93,8 +93,10 @@ class CompanyController extends Controller
 
         $features = Feature::all();
 
+        $plans = Plan::enabled()->get();
+
         $tables = ['brands', 'product_categories', 'products', 'contacts', 'customers', 'suppliers', 'purchases', 'prices', 'price_increments'];
 
-        return view('admin.companies.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits', 'integrations', 'features', 'tables'));
+        return view('admin.companies.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits', 'integrations', 'features', 'tables', 'plans'));
     }
 }

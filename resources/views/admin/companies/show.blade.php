@@ -51,6 +51,18 @@
                         />
                     </x-common.dropdown-item>
                 @endcan
+                @can('Manage Admin Panel Subscriptions')
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="button"
+                            mode="button"
+                            @click="$dispatch('open-company-subscriptions-modal')"
+                            icon="fas fa-file-contract"
+                            label="Create Subscription"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
+                @endcan
                 @can('Manage Admin Panel Pads')
                     <x-common.dropdown-item>
                         <x-common.button
@@ -362,6 +374,52 @@
                 </x-common.client-datatable>
             </x-content.footer>
         </div>
+
+        <div class="column is-6 p-lr-0">
+            <x-content.header bg-color="has-background-white">
+                <x-slot:header>
+                    <h1 class="title text-green has-text-weight-medium is-size-6">
+                        <span class="icon mr-1">
+                            <i class="fas fa-file-contract"></i>
+                        </span>
+                        <span>Subscriptions</span>
+                    </h1>
+                </x-slot:header>
+            </x-content.header>
+            <x-content.footer>
+                <x-common.client-datatable
+                    has-filter="false"
+                    has-length-change="false"
+                    paging-type="simple"
+                    length-menu="[5]"
+                >
+                    <x-slot name="headings">
+                        <th><abbr> # </abbr></th>
+                        <th><abbr> Starting Date </abbr></th>
+                        <th><abbr> Expiry Date </abbr></th>
+                        <th><abbr> Days Left </abbr></th>
+                        <th><abbr> Actions </abbr></th>
+                    </x-slot>
+                    <x-slot name="body">
+                        @foreach ($company->subscriptions as $subscription)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $subscription->starts_on->toFormattedDateString() }} </td>
+                                <td> {{ $subscription->expiresOn->toFormattedDateString() }} </td>
+                                <td> {{ $subscription->expiresOn->diffInDays(today()) }} </td>
+                                <td>
+                                    <x-common.action-buttons
+                                        :buttons="['edit', 'delete']"
+                                        model="admin.subscriptions"
+                                        :id="$subscription->id"
+                                    />
+                                </td>
+                            </tr>
+                        @endforeach
+                    </x-slot>
+                </x-common.client-datatable>
+            </x-content.footer>
+        </div>
     </div>
 
     @include('admin.limits.edit', ['company' => $company])
@@ -371,4 +429,6 @@
     @include('admin.features.edit', ['company' => $company])
 
     @include('admin.companies.partials.reset', ['company' => $company])
+
+    @include('admin.subscriptions.create', ['company' => $company])
 @endsection

@@ -38,6 +38,7 @@ class Company extends Model
         'is_partial_deliveries_enabled' => 'integer',
         'show_product_code_on_printouts' => 'integer',
         'is_in_training' => 'integer',
+        'subscription_expires_on' => 'date',
     ];
 
     public function plan()
@@ -248,6 +249,11 @@ class Company extends Model
     public function inventoryValuationHistories()
     {
         return $this->hasMany(InventoryValuationHistory::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 
     public function scopeEnabled($query)
