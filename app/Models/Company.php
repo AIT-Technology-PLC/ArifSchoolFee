@@ -268,7 +268,7 @@ class Company extends Model
 
     public function scopeExpiredSubscriptions($query)
     {
-        return $query->whereNotNull('subscription_expires_on')->where('subscription_expires_on', '<', today());
+        return $query->whereNotNull('subscription_expires_on')->whereDate('subscription_expires_on', '<', today());
     }
 
     public function email(): Attribute

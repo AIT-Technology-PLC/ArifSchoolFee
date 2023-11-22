@@ -54,4 +54,9 @@ class Subscription extends Model
     {
         return $this->is_approved;
     }
+
+    public function isExpired()
+    {
+        return today()->diffInDays($this->expiresOn, false) < 0;
+    }
 }

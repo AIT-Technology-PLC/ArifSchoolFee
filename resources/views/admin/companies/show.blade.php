@@ -421,7 +421,13 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $subscription->starts_on?->toFormattedDateString() ?? 'Not set' }} </td>
                                 <td> {{ $subscription->expiresOn?->toFormattedDateString() ?? 'Not set' }} </td>
-                                <td> {{ today()->diffInDays($subscription->expiresOn, false) }} </td>
+                                <td>
+                                    @if (!$subscription->isExpired())
+                                        {{ today()->diffInDays($subscription->expiresOn, false) }}
+                                    @else
+                                        Expired
+                                    @endif
+                                </td>
                                 <td>
                                     @if (!$subscription->isApproved())
                                         @can('Manage Admin Panel Subscriptions')
