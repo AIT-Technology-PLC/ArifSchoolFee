@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/offline', 'offline.index');
 
-// Sign up
-Route::get('/register',
-    [Auth\RegisterController::class, 'showRegistrationForm'])
-    ->name('register');
+// // Sign up
+// Route::get('/register',
+//     [Auth\RegisterController::class, 'showRegistrationForm'])
+//     ->name('register');
 
 Route::post('/register',
     [Auth\RegisterController::class, 'register']);
