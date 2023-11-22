@@ -124,7 +124,6 @@
                         label="Plan"
                     />
                 </div>
-
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar"
@@ -145,6 +144,20 @@
                             <div class="is-uppercase is-size-7"> Status </div>
                         </div>
                     </div>
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar"
+                        :data="$company->subscription_expires_on?->toFormattedDateString() ?? 'Not Set'"
+                        label="Subscription Expiry Date"
+                    />
+                </div>
+                <div class="column is-6">
+                    <x-common.show-data-section
+                        icon="fas fa-calendar"
+                        data="{{ today()->diffInDays($company->subscription_expires_on, false) }} Days"
+                        label="Subscription Expiry Days Left"
+                    />
                 </div>
             </div>
         </x-content.footer>
