@@ -10,8 +10,8 @@ Route::view('/offline', 'offline.index');
 //     [Auth\RegisterController::class, 'showRegistrationForm'])
 //     ->name('register');
 
-Route::post('/register',
-    [Auth\RegisterController::class, 'register']);
+// Route::post('/register',
+//     [Auth\RegisterController::class, 'register']);
 
 // Login
 Route::get('/login',
