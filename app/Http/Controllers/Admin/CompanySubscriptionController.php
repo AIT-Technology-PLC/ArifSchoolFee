@@ -15,6 +15,10 @@ class CompanySubscriptionController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Subscriptions'), 403);
 
+        if (!$company->canCreateNewSubscription()) {
+            return back()->with('failedMessage', 'Subscription can be created if current subscription has less than 30 days left.');
+        }
+
         $company->subscriptions()->create($request->validated());
 
         return back()->with('successMessage', 'New subscription is created.');

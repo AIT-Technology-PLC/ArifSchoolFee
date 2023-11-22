@@ -51,18 +51,20 @@
                         />
                     </x-common.dropdown-item>
                 @endcan
-                @can('Manage Admin Panel Subscriptions')
-                    <x-common.dropdown-item>
-                        <x-common.button
-                            tag="button"
-                            mode="button"
-                            @click="$dispatch('open-company-subscriptions-modal')"
-                            icon="fas fa-file-contract"
-                            label="Create Subscription"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                        />
-                    </x-common.dropdown-item>
-                @endcan
+                @if ($company->canCreateNewSubscription())
+                    @can('Manage Admin Panel Subscriptions')
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-company-subscriptions-modal')"
+                                icon="fas fa-file-contract"
+                                label="Create Subscription"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
+                    @endcan
+                @endif
                 @can('Manage Admin Panel Pads')
                     <x-common.dropdown-item>
                         <x-common.button
@@ -406,7 +408,7 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $subscription->starts_on->toFormattedDateString() }} </td>
                                 <td> {{ $subscription->expiresOn->toFormattedDateString() }} </td>
-                                <td> {{ $subscription->expiresOn->diffInDays(today()) }} </td>
+                                <td> {{ today()->diffInDays($subscription->expiresOn, false) }} </td>
                                 <td>
                                     <x-common.action-buttons
                                         :buttons="['edit', 'delete']"

@@ -428,4 +428,9 @@ class Company extends Model
 
         $this->save();
     }
+
+    public function canCreateNewSubscription()
+    {
+        return is_null($this->subscription_expires_on) || today()->diffInDays($this->subscription_expires_on, false) <= 30;
+    }
 }
