@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -436,9 +437,14 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Subscriptions']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Pads']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Resets']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Activation']);
 
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
+
+            $superAdminPermissions = Permission::where('name', 'LIKE', 'Manage Admin Panel%')->get();
+
+            User::permission($superAdminPermissions)->get()->each->syncPermissions($superAdminPermissions);
 
             // Assign permissions to role
             $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));

@@ -91,7 +91,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @can('Manage Admin Panel Companies')
+                @can('Manage Admin Panel Activation')
                     <hr class="navbar-divider">
                     <x-common.dropdown-item>
                         <x-common.transaction-button
@@ -459,13 +459,23 @@
         </div>
     </div>
 
-    @include('admin.limits.edit', ['company' => $company])
+    @can('Manage Admin Panel Companies')
+        @include('admin.limits.edit')
 
-    @include('admin.integrations.edit', ['company' => $company])
+        @include('admin.integrations.edit')
 
-    @include('admin.features.edit', ['company' => $company])
+        @include('admin.features.edit')
+    @endcan
 
-    @include('admin.companies.partials.reset', ['company' => $company])
+    @if ($company->canCreateNewSubscription())
+        @can('Manage Admin Panel Subscriptions')
+            @include('admin.subscriptions.create')
+        @endcan
+    @endif
 
-    @include('admin.subscriptions.create', ['company' => $company])
+    @if ($company->isInTraining())
+        @can('Manage Admin Panel Resets')
+            @include('admin.companies.partials.reset')
+        @endcan
+    @endif
 @endsection

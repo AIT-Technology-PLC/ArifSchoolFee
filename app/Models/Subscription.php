@@ -42,7 +42,7 @@ class Subscription extends Model
         }
 
         if (!is_null($this->company->subscription_expires_on) && !$this->company->subscription_expires_on->isPast()) {
-            $this->starts_on = $this->company->subscription_expires_on->addDay();
+            $this->starts_on = $this->company->subscription_expires_on;
         }
 
         $this->save();
