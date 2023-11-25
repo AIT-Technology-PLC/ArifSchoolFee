@@ -15,7 +15,7 @@ class CompanyEngagementReportController extends Controller
 
         $featureReport = new FeatureReport($company);
 
-        $branchesWithUsersCount = $company->warehouses()->withCount('originalUsers')->get(['name', 'original_users_count']);
+        $branchesWithUsersCount = $company->warehouses()->withCount(['originalUsers' => fn($q) => $q->whereNot('name', 'onrica support')])->get(['name', 'original_users_count']);
 
         return view('admin.companies.report', compact('company', 'engagementReport', 'featureReport', 'branchesWithUsersCount'));
     }

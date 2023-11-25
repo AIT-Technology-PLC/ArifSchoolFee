@@ -119,6 +119,6 @@ class FeatureReport
             ];
         }
 
-        return $data;
+        return Arr::sortDesc($data, 'total_transactions');
     }
 }
