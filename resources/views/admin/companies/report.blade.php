@@ -37,7 +37,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[-1]"
-                    >
+                                            >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
                             <th><abbr> Metric </abbr></th>
@@ -115,7 +115,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[6]"
-                    >
+                                            >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
                             <th><abbr> Metric </abbr></th>
@@ -148,6 +148,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[6]"
+                        x-bind:class="{ 'nowrap': false }"
                     >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
@@ -184,7 +185,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[6]"
-                    >
+                                            >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
                             <th><abbr> Feature </abbr></th>
@@ -219,6 +220,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[6]"
+                        x-bind:class="{ 'nowrap': false }"
                     >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
@@ -257,7 +259,7 @@
                         has-length-change="false"
                         paging-type="simple"
                         length-menu="[6]"
-                    >
+                                            >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>
                             <th><abbr> Feature </abbr></th>
