@@ -10,7 +10,7 @@ class ActiveWarehouseScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if (! auth()->check()) {
+        if (! auth()->check() || authUser()->isAdmin()) {
             return;
         }
 

@@ -17,6 +17,7 @@ class AllowOnlyEnabledUsers
     public function handle($request, Closure $next)
     {
         if (authUser()->isAccessAllowed()) {
+            authUser()->updateLastOnlineAt();
             return $next($request);
         }
 

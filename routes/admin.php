@@ -8,6 +8,7 @@ Route::post('companies/{company}/features', Admin\CompanyFeatureController::clas
 Route::post('companies/{company}/integrations', Admin\CompanyIntegrationController::class)->name('companies.integrations.update');
 Route::post('companies/{company}/limits', Admin\CompanyLimitController::class)->name('companies.limits.update');
 Route::post('companies/{company}/toggle', Admin\CompanyToggleActivationController::class)->name('companies.toggle_activation');
+Route::get('companies/{company}/report', Admin\CompanyEngagementReportController::class)->name('companies.report');
 Route::post('subscriptions/{subscription}/approve', Admin\ApproveSubscriptionController::class)->name('subscriptions.approve');
 Route::resource('companies', Admin\CompanyController::class);
 Route::resource('users', Admin\UserController::class)->except(['show', 'destroy']);

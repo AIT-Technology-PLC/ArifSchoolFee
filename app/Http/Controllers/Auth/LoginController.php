@@ -18,14 +18,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticated(Request $request, $user)
-    {
-        if ($user->isAccessAllowed()) {
-            $user->last_online_at = now();
-            $user->save();
-        }
-    }
-
     public function loggedOut()
     {
         return redirect('/login');

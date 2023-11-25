@@ -50,6 +50,16 @@
                             class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
+                    <x-common.dropdown-item>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.companies.report', $company->id) }}"
+                            mode="button"
+                            icon="fas fa-chart-pie"
+                            label="Engagement Report"
+                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                        />
+                    </x-common.dropdown-item>
                 @endcan
                 @if ($company->canCreateNewSubscription())
                     @can('Manage Admin Panel Subscriptions')

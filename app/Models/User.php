@@ -138,4 +138,11 @@ class User extends Authenticatable
             ->orderBy('name')
             ->get();
     }
+
+    public function updateLastOnlineAt()
+    {
+        $this->last_online_at = now();
+
+        $this->save();
+    }
 }

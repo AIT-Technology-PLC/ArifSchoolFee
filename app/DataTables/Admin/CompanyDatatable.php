@@ -26,13 +26,8 @@ class CompanyDatatable extends DataTable
             ->editColumn('plan', fn($company) => $company->plan->name)
             ->editColumn('is_in_training', fn($company) => $company->isInTraining() ? 'Training Mode' : 'Live Mode')
             ->editColumn('created_at', fn($company) => $company->created_at->toFormattedDateString())
-            ->editColumn('actions', function ($company) {
-                return view('components.common.action-buttons', [
-                    'model' => 'admin.companies',
-                    'id' => $company->id,
-                    'buttons' => ['details'],
-                ]);
-            })->addIndexColumn();
+            ->editColumn('actions', fn($company) => view('components.datatables.company-action', compact('company')))
+            ->addIndexColumn();
     }
 
     public function query(Company $company)
