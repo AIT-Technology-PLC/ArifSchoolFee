@@ -140,7 +140,7 @@
                             <i class="fas fa-building-user"></i>
                         </span>
                         <span>
-                            Users By Branches
+                            Users Per Branches
                         </span>
                     </p>
                     <x-common.client-datatable
