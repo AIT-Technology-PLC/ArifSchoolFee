@@ -89,6 +89,8 @@ class FeatureReport
         $pads = $this->company->pads()->get();
 
         foreach ($pads as $pad) {
+            $incompleteTransactions = 0;
+
             if ($pad->isInventoryOperationAdd()) {
                 $incompleteTransactions = Transaction::query()
                     ->where('pad_id', $pad->id)
