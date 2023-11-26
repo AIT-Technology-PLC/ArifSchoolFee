@@ -16,6 +16,10 @@
             {{ $selectedId == $customer->$value ? 'selected' : '' }}
         >
             {{ $customer->company_name }}
+
+            @if (!empty($customer->tin))
+                ({{ $customer->tin }})
+            @endif
         </option>
     @endforeach
     <option value=" ">None</option>

@@ -98,7 +98,7 @@
                         x-show="(Product.whereProductId(purchase.product_id)?.is_batchable ==1)"
                     >
                         <x-forms.label x-bind:for="`purchase[${index}][batch_no]`">
-                            Batch No <sup class="has-text-danger">*</sup>
+                            Batch No <sup class="has-text-danger"></sup>
                         </x-forms.label>
                         <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left is-expanded">

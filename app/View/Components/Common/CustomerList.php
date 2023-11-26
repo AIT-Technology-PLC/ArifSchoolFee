@@ -22,7 +22,7 @@ class CustomerList extends Component
     {
         $this->customers = Cache::store('array')
             ->rememberForever(authUser()->id . '_' . 'customerLists', function () {
-                return Customer::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name']);
+                return Customer::validBusinessLicense()->orderBy('company_name')->get(['id', 'company_name', 'tin']);
             });
 
         $this->selectedId = $selectedId;

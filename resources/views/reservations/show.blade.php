@@ -132,7 +132,7 @@
                 <div class="column is-12">
                     <x-common.show-data-section
                         type="long"
-                        :data="is_null($reservation->description) ? 'N/A' : nl2br(e($reservation->description))"
+                        :data="$reservation->description"
                         label="Details"
                     />
                 </div>
