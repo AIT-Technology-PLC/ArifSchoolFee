@@ -43,5 +43,14 @@ trait PricingTicket
         );
     }
 
+    public function hasDiscount()
+    {
+        if (userCompany()->isDiscountBeforeTax()) {
+            return $this->details()->sum->discount > 0;
+        }
+
+        return $this->discount > 0;
+    }
+
     abstract public function details();
 }

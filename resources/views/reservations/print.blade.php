@@ -115,7 +115,7 @@
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
-                    @if (userCompany()->isDiscountBeforeTax())
+                    @if (userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount())
                         <th>Discount</th>
                     @endif
                     <th>Total</th>
@@ -134,7 +134,7 @@
                         <td class="has-text-right"> {{ number_format($reservationDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $reservationDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($reservationDetail->unit_price, 2) }} </td>
-                        @if (userCompany()->isDiscountBeforeTax())
+                        @if (userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount())
                             <td class="has-text-right"> {{ number_format($reservationDetail->discount, 2) }}% </td>
                         @endif
                         <td class="has-text-right"> {{ number_format($reservationDetail->totalPrice, 2) }} </td>
@@ -142,7 +142,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -150,7 +150,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -168,13 +168,13 @@
                 @endif
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
                     <td class="has-text-right has-text-weight-bold">{{ number_format($reservation->grandTotalPrice, 2) }}</td>
                 </tr>
-                @if (!userCompany()->isDiscountBeforeTax())
+                @if (!userCompany()->isDiscountBeforeTax() && $reservation->hasDiscount())
                     <tr>
                         <td
                             colspan="{{ userCompany()->showProductCodeOnPrintouts() ? 5 : 4 }}"

@@ -119,7 +119,7 @@
                     <th>Quantity</th>
                     <th>Unit</th>
                     <th>Unit Price</th>
-                    @if (userCompany()->isDiscountBeforeTax())
+                    @if (userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount())
                         <th>Discount</th>
                     @endif
                     <th>Total</th>
@@ -142,7 +142,7 @@
                         <td class="has-text-right"> {{ number_format($gdnDetail->quantity, 2) }} </td>
                         <td class="has-text-centered"> {{ $gdnDetail->product->unit_of_measurement }} </td>
                         <td class="has-text-right"> {{ number_format($gdnDetail->unit_price, 2) }} </td>
-                        @if (userCompany()->isDiscountBeforeTax())
+                        @if (userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount())
                             <td class="has-text-right"> {{ number_format($gdnDetail->discount, 2) }}% </td>
                         @endif
                         <td class="has-text-right"> {{ number_format($gdnDetail->totalPrice, 2) }} </td>
@@ -150,7 +150,7 @@
                 @endforeach
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Sub-Total</td>
@@ -158,7 +158,7 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Tax</td>
@@ -166,13 +166,13 @@
                 </tr>
                 <tr>
                     <td
-                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
+                        colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
                         class="is-borderless"
                     ></td>
                     <td class="has-text-weight-bold">Grand Total</td>
                     <td class="has-text-right has-text-weight-bold">{{ number_format($gdn->grandTotalPrice, 2) }}</td>
                 </tr>
-                @if (!userCompany()->isDiscountBeforeTax())
+                @if (!userCompany()->isDiscountBeforeTax() && $gdn->hasDiscount())
                     <tr>
                         <td
                             colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) + ($havingBatch ? 2 : 0) }}"
