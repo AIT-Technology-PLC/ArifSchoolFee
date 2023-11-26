@@ -11,7 +11,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}"
     >
-    <title> DO #{{ $reservation->code }} - {{ userCompany()->name }} </title>
+    <title> Reservation #{{ $reservation->code }} - {{ userCompany()->name }} </title>
     <link
         rel="shortcut icon"
         type="image/png"
@@ -156,6 +156,16 @@
                     <td class="has-text-weight-bold">Tax</td>
                     <td class="has-text-right">{{ number_format($reservation->tax, 2) }}</td>
                 </tr>
+                @if ($reservation->hasWithholding())
+                    <tr>
+                        <td
+                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
+                            class="is-borderless"
+                        ></td>
+                        <td class="has-text-weight-bold">Withholding Tax ({{ userCompany()->withholdingTaxes['tax_rate'] * 100 }}%)</td>
+                        <td class="has-text-right">{{ number_format($reservation->totalWithheldAmount, 2) }}</td>
+                    </tr>
+                @endif
                 <tr>
                     <td
                         colspan="{{ 4 + (userCompany()->isDiscountBeforeTax() ? 1 : 0) + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
@@ -186,6 +196,16 @@
                             </span>
                         </td>
                         <td class="has-text-right has-text-weight-bold">{{ number_format($reservation->grandTotalPriceAfterDiscount, 2) }}</td>
+                    </tr>
+                @endif
+                @if ($reservation->hasWithholding())
+                    <tr>
+                        <td
+                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0)    }}"
+                            class="is-borderless"
+                        ></td>
+                        <td class="has-text-weight-bold"></td>
+                        <td class="has-text-right has-text-weight-bold">{{ number_format($reservation->grandTotalPrice - $reservation->totalWithheldAmount, 2) }}</td>
                     </tr>
                 @endif
             </tbody>

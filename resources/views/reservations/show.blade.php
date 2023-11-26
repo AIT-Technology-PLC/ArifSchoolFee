@@ -97,6 +97,15 @@
                         label="SubTotal Price ({{ userCompany()->currency }})"
                     />
                 </div>
+                @if ($reservation->hasWithholding())
+                    <div class="column is-6">
+                        <x-common.show-data-section
+                            icon="fas fa-hand-holding-usd"
+                            data="{{ number_format($reservation->totalWithheldAmount, 2) }}"
+                            label="Withholding Tax ({{ userCompany()->currency }})"
+                        />
+                    </div>
+                @endif
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-dollar-sign"

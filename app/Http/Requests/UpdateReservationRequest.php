@@ -91,7 +91,8 @@ class UpdateReservationRequest extends FormRequest
                     $this->get('payment_type'),
                     $this->get('discount'),
                     $this->get('reservation'),
-                    $this->get('cash_received_type')
+                    $this->get('cash_received_type'),
+                    $this->boolean('has_withholding'),
                 ),
             ],
 
@@ -99,6 +100,7 @@ class UpdateReservationRequest extends FormRequest
             'discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'bank_name' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
             'reference_number' => ['nullable', 'string', 'prohibited_if:payment_type,Cash Payment,Credit Payment'],
+            'has_withholding' => ['nullable', 'boolean'],
             'customField.*' => [new ValidateCustomFields('reservation')],
         ];
     }

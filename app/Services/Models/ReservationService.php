@@ -241,6 +241,7 @@ class ReservationService
                 'description' => $reservation->description ?? '',
                 'issued_on' => now(),
                 'due_date' => $reservation->due_date,
+                'has_withholding' => $reservation->has_withholding,
             ]);
 
             $reservationDetails = $reservation->reservationDetails

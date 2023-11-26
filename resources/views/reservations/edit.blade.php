@@ -108,6 +108,39 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (isFeatureEnabled('Sale Management'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="has_withholding">
+                                    Include Withholding Tax <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control x-init="$store.hasWithholding = '{{ boolVal(old('has_withholding', $reservation->hasWithholding())) }}'">
+                                    <label class="radio has-text-grey">
+                                        <input
+                                            type="radio"
+                                            name="has_withholding"
+                                            value="1"
+                                            class="mt-3"
+                                            @checked(old('has_withholding', $reservation->hasWithholding()))
+                                            x-on:change="$store.hasWithholding = true"
+                                        >
+                                        Yes
+                                    </label>
+                                    <label class="radio has-text-grey mt-2">
+                                        <input
+                                            type="radio"
+                                            name="has_withholding"
+                                            value="0"
+                                            @checked(!old('has_withholding', $reservation->hasWithholding()))
+                                            x-on:change="$store.hasWithholding = false"
+                                        >
+                                        No
+                                    </label>
+                                    <x-common.validation-error property="has_withholding" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <x-common.custom-field-form
                         model-type="reservation"
                         :input="old('customField') ?? $reservation->customFieldsAsKeyValue()"

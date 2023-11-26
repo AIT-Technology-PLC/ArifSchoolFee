@@ -10,6 +10,7 @@ use App\Traits\HasCustomFields;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use App\Traits\PricingTicket;
+use App\Utilities\Price;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +25,7 @@ class Reservation extends Model
         'issued_on' => 'datetime',
         'expires_on' => 'datetime',
         'due_date' => 'datetime',
+        'has_withholding' => 'boolean',
     ];
 
     public function reservedBy()
@@ -79,6 +81,15 @@ class Reservation extends Model
     public function scopeExpired($query)
     {
         return $query->whereDate('expires_on', '<', today());
+    }
+
+    public function getTotalWithheldAmountAttribute()
+    {
+        if (!$this->hasWithholding()) {
+            return 0;
+        }
+
+        return Price::getTotalWithheldAmount($this->reservationDetails);
     }
 
     public function details()
@@ -139,5 +150,10 @@ class Reservation extends Model
     public function canReverseInventoryValuation()
     {
         return true;
+    }
+
+    public function hasWithholding()
+    {
+        return $this->has_withholding;
     }
 }
