@@ -20,6 +20,7 @@ class StoreProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'string', 'max:255', Rule::in(['Finished Goods', 'Raw Material', 'Non-inventory Product', 'Services'])],
             'code' => ['nullable', 'string', 'max:255'],
+            'unit_of_measurement_source' => ['required', 'string', 'exclude', Rule::in(['Standard', 'Custom'])],
             'unit_of_measurement' => ['required', 'string', 'max:255'],
             'min_on_hand' => ['required', 'numeric', 'min:0'],
             'description' => ['nullable', 'string'],

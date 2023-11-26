@@ -18,7 +18,9 @@
                 '{{ old('is_batchable', 0) }}',
                 '{{ old('batch_priority') }}',
                 '{{ old('is_active', 1) }}',
-                '{{ old('is_product_single', 1) }}'
+                '{{ old('is_product_single', 1) }}',
+                '{{ old('unit_of_measurement_source', 'Standard') }}',
+                '{{ old('unit_of_measurement') }}',
             )">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
@@ -142,21 +144,49 @@
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
-                        <x-forms.field>
-                            <x-forms.label for="unit_of_measurement">
-                                Unit of Measurement <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
+                        <x-forms.label for="unit_of_measurement">
+                            Unit of Measurement <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
                             <x-forms.control class="has-icons-left">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    id="unit_of_measurement"
-                                    name="unit_of_measurement"
+                                    id="unit_of_measurement_source"
+                                    name="unit_of_measurement_source"
+                                    x-model="unitOfMeasurementSource"
                                 >
-                                    <x-common.measurement-unit-options :selectedUnitType="old('unit_of_measurement')" />
+                                    <option value="Standard">Standard</option>
+                                    <option value="Custom">Custom</option>
                                 </x-forms.select>
                                 <x-common.icon
                                     name="fas fa-balance-scale"
                                     class="is-small is-left"
+                                />
+                            </x-forms.control>
+                            <x-forms.control
+                                class="is-expanded"
+                                x-show="!isUnitOfMeasurementCustom()"
+                            >
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="unit_of_measurement"
+                                    name="unit_of_measurement"
+                                    x-model="unitOfMeasurement"
+                                >
+                                    <x-common.measurement-unit-options />
+                                </x-forms.select>
+                                <x-common.validation-error property="unit_of_measurement" />
+                            </x-forms.control>
+                            <x-forms.control
+                                class="is-expanded"
+                                x-show="isUnitOfMeasurementCustom()"
+                                x-cloak
+                            >
+                                <x-forms.input
+                                    type="text"
+                                    id="unit_of_measurement"
+                                    name="unit_of_measurement"
+                                    x-model="unitOfMeasurement"
                                 />
                                 <x-common.validation-error property="unit_of_measurement" />
                             </x-forms.control>

@@ -1,8 +1,9 @@
 @props(['selectedUnitType' => ''])
 
 <option
+    value=""
     selected
-    disabled
+    hidden
 >Select Measurement Unit</option>
 <option
     value="Ampoule"
@@ -55,7 +56,7 @@
 <option
     value="Hour"
     {{ $selectedUnitType == 'Hour' ? 'selected' : '' }}
->Hours</option>
+>Hour</option>
 <option
     value="Inhaler"
     {{ $selectedUnitType == 'Inhaler' ? 'selected' : '' }}

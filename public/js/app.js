@@ -810,7 +810,9 @@ document.addEventListener("alpine:init", () => {
             isBatchable = "0",
             batchPriority = "",
             isActive = "1",
-            isProductSingle = "1"
+            isProductSingle = "1",
+            unitOfMeasurementSource = "Standard",
+            unitOfMeasurement = "",
         ) => ({
             type: "",
             isBatchable: "0",
@@ -819,6 +821,8 @@ document.addEventListener("alpine:init", () => {
             isNonInventoryProduct: false,
             isActive: "1",
             isProductSingle: "1",
+            unitOfMeasurementSource: "Standard",
+            unitOfMeasurement: "",
 
             init() {
                 this.type = type;
@@ -826,6 +830,8 @@ document.addEventListener("alpine:init", () => {
                 this.batchPriority = batchPriority;
                 this.isActive = isActive;
                 this.isProductSingle = isProductSingle;
+                this.unitOfMeasurementSource = unitOfMeasurementSource;
+                this.unitOfMeasurement = unitOfMeasurement;
                 this.changeProductType();
             },
 
@@ -847,6 +853,10 @@ document.addEventListener("alpine:init", () => {
 
             isSingle() {
                 return this.isProductSingle == 1;
+            },
+
+            isUnitOfMeasurementCustom() {
+                return this.unitOfMeasurementSource == "Custom";
             },
         })
     );
