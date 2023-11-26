@@ -442,9 +442,11 @@ class Permissions extends Seeder
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
-            $superAdminPermissions = Permission::where('name', 'LIKE', 'Manage Admin Panel%')->get();
+            $superAdminPermissions = Permission::where('name', 'Manage Admin Panel Users')->get();
 
-            User::permission($superAdminPermissions)->get()->each->syncPermissions($superAdminPermissions);
+            User::permission($superAdminPermissions)->get()->each->syncPermissions(
+                Permission::where('name', 'LIKE', 'Manage Admin Panel%')->get()
+            );
 
             // Assign permissions to role
             $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));
