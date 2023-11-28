@@ -73,7 +73,7 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField', 'sivs.sivDetails']);
+        $gdn->load(['gdnDetails.product.tax', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField', 'sivs.sivDetails']);
 
         return $datatable->render('gdns.show', compact('gdn'));
     }

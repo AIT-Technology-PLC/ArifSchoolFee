@@ -169,7 +169,7 @@ class Warehouse extends Model
 
     public function hasPosIntegration()
     {
-        return $this->company->hasIntegration('Point of Sale') && !is_null($this->pos_provider) && !is_null($this->host_address);
+        return $this->loadMissing(['company'])->company->hasIntegration('Point of Sale') && !is_null($this->pos_provider) && !is_null($this->host_address);
     }
 
     public function exchangeDetails()

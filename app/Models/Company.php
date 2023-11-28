@@ -320,11 +320,10 @@ class Company extends Model
 
     public function hasIntegration($integrationName)
     {
-        return $this->integrations()
-            ->where('name', $integrationName)
-            ->where('integrations.is_enabled', 1)
-            ->wherePivot('is_enabled', 1)
-            ->exists();
+        return $this
+            ->loadMissing(['integrations' => fn($q) => $q->where('name', $integrationName)->where('integrations.is_enabled', 1)->wherePivot('is_enabled', 1)])
+            ->integrations
+            ->isNotEmpty();
     }
 
     public function hasPrintTemplate()
