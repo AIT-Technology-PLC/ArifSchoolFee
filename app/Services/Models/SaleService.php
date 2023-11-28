@@ -252,7 +252,7 @@ class SaleService
         return [true, 'Invoice found and FS assigned successfully.'];
     }
 
-    public function convertToSiv($sale, $user, $sivDetails)
+    public function convertToSiv($sale, $user, $data)
     {
         if (!$user->hasWarehousePermission('siv',
             $sale->saleDetails->pluck('warehouse_id')->toArray())) {
@@ -275,16 +275,19 @@ class SaleService
             return [false, 'This Invoice is not subtracted yet.', ''];
         }
 
-        $siv = DB::transaction(function () use ($sale, $sivDetails) {
+        $siv = DB::transaction(function () use ($sale, $data) {
             $siv = (new ConvertToSivAction)->execute(
                 $sale,
                 $sale->customer->company_name ?? '',
-                userCompany()->isPartialDeliveriesEnabled()
-                ? collect($sivDetails)
-                : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
-            );
 
-            $siv->storeConvertedCustomFields($sale, 'siv');
+                userCompany()->isPartialDeliveriesEnabled()
+                ? collect($data['sale'])
+                : $sale->saleDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
+
+                $data['master'],
+            );
+            
+            $siv->createCustomFields($data['customField'] ?? null);
 
             return $siv;
         });
