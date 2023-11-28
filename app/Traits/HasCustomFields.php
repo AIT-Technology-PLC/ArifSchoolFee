@@ -56,7 +56,7 @@ trait HasCustomFields
             return $data;
         }
 
-        foreach ($this->customFieldValues()->with('customField')->get() as $customFieldValue) {
+        foreach ($this->loadMissing(['customFieldValues.customField'])->customFieldValues as $customFieldValue) {
             $customField = CustomField::where('model_type', $convertedToFeature)->where('label', $customFieldValue->customField->label)->first();
 
             if (empty($customField)) {
