@@ -83,6 +83,8 @@ class ProductDatatable extends DataTable
             Column::make('min_on_hand')->title('Reorder Level'),
             Column::make('tax_type', 'tax.type')->visible(false),
             Column::make('inventory_valuation_method')->visible(false),
+            Column::make('profit_margin_type')->visible(false),
+            Column::make('profit_margin_amount')->visible(false),
             Column::make('is_batchable')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_sale', 'is_active_for_sale')->searchable(false)->addClass('has-text-centered')->visible(false),
             Column::make('used_for_purchase', 'is_active_for_purchase')->searchable(false)->addClass('has-text-centered')->visible(false),
