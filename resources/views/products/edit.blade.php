@@ -537,6 +537,60 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (isFeatureEnabled('Inventory Valuation'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="profit_margin_type">
+                                    Profit Margin Type <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left ">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="profit_margin_type"
+                                        name="profit_margin_type"
+                                    >
+                                        <option value=''>
+                                            Select Profit Margin Type
+                                        </option>
+                                        <option
+                                            value="amount"
+                                            @selected($product->profit_margin_type == 'amount')
+                                        > Amount </option>
+                                        <option
+                                            value="percent"
+                                            @selected($product->profit_margin_type == 'percent')
+                                        > Percent </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="profit_margin_type" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="profit_margin_amount">
+                                    Profit Margin Amount <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="profit_margin_amount"
+                                        name="profit_margin_amount"
+                                        type="number"
+                                        placeholder="Profit margin amount"
+                                        value="{{ $product->profit_margin_amount ?? '' }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-th"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="profit_margin_amount" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     <div class="column is-12">
                         <x-forms.field>
                             <x-forms.label for="description">
