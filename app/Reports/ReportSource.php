@@ -30,7 +30,7 @@ class ReportSource
                     isset($filters['product_id']),
                     fn($q) => $q
                         ->whereIn('id', fn($query) => $query
-                                ->select('gdn_id')
+                                ->select('master_id')
                                 ->from($detailsTable)
                                 ->where($detailsTable . '.product_id', $filters['product_id'])
                         )

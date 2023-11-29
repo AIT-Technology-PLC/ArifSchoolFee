@@ -120,7 +120,7 @@ class GdnService
         return [true, ''];
     }
 
-    public function convertToSiv($gdn, $user, $sivDetails)
+    public function convertToSiv($gdn, $user, $data)
     {
         if (!$user->hasWarehousePermission('siv',
             $gdn->gdnDetails->pluck('warehouse_id')->toArray())) {
@@ -147,16 +147,19 @@ class GdnService
             return [false, 'This Delivery Order is closed.', ''];
         }
 
-        $siv = DB::transaction(function () use ($gdn, $sivDetails) {
+        $siv = DB::transaction(function () use ($gdn, $data) {
             $siv = (new ConvertToSivAction)->execute(
                 $gdn,
                 $gdn->customer->company_name ?? '',
+
                 userCompany()->isPartialDeliveriesEnabled()
-                ? collect($sivDetails)
+                ? collect($data['gdn'])
                 : $gdn->gdnDetails()->get(['product_id', 'warehouse_id', 'merchandise_batch_id', 'quantity']),
+
+                $data['master'],
             );
 
-            $siv->storeConvertedCustomFields($gdn, 'siv');
+            $siv->createCustomFields($data['customField'] ?? null);
 
             return $siv;
         });

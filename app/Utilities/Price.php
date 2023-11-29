@@ -6,9 +6,9 @@ use App\Models\Product;
 
 class Price
 {
-    public static function getTotalTax($totalPrice, $productId)
+    public static function getTotalTax($totalPrice, $product)
     {
-        $product = Product::where('id', $productId)->first();
+        $product = is_integer($product) ? Product::where('id', $product)->first() : $product;
 
         $taxAmount = $product?->tax->amount ?? 0;
 
@@ -24,12 +24,12 @@ class Price
                 $detail['unit_price'],
                 $detail['quantity'],
                 $detail['discount'] ?? 0.00,
-                $detail['product_id']
+                ($detail->product ?? $detail['product_id'])
             );
 
             $detail['total_tax'] = static::getTotalTax(
                 $detail['total_price'],
-                $detail['product_id']
+                ($detail->product ?? $detail['product_id'])
             );
         }
 
@@ -43,7 +43,7 @@ class Price
     public static function getSubtotalPrice($details)
     {
         foreach ($details as &$detail) {
-            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00, $detail['product_id']);
+            $detail['total_price'] = static::getTotalPrice($detail['unit_price'], $detail['quantity'], $detail['discount'] ?? 0.00, ($detail->product ?? $detail['product_id']));
         }
 
         return number_format(
@@ -53,9 +53,9 @@ class Price
         );
     }
 
-    public static function getTotalPrice($unitPrice, $quantity, $discount, $productId)
+    public static function getTotalPrice($unitPrice, $quantity, $discount, $product)
     {
-        $product = Product::where('id', $productId)->first();
+        $product = is_integer($product) ? Product::where('id', $product)->first() : $product;
 
         $taxAmount = $product?->tax->amount ?? 0;
 
@@ -103,10 +103,10 @@ class Price
             return $withheldAmount;
         }
 
-        $serviceSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => Product::find($detail['product_id'])->isTypeService()));
+        $serviceSubtotal = static::getSubtotalPrice($details->filter(fn($detail) => ($detail->product ?? Product::find($detail['product_id']))->isTypeService()));
 
         $productSubtotal = static::getSubtotalPrice(
-            $details->filter(fn($detail) => Product::find($detail['product_id'])->isInventoryProduct() || Product::find($detail['product_id'])->isNonInventoryProduct())
+            $details->filter(fn($detail) => ($detail->product ?? Product::find($detail['product_id']))->isInventoryProduct() || ($detail->product ?? Product::find($detail['product_id']))->isNonInventoryProduct())
         );
 
         if ($serviceSubtotal >= userCompany()->withholdingTaxes['rules']['Services']) {

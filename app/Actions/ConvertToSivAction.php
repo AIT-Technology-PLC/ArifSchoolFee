@@ -11,15 +11,17 @@ use Illuminate\Support\Facades\Notification;
 
 class ConvertToSivAction
 {
-    public function execute($model, $issuedTo, $details)
+    public function execute($model, $issuedTo, $details, $master = [])
     {
-        return DB::transaction(function () use ($model, $issuedTo, $details) {
+        return DB::transaction(function () use ($model, $issuedTo, $master, $details) {
             $siv = $model->sivs()->create([
                 'code' => nextReferenceNumber('sivs'),
                 'issued_on' => now(),
                 'issued_to' => $issuedTo,
                 'approved_by' => userCompany()->isConvertToSivAsApproved() ? $model->approved_by : null,
             ]);
+
+            $siv->update($master);
 
             $details = $details->where('quantity', '>', 0);
 

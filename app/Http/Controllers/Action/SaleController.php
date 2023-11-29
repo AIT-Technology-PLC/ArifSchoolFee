@@ -123,7 +123,7 @@ class SaleController extends Controller
     {
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->saleService->convertToSiv($sale, authUser(), $request->validated('sale'));
+        [$isExecuted, $message, $siv] = $this->saleService->convertToSiv($sale, authUser(), $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

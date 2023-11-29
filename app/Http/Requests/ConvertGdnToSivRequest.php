@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckValidBatchNumber;
+use App\Rules\ValidateCustomFields;
 use App\Rules\ValidateDeliveredQuantity;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -36,6 +37,9 @@ class ConvertGdnToSivRequest extends FormRequest
                 new BatchSelectionIsRequiredOrProhibited,
                 Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', Rule::in($gdnDetails->pluck('merchandise_batch_id')), new CheckValidBatchNumber]),
             ],
+            'master.received_by' => ['nullable', 'string'],
+            'master.delivered_by' => ['nullable', 'string'],
+            'customField.*' => [new ValidateCustomFields('siv')],
         ];
     }
 }

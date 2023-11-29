@@ -205,31 +205,18 @@
                         </x-common.dropdown-item>
                     @endcan
                 @endif
-                @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs()->doesntExist() || !$sale->isFullyDelivered()))
+                @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs->isEmpty() || !$sale->isFullyDelivered()))
                     @can('Create SIV')
-                        @if (userCompany()->isPartialDeliveriesEnabled())
-                            <x-common.dropdown-item>
-                                <x-common.button
-                                    tag="button"
-                                    mode="button"
-                                    @click="$dispatch('open-siv-details-modal')"
-                                    icon="fas fa-file-export"
-                                    label="Attach SIV"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @else
-                            <x-common.dropdown-item>
-                                <x-common.transaction-button
-                                    :route="route('sales.convert_to_siv', $sale->id)"
-                                    action="attach"
-                                    intention="attach SIV to this invoice"
-                                    icon="fas fa-file-export"
-                                    label="Attach SIV"
-                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                                />
-                            </x-common.dropdown-item>
-                        @endif
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-siv-details-modal')"
+                                icon="fas fa-file-export"
+                                label="Attach SIV"
+                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
                     @endcan
                 @endif
                 @if ($sale->isApproved())
@@ -340,7 +327,7 @@
         </x-common.content-wrapper>
     @endif
 
-    @if (userCompany()->isPartialDeliveriesEnabled() && isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs()->doesntExist() || !$sale->isFullyDelivered()))
+    @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs->isEmpty() || !$sale->isFullyDelivered()))
         @can('Create SIV')
             @include('sales.partials.siv-details', ['saleDetails' => $sale->saleDetails])
         @endcan

@@ -98,6 +98,23 @@
             </aside>
         @endif
     </section>
+    @if ($siv->customFieldValues->isNotEmpty())
+        <section class="is-clearfix py-3">
+            @foreach ($siv->printableCustomFields(4) as $field)
+                <aside
+                    class="is-pulled-left"
+                    style="width: 25% !important"
+                >
+                    <h1 class="is-uppercase has-text-black-lighter has-text-weight-bold is-underlined is-size-7">
+                        {{ $field->customField->label }}
+                    </h1>
+                    <h1 class="has-text-black is-size-6 pr-2">
+                        {{ $field->value }}
+                    </h1>
+                </aside>
+            @endforeach
+        </section>
+    @endif
 
     <section class="pt-5 has-text-centered">
         <h1 class="is-uppercase has-text-grey-dark has-text-weight-bold is-size-4 is-underlined">
