@@ -42,6 +42,8 @@ class StoreProductRequest extends FormRequest
             'productBundle' => ['nullable', 'array', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
             'productBundle.*.component_id' => ['nullable', 'integer', 'distinct', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1', Rule::in(Product::pluck('id'))],
             'productBundle.*.quantity' => ['nullable', 'numeric', 'gt:0', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
+            'profit_margin_type' => ['nullable', 'string', 'prohibited_if:profit_margin_amount,null', Rule::in(['amount', 'percent'])],
+            'profit_margin_amount' => ['nullable', 'numeric', 'prohibited_if:profit_margin_type,null'],
         ];
     }
 }
