@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\SaleDetail;
 use App\Traits\DataTableHtmlBuilder;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -58,21 +59,19 @@ class SaleDetailDatatable extends DataTable
 
     protected function getColumns()
     {
-        $columns = [
+        Arr::whereNotNull([
             Column::computed('#'),
             Column::make('product', 'product.name'),
             userCompany()->canSaleSubtract() ? Column::make('warehouse', 'warehouse.name') : null,
             Column::make('quantity')->addClass('has-text-right'),
-            Column::make('delivered_quantity')->addClass('has-text-right')->visible(false),
+            userCompany()->isPartialDeliveriesEnabled() ? Column::make('delivered_quantity')->addClass('has-text-right')->visible(false) : null,
             Column::make('batch_no', 'merchandiseBatch.batch_no')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('expires_on', 'merchandiseBatch.expires_on')->title('Expiry Date')->content('N/A')->addClass('has-text-right')->visible(false),
             Column::make('unit_price')->addClass('has-text-right'),
             Column::computed('total')->addClass('has-text-right'),
             Column::make('description')->visible(false),
             Column::computed('actions'),
-        ];
-
-        return collect($columns)->filter()->toArray();
+        ]);
     }
 
     protected function filename(): string
