@@ -39,6 +39,7 @@ class Company extends Model
         'show_product_code_on_printouts' => 'integer',
         'is_in_training' => 'integer',
         'subscription_expires_on' => 'date',
+        'can_sell_below_cost' => 'integer',
     ];
 
     public function plan()
@@ -452,5 +453,10 @@ class Company extends Model
         }
 
         return today()->diffInDays($this->subscription_expires_on, false) <= 30;
+    }
+
+    public function canSellBelowCost()
+    {
+        return $this->can_sell_below_cost;
     }
 }
