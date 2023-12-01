@@ -10,9 +10,13 @@ class FeatureReport
 {
     private $company;
 
-    function __construct($company)
+    private $onlyToday;
+
+    function __construct($company = null, $onlyToday = false)
     {
         $this->company = $company;
+
+        $this->onlyToday = $onlyToday;
     }
 
     public function __get($name)
@@ -51,8 +55,8 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $model->getTable(),
-                'total_transactions' => $model->where('company_id', $this->company->id)->count(),
-                'incomplete_transactions' => $model->$value()->where('company_id', $this->company->id)->count(),
+                'total_transactions' => $model->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
+                'incomplete_transactions' => $model->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->$value()->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
             ];
         }
 
@@ -75,7 +79,7 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $model->getTable(),
-                'total' => $model->where('company_id', $this->company->id)->count(),
+                'total' => $model->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
             ];
         }
 
@@ -86,13 +90,14 @@ class FeatureReport
     {
         $data = [];
 
-        $pads = $this->company->pads()->get();
+        $pads = Models\Pad::when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->get();
 
         foreach ($pads as $pad) {
             $incompleteTransactions = 0;
 
             if ($pad->isInventoryOperationAdd()) {
                 $incompleteTransactions = Transaction::query()
+                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'added_by'))
                     ->count();
@@ -100,6 +105,7 @@ class FeatureReport
 
             if ($pad->isInventoryOperationSubtract()) {
                 $incompleteTransactions = Transaction::query()
+                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'subtracted_by'))
                     ->count();
@@ -107,6 +113,7 @@ class FeatureReport
 
             if ($pad->isApprovable() && $pad->isInventoryOperationNone()) {
                 $incompleteTransactions = Transaction::query()
+                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'approved_by'))
                     ->count();
@@ -114,7 +121,7 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $pad->name,
-                'total_transactions' => $pad->transactions()->count(),
+                'total_transactions' => $pad->transactions()->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->count(),
                 'incomplete_transactions' => $incompleteTransactions,
             ];
         }

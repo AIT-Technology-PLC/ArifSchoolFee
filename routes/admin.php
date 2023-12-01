@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin as Admin;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
 Route::post('companies/{company}/reset', Admin\CompanyResetAccountController::class)->name('companies.reset');
 Route::post('companies/{company}/features', Admin\CompanyFeatureController::class)->name('companies.features.update');
 Route::post('companies/{company}/integrations', Admin\CompanyIntegrationController::class)->name('companies.integrations.update');

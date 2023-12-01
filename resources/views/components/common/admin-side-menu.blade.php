@@ -67,6 +67,27 @@
         <li>
             <x-common.button
                 tag="a"
+                href="{{ route('admin.dashboard') }}"
+                class="text-green is-size-6-5 has-text-left"
+                ::class="{ 'is-active': isAccordionActive }"
+                x-init="{{ request()->routeIs('admin.dashboard') ? 'activateAccordion' : '' }}"
+            >
+                <x-common.icon
+                    name="fas fa-gauge"
+                    class="pl-1"
+                />
+                <span class="ml-1"> Dashboard </span>
+            </x-common.button>
+        </li>
+    </ul>
+
+    <ul
+        x-data="sideMenuAccordion"
+        class="menu-list mb-2"
+    >
+        <li>
+            <x-common.button
+                tag="a"
                 href="{{ route('admin.companies.index') }}"
                 class="text-green is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"

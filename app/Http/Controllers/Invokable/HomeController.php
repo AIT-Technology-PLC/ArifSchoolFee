@@ -9,7 +9,7 @@ class HomeController extends Controller
     public function __invoke()
     {
         if (authUser()->isAdmin()) {
-            return redirect()->route('admin.companies.index');
+            return redirect()->route('admin.dashboard');
         }
 
         return view('menu.index');
