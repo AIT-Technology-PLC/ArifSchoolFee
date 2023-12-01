@@ -137,53 +137,54 @@
         </div>
     </div>
 
-    <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>
-            Lifetime Expenses Summary
-        </span>
-    </h1>
-
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                amount="{{ number_format($lifetimeExpenseReport->getTotalExpenseAfterTax, 2) }}"
-                border-color="#fff"
-                text-color="text-green"
-                label="Expense (After Tax)"
-            />
+    @if (isFeatureEnabled('Expense Management'))
+        <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
+            <span class="icon">
+                <i class="fas fa-calendar"></i>
+            </span>
+            <span>
+                Lifetime Expenses Summary
+            </span>
+        </h1>
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    amount="{{ number_format($lifetimeExpenseReport->getTotalExpenseAfterTax, 2) }}"
+                    border-color="#fff"
+                    text-color="text-green"
+                    label="Expense (After Tax)"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($lifetimeExpenseReport->getExpenseTransactionCount)"
+                    border-color="#fff"
+                    text-color="text-purple"
+                    label="Number of Transactions"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($lifetimeExpenseReport->getTotalExpenseVat, 2)"
+                    border-color="#fff"
+                    text-color="text-gold"
+                    label="Expense VAT"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($lifetimeExpenseReport->getTotalExpenseTot, 2)"
+                    border-color="#fff"
+                    text-color="text-blue"
+                    label="Expense TOT"
+                />
+            </div>
         </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getExpenseTransactionCount)"
-                border-color="#fff"
-                text-color="text-purple"
-                label="Number of Transactions"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getTotalExpenseVat, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Expense VAT"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($lifetimeExpenseReport->getTotalExpenseTot, 2)"
-                border-color="#fff"
-                text-color="text-blue"
-                label="Expense TOT"
-            />
-        </div>
-    </div>
+    @endif
 
     <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
         <span class="icon">
@@ -467,198 +468,198 @@
         </div>
     </div>
 
-    <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
-        <span class="icon">
-            <i class="fas fa-filter"></i>
-        </span>
-        <span>
-            Filtered Expenses Report
-        </span>
-    </h1>
-
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
-                border-color="#fff"
-                text-color="text-green"
-                label="Expense (After Tax)"
-            />
+    @if (isFeatureEnabled('Expense Management'))
+        <h1 class="mx-3 m-lr-0 mt-5 text-green has-text-weight-medium is-size-6-mobile">
+            <span class="icon">
+                <i class="fas fa-filter"></i>
+            </span>
+            <span>
+                Filtered Expenses Report
+            </span>
+        </h1>
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    amount="{{ number_format($expenseReport->getTotalExpenseAfterTax, 2) }}"
+                    border-color="#fff"
+                    text-color="text-green"
+                    label="Expense (After Tax)"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($expenseReport->getExpenseTransactionCount)"
+                    border-color="#fff"
+                    text-color="text-purple"
+                    label="Number of Transactions"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($expenseReport->getTotalExpenseVat, 2)"
+                    border-color="#fff"
+                    text-color="text-gold"
+                    label="Expense VAT"
+                />
+            </div>
+            <div class="column is-3 p-lr-0">
+                <x-common.index-insight
+                    label-text-size="is-size-6"
+                    :amount="number_format($expenseReport->getTotalExpenseTot, 2)"
+                    border-color="#fff"
+                    text-color="text-blue"
+                    label="Expense TOT"
+                />
+            </div>
         </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getExpenseTransactionCount)"
-                border-color="#fff"
-                text-color="text-purple"
-                label="Number of Transactions"
-            />
+        <div class="columns is-marginless is-multiline">
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-warehouse"></i>
+                            </span>
+                            <span>Highest Spending Branches</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Branch </abbr></th>
+                            <th class="has-text-right"><abbr> Expense </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($expenseReport->getExpenseByBranches as $branch)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $branch->branch_name }} </td>
+                                    <td class="has-text-right"> {{ number_format($branch->expense, 2) }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-layer-group"></i>
+                            </span>
+                            <span>Top Categories by Expense</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Category </abbr></th>
+                            <th class="has-text-right"><abbr> Quantity </abbr></th>
+                            <th class="has-text-right"><abbr> Expense </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($expenseReport->getExpenseByCategories as $category)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $category->category_name }} </td>
+                                    <td class="has-text-right"> {{ number_format($category->quantity, 2) }} </td>
+                                    <td class="has-text-right"> {{ number_format($category->expense, 2) }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-th"></i>
+                            </span>
+                            <span>Top Items by Expense</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Item </abbr></th>
+                            <th class="has-text-right"><abbr> Quantity </abbr></th>
+                            <th class="has-text-right"><abbr> Expense </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($expenseReport->getExpenseByItems as $item)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $item->name }} </td>
+                                    <td class="has-text-right"> {{ number_format($item->quantity, 2) }} </td>
+                                    <td class="has-text-right"> {{ number_format($item->expense, 2) }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
+            <div class="column is-6 p-lr-0">
+                <x-content.header bg-color="has-background-white">
+                    <x-slot:header>
+                        <h1 class="title text-green has-text-weight-medium is-size-6">
+                            <span class="icon mr-1">
+                                <i class="fas fa-user-tie"></i>
+                            </span>
+                            <span>Purchasers By Expense</span>
+                        </h1>
+                    </x-slot:header>
+                </x-content.header>
+                <x-content.footer>
+                    <x-common.client-datatable
+                        has-filter="false"
+                        has-length-change="false"
+                        paging-type="simple"
+                        length-menu=[5]
+                    >
+                        <x-slot name="headings">
+                            <th><abbr> # </abbr></th>
+                            <th><abbr> Purchaser </abbr></th>
+                            <th class="has-text-right"><abbr> Expense </abbr></th>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach ($expenseReport->getExpenseByPurchasers as $purchaser)
+                                <tr>
+                                    <td> {{ $loop->index + 1 }} </td>
+                                    <td> {{ $purchaser->purchaser_name ?? 'Deleted Purchaser' }} </td>
+                                    <td class="has-text-right"> {{ number_format($purchaser->expense, 2) }} </td>
+                                </tr>
+                            @endforeach
+                        </x-slot>
+                    </x-common.client-datatable>
+                </x-content.footer>
+            </div>
         </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseVat, 2)"
-                border-color="#fff"
-                text-color="text-gold"
-                label="Expense VAT"
-            />
-        </div>
-        <div class="column is-3 p-lr-0">
-            <x-common.index-insight
-                label-text-size="is-size-6"
-                :amount="number_format($expenseReport->getTotalExpenseTot, 2)"
-                border-color="#fff"
-                text-color="text-blue"
-                label="Expense TOT"
-            />
-        </div>
-    </div>
-
-    <div class="columns is-marginless is-multiline">
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-warehouse"></i>
-                        </span>
-                        <span>Highest Spending Branches</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Branch </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByBranches as $branch)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $branch->branch_name }} </td>
-                                <td class="has-text-right"> {{ number_format($branch->expense, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-layer-group"></i>
-                        </span>
-                        <span>Top Categories by Expense</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Category </abbr></th>
-                        <th class="has-text-right"><abbr> Quantity </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByCategories as $category)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $category->category_name }} </td>
-                                <td class="has-text-right"> {{ number_format($category->quantity, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($category->expense, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-th"></i>
-                        </span>
-                        <span>Top Items by Expense</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Item </abbr></th>
-                        <th class="has-text-right"><abbr> Quantity </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByItems as $item)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $item->name }} </td>
-                                <td class="has-text-right"> {{ number_format($item->quantity, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format($item->expense, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-        <div class="column is-6 p-lr-0">
-            <x-content.header bg-color="has-background-white">
-                <x-slot:header>
-                    <h1 class="title text-green has-text-weight-medium is-size-6">
-                        <span class="icon mr-1">
-                            <i class="fas fa-user-tie"></i>
-                        </span>
-                        <span>Purchasers By Expense</span>
-                    </h1>
-                </x-slot:header>
-            </x-content.header>
-            <x-content.footer>
-                <x-common.client-datatable
-                    has-filter="false"
-                    has-length-change="false"
-                    paging-type="simple"
-                    length-menu=[5]
-                >
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> Purchaser </abbr></th>
-                        <th class="has-text-right"><abbr> Expense </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($expenseReport->getExpenseByPurchasers as $purchaser)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $purchaser->purchaser_name ?? 'Deleted Purchaser' }} </td>
-                                <td class="has-text-right"> {{ number_format($purchaser->expense, 2) }} </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.client-datatable>
-            </x-content.footer>
-        </div>
-    </div>
+    @endif
 @endsection
