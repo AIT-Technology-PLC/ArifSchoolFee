@@ -17,6 +17,7 @@ class AllowOnlyAdminUsers
     public function handle(Request $request, Closure $next): Response
     {
         if (authUser()->isAdmin()) {
+            authUser()->updateLastOnlineAt();
             return $next($request);
         }
 
