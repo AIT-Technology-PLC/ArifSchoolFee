@@ -63,7 +63,7 @@ class GdnDetailDatatable extends DataTable
 
     protected function getColumns()
     {
-        Arr::whereNotNull([
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),

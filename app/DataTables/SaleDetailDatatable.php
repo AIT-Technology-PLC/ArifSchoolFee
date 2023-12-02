@@ -59,7 +59,7 @@ class SaleDetailDatatable extends DataTable
 
     protected function getColumns()
     {
-        Arr::whereNotNull([
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('product', 'product.name'),
             userCompany()->canSaleSubtract() ? Column::make('warehouse', 'warehouse.name') : null,
