@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FilterReportRequest;
 use App\Models\Company;
-use App\Reports\FeatureReport;
+use App\Reports\TransactionReport;
 
 class TransactionReportController extends Controller
 {
@@ -13,8 +13,8 @@ class TransactionReportController extends Controller
     {
         $companies = Company::all();
 
-        $featureReport = new FeatureReport($request->validated());
+        $transactionReport = new TransactionReport($request->validated());
 
-        return view('admin.reports.transactions', compact('companies', 'featureReport'));
+        return view('admin.reports.transactions', compact('companies', 'transactionReport'));
     }
 }

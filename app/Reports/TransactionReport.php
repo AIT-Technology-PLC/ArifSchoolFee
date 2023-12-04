@@ -6,7 +6,7 @@ use App\Models as Models;
 use App\Models\Transaction;
 use Illuminate\Support\Arr;
 
-class FeatureReport
+class TransactionReport
 {
     private $filters;
 

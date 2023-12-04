@@ -82,7 +82,7 @@
                             <p class="text-green is-uppercase heading is-size-6"> Native Transactions </p>
                         </div>
                         <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format(collect($featureReport->transactionalFeatures)->sum('total_transactions')) }}</p>
+                            <p class="title text-green">{{ number_format(collect($transactionReport->transactionalFeatures)->sum('total_transactions')) }}</p>
                         </div>
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
@@ -104,7 +104,7 @@
                             <p class="text-green is-uppercase heading is-size-6"> Pad Transactions </p>
                         </div>
                         <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format(collect($featureReport->padFeatures)->sum('total_transactions')) }}</p>
+                            <p class="title text-green">{{ number_format(collect($transactionReport->padFeatures)->sum('total_transactions')) }}</p>
                         </div>
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
@@ -126,7 +126,7 @@
                             <p class="text-green is-uppercase heading is-size-6"> Master Data </p>
                         </div>
                         <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format(collect($featureReport->masterFeatures)->sum('total')) }}</p>
+                            <p class="title text-green">{{ number_format(collect($transactionReport->masterFeatures)->sum('total')) }}</p>
                         </div>
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
@@ -167,7 +167,7 @@
                             <th class="has-text-right"><abbr> Incomplete Transactions</abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($featureReport->transactionalFeatures as $transactionalFeature)
+                            @foreach ($transactionReport->transactionalFeatures as $transactionalFeature)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ str()->headline($transactionalFeature['feature']) }} </td>
@@ -203,7 +203,7 @@
                             <th class="has-text-right"><abbr> Incomplete Transactions</abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($featureReport->padFeatures as $padFeature)
+                            @foreach ($transactionReport->padFeatures as $padFeature)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ str()->headline($padFeature['feature']) }} </td>
@@ -240,7 +240,7 @@
                             <th class="has-text-right"><abbr> Total </abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($featureReport->masterFeatures as $masterFeature)
+                            @foreach ($transactionReport->masterFeatures as $masterFeature)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ str()->headline($masterFeature['feature']) }} </td>

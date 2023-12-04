@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Reports\EngagementReport;
-use App\Reports\FeatureReport;
 use App\Reports\SubscriptionReport;
+use App\Reports\TransactionReport;
 
 class DashboardController extends Controller
 {
@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         $engagementReport = new EngagementReport;
 
-        $featureReport = new FeatureReport(['transaction_period' => [today(), today()]]);
+        $transactionReport = new TransactionReport(['transaction_period' => [today(), today()]]);
 
         $subscriptionReport = new SubscriptionReport;
 
@@ -24,6 +24,6 @@ class DashboardController extends Controller
                 'warehouses' => fn($q) => $q->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today())),
             ])->orderBy('employees_count', 'DESC')->orderBy('warehouses_count', 'DESC')->get();
 
-        return view('admin.reports.dashboard', compact('engagementReport', 'featureReport', 'subscriptionReport', 'companies'));
+        return view('admin.reports.dashboard', compact('engagementReport', 'transactionReport', 'subscriptionReport', 'companies'));
     }
 }
