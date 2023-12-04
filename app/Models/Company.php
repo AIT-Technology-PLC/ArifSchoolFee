@@ -15,7 +15,6 @@ class Company extends Model
 
     protected $appends = [
         'withholdingTaxes',
-        'subscription_expires_on'
     ];
 
     protected $casts = [
