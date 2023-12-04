@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin as Admin;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
+Route::get('/reports/dashboard', Admin\DashboardController::class)->name('reports.dashboard');
 Route::get('/reports/subscriptions', Admin\SubscriptionReportController::class)->name('reports.subscriptions');
 Route::get('/reports/transactions', Admin\TransactionReportController::class)->name('reports.transactions');
 Route::post('companies/{company}/reset', Admin\CompanyResetAccountController::class)->name('companies.reset');

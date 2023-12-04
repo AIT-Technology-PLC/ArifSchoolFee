@@ -67,10 +67,10 @@
         <li>
             <x-common.button
                 tag="a"
-                href="{{ route('admin.dashboard') }}"
+                href="{{ route('admin.reports.dashboard') }}"
                 class="text-green is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"
-                x-init="{{ request()->routeIs('admin.dashboard') ? 'activateAccordion' : '' }}"
+                x-init="{{ request()->routeIs('admin.reports.dashboard') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
                     name="fas fa-gauge"

@@ -24,6 +24,6 @@ class DashboardController extends Controller
                 'warehouses' => fn($q) => $q->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today())),
             ])->orderBy('employees_count', 'DESC')->orderBy('warehouses_count', 'DESC')->get();
 
-        return view('admin.dashboard', compact('engagementReport', 'featureReport', 'subscriptionReport', 'companies'));
+        return view('admin.reports.dashboard', compact('engagementReport', 'featureReport', 'subscriptionReport', 'companies'));
     }
 }
