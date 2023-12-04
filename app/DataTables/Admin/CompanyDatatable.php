@@ -46,6 +46,7 @@ class CompanyDatatable extends DataTable
     {
         return [
             Column::computed('#'),
+            Column::make('id')->addClass('has-text-centered')->title('ID No'),
             Column::make('name')->addClass('has-text-weight-bold'),
             Column::computed('status'),
             Column::make('plan', 'plan.name'),
