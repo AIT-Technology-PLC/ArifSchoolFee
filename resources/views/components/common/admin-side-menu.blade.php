@@ -102,6 +102,27 @@
         </li>
     </ul>
 
+    <ul
+        x-data="sideMenuAccordion"
+        class="menu-list mb-2"
+    >
+        <li>
+            <x-common.button
+                tag="a"
+                href="{{ route('admin.reports.subscriptions') }}"
+                class="text-green is-size-6-5 has-text-left"
+                ::class="{ 'is-active': isAccordionActive }"
+                x-init="{{ request()->routeIs('admin.reports.subscriptions') ? 'activateAccordion' : '' }}"
+            >
+                <x-common.icon
+                    name="fas fa-file-contract"
+                    class="pl-1"
+                />
+                <span class="ml-1"> Subscriptions </span>
+            </x-common.button>
+        </li>
+    </ul>
+
     @can('Manage Admin Panel Users')
         <ul
             x-data="sideMenuAccordion"
