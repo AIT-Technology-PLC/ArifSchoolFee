@@ -205,7 +205,7 @@
                 <div class="tile is-child box">
                     <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
                         <span class="icon mr-1">
-                            <i class="fas fa-file-contract"></i>
+                            <i class="fas fa-filter"></i>
                         </span>
                         <span>
                             Filtered Subscriptions
