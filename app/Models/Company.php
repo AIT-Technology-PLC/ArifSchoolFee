@@ -15,6 +15,7 @@ class Company extends Model
 
     protected $appends = [
         'withholdingTaxes',
+        'subscription_expires_on'
     ];
 
     protected $casts = [
@@ -269,6 +270,11 @@ class Company extends Model
     public function scopeExpiredSubscriptions($query)
     {
         return $query->whereNotNull('subscription_expires_on')->whereDate('subscription_expires_on', '<', today());
+    }
+
+    public function scopeActiveSubscriptions($query)
+    {
+        return $query->whereNotNull('subscription_expires_on')->whereDate('subscription_expires_on', '>=', today());
     }
 
     public function email(): Attribute
