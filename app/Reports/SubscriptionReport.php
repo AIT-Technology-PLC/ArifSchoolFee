@@ -34,13 +34,7 @@ class SubscriptionReport
 
     public function getSubscriptionsThisAndNextMonth()
     {
-        return Company::activeSubscriptions()
-            ->where(function ($query) {
-                $query->whereMonth('subscription_expires_on', today()->month)
-                    ->orWhereMonth('subscription_expires_on', today()->addMonth()->month);
-            })
-            ->orderBy('subscription_expires_on', 'ASC')
-            ->get(['name', 'subscription_expires_on']);
+        return Company::activeSubscriptions()->orderBy('subscription_expires_on', 'ASC')->get(['name', 'subscription_expires_on']);
     }
 
     public function getExpiredSubscriptions()

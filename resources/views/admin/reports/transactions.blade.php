@@ -79,10 +79,10 @@
                 <div class="tile is-child box">
                     <div class="hero">
                         <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> Native Transactions </p>
+                            <p class="text-green is-uppercase heading is-size-6"> Master Data </p>
                         </div>
                         <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format(collect($transactionReport->transactionalFeatures)->sum('total_transactions')) }}</p>
+                            <p class="title text-green">{{ number_format(collect($transactionReport->masterFeatures)->sum('total')) }}</p>
                         </div>
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
@@ -91,6 +91,28 @@
                                 </span>
                                 <span>
                                     REALTIME
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <div class="hero">
+                        <div class="hero-head">
+                            <p class="text-green is-uppercase heading is-size-6"> Native Transactions </p>
+                        </div>
+                        <div class="hero-body px-0 pt-1">
+                            <p class="title text-green">{{ number_format(collect($transactionReport->transactionalFeatures)->sum('total_transactions')) }}</p>
+                        </div>
+                        <div class="hero-foot pt-6 has-text-right">
+                            <p class="text-green has-text-weight-bold">
+                                <span class="icon is-size-6-5">
+                                    <i class="fas fa-filter"></i>
+                                </span>
+                                <span>
+                                    FILTERED
                                 </span>
                             </p>
                         </div>
@@ -109,32 +131,10 @@
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
                                 <span class="icon is-size-6-5">
-                                    <i class="far fa-circle-dot"></i>
+                                    <i class="fas fa-filter"></i>
                                 </span>
                                 <span>
-                                    REALTIME
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> Master Data </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format(collect($transactionReport->masterFeatures)->sum('total')) }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="far fa-circle-dot"></i>
-                                </span>
-                                <span>
-                                    REALTIME
+                                    FILTERED
                                 </span>
                             </p>
                         </div>
