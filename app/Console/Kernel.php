@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('pos:approve')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
 
-        // $schedule->command('company:deactivate')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        $schedule->command('company:deactivate')->withoutOverlapping()->evenInMaintenanceMode()->daily();
     }
 
     /**
