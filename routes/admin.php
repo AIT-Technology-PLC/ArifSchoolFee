@@ -18,3 +18,4 @@ Route::resource('users', Admin\UserController::class)->except(['show', 'destroy'
 Route::resource('companies.pads', Admin\CompanyPadController::class)->shallow()->except(['index']);
 Route::resource('pad-fields', Admin\PadFieldController::class)->only(['destroy']);
 Route::resource('companies.subscriptions', Admin\CompanySubscriptionController::class)->shallow();
+Route::resource('limits', Admin\LimitController::class)->only('index');
