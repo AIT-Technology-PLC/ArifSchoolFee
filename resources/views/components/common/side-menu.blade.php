@@ -18,8 +18,13 @@
                         {{ authUser()->employee->position ?? 'Job: Not Assigned' }}
                     </div>
                     @if (userCompany()->isSubscriptionNearExpiry())
-                        <div class="text-purple is-size-7 has-text-weight-bold is-capitalized mt-3">
-                            DAYS LEFT: {{ today()->diffInDays(userCompany()->subscription_expires_on, false) }}
+                        <div class="tag bg-lightpurple text-purple is-size-7 has-text-weight-bold is-capitalized mt-3">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>
+                                DAYS LEFT: {{ today()->diffInDays(userCompany()->subscription_expires_on, false) }}
+                            </span>
                         </div>
                     @endif
                 </div>
