@@ -8,15 +8,11 @@ use Illuminate\Support\Arr;
 
 class FeatureReport
 {
-    private $company;
+    private $filters;
 
-    private $onlyToday;
-
-    function __construct($company = null, $onlyToday = false)
+    function __construct($filters = [])
     {
-        $this->company = $company;
-
-        $this->onlyToday = $onlyToday;
+        $this->filters = $filters;
     }
 
     public function __get($name)
@@ -55,8 +51,17 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $model->getTable(),
-                'total_transactions' => $model->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
-                'incomplete_transactions' => $model->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->$value()->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
+                'total_transactions' => $model
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
+                    ->when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))
+                    ->count(),
+                'incomplete_transactions' => $model
+                    ->$value()
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
+                    ->when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))
+                    ->count(),
             ];
         }
 
@@ -79,7 +84,7 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $model->getTable(),
-                'total' => $model->when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->count(),
+                'total' => $model->when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->count(),
             ];
         }
 
@@ -90,14 +95,15 @@ class FeatureReport
     {
         $data = [];
 
-        $pads = Models\Pad::when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->get();
+        $pads = Models\Pad::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->get();
 
         foreach ($pads as $pad) {
             $incompleteTransactions = 0;
 
             if ($pad->isInventoryOperationAdd()) {
                 $incompleteTransactions = Transaction::query()
-                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'added_by'))
                     ->count();
@@ -105,7 +111,8 @@ class FeatureReport
 
             if ($pad->isInventoryOperationSubtract()) {
                 $incompleteTransactions = Transaction::query()
-                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'subtracted_by'))
                     ->count();
@@ -113,7 +120,8 @@ class FeatureReport
 
             if ($pad->isApprovable() && $pad->isInventoryOperationNone()) {
                 $incompleteTransactions = Transaction::query()
-                    ->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
                     ->where('pad_id', $pad->id)
                     ->whereDoesntHave('transactionFields', fn($q) => $q->where('key', '=', 'approved_by'))
                     ->count();
@@ -121,7 +129,10 @@ class FeatureReport
 
             $data[] = [
                 'feature' => $pad->name,
-                'total_transactions' => $pad->transactions()->when($this->onlyToday, fn($q) => $q->whereDate('created_at', today()))->count(),
+                'total_transactions' => $pad->transactions()
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '>=', $this->filters['transaction_period'][0]))
+                    ->when(!empty($this->filters['transaction_period']), fn($q) => $q->whereDate('created_at', '<=', $this->filters['transaction_period'][1]))
+                    ->count(),
                 'incomplete_transactions' => $incompleteTransactions,
             ];
         }

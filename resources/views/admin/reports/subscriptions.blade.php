@@ -33,9 +33,9 @@
                                 <x-forms.input
                                     type="text"
                                     id="period"
-                                    name="period"
+                                    name="subscription_period"
                                     class="is-size-7-mobile is-fullwidth has-text-centered"
-                                    value="{{ request('period') ?? implode(' - ', [today(), today()->addMonths(3)]) }}"
+                                    value="{{ request('subscription_period') ?? implode(' - ', [today(), today()->addMonths(3)]) }}"
                                 />
                             </x-forms.control>
                         </x-forms.field>

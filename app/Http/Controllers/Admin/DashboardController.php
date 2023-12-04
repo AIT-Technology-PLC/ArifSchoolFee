@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         $engagementReport = new EngagementReport;
 
-        $featureReport = new FeatureReport(onlyToday: true);
+        $featureReport = new FeatureReport(['transaction_period' => [today(), today()]]);
 
         $subscriptionReport = new SubscriptionReport;
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class FilterReportRequest extends FormRequest
 {
@@ -14,15 +15,19 @@ class FilterReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'period' => ['required', 'array'],
-            'period.*' => ['required', 'date'],
+            'subscription_period' => ['required', 'array'],
+            'subscription_period.*' => ['required', 'date'],
+            'transaction_period' => ['required', 'array'],
+            'transaction_period.*' => ['required', 'date'],
+            'company_id' => ['nullable', 'integer', Rule::exists('companies', 'id')],
         ];
     }
 
     public function prepareForValidation()
     {
         $this->merge([
-            'period' => is_null($this->input('period')) ? [today(), today()->addMonths(3)] : dateRangePicker($this->input('period')),
+            'subscription_period' => is_null($this->input('subscription_period')) ? [today(), today()->addMonths(3)] : dateRangePicker($this->input('subscription_period')),
+            'transaction_period' => is_null($this->input('transaction_period')) ? [today(), today()] : dateRangePicker($this->input('transaction_period')),
         ]);
     }
 }

@@ -60,7 +60,7 @@ class SubscriptionReport
     public function getFilteredSubscriptions()
     {
         return Company::query()
-            ->whereBetween('subscription_expires_on', [$this->filters['period'][0], $this->filters['period'][1]])
+            ->whereBetween('subscription_expires_on', [$this->filters['subscription_period'][0], $this->filters['subscription_period'][1]])
             ->orderBy('subscription_expires_on', 'ASC')
             ->get(['name', 'subscription_expires_on']);
     }

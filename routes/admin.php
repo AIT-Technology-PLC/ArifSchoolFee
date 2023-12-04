@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
 Route::get('/reports/subscriptions', Admin\SubscriptionReportController::class)->name('reports.subscriptions');
+Route::get('/reports/transactions', Admin\TransactionReportController::class)->name('reports.transactions');
 Route::post('companies/{company}/reset', Admin\CompanyResetAccountController::class)->name('companies.reset');
 Route::post('companies/{company}/features', Admin\CompanyFeatureController::class)->name('companies.features.update');
 Route::post('companies/{company}/integrations', Admin\CompanyIntegrationController::class)->name('companies.integrations.update');
