@@ -149,11 +149,11 @@
                             <th class="has-text-right"><abbr> Companies </abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($subscriptionReport->getSubscriptionsCountByMonths as $months)
+                            @foreach (range(1, 12) as $month)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
-                                    <td> {{ $months->month }} </td>
-                                    <td class="has-text-right"> {{ $months->count }} </td>
+                                    <td> {{ now()->setMonth($month)->monthName }} </td>
+                                    <td class="has-text-right"> {{ $subscriptionReport->getSubscriptionsCountByMonths[$month] ?? 0 }} </td>
                                 </tr>
                             @endforeach
                         </x-slot>

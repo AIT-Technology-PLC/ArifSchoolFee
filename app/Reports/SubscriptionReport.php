@@ -48,7 +48,7 @@ class SubscriptionReport
             ->groupByRaw('MONTH(subscription_expires_on), MONTHNAME(subscription_expires_on)')
             ->selectRaw('MONTH(subscription_expires_on) AS month_in_number, MONTHNAME(subscription_expires_on) AS month, COUNT(id) AS count')
             ->orderBy('month_in_number', 'ASC')
-            ->get();
+            ->pluck('count', 'month_in_number');
     }
 
     public function getFilteredSubscriptions()
