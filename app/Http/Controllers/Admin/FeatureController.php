@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Limit;
+use App\Models\Feature;
 
-class LimitController extends Controller
+class FeatureController extends Controller
 {
     public function index()
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        $limits = Limit::all();
+        $features = Feature::all();
 
-        return view('admin.limits.index', compact('limits'));
+        return view('admin.features.index', compact('features'));
     }
 }

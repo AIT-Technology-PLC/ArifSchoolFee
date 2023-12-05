@@ -118,4 +118,16 @@ class Feature extends Model
 
         return $enabledFeatures->diff($disabledFeaturesForCompany);
     }
+
+    public function isEnabled()
+    {
+        return $this->is_enabled;
+    }
+
+    public function toggle()
+    {
+        $this->isEnabled() ? $this->is_enabled = 0 : $this->is_enabled = 1;
+
+        $this->save();
+    }
 }
