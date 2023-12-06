@@ -26,8 +26,8 @@ class StorePadRequest extends FormRequest
             'has_prices' => ['required', 'boolean'],
             'is_enabled' => ['required', 'boolean'],
             'module' => ['required', 'string', Rule::in(Pad::MODULES)],
-            'convert_to' => ['nullable', 'array', Rule::in((new Pad)->converts())],
-            'convert_from' => ['nullable', 'array', Rule::in((new Pad)->converts())],
+            'convert_to' => ['nullable', 'array', Rule::in((new Pad)->converts($this->route('company')->id))],
+            'convert_from' => ['nullable', 'array', Rule::in((new Pad)->converts($this->route('company')->id))],
             'print_orientation' => ['required', 'string'],
             'print_paper_size' => ['required', 'string'],
 

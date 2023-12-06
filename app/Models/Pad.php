@@ -43,7 +43,6 @@ class Pad extends Model
         'General Settings',
     ];
 
-
     public const COMPONENTS = [
         'supplier',
         'customer',
@@ -164,9 +163,10 @@ class Pad extends Model
         return $count;
     }
 
-    public function converts()
+    public function converts($companyId = null)
     {
         return $this
+            ->when(!is_null($companyId), fn($q) => $q->where('company_id', $companyId))
             ->enabled()
             ->pluck('name')
             ->merge([

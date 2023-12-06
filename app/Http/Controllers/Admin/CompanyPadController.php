@@ -23,7 +23,7 @@ class CompanyPadController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
 
-        $features = (new Pad)->converts();
+        $features = (new Pad)->converts($company->id);
 
         return view('admin.pads.create', compact('features', 'company'));
     }
@@ -50,11 +50,12 @@ class CompanyPadController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Pads'), 403);
 
-        $features = (new Pad)->converts();
+        $features = (new Pad)->converts($pad->company_id);
 
-        $pad->load(['padStatuses', 'padFields' => function ($query) use($pad){
-            $query->whereDoesntHave('padRelation')->excludeReservedLabels($pad)->with('padRelation');
-        }]);
+        $pad->load([
+            'padStatuses',
+            'padFields' => fn($query) => $query->whereDoesntHave('padRelation')->excludeReservedLabels($pad),
+        ]);
 
         return view('admin.pads.edit', compact('pad', 'features'));
     }

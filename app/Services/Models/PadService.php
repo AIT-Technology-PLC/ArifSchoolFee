@@ -121,7 +121,7 @@ class PadService
     {
         $fields = [];
 
-        if ($pad->isInventoryOperationNone()) {
+        if ($pad->isInventoryOperationNone() && $pad->hasPrices()) {
             $fields[] = [
                 'label' => 'Quantity',
                 'icon' => 'fas fa-balance-scale',
@@ -147,9 +147,8 @@ class PadService
             'tag_type' => 'number',
         ];
 
-        $pad->padFields()->whereIn('label', Arr::pluck($fields, 'label'))->forceDelete();
-
         if (!$pad->hasPrices()) {
+            $pad->padFields()->whereIn('label', Arr::pluck($fields, 'label'))->forceDelete();
             return;
         }
 
