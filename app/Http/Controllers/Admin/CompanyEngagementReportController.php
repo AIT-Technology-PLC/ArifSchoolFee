@@ -11,7 +11,7 @@ class CompanyEngagementReportController extends Controller
 {
     public function __invoke(Company $company)
     {
-        $engagementReport = new EngagementReport($company);
+        $engagementReport = new EngagementReport(['company_id' => $company->id]);
 
         $transactionReport = new TransactionReport(['company_id' => $company->id]);
 
