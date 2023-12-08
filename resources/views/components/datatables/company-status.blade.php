@@ -1,11 +1,19 @@
 @if ($company->isEnabled())
-    <span class="icon is-small text-green">
-        <i class="fas fa-circle-dot"></i>
+    <span class="tag bg-lightgreen text-green has-text-weight-medium">
+        <span class="icon">
+            <i class="fas fa-dot-circle"></i>
+        </span>
+        <span>
+            Enabled
+        </span>
     </span>
-    <span class="text-green"> Active </span>
 @else
-    <span class="icon is-small text-purple">
-        <i class="fas fa-circle-dot"></i>
+    <span class="tag bg-lightpurple text-purple has-text-weight-medium">
+        <span class="icon">
+            <i class="fas fa-warning"></i>
+        </span>
+        <span>
+            Disabled
+        </span>
     </span>
-    <span class="text-purple"> Deactivated </span>
 @endif
