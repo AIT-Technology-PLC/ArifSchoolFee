@@ -36,7 +36,7 @@
                         has-filter="false"
                         has-length-change="false"
                         paging-type="simple"
-                        length-menu="[-1]"
+                        length-menu="[6]"
                     >
                         <x-slot name="headings">
                             <th><abbr> # </abbr></th>

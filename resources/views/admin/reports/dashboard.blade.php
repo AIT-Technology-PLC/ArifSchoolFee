@@ -222,7 +222,7 @@
                             <i class="fas fa-file-contract"></i>
                         </span>
                         <span>
-                            Subscriptions
+                            Active Subscriptions
                         </span>
                     </p>
                     <x-common.client-datatable

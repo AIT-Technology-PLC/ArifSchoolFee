@@ -26,6 +26,14 @@ class EngagementReport
 
     public function users()
     {
+        $data['activeUsersToday'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()))->count();
+
+        $data['activeUsersYesterday'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()->yesterday()))->count();
+
+        $data['activeUsersInLast_7Days'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subWeek()))->count();
+
+        $data['activeUsersInLast_30Days'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subDays(30)))->count();
+
         $data['totalUsers'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support'))->count();
 
         $data['enabledUsers'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->enabled()->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support'))->count();
@@ -34,32 +42,24 @@ class EngagementReport
 
         $data['onricaSupportUsers'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->where('name', 'onrica support'))->count();
 
-        $data['activeUsersYesterday'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()->yesterday()))->count();
-
-        $data['activeUsersToday'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()))->count();
-
-        $data['activeUsersInLast_7Days'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subWeek()))->count();
-
-        $data['activeUsersInLast_30Days'] = Employee::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subDays(30)))->count();
-
         return $data;
     }
 
     public function branches()
     {
+        $data['activeBranchesToday'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()))->count();
+
+        $data['activeBranchesYesterday'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()->yesterday()))->count();
+
+        $data['activeBranchesInLast_7Days'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subWeek()))->count();
+
+        $data['activeBranchesInLast_30Days'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subDays(30)))->count();
+
         $data['totalBranches'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->count();
 
         $data['enabledBranches'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->active()->count();
 
         $data['disabledBranches'] = $data['totalBranches'] - $data['enabledBranches'];
-
-        $data['activeBranchesYesterday'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()->yesterday()))->count();
-
-        $data['activeBranchesToday'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()))->count();
-
-        $data['activeBranchesInLast_7Days'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subWeek()))->count();
-
-        $data['activeBranchesInLast_30Days'] = Warehouse::when(!empty($this->filters['company_id']), fn($q) => $q->where('company_id', $this->filters['company_id']))->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', '>=', today()->subDays(30)))->count();
 
         return $data;
     }
