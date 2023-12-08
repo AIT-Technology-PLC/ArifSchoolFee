@@ -2,6 +2,7 @@
 
 namespace App\Reports;
 
+use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Warehouse;
 
@@ -63,6 +64,21 @@ class EngagementReport
     {
         $data['activeCompaniesToday'] = Employee::whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today()))->distinct('company_id')->count();
 
+        $data['companies'] = Company::enabled()
+            ->when(!is_null($this->company), fn($q) => $q->where('id', $this->company->id))
+            ->withCount([
+                'employees' => fn($q) => $q->whereHas('user', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today())),
+                'warehouses' => fn($q) => $q->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'onrica support')->whereDate('last_online_at', today())),
+            ])
+            ->orderBy('employees_count', 'DESC')
+            ->orderBy('warehouses_count', 'DESC')
+            ->get();
+
         return $data;
+    }
+
+    public function getBranchesWithUserCount()
+    {
+        return Warehouse::when(!is_null($this->company), fn($q) => $q->where('company_id', $this->company->id))->withCount(['originalUsers' => fn($q) => $q->whereNot('name', 'onrica support')])->get(['name', 'original_users_count']);
     }
 }

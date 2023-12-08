@@ -156,7 +156,7 @@
                             <th class="has-text-right"><abbr> Users </abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($branchesWithUsersCount as $branch)
+                            @foreach ($engagementReport->getBranchesWithUserCount as $branch)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ $branch->name }} </td>

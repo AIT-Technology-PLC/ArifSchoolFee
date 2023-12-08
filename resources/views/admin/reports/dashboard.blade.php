@@ -45,7 +45,7 @@
                             <th class="has-text-right"><abbr> Branches </abbr></th>
                         </x-slot>
                         <x-slot name="body">
-                            @foreach ($companies as $company)
+                            @foreach ($engagementReport->companies['companies'] as $company)
                                 <tr>
                                     <td> {{ $loop->index + 1 }} </td>
                                     <td> {{ $company->name }} </td>

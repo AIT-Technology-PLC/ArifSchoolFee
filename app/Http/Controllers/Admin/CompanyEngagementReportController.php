@@ -15,8 +15,6 @@ class CompanyEngagementReportController extends Controller
 
         $transactionReport = new TransactionReport(['company_id' => $company->id]);
 
-        $branchesWithUsersCount = $company->warehouses()->withCount(['originalUsers' => fn($q) => $q->whereNot('name', 'onrica support')])->get(['name', 'original_users_count']);
-
-        return view('admin.companies.report', compact('company', 'engagementReport', 'transactionReport', 'branchesWithUsersCount'));
+        return view('admin.companies.report', compact('company', 'engagementReport', 'transactionReport'));
     }
 }
