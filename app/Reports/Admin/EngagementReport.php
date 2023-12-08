@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Reports;
+namespace App\Reports\Admin;
 
 use App\Models\Company;
 use App\Models\Employee;

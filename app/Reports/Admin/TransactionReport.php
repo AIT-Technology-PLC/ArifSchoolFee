@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Reports;
+namespace App\Reports\Admin;
 
 use App\Models as Models;
 use App\Models\Transaction;

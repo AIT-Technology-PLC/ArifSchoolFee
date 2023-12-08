@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Reports\EngagementReport;
-use App\Reports\TransactionReport;
+use App\Reports\Admin\EngagementReport;
+use App\Reports\Admin\TransactionReport;
 
 class CompanyEngagementReportController extends Controller
 {

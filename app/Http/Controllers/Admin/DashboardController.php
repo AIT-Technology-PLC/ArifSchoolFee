@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FilterReportRequest;
-use App\Reports\EngagementReport;
-use App\Reports\SubscriptionReport;
-use App\Reports\TransactionReport;
+use App\Reports\Admin\EngagementReport;
+use App\Reports\Admin\SubscriptionReport;
+use App\Reports\Admin\TransactionReport;
 
 class DashboardController extends Controller
 {

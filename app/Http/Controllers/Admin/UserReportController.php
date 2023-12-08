@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FilterReportRequest;
-use App\Reports\EngagementReport;
+use App\Reports\Admin\EngagementReport;
 
 class UserReportController extends Controller
 {
