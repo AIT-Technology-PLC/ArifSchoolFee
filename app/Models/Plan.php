@@ -11,6 +11,10 @@ class Plan extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'is_enabled' => 'boolean',
+    ];
+
     public function companies()
     {
         return $this->hasMany(Company::class);
@@ -29,5 +33,10 @@ class Plan extends Model
     public function scopeEnabled($query)
     {
         return $query->where('is_enabled', 1);
+    }
+
+    public function isEnabled()
+    {
+        return $this->is_enabled;
     }
 }

@@ -21,3 +21,4 @@ Route::resource('pad-fields', Admin\PadFieldController::class)->only(['destroy']
 Route::resource('companies.subscriptions', Admin\CompanySubscriptionController::class)->shallow();
 Route::resource('limits', Admin\LimitController::class)->only('index');
 Route::resource('features', Admin\FeatureController::class)->only('index');
+Route::resource('plans', Admin\PlanController::class)->only(['index', 'show']);
