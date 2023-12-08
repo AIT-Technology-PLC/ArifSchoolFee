@@ -64,7 +64,7 @@
                             <p class="text-green is-uppercase heading is-size-6"> Companies Today</p>
                         </div>
                         <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ $engagementReport->companies['activeCompaniesToday'] }}</p>
+                            <p class="title text-green">{{ $engagementReport->companies['activeCompanies'] }}</p>
                         </div>
                         <div class="hero-foot pt-6 has-text-right">
                             <p class="text-green has-text-weight-bold">
