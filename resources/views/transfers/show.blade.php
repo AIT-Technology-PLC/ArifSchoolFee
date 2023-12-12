@@ -116,10 +116,10 @@
                 @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed() && $transfer->sivs()->doesntExist())
                     @can('Create SIV')
                         <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('transfers.convert_to_siv', $transfer->id)"
-                                action="attach"
-                                intention="attach SIV to this transfer"
+                            <x-common.button
+                                tag="button"
+                                mode="button"
+                                @click="$dispatch('open-siv-details-modal')"
                                 icon="fas fa-file-export"
                                 label="Attach SIV"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
@@ -157,6 +157,12 @@
     </x-common.content-wrapper>
 
     <x-common.transaction-siv-details :sivs="$transfer->sivs" />
+
+    @if (isFeatureEnabled('Siv Management') && $transfer->isSubtracted() && !$transfer->isClosed() && $transfer->sivs()->doesntExist())
+        @can('Create SIV')
+            @include('transfers.partials.siv-details', ['transferDetails' => $transfer->transferDetails])
+        @endcan
+    @endif
 @endsection
 
 @push('scripts')

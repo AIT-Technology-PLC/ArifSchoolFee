@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Action;
 use App\Actions\ApproveTransactionAction;
 use App\Events\TransferApproved;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConvertTransferToSivRequest;
 use App\Models\Siv;
 use App\Models\Transfer;
 use App\Notifications\TransferMade;
@@ -76,11 +77,11 @@ class TransferController extends Controller
         return back();
     }
 
-    public function convertToSiv(Transfer $transfer)
+    public function convertToSiv(Transfer $transfer, ConvertTransferToSivRequest $request)
     {
         $this->authorize('create', Siv::class);
 
-        [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer, authUser());
+        [$isExecuted, $message, $siv] = $this->transferService->convertToSiv($transfer, authUser(), $request->validated());
 
         if (!$isExecuted) {
             return back()->with('failedMessage', $message);

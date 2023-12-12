@@ -70,7 +70,7 @@ class TransferService
         return [true, ''];
     }
 
-    public function convertToSiv($transfer, $user)
+    public function convertToSiv($transfer, $user, $data)
     {
         if (!$user->hasWarehousePermission('siv', $transfer->transferred_from)) {
             return [false, 'You do not have permission to convert to one or more of the warehouses.', ''];
@@ -92,17 +92,18 @@ class TransferService
 
         data_fill($transferDetails, '*.warehouse_id', $transfer->transferred_from);
 
-        $siv = DB::transaction(function () use ($transfer, $transferDetails) {
+        $siv = DB::transaction(function () use ($transfer, $transferDetails, $data) {
             $siv = (new ConvertToSivAction)->execute(
                 $transfer,
                 $transfer->transferredTo->name,
                 collect($transferDetails),
+                $data['master'],
             );
-
-            $siv->storeConvertedCustomFields($transfer, 'siv');
 
             return $siv;
         });
+
+        $siv->createCustomFields($data['customField'] ?? null);
 
         return [true, '', $siv];
     }
