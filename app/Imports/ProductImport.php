@@ -84,6 +84,8 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'is_active_for_sale' => $row['used_for_sale'],
             'is_active_for_purchase' => $row['used_for_purchase'],
             'is_active_for_job' => $row['used_for_job'],
+            'profit_margin_type' => $row['profit_margin_type'],
+            'profit_margin_amount' => $row['profit_margin_amount'],
         ]);
 
         $this->products->push($product);
@@ -108,6 +110,8 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
             'used_for_sale' => ['required', 'boolean'],
             'used_for_purchase' => ['required', 'boolean'],
             'used_for_job' => ['required', 'boolean'],
+            'profit_margin_type' => ['nullable', 'string', 'prohibited_if:profit_margin_amount,null', Rule::in(['amount', 'percent'])],
+            'profit_margin_amount' => ['nullable', 'numeric', 'prohibited_if:profit_margin_type,null'],
         ];
     }
 
@@ -125,6 +129,7 @@ class ProductImport implements WithHeadingRow, ToModel, WithValidation, WithChun
         $data['used_for_sale'] = str()->lower($data['used_for_sale'] ?? '') == 'no' ? 0 : 1;
         $data['used_for_purchase'] = str()->lower($data['used_for_purchase'] ?? '') == 'no' ? 0 : 1;
         $data['used_for_job'] = str()->lower($data['used_for_job'] ?? '') == 'no' ? 0 : 1;
+        $data['profit_margin_type'] = str($data['profit_margin_type'] ?? '')->squish()->title()->toString();
 
         return $data;
     }
