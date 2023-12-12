@@ -157,28 +157,32 @@
             <x-common.dropdown name="Actions">
                 @if (!$reservation->isCancelled() && !$reservation->isConverted() && $reservation->isReserved() && isFeatureEnabled('Gdn Management', 'Sale Management') && authUser()->can('Convert Reservation'))
                     @if (isFeatureEnabled('Gdn Management'))
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('reservations.convert_to_gdn', $reservation->id)"
-                                action="issue"
-                                intention="issue delivery order from this reservation"
-                                icon="fas fa-check-circle"
-                                label="Issue Delivery Order"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
+                        @can('convert', $reservation)
+                            <x-common.dropdown-item>
+                                <x-common.transaction-button
+                                    :route="route('reservations.convert_to_gdn', $reservation->id)"
+                                    action="issue"
+                                    intention="issue delivery order from this reservation"
+                                    icon="fas fa-check-circle"
+                                    label="Issue Delivery Order"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
                     @endif
                     @if (isFeatureEnabled('Sale Management') && userCompany()->canSaleSubtract())
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('reservations.convert_to_sale', $reservation->id)"
-                                action="issue"
-                                intention="issue invoice from this reservation"
-                                icon="fas fa-check-circle"
-                                label="Issue Invoice"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
+                        @can('convert', $reservation)
+                            <x-common.dropdown-item>
+                                <x-common.transaction-button
+                                    :route="route('reservations.convert_to_sale', $reservation->id)"
+                                    action="issue"
+                                    intention="issue invoice from this reservation"
+                                    icon="fas fa-check-circle"
+                                    label="Issue Invoice"
+                                    class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                />
+                            </x-common.dropdown-item>
+                        @endcan
                     @endif
                 @elseif(!$reservation->isCancelled() && !$reservation->isReserved() && $reservation->isApproved())
                     @can('Make Reservation')

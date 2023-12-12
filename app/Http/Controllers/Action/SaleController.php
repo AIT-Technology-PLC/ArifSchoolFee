@@ -70,7 +70,7 @@ class SaleController extends Controller
 
     public function convertToCredit(Sale $sale)
     {
-        authUser()->can('Convert To Credit');
+        $this->authorize('convertToCredit', $sale);
 
         [$isExecuted, $message] = $this->saleService->convertToCredit($sale);
 

@@ -101,8 +101,6 @@ class ReservationController extends Controller
     {
         $this->authorize('convert', $reservation);
 
-        $this->authorize('create', Gdn::class);
-
         [$isExecuted, $message] = $this->reservationService->convertToGdn($reservation, authUser());
 
         if (!$isExecuted) {
@@ -140,8 +138,6 @@ class ReservationController extends Controller
     public function convertToSale(Reservation $reservation)
     {
         $this->authorize('convert', $reservation);
-
-        $this->authorize('create', Sale::class);
 
         [$isExecuted, $message] = $this->reservationService->convertToSale($reservation, authUser());
 

@@ -50,4 +50,9 @@ class SalePolicy
     {
         return $user->can('Subtract Sale');
     }
+
+    public function convertToCredit(User $user, Sale $sale)
+    {
+        return $user->can('Convert To Credit');
+    }
 }
