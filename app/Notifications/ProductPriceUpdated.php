@@ -28,7 +28,7 @@ class ProductPriceUpdated extends Notification
     {
         $message = Str::of($this->price->product->name)
             ->title()
-            ->append(' price is updated.');
+            ->append(' cost changed and new price is created');
 
         return [
             'icon' => 'tags',
@@ -41,10 +41,10 @@ class ProductPriceUpdated extends Notification
     {
         $message = Str::of($this->price->product->name)
             ->title()
-            ->append(' price is updated.');
+            ->append(' cost changed and new price is created');
 
         return (new WebPushMessage)
-            ->title('Price Updated')
+            ->title('Cost changed and New Price Created')
             ->icon(asset('pwa/pwa-512x512.png'))
             ->body($message)
             ->badge(asset('pwa/pwa-512x512.png'))

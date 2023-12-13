@@ -73,14 +73,14 @@ class Notifiables
         return $users->unique();
     }
 
-    public static function byPermission($permission, $creator = null)
+    public static function byPermission($permission, $creator = null, $excludeAuthUser = true)
     {
         $users = User::query()
             ->permission($permission)
-            ->whereHas('employee', function ($query) {
+            ->whereHas('employee', function ($query) use ($excludeAuthUser) {
                 return $query
                     ->where('company_id', userCompany()->id)
-                    ->where('id', '<>', authUser()->employee->id);
+                    ->when($excludeAuthUser, fn($q) => $q->where('id', '<>', authUser()->employee->id));
             })
             ->get();
 

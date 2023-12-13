@@ -6,6 +6,9 @@ use App\Models\InventoryValuationBalance;
 use App\Models\InventoryValuationHistory;
 use App\Models\Merchandise;
 use App\Models\Product;
+use App\Notifications\ProductPriceUpdated;
+use App\Utilities\Notifiables;
+use Illuminate\Support\Facades\Notification;
 
 class InventoryValuationCalculator
 {
@@ -75,6 +78,10 @@ class InventoryValuationCalculator
 
         $newAverageUnitCost = $totalQuantity ? $newTotalCost / $totalQuantity : 0;
 
+        if ($product->unitCost == $newAverageUnitCost) {
+            return;
+        }
+
         $product->update(['average_unit_cost' => $newAverageUnitCost]);
 
         InventoryValuationHistory::firstOrCreate([
@@ -86,6 +93,10 @@ class InventoryValuationCalculator
         ], [
             'unit_cost' => $newAverageUnitCost,
         ]);
+
+        if ($product->inventory_valuation_method == 'average') {
+            static::calculateNewPrice($product);
+        }
     }
 
     public static function calcuateNewUnitCost($detail, $operation, $requestMethods = ['fifo', 'lifo'])
@@ -102,7 +113,11 @@ class InventoryValuationCalculator
             $newUnitCost = $totalQuantity > 0 ? $totalCost / $totalQuantity : 0;
 
             if ($operation == 'subtract' && $newUnitCost == 0) {
-                return;
+                continue;
+            }
+
+            if ($product->unitCost == $newUnitCost) {
+                continue;
             }
 
             $product->update([$method . '_unit_cost' => $newUnitCost]);
@@ -116,6 +131,36 @@ class InventoryValuationCalculator
             ], [
                 'unit_cost' => $newUnitCost,
             ]);
+
+            if ($product->inventory_valuation_method == $method) {
+                static::calculateNewPrice($product);
+            }
         }
+    }
+
+    private static function calculateNewPrice($product)
+    {
+        if ($product->profit_margin_amount == 0) {
+            return;
+        }
+
+        if ($product->profit_margin_type == 'percent') {
+            $percent = 1 + ($product->profit_margin_amount / 100);
+            $newPrice = $product->unitCost * $percent;
+        }
+
+        if ($product->profit_margin_type == 'amount') {
+            $newPrice = $product->unitCost + $product->profit_margin_amount;
+        }
+
+        $price = $product->prices()->create([
+            'fixed_price' => $newPrice,
+            'is_active' => 0,
+        ]);
+
+        Notification::send(
+            Notifiables::byPermission('Update Price', excludeAuthUser: false),
+            new ProductPriceUpdated($price)
+        );
     }
 }

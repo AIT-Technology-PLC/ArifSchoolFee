@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('profit_margin_type')->nullable()->after('average_unit_cost');
-            $table->decimal('profit_margin_amount', 22, 2)->nullable()->after('profit_margin_type');
+            $table->string('profit_margin_type')->default('percent')->after('average_unit_cost');
+            $table->decimal('profit_margin_amount', 22, 2)->default(0.00)->after('profit_margin_type');
         });
     }
 
