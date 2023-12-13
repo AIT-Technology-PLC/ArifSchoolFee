@@ -82,9 +82,9 @@ class DamageController extends Controller
 
     public function update(UpdateDamageRequest $request, Damage $damage)
     {
-        if ($damage->isApproved()) {
+        if ($damage->isSubtracted()) {
             return redirect()->route('damages.show', $damage->id)
-                ->with('failedMessage', 'Approved damages cannot be edited.');
+                ->with('failedMessage', 'Subtracted damages cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $damage) {

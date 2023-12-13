@@ -28,7 +28,13 @@ class GdnPolicy
 
     public function update(User $user, Gdn $gdn)
     {
-        return $this->isIssuedByMyBranch($user, $gdn) && $user->can('Update GDN');
+        $permission = 'Update GDN';
+
+        if ($gdn->isApproved() && !$gdn->isSubtracted()) {
+            $permission = 'Update Approved GDN';
+        }
+
+        return $this->isIssuedByMyBranch($user, $gdn) && $user->can($permission);
     }
 
     public function delete(User $user, Gdn $gdn)

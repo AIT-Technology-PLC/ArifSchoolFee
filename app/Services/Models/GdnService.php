@@ -26,16 +26,10 @@ class GdnService
         return DB::transaction(function () use ($gdn) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($gdn, GdnApproved::class, 'Subtract GDN');
 
-            if ($gdn->payment_type == 'Deposits') {
-                $gdn->customer->decrementBalance($gdn->grandTotalPriceAfterDiscount);
-            }
-
             if (!$isExecuted) {
                 DB::rollBack();
                 return [$isExecuted, $message];
             }
-
-            $this->convertToCredit($gdn);
 
             return [true, $message];
         });
@@ -70,6 +64,12 @@ class GdnService
 
         DB::transaction(function () use ($gdn, $from) {
             InventoryOperationService::subtract($gdn->gdnDetails, $gdn, $from);
+
+            if ($gdn->payment_type == 'Deposits') {
+                $gdn->customer->decrementBalance($gdn->grandTotalPriceAfterDiscount);
+            }
+
+            $this->convertToCredit($gdn);
 
             $gdn->subtract();
         });

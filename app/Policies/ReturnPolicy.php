@@ -28,7 +28,13 @@ class ReturnPolicy
 
     public function update(User $user, Returnn $returnn)
     {
-        return $this->isIssuedByMyBranch($user, $returnn) && $user->can('Update Return');
+        $permission = 'Update Return';
+
+        if ($returnn->isApproved() && !$returnn->isAdded()) {
+            $permission = 'Update Approved Return';
+        }
+
+        return $this->isIssuedByMyBranch($user, $returnn) && $user->can($permission);
     }
 
     public function delete(User $user, Returnn $returnn)

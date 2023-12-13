@@ -82,12 +82,8 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase)
     {
-        if ($purchase->isApproved()) {
-            return back()->with('failedMessage', 'You can not edit an approved purchase.');
-        }
-
-        if ($purchase->isRejected()) {
-            return back()->with('failedMessage', 'You can not edit a rejected purchase.');
+        if ($purchase->isRejected() || $purchase->isPurchased()) {
+            return back()->with('failedMessage', 'You can not edit a rejected/executed purchase.');
         }
 
         $purchase->load('purchaseDetails.product');
@@ -101,12 +97,8 @@ class PurchaseController extends Controller
 
     public function update(UpdatePurchaseRequest $request, Purchase $purchase)
     {
-        if ($purchase->isApproved()) {
-            return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit an approved purchase.');
-        }
-
-        if ($purchase->isRejected()) {
-            return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit a rejected purchase.');
+        if ($purchase->isRejected() || $purchase->isPurchased()) {
+            return redirect()->route('purchases.show', $purchase->id)->with('failedMessage', 'You can not edit a rejected/executed purchase.');
         }
 
         DB::transaction(function () use ($request, $purchase) {

@@ -46,6 +46,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Close GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved GDN']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved GDN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import GDN']);
 
             // GRN
@@ -56,6 +57,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve GRN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Add GRN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved GRN']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved GRN']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import GRN']);
 
             // Transfer
@@ -66,6 +68,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Make Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Close Transfer']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Transfer']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Transfer']);
 
             // Damage
@@ -75,6 +78,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Damage']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Damage']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Subtract Damage']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Damage']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Damage']);
 
             // Adjustment
@@ -84,6 +88,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Adjustment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Adjustment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Make Adjustment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Adjustment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Adjustment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Adjustment']);
 
@@ -94,6 +99,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Return']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Return']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Make Return']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Return']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Return']);
 
             // SIV
@@ -102,6 +108,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve SIV']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved SIV']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Subtract SIV']);
 
@@ -117,6 +124,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Sale']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Sale']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Subtract Sale']);
@@ -132,6 +140,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Reservation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Convert Reservation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Make Reservation']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Reservation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Reservation']);
 
             // Proforma Invoice
@@ -153,6 +162,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Purchase']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Make Purchase']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Close Purchase']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Purchase']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Approved Purchase']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Reject Purchase']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Cancel Purchase']);
@@ -236,6 +246,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Job']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Approved Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Approve Job']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Add Extra Job']);

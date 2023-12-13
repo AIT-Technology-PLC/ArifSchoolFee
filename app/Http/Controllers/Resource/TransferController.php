@@ -98,9 +98,9 @@ class TransferController extends Controller
 
     public function update(UpdateTransferRequest $request, Transfer $transfer)
     {
-        if ($transfer->isApproved()) {
+        if ($transfer->isSubtracted()) {
             return redirect()->route('transfers.show', $transfer->id)
-                ->with('failedMessage', 'Approved transfers cannot be edited.');
+                ->with('failedMessage', 'Subtracted transfers cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $transfer) {

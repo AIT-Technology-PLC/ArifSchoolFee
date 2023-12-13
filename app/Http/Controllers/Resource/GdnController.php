@@ -104,9 +104,8 @@ class GdnController extends Controller
             return back()->with('failedMessage', 'You can not modify a Delivery order that is cancelled.');
         }
 
-        if ($gdn->isApproved()) {
+        if ($gdn->isSubtracted()) {
             $gdn->update($request->safe()->only('description'));
-
             return redirect()->route('gdns.show', $gdn->id);
         }
 

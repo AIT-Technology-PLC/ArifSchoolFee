@@ -28,7 +28,13 @@ class GrnPolicy
 
     public function update(User $user, Grn $grn)
     {
-        return $this->isIssuedByMyBranch($user, $grn) && $user->can('Update GRN');
+        $permission = 'Update GRN';
+
+        if ($grn->isApproved() && !$grn->isAdded()) {
+            $permission = 'Update Approved GRN';
+        }
+
+        return $this->isIssuedByMyBranch($user, $grn) && $user->can($permission);
     }
 
     public function delete(User $user, Grn $grn)

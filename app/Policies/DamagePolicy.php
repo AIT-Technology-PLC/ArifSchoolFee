@@ -28,7 +28,13 @@ class DamagePolicy
 
     public function update(User $user, Damage $damage)
     {
-        return $this->isIssuedByMyBranch($user, $damage) && $user->can('Update Damage');
+        $permission = 'Update Damage';
+
+        if ($damage->isApproved() && !$damage->isSubtracted()) {
+            $permission = 'Update Approved Damage';
+        }
+
+        return $this->isIssuedByMyBranch($user, $damage) && $user->can($permission);
     }
 
     public function delete(User $user, Damage $damage)

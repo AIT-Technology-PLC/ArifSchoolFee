@@ -79,8 +79,12 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
-        if ($sale->isApproved() || $sale->isCancelled()) {
-            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        if ($sale->isSubtracted() || $sale->isCancelled()) {
+            return back()->with('failedMessage', 'Invoices that are subtracted/cancelled can not be edited.');
+        }
+
+        if ($sale->isApproved() && (!$sale->company->canSaleSubtract() || $sale->warehouse->hasPosIntegration())) {
+            return back()->with('failedMessage', 'This Invoice can not be edited.');
         }
 
         $warehouses = authUser()->getAllowedWarehouses('sales');
@@ -92,8 +96,12 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
-        if ($sale->isApproved() || $sale->isCancelled()) {
-            return back()->with('failedMessage', 'Invoices that are approved/cancelled can not be edited.');
+        if ($sale->isSubtracted() || $sale->isCancelled()) {
+            return redirect()->route('sales.show', $sale->id)->with('failedMessage', 'Invoices that are subtracted/cancelled can not be edited.');
+        }
+
+        if ($sale->isApproved() && (!$sale->company->canSaleSubtract() || $sale->warehouse->hasPosIntegration())) {
+            return redirect()->route('sales.show', $sale->id)->with('failedMessage', 'This Invoice can not be edited.');
         }
 
         if ($sale->belongsToTransaction()) {

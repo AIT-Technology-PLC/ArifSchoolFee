@@ -28,7 +28,13 @@ class PurchasePolicy
 
     public function update(User $user, Purchase $purchase)
     {
-        return $this->isIssuedByMyBranch($user, $purchase) && $user->can('Update Purchase');
+        $permission = 'Update Purchase';
+
+        if ($purchase->isApproved() && !$purchase->isPurchased()) {
+            $permission = 'Update Approved Purchase';
+        }
+
+        return $this->isIssuedByMyBranch($user, $purchase) && $user->can($permission);
     }
 
     public function delete(User $user, Purchase $purchase)

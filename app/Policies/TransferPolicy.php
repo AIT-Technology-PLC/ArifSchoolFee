@@ -28,7 +28,13 @@ class TransferPolicy
 
     public function update(User $user, Transfer $transfer)
     {
-        return $this->isIssuedByMyBranch($user, $transfer) && $user->can('Update Transfer');
+        $permission = 'Update Transfer';
+
+        if ($transfer->isApproved() && !$transfer->isSubtracted()) {
+            $permission = 'Update Approved Transfer';
+        }
+
+        return $this->isIssuedByMyBranch($user, $transfer) && $user->can($permission);
     }
 
     public function delete(User $user, Transfer $transfer)
@@ -43,11 +49,11 @@ class TransferPolicy
 
     public function transfer(User $user, Transfer $transfer)
     {
-        if (! $transfer->isSubtracted() && ! $user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
+        if (!$transfer->isSubtracted() && !$user->hasWarehousePermission('subtract', $transfer->transferred_from)) {
             return false;
         }
 
-        if ($transfer->isSubtracted() && ! $user->hasWarehousePermission('add', $transfer->transferred_to)) {
+        if ($transfer->isSubtracted() && !$user->hasWarehousePermission('add', $transfer->transferred_to)) {
             return false;
         }
 

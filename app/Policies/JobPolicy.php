@@ -25,9 +25,15 @@ class JobPolicy
         return $user->can('Create Job');
     }
 
-    public function update(User $user)
+    public function update(User $user, Job $job)
     {
-        return $user->can('Update Job');
+        $permission = 'Update Job';
+
+        if ($job->isApproved() && !$job->isStarted()) {
+            $permission = 'Update Approved Job';
+        }
+
+        return $user->can($permission);
     }
 
     public function approve(User $user, Job $job)

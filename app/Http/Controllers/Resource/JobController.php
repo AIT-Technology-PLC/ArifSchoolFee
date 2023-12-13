@@ -74,8 +74,8 @@ class JobController extends Controller
     {
         $warehouses = auth()->user()->getAllowedWarehouses('sales');
 
-        if ($job->isStarted() || $job->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a job that is started or approved.');
+        if ($job->isStarted()) {
+            return back()->with('failedMessage', 'You can not modify a job that is started.');
         }
 
         $job->load(['jobDetails']);
@@ -85,8 +85,8 @@ class JobController extends Controller
 
     public function update(UpdateJobRequest $request, Job $job)
     {
-        if ($job->isStarted() || $job->isApproved()) {
-            return back()->with('failedMessage', 'You can not modify a job that is started or approved.');
+        if ($job->isStarted()) {
+            return redirect()->route('jobs.show', $job->id)->with('failedMessage', 'You can not modify a job that is started.');
         }
 
         DB::transaction(function () use ($request, $job) {

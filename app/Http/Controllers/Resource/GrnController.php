@@ -88,9 +88,8 @@ class GrnController extends Controller
 
     public function update(UpdateGrnRequest $request, Grn $grn)
     {
-        if ($grn->isApproved()) {
+        if ($grn->isAdded()) {
             $grn->update($request->safe()->only(['purchase_id', 'description']));
-
             return redirect()->route('grns.show', $grn->id);
         }
 

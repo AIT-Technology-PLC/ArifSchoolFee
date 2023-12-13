@@ -25,16 +25,18 @@ class SaleService
         return DB::transaction(function () use ($sale) {
             [$isExecuted, $message] = (new ApproveTransactionAction)->execute($sale, SaleApproved::class, 'Subtract Sale');
 
-            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
-                $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
-            }
-
             if (!$isExecuted) {
                 DB::rollBack();
                 return [$isExecuted, $message];
             }
 
-            $this->convertToCredit($sale);
+            if (!$sale->company->canSaleSubtract() && $sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+                $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
+            }
+
+            if (!$sale->company->canSaleSubtract()) {
+                $this->convertToCredit($sale);
+            }
 
             [$isExecuted, $message] = $this->pointOfSaleService->create($sale);
 
@@ -153,6 +155,12 @@ class SaleService
         DB::transaction(function () use ($sale, $from) {
             InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
+            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+                $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
+            }
+
+            $this->convertToCredit($sale);
+
             $sale->subtract();
         });
 
@@ -197,7 +205,7 @@ class SaleService
         DB::transaction(function () use ($sale, $from) {
             (new ApproveTransactionAction)->execute($sale);
 
-            if ($sale->payment_type == 'Deposits') {
+            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -243,6 +251,12 @@ class SaleService
 
                 $sale->assignFSNumber($data['fs_number']);
 
+                if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+                    $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
+                }
+
+                $this->convertToCredit($sale);
+
                 $sale->subtract();
             } catch (InventoryHistoryDuplicateEntryException $ex) {
                 DB::rollBack();
@@ -286,7 +300,7 @@ class SaleService
 
                 $data['master'],
             );
-            
+
             $siv->createCustomFields($data['customField'] ?? null);
 
             return $siv;

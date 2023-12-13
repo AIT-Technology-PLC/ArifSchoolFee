@@ -81,9 +81,9 @@ class AdjustmentController extends Controller
 
     public function update(UpdateAdjustmentRequest $request, Adjustment $adjustment)
     {
-        if ($adjustment->isApproved()) {
+        if ($adjustment->isAdjusted()) {
             return redirect()->route('adjustments.show', $adjustment->id)
-                ->with('failedMessage', 'Approved adjustments cannot be edited.');
+                ->with('failedMessage', 'Executed adjustments cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $adjustment) {

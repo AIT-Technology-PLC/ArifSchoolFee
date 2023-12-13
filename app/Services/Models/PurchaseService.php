@@ -101,8 +101,6 @@ class PurchaseService
                 return [$isExecuted, $message];
             }
 
-            $this->convertToDebt($purchase);
-
             return [true, $message];
         });
     }
@@ -151,6 +149,8 @@ class PurchaseService
 
         DB::transaction(function () use ($purchase) {
             $purchase->purchase();
+
+            $this->convertToDebt($purchase);
 
             Notification::send(
                 Notifiables::byPermissionAndWarehouse('Read Purchase', $purchase->warehouse_id, $purchase->createdBy),

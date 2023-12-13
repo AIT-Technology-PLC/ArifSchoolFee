@@ -28,7 +28,13 @@ class SalePolicy
 
     public function update(User $user, Sale $sale)
     {
-        return $this->isIssuedByMyBranch($user, $sale) && $user->can('Update Sale');
+        $permission = 'Update Sale';
+
+        if ($sale->isApproved() && $sale->company->canSaleSubtract() && !$sale->isSubtracted()) {
+            $permission = 'Update Approved Sale';
+        }
+
+        return $this->isIssuedByMyBranch($user, $sale) && $user->can($permission);
     }
 
     public function delete(User $user, Sale $sale)

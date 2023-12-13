@@ -28,7 +28,13 @@ class SivPolicy
 
     public function update(User $user, Siv $siv)
     {
-        return $this->isIssuedByMyBranch($user, $siv) && $user->can('Update SIV');
+        $permission = 'Update SIV';
+
+        if ($siv->isApproved() && $siv->company->canSivSubtract() && !$siv->isSubtracted()) {
+            $permission = 'Update Approved SIV';
+        }
+
+        return $this->isIssuedByMyBranch($user, $siv) && $user->can($permission);
     }
 
     public function delete(User $user, Siv $siv)

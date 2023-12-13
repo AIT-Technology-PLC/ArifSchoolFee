@@ -28,7 +28,13 @@ class AdjustmentPolicy
 
     public function update(User $user, Adjustment $adjustment)
     {
-        return $this->isIssuedByMyBranch($user, $adjustment) && $user->can('Update Adjustment');
+        $permission = 'Update Adjustment';
+
+        if ($adjustment->isApproved() && !$adjustment->isAdjusted()) {
+            $permission = 'Update Approved Adjustment';
+        }
+
+        return $this->isIssuedByMyBranch($user, $adjustment) && $user->can($permission);
     }
 
     public function delete(User $user, Adjustment $adjustment)

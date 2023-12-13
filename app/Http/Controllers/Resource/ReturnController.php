@@ -92,9 +92,9 @@ class ReturnController extends Controller
 
     public function update(UpdateReturnRequest $request, Returnn $return)
     {
-        if ($return->isApproved()) {
+        if ($return->isAdded()) {
             return redirect()->route('returns.show', $return->id)
-                ->with('failedMessage', 'Approved returns cannot be edited.');
+                ->with('failedMessage', 'Added returns cannot be edited.');
         }
 
         DB::transaction(function () use ($request, $return) {

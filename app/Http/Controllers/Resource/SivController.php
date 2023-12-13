@@ -81,10 +81,6 @@ class SivController extends Controller
             return back()->with('failedMessage', 'SIVs issued from other transactions cannot be edited.');
         }
 
-        if ($siv->isSubtracted()) {
-            return back()->with('failedMessage', 'Subtracted SIVs can not be edited.');
-        }
-
         $siv->load(['sivDetails.product', 'sivDetails.warehouse']);
 
         $warehouses = authUser()->getAllowedWarehouses('siv');
@@ -98,9 +94,8 @@ class SivController extends Controller
             return redirect()->route('sivs.show', $siv->id)->with('failedMessage', 'SIVs issued from other transactions cannot be edited.');
         }
 
-        if (!$siv->isSubtracted() && $siv->isApproved()) {
+        if ($siv->isSubtracted() || ($siv->isApproved() && !$siv->company->canSivSubtract())) {
             $siv->update($request->only('description'));
-
             return redirect()->route('sivs.show', $siv->id);
         }
 
