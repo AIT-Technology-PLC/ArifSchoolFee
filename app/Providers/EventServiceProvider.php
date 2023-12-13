@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Listeners\TransferEventSubscriber;
+use App\Models\Product;
+use App\Observers\ProductPriceObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,7 +23,7 @@ class EventServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        //
+        Product::observe(ProductPriceObserver::class);
     }
 
     /**
