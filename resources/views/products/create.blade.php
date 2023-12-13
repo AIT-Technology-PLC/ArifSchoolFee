@@ -488,55 +488,55 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div
-                        class="column is-6"
-                        x-cloak
-                        x-bind:class="{ 'is-hidden': isTypeService || isNonInventoryProduct }"
-                    >
-                        <x-forms.field>
-                            <x-forms.label for="inventory_valuation_method">
-                                Inventory Valuation Method <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left ">
-                                <x-forms.select
-                                    class="is-fullwidth"
-                                    id="inventory_valuation_method"
-                                    name="inventory_valuation_method"
-                                >
-                                    <option
-                                        disabled
-                                        selected
-                                    >
-                                        Select Method
-                                    </option>
-                                    <option
-                                        value="average"
-                                        @selected(old('inventory_valuation_method') == 'average' || is_null(old('inventory_valuation_method')))
-                                    >
-                                        Average
-                                    </option>
-                                    <option
-                                        value="fifo"
-                                        @selected(old('inventory_valuation_method') == 'fifo')
-                                    >
-                                        FIFO
-                                    </option>
-                                    <option
-                                        value="lifo"
-                                        @selected(old('inventory_valuation_method') == 'lifo')
-                                    >
-                                        LIFO
-                                    </option>
-                                </x-forms.select>
-                                <x-common.icon
-                                    name="fas fa-sort"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="inventory_valuation_method" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
                     @if (isFeatureEnabled('Inventory Valuation'))
+                        <div
+                            class="column is-6"
+                            x-cloak
+                            x-bind:class="{ 'is-hidden': isTypeService || isNonInventoryProduct }"
+                        >
+                            <x-forms.field>
+                                <x-forms.label for="inventory_valuation_method">
+                                    Inventory Valuation Method <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left ">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="inventory_valuation_method"
+                                        name="inventory_valuation_method"
+                                    >
+                                        <option
+                                            disabled
+                                            selected
+                                        >
+                                            Select Method
+                                        </option>
+                                        <option
+                                            value="average"
+                                            @selected(old('inventory_valuation_method') == 'average' || is_null(old('inventory_valuation_method')))
+                                        >
+                                            Average
+                                        </option>
+                                        <option
+                                            value="fifo"
+                                            @selected(old('inventory_valuation_method') == 'fifo')
+                                        >
+                                            FIFO
+                                        </option>
+                                        <option
+                                            value="lifo"
+                                            @selected(old('inventory_valuation_method') == 'lifo')
+                                        >
+                                            LIFO
+                                        </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="inventory_valuation_method" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
                         <div class="column is-6">
                             <x-forms.label for="profit_margin_type">
                                 Profit Margin <sup class="has-text-danger">*</sup>

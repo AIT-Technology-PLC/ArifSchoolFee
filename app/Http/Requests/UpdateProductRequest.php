@@ -37,13 +37,13 @@ class UpdateProductRequest extends FormRequest
             'is_active_for_job' => ['required', 'boolean'],
             'reorder_level' => ['nullable', 'array', 'exclude_if:is_product_single,0'],
             'reorder_level.*' => ['nullable', 'numeric', 'min:0'],
-            'inventory_valuation_method' => ['required', 'string', Rule::in(['fifo', 'lifo', 'average'])],
             'is_product_single' => ['required', 'boolean'],
             'productBundle' => ['nullable', 'array', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
             'productBundle.*.component_id' => ['nullable', 'integer', 'distinct', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1', Rule::in(Product::pluck('id'))],
             'productBundle.*.quantity' => ['nullable', 'numeric', 'gt:0', 'required_if:is_product_single,0', 'prohibited_if:is_product_single,1'],
-            'profit_margin_type' => ['required', 'string', Rule::in(['amount', 'percent'])],
-            'profit_margin_amount' => ['required', 'numeric'],
+            'inventory_valuation_method' => ['sometimes', 'required', 'string', Rule::in(['fifo', 'lifo', 'average'])],
+            'profit_margin_type' => ['sometimes', 'required', 'string', Rule::in(['amount', 'percent'])],
+            'profit_margin_amount' => ['sometimes', 'required', 'numeric'],
         ];
     }
 }

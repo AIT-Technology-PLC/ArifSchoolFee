@@ -153,6 +153,10 @@ class InventoryValuationCalculator
             $newPrice = $product->unitCost + $product->profit_margin_amount;
         }
 
+        if (!$product->company->isPriceBeforeTax()) {
+            $newPrice = $newPrice * (1 + $product->tax->amount);
+        }
+
         $price = $product->prices()->create([
             'fixed_price' => $newPrice,
             'is_active' => 0,
