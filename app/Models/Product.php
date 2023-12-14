@@ -2,12 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\CostUpdateDetail;
-use App\Models\ExchangeDetail;
-use App\Models\InventoryValuationBalance;
-use App\Models\InventoryValuationHistory;
-use App\Models\ProductBundle;
-use App\Models\Tax;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
@@ -390,5 +384,14 @@ class Product extends Model
     public function exchangeDetails()
     {
         return $this->hasMany(ExchangeDetail::class);
+    }
+
+    public static function ByNameCodeAndCategory($name, $code = null, $category = null)
+    {
+        return static::query()
+            ->where('name', $name)
+            ->when(!empty($code), fn($q) => $q->where('code', $code))
+            ->when(!empty($category), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $category)->id))
+            ->first();
     }
 }

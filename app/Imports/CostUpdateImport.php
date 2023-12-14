@@ -34,10 +34,7 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function model(array $row)
     {
-        $product = Product::where('name', $row['product_name'])
-            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
-            ->when(!empty($row['product_category_name']), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $row['product_category_name'])->id))
-            ->first();
+        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
 
         return new CostUpdateDetail([
             'cost_update_id' => $this->costUpdate->id,
@@ -84,7 +81,7 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
         $validator
             ->after(function ($validator) {
                 collect($validator->getData())
-                    ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                    ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
                     ->keys()
                     ->chunk(50)
                     ->each
@@ -95,10 +92,7 @@ class CostUpdateImport implements ToModel, WithHeadingRow, WithValidation, WithC
                     ->chunk(50)
                     ->each
                     ->each(function ($row, $key) use ($validator) {
-                        $product = Product::where('name', $row['product_name'])
-                            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
-                            ->when(!empty($row['product_category_name']), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $row['product_category_name'])->id))
-                            ->first();
+                        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
 
                         if (!empty($product) && !$product->hasQuantity()) {
                             $validator->errors()->add($key, 'Products that have no quantity can not have cost.');

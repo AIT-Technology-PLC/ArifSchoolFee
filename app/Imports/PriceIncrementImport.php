@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\PriceIncrementDetail;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -20,22 +21,24 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
 
     private $priceIncrement;
 
+    private $productCategories;
+
     public function __construct($priceIncrement)
     {
         $this->priceIncrement = $priceIncrement;
 
-        $this->products = Product::whereHas('price')->get(['id', 'name', 'code']);
+        $this->products = Product::inventoryType()->get(['id', 'name', 'code', 'product_category_id']);
+
+        $this->productCategories = ProductCategory::all(['id', 'name']);
     }
 
     public function model(array $row)
     {
+        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+
         return new PriceIncrementDetail([
             'price_increment_id' => $this->priceIncrement->id,
-            'product_id' => $this->products
-                ->where('name', $row['product_name'])
-                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-                ->first()
-                ->id,
+            'product_id' => $product->id,
         ]);
     }
 
@@ -43,13 +46,15 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_category_name' => ['nullable', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
         ];
     }
 
     public function prepareForValidation($data, $index)
     {
-        $data['product_name'] = str()->squish($data['product_name'] ?? null);
+        $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
@@ -69,7 +74,7 @@ class PriceIncrementImport implements ToModel, WithHeadingRow, WithValidation, W
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
                 ->keys()
                 ->chunk(50)
                 ->each

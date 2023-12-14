@@ -42,17 +42,10 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function model(array $row)
     {
+        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+
         $merchandise = $this->merchandises
-            ->where('product_id', $this->products
-                    ->where('name', $row['product_name'])
-                    ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-                    ->when(
-                        !is_null($row['product_category_name']) && $row['product_category_name'] != '',
-                        fn($q) => $q->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
-                    )
-                    ->first()
-                    ->id
-            )
+            ->where('product_id', $product->id)
             ->where('warehouse_id', $this->warehouses->firstWhere('name', $row['warehouse_name'])->id)
             ->first();
 
@@ -70,15 +63,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
         return new AdjustmentDetail([
             'adjustment_id' => $this->adjustment->id,
-            'product_id' => $this->products
-                ->where('name', $row['product_name'])
-                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-                ->when(
-                    !is_null($row['product_category_name']) && $row['product_category_name'] != '',
-                    fn($q) => $q->where('product_category_id', $this->productCategories->firstWhere('name', $row['product_category_name'])->id)
-                )
-                ->first()
-                ->id,
+            'product_id' => $product->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'is_subtract' => $isSubtract,
             'quantity' => $quantity,
@@ -121,7 +106,7 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
                 ->keys()
                 ->chunk(50)
                 ->each

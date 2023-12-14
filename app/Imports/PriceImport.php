@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -20,19 +21,20 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
 
     private $prices;
 
+    private $productCategories;
+
     public function __construct()
     {
         $this->products = Product::all();
+
+        $this->productCategories = ProductCategory::all(['id', 'name']);
 
         $this->prices = Price::all();
     }
 
     public function model(array $row)
     {
-        $product = $this->products
-            ->where('name', $row['product_name'])
-            ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-            ->first();
+        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
 
         if ($this->prices->where('product_id', $product->id)->where('fixed_price', $row['price'])->count()) {
             return null;
@@ -57,6 +59,7 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_category_name' => ['nullable', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'price' => ['required', 'numeric', 'gt:0', 'max:99999999999999999999.99'],
             'name' => ['nullable', 'string'],
@@ -66,6 +69,7 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
         $data['name'] = str()->squish($data['name'] ?? '');
 
@@ -86,7 +90,7 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
                 ->keys()
                 ->chunk(50)
                 ->each

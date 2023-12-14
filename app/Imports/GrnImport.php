@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\GrnDetail;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Warehouse;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -23,24 +24,26 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     private $products;
 
+    private $productCategories;
+
     public function __construct($grn)
     {
         $this->grn = $grn;
 
-        $this->products = Product::inventoryType()->get(['id', 'name', 'code']);
+        $this->products = Product::inventoryType()->get(['id', 'name', 'code', 'product_category_id']);
+
+        $this->productCategories = ProductCategory::all(['id', 'name']);
 
         $this->warehouses = Warehouse::all(['id', 'name']);
     }
 
     public function model(array $row)
     {
+        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+
         return new GrnDetail([
             'grn_id' => $this->grn->id,
-            'product_id' => $this->products
-                ->where('name', $row['product_name'])
-                ->when(!is_null($row['product_code']) && $row['product_code'] != '', fn($q) => $q->where('code', $row['product_code']))
-                ->first()
-                ->id,
+            'product_id' => $product->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'quantity' => $row['quantity'] ?? 0.00,
             'unit_cost' => $row['unit_cost'] ?? 0.00,
@@ -54,6 +57,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::in($this->products->pluck('name'))],
+            'product_category_name' => ['nullable', 'string', 'max:255', Rule::in($this->productCategories->pluck('name'))],
             'product_code' => ['nullable', 'string', 'max:255', Rule::in($this->products->pluck('code'))],
             'warehouse_name' => ['required', 'string', Rule::in($this->warehouses->pluck('name'))],
             'quantity' => ['nullable', 'numeric', 'gt:0'],
@@ -67,6 +71,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     public function prepareForValidation($data, $index)
     {
         $data['product_name'] = str()->squish($data['product_name'] ?? '');
+        $data['product_category_name'] = str()->squish($data['product_category_name'] ?? '');
         $data['product_code'] = str()->squish($data['product_code'] ?? '');
 
         return $data;
@@ -86,7 +91,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
                 ->keys()
                 ->chunk(50)
                 ->each
