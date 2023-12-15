@@ -329,6 +329,11 @@ class Features extends Seeder
             ['is_enabled' => 0]
         );
 
+        Feature::updateOrCreate(
+            ['name' => 'Cost-Based Pricing'],
+            ['is_enabled' => 1]
+        );
+
         $this->features = Feature::all();
     }
 
@@ -654,6 +659,7 @@ class Features extends Seeder
                     'Price Management',
                     'Price Increment',
                     'Inventory Valuation',
+                    'Cost-Based Pricing',
                     'Batch Management',
                     'Purchase Management',
                     'Supplier Management',
@@ -701,6 +707,7 @@ class Features extends Seeder
                     'Price Management',
                     'Price Increment',
                     'Inventory Valuation',
+                    'Cost-Based Pricing',
                     'Batch Management',
                     'Purchase Management',
                     'Supplier Management',
