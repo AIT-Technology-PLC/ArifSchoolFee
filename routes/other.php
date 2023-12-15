@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api as Api;
 use App\Http\Controllers\Invokable as Invokable;
+use App\Http\Controllers\Resource as Resource;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Invokable\HomeController::class)->name('home');
@@ -48,3 +49,16 @@ Route::get('/warehouses/{warehouse}/merchandises',
 Route::get('/payslips/payroll/{payroll}/employee/{employee}',
     Invokable\PayslipController::class)
     ->name('payslips.print');
+
+// Push Notification
+Route::post('subscriptions', [Resource\WebNotificationController::class, 'update']);
+
+Route::post('subscriptions/delete', [Resource\WebNotificationController::class, 'destroy']);
+
+// Manifest file (optional if VAPID is used)
+Route::get('manifest.json', function () {
+    return [
+        'name' => config('app.name'),
+        'gcm_sender_id' => config('webpush.gcm.sender_id'),
+    ];
+});

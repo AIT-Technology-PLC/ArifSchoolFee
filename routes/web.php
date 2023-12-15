@@ -14,33 +14,27 @@ Route::view('/offline', 'offline.index');
 //     [Auth\RegisterController::class, 'register']);
 
 // Login
-Route::get('/login',
-    [Auth\LoginController::class, 'showLoginForm'])
-    ->name('login');
-
-Route::post('/auth/login',
-    [Auth\LoginController::class, 'login'])
-    ->name('post.login');
-
-Route::post('/logout',
-    [Auth\LoginController::class, 'logout'])
-    ->name('logout');
+Route::controller(Auth\LoginController::class)
+    ->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login');
+        Route::post('/auth/login', 'login')->name('post.login');
+        Route::post('/logout', 'logout')->name('logout');
+    });
 
 // Confirm Password
-Route::get('/password/confirm',
-    [Auth\ConfirmPasswordController::class, 'showConfirmForm'])
-    ->name('password.confirm');
-
-Route::post('/password/confirm',
-    [Auth\ConfirmPasswordController::class, 'confirm']);
+Route::controller(Auth\ConfirmPasswordController::class)
+    ->prefix('/password/confirm')
+    ->group(function () {
+        Route::get('/', 'showConfirmForm')->name('password.confirm');
+        Route::post('/', 'confirm');
+    });
 
 // Change Password
-Route::middleware(['auth', 'isEmployeeEnabled'])->group(function () {
-    Route::get('/password/edit',
-        [Auth\PasswordResetController::class, 'edit'])
-        ->name('password.edit');
-
-    Route::patch('/password/update',
-        [Auth\PasswordResetController::class, 'update'])
-        ->name('password.update');
-});
+Route::controller(Auth\PasswordResetController::class)
+    ->middleware(['auth', 'isEmployeeEnabled'])
+    ->name('password.')
+    ->prefix('/password')
+    ->group(function () {
+        Route::get('/edit', 'edit')->name('edit');
+        Route::patch('/update', 'update')->name('update');
+    });

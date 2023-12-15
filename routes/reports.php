@@ -3,23 +3,26 @@
 use App\Http\Controllers\Report as Report;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/reports/{customer}/customer-profile', Report\CustomerProfileReportController::class)->name('reports.profile');
-Route::get('/reports/sales', [Report\SaleReportController::class, 'index'])->name('reports.sale');
-Route::get('/reports/sales/export', [Report\SaleReportController::class, 'export'])->name('reports.sale_export');
-Route::get('/reports/expenses', [Report\ExpenseReportController::class, 'index'])->name('reports.expense');
-Route::get('/reports/expenses/export', [Report\ExpenseReportController::class, 'export'])->name('reports.expense_export');
-Route::get('/reports/returns', [Report\ReturnReportController::class, 'index'])->name('reports.return');
-Route::get('/reports/returns/export', [Report\ReturnReportController::class, 'export'])->name('reports.return_export');
-Route::get('/reports/customers', Report\CustomerReportController::class)->name('reports.customer');
-Route::get('/reports/{supplier}/supplier-profile', Report\SupplierProfileReportController::class)->name('reports.supplier_profile');
-Route::get('/reports/inventory-level', [Report\InventoryLevelReportController::class,'index'])->name('reports.inventory_level');
-Route::get('/reports/inventory-transfer', [Report\InventoryTransferReportController::class,'index'])->name('reports.inventory_transfer');
-Route::get('/reports/credits', [Report\CreditReportController::class,'index'])->name('reports.credit');
-Route::get('/reports/inventory-summary', [Report\InventorySummaryReportController::class,'index'])->name('reports.inventory_summary');
-Route::get('/reports/inventory-valuation', [Report\InventoryValuationReportController::class,'index'])->name('reports.inventory_valuation');
-Route::get('/reports/profit', [Report\ProfitReportController::class, 'index'])->name('reports.profit');
-Route::get('/reports/profit/print', [Report\ProfitReportController::class, 'printed'])->name('reports.profit_print');
-Route::get('/reports/batches', [Report\InventoryBatchReportController::class, 'index'])->name('reports.inventory_batch');
-Route::get('/reports/sale-by-payment', [Report\SaleByPaymentReportController::class, 'index'])->name('reports.sale_by_payment');
-Route::get('/reports/inventory-in-transit', [Report\InventoryInTransitReportController::class, 'index'])->name('reports.inventory_in_transit');
-
+Route::name('reports.')
+    ->prefix('/reports')
+    ->group(function () {
+        Route::get('/{customer}/customer-profile', Report\CustomerProfileReportController::class)->name('profile');
+        Route::get('/sales', [Report\SaleReportController::class, 'index'])->name('sale');
+        Route::get('/sales/export', [Report\SaleReportController::class, 'export'])->name('sale_export');
+        Route::get('/expenses', [Report\ExpenseReportController::class, 'index'])->name('expense');
+        Route::get('/expenses/export', [Report\ExpenseReportController::class, 'export'])->name('expense_export');
+        Route::get('/returns', [Report\ReturnReportController::class, 'index'])->name('return');
+        Route::get('/returns/export', [Report\ReturnReportController::class, 'export'])->name('return_export');
+        Route::get('/customers', Report\CustomerReportController::class)->name('customer');
+        Route::get('/{supplier}/supplier-profile', Report\SupplierProfileReportController::class)->name('supplier_profile');
+        Route::get('/inventory-level', [Report\InventoryLevelReportController::class, 'index'])->name('inventory_level');
+        Route::get('/inventory-transfer', [Report\InventoryTransferReportController::class, 'index'])->name('inventory_transfer');
+        Route::get('/credits', [Report\CreditReportController::class, 'index'])->name('credit');
+        Route::get('/inventory-summary', [Report\InventorySummaryReportController::class, 'index'])->name('inventory_summary');
+        Route::get('/inventory-valuation', [Report\InventoryValuationReportController::class, 'index'])->name('inventory_valuation');
+        Route::get('/profit', [Report\ProfitReportController::class, 'index'])->name('profit');
+        Route::get('/profit/print', [Report\ProfitReportController::class, 'printed'])->name('profit_print');
+        Route::get('/batches', [Report\InventoryBatchReportController::class, 'index'])->name('inventory_batch');
+        Route::get('/sale-by-payment', [Report\SaleByPaymentReportController::class, 'index'])->name('sale_by_payment');
+        Route::get('/inventory-in-transit', [Report\InventoryInTransitReportController::class, 'index'])->name('inventory_in_transit');
+    });
