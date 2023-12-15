@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Models\GdnDetail;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidateReturnQuantity implements Rule
+class ValidateReturnQuantity implements ValidationRule
 {
     private $gdnId;
 
@@ -18,10 +19,10 @@ class ValidateReturnQuantity implements Rule
         $this->details = $details;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!userCompany()->isReturnLimitedBySales() || is_null($this->gdnId)) {
-            return true;
+            return;
         }
 
         $productId = request()->input(str_replace('.quantity', '.product_id', $attribute));
@@ -40,11 +41,8 @@ class ValidateReturnQuantity implements Rule
 
         $allowedQuantity = $gdnTotalQuantity - $gdnTotalReturnedQuantity;
 
-        return $allowedQuantity >= $totalRequestedQuantity;
-    }
-
-    public function message()
-    {
-        return 'You can not return this much quantity for the above Delivery Order!';
+        if ($allowedQuantity < $totalRequestedQuantity) {
+            $fail('You can not return this much quantity for the above Delivery Order!');
+        }
     }
 }

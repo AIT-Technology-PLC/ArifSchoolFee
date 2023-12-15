@@ -2,9 +2,10 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidateDeliveredQuantity implements Rule
+class ValidateDeliveredQuantity implements ValidationRule
 {
     private $model;
 
@@ -13,7 +14,7 @@ class ValidateDeliveredQuantity implements Rule
         $this->model = $model;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $merchandiseBatchId = request()->input(str_replace('.quantity', '.merchandise_batch_id', $attribute));
         $productId = request()->input(str_replace('.quantity', '.product_id', $attribute));
@@ -27,11 +28,8 @@ class ValidateDeliveredQuantity implements Rule
 
         $allowedQuantity = $details->sum('quantity') - $details->sum('delivered_quantity');
 
-        return $allowedQuantity >= $value;
-    }
-
-    public function message()
-    {
-        return 'You can not convert more than the available quantity!';
+        if ($allowedQuantity < $value) {
+            $fail('You can not convert more than the available quantity!');
+        }
     }
 }

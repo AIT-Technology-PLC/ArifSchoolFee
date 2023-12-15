@@ -4,9 +4,10 @@ namespace App\Rules;
 
 use App\Models\Supplier;
 use App\Utilities\Price;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CheckSupplierDebtLimit implements Rule
+class CheckSupplierDebtLimit implements ValidationRule
 {
     private $details;
 
@@ -31,21 +32,20 @@ class CheckSupplierDebtLimit implements Rule
         $this->message = 'You can not exceed debt amount limit provided by this company.';
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($this->paymentType != 'Credit Payment' || is_null($value)) {
-            return true;
+            return;
         }
 
         if (empty($this->details) || is_null($this->cashPaidType) || is_null($this->cashPaid)) {
-            $this->message = 'Please provide all payment details information.';
-            return false;
+            $fail('Please provide all payment details information.');
         }
 
         $supplier = Supplier::find($value);
 
         if ($supplier->debt_amount_limit == 0.00) {
-            return true;
+            return;
         }
 
         $totalDebtAmountProvided = $supplier->debts()->sum('debt_amount');
@@ -65,11 +65,8 @@ class CheckSupplierDebtLimit implements Rule
             $debtAmount = $price - ($price * $cashPaid);
         }
 
-        return $currentDebtLimit >= $debtAmount;
-    }
-
-    public function message()
-    {
-        return $this->message;
+        if ($currentDebtLimit < $debtAmount) {
+            $fail($this->message);
+        }
     }
 }

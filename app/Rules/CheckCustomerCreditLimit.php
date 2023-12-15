@@ -4,9 +4,10 @@ namespace App\Rules;
 
 use App\Models\Customer;
 use App\Utilities\Price;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CheckCustomerCreditLimit implements Rule
+class CheckCustomerCreditLimit implements ValidationRule
 {
     private $discount;
 
@@ -20,11 +21,6 @@ class CheckCustomerCreditLimit implements Rule
 
     private $message;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct($discount, $details, $paymentType, $cashReceivedType, $cashReceived)
     {
         $this->discount = $discount;
@@ -40,28 +36,20 @@ class CheckCustomerCreditLimit implements Rule
         $this->message = 'The customer has exceeded the credit amount limit.';
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($this->paymentType != 'Credit Payment' || is_null($value)) {
-            return true;
+            return;
         }
 
         if (empty($this->details) || is_null($this->cashReceivedType) || is_null($this->cashReceived)) {
-            $this->message = 'Please provide all payment details information.';
-            return false;
+            $fail('Please provide all payment details information.');
         }
 
         $customer = Customer::find($value);
 
         if (is_null($customer) || $customer->credit_amount_limit == 0.00) {
-            return true;
+            return;
         }
 
         $totalCreditAmountProvided = $customer->credits()->sum('credit_amount');
@@ -87,16 +75,8 @@ class CheckCustomerCreditLimit implements Rule
             $creditAmount = $price - ($price * $cashReceived);
         }
 
-        return $currentCreditLimit >= $creditAmount;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return $this->message;
+        if ($currentCreditLimit < $creditAmount) {
+            $fail($this->message);
+        }
     }
 }

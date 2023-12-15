@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Models\Employee;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidateTimeOffAmount implements Rule
+class ValidateTimeOffAmount implements ValidationRule
 {
     private $employeeId;
 
@@ -18,7 +19,7 @@ class ValidateTimeOffAmount implements Rule
         $this->isPaidTimeOff = $isPaidTimeOff;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $employeeId = $this->employeeId;
         $isPaidTimeOff = $value;
@@ -29,7 +30,7 @@ class ValidateTimeOffAmount implements Rule
         }
 
         if (!$isPaidTimeOff) {
-            return true;
+            return;
         }
 
         if (is_null($this->employeeId)) {
@@ -39,11 +40,8 @@ class ValidateTimeOffAmount implements Rule
 
         $employee = Employee::firstWhere('id', $employeeId);
 
-        return $employee->paid_time_off_amount >= $value;
-    }
-
-    public function message()
-    {
-        return "Employee has no enough Paid Time Off Amount.";
+        if ($employee->paid_time_off_amount < $value) {
+            $fail('Employee has no enough Paid Time Off Amount.');
+        }
     }
 }

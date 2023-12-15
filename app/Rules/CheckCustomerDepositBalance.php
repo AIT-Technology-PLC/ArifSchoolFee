@@ -4,9 +4,10 @@ namespace App\Rules;
 
 use App\Models\Customer;
 use App\Utilities\Price;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CheckCustomerDepositBalance implements Rule
+class CheckCustomerDepositBalance implements ValidationRule
 {
     private $discount;
 
@@ -16,11 +17,6 @@ class CheckCustomerDepositBalance implements Rule
 
     private $message;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct($discount, $details, $paymentType)
     {
         $this->discount = $discount;
@@ -32,22 +28,14 @@ class CheckCustomerDepositBalance implements Rule
         $this->message = 'This customer has not enough deposit balance.';
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($this->paymentType != 'Deposits' || is_null($value)) {
-            return true;
+            return;
         }
 
         if (empty($this->details)) {
-            $this->message = 'Please provide all payment details information.';
-            return false;
+            $fail('Please provide all payment details information.');
         }
 
         $customer = Customer::find($value);
@@ -60,16 +48,8 @@ class CheckCustomerDepositBalance implements Rule
             $price = Price::getGrandTotalPriceAfterDiscount($this->discount, $this->details);
         }
 
-        return $customer->balance >= $price;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return $this->message;
+        if ($customer->balance < $price) {
+            $fail($this->message);
+        }
     }
 }

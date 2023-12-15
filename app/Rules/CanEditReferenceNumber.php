@@ -2,9 +2,10 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CanEditReferenceNumber implements Rule
+class CanEditReferenceNumber implements ValidationRule
 {
     private $table;
 
@@ -13,17 +14,10 @@ class CanEditReferenceNumber implements Rule
         $this->table = $table;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($value != nextReferenceNumber($this->table) && !userCompany()->isEditingReferenceNumberEnabled()) {
-            return false;
+            $fail('Modifying a reference number is not allowed.');
         }
-
-        return true;
-    }
-
-    public function message()
-    {
-        return 'Modifying a reference number is not allowed.';
     }
 }

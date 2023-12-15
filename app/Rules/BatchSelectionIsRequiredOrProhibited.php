@@ -3,13 +3,16 @@
 namespace App\Rules;
 
 use App\Models\Product;
-use Illuminate\Contracts\Validation\ImplicitRule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class BatchSelectionIsRequiredOrProhibited implements ImplicitRule
+class BatchSelectionIsRequiredOrProhibited implements ValidationRule
 {
     private $shallCheckSettings;
 
     private $message;
+
+    public $implicit = true;
 
     public function __construct($shallCheckSettings = true)
     {
@@ -18,33 +21,25 @@ class BatchSelectionIsRequiredOrProhibited implements ImplicitRule
         $this->message = 'Batch no is required.';
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $productId = request()->input(str_replace(['.batch_no', '.merchandise_batch_id'], '.product_id', $attribute));
         $isMerchandiseBatchSelected = !is_null($value);
 
         if (is_null($productId) || !Product::find($productId)->isBatchable()) {
-            return true;
+            return;
         }
 
         if (!$this->shallCheckSettings && !$isMerchandiseBatchSelected) {
-            return false;
+            $fail($this->message);
         }
 
         if ($this->shallCheckSettings && !userCompany()->canSelectBatchNumberOnForms() && $isMerchandiseBatchSelected) {
-            $this->message = 'Manual batch selection is disabled.';
-            return false;
+            $fail('Manual batch selection is disabled.');
         }
 
         if ($this->shallCheckSettings && userCompany()->canSelectBatchNumberOnForms() && !$isMerchandiseBatchSelected) {
-            return false;
+            $fail($this->message);
         }
-
-        return true;
-    }
-
-    public function message()
-    {
-        return $this->message;
     }
 }

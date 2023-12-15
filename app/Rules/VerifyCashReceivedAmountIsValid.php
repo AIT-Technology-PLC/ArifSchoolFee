@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Utilities\Price;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class VerifyCashReceivedAmountIsValid implements Rule
+class VerifyCashReceivedAmountIsValid implements ValidationRule
 {
     private $paymentType;
 
@@ -15,15 +16,8 @@ class VerifyCashReceivedAmountIsValid implements Rule
 
     private $cashReceivedType;
 
-    private $message;
-
     private $hasWithholding;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
     public function __construct($paymentType, $discount, $details, $cashReceivedType, $hasWithholding = false)
     {
         $this->paymentType = $paymentType;
@@ -37,19 +31,10 @@ class VerifyCashReceivedAmountIsValid implements Rule
         $this->hasWithholding = $hasWithholding;
     }
 
-    /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (empty($this->details)) {
-            $this->message = 'Please provide all payment details information.';
-
-            return false;
+            $fail('Please provide all payment details information.');
         }
 
         if (userCompany()->isDiscountBeforeTax()) {
@@ -61,57 +46,31 @@ class VerifyCashReceivedAmountIsValid implements Rule
         }
 
         if ($this->cashReceivedType == 'percent' && $value > 100) {
-            $this->message = 'When type is "Percent", the percentage amount must be between 0 and 100.';
-
-            return false;
+            $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
-            $this->message = '"Paid Amount" must be equal to the "Grand Total Price"';
-
-            return false;
+            $fail('"Paid Amount" must be equal to the "Grand Total Price"');
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
-            $this->message = 'When payment type is not "Credit Payment" and type is "Percent", the percentage must be 100';
-
-            return false;
+            $fail('When payment type is not "Credit Payment" and type is "Percent", the percentage must be 100');
         }
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && $value >= $price) {
-            $this->message = '"Advanced Payment" can not be greater than or equal to "Grand Total Price"';
-
-            return false;
+            $fail('"Advanced Payment" can not be greater than or equal to "Grand Total Price"');
         }
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && $value == 100) {
-            $this->message = 'When payment type is "Credit Payment" and type is "Percent", the percentage can not be 100';
-
-            return false;
+            $fail('When payment type is "Credit Payment" and type is "Percent", the percentage can not be 100');
         }
 
         if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && (Price::getTotalWithheldAmount($this->details) + $value) >= $price) {
-            $this->message = '"Advanced Payment" plus withheld amount can not be greater than or equal to "Grand Total Price"';
-
-            return false;
+            $fail('"Advanced Payment" plus withheld amount can not be greater than or equal to "Grand Total Price"');
         }
 
         if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && ((userCompany()->withholdingTaxes['tax_rate'] * 100) + $value) >= 100) {
-            $this->message = 'When payment type is "Credit Payment" and type is "Percent", the percentage plus the withholding percent can not be 100';
-
-            return false;
+            $fail('When payment type is "Credit Payment" and type is "Percent", the percentage plus the withholding percent can not be 100');
         }
-
-        return true;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return $this->message;
     }
 }

@@ -3,25 +3,23 @@
 namespace App\Rules;
 
 use App\Models\Compensation;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidateCompensationAmountIsValid implements Rule
+class ValidateCompensationAmountIsValid implements ValidationRule
 {
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $compensationIdKey = str_replace('.amount', '.compensation_id', $attribute);
 
         $compensation = Compensation::find(request()->input($compensationIdKey));
 
         if (is_null($compensation?->maximum_amount)) {
-            return true;
+            return;
         }
 
-        return $compensation->maximum_amount >= $value;
-    }
-
-    public function message()
-    {
-        return 'Exceed the maximum amount of this compensation.';
+        if ($compensation->maximum_amount < $value) {
+            $fail('Exceed the maximum amount of this compensation.');
+        }
     }
 }

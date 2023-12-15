@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Models\Product;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CheckProductStatus implements Rule
+class CheckProductStatus implements ValidationRule
 {
     private $type;
 
@@ -14,13 +15,10 @@ class CheckProductStatus implements Rule
         $this->type = $type;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return Product::{$this->type}()->where('id', $value)->exists();
-    }
-
-    public function message()
-    {
-        return 'This product is deactivated for this type of transaction.';
+        if (Product::{$this->type}()->where('id', $value)->doesntExist()) {
+            $fail('This product is deactivated for this type of transaction.');
+        }
     }
 }

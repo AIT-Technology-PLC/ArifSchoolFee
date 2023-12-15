@@ -3,9 +3,10 @@
 namespace App\Rules;
 
 use App\Services\Inventory\InventoryOperationService;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidateBackorder implements Rule
+class ValidateBackorder implements ValidationRule
 {
     private $details;
 
@@ -18,16 +19,16 @@ class ValidateBackorder implements Rule
         $this->warehouseId = $warehouseId;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (userCompany()->isBackorderEnabled()) {
-            return true;
+            return;
         }
 
         $warehouseId = !is_null($this->warehouseId) ? $this->warehouseId : request()->input(str_replace('.product_id', '.warehouse_id', $attribute));
 
         if (is_null($warehouseId) || is_null($value)) {
-            return true;
+            return;
         }
 
         $totalRequestedQuantity = collect($this->details)
@@ -35,15 +36,14 @@ class ValidateBackorder implements Rule
             ->where('warehouse_id', $warehouseId)
             ->sum('quantity');
 
-        return InventoryOperationService::areAvailable([
+        $isAvailable = InventoryOperationService::areAvailable([
             'product_id' => $value,
             'quantity' => $totalRequestedQuantity,
             'warehouse_id' => $warehouseId,
         ]);
-    }
 
-    public function message()
-    {
-        return "This Product is not available or not enough in the inventory.";
+        if (!$isAvailable) {
+            $fail('This Product is not available or not enough in the inventory.');
+        }
     }
 }
