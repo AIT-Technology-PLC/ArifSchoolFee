@@ -140,7 +140,11 @@ class InventoryValuationCalculator
 
     private static function calculateNewPrice($product)
     {
-        if ($product->profit_margin_amount == 0) {
+        if (!isFeatureEnabledForCompany($product->company_id, 'Cost-Based Pricing')) {
+            return;
+        }
+
+        if ($product->unitCost == 0) {
             return;
         }
 

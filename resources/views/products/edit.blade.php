@@ -538,6 +538,8 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
+                    @endif
+                    @if (isFeatureEnabled('Cost-Based Pricing') && isFeatureEnabled('Inventory Valuation'))
                         <div class="column is-6">
                             <x-forms.label for="profit_margin_type">
                                 Profit Margin <sup class="has-text-danger">*</sup>

@@ -177,7 +177,13 @@
                                 <td class="has-text-right"> {{ number_format($getProfitByProduct->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByProduct->revenue, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByProduct->profit, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format(($getProfitByProduct->profit / $getProfitByProduct->revenue) * 100, 2) }}% </td>
+                                <td class="has-text-right">
+                                    @if ($getProfitByProduct->revenue == 0)
+                                        0.00%
+                                    @else
+                                        {{ number_format(($getProfitByProduct->profit / $getProfitByProduct->revenue) * 100, 2) }}%
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -218,7 +224,13 @@
                                 <td class="has-text-right"> {{ number_format($getProfitByBranch->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByBranch->revenue, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByBranch->profit, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format(($getProfitByBranch->profit / $getProfitByBranch->revenue) * 100, 2) }}% </td>
+                                <td class="has-text-right">
+                                    @if ($getProfitByBranch->revenue == 0)
+                                        0.00%
+                                    @else
+                                        {{ number_format(($getProfitByBranch->profit / $getProfitByBranch->revenue) * 100, 2) }}%
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -259,7 +271,13 @@
                                 <td class="has-text-right"> {{ number_format($getProfitByCategory->total_cost, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByCategory->revenue, 2) }} </td>
                                 <td class="has-text-right"> {{ number_format($getProfitByCategory->profit, 2) }} </td>
-                                <td class="has-text-right"> {{ number_format(($getProfitByCategory->profit / $getProfitByCategory->revenue) * 100, 2) }}% </td>
+                                <td class="has-text-right">
+                                    @if ($getProfitByCategory->revenue == 0)
+                                        0.00%
+                                    @else
+                                        {{ number_format(($getProfitByCategory->profit / $getProfitByCategory->revenue) * 100, 2) }}%
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </x-slot>
@@ -302,7 +320,13 @@
                                     <td class="has-text-right"> {{ number_format($getProfitByBrand->total_cost, 2) }} </td>
                                     <td class="has-text-right"> {{ number_format($getProfitByBrand->revenue, 2) }} </td>
                                     <td class="has-text-right"> {{ number_format($getProfitByBrand->profit, 2) }} </td>
-                                    <td class="has-text-right"> {{ number_format(($getProfitByBrand->profit / $getProfitByBrand->revenue) * 100, 2) }}% </td>
+                                    <td class="has-text-right">
+                                        @if ($getProfitByBrand->revenue == 0)
+                                            0.00%
+                                        @else
+                                            {{ number_format(($getProfitByBrand->profit / $getProfitByBrand->revenue) * 100, 2) }}%
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </x-slot>
