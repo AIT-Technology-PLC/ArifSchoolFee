@@ -42,7 +42,7 @@ Route::controller(Action\TransferController::class)
 // Proforma Invoices
 Route::controller(Action\ProformaInvoiceController::class)
     ->name('proforma-invoices.')
-    ->prefix('/proforma-invoices/{proformaInvoice}')
+    ->prefix('/proforma-invoices/{proforma_invoice}')
     ->group(function () {
         Route::get('/print', 'printed')->name('print');
         Route::post('/convert-to-gdn', 'convertToGdn')->name('convert_to_gdn');
@@ -397,7 +397,7 @@ Route::controller(Action\PayrollController::class)
 // Merchandise Batch
 Route::controller(Action\MerchandiseBatchController::class)
     ->name('merchandise-batches.')
-    ->prefix('/merchandise-batches/{merchandiseBatch}')
+    ->prefix('/merchandise-batches/{merchandise_batch}')
     ->group(function () {
         Route::get('/convert-to-damage', 'convertToDamage')->name('convert_to_damage');
     });
@@ -405,7 +405,7 @@ Route::controller(Action\MerchandiseBatchController::class)
 // Customer Deposit
 Route::controller(Action\CustomerDepositController::class)
     ->name('customer-deposits.')
-    ->prefix('/customer-deposits/{customerDeposit}')
+    ->prefix('/customer-deposits/{customer_deposit}')
     ->group(function () {
         Route::post('/approve', 'approve')->name('approve');
     });
@@ -413,7 +413,7 @@ Route::controller(Action\CustomerDepositController::class)
 // Cost Update
 Route::controller(Action\CostUpdateController::class)
     ->name('cost-updates.')
-    ->prefix('/cost-updates/{costUpdate}')
+    ->prefix('/cost-updates/{cost_update}')
     ->group(function () {
         Route::post('/approve', 'approve')->name('approve');
         Route::post('/reject', 'reject')->name('reject');
