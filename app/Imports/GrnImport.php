@@ -2,17 +2,17 @@
 
 namespace App\Imports;
 
-use App\Models\GrnDetail;
 use App\Models\Product;
-use App\Models\ProductCategory;
+use App\Models\GrnDetail;
 use App\Models\Warehouse;
+use App\Models\ProductCategory;
 use Illuminate\Validation\Rule;
-use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
@@ -39,11 +39,13 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     public function model(array $row)
     {
-        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
-
         return new GrnDetail([
             'grn_id' => $this->grn->id,
-            'product_id' => $product->id,
+            'product_id' => $this->products
+                ->where('name', $row['product_name'])
+                ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                ->first()
+                ->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'quantity' => $row['quantity'] ?? 0.00,
             'unit_cost' => $row['unit_cost'] ?? 0.00,
@@ -91,7 +93,7 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
+                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
                 ->keys()
                 ->chunk(50)
                 ->each
