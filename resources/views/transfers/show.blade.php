@@ -75,7 +75,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @elseif(!$transfer->isSubtracted())
-                    @can('Make Transfer')
+                    @can('transfer', $transfer)
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('transfers.subtract', $transfer->id)"
@@ -88,7 +88,7 @@
                         </x-common.dropdown-item>
                     @endcan
                 @elseif(!$transfer->isAdded())
-                    @can('Make Transfer')
+                    @can('transfer', $transfer)
                         <x-common.dropdown-item>
                             <x-common.transaction-button
                                 :route="route('transfers.add', $transfer->id)"
