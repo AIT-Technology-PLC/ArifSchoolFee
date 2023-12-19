@@ -25,6 +25,7 @@ class ValidatePrice implements ValidationRule
 
         if (Product::where('id', $productId)->doesntExist()) {
             $fail('The selected product does not exist.');
+            return;
         }
 
         $haveActivePrices = Price::active()->where('product_id', $productId)->exists();

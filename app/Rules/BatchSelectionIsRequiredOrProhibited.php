@@ -32,10 +32,12 @@ class BatchSelectionIsRequiredOrProhibited implements ValidationRule
 
         if (!$this->shallCheckSettings && !$isMerchandiseBatchSelected) {
             $fail($this->message);
+            return;
         }
 
         if ($this->shallCheckSettings && !userCompany()->canSelectBatchNumberOnForms() && $isMerchandiseBatchSelected) {
             $fail('Manual batch selection is disabled.');
+            return;
         }
 
         if ($this->shallCheckSettings && userCompany()->canSelectBatchNumberOnForms() && !$isMerchandiseBatchSelected) {

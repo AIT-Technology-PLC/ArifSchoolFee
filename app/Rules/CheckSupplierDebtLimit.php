@@ -40,6 +40,7 @@ class CheckSupplierDebtLimit implements ValidationRule
 
         if (empty($this->details) || is_null($this->cashPaidType) || is_null($this->cashPaid)) {
             $fail('Please provide all payment details information.');
+            return;
         }
 
         $supplier = Supplier::find($value);

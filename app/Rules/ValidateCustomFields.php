@@ -24,10 +24,12 @@ class ValidateCustomFields implements ValidationRule
 
         if (!$customField) {
             $fail('This field is not available.');
+            return;
         }
 
         if ($customField->isRequired() && empty($value)) {
             $fail($customField->label . ' is required.');
+            return;
         }
 
         $doesValueExists = $customField

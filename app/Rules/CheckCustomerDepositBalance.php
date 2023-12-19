@@ -36,6 +36,7 @@ class CheckCustomerDepositBalance implements ValidationRule
 
         if (empty($this->details)) {
             $fail('Please provide all payment details information.');
+            return;
         }
 
         $customer = Customer::find($value);

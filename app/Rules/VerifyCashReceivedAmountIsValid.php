@@ -35,6 +35,7 @@ class VerifyCashReceivedAmountIsValid implements ValidationRule
     {
         if (empty($this->details)) {
             $fail('Please provide all payment details information.');
+            return;
         }
 
         if (userCompany()->isDiscountBeforeTax()) {
@@ -47,26 +48,32 @@ class VerifyCashReceivedAmountIsValid implements ValidationRule
 
         if ($this->cashReceivedType == 'percent' && $value > 100) {
             $fail('When type is "Percent", the percentage amount must be between 0 and 100.');
+            return;
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'amount' && $price != $value) {
             $fail('"Paid Amount" must be equal to the "Grand Total Price"');
+            return;
         }
 
         if ($this->paymentType != 'Credit Payment' && $this->cashReceivedType == 'percent' && $value != 100) {
             $fail('When payment type is not "Credit Payment" and type is "Percent", the percentage must be 100');
+            return;
         }
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && $value >= $price) {
             $fail('"Advanced Payment" can not be greater than or equal to "Grand Total Price"');
+            return;
         }
 
         if ($this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && $value == 100) {
             $fail('When payment type is "Credit Payment" and type is "Percent", the percentage can not be 100');
+            return;
         }
 
         if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'amount' && (Price::getTotalWithheldAmount($this->details) + $value) >= $price) {
             $fail('"Advanced Payment" plus withheld amount can not be greater than or equal to "Grand Total Price"');
+            return;
         }
 
         if ($this->hasWithholding && $this->paymentType == 'Credit Payment' && $this->cashReceivedType == 'percent' && ((userCompany()->withholdingTaxes['tax_rate'] * 100) + $value) >= 100) {

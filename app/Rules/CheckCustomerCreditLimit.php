@@ -44,6 +44,7 @@ class CheckCustomerCreditLimit implements ValidationRule
 
         if (empty($this->details) || is_null($this->cashReceivedType) || is_null($this->cashReceived)) {
             $fail('Please provide all payment details information.');
+            return;
         }
 
         $customer = Customer::find($value);
