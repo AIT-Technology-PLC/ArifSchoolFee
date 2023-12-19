@@ -21,7 +21,7 @@ class UpdateCustomerDepositRequest extends FormRequest
             'amount' => ['required', 'numeric', 'gt:0'],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'deposited_at' => ['required', 'date', 'before_or_equal:issued_on'],
-            'attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5000'],
+            'attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:4000'],
         ];
     }
 }

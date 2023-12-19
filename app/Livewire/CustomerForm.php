@@ -118,7 +118,7 @@ class CustomerForm extends Component
                 Rule::when(
                     $this->method == 'update' && Storage::exists('public\\' . $this->customer['business_license_attachment']),
                     'string',
-                    ['file', 'mimes:jpg,jpeg,png,pdf', 'max:5000']
+                    ['file', 'mimes:jpg,jpeg,png,pdf', 'max:4000']
                 ),
             ],
             'customer.business_license_expires_on' => ['nullable', 'date'],

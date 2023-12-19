@@ -21,7 +21,7 @@ trait PadFileUploads
             }
             if ($this->masterPadFieldsTypeFile->where('id', $key)->count() && is_object($value)) {
                 $this->validateOnly('master.' . $key, [
-                    'master.' . $key => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:5000',
+                    'master.' . $key => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:4000',
                 ]);
                 continue;
             }
@@ -40,7 +40,7 @@ trait PadFileUploads
                 }
                 if ($this->detailPadFieldsTypeFile->where('id', $key)->count() && is_object($value)) {
                     $this->validateOnly('details.' . $i . '.' . $key, [
-                        'details.*.' . $key => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:5000',
+                        'details.*.' . $key => 'sometimes|file|mimes:jpg,jpeg,png,pdf|max:4000',
                     ]);
                     continue;
                 }

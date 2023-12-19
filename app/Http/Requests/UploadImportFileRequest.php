@@ -14,7 +14,7 @@ class UploadImportFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['required', 'file', 'mimes:csv,xlx,xls,xlsx'],
+            'file' => ['required', 'file', 'mimes:csv,xlx,xls,xlsx', 'max:4000'],
         ];
     }
 }

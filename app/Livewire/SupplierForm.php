@@ -118,7 +118,7 @@ class SupplierForm extends Component
                 Rule::when(
                     $this->method == 'update' && Storage::exists('public\\' . $this->supplier['business_license_attachment']),
                     'string',
-                    ['file', 'mimes:jpg,jpeg,png,pdf', 'max:5000']
+                    ['file', 'mimes:jpg,jpeg,png,pdf', 'max:4000']
                 ),
             ],
             'supplier.business_license_expires_on' => ['nullable', 'date'],

@@ -21,7 +21,7 @@ class StoreCustomerDepositRequest extends FormRequest
             'customerDeposit.*.reference_number' => ['nullable', 'string', 'max:255'],
             'customerDeposit.*.amount' => ['required', 'numeric', 'gt:0'],
             'customerDeposit.*.issued_on' => ['required', 'date'],
-            'customerDeposit.*.attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:5000'],
+            'customerDeposit.*.attachment' => ['sometimes', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:4000'],
             'customerDeposit.*.deposited_at' => ['required', 'date', 'before_or_equal:customerDeposit.*.issued_on'],
         ];
     }
