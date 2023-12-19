@@ -385,13 +385,4 @@ class Product extends Model
     {
         return $this->hasMany(ExchangeDetail::class);
     }
-
-    public static function ByNameCodeAndCategory($name, $code = null, $category = null)
-    {
-        return static::query()
-            ->where('name', $name)
-            ->when(!empty($code), fn($q) => $q->where('code', $code))
-            ->when(!empty($category), fn($q) => $q->where('product_category_id', ProductCategory::firstWhere('name', $category)->id))
-            ->first();
-    }
 }

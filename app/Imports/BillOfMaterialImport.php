@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\BillOfMaterial;
 use App\Models\BillOfMaterialDetail;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -26,7 +25,7 @@ class BillOfMaterialImport implements WithHeadingRow, ToModel, WithValidation, W
 
     public function __construct($billOfMaterial)
     {
-        $this->products = Product::rawMaterial()->get();
+        $this->products = Product::rawMaterial()->get(['id', 'name', 'code', 'product_category_id']);
 
         $this->productCategories = ProductCategory::all(['id', 'name']);
 
@@ -35,7 +34,13 @@ class BillOfMaterialImport implements WithHeadingRow, ToModel, WithValidation, W
 
     public function model(array $row)
     {
-        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+        $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+        $product = $this->products
+            ->where('name', $row['product_name'])
+            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+            ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+            ->first();
 
         if ($this->billOfMaterial->product_id == $product->id) {
             return null;
@@ -81,7 +86,15 @@ class BillOfMaterialImport implements WithHeadingRow, ToModel, WithValidation, W
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
+                ->filter(function ($row) {
+                    $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+                    return $this->products
+                        ->where('name', $row['product_name'])
+                        ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                        ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+                        ->isEmpty();
+                })
                 ->keys()
                 ->chunk(50)
                 ->each

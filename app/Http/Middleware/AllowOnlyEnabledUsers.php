@@ -17,10 +17,7 @@ class AllowOnlyEnabledUsers
     public function handle($request, Closure $next)
     {
         if (authUser()->isAccessAllowed()) {
-            if (authUser()->last_online_at < now()->subMinutes(5)) {
-                authUser()->updateLastOnlineAt();
-            }
-
+            authUser()->updateLastOnlineAt();
             return $next($request);
         }
 

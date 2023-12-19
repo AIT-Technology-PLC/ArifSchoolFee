@@ -2,17 +2,17 @@
 
 namespace App\Imports;
 
-use App\Models\Product;
 use App\Models\GrnDetail;
-use App\Models\Warehouse;
+use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Warehouse;
 use Illuminate\Validation\Rule;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
 {
@@ -39,13 +39,17 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
 
     public function model(array $row)
     {
+        $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+        $product = $this->products
+            ->where('name', $row['product_name'])
+            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+            ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+            ->first();
+
         return new GrnDetail([
             'grn_id' => $this->grn->id,
-            'product_id' => $this->products
-                ->where('name', $row['product_name'])
-                ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
-                ->first()
-                ->id,
+            'product_id' => $product->id,
             'warehouse_id' => $this->warehouses->firstWhere('name', $row['warehouse_name'])->id,
             'quantity' => $row['quantity'] ?? 0.00,
             'unit_cost' => $row['unit_cost'] ?? 0.00,
@@ -93,7 +97,15 @@ class GrnImport implements ToModel, WithHeadingRow, WithValidation, WithChunkRea
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => Product::where('name', $row['product_name'])->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))->doesntExist())
+                ->filter(function ($row) {
+                    $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+                    return $this->products
+                        ->where('name', $row['product_name'])
+                        ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                        ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+                        ->isEmpty();
+                })
                 ->keys()
                 ->chunk(50)
                 ->each

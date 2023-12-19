@@ -25,7 +25,7 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
 
     public function __construct()
     {
-        $this->products = Product::all();
+        $this->products = Product::all(['id', 'name', 'code', 'product_category_id']);
 
         $this->productCategories = ProductCategory::all(['id', 'name']);
 
@@ -34,7 +34,13 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
 
     public function model(array $row)
     {
-        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+        $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+        $product = $this->products
+            ->where('name', $row['product_name'])
+            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+            ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+            ->first();
 
         if ($this->prices->where('product_id', $product->id)->where('fixed_price', $row['price'])->count()) {
             return null;
@@ -90,7 +96,15 @@ class PriceImport implements WithHeadingRow, ToModel, WithValidation, WithChunkR
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
+                ->filter(function ($row) {
+                    $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+                    return $this->products
+                        ->where('name', $row['product_name'])
+                        ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                        ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+                        ->isEmpty();
+                })
                 ->keys()
                 ->chunk(50)
                 ->each

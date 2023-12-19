@@ -42,7 +42,13 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
 
     public function model(array $row)
     {
-        $product = Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name']);
+        $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+        $product = $this->products
+            ->where('name', $row['product_name'])
+            ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+            ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+            ->first();
 
         $merchandise = $this->merchandises
             ->where('product_id', $product->id)
@@ -106,7 +112,15 @@ class AdjustmentImport implements ToModel, WithHeadingRow, WithValidation, WithC
     {
         $validator->after(function ($validator) {
             collect($validator->getData())
-                ->filter(fn($row) => is_null(Product::ByNameCodeAndCategory($row['product_name'], $row['product_code'], $row['product_category_name'])))
+                ->filter(function ($row) {
+                    $productCategory = $this->productCategories->where('name', $row['product_category_name'])->first();
+
+                    return $this->products
+                        ->where('name', $row['product_name'])
+                        ->when(!empty($row['product_code']), fn($q) => $q->where('code', $row['product_code']))
+                        ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+                        ->isEmpty();
+                })
                 ->keys()
                 ->chunk(50)
                 ->each

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
@@ -200,6 +201,10 @@ class GdnService
 
         $nextReferenceNumber = nextReferenceNumber('gdns');
 
+        $products = Product::activeForSale()->get(['id', 'name', 'code', 'product_category_id']);
+
+        $productCategories = ProductCategory::all(['id', 'name']);
+
         foreach ($sheets[0] as $key => $row) {
             $data[$key] = $row;
 
@@ -207,18 +212,20 @@ class GdnService
 
             $data[$key]['code'] = $nextReferenceNumber++;
 
-            $data[$key]['customer_id'] = Customer::firstWhere('company_name', str()->squish($row['customer_name'] ?? ''))->id ?? null;
+            $data[$key]['customer_id'] = Customer::firstWhere('company_name', str()->squish($row['customer_name'] ?? null))->id ?? null;
 
             foreach ($data[$key]['gdn'] as &$gdn) {
-                $productId = Product::ByNameCodeAndCategory(
-                    str()->squish($gdn['product_name']),
-                    str()->squish($gdn['product_code']),
-                    str()->squish($gdn['product_category_name'])
-                )->id ?? null;
+                $productCategory = $productCategories->where('name', str()->squish($gdn['product_category_name'] ?? null))->first();
+
+                $product = $products
+                    ->where('name', str()->squish($gdn['product_name'] ?? null))
+                    ->when(!empty(str()->squish($gdn['product_code'])), fn($q) => $q->where('code', str()->squish($gdn['product_code'])))
+                    ->when(!empty($productCategory), fn($q) => $q->where('product_category_id', $productCategory->id))
+                    ->first();
 
                 $gdn['warehouse_id'] = Warehouse::firstWhere('name', str()->squish($gdn['warehouse_name']))->id ?? null;
                 $gdn['merchandise_batch_id'] = MerchandiseBatch::firstWhere('batch_no', $gdn['batch_no'])->id ?? null;
-                $gdn['product_id'] = $productId;
+                $gdn['product_id'] = $product?->id;
             }
         }
 
