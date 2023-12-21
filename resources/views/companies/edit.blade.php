@@ -1192,6 +1192,36 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (isFeatureEnabled('Inventory Valuation'))
+                        <div class="column is-6">
+                            <x-forms.field>
+                                <x-forms.label for="can_sell_below_cost">
+                                    Can Sell Below Cost <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.select
+                                        class="is-fullwidth"
+                                        id="can_sell_below_cost"
+                                        name="can_sell_below_cost"
+                                    >
+                                        <option
+                                            value="1"
+                                            @selected($company->canSellBelowCost())
+                                        > Yes </option>
+                                        <option
+                                            value="0"
+                                            @selected(!$company->canSellBelowCost())
+                                        > No </option>
+                                    </x-forms.select>
+                                    <x-common.icon
+                                        name="fas fa-sort"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="can_sell_below_cost" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                 </div>
             </x-content.main>
             <x-content.footer>

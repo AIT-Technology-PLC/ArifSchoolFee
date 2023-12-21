@@ -28,6 +28,18 @@ class ValidatePrice implements ValidationRule
             return;
         }
 
+        if (isFeatureEnabled('Inventory Valuation') && !userCompany()->canSellBelowCost()) {
+            $unitCost = Product::find($productId)->unitCost;
+
+            if (!userCompany()->isPriceBeforeTax()) {
+                $value = $value / (Product::find($productId)->tax->amount + 1);
+            }
+
+            $this->message = 'The selected price is below the unit cost of the product.';
+
+            return $value >= $unitCost;
+        }
+
         $haveActivePrices = Price::active()->where('product_id', $productId)->exists();
 
         if (!$haveActivePrices) {

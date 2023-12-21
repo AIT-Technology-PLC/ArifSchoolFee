@@ -65,6 +65,7 @@ class UpdateCompanyRequest extends FormRequest
             'is_partial_deliveries_enabled' => ['sometimes', 'required', 'boolean'],
             'show_product_code_on_printouts' => ['required', 'boolean'],
             'is_in_training' => ['required', 'boolean'],
+            'can_sell_below_cost' => ['sometimes', 'required', 'boolean'],
         ];
     }
 
