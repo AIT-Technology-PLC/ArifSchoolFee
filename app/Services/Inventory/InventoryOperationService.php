@@ -101,14 +101,13 @@ class InventoryOperationService
             [
                 'merchandise_id' => $merchandise->id,
                 'batch_no' => $batchNo,
+                'expires_on' => $detail['expires_on'] ?? $detail['merchandiseBatch']['expires_on'] ?? null,
             ],
             [
                 'received_quantity' => $detail['quantity'],
                 'quantity' => 0.00,
             ]
         );
-
-        $merchandiseBatch->expires_on = $detail['expires_on'] ?? $detail['merchandiseBatch']['expires_on'] ?? null;
 
         $merchandiseBatch->quantity += $detail['quantity'];
 
