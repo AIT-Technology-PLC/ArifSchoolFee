@@ -36,7 +36,7 @@ class UpdateProformaInvoiceRequest extends FormRequest
             'proformaInvoice' => ['required', 'array'],
             'proformaInvoice.*.product_id' => ['required', 'string', Rule::in(Product::activeForSale()->pluck('id')), new CheckProductStatus],
             'proformaInvoice.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('proformaInvoice'))],
-            'proformaInvoice.*.unit_price' => ['required', 'numeric', new ValidatePrice],
+            'proformaInvoice.*.unit_price' => ['required', 'numeric'],
             'proformaInvoice.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'proformaInvoice.*.specification' => ['nullable', 'string'],
             'proformaInvoice.*.merchandise_batch_id' => [

@@ -14,6 +14,7 @@ use App\Rules\UniqueReferenceNum;
 use App\Rules\ValidateBackorder;
 use App\Rules\ValidateCustomFields;
 use App\Rules\ValidatePrice;
+use App\Rules\ValidatePriceBelowCost;
 use App\Rules\VerifyCashReceivedAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -33,7 +34,7 @@ class UpdateReservationRequest extends FormRequest
             'reservation' => ['required', 'array'],
             'reservation.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new ValidateBackorder($this->input('reservation')), new CheckProductStatus],
             'reservation.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
-            'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
+            'reservation.*.unit_price' => ['nullable', 'numeric', new ValidatePrice, new ValidatePriceBelowCost],
             'reservation.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('reservation'))],
             'reservation.*.description' => ['nullable', 'string'],
             'reservation.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],

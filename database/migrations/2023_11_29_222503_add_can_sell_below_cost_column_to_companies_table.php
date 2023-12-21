@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('companies', function (Blueprint $table) {
-            $table->boolean('can_sell_below_cost')->default(0)->after('can_sale_subtract');
+            $table->boolean('can_sell_below_cost')->default(1)->after('can_sale_subtract');
         });
     }
 

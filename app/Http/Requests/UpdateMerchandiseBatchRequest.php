@@ -25,7 +25,12 @@ class UpdateMerchandiseBatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'batch_no' => ['required', 'string', Rule::unique('merchandise_batches')->withoutTrashed()->ignore($this->route('merchandise_batch')->id)],
+            'batch_no' => ['required', 'string', Rule::unique('merchandise_batches')
+                    ->withoutTrashed()
+                    ->where('expires_on', $this->input('expires_on'))
+                    ->where('merchandise_id', $this->route('merchandise_batch')->merchandise_id)
+                    ->ignore($this->route('merchandise_batch')->id),
+            ],
             'expires_on' => ['nullable', 'date'],
         ];
     }

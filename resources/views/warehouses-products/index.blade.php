@@ -3,7 +3,7 @@
 @section('title', 'History of ' . $product->name . ' in ' . $warehouse->name)
 
 @section('content')
-    @if ($merchandiseBatches->isNotEmpty())
+    @if ($product->isBatchable())
         <x-common.content-wrapper>
             <x-content.header
                 title="{{ $product->name }} Batches in {{ $warehouse->name }}"

@@ -3,20 +3,21 @@
 namespace App\Http\Requests;
 
 use App\Models\Product;
-use App\Rules\ValidatePrice;
-use Illuminate\Validation\Rule;
-use App\Rules\ValidateBackorder;
+use App\Rules\BatchSelectionIsRequiredOrProhibited;
 use App\Rules\CheckBatchQuantity;
-use App\Rules\CheckProductStatus;
-use App\Rules\UniqueReferenceNum;
-use App\Rules\MustBelongToCompany;
-use App\Rules\CheckValidBatchNumber;
 use App\Rules\CheckCustomerCreditLimit;
 use App\Rules\CheckCustomerDepositBalance;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\VerifyCashReceivedAmountIsValid;
-use App\Rules\BatchSelectionIsRequiredOrProhibited;
+use App\Rules\CheckProductStatus;
+use App\Rules\CheckValidBatchNumber;
+use App\Rules\MustBelongToCompany;
+use App\Rules\UniqueReferenceNum;
+use App\Rules\ValidateBackorder;
 use App\Rules\ValidateCustomFields;
+use App\Rules\ValidatePrice;
+use App\Rules\ValidatePriceBelowCost;
+use App\Rules\VerifyCashReceivedAmountIsValid;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateGdnRequest extends FormRequest
 {
@@ -32,13 +33,13 @@ class UpdateGdnRequest extends FormRequest
             'gdn' => ['required', 'array'],
             'gdn.*.product_id' => ['required', 'integer', Rule::in(Product::activeForSale()->pluck('id')), new ValidateBackorder($this->input('gdn')), new CheckProductStatus],
             'gdn.*.warehouse_id' => ['required', 'integer', Rule::in(authUser()->getAllowedWarehouses('sales')->pluck('id'))],
-            'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice],
+            'gdn.*.unit_price' => ['nullable', 'numeric', new ValidatePrice, new ValidatePriceBelowCost],
             'gdn.*.quantity' => ['required', 'numeric', 'gt:0', new CheckBatchQuantity($this->input('gdn'))],
             'gdn.*.description' => ['nullable', 'string'],
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'gdn.*.merchandise_batch_id' => [
-                new BatchSelectionIsRequiredOrProhibited, 
-                Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                new BatchSelectionIsRequiredOrProhibited,
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
             ],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),

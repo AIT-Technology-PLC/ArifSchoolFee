@@ -1196,7 +1196,7 @@
                         <div class="column is-6">
                             <x-forms.field>
                                 <x-forms.label for="can_sell_below_cost">
-                                    Can Sell Below Cost <sup class="has-text-danger">*</sup>
+                                    Allow Selling Below Cost <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select
