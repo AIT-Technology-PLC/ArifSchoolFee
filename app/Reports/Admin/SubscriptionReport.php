@@ -24,12 +24,18 @@ class SubscriptionReport
 
     public function getTotalSubscriptionsThisMonth()
     {
-        return Company::activeSubscriptions()->whereMonth('subscription_expires_on', today()->month)->count();
+        return Company::query()
+            ->whereDate('subscription_expires_on', '>=', today()->startOfMonth())
+            ->whereDate('subscription_expires_on', '<=', today()->endOfMonth())
+            ->count();
     }
 
     public function getTotalSubscriptionsNextMonth()
     {
-        return Company::activeSubscriptions()->whereMonth('subscription_expires_on', today()->addMonth()->month)->count();
+        return Company::query()
+            ->whereDate('subscription_expires_on', '>=', today()->addMonth()->startOfMonth())
+            ->whereDate('subscription_expires_on', '<=', today()->addMonth()->endOfMonth())
+            ->count();
     }
 
     public function getSubscriptionsThisAndNextMonth()
