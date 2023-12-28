@@ -41,9 +41,9 @@ class PriceDatatable extends DataTable
     {
         return $product
             ->newQuery()
+            ->with(['prices'])
             ->when(request('status') == 'with price' || empty(request('status')), fn($query) => $query->has('prices'))
             ->when(request('status') == 'no price', fn($query) => $query->doesntHave('prices'))
-            ->whereHas('prices')
             ->select('products.*')
             ->withCount([
                 'prices as prices_count' => fn(Builder $query) => $query,
