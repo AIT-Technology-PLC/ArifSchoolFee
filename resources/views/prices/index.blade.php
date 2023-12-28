@@ -55,6 +55,36 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? (session('successMessage') ?? session('imported'))" />
             <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+
+            <x-datatables.filter filters="'status'">
+                <div class="columns is-marginless is-vcentered">
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.status"
+                                    x-on:change="add('status')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Status
+                                    </option>
+                                    @foreach (['With Price', 'No Price'] as $status)
+                                        <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                </div>
+            </x-datatables.filter>
+
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

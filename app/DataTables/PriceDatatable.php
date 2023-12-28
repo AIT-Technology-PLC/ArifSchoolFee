@@ -18,7 +18,13 @@ class PriceDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($product) => route('products.prices.index', $product->id),
+                'data-url' => function ($product) {
+                    if ($product->prices->isNotEmpty()) {
+                        return route('products.prices.index', $product->id);
+                    }
+
+                    return route('prices.create');
+                },
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
@@ -35,6 +41,8 @@ class PriceDatatable extends DataTable
     {
         return $product
             ->newQuery()
+            ->when(request('status') == 'with price' || empty(request('status')), fn($query) => $query->has('prices'))
+            ->when(request('status') == 'no price', fn($query) => $query->doesntHave('prices'))
             ->whereHas('prices')
             ->select('products.*')
             ->withCount([
