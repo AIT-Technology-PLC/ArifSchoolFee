@@ -87,7 +87,7 @@ trait TransactionConverts
         $data += $this->transactionMasters->toArray();
         $data['payment_type'] = $data['payment_method'] ?? null;
         $data['cash_received_type'] = 'percent';
-        $data['cash_received'] = $data['cash_received'] ?? null;
+        $data['cash_received'] = $data['payment_type'] == 'Credit Payment' ? ($data['cash_received'] ?? null) : 100;
         $data['due_date'] = $data['credit_due_date'] ?? null;
         $data['description'] = $data['description'] ?? null;
 
