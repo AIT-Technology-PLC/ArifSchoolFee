@@ -76,7 +76,7 @@ class InventoryValuationCalculator
 
         $newTotalCost = $currentTotalCost + ($detail['quantity'] * $detail['unit_cost']);
 
-        $newAverageUnitCost = $totalQuantity ? $newTotalCost / $totalQuantity : 0;
+        $newAverageUnitCost = ($totalQuantity > 0) ? ($newTotalCost / $totalQuantity) : 0;
 
         if ($product->unitCost == $newAverageUnitCost) {
             return;
