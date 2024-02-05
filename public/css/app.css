@@ -175,30 +175,6 @@ nav {
 }
 
 @media screen and (min-width: 1024px) {
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #edf7f2;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #b1cfbf;
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #77aa90;
-    }
-    /* Firefox Scrollbar */
-    .scroller {
-        scrollbar-color: #b1cfbf white;
-        scrollbar-width: auto;
-    }
-    html {
-        scrollbar-color: #b1cfbf #edf7f2;
-        scrollbar-width: auto;
-    }
-    /* Firefox Scrollbar */
     #menuLeft {
         position: fixed;
         left: 0;
@@ -213,6 +189,36 @@ nav {
         right: 0;
         left: 20%;
     }
+}
+
+@media screen and (min-width: 1024px) and (-webkit-min-device-pixel-ratio: 0) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #edf7f2;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #b1cfbf;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #77aa90;
+    }
+}
+
+@media screen and not (-webkit-min-device-pixel-ratio: 0) and (min-width: 1024px) {
+    /* Firefox Scrollbar */
+    .scroller {
+        scrollbar-color: #b1cfbf white;
+        scrollbar-width: auto;
+    }
+    html {
+        scrollbar-color: #b1cfbf #edf7f2;
+        scrollbar-width: auto;
+    }
+    /* Firefox Scrollbar */
 }
 
 .is-green > progress::-webkit-progress-value {
