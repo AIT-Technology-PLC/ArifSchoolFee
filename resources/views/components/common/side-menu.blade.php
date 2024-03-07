@@ -29,7 +29,7 @@
                     @endif
                 </div>
             </div>
-            <div class="buttons is-hidden-tablet ml-3 mt-5">
+            <div class="buttons is-hidden-desktop ml-3 mt-5">
                 <x-common.button
                     tag="a"
                     mode="button"
