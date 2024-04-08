@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             Permissions::class,
             CreateNewCompany::class,
             CreateAdminUser::class,
+            CreateOrReplaceSalesReportViews::class,
         ]);
     }
 }
