@@ -12,9 +12,10 @@ CREATE TABLE `adjustment_details` (
   `adjustment_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `is_subtract` tinyint(1) NOT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `reason` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reason` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -22,7 +23,9 @@ CREATE TABLE `adjustment_details` (
   KEY `adjustment_details_adjustment_id_index` (`adjustment_id`),
   KEY `adjustment_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `adjustment_details_product_id_foreign` (`product_id`),
+  KEY `adjustment_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
   CONSTRAINT `adjustment_details_adjustment_id_foreign` FOREIGN KEY (`adjustment_id`) REFERENCES `adjustments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `adjustment_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `adjustment_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `adjustment_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -39,7 +42,7 @@ CREATE TABLE `adjustments` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `adjusted_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -69,7 +72,7 @@ CREATE TABLE `advancement_details` (
   `employee_id` bigint(20) unsigned DEFAULT NULL,
   `compensation_id` bigint(20) unsigned DEFAULT NULL,
   `amount` decimal(22,2) NOT NULL,
-  `job_position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `job_position` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -94,8 +97,8 @@ CREATE TABLE `advancements` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
   `issued_on` datetime DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -136,8 +139,8 @@ CREATE TABLE `announcements` (
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -159,7 +162,7 @@ CREATE TABLE `attendance_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `attendance_id` bigint(20) unsigned DEFAULT NULL,
   `employee_id` bigint(20) unsigned DEFAULT NULL,
-  `days` bigint(20) NOT NULL,
+  `days` decimal(8,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -189,8 +192,6 @@ CREATE TABLE `attendances` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `attendances_starting_period_warehouse_id_unique` (`starting_period`,`warehouse_id`),
-  UNIQUE KEY `attendances_ending_period_warehouse_id_unique` (`ending_period`,`warehouse_id`),
   KEY `attendances_created_by_foreign` (`created_by`),
   KEY `attendances_updated_by_foreign` (`updated_by`),
   KEY `attendances_approved_by_foreign` (`approved_by`),
@@ -232,7 +233,7 @@ CREATE TABLE `bill_of_materials` (
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -262,8 +263,8 @@ CREATE TABLE `brands` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -283,37 +284,53 @@ DROP TABLE IF EXISTS `companies`;
 CREATE TABLE `companies` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `plan_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sector` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sales_report_source` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Approved & Subtracted Delivery Orders',
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `sector` varchar(255) DEFAULT NULL,
+  `sales_report_source` varchar(255) NOT NULL DEFAULT 'Delivery Orders',
   `enabled` tinyint(1) NOT NULL,
-  `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `proforma_invoice_prefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `currency` varchar(255) NOT NULL,
+  `tin` varchar(255) DEFAULT NULL,
+  `proforma_invoice_prefix` varchar(255) DEFAULT NULL,
   `is_price_before_vat` tinyint(1) NOT NULL DEFAULT 1,
   `is_discount_before_vat` tinyint(1) NOT NULL DEFAULT 1,
   `is_convert_to_siv_as_approved` tinyint(1) NOT NULL DEFAULT 1,
-  `is_editing_reference_number_enabled` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
+  `is_editing_reference_number_enabled` varchar(255) NOT NULL DEFAULT '1',
   `can_show_branch_detail_on_print` tinyint(1) NOT NULL DEFAULT 0,
   `paid_time_off_amount` decimal(22,2) NOT NULL DEFAULT 0.00,
-  `paid_time_off_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Days',
+  `paid_time_off_type` varchar(255) NOT NULL DEFAULT 'Days',
   `working_days` bigint(20) NOT NULL DEFAULT 26,
   `is_backorder_enabled` tinyint(1) NOT NULL DEFAULT 1,
   `can_check_inventory_on_forms` tinyint(1) NOT NULL DEFAULT 0,
-  `income_tax_region` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Ethiopia',
-  `payroll_bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payroll_bank_account_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `can_show_employee_job_title_on_print` tinyint(1) NOT NULL DEFAULT 1,
+  `can_select_batch_number_on_forms` tinyint(1) NOT NULL DEFAULT 0,
+  `filter_customer_and_supplier` tinyint(1) NOT NULL DEFAULT 1,
+  `is_costing_by_freight_volume` tinyint(1) NOT NULL DEFAULT 1,
+  `expiry_in_days` int(11) DEFAULT 30,
+  `income_tax_region` varchar(255) NOT NULL DEFAULT 'Ethiopia',
+  `payroll_bank_name` varchar(255) DEFAULT NULL,
+  `payroll_bank_account_number` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `print_template_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `print_template_image` varchar(255) DEFAULT NULL,
   `print_padding_top` decimal(8,2) NOT NULL DEFAULT 10.00,
   `print_padding_bottom` decimal(8,2) NOT NULL DEFAULT 10.00,
   `print_padding_horizontal` decimal(8,2) NOT NULL DEFAULT 5.00,
+  `is_payroll_basic_salary_after_absence_deduction` tinyint(1) NOT NULL DEFAULT 0,
+  `does_payroll_basic_salary_include_overtime` tinyint(1) NOT NULL DEFAULT 0,
+  `is_return_limited_by_sales` varchar(255) NOT NULL DEFAULT '0',
+  `can_sale_subtract` tinyint(1) NOT NULL DEFAULT 0,
+  `can_sell_below_cost` tinyint(1) NOT NULL DEFAULT 1,
+  `can_siv_subtract_from_inventory` tinyint(1) NOT NULL DEFAULT 0,
+  `is_partial_deliveries_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `auto_generated_credit_issued_on_date` varchar(255) NOT NULL DEFAULT 'approval_date',
+  `show_product_code_on_printouts` tinyint(1) NOT NULL DEFAULT 1,
+  `is_in_training` tinyint(1) NOT NULL DEFAULT 0,
+  `subscription_expires_on` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `companies_tin_unique` (`tin`),
   KEY `companies_plan_id_index` (`plan_id`),
@@ -346,6 +363,8 @@ CREATE TABLE `compensation_adjustment_details` (
   `employee_id` bigint(20) unsigned DEFAULT NULL,
   `compensation_id` bigint(20) unsigned DEFAULT NULL,
   `amount` decimal(22,2) NOT NULL,
+  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`options`)),
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -376,8 +395,6 @@ CREATE TABLE `compensation_adjustments` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `compensation_adjustments_company_id_starting_period_unique` (`company_id`,`starting_period`),
-  UNIQUE KEY `compensation_adjustments_company_id_ending_period_unique` (`company_id`,`ending_period`),
   KEY `compensation_adjustments_created_by_foreign` (`created_by`),
   KEY `compensation_adjustments_updated_by_foreign` (`updated_by`),
   KEY `compensation_adjustments_approved_by_foreign` (`approved_by`),
@@ -399,8 +416,8 @@ CREATE TABLE `compensations` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `is_taxable` tinyint(1) NOT NULL,
   `is_adjustable` tinyint(1) NOT NULL,
@@ -408,11 +425,11 @@ CREATE TABLE `compensations` (
   `percentage` decimal(22,2) DEFAULT NULL,
   `default_value` decimal(22,2) DEFAULT NULL,
   `maximum_amount` decimal(22,2) DEFAULT NULL,
+  `has_formula` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `compensations_name_company_id_unique` (`name`,`company_id`),
   KEY `compensations_created_by_foreign` (`created_by`),
   KEY `compensations_updated_by_foreign` (`updated_by`),
   KEY `compensations_company_id_index` (`company_id`),
@@ -431,10 +448,10 @@ CREATE TABLE `contacts` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `tin` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -448,6 +465,53 @@ CREATE TABLE `contacts` (
   CONSTRAINT `contacts_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `cost_update_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cost_update_details` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cost_update_id` bigint(20) unsigned DEFAULT NULL,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `lifo_unit_cost` decimal(30,10) DEFAULT NULL,
+  `fifo_unit_cost` decimal(30,10) DEFAULT NULL,
+  `average_unit_cost` decimal(30,10) NOT NULL DEFAULT 0.0000000000,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cost_update_details_cost_update_id_index` (`cost_update_id`),
+  KEY `cost_update_details_product_id_index` (`product_id`),
+  CONSTRAINT `cost_update_details_cost_update_id_foreign` FOREIGN KEY (`cost_update_id`) REFERENCES `cost_updates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cost_update_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `cost_updates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cost_updates` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `updated_by` bigint(20) unsigned DEFAULT NULL,
+  `rejected_by` bigint(20) unsigned DEFAULT NULL,
+  `approved_by` bigint(20) unsigned DEFAULT NULL,
+  `code` bigint(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cost_updates_created_by_foreign` (`created_by`),
+  KEY `cost_updates_updated_by_foreign` (`updated_by`),
+  KEY `cost_updates_rejected_by_foreign` (`rejected_by`),
+  KEY `cost_updates_approved_by_foreign` (`approved_by`),
+  KEY `cost_updates_company_id_index` (`company_id`),
+  CONSTRAINT `cost_updates_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `cost_updates_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `cost_updates_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `cost_updates_rejected_by_foreign` FOREIGN KEY (`rejected_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `cost_updates_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `credit_settlements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -455,11 +519,11 @@ CREATE TABLE `credit_settlements` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `credit_id` bigint(20) unsigned DEFAULT NULL,
   `amount` decimal(22,2) NOT NULL,
-  `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `method` varchar(255) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
   `settled_at` datetime DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -474,16 +538,17 @@ DROP TABLE IF EXISTS `credits`;
 CREATE TABLE `credits` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
-  `gdn_id` bigint(20) unsigned DEFAULT NULL,
   `customer_id` bigint(20) unsigned DEFAULT NULL,
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
+  `creditable_type` varchar(255) DEFAULT NULL,
+  `creditable_id` bigint(20) unsigned DEFAULT NULL,
   `cash_amount` decimal(22,2) NOT NULL,
   `credit_amount` decimal(22,2) NOT NULL,
   `credit_amount_settled` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
   `last_settled_at` datetime DEFAULT NULL,
@@ -492,18 +557,104 @@ CREATE TABLE `credits` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `credits_company_id_warehouse_id_code_unique` (`company_id`,`warehouse_id`,`code`),
-  KEY `credits_gdn_id_foreign` (`gdn_id`),
   KEY `credits_created_by_foreign` (`created_by`),
   KEY `credits_updated_by_foreign` (`updated_by`),
   KEY `credits_company_id_index` (`company_id`),
   KEY `credits_warehouse_id_index` (`warehouse_id`),
   KEY `credits_customer_id_index` (`customer_id`),
+  KEY `credits_creditable_type_creditable_id_index` (`creditable_type`,`creditable_id`),
   CONSTRAINT `credits_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `credits_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `credits_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `credits_gdn_id_foreign` FOREIGN KEY (`gdn_id`) REFERENCES `gdns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `credits_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `credits_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `custom_field_values`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `custom_field_values` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `custom_field_id` bigint(20) unsigned NOT NULL,
+  `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `custom_field_valuable_type` varchar(255) NOT NULL,
+  `custom_field_valuable_id` bigint(20) unsigned NOT NULL,
+  `value` longtext NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `field_valuable` (`custom_field_valuable_type`,`custom_field_valuable_id`),
+  KEY `custom_field_values_custom_field_id_index` (`custom_field_id`),
+  KEY `custom_field_values_warehouse_id_foreign` (`warehouse_id`),
+  CONSTRAINT `custom_field_values_custom_field_id_foreign` FOREIGN KEY (`custom_field_id`) REFERENCES `custom_fields` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `custom_field_values_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `custom_fields`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `custom_fields` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned NOT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `updated_by` bigint(20) unsigned DEFAULT NULL,
+  `label` varchar(255) NOT NULL,
+  `placeholder` varchar(255) DEFAULT NULL,
+  `options` longtext DEFAULT NULL,
+  `default_value` varchar(255) DEFAULT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `order` int(11) NOT NULL,
+  `column_size` varchar(255) DEFAULT 'is-6',
+  `icon` varchar(255) DEFAULT 'fas fa-file',
+  `is_active` tinyint(1) NOT NULL,
+  `is_required` tinyint(1) NOT NULL,
+  `is_unique` tinyint(1) NOT NULL,
+  `is_visible` tinyint(1) NOT NULL,
+  `is_printable` tinyint(1) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `custom_fields_created_by_foreign` (`created_by`),
+  KEY `custom_fields_updated_by_foreign` (`updated_by`),
+  KEY `custom_fields_company_id_index` (`company_id`),
+  KEY `custom_fields_model_type_index` (`model_type`),
+  CONSTRAINT `custom_fields_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `custom_fields_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `custom_fields_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `customer_deposits`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer_deposits` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint(20) unsigned DEFAULT NULL,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `updated_by` bigint(20) unsigned DEFAULT NULL,
+  `approved_by` bigint(20) unsigned DEFAULT NULL,
+  `issued_on` datetime DEFAULT NULL,
+  `amount` decimal(22,2) NOT NULL,
+  `deposited_at` datetime DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
+  `attachment` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `customer_deposits_created_by_foreign` (`created_by`),
+  KEY `customer_deposits_updated_by_foreign` (`updated_by`),
+  KEY `customer_deposits_approved_by_foreign` (`approved_by`),
+  KEY `customer_deposits_company_id_index` (`company_id`),
+  KEY `customer_deposits_customer_id_index` (`customer_id`),
+  CONSTRAINT `customer_deposits_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `customer_deposits_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `customer_deposits_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `customer_deposits_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `customer_deposits_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `customers`;
@@ -514,14 +665,17 @@ CREATE TABLE `customers` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `tin` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `contact_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `balance` decimal(22,2) NOT NULL DEFAULT 0.00,
   `credit_amount_limit` decimal(22,2) NOT NULL,
+  `business_license_attachment` varchar(255) DEFAULT NULL,
+  `business_license_expires_on` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -542,9 +696,10 @@ CREATE TABLE `damage_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `damage_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -552,7 +707,9 @@ CREATE TABLE `damage_details` (
   KEY `damage_details_damage_id_index` (`damage_id`),
   KEY `damage_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `damage_details_product_id_foreign` (`product_id`),
+  KEY `damage_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
   CONSTRAINT `damage_details_damage_id_foreign` FOREIGN KEY (`damage_id`) REFERENCES `damages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `damage_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `damage_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `damage_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -568,7 +725,7 @@ CREATE TABLE `damages` (
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -597,11 +754,11 @@ CREATE TABLE `debt_settlements` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `debt_id` bigint(20) unsigned DEFAULT NULL,
   `amount` decimal(22,2) NOT NULL,
-  `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `method` varchar(255) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
   `settled_at` datetime DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -625,7 +782,7 @@ CREATE TABLE `debts` (
   `cash_amount` decimal(22,2) NOT NULL,
   `debt_amount` decimal(22,2) NOT NULL,
   `debt_amount_settled` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
   `last_settled_at` datetime DEFAULT NULL,
@@ -656,8 +813,8 @@ CREATE TABLE `departments` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -762,24 +919,24 @@ CREATE TABLE `employees` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `position` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `position` varchar(255) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_account` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tin_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `job_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `bank_account` varchar(255) DEFAULT NULL,
+  `tin_number` varchar(255) DEFAULT NULL,
+  `job_type` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `id_type` varchar(255) DEFAULT NULL,
+  `id_number` varchar(255) DEFAULT NULL,
   `date_of_hiring` datetime DEFAULT NULL,
   `date_of_birth` datetime DEFAULT NULL,
-  `emergency_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `emergency_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `emergency_name` varchar(255) DEFAULT NULL,
+  `emergency_phone` varchar(255) DEFAULT NULL,
   `paid_time_off_amount` decimal(22,2) DEFAULT NULL,
   `department_id` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -795,6 +952,71 @@ CREATE TABLE `employees` (
   CONSTRAINT `employees_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `exchange_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exchange_details` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `exchange_detailable_type` varchar(255) DEFAULT NULL,
+  `exchange_detailable_id` bigint(20) unsigned DEFAULT NULL,
+  `returned_quantity` decimal(22,2) NOT NULL,
+  `exchange_id` bigint(20) unsigned DEFAULT NULL,
+  `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
+  `quantity` decimal(22,2) NOT NULL,
+  `unit_price` decimal(22,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `exchangedetail` (`exchange_detailable_type`,`exchange_detailable_id`),
+  KEY `exchange_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  KEY `exchange_details_exchange_id_index` (`exchange_id`),
+  KEY `exchange_details_warehouse_id_index` (`warehouse_id`),
+  KEY `exchange_details_product_id_index` (`product_id`),
+  CONSTRAINT `exchange_details_exchange_id_foreign` FOREIGN KEY (`exchange_id`) REFERENCES `exchanges` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `exchange_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchange_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `exchange_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `exchanges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exchanges` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `return_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `updated_by` bigint(20) unsigned DEFAULT NULL,
+  `approved_by` bigint(20) unsigned DEFAULT NULL,
+  `executed_by` bigint(20) unsigned DEFAULT NULL,
+  `code` bigint(20) NOT NULL,
+  `exchangeable_type` varchar(255) DEFAULT NULL,
+  `exchangeable_id` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `exchanges_company_id_foreign` (`company_id`),
+  KEY `exchanges_warehouse_id_foreign` (`warehouse_id`),
+  KEY `exchanges_created_by_foreign` (`created_by`),
+  KEY `exchanges_updated_by_foreign` (`updated_by`),
+  KEY `exchanges_approved_by_foreign` (`approved_by`),
+  KEY `exchanges_executed_by_foreign` (`executed_by`),
+  KEY `exchange` (`exchangeable_type`,`exchangeable_id`),
+  KEY `exchanges_return_id_index` (`return_id`),
+  CONSTRAINT `exchanges_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_executed_by_foreign` FOREIGN KEY (`executed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_return_id_foreign` FOREIGN KEY (`return_id`) REFERENCES `returns` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `exchanges_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `expense_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -804,7 +1026,7 @@ CREATE TABLE `expense_categories` (
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -826,7 +1048,7 @@ DROP TABLE IF EXISTS `expense_claim_details`;
 CREATE TABLE `expense_claim_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `expense_claim_id` bigint(20) unsigned DEFAULT NULL,
-  `item` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `item` varchar(255) NOT NULL,
   `price` decimal(22,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -850,7 +1072,7 @@ CREATE TABLE `expense_claims` (
   `employee_id` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
   `issued_on` datetime DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -879,9 +1101,9 @@ CREATE TABLE `expense_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `expense_category_id` bigint(20) unsigned DEFAULT NULL,
   `expense_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `unit_price` decimal(8,2) NOT NULL,
+  `unit_price` decimal(12,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -900,14 +1122,18 @@ CREATE TABLE `expenses` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `supplier_id` bigint(20) unsigned DEFAULT NULL,
+  `tax_id` bigint(20) unsigned DEFAULT NULL,
   `contact_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `tax_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `reference_number` bigint(20) DEFAULT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `bank_reference_number` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -920,11 +1146,13 @@ CREATE TABLE `expenses` (
   KEY `expenses_company_id_index` (`company_id`),
   KEY `expenses_warehouse_id_index` (`warehouse_id`),
   KEY `expenses_contact_id_foreign` (`contact_id`),
+  KEY `expenses_tax_id_foreign` (`tax_id`),
   CONSTRAINT `expenses_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `expenses_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `expenses_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `expenses_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `expenses_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `expenses_tax_id_foreign` FOREIGN KEY (`tax_id`) REFERENCES `taxes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `expenses_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `expenses_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -934,10 +1162,10 @@ DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -949,7 +1177,7 @@ CREATE TABLE `featurables` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `feature_id` bigint(20) unsigned DEFAULT NULL,
   `featurable_id` bigint(20) NOT NULL,
-  `featurable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `featurable_type` varchar(255) NOT NULL,
   `is_enabled` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `featurables_feature_id_featurable_id_featurable_type_unique` (`feature_id`,`featurable_id`,`featurable_type`),
@@ -961,7 +1189,7 @@ DROP TABLE IF EXISTS `features`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `features` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `is_enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -974,22 +1202,25 @@ DROP TABLE IF EXISTS `gdn_detail_reports`;
 /*!50001 DROP VIEW IF EXISTS `gdn_detail_reports`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `gdn_detail_reports` (
-  `gdn_id` tinyint NOT NULL,
-  `gdn_master_report_id` tinyint NOT NULL,
-  `product_category_id` tinyint NOT NULL,
-  `product_category_name` tinyint NOT NULL,
-  `product_id` tinyint NOT NULL,
-  `product_name` tinyint NOT NULL,
-  `product_unit_of_measurement` tinyint NOT NULL,
-  `warehouse_id` tinyint NOT NULL,
-  `warehouse_name` tinyint NOT NULL,
-  `quantity` tinyint NOT NULL,
-  `unit_price` tinyint NOT NULL,
-  `discount` tinyint NOT NULL,
-  `brand_name` tinyint NOT NULL,
-  `line_price` tinyint NOT NULL
-) ENGINE=MyISAM */;
+/*!50001 CREATE VIEW `gdn_detail_reports` AS SELECT
+ 1 AS `gdn_id`,
+  1 AS `master_id`,
+  1 AS `gdn_master_report_id`,
+  1 AS `product_category_id`,
+  1 AS `product_category_name`,
+  1 AS `product_id`,
+  1 AS `product_name`,
+  1 AS `product_code`,
+  1 AS `product_unit_of_measurement`,
+  1 AS `warehouse_id`,
+  1 AS `warehouse_name`,
+  1 AS `quantity`,
+  1 AS `unit_price`,
+  1 AS `unit_cost`,
+  1 AS `discount`,
+  1 AS `brand_name`,
+  1 AS `line_price_before_tax`,
+  1 AS `line_tax` */;
 SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `gdn_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -999,10 +1230,13 @@ CREATE TABLE `gdn_details` (
   `gdn_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
+  `delivered_quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
+  `returned_quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
   `unit_price` decimal(22,2) DEFAULT NULL,
-  `discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1010,7 +1244,9 @@ CREATE TABLE `gdn_details` (
   KEY `gdn_details_gdn_id_index` (`gdn_id`),
   KEY `gdn_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `gdn_details_product_id_foreign` (`product_id`),
+  KEY `gdn_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
   CONSTRAINT `gdn_details_gdn_id_foreign` FOREIGN KEY (`gdn_id`) REFERENCES `gdns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `gdn_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gdn_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `gdn_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1019,26 +1255,30 @@ DROP TABLE IF EXISTS `gdn_master_reports`;
 /*!50001 DROP VIEW IF EXISTS `gdn_master_reports`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `gdn_master_reports` (
-  `id` tinyint NOT NULL,
-  `company_id` tinyint NOT NULL,
-  `created_by` tinyint NOT NULL,
-  `user_name` tinyint NOT NULL,
-  `status` tinyint NOT NULL,
-  `warehouse_id` tinyint NOT NULL,
-  `warehouse_name` tinyint NOT NULL,
-  `code` tinyint NOT NULL,
-  `customer_id` tinyint NOT NULL,
-  `customer_name` tinyint NOT NULL,
-  `customer_address` tinyint NOT NULL,
-  `customer_created_at` tinyint NOT NULL,
-  `payment_type` tinyint NOT NULL,
-  `cash_received_type` tinyint NOT NULL,
-  `cash_received` tinyint NOT NULL,
-  `discount` tinyint NOT NULL,
-  `issued_on` tinyint NOT NULL,
-  `subtotal_price` tinyint NOT NULL
-) ENGINE=MyISAM */;
+/*!50001 CREATE VIEW `gdn_master_reports` AS SELECT
+ 1 AS `id`,
+  1 AS `company_id`,
+  1 AS `created_by`,
+  1 AS `user_name`,
+  1 AS `warehouse_id`,
+  1 AS `branch_id`,
+  1 AS `branch_name`,
+  1 AS `code`,
+  1 AS `customer_id`,
+  1 AS `customer_name`,
+  1 AS `customer_address`,
+  1 AS `customer_created_at`,
+  1 AS `payment_type`,
+  1 AS `cash_received_type`,
+  1 AS `cash_received`,
+  1 AS `discount`,
+  1 AS `issued_on`,
+  1 AS `subtotal_price`,
+  1 AS `total_tax`,
+  1 AS `credit_amount`,
+  1 AS `credit_amount_settled`,
+  1 AS `credit_amount_unsettled`,
+  1 AS `last_settled_at` */;
 SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `gdns`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1056,19 +1296,21 @@ CREATE TABLE `gdns` (
   `code` bigint(20) NOT NULL,
   `is_closed` tinyint(1) NOT NULL DEFAULT 0,
   `is_converted_to_sale` tinyint(1) NOT NULL DEFAULT 0,
-  `discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cash_received_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount` varchar(255) DEFAULT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `cash_received_type` varchar(255) NOT NULL,
   `cash_received` decimal(22,2) DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `subtracted_by` bigint(20) unsigned DEFAULT NULL,
+  `added_by` bigint(20) unsigned DEFAULT NULL,
+  `cancelled_by` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `gdns_company_id_warehouse_id_code_unique` (`company_id`,`warehouse_id`,`code`),
   KEY `gdns_company_id_index` (`company_id`),
@@ -1080,7 +1322,11 @@ CREATE TABLE `gdns` (
   KEY `gdns_warehouse_id_foreign` (`warehouse_id`),
   KEY `gdns_subtracted_by_foreign` (`subtracted_by`),
   KEY `gdns_contact_id_foreign` (`contact_id`),
+  KEY `gdns_added_by_foreign` (`added_by`),
+  KEY `gdns_cancelled_by_foreign` (`cancelled_by`),
+  CONSTRAINT `gdns_added_by_foreign` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gdns_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `gdns_cancelled_by_foreign` FOREIGN KEY (`cancelled_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gdns_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `gdns_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `gdns_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -1100,8 +1346,8 @@ CREATE TABLE `general_tender_checklists` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `item` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `item` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1125,9 +1371,10 @@ CREATE TABLE `grn_details` (
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `batch_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `unit_cost` decimal(30,10) DEFAULT 0.0000000000,
+  `batch_no` varchar(255) DEFAULT NULL,
+  `expires_on` date DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1153,7 +1400,7 @@ CREATE TABLE `grns` (
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1184,7 +1431,7 @@ DROP TABLE IF EXISTS `integrations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `integrations` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `is_enabled` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1201,8 +1448,10 @@ CREATE TABLE `inventory_histories` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) NOT NULL,
   `model_id` bigint(20) NOT NULL,
+  `model_detail_type` varchar(255) DEFAULT NULL,
+  `model_detail_id` bigint(20) unsigned DEFAULT NULL,
   `is_subtract` tinyint(1) NOT NULL,
   `quantity` decimal(22,2) NOT NULL,
   `issued_on` datetime DEFAULT NULL,
@@ -1210,12 +1459,64 @@ CREATE TABLE `inventory_histories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `inventory_histories_model_detail_is_subtract` (`product_id`,`model_detail_type`,`model_detail_id`,`is_subtract`),
   KEY `inventory_histories_product_id_index` (`product_id`),
   KEY `inventory_histories_warehouse_id_index` (`warehouse_id`),
   KEY `inventory_histories_company_id_index` (`company_id`),
+  KEY `inventory_histories_model_detail_type_model_detail_id_index` (`model_detail_type`,`model_detail_id`),
   CONSTRAINT `inventory_histories_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `inventory_histories_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `inventory_histories_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `inventory_valuation_balances`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inventory_valuation_balances` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `quantity` decimal(22,2) NOT NULL,
+  `unit_cost` decimal(30,10) NOT NULL,
+  `operation` varchar(255) NOT NULL DEFAULT 'initial',
+  `model_detail_type` varchar(255) DEFAULT NULL,
+  `model_detail_id` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `original_quantity` decimal(22,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `inventory_valuation_balances_model_detail_type` (`product_id`,`model_detail_type`,`model_detail_id`,`type`,`operation`) USING HASH,
+  KEY `inventory_valuation_balances_company_id_index` (`company_id`),
+  KEY `inventory_valuation_balances_product_id_index` (`product_id`),
+  KEY `inventory_valuation_balances_model_detail_morph_index` (`model_detail_type`,`model_detail_id`),
+  CONSTRAINT `inventory_valuation_balances_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `inventory_valuation_balances_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `inventory_valuation_histories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inventory_valuation_histories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `unit_cost` decimal(30,10) NOT NULL,
+  `operation` varchar(255) NOT NULL DEFAULT 'initial',
+  `model_detail_type` varchar(255) DEFAULT NULL,
+  `model_detail_id` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `inventory_valuation_histories_model_detail_type` (`product_id`,`model_detail_type`,`model_detail_id`,`type`,`operation`) USING HASH,
+  KEY `inventory_valuation_histories_company_id_index` (`company_id`),
+  KEY `inventory_valuation_histories_product_id_index` (`product_id`),
+  KEY `inventory_valuation_histories_model_detail_morph_index` (`model_detail_type`,`model_detail_id`),
+  CONSTRAINT `inventory_valuation_histories_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `inventory_valuation_histories_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `job_detail_histories`;
@@ -1226,7 +1527,7 @@ CREATE TABLE `job_detail_histories` (
   `job_detail_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1269,8 +1570,8 @@ CREATE TABLE `job_extras` (
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `executed_by` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1297,7 +1598,7 @@ CREATE TABLE `job_orders` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
   `is_internal_job` tinyint(1) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1331,7 +1632,7 @@ CREATE TABLE `leave_categories` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1363,6 +1664,7 @@ CREATE TABLE `leaves` (
   `ending_period` datetime DEFAULT NULL,
   `is_paid_time_off` tinyint(1) NOT NULL,
   `time_off_amount` decimal(22,2) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1392,7 +1694,7 @@ CREATE TABLE `limitables` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `limit_id` bigint(20) unsigned DEFAULT NULL,
   `limitable_id` bigint(20) NOT NULL,
-  `limitable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `limitable_type` varchar(255) NOT NULL,
   `amount` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `limitables_limit_id_limitable_id_limitable_type_unique` (`limit_id`,`limitable_id`,`limitable_type`),
@@ -1404,7 +1706,7 @@ DROP TABLE IF EXISTS `limits`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `limits` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1418,12 +1720,13 @@ DROP TABLE IF EXISTS `merchandise_batches`;
 CREATE TABLE `merchandise_batches` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `merchandise_id` bigint(20) unsigned DEFAULT NULL,
-  `batch_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `expiry_date` date DEFAULT NULL,
+  `batch_no` varchar(255) DEFAULT NULL,
+  `expires_on` date DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `received_quantity` decimal(22,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `merchandise_batches_merchandise_id_index` (`merchandise_id`),
   KEY `merchandise_batches_batch_no_index` (`batch_no`),
@@ -1459,7 +1762,7 @@ DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1469,7 +1772,7 @@ DROP TABLE IF EXISTS `model_has_permissions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `model_has_permissions` (
   `permission_id` bigint(20) unsigned NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) NOT NULL,
   `model_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
   KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`),
@@ -1481,7 +1784,7 @@ DROP TABLE IF EXISTS `model_has_roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `model_has_roles` (
   `role_id` bigint(20) unsigned NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(255) NOT NULL,
   `model_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`),
@@ -1492,11 +1795,11 @@ DROP TABLE IF EXISTS `notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `notifications` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `notifiable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` char(36) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `notifiable_type` varchar(255) NOT NULL,
   `notifiable_id` bigint(20) unsigned NOT NULL,
-  `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `data` text NOT NULL,
   `read_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1510,14 +1813,15 @@ DROP TABLE IF EXISTS `pad_fields`;
 CREATE TABLE `pad_fields` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `pad_id` bigint(20) unsigned DEFAULT NULL,
-  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
   `is_master_field` tinyint(1) NOT NULL,
   `is_required` tinyint(1) NOT NULL,
   `is_visible` tinyint(1) NOT NULL,
   `is_printable` tinyint(1) NOT NULL,
-  `tag` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tag_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_readonly` tinyint(1) NOT NULL DEFAULT 0,
+  `tag` varchar(255) NOT NULL,
+  `tag_type` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1546,7 +1850,7 @@ DROP TABLE IF EXISTS `pad_permissions`;
 CREATE TABLE `pad_permissions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `pad_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1561,10 +1865,10 @@ DROP TABLE IF EXISTS `pad_relations`;
 CREATE TABLE `pad_relations` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `pad_field_id` bigint(20) unsigned DEFAULT NULL,
-  `relationship_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `representative_column` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `component_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `relationship_type` varchar(255) NOT NULL,
+  `model_name` varchar(255) NOT NULL,
+  `representative_column` varchar(255) NOT NULL,
+  `component_name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1579,9 +1883,9 @@ DROP TABLE IF EXISTS `pad_statuses`;
 CREATE TABLE `pad_statuses` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `pad_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `text_color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bg_color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `text_color` varchar(255) NOT NULL,
+  `bg_color` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `is_editable` tinyint(1) NOT NULL,
   `is_deletable` tinyint(1) NOT NULL,
@@ -1601,21 +1905,22 @@ CREATE TABLE `pads` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abbreviation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `inventory_operation_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `abbreviation` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  `inventory_operation_type` varchar(255) NOT NULL,
   `is_approvable` tinyint(1) NOT NULL,
   `is_printable` tinyint(1) NOT NULL,
   `has_prices` tinyint(1) NOT NULL,
-  `has_payment_term` tinyint(1) NOT NULL,
   `is_enabled` tinyint(1) NOT NULL,
-  `module` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `convert_to` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `convert_from` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `module` varchar(255) NOT NULL,
+  `convert_to` varchar(255) DEFAULT NULL,
+  `convert_from` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `print_orientation` varchar(255) NOT NULL DEFAULT 'portrait',
+  `print_paper_size` varchar(255) NOT NULL DEFAULT 'A4',
   PRIMARY KEY (`id`),
   KEY `pads_company_id_foreign` (`company_id`),
   KEY `pads_created_by_foreign` (`created_by`),
@@ -1657,6 +1962,7 @@ CREATE TABLE `payrolls` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `paid_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
+  `working_days` decimal(8,2) DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `paid_at` datetime DEFAULT NULL,
   `starting_period` date DEFAULT NULL,
@@ -1683,12 +1989,31 @@ DROP TABLE IF EXISTS `permissions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permissions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `personal_access_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `plans`;
@@ -1696,7 +2021,7 @@ DROP TABLE IF EXISTS `plans`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plans` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `is_enabled` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1731,8 +2056,8 @@ CREATE TABLE `price_increments` (
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `target_product` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `target_product` varchar(255) NOT NULL,
+  `price_type` varchar(255) NOT NULL,
   `price_increment` decimal(22,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1757,22 +2082,39 @@ CREATE TABLE `prices` (
   `company_id` bigint(20) unsigned NOT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `min_price` decimal(22,2) DEFAULT NULL,
-  `max_price` decimal(22,2) DEFAULT NULL,
   `fixed_price` decimal(22,2) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `prices_product_id_unique` (`product_id`),
   KEY `prices_created_by_foreign` (`created_by`),
   KEY `prices_updated_by_foreign` (`updated_by`),
   KEY `prices_company_id_index` (`company_id`),
+  KEY `prices_product_id_foreign` (`product_id`),
   CONSTRAINT `prices_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `prices_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `prices_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `prices_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_bundles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_bundles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `component_id` bigint(20) unsigned DEFAULT NULL,
+  `quantity` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_bundles_product_id_index` (`product_id`),
+  KEY `product_bundles_component_id_index` (`component_id`),
+  CONSTRAINT `product_bundles_component_id_foreign` FOREIGN KEY (`component_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `product_bundles_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `product_categories`;
@@ -1783,9 +2125,9 @@ CREATE TABLE `product_categories` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1798,6 +2140,33 @@ CREATE TABLE `product_categories` (
   CONSTRAINT `product_categories_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_reorders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_reorders` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned NOT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `updated_by` bigint(20) unsigned DEFAULT NULL,
+  `product_id` bigint(20) unsigned DEFAULT NULL,
+  `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `quantity` decimal(22,2) DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_reorders_product_id_warehouse_id_unique` (`product_id`,`warehouse_id`),
+  KEY `product_reorders_company_id_foreign` (`company_id`),
+  KEY `product_reorders_created_by_foreign` (`created_by`),
+  KEY `product_reorders_updated_by_foreign` (`updated_by`),
+  KEY `product_reorders_warehouse_id_foreign` (`warehouse_id`),
+  CONSTRAINT `product_reorders_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `product_reorders_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `product_reorders_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `product_reorders_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `product_reorders_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -1807,21 +2176,29 @@ CREATE TABLE `products` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `supplier_id` bigint(20) unsigned DEFAULT NULL,
   `brand_id` bigint(20) unsigned DEFAULT NULL,
+  `tax_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `unit_of_measurement` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `unit_of_measurement` varchar(255) NOT NULL,
   `min_on_hand` decimal(22,2) NOT NULL,
   `is_batchable` tinyint(1) NOT NULL DEFAULT 0,
-  `batch_priority` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `batch_priority` varchar(255) DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `is_product_single` tinyint(1) NOT NULL DEFAULT 1,
   `is_active_for_sale` tinyint(1) NOT NULL DEFAULT 1,
   `is_active_for_purchase` tinyint(1) NOT NULL DEFAULT 1,
   `is_active_for_job` tinyint(1) NOT NULL DEFAULT 1,
+  `inventory_valuation_method` varchar(255) NOT NULL DEFAULT 'average',
+  `lifo_unit_cost` decimal(30,10) NOT NULL DEFAULT 0.0000000000,
+  `fifo_unit_cost` decimal(30,10) NOT NULL DEFAULT 0.0000000000,
+  `average_unit_cost` decimal(30,10) NOT NULL DEFAULT 0.0000000000,
+  `profit_margin_type` varchar(255) NOT NULL DEFAULT 'percent',
+  `profit_margin_amount` decimal(22,2) NOT NULL DEFAULT 0.00,
   `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1832,11 +2209,13 @@ CREATE TABLE `products` (
   KEY `products_created_by_foreign` (`created_by`),
   KEY `products_updated_by_foreign` (`updated_by`),
   KEY `products_brand_id_foreign` (`brand_id`),
+  KEY `products_tax_id_foreign` (`tax_id`),
   CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `products_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `products_product_category_id_foreign` FOREIGN KEY (`product_category_id`) REFERENCES `product_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `products_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `products_tax_id_foreign` FOREIGN KEY (`tax_id`) REFERENCES `taxes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `products_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1846,9 +2225,10 @@ DROP TABLE IF EXISTS `proforma_invoice_details`;
 CREATE TABLE `proforma_invoice_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `proforma_invoice_id` bigint(20) unsigned DEFAULT NULL,
-  `custom_product` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `custom_product` varchar(255) DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
-  `specification` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
+  `specification` longtext DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
   `unit_price` decimal(22,2) NOT NULL,
   `discount` decimal(22,2) DEFAULT NULL,
@@ -1858,6 +2238,8 @@ CREATE TABLE `proforma_invoice_details` (
   PRIMARY KEY (`id`),
   KEY `proforma_invoice_details_proforma_invoice_id_index` (`proforma_invoice_id`),
   KEY `proforma_invoice_details_product_id_foreign` (`product_id`),
+  KEY `proforma_invoice_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  CONSTRAINT `proforma_invoice_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `proforma_invoice_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `proforma_invoice_details_proforma_invoice_id_foreign` FOREIGN KEY (`proforma_invoice_id`) REFERENCES `proforma_invoices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1874,12 +2256,14 @@ CREATE TABLE `proforma_invoices` (
   `converted_by` bigint(20) unsigned DEFAULT NULL,
   `customer_id` bigint(20) unsigned DEFAULT NULL,
   `contact_id` bigint(20) unsigned DEFAULT NULL,
-  `prefix` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prefix` varchar(255) DEFAULT NULL,
   `code` bigint(20) NOT NULL,
+  `proforma_invoiceable_type` varchar(255) DEFAULT NULL,
+  `proforma_invoiceable_id` bigint(20) unsigned DEFAULT NULL,
   `is_closed` tinyint(1) NOT NULL DEFAULT 0,
-  `discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount` varchar(255) DEFAULT NULL,
   `is_pending` tinyint(1) NOT NULL,
-  `terms` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `terms` longtext DEFAULT NULL,
   `expires_on` datetime DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1894,6 +2278,7 @@ CREATE TABLE `proforma_invoices` (
   KEY `proforma_invoices_converted_by_foreign` (`converted_by`),
   KEY `proforma_invoices_warehouse_id_foreign` (`warehouse_id`),
   KEY `proforma_invoices_contact_id_foreign` (`contact_id`),
+  KEY `pi` (`proforma_invoiceable_type`,`proforma_invoiceable_id`),
   CONSTRAINT `proforma_invoices_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `proforma_invoices_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `proforma_invoices_converted_by_foreign` FOREIGN KEY (`converted_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
@@ -1912,7 +2297,7 @@ CREATE TABLE `purchase_details` (
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `unit_price` decimal(22,2) NOT NULL,
+  `unit_price` decimal(30,10) NOT NULL,
   `amount` decimal(22,2) DEFAULT NULL,
   `duty_rate` decimal(22,2) DEFAULT NULL,
   `excise_tax` decimal(22,2) DEFAULT NULL,
@@ -1922,6 +2307,8 @@ CREATE TABLE `purchase_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
+  `batch_no` varchar(255) DEFAULT NULL,
+  `expires_on` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `purchase_details_purchase_id_index` (`purchase_id`),
   KEY `purchase_details_product_id_index` (`product_id`),
@@ -1939,27 +2326,30 @@ CREATE TABLE `purchases` (
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `supplier_id` bigint(20) unsigned DEFAULT NULL,
+  `tax_id` bigint(20) unsigned DEFAULT NULL,
   `contact_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `purchased_by` bigint(20) unsigned DEFAULT NULL,
+  `rejected_by` bigint(20) unsigned DEFAULT NULL,
+  `cancelled_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
   `is_closed` tinyint(1) NOT NULL DEFAULT 0,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cash_paid_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `cash_paid_type` varchar(255) NOT NULL,
   `cash_paid` decimal(22,2) NOT NULL,
   `due_date` datetime DEFAULT NULL,
-  `tax_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `currency` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `exchange_rate` decimal(22,2) DEFAULT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  `exchange_rate` decimal(30,10) DEFAULT NULL,
   `freight_cost` decimal(22,2) DEFAULT NULL,
   `freight_insurance_cost` decimal(22,2) DEFAULT NULL,
-  `freight_unit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `other_costs` decimal(22,2) NOT NULL DEFAULT 0.00,
+  `freight_unit` varchar(255) DEFAULT NULL,
+  `other_costs_before_tax` decimal(22,2) NOT NULL DEFAULT 0.00,
+  `other_costs_after_tax` decimal(22,2) NOT NULL DEFAULT 0.00,
   `purchased_on` datetime DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -1973,12 +2363,18 @@ CREATE TABLE `purchases` (
   KEY `purchases_approved_by_foreign` (`approved_by`),
   KEY `purchases_purchased_by_foreign` (`purchased_by`),
   KEY `purchases_contact_id_foreign` (`contact_id`),
+  KEY `purchases_rejected_by_foreign` (`rejected_by`),
+  KEY `purchases_cancelled_by_foreign` (`cancelled_by`),
+  KEY `purchases_tax_id_foreign` (`tax_id`),
   CONSTRAINT `purchases_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `purchases_cancelled_by_foreign` FOREIGN KEY (`cancelled_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `purchases_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_purchased_by_foreign` FOREIGN KEY (`purchased_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `purchases_rejected_by_foreign` FOREIGN KEY (`rejected_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_supplier_id_foreign` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `purchases_tax_id_foreign` FOREIGN KEY (`tax_id`) REFERENCES `taxes` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `purchases_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1988,12 +2384,12 @@ DROP TABLE IF EXISTS `push_subscriptions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `push_subscriptions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `subscribable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subscribable_type` varchar(255) NOT NULL,
   `subscribable_id` bigint(20) unsigned NOT NULL,
-  `endpoint` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `public_key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `auth_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content_encoding` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `endpoint` varchar(500) NOT NULL,
+  `public_key` varchar(255) DEFAULT NULL,
+  `auth_token` varchar(255) DEFAULT NULL,
+  `content_encoding` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -2009,10 +2405,11 @@ CREATE TABLE `reservation_details` (
   `reservation_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
   `unit_price` decimal(22,2) DEFAULT NULL,
-  `discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2020,6 +2417,8 @@ CREATE TABLE `reservation_details` (
   KEY `reservation_details_reservation_id_index` (`reservation_id`),
   KEY `reservation_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `reservation_details_product_id_foreign` (`product_id`),
+  KEY `reservation_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  CONSTRAINT `reservation_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `reservation_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reservation_details_reservation_id_foreign` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `reservation_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2040,19 +2439,20 @@ CREATE TABLE `reservations` (
   `reserved_by` bigint(20) unsigned DEFAULT NULL,
   `cancelled_by` bigint(20) unsigned DEFAULT NULL,
   `converted_by` bigint(20) unsigned DEFAULT NULL,
-  `reservable_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reservable_type` varchar(255) DEFAULT NULL,
   `reservable_id` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `discount` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cash_received_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `has_withholding` tinyint(1) DEFAULT NULL,
+  `discount` varchar(255) DEFAULT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `cash_received_type` varchar(255) NOT NULL,
   `cash_received` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `expires_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2089,9 +2489,10 @@ CREATE TABLE `return_details` (
   `return_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
   `unit_price` decimal(22,2) DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2099,6 +2500,8 @@ CREATE TABLE `return_details` (
   KEY `return_details_return_id_index` (`return_id`),
   KEY `return_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `return_details_product_id_foreign` (`product_id`),
+  KEY `return_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  CONSTRAINT `return_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `return_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `return_details_return_id_foreign` FOREIGN KEY (`return_id`) REFERENCES `returns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `return_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2110,6 +2513,7 @@ DROP TABLE IF EXISTS `returns`;
 CREATE TABLE `returns` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `gdn_id` bigint(20) unsigned DEFAULT NULL,
   `customer_id` bigint(20) unsigned DEFAULT NULL,
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
@@ -2117,7 +2521,7 @@ CREATE TABLE `returns` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `added_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -2131,10 +2535,12 @@ CREATE TABLE `returns` (
   KEY `returns_approved_by_foreign` (`approved_by`),
   KEY `returns_returned_by_foreign` (`added_by`),
   KEY `returns_warehouse_id_foreign` (`warehouse_id`),
+  KEY `returns_gdn_id_foreign` (`gdn_id`),
   CONSTRAINT `returns_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `returns_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `returns_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `returns_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `returns_gdn_id_foreign` FOREIGN KEY (`gdn_id`) REFERENCES `gdns` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `returns_returned_by_foreign` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `returns_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `returns_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
@@ -2157,8 +2563,8 @@ DROP TABLE IF EXISTS `roles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -2169,19 +2575,22 @@ DROP TABLE IF EXISTS `sale_detail_reports`;
 /*!50001 DROP VIEW IF EXISTS `sale_detail_reports`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `sale_detail_reports` (
-  `sale_id` tinyint NOT NULL,
-  `sale_master_report_id` tinyint NOT NULL,
-  `product_category_id` tinyint NOT NULL,
-  `product_category_name` tinyint NOT NULL,
-  `product_id` tinyint NOT NULL,
-  `product_name` tinyint NOT NULL,
-  `product_unit_of_measurement` tinyint NOT NULL,
-  `quantity` tinyint NOT NULL,
-  `unit_price` tinyint NOT NULL,
-  `brand_name` tinyint NOT NULL,
-  `line_price` tinyint NOT NULL
-) ENGINE=MyISAM */;
+/*!50001 CREATE VIEW `sale_detail_reports` AS SELECT
+ 1 AS `sale_id`,
+  1 AS `master_id`,
+  1 AS `sale_master_report_id`,
+  1 AS `product_category_id`,
+  1 AS `product_category_name`,
+  1 AS `product_id`,
+  1 AS `product_name`,
+  1 AS `product_code`,
+  1 AS `product_unit_of_measurement`,
+  1 AS `quantity`,
+  1 AS `unit_price`,
+  1 AS `unit_cost`,
+  1 AS `brand_name`,
+  1 AS `line_price_before_tax`,
+  1 AS `line_tax` */;
 SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `sale_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -2190,43 +2599,54 @@ CREATE TABLE `sale_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `sale_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `warehouse_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
+  `delivered_quantity` decimal(22,2) NOT NULL DEFAULT 0.00,
   `unit_price` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `sale_details_sale_id_index` (`sale_id`),
   KEY `sale_details_product_id_index` (`product_id`),
+  KEY `sale_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  KEY `sale_details_warehouse_id_foreign` (`warehouse_id`),
+  CONSTRAINT `sale_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sale_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `sale_details_sale_id_foreign` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `sale_details_sale_id_foreign` FOREIGN KEY (`sale_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sale_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `sale_master_reports`;
 /*!50001 DROP VIEW IF EXISTS `sale_master_reports`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `sale_master_reports` (
-  `id` tinyint NOT NULL,
-  `company_id` tinyint NOT NULL,
-  `created_by` tinyint NOT NULL,
-  `user_name` tinyint NOT NULL,
-  `status` tinyint NOT NULL,
-  `warehouse_id` tinyint NOT NULL,
-  `warehouse_name` tinyint NOT NULL,
-  `code` tinyint NOT NULL,
-  `customer_id` tinyint NOT NULL,
-  `customer_name` tinyint NOT NULL,
-  `customer_address` tinyint NOT NULL,
-  `customer_created_at` tinyint NOT NULL,
-  `fs_number` tinyint NOT NULL,
-  `payment_type` tinyint NOT NULL,
-  `cash_received_type` tinyint NOT NULL,
-  `cash_received` tinyint NOT NULL,
-  `issued_on` tinyint NOT NULL,
-  `subtotal_price` tinyint NOT NULL
-) ENGINE=MyISAM */;
+/*!50001 CREATE VIEW `sale_master_reports` AS SELECT
+ 1 AS `id`,
+  1 AS `company_id`,
+  1 AS `created_by`,
+  1 AS `user_name`,
+  1 AS `warehouse_id`,
+  1 AS `branch_id`,
+  1 AS `branch_name`,
+  1 AS `code`,
+  1 AS `customer_id`,
+  1 AS `customer_name`,
+  1 AS `customer_address`,
+  1 AS `customer_created_at`,
+  1 AS `fs_number`,
+  1 AS `payment_type`,
+  1 AS `cash_received_type`,
+  1 AS `cash_received`,
+  1 AS `issued_on`,
+  1 AS `subtotal_price`,
+  1 AS `total_tax`,
+  1 AS `credit_amount`,
+  1 AS `credit_amount_settled`,
+  1 AS `credit_amount_unsettled`,
+  1 AS `last_settled_at` */;
 SET character_set_client = @saved_cs_client;
 DROP TABLE IF EXISTS `sales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -2240,17 +2660,20 @@ CREATE TABLE `sales` (
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
+  `subtracted_by` bigint(20) unsigned DEFAULT NULL,
+  `added_by` bigint(20) unsigned DEFAULT NULL,
   `cancelled_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `fs_number` bigint(20) DEFAULT NULL,
-  `payment_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cash_received_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fs_number` varchar(255) DEFAULT NULL,
+  `payment_type` varchar(255) NOT NULL,
+  `cash_received_type` varchar(255) NOT NULL,
   `cash_received` decimal(22,2) NOT NULL,
   `issued_on` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bank_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `bank_name` varchar(255) DEFAULT NULL,
+  `reference_number` varchar(255) DEFAULT NULL,
+  `has_withholding` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2265,12 +2688,16 @@ CREATE TABLE `sales` (
   KEY `sales_approved_by_foreign` (`approved_by`),
   KEY `sales_cancelled_by_foreign` (`cancelled_by`),
   KEY `sales_contact_id_foreign` (`contact_id`),
+  KEY `sales_subtracted_by_foreign` (`subtracted_by`),
+  KEY `sales_added_by_foreign` (`added_by`),
+  CONSTRAINT `sales_added_by_foreign` FOREIGN KEY (`added_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_cancelled_by_foreign` FOREIGN KEY (`cancelled_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sales_contact_id_foreign` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `sales_subtracted_by_foreign` FOREIGN KEY (`subtracted_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2283,8 +2710,9 @@ CREATE TABLE `siv_details` (
   `siv_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2292,6 +2720,8 @@ CREATE TABLE `siv_details` (
   KEY `siv_details_siv_id_index` (`siv_id`),
   KEY `siv_details_warehouse_id_foreign` (`warehouse_id`),
   KEY `siv_details_product_id_foreign` (`product_id`),
+  KEY `siv_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  CONSTRAINT `siv_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `siv_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `siv_details_siv_id_foreign` FOREIGN KEY (`siv_id`) REFERENCES `sivs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `siv_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -2307,17 +2737,18 @@ CREATE TABLE `sivs` (
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `approved_by` bigint(20) unsigned DEFAULT NULL,
+  `subtracted_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `purpose` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `issued_to` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `received_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sivable_type` varchar(255) DEFAULT NULL,
+  `sivable_id` bigint(20) unsigned DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
+  `issued_to` varchar(255) DEFAULT NULL,
+  `received_by` varchar(255) DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  `ref_num` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `delivered_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `delivered_by` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sivs_company_id_warehouse_id_code_unique` (`company_id`,`warehouse_id`,`code`),
   KEY `sivs_company_id_index` (`company_id`),
@@ -2325,11 +2756,34 @@ CREATE TABLE `sivs` (
   KEY `sivs_updated_by_foreign` (`updated_by`),
   KEY `sivs_approved_by_foreign` (`approved_by`),
   KEY `sivs_warehouse_id_foreign` (`warehouse_id`),
+  KEY `sivs_subtracted_by_foreign` (`subtracted_by`),
+  KEY `siv` (`sivable_type`,`sivable_id`),
   CONSTRAINT `sivs_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sivs_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sivs_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `sivs_subtracted_by_foreign` FOREIGN KEY (`subtracted_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sivs_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sivs_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `subscriptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subscriptions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `plan_id` bigint(20) unsigned DEFAULT NULL,
+  `starts_on` date DEFAULT NULL,
+  `months` int(11) NOT NULL,
+  `is_approved` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subscriptions_company_id_foreign` (`company_id`),
+  KEY `subscriptions_plan_id_foreign` (`plan_id`),
+  CONSTRAINT `subscriptions_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `subscriptions_plan_id_foreign` FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `suppliers`;
@@ -2340,14 +2794,16 @@ CREATE TABLE `suppliers` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contact_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `tin` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `contact_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
   `debt_amount_limit` decimal(22,2) NOT NULL,
+  `business_license_attachment` varchar(255) DEFAULT NULL,
+  `business_license_expires_on` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2361,6 +2817,22 @@ CREATE TABLE `suppliers` (
   CONSTRAINT `suppliers_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `taxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `taxes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` bigint(20) unsigned DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `amount` decimal(22,2) NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `taxes_company_id_index` (`company_id`),
+  CONSTRAINT `taxes_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `tender_checklist_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -2369,9 +2841,9 @@ CREATE TABLE `tender_checklist_types` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `is_sensitive` tinyint(1) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2393,8 +2865,8 @@ CREATE TABLE `tender_checklists` (
   `tender_id` bigint(20) unsigned DEFAULT NULL,
   `general_tender_checklist_id` bigint(20) unsigned DEFAULT NULL,
   `assigned_to` bigint(20) unsigned DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `comment` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2415,7 +2887,7 @@ CREATE TABLE `tender_lot_details` (
   `tender_lot_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2451,14 +2923,14 @@ CREATE TABLE `tender_opportunities` (
   `tender_status_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `source` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `source` varchar(255) NOT NULL,
   `published_on` datetime DEFAULT NULL,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `currency` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `body` longtext NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `currency` varchar(255) DEFAULT NULL,
   `price` decimal(22,2) DEFAULT NULL,
-  `comments` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comments` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2485,8 +2957,8 @@ CREATE TABLE `tender_statuses` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) NOT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2509,21 +2981,21 @@ CREATE TABLE `tenders` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bid_bond_amount` varchar(22) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `type` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `bid_bond_amount` varchar(22) DEFAULT NULL,
   `bid_bond_validity` bigint(20) DEFAULT NULL,
-  `bid_bond_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_term` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bid_bond_type` varchar(255) DEFAULT NULL,
+  `price` longtext DEFAULT NULL,
+  `payment_term` longtext DEFAULT NULL,
   `participants` bigint(20) DEFAULT NULL,
   `published_on` datetime DEFAULT NULL,
   `closing_date` datetime DEFAULT NULL,
   `opening_date` datetime DEFAULT NULL,
-  `financial_reading` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `technical_reading` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `financial_reading` longtext DEFAULT NULL,
+  `technical_reading` longtext DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2550,14 +3022,14 @@ CREATE TABLE `transaction_fields` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `transaction_id` bigint(20) unsigned DEFAULT NULL,
   `pad_field_id` bigint(20) unsigned DEFAULT NULL,
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `value` longtext DEFAULT NULL,
   `line` bigint(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `transaction_fields_transaction_id_pad_field_id_key_value_unique` (`transaction_id`,`pad_field_id`,`key`,`value`),
+  UNIQUE KEY `transaction_fields_transaction_id_pad_field_id_key_value_unique` (`transaction_id`,`pad_field_id`,`key`,`value`) USING HASH,
   KEY `transaction_fields_pad_field_id_foreign` (`pad_field_id`),
   KEY `transaction_fields_transaction_id_index` (`transaction_id`),
   CONSTRAINT `transaction_fields_pad_field_id_foreign` FOREIGN KEY (`pad_field_id`) REFERENCES `pad_fields` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -2575,7 +3047,7 @@ CREATE TABLE `transactions` (
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -2600,14 +3072,17 @@ CREATE TABLE `transfer_details` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `transfer_id` bigint(20) unsigned DEFAULT NULL,
   `product_id` bigint(20) unsigned DEFAULT NULL,
+  `merchandise_batch_id` bigint(20) unsigned DEFAULT NULL,
   `quantity` decimal(22,2) NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `transfer_details_transfer_id_index` (`transfer_id`),
   KEY `transfer_details_product_id_foreign` (`product_id`),
+  KEY `transfer_details_merchandise_batch_id_foreign` (`merchandise_batch_id`),
+  CONSTRAINT `transfer_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `transfer_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transfer_details_transfer_id_foreign` FOREIGN KEY (`transfer_id`) REFERENCES `transfers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2628,7 +3103,7 @@ CREATE TABLE `transfers` (
   `transferred_to` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
   `is_closed` tinyint(1) NOT NULL DEFAULT 0,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `issued_on` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -2662,7 +3137,7 @@ CREATE TABLE `user_warehouse` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -2678,12 +3153,13 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `warehouse_id` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0,
   `last_online_at` datetime DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2701,15 +3177,16 @@ CREATE TABLE `warehouses` (
   `company_id` bigint(20) unsigned DEFAULT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `updated_by` bigint(20) unsigned DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `is_sales_store` tinyint(1) NOT NULL DEFAULT 1,
   `can_be_sold_from` tinyint(1) NOT NULL DEFAULT 1,
-  `pos_provider` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pos_provider` varchar(255) DEFAULT NULL,
+  `host_address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2734,9 +3211,9 @@ CREATE TABLE `warnings` (
   `approved_by` bigint(20) unsigned DEFAULT NULL,
   `employee_id` bigint(20) unsigned DEFAULT NULL,
   `code` bigint(20) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) NOT NULL,
   `issued_on` datetime DEFAULT NULL,
-  `letter` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `letter` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -2755,7 +3232,6 @@ CREATE TABLE `warnings` (
   CONSTRAINT `warnings_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-/*!50001 DROP TABLE IF EXISTS `gdn_detail_reports`*/;
 /*!50001 DROP VIEW IF EXISTS `gdn_detail_reports`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -2764,11 +3240,11 @@ CREATE TABLE `warnings` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50001 VIEW `gdn_detail_reports` AS select `gdn_details`.`gdn_id` AS `gdn_id`,`gdn_details`.`gdn_id` AS `gdn_master_report_id`,`product_categories`.`id` AS `product_category_id`,`product_categories`.`name` AS `product_category_name`,`gdn_details`.`product_id` AS `product_id`,`products`.`name` AS `product_name`,`products`.`unit_of_measurement` AS `product_unit_of_measurement`,`gdn_details`.`warehouse_id` AS `warehouse_id`,`warehouses`.`name` AS `warehouse_name`,`gdn_details`.`quantity` AS `quantity`,`gdn_details`.`unit_price` AS `unit_price`,`gdn_details`.`discount` AS `discount`,`brands`.`name` AS `brand_name`,if(`gdn_details`.`discount` is null,(select round(sum(if(`companies`.`is_price_before_vat` = 1,round(`gd`.`unit_price`,2),round(`gd`.`unit_price` / 1.15,2)) * `gd`.`quantity`),2) from `gdn_details` `gd` where `gd`.`id` = `gdn_details`.`id`),(select round(sum(if(`companies`.`is_price_before_vat` = 1,round(`gd`.`unit_price`,2),round(`gd`.`unit_price` / 1.15,2)) * `gd`.`quantity`),2) from `gdn_details` `gd` where `gd`.`id` = `gdn_details`.`id`) - round((select round(sum(if(`companies`.`is_price_before_vat` = 1,round(`gd`.`unit_price`,2),round(`gd`.`unit_price` / 1.15,2)) * `gd`.`quantity`),2) from `gdn_details` `gd` where `gd`.`id` = `gdn_details`.`id`) * (`gdn_details`.`discount` / 100),2)) AS `line_price` from ((((((`gdn_details` join `gdns` on(`gdns`.`id` = `gdn_details`.`gdn_id` and `gdns`.`deleted_at` is null)) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) join `products` on(`gdn_details`.`product_id` = `products`.`id`)) join `product_categories` on(`products`.`product_category_id` = `product_categories`.`id`)) join `warehouses` on(`gdn_details`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `brands` on(`products`.`brand_id` = `brands`.`id`)) where `gdn_details`.`deleted_at` is null */;
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `gdn_detail_reports` AS select `gdn_details`.`gdn_id` AS `gdn_id`,`gdn_details`.`gdn_id` AS `master_id`,`gdn_details`.`gdn_id` AS `gdn_master_report_id`,`product_categories`.`id` AS `product_category_id`,`product_categories`.`name` AS `product_category_name`,`gdn_details`.`product_id` AS `product_id`,`products`.`name` AS `product_name`,`products`.`code` AS `product_code`,`products`.`unit_of_measurement` AS `product_unit_of_measurement`,`gdn_details`.`warehouse_id` AS `warehouse_id`,`warehouses`.`name` AS `warehouse_name`,`gdn_details`.`quantity` AS `quantity`,`gdn_details`.`unit_price` AS `unit_price`,if(`products`.`is_product_single` = 1,(select `inventory_valuation_histories`.`unit_cost` from `inventory_valuation_histories` where `inventory_valuation_histories`.`product_id` = `gdn_details`.`product_id` and `inventory_valuation_histories`.`type` = `products`.`inventory_valuation_method` and `inventory_valuation_histories`.`created_at` <= `gdns`.`issued_on` and `inventory_valuation_histories`.`deleted_at` is null order by `inventory_valuation_histories`.`id` desc limit 1),(select sum(`inventory_valuation_histories`.`unit_cost` * `product_bundles`.`quantity`) from (`product_bundles` join `inventory_valuation_histories` on(`product_bundles`.`component_id` = `inventory_valuation_histories`.`product_id`)) where `product_bundles`.`product_id` = `gdn_details`.`product_id` and `inventory_valuation_histories`.`type` = `products`.`inventory_valuation_method` and `inventory_valuation_histories`.`created_at` <= `gdns`.`issued_on` and `inventory_valuation_histories`.`deleted_at` is null group by `product_bundles`.`product_id` order by `inventory_valuation_histories`.`id` desc)) AS `unit_cost`,`gdn_details`.`discount` AS `discount`,`brands`.`name` AS `brand_name`,if(`gdn_details`.`discount` is null,if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity`,if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity` - if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity` * (`gdn_details`.`discount` / 100)) AS `line_price_before_tax`,if(`gdn_details`.`discount` is null,if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity` * `taxes`.`amount`,if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity` * `taxes`.`amount` - if(`companies`.`is_price_before_vat` = 1,`gdn_details`.`unit_price`,`gdn_details`.`unit_price` / (1 + `taxes`.`amount`)) * `gdn_details`.`quantity` * `taxes`.`amount` * (`gdn_details`.`discount` / 100)) AS `line_tax` from (((((((`gdn_details` join `gdns` on(`gdns`.`id` = `gdn_details`.`gdn_id` and `gdns`.`deleted_at` is null and `gdns`.`cancelled_by` is null)) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) join `products` on(`gdn_details`.`product_id` = `products`.`id`)) join `product_categories` on(`products`.`product_category_id` = `product_categories`.`id`)) join `taxes` on(`products`.`tax_id` = `taxes`.`id`)) join `warehouses` on(`gdn_details`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `brands` on(`products`.`brand_id` = `brands`.`id`)) where `gdn_details`.`deleted_at` is null */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-/*!50001 DROP TABLE IF EXISTS `gdn_master_reports`*/;
 /*!50001 DROP VIEW IF EXISTS `gdn_master_reports`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -2777,11 +3253,11 @@ CREATE TABLE `warnings` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50001 VIEW `gdn_master_reports` AS select `gdns`.`id` AS `id`,`gdns`.`company_id` AS `company_id`,`gdns`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,case when `gdns`.`subtracted_by` is not null then 'subtracted' when `gdns`.`approved_by` is not null then 'approved' else 'not_approved' end AS `status`,`gdns`.`warehouse_id` AS `warehouse_id`,`warehouses`.`name` AS `warehouse_name`,`gdns`.`code` AS `code`,`gdns`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`gdns_two`.`issued_on`) from `gdns` `gdns_two` where `gdns_two`.`customer_id` = `gdns`.`customer_id` and `gdns_two`.`deleted_at` is null) AS `customer_created_at`,`gdns`.`payment_type` AS `payment_type`,`gdns`.`cash_received_type` AS `cash_received_type`,`gdns`.`cash_received` AS `cash_received`,`gdns`.`discount` AS `discount`,`gdns`.`issued_on` AS `issued_on`,if(`gdns`.`discount` is null,(select round(sum(`gdn_detail_reports`.`line_price`),2) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select round(sum(`gdn_detail_reports`.`line_price`),2) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - round((select round(sum(`gdn_detail_reports`.`line_price`),2) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100),2)) AS `subtotal_price` from ((((`gdns` join `warehouses` on(`gdns`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`gdns`.`created_by` = `users`.`id`)) left join `customers` on(`gdns`.`customer_id` = `customers`.`id`)) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) where `gdns`.`deleted_at` is null */;
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `gdn_master_reports` AS select `gdns`.`id` AS `id`,`gdns`.`company_id` AS `company_id`,`gdns`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`gdns`.`warehouse_id` AS `warehouse_id`,`gdns`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`gdns`.`code` AS `code`,`gdns`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`gdns_two`.`issued_on`) from `gdns` `gdns_two` where `gdns_two`.`customer_id` = `gdns`.`customer_id` and `gdns_two`.`deleted_at` is null) AS `customer_created_at`,`gdns`.`payment_type` AS `payment_type`,`gdns`.`cash_received_type` AS `cash_received_type`,`gdns`.`cash_received` AS `cash_received`,`gdns`.`discount` AS `discount`,`gdns`.`issued_on` AS `issued_on`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `subtotal_price`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`gdns` join `warehouses` on(`gdns`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`gdns`.`created_by` = `users`.`id`)) left join `customers` on(`gdns`.`customer_id` = `customers`.`id`)) left join `credits` on(`gdns`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Gdn')) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) where `gdns`.`deleted_at` is null and `gdns`.`cancelled_by` is null and `gdns`.`subtracted_by` is not null */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-/*!50001 DROP TABLE IF EXISTS `sale_detail_reports`*/;
 /*!50001 DROP VIEW IF EXISTS `sale_detail_reports`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -2790,11 +3266,11 @@ CREATE TABLE `warnings` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50001 VIEW `sale_detail_reports` AS select `sale_details`.`sale_id` AS `sale_id`,`sale_details`.`sale_id` AS `sale_master_report_id`,`product_categories`.`id` AS `product_category_id`,`product_categories`.`name` AS `product_category_name`,`sale_details`.`product_id` AS `product_id`,`products`.`name` AS `product_name`,`products`.`unit_of_measurement` AS `product_unit_of_measurement`,`sale_details`.`quantity` AS `quantity`,`sale_details`.`unit_price` AS `unit_price`,`brands`.`name` AS `brand_name`,(select round(sum(if(`companies`.`is_price_before_vat` = 1,round(`sd`.`unit_price`,2),round(`sd`.`unit_price` / 1.15,2)) * `sd`.`quantity`),2) from `sale_details` `sd` where `sd`.`id` = `sale_details`.`id`) AS `line_price` from (((((`sale_details` join `sales` on(`sales`.`id` = `sale_details`.`sale_id` and `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null)) join `companies` on(`sales`.`company_id` = `companies`.`id`)) join `products` on(`sale_details`.`product_id` = `products`.`id`)) join `product_categories` on(`products`.`product_category_id` = `product_categories`.`id`)) left join `brands` on(`products`.`brand_id` = `brands`.`id`)) where `sale_details`.`deleted_at` is null */;
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `sale_detail_reports` AS select `sale_details`.`sale_id` AS `sale_id`,`sale_details`.`sale_id` AS `master_id`,`sale_details`.`sale_id` AS `sale_master_report_id`,`product_categories`.`id` AS `product_category_id`,`product_categories`.`name` AS `product_category_name`,`sale_details`.`product_id` AS `product_id`,`products`.`name` AS `product_name`,`products`.`code` AS `product_code`,`products`.`unit_of_measurement` AS `product_unit_of_measurement`,`sale_details`.`quantity` AS `quantity`,`sale_details`.`unit_price` AS `unit_price`,if(`products`.`is_product_single` = 1,(select `inventory_valuation_histories`.`unit_cost` from `inventory_valuation_histories` where `inventory_valuation_histories`.`product_id` = `sale_details`.`product_id` and `inventory_valuation_histories`.`type` = `products`.`inventory_valuation_method` and `inventory_valuation_histories`.`created_at` <= `sales`.`issued_on` and `inventory_valuation_histories`.`deleted_at` is null order by `inventory_valuation_histories`.`id` desc limit 1),(select sum(`inventory_valuation_histories`.`unit_cost` * `product_bundles`.`quantity`) from (`product_bundles` join `inventory_valuation_histories` on(`product_bundles`.`component_id` = `inventory_valuation_histories`.`product_id`)) where `product_bundles`.`product_id` = `sale_details`.`product_id` and `inventory_valuation_histories`.`type` = `products`.`inventory_valuation_method` and `inventory_valuation_histories`.`created_at` <= `sales`.`issued_on` and `inventory_valuation_histories`.`deleted_at` is null group by `product_bundles`.`product_id` order by `inventory_valuation_histories`.`id` desc)) AS `unit_cost`,`brands`.`name` AS `brand_name`,if(`companies`.`is_price_before_vat` = 1,`sale_details`.`unit_price`,`sale_details`.`unit_price` / (1 + `taxes`.`amount`)) * `sale_details`.`quantity` AS `line_price_before_tax`,if(`companies`.`is_price_before_vat` = 1,`sale_details`.`unit_price`,`sale_details`.`unit_price` / (1 + `taxes`.`amount`)) * `sale_details`.`quantity` * `taxes`.`amount` AS `line_tax` from ((((((`sale_details` join `sales` on(`sales`.`id` = `sale_details`.`sale_id` and `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null)) join `companies` on(`sales`.`company_id` = `companies`.`id`)) join `products` on(`sale_details`.`product_id` = `products`.`id`)) join `product_categories` on(`products`.`product_category_id` = `product_categories`.`id`)) join `taxes` on(`products`.`tax_id` = `taxes`.`id`)) left join `brands` on(`products`.`brand_id` = `brands`.`id`)) where `sale_details`.`deleted_at` is null */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-/*!50001 DROP TABLE IF EXISTS `sale_master_reports`*/;
 /*!50001 DROP VIEW IF EXISTS `sale_master_reports`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -2803,7 +3279,8 @@ CREATE TABLE `warnings` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50001 VIEW `sale_master_reports` AS select `sales`.`id` AS `id`,`sales`.`company_id` AS `company_id`,`sales`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,case when `sales`.`approved_by` is not null then 'approved' else 'not_approved' end AS `status`,`sales`.`warehouse_id` AS `warehouse_id`,`warehouses`.`name` AS `warehouse_name`,`sales`.`code` AS `code`,`sales`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`sales_two`.`issued_on`) from `sales` `sales_two` where `sales_two`.`customer_id` = `sales`.`customer_id` and `sales_two`.`deleted_at` is null and `sales_two`.`cancelled_by` is null) AS `customer_created_at`,`sales`.`fs_number` AS `fs_number`,`sales`.`payment_type` AS `payment_type`,`sales`.`cash_received_type` AS `cash_received_type`,`sales`.`cash_received` AS `cash_received`,`sales`.`issued_on` AS `issued_on`,(select round(sum(`sale_detail_reports`.`line_price`),2) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `subtotal_price` from ((((`sales` join `warehouses` on(`sales`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`sales`.`created_by` = `users`.`id`)) left join `customers` on(`sales`.`customer_id` = `customers`.`id`)) join `companies` on(`sales`.`company_id` = `companies`.`id`)) where `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null */;
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `sale_master_reports` AS select `sales`.`id` AS `id`,`sales`.`company_id` AS `company_id`,`sales`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`sales`.`warehouse_id` AS `warehouse_id`,`sales`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`sales`.`code` AS `code`,`sales`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`sales_two`.`issued_on`) from `sales` `sales_two` where `sales_two`.`customer_id` = `sales`.`customer_id` and `sales_two`.`deleted_at` is null and `sales_two`.`cancelled_by` is null) AS `customer_created_at`,`sales`.`fs_number` AS `fs_number`,`sales`.`payment_type` AS `payment_type`,`sales`.`cash_received_type` AS `cash_received_type`,`sales`.`cash_received` AS `cash_received`,`sales`.`issued_on` AS `issued_on`,(select sum(`sale_detail_reports`.`line_price_before_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `subtotal_price`,(select sum(`sale_detail_reports`.`line_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`sales` join `warehouses` on(`sales`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`sales`.`created_by` = `users`.`id`)) left join `customers` on(`sales`.`customer_id` = `customers`.`id`)) left join `credits` on(`sales`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Sale')) join `companies` on(`sales`.`company_id` = `companies`.`id`)) where `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null and if(`companies`.`can_sale_subtract` = 1,`sales`.`subtracted_by` is not null,`sales`.`approved_by` is not null) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -2814,96 +3291,190 @@ CREATE TABLE `warnings` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-INSERT INTO `migrations` VALUES (1,'2020_10_28_070207_core_v1',1);
-INSERT INTO `migrations` VALUES (2,'2021_02_21_184516_create_permission_tables',2);
-INSERT INTO `migrations` VALUES (95,'2022_02_28_085540_create_pads_table',3);
-INSERT INTO `migrations` VALUES (96,'2022_04_05_115551_create_transactions_table',3);
-INSERT INTO `migrations` VALUES (111,'2022_07_04_132903_add_is_converted_to_sales_to_gdns_table',4);
-INSERT INTO `migrations` VALUES (112,'2022_07_06_092530_add_closed_by_to_jobs',4);
-INSERT INTO `migrations` VALUES (113,'2022_07_11_201759_create_employee_transfers_table',5);
-INSERT INTO `migrations` VALUES (114,'2022_07_11_202414_create_employee_transfer_details_table',5);
-INSERT INTO `migrations` VALUES (115,'2022_07_11_143138_departments',6);
-INSERT INTO `migrations` VALUES (116,'2022_07_11_144506_add_hr_fields_to_employees_table',6);
-INSERT INTO `migrations` VALUES (117,'2022_07_16_105354_create_warnings_table',6);
-INSERT INTO `migrations` VALUES (118,'2022_07_19_085501_attendances',6);
-INSERT INTO `migrations` VALUES (119,'2022_07_19_090110_attendance_details',6);
-INSERT INTO `migrations` VALUES (120,'2022_07_21_085604_create_advancements_table',6);
-INSERT INTO `migrations` VALUES (121,'2022_07_21_085636_create_advancement_details_table',6);
-INSERT INTO `migrations` VALUES (122,'2022_07_21_121852_add_features_to_pads',6);
-INSERT INTO `migrations` VALUES (123,'2022_07_23_083944_add_approvabel_column_to_bill_of_materials_table',6);
-INSERT INTO `migrations` VALUES (124,'2022_07_20_164146_create_leave_category_table',7);
-INSERT INTO `migrations` VALUES (125,'2022_07_20_164230_create_leave_table',7);
-INSERT INTO `migrations` VALUES (126,'2022_07_25_135943_create_expense_claims_table',7);
-INSERT INTO `migrations` VALUES (127,'2022_07_25_140222_create_expense_claim_details_table',7);
-INSERT INTO `migrations` VALUES (128,'2022_07_25_084349_create_earning_categories_table',8);
-INSERT INTO `migrations` VALUES (129,'2022_07_26_084855_create_earnings_table',8);
-INSERT INTO `migrations` VALUES (130,'2022_07_26_122108_create_earning_details_table',8);
-INSERT INTO `migrations` VALUES (131,'2022_07_28_110333_add_income_tax_region_to_companies_table',9);
-INSERT INTO `migrations` VALUES (132,'2022_07_28_094947_create_announcements_table',10);
-INSERT INTO `migrations` VALUES (133,'2022_07_28_101340_create_announcement_warehouse_table',10);
-INSERT INTO `migrations` VALUES (134,'2022_07_28_113540_add_time_period_column_to_attendances_table',10);
-INSERT INTO `migrations` VALUES (135,'2022_07_29_174533_drop_column_type_from_leave_categories_table',10);
-INSERT INTO `migrations` VALUES (136,'2022_07_30_132407_change_tin_to_unique',10);
-INSERT INTO `migrations` VALUES (137,'2022_08_01_101835_create_compensations_table',11);
-INSERT INTO `migrations` VALUES (138,'2022_08_02_154724_create_employee_compensations_table',11);
-INSERT INTO `migrations` VALUES (139,'2022_08_05_115943_make_uniques_starting_period_and_ending_period_t_o_attendances_table',11);
-INSERT INTO `migrations` VALUES (140,'2022_08_05_141219_drop_gross_salary_from_employees_table',11);
-INSERT INTO `migrations` VALUES (141,'2022_08_02_144548_create_pad_statuses_table',12);
-INSERT INTO `migrations` VALUES (142,'2022_08_05_203944_update_transaction_field_data',12);
-INSERT INTO `migrations` VALUES (143,'2022_08_03_142603_create_compensation_adjustments_table',13);
-INSERT INTO `migrations` VALUES (144,'2022_08_03_142705_create_compensation_adjustment_details_table',13);
-INSERT INTO `migrations` VALUES (145,'2022_08_09_150824_create_push_subscriptions_table',14);
-INSERT INTO `migrations` VALUES (146,'2022_08_16_083027_drop_discount_column',15);
-INSERT INTO `migrations` VALUES (147,'2022_08_16_090206_addbatch_field_to_products_table',15);
-INSERT INTO `migrations` VALUES (148,'expiry_date',15);
-INSERT INTO `migrations` VALUES (149,'2022_08_17_081512_add_columns_to_purchase_tables',15);
-INSERT INTO `migrations` VALUES (150,'2022_08_17_081529_add_columns_to_purchase_details_tables',15);
-INSERT INTO `migrations` VALUES (151,'2022_08_17_122505_add_columns_to_companies',15);
-INSERT INTO `migrations` VALUES (152,'2022_08_17_142514_create_merchandise_batches_table',15);
-INSERT INTO `migrations` VALUES (153,'2022_08_18_101858_drop_earning_table',15);
-INSERT INTO `migrations` VALUES (154,'2022_08_18_105601_create_employee_compensation_histories_table',15);
-INSERT INTO `migrations` VALUES (155,'2022_08_18_111716_remove_field_form_employee_compensation_table',15);
-INSERT INTO `migrations` VALUES (156,'2022_08_18_114515_remove_gross_salary_from_advancement_details_table',15);
-INSERT INTO `migrations` VALUES (157,'2022_08_18_165847_add_paid_time_amount_and_type_and_working_days_to_companies_table',15);
-INSERT INTO `migrations` VALUES (158,'2022_08_18_170009_add_paid_time_off_amount_to_employees_table',15);
-INSERT INTO `migrations` VALUES (159,'2022_08_18_170346_add_is_paid_time_off_and_time_off_amount_to_leaves_table',15);
-INSERT INTO `migrations` VALUES (160,'2022_08_19_000403_create_debts_table',15);
-INSERT INTO `migrations` VALUES (161,'2022_08_19_000442_create_debt_settlements_table',15);
-INSERT INTO `migrations` VALUES (162,'2022_08_19_122434_add_debt_limit_column_to_suppliers_table',15);
-INSERT INTO `migrations` VALUES (163,'2022_08_19_153628_add_columns_to_purchase_table',15);
-INSERT INTO `migrations` VALUES (164,'2022_08_23_120539_add_columns_to_companies_table',15);
-INSERT INTO `migrations` VALUES (165,'2022_08_23_150006_create_expense_categories_table',15);
-INSERT INTO `migrations` VALUES (166,'2022_08_23_150026_create_expenses_table',15);
-INSERT INTO `migrations` VALUES (167,'2022_08_23_150040_create_expense_details_table',15);
-INSERT INTO `migrations` VALUES (168,'2022_08_26_211828_add_columns_to_purchases_table',15);
-INSERT INTO `migrations` VALUES (169,'2022_08_26_212832_drop_columns_from_purchase_details_table',15);
-INSERT INTO `migrations` VALUES (172,'2022_08_30_120233_add_amount_column_to_purchase_details_table',16);
-INSERT INTO `migrations` VALUES (173,'2022_09_01_160324_make_adjustment_in_purchases',16);
-INSERT INTO `migrations` VALUES (174,'2022_08_29_085931_add_back_order_field_to_companies_table',17);
-INSERT INTO `migrations` VALUES (175,'2022_08_29_093107_add_column_to_companies_table',17);
-INSERT INTO `migrations` VALUES (177,'2022_09_23_104041_add_bank_and_ref_no_field_to_gdns_table',19);
-INSERT INTO `migrations` VALUES (178,'2022_09_23_121127_add_bank_and_ref_no_field_to_sales_table',19);
-INSERT INTO `migrations` VALUES (179,'2022_09_23_140608_add_bank_and_ref_no_field_to_reservations_table',19);
-INSERT INTO `migrations` VALUES (180,'2022_09_30_154951_add_referenece_number_to_expenses_table',19);
-INSERT INTO `migrations` VALUES (183,'2022_10_07_134931_create_price_increments_table',21);
-INSERT INTO `migrations` VALUES (184,'2022_10_07_135451_create_price_increment_details_table',21);
-INSERT INTO `migrations` VALUES (185,'2022_10_07_135953_create_contacts_table',21);
-INSERT INTO `migrations` VALUES (186,'2022_10_10_074220_add_contact_column_to_sale_gdn_pi_reservation_purchase_expense_features',21);
-INSERT INTO `migrations` VALUES (187,'2022_10_11_074552_add_can_check_inventory_on_forms_to_companies',21);
-INSERT INTO `migrations` VALUES (188,'2022_10_25_113643_create_brands_table',22);
-INSERT INTO `migrations` VALUES (189,'2022_10_25_135435_add_active_and_inactive_for_sale_purchase_and_job_to_products_table',22);
-INSERT INTO `migrations` VALUES (190,'2022_10_25_154004_add_brands_column_on_products_table',22);
-INSERT INTO `migrations` VALUES (191,'2022_10_26_105355_add_other_costs_column_on_purchase_table',22);
-INSERT INTO `migrations` VALUES (192,'2022_08_22_145038_create_payrolls_table',23);
-INSERT INTO `migrations` VALUES (193,'2022_11_02_104442_add_maximum_amount_to_compensations',23);
-INSERT INTO `migrations` VALUES (194,'2022_11_02_151826_create_payroll_details_table',23);
-INSERT INTO `migrations` VALUES (195,'2022_11_04_082246_create_job_detail_histories_table',23);
-INSERT INTO `migrations` VALUES (196,'2022_11_04_160144_remove_warehouse_id_from_payrolls',24);
-INSERT INTO `migrations` VALUES (197,'2022_11_06_202929_add_payroll_bank_account_to_companies',25);
-INSERT INTO `migrations` VALUES (198,'2022_11_07_102444_create_compensation_for_all_companies',26);
-INSERT INTO `migrations` VALUES (199,'2022_08_28_181500_create_sale_reports_view',27);
-INSERT INTO `migrations` VALUES (200,'2022_08_28_205045_create_gdn_reports_view',27);
-INSERT INTO `migrations` VALUES (203,'2022_11_09_084934_create_inventory_histories_table',28);
-INSERT INTO `migrations` VALUES (204,'2022_11_10_112358_migrate_inventory_data_to_inventory_history_table',28);
-INSERT INTO `migrations` VALUES (205,'2022_11_08_142931_update_column_property_on_bill_of_material_details_table',29);
-INSERT INTO `migrations` VALUES (206,'2022_11_15_142628_add_paid_at_to_payrolls_table',29);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (1,'2020_10_28_070207_core_v1',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (2,'2021_02_21_184516_create_permission_tables',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (95,'2022_02_28_085540_create_pads_table',3);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (96,'2022_04_05_115551_create_transactions_table',3);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (111,'2022_07_04_132903_add_is_converted_to_sales_to_gdns_table',4);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (112,'2022_07_06_092530_add_closed_by_to_jobs',4);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (113,'2022_07_11_201759_create_employee_transfers_table',5);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (114,'2022_07_11_202414_create_employee_transfer_details_table',5);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (115,'2022_07_11_143138_departments',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (116,'2022_07_11_144506_add_hr_fields_to_employees_table',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (117,'2022_07_16_105354_create_warnings_table',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (118,'2022_07_19_085501_attendances',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (119,'2022_07_19_090110_attendance_details',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (120,'2022_07_21_085604_create_advancements_table',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (121,'2022_07_21_085636_create_advancement_details_table',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (122,'2022_07_21_121852_add_features_to_pads',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (123,'2022_07_23_083944_add_approvabel_column_to_bill_of_materials_table',6);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (124,'2022_07_20_164146_create_leave_category_table',7);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (125,'2022_07_20_164230_create_leave_table',7);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (126,'2022_07_25_135943_create_expense_claims_table',7);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (127,'2022_07_25_140222_create_expense_claim_details_table',7);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (128,'2022_07_25_084349_create_earning_categories_table',8);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (129,'2022_07_26_084855_create_earnings_table',8);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (130,'2022_07_26_122108_create_earning_details_table',8);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (131,'2022_07_28_110333_add_income_tax_region_to_companies_table',9);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (132,'2022_07_28_094947_create_announcements_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (133,'2022_07_28_101340_create_announcement_warehouse_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (134,'2022_07_28_113540_add_time_period_column_to_attendances_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (135,'2022_07_29_174533_drop_column_type_from_leave_categories_table',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (136,'2022_07_30_132407_change_tin_to_unique',10);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (137,'2022_08_01_101835_create_compensations_table',11);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (138,'2022_08_02_154724_create_employee_compensations_table',11);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (139,'2022_08_05_115943_make_uniques_starting_period_and_ending_period_t_o_attendances_table',11);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (140,'2022_08_05_141219_drop_gross_salary_from_employees_table',11);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (141,'2022_08_02_144548_create_pad_statuses_table',12);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (142,'2022_08_05_203944_update_transaction_field_data',12);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (143,'2022_08_03_142603_create_compensation_adjustments_table',13);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (144,'2022_08_03_142705_create_compensation_adjustment_details_table',13);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (145,'2022_08_09_150824_create_push_subscriptions_table',14);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (146,'2022_08_16_083027_drop_discount_column',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (147,'2022_08_16_090206_addbatch_field_to_products_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (148,'expiry_date',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (149,'2022_08_17_081512_add_columns_to_purchase_tables',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (150,'2022_08_17_081529_add_columns_to_purchase_details_tables',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (151,'2022_08_17_122505_add_columns_to_companies',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (152,'2022_08_17_142514_create_merchandise_batches_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (153,'2022_08_18_101858_drop_earning_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (154,'2022_08_18_105601_create_employee_compensation_histories_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (155,'2022_08_18_111716_remove_field_form_employee_compensation_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (156,'2022_08_18_114515_remove_gross_salary_from_advancement_details_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (157,'2022_08_18_165847_add_paid_time_amount_and_type_and_working_days_to_companies_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (158,'2022_08_18_170009_add_paid_time_off_amount_to_employees_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (159,'2022_08_18_170346_add_is_paid_time_off_and_time_off_amount_to_leaves_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (160,'2022_08_19_000403_create_debts_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (161,'2022_08_19_000442_create_debt_settlements_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (162,'2022_08_19_122434_add_debt_limit_column_to_suppliers_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (163,'2022_08_19_153628_add_columns_to_purchase_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (164,'2022_08_23_120539_add_columns_to_companies_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (165,'2022_08_23_150006_create_expense_categories_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (166,'2022_08_23_150026_create_expenses_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (167,'2022_08_23_150040_create_expense_details_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (168,'2022_08_26_211828_add_columns_to_purchases_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (169,'2022_08_26_212832_drop_columns_from_purchase_details_table',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (172,'2022_08_30_120233_add_amount_column_to_purchase_details_table',16);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (173,'2022_09_01_160324_make_adjustment_in_purchases',16);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (174,'2022_08_29_085931_add_back_order_field_to_companies_table',17);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (175,'2022_08_29_093107_add_column_to_companies_table',17);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (177,'2022_09_23_104041_add_bank_and_ref_no_field_to_gdns_table',19);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (178,'2022_09_23_121127_add_bank_and_ref_no_field_to_sales_table',19);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (179,'2022_09_23_140608_add_bank_and_ref_no_field_to_reservations_table',19);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (180,'2022_09_30_154951_add_referenece_number_to_expenses_table',19);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (183,'2022_10_07_134931_create_price_increments_table',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (184,'2022_10_07_135451_create_price_increment_details_table',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (185,'2022_10_07_135953_create_contacts_table',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (186,'2022_10_10_074220_add_contact_column_to_sale_gdn_pi_reservation_purchase_expense_features',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (187,'2022_10_11_074552_add_can_check_inventory_on_forms_to_companies',21);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (188,'2022_10_25_113643_create_brands_table',22);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (189,'2022_10_25_135435_add_active_and_inactive_for_sale_purchase_and_job_to_products_table',22);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (190,'2022_10_25_154004_add_brands_column_on_products_table',22);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (191,'2022_10_26_105355_add_other_costs_column_on_purchase_table',22);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (192,'2022_08_22_145038_create_payrolls_table',23);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (193,'2022_11_02_104442_add_maximum_amount_to_compensations',23);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (194,'2022_11_02_151826_create_payroll_details_table',23);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (195,'2022_11_04_082246_create_job_detail_histories_table',23);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (196,'2022_11_04_160144_remove_warehouse_id_from_payrolls',24);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (197,'2022_11_06_202929_add_payroll_bank_account_to_companies',25);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (198,'2022_11_07_102444_create_compensation_for_all_companies',26);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (199,'2022_08_28_181500_create_sale_reports_view',27);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (200,'2022_08_28_205045_create_gdn_reports_view',27);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (203,'2022_11_09_084934_create_inventory_histories_table',28);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (204,'2022_11_10_112358_migrate_inventory_data_to_inventory_history_table',28);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (205,'2022_11_08_142931_update_column_property_on_bill_of_material_details_table',29);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (206,'2022_11_15_142628_add_paid_at_to_payrolls_table',29);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (207,'2019_12_14_000001_create_personal_access_tokens_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (208,'2022_11_25_215726_add_notification_field_to_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (209,'2022_11_25_221505_add_is_converted_to_damage_field_to_merchandise_batches_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (210,'2022_12_08_142650_create_taxes_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (211,'2022_12_08_142739_add_tax_column_to_products_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (212,'2022_12_11_004714_update_compensation_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (213,'2022_12_13_115808_update_value_in_transaction_fields',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (214,'2022_12_26_115017_add_can_show_employee_job_title_column_on_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (215,'2022_12_26_143644_assign_tax_to_products',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (216,'2022_12_27_145108_add_columns_to_gdns_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (217,'2022_12_27_232811_add_column_on_compensation_adjustments_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (218,'2022_12_29_190034_update_days_in_attendance_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (219,'2022_12_30_111529_add_column_to_gdn_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (220,'2023_01_12_145516_add_can_select_batch_number_on_forms_column_on_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (221,'2023_01_17_151527_add_unit_cost_column_on_grn_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (222,'2023_01_19_212510_add_merchandise_batch_id_to_damage_details',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (223,'2023_01_19_215901_add_received_quantity_to_merchandise_batches',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (224,'2023_01_20_101408_add_columns_to_customer_and_supplier_tables',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (225,'2023_01_27_120555_add_filter_customer_and_supplier_column_on_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (226,'2023_01_27_201309_add_merchandise_id_column_on_tables',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (227,'2023_01_29_211508_add_options_to_compensation_adjustments',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (228,'2023_01_30_083317_add_merchandise_batch_id_on_sales_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (229,'2023_01_31_170236_add_balance_field_to_customers_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (230,'2023_02_01_083857_create_customer_deposits_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (231,'2023_02_01_114305_drop_columns_from_prices_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (232,'2023_02_06_094711_drop_tax_type_to_expenses_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (233,'2023_02_07_220733_add_and_modify_column_on_purchases_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (234,'2023_02_08_095851_add_rejected_by_and_canceled_by_field_to_purchases_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (235,'2023_02_09_183315_remove_discount_from_pad_fields',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (236,'2023_02_14_141917_add_gdn_id_on_returns_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (237,'2023_02_17_154034_add_description_section_on__expense_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (238,'2023_02_20_100244_add_returned_quantity_to_gdn_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (239,'2023_02_20_120846_add_is_freight_amount_by_volume_column_on_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (240,'2023_02_21_135244_add_payment_method_option_columns_on_expenses_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (241,'2023_02_23_113348_update_unit_cost_in_grns',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (242,'2023_02_23_145200_adjust_amount_in_purchase_details',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (243,'2023_03_01_095844_add_tax_id_and_drop_tax_type_to_purchases_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (244,'2023_03_03_160423_modify_unit_price_in_expense_details',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (245,'2023_03_16_131831_add_update_status_permission_to_pads',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (246,'2023_03_21_163621_drop_date_unique_to_compensation_adjustments_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (247,'2023_03_27_140039_drop_unique_constraint_from_attendances',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (248,'2023_03_28_153731_add_columns_to_companies',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (249,'2023_03_29_075057_add_working_days_to_payrolls',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (250,'2023_03_30_143657_add_description_to_leaves_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (251,'2023_04_25_125420_add_with_withholding_to_sales',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (252,'2023_04_26_105005_add_return_type_to_companies',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (253,'2023_04_26_123020_change_has_withholding_to_nullable',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (254,'2023_04_27_125858_add_is_read_only_to_pad_fields',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (255,'2023_04_28_222752_create_batching_fields_for_existing_pads',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (256,'2023_05_01_180148_add_merchandise_batch_to_pads',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (257,'2023_05_02_112459_add_creditable_to_gdn',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (258,'2023_05_08_121423_create_product_reorders_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (259,'2023_07_18_072115_necessary_changes_for_subtractable_sale',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (260,'2023_08_17_171735_add_columns_for_pos_integration',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (261,'2023_08_24_163126_add_inventory_valuation_fields_to_products_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (262,'2023_08_24_163503_create_inventory_valuation_balances_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (263,'2023_08_24_163548_create_inventory_valuation_histories_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (264,'2023_08_27_153347_add_print_columns_to_pads',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (265,'2023_08_28_102526_create_custom_fields_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (266,'2023_08_29_163511_create_custom_field_values',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (267,'2023_09_02_132725_add_original_quantity_to_inventory_valuation_balances_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (268,'2023_09_04_154022_create_cost_updates_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (269,'2023_09_04_160513_create_cost_update_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (270,'2023_09_05_224324_give_users_access_to_all_warehouses_for_transfer_source_branch_permission',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (271,'2023_09_14_110408_add_columns_to_inventory_histories_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (272,'2023_09_18_124406_add_auto_generated_credit_issued_on_date_to_companies',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (273,'2023_09_18_165716_add_columns_to_inventory_valuation_related_tables',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (274,'2023_09_25_135246_change_sales_report_source_column_default_value_on_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (275,'2023_09_29_101913_change_fs_number_to_string',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (276,'2023_10_03_215517_add_proforma_invoiceable_to_proforma_invoiceable_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (277,'2023_10_11_023104_add_is_product_single_column_to_products_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (278,'2023_10_11_203151_create_product_bundles_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (279,'2023_10_13_081408_add_product_id_on_inventory_history_unique_constraint',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (280,'2023_10_16_104954_add_can_siv_subtract_from_inventory_column_to_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (281,'2023_10_16_165119_add_subtracted_by_to_sivs_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (282,'2023_10_16_194521_change_unique_index_on_valuation_related_tables',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (283,'2023_10_18_020533_add_merchandise_batch_id_to_siv_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (284,'2023_10_18_101047_add_sivable_to_sivs_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (285,'2023_10_22_163539_drop_columns_from_sivs',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (286,'2023_10_24_092200_add_delivered_quantity_to_sale_and_gdn_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (287,'2023_10_26_135433_add_is_partial_deliveries_enabled_to_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (288,'2023_10_28_211917_add_can_show_product_code_on_printouts_on_companies',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (289,'2023_10_29_220724_assign_sivs_as_delivered',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (290,'2023_10_31_141059_create_exchanges_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (291,'2023_10_31_150602_create_exchange_details_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (292,'2023_11_01_141615_add_is_admin_to_users',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (293,'2023_11_14_095505_add_batch_columns_to_purchase_details',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (294,'2023_11_14_152607_add_is_in_training_in_companies',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (295,'2023_11_17_233943_add_warehouse_id_to_custom_field_values',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (296,'2023_11_18_224501_drop_has_payment_term_from_pads',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (297,'2023_11_22_115215_create_subscriptions_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (298,'2023_11_26_162403_add_has_withholding_to_reservations',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (299,'2023_11_28_080039_add_profit_margin_type_column_to_products_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (300,'2023_11_29_222503_add_can_sell_below_cost_column_to_companies_table',30);
