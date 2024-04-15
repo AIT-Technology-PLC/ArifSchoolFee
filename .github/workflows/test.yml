@@ -31,14 +31,12 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: Create Database
-        uses: getong/mariadb-action@v1.1
+      - name: Setup MariaDB and Create Database
+        uses: shogo82148/actions-setup-mysql@v1
         with:
-          collation server: "utf8mb4_unicode_ci"
-          mariadb version: "10.4.10"
-          mysql database: "testing_database"
-          mysql user: "test"
-          mysql password: "test"
+          distribution: "mariadb"
+          mysql-version: "11.3"
+        run: mysql -uroot -e 'create database testing_database'
 
       - name: Execute tests
         run: php artisan test
