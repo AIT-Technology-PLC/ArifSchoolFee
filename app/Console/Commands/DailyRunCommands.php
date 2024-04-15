@@ -19,12 +19,10 @@ class DailyRunCommands extends Command
         'proforma-invoice:expiry-date-notification',
         'reservation:expiry-date-notification',
         'credit:due-date-notification',
-        'job:behind-schedule-notification',
         'debt:due-date-notification',
         'product:expiry-date-close-notification',
         'supplier:licence-expiry-date-close-notification',
         'customer:licence-expiry-date-close-notification',
-        'increment:employee-paid-time-off-amount',
     ];
 
     public function __construct()

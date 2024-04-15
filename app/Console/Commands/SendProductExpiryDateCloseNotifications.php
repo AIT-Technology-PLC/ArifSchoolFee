@@ -24,7 +24,7 @@ class SendProductExpiryDateCloseNotifications extends Command
 
     public function handle()
     {
-        $companies = Company::enabled()->get();
+        $companies = Company::enabled()->get(['id', 'expiry_in_days']);
 
         if ($companies->isEmpty()) {
             return 0;

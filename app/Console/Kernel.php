@@ -24,7 +24,27 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('routine:daily')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        $schedule->command('cancel:expired-proforma-invoices')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('cancel:expired-reservations')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('notifications:delete-week')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('inventory:low-level-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('proforma-invoice:expiry-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('reservation:expiry-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('credit:due-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('debt:due-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('product:expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('supplier:licence-expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+        
+        $schedule->command('customer:licence-expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
 
         $schedule->command('backup:run --disable-notifications')->withoutOverlapping()->evenInMaintenanceMode()->everySixHours(45)->unlessBetween('01:00', '12:00');
 

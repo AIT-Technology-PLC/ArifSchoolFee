@@ -23,19 +23,19 @@ class SendCustomerBusinessLicenceExpiryDateCloseNotification extends Command
 
     public function handle()
     {
-        $companies = Company::enabled()->get();
+        $companies = Company::enabled()->get(['id']);
 
         if ($companies->isEmpty()) {
             return 0;
         }
 
         foreach ($companies as $company) {
-            $totalBusinessLicence = Customer::query()
+            $customers = Customer::query()
                 ->where('company_id', $company->id)
                 ->whereRaw('DATEDIFF(business_license_expires_on, CURRENT_DATE) <= 30')
-                ->get();
+                ->get(['id']);
 
-            if ($totalBusinessLicence->isEmpty()) {
+            if ($customers->isEmpty()) {
                 continue;
             }
 
@@ -50,7 +50,7 @@ class SendCustomerBusinessLicenceExpiryDateCloseNotification extends Command
                 continue;
             }
 
-            Notification::send($users, new CustomerBusinessLicenceExpiryDateClose($totalBusinessLicence));
+            Notification::send($users, new CustomerBusinessLicenceExpiryDateClose($customers));
         }
 
         return 0;
