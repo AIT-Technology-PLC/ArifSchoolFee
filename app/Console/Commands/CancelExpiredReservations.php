@@ -25,7 +25,7 @@ class CancelExpiredReservations extends Command
 
     public function handle()
     {
-        $companies = Company::enabled()->get();
+        $companies = Company::enabled()->get(['id']);
 
         if ($companies->isEmpty()) {
             return 0;

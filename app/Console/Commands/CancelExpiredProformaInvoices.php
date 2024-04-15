@@ -24,7 +24,7 @@ class CancelExpiredProformaInvoices extends Command
 
     public function handle()
     {
-        $companies = Company::enabled()->get();
+        $companies = Company::enabled()->get(['id']);
 
         if ($companies->isEmpty()) {
             return 0;
@@ -37,7 +37,7 @@ class CancelExpiredProformaInvoices extends Command
                     ->pending()
                     ->notConfirmed()
                     ->expired()
-                    ->get();
+                    ->get(['id', 'warehouse_id']);
 
                 if ($proformaInvoices->count() == 0) {
                     continue;

@@ -23,7 +23,7 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
 
     public function handle()
     {
-        $companies = Company::enabled()->get();
+        $companies = Company::enabled()->get(['id']);
 
         if ($companies->isEmpty()) {
             return 0;
@@ -34,7 +34,7 @@ class SendProformaInvoiceExpiryDateNotifications extends Command
                 ->where('company_id', $company->id)
                 ->pending()
                 ->whereRaw('DATEDIFF(expires_on, CURRENT_DATE) BETWEEN 1 AND 5')
-                ->get();
+                ->get(['id', 'warehouse_id']);
 
             if ($proformaInvoices->isEmpty()) {
                 continue;
