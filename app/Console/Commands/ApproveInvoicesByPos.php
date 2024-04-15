@@ -41,6 +41,7 @@ class ApproveInvoicesByPos extends Command
             }
 
             $sales = Sale::query()
+                ->with(['warehouse.company'])
                 ->notSubtracted()
                 ->notCancelled()
                 ->whereNull('fs_number')
