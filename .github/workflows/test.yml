@@ -31,11 +31,13 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: Setup MariaDB and Create Database
+      - name: Setup MariaDB
         uses: shogo82148/actions-setup-mysql@v1
         with:
           distribution: "mariadb"
           mysql-version: "11.3"
+
+      - name: Create Database
         run: mysql -uroot -e 'create database testing_database'
 
       - name: Execute tests
