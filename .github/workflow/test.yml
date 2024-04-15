@@ -1,0 +1,44 @@
+name: Onrica SmartWork
+
+on:
+  push:
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: "8.1"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Create Database
+        uses: getong/mariadb-action@v1.1
+        with:
+          collation server: "utf8mb4_unicode_ci"
+          mariadb version: "10.4.10"
+          mysql database: "testing_database"
+          mysql user: "test"
+          mysql password: "test"
+
+      - name: Execute tests
+        run: php artisan test
