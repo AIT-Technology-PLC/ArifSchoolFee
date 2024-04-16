@@ -69,12 +69,10 @@ class InventoryOperationService
             return;
         }
 
-        $merchandises = Merchandise::all();
-
         foreach ($details as $detail) {
             static::createInventoryHistory($model, $detail, $from);
 
-            $merchandise = $merchandises->where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($from, '>=', $detail['quantity'])->first();
+            $merchandise = Merchandise::where('product_id', $detail['product_id'])->where('warehouse_id', $detail['warehouse_id'])->where($from, '>=', $detail['quantity'])->first();
 
             $merchandise->$from = $merchandise->$from - $detail['quantity'];
 
@@ -229,18 +227,15 @@ class InventoryOperationService
 
         $unavailableProducts = collect();
 
-        $merchandises = Merchandise::all();
-        $products = Product::all();
-        $warehouses = Warehouse::all();
-
         foreach ($details as $detail) {
-            $product = $products->find($detail['product_id']);
-            $warehouse = $warehouses->find($detail['warehouse_id']);
+            $product = Product::find($detail['product_id']);
+            $warehouse = Warehouse::find($detail['warehouse_id']);
 
-            $availableMerchandises = $merchandises
+            $availableMerchandises = Merchandise::query()
                 ->where('product_id', $detail['product_id'])
                 ->where('warehouse_id', $detail['warehouse_id'])
-                ->where($in, '>=', $detail['quantity']);
+                ->where($in, '>=', $detail['quantity'])
+                ->get();
 
             if ($availableMerchandises->isNotEmpty()) {
                 $availableMerchandises->first()[$in] -= $detail['quantity'];
@@ -268,18 +263,15 @@ class InventoryOperationService
 
         $unavailableProducts = collect();
 
-        $merchandises = Merchandise::all();
-        $products = Product::all();
-        $warehouses = Warehouse::all();
-
         foreach ($details as $detail) {
-            $product = $products->find($detail['product_id']);
-            $warehouse = $warehouses->find($detail['warehouse_id']);
+            $product = Product::find($detail['product_id']);
+            $warehouse = Warehouse::find($detail['warehouse_id']);
 
-            $availableMerchandises = $merchandises
+            $availableMerchandises = Merchandise::query()
                 ->where('product_id', $detail['product_id'])
                 ->where('warehouse_id', $detail['warehouse_id'])
-                ->where($in, '>=', $detail['quantity']);
+                ->where($in, '>=', $detail['quantity'])
+                ->get();
 
             if ($availableMerchandises->isNotEmpty()) {
                 $availableMerchandises->first()[$in] -= $detail['quantity'];
@@ -341,14 +333,12 @@ class InventoryOperationService
             return null;
         }
 
-        $products = Product::all();
-
         $inventoryTypeProducts = [];
 
         $occupiedMerchandiseBatches = [];
 
         foreach ($details as $detail) {
-            $product = $products->find($detail['product_id']);
+            $product = Product::find($detail['product_id']);
 
             if (!$product->isInventoryProduct()) {
                 continue;
