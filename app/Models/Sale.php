@@ -43,11 +43,6 @@ class Sale extends Model
         return $this->hasMany(SaleDetail::class);
     }
 
-    public function gdns()
-    {
-        return $this->hasMany(Gdn::class);
-    }
-
     public function contact()
     {
         return $this->belongsTo(Contact::class);

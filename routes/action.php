@@ -66,7 +66,6 @@ Route::controller(Action\GdnController::class)
         Route::post('/convert-to-credit', 'convertToCredit')->name('convert_to_credit');
         Route::post('/cancel', 'cancel')->name('cancel');
         Route::post('/approve-and-subtract', 'approveAndSubtract')->name('approve_and_subtract');
-        Route::post('/convert-to-sale', 'convertToSale')->name('convert_to_sale');
     });
 
 // Sivs

@@ -40,7 +40,7 @@ class StoreGdnRequest extends FormRequest
             'gdn.*.discount' => ['nullable', 'numeric', 'min:0', 'max:100'],
             'gdn.*.merchandise_batch_id' => [
                 new BatchSelectionIsRequiredOrProhibited,
-                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]),
+                Rule::forEach(fn($v, $a) => is_null($v) ? [] : ['integer', new MustBelongToCompany('merchandise_batches'), new CheckValidBatchNumber]) ,
             ],
 
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers'),
@@ -59,7 +59,6 @@ class StoreGdnRequest extends FormRequest
             ],
 
             'contact_id' => ['nullable', 'integer', new MustBelongToCompany('contacts')],
-            'sale_id' => ['nullable', 'integer', new MustBelongToCompany('sales')],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'payment_type' => ['required', 'string', function ($attribute, $value, $fail) {
                 if ($value == 'Credit Payment' && is_null($this->get('customer_id'))) {

@@ -30,7 +30,7 @@ class SaleService
                 return [$isExecuted, $message];
             }
 
-            if (!$sale->company->canSaleSubtract() && $sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+            if (!$sale->company->canSaleSubtract() && $sale->payment_type == 'Deposits') {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -60,7 +60,7 @@ class SaleService
 
             $sale->cancel();
 
-            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist() && $sale->isApproved()) {
+            if ($sale->payment_type == 'Deposits' && $sale->isApproved()) {
                 $sale->customer->incrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -155,7 +155,7 @@ class SaleService
         DB::transaction(function () use ($sale, $from) {
             InventoryOperationService::subtract($sale->saleDetails, $sale, $from);
 
-            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+            if ($sale->payment_type == 'Deposits') {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -205,7 +205,7 @@ class SaleService
         DB::transaction(function () use ($sale, $from) {
             (new ApproveTransactionAction)->execute($sale);
 
-            if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+            if ($sale->payment_type == 'Deposits') {
                 $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
             }
 
@@ -251,7 +251,7 @@ class SaleService
 
                 $sale->assignFSNumber($data['fs_number']);
 
-                if ($sale->payment_type == 'Deposits' && $sale->gdns()->doesntExist()) {
+                if ($sale->payment_type == 'Deposits') {
                     $sale->customer->decrementBalance($sale->grandTotalPriceAfterDiscount);
                 }
 

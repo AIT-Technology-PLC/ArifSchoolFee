@@ -282,51 +282,6 @@
 
     <x-common.transaction-siv-details :sivs="$sale->sivs" />
 
-    @if (isFeatureEnabled('Gdn Management') && $sale->gdns()->count())
-        <x-common.content-wrapper class="mt-5">
-            <x-content.header title="Delivery Orders" />
-            <x-content.footer>
-                <x-common.bulma-table>
-                    <x-slot name="headings">
-                        <th><abbr> # </abbr></th>
-                        <th><abbr> DO No </abbr></th>
-                        <th><abbr> Status </abbr></th>
-                        <th><abbr> Issued on </abbr></th>
-                    </x-slot>
-                    <x-slot name="body">
-                        @foreach ($sale->gdns as $gdn)
-                            <tr>
-                                <td> {{ $loop->index + 1 }} </td>
-                                <td class="is-capitalized">
-                                    <a
-                                        class="is-underlined"
-                                        href="{{ route('gdns.show', $gdn->id) }}"
-                                    >
-                                        {{ $gdn->code }}
-                                    </a>
-                                </td>
-                                <td>
-                                    @if ($gdn->isSubtracted())
-                                        <span class="tag is-small bg-purple has-text-white">
-                                            Subtracted from inventory
-                                        </span>
-                                    @else
-                                        <span class="tag is-small bg-blue has-text-white">
-                                            Not subtracted from inventory
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="is-capitalized">
-                                    {{ $gdn->issued_on->toFormattedDateString() }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </x-slot>
-                </x-common.bulma-table>
-            </x-content.footer>
-        </x-common.content-wrapper>
-    @endif
-
     @if (isFeatureEnabled('Siv Management') && $sale->isSubtracted() && !$sale->isCancelled() && ($sale->sivs->isEmpty() || !$sale->isFullyDelivered()))
         @can('Create SIV')
             @include('sales.partials.siv-details', ['saleDetails' => $sale->saleDetails])

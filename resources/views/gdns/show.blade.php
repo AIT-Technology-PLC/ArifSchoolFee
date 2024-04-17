@@ -14,15 +14,6 @@
                         label="DO No"
                     />
                 </div>
-                @if (isFeatureEnabled('Sale Management'))
-                    <div class="column is-6">
-                        <x-common.show-data-section
-                            icon="fas fa-hashtag"
-                            :data="$gdn->sale->code ?? 'N/A'"
-                            label="Invoice No"
-                        />
-                    </div>
-                @endif
                 @if ($gdn->bank_name)
                     <div class="column is-6">
                         <x-common.show-data-section
@@ -248,20 +239,6 @@
                                 @click="$dispatch('open-siv-details-modal')"
                                 icon="fas fa-file-export"
                                 label="Attach SIV"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
-                            />
-                        </x-common.dropdown-item>
-                    @endcan
-                @endif
-                @if ($gdn->isSubtracted() && !$gdn->isClosed() && !$gdn->isCancelled() && !$gdn->isConvertedToSale() && isFeatureEnabled('Sale Management'))
-                    @can('Create Sale')
-                        <x-common.dropdown-item>
-                            <x-common.transaction-button
-                                :route="route('gdns.convert_to_sale', $gdn->id)"
-                                action="issue"
-                                intention="issue an invoice for this delivery order"
-                                icon="fas fa-cash-register"
-                                label="Issue Invoice"
                                 class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>

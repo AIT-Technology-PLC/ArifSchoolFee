@@ -25,7 +25,6 @@ class GdnDatatable extends DataTable
             ])
             ->customColumns('gdn')
             ->editColumn('branch', fn($gdn) => $gdn->warehouse->name)
-            ->editColumn('invoice no', fn($gdn) => $gdn->sale->code ?? 'N/A')
             ->editColumn('status', fn($gdn) => view('components.datatables.gdn-status', compact('gdn')))
             ->editColumn('delivery_status', fn($gdn) => view('components.datatables.delivery-status', ['model' => $gdn]))
             ->filterColumn('status', function ($query, $keyword) {
@@ -84,7 +83,6 @@ class GdnDatatable extends DataTable
                 'approvedBy:id,name',
                 'cancelledBy:id,name',
                 'subtractedBy:id,name',
-                'sale:id,code',
                 'customer:id,company_name,tin',
                 'contact:id,name',
                 'warehouse:id,name',
@@ -102,7 +100,6 @@ class GdnDatatable extends DataTable
             Column::computed('#'),
             Column::make('branch', 'warehouse.name')->visible(false),
             Column::make('code')->className('has-text-centered')->title('Delivery Order No'),
-            isFeatureEnabled('Sale Management') ? Column::make('invoice no', 'sale.code')->visible(false) : null,
             ...($customFields ?? []),
             Column::make('status')->orderable(false),
             userCompany()->isPartialDeliveriesEnabled() ? Column::computed('delivery_status') : null,

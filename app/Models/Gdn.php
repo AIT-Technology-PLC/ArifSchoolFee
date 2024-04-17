@@ -36,11 +36,6 @@ class Gdn extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function sale()
-    {
-        return $this->belongsTo(Sale::class);
-    }
-
     public function gdnDetails()
     {
         return $this->hasMany(GdnDetail::class);
@@ -109,18 +104,6 @@ class Gdn extends Model
     public function details()
     {
         return $this->gdnDetails;
-    }
-
-    public function isConvertedToSale()
-    {
-        return $this->is_converted_to_sale;
-    }
-
-    public function convertToSale()
-    {
-        $this->is_converted_to_sale = 1;
-
-        $this->save();
     }
 
     public static function getValidGdnsForReturn($forceIncludedGdn = null)

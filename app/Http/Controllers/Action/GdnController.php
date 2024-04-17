@@ -7,7 +7,6 @@ use App\Http\Requests\ConvertGdnToSivRequest;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Models\Gdn;
-use App\Models\Sale;
 use App\Models\Siv;
 use App\Notifications\GdnSubtracted;
 use App\Services\Models\GdnService;
@@ -29,8 +28,6 @@ class GdnController extends Controller
         $this->middleware('isFeatureAccessible:Credit Management')->only('convertToCredit');
 
         $this->middleware('isFeatureAccessible:Siv Management')->only('convertToSiv');
-
-        $this->middleware('isFeatureAccessible:Sale Management')->only('convertToSale');
 
         $this->gdnService = $gdnService;
     }
@@ -141,19 +138,6 @@ class GdnController extends Controller
         });
 
         return back()->with('imported', __('messages.file_imported'));
-    }
-
-    public function convertToSale(Gdn $gdn)
-    {
-        $this->authorize('create', Sale::class);
-
-        [$isExecuted, $message, $sale] = $this->gdnService->convertToSale($gdn, authUser());
-
-        if (!$isExecuted) {
-            return back()->with('failedMessage', $message);
-        }
-
-        return redirect()->route('sales.show', $sale->id);
     }
 
     public function cancel(Gdn $gdn)

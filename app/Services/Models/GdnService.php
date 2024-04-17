@@ -10,7 +10,6 @@ use App\Models\Gdn;
 use App\Models\MerchandiseBatch;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use App\Models\Sale;
 use App\Models\Warehouse;
 use App\Notifications\GdnApproved;
 use App\Notifications\GdnPrepared;
@@ -232,62 +231,6 @@ class GdnService
         return $data;
     }
 
-    public function convertToSale($gdn)
-    {
-        if ($gdn->isCancelled()) {
-            return [false, 'This Delivery Order is cancelled.', ''];
-        }
-
-        if ($gdn->isConvertedToSale()) {
-            return [false, 'This Delivery Order is already converted to invoice.', ''];
-        }
-
-        if (!$gdn->isSubtracted()) {
-            return [false, 'This Delivery Order is not subtracted yet.', ''];
-        }
-
-        if ($gdn->isClosed()) {
-            return [false, 'This Delivery Order is closed.', ''];
-        }
-
-        $sale = DB::transaction(function () use ($gdn) {
-            $sale = Sale::create([
-                'customer_id' => $gdn->customer_id ?? null,
-                'contact_id' => $gdn->contact_id ?? null,
-                'code' => nextReferenceNumber('sales'),
-                'payment_type' => $gdn->payment_type,
-                'cash_received_type' => $gdn->cash_received_type,
-                'cash_received' => $gdn->cash_received,
-                'description' => $gdn->description ?? '',
-                'issued_on' => now(),
-                'due_date' => $gdn->due_date,
-            ]);
-
-            $sale->saleDetails()->createMany(
-                $gdn
-                    ->gdnDetails
-                    ->map(function ($gdnDetail) {
-                        return [
-                            'product_id' => $gdnDetail->product_id,
-                            'merchandise_batch_id' => $gdnDetail->merchandise_batch_id ?? null,
-                            'quantity' => $gdnDetail->quantity,
-                            'description' => $gdnDetail->description,
-                            'unit_price' => $gdnDetail->unit_price_after_discount,
-                        ];
-                    })
-                    ->toArray()
-            );
-
-            $gdn->convertToSale();
-
-            $sale->storeConvertedCustomFields($gdn, 'sale');
-
-            return $sale;
-        });
-
-        return [true, '', $sale];
-    }
-
     public function cancel($gdn)
     {
         if (!$gdn->isApproved()) {
@@ -314,7 +257,6 @@ class GdnService
             if ($gdn->isSubtracted()) {
                 InventoryOperationService::add($gdn->gdnDetails, $gdn);
                 $gdn->add();
-                $gdn->sale?->cancel();
                 $gdn->sivs()->forceDelete();
             }
         });

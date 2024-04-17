@@ -42,11 +42,11 @@ trait Cancellable
 
     public function scopeCancelled($query)
     {
-        return $query->whereNotNull('cancelled_by');
+        return $query->whereNotNull("{$this->getTable()}.cancelled_by");
     }
 
     public function scopeNotCancelled($query)
     {
-        return $query->whereNull('cancelled_by');
+        return $query->whereNull("{$this->getTable()}.cancelled_by");
     }
 }
