@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGdnRequest;
 use App\Http\Requests\UpdateGdnRequest;
 use App\Models\Gdn;
-use App\Models\Sale;
 use App\Notifications\GdnPrepared;
 use App\Utilities\Notifiables;
 use Illuminate\Support\Facades\DB;
@@ -41,13 +40,11 @@ class GdnController extends Controller
 
     public function create()
     {
-        $sales = Sale::latest('id')->get();
-
         $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $currentGdnCode = nextReferenceNumber('gdns');
 
-        return view('gdns.create', compact('sales', 'warehouses', 'currentGdnCode'));
+        return view('gdns.create', compact('warehouses', 'currentGdnCode'));
     }
 
     public function store(StoreGdnRequest $request)
@@ -73,7 +70,7 @@ class GdnController extends Controller
     {
         $datatable->builder()->setTableId('gdn-details-datatable');
 
-        $gdn->load(['gdnDetails.product.tax', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'sale', 'customFieldValues.customField', 'sivs.sivDetails']);
+        $gdn->load(['gdnDetails.product.tax', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch', 'customer', 'contact', 'customFieldValues.customField', 'sivs.sivDetails']);
 
         return $datatable->render('gdns.show', compact('gdn'));
     }
@@ -84,13 +81,11 @@ class GdnController extends Controller
             return back()->with('failedMessage', 'Delivery orders issued from other transaction cannot be edited.');
         }
 
-        $sales = Sale::latest('code')->get();
-
         $warehouses = authUser()->getAllowedWarehouses('sales');
 
         $gdn->load(['gdnDetails.product', 'gdnDetails.warehouse', 'gdnDetails.merchandiseBatch']);
 
-        return view('gdns.edit', compact('gdn', 'sales', 'warehouses'));
+        return view('gdns.edit', compact('gdn', 'warehouses'));
     }
 
     public function update(UpdateGdnRequest $request, Gdn $gdn)
