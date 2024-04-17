@@ -21,6 +21,8 @@ class Features extends Seeder
             $this->v2Plans();
 
             $this->v3Plans();
+
+            $this->v4Plans();
         });
     }
 
@@ -727,6 +729,38 @@ class Features extends Seeder
                     'Purchase Report',
                     'Supplier Report',
                     'Inventory In Transit Report',
+                    'User Management',
+                    'General Settings',
+                    'Notification Management',
+                    'Push Notification',
+                    'Warehouse Management',
+                ])
+                ->pluck('id')
+                ->toArray()
+        );
+    }
+
+    private function v4Plans()
+    {
+        $v3OnricaMax = Plan::firstWhere('name', 'v4-onrica-max');
+
+        $v3OnricaMax->features()->sync(
+            $this->features
+                ->whereIn('name', [
+                    'Grn Management',
+                    'Transfer Management',
+                    'Inventory Adjustment',
+                    'Siv Management',
+                    'Gdn Management',
+                    'Proforma Invoice',
+                    'Credit Management',
+                    'Customer Management',
+                    'Product Management',
+                    'Price Management',
+                    'Merchandise Inventory',
+                    'Inventory History',
+                    'Sales Report',
+                    'Credit Report',
                     'User Management',
                     'General Settings',
                     'Notification Management',

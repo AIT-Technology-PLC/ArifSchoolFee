@@ -81,5 +81,10 @@ class Plans extends Seeder
             ['name' => 'v3-premium'],
             ['is_enabled' => 1],
         );
+
+        Plan::updateOrCreate(
+            ['name' => 'v4-onrica-max'],
+            ['is_enabled' => 1],
+        );
     }
 }
