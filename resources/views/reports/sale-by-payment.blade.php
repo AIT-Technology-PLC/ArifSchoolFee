@@ -163,6 +163,30 @@
                     </div>
                     <div class="column is-6">
                         <x-forms.label>
+                            Bank
+                        </x-forms.label>
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id="bank_name"
+                                    name="bank_name"
+                                    class="is-size-7-mobile is-fullwidth"
+                                >
+                                    <option disabled> Bank </option>
+                                    <option
+                                        value=""
+                                        @selected(request('bank_name') == '')
+                                    > All </option>
+                                    @if (request()->filled('bank_name'))
+                                        <option selected value="{{ request('bank_name') }}">{{ request('bank_name') }}</option>
+                                    @endif
+                                    @include('lists.banks', ['bankName' => request('bank_name')])
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.label>
                             Customer
                         </x-forms.label>
                         <x-forms.field class="has-text-centered">
@@ -282,7 +306,7 @@
                     has-length-change="false"
                     paging-type="simple"
                     length-menu="[5]"
-                    x-init="hideColumns($el.id, [9])"
+                    x-init="hideColumns($el.id, [{{ request()->filled('bank_name') ? '' : '5, 6' }}])"
                 >
                     <x-slot name="headings">
                         <th><abbr> # </abbr></th>
@@ -290,6 +314,8 @@
                         <th class="has-text-right"><abbr> {{ str()->singular(request('source') ?? userCompany()->sales_report_source) }} No </abbr></th>
                         <th><abbr> Customer </abbr></th>
                         <th><abbr> Payment Method </abbr></th>
+                        <th><abbr> Bank </abbr></th>
+                        <th><abbr> Ref No </abbr></th>
                         <th class="has-text-right"><abbr> Amount </abbr></th>
                         @if (request('payment_method') == '' || request('payment_method') == 'Credit Payment')
                             <th class="has-text-right"><abbr> Credit Amount </abbr></th>
@@ -306,6 +332,8 @@
                                 <td class="has-text-right"> {{ $salesByPaymentMethod->code }} </td>
                                 <td> {{ $salesByPaymentMethod->customer_name ?? 'N/A' }} </td>
                                 <td> {{ $salesByPaymentMethod->payment_type }} </td>
+                                <td> {{ $salesByPaymentMethod->bank_name ?? '-' }} </td>
+                                <td> {{ $salesByPaymentMethod->reference_number ?? '-' }} </td>
                                 <td
                                     class="has-text-right"
                                     data-sort="{{ $salesByPaymentMethod->amount }}"

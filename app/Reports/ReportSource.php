@@ -26,6 +26,7 @@ class ReportSource
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))
                 ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id']))
                 ->when(isset($filters['payment_method']), fn($query) => $query->where($masterTable . '.payment_type', $filters['payment_method']))
+                ->when(isset($filters['bank_name']), fn($query) => $query->where($masterTable . '.bank_name', $filters['bank_name']))
                 ->when(
                     isset($filters['product_id']),
                     fn($q) => $q
@@ -47,7 +48,8 @@ class ReportSource
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))
                 ->when(isset($filters['customer_id']), fn($query) => $query->where($masterTable . '.customer_id', $filters['customer_id']))
                 ->when(isset($filters['product_id']), fn($query) => $query->where($detailsTable . '.product_id', $filters['product_id']))
-                ->when(isset($filters['payment_method']), fn($query) => $query->where($masterTable . '.payment_type', $filters['payment_method'])),
+                ->when(isset($filters['payment_method']), fn($query) => $query->where($masterTable . '.payment_type', $filters['payment_method']))
+                ->when(isset($filters['bank_name']), fn($query) => $query->where($masterTable . '.bank_name', $filters['bank_name'])),
         ];
     }
 }

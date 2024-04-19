@@ -184,7 +184,19 @@ class SaleReport
     public function getSalesByPaymentMethods()
     {
         return (clone $this->details)
-            ->selectRaw('SUM(line_price_before_tax+line_tax) AS amount, code, issued_on, last_settled_at, SUM(credit_amount) AS credit_amount, SUM(credit_amount_settled) AS credit_amount_settled, SUM(credit_amount_unsettled) AS credit_amount_unsettled, customer_name, payment_type')
+            ->selectRaw('
+                SUM(line_price_before_tax+line_tax) AS amount,
+                code,
+                issued_on,
+                last_settled_at,
+                SUM(credit_amount) AS credit_amount,
+                SUM(credit_amount_settled) AS credit_amount_settled,
+                SUM(credit_amount_unsettled) AS credit_amount_unsettled,
+                customer_name,
+                payment_type,
+                bank_name,
+                reference_number
+            ')
             ->groupBy('code')
             ->orderBy('issued_on')
             ->get();

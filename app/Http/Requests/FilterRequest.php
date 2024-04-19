@@ -28,6 +28,7 @@ class FilterRequest extends FormRequest
             'source' => ['nullable', 'string', Rule::in(['Invoices', 'Delivery Orders'])],
             'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
             'payment_method' => ['nullable', 'string', Rule::in(['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Deposits', 'Cheque'])],
+            'bank_name' => ['nullable', 'string'],
         ];
     }
 
