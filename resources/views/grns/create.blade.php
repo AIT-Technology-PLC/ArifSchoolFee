@@ -36,6 +36,28 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    @if (isFeatureEnabled('Purchase Management') && !is_null(old('purchase_id')))
+                        <div class="column is-6 is-hidden">
+                            <x-forms.field>
+                                <x-forms.label for="purchase_id">
+                                    Purchase No <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="hidden"
+                                        name="purchase_id"
+                                        id="purchase_id"
+                                        @readonly
+                                        value="{{ old('purchase_id') }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-shopping-bag"
+                                        class="is-small is-left"
+                                    />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                    @endif
                     @if (isFeatureEnabled('Supplier Management'))
                         <div class="column is-6">
                             <x-forms.field>

@@ -30,6 +30,7 @@ class StoreGrnRequest extends FormRequest
             'grn.*.description' => ['nullable', 'string'],
             'grn.*.batch_no' => [new BatchSelectionIsRequiredOrProhibited(false), Rule::forEach(fn($v,$a) => is_null($v) ? [] : ['string'])],
             'grn.*.expires_on' => ['nullable', 'date'],
+            'purchase_id' => ['sometimes', 'required', 'integer', new MustBelongToCompany('purchases')],
             'supplier_id' => ['nullable', 'integer', new MustBelongToCompany('suppliers')],
             'issued_on' => ['required', 'date', 'before_or_equal:now'],
             'description' => ['nullable', 'string'],
