@@ -25,25 +25,25 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('cancel:expired-proforma-invoices')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('cancel:expired-reservations')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('notifications:delete-week')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('inventory:low-level-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('proforma-invoice:expiry-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('reservation:expiry-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('credit:due-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('debt:due-date-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('product:expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('supplier:licence-expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
-        
+
         $schedule->command('customer:licence-expiry-date-close-notification')->withoutOverlapping()->evenInMaintenanceMode()->daily();
 
         $schedule->command('backup:run --disable-notifications')->withoutOverlapping()->evenInMaintenanceMode()->everySixHours(45)->unlessBetween('01:00', '12:00');
@@ -55,6 +55,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('pos:approve')->withoutOverlapping()->evenInMaintenanceMode()->everyFiveMinutes();
 
         $schedule->command('company:deactivate')->withoutOverlapping()->evenInMaintenanceMode()->daily();
+
+        $schedule->command('email:sales-report')->withoutOverlapping()->evenInMaintenanceMode()->daily('06:00');
+
+        $schedule->command('email:sales-report --monthly')->withoutOverlapping()->evenInMaintenanceMode()->monthlyOn(time: '06:30');
+
+        $schedule->command('queue:work --stop-when-empty --max-time=3600 --tries=3')->runInBackground()->withoutOverlapping()->evenInMaintenanceMode()->daily('07:00');
     }
 
     /**
