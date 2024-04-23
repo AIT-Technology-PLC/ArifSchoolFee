@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Compensation;
+use App\Models\Employee;
 use App\Rules\MustBelongToCompany;
 use App\Rules\ValidateCompensationAmountIsValid;
 use Illuminate\Foundation\Http\FormRequest;
@@ -60,6 +61,7 @@ class StoreEmployeeRequest extends FormRequest
             'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', Rule::in(Compensation::active()->canBeInputtedManually()->pluck('id'))],
             'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric', new ValidateCompensationAmountIsValid],
             'paid_time_off_amount' => ['required', 'numeric'],
+            'does_receive_sales_report_email' => ['sometimes', 'required', 'boolean', Rule::prohibitedIf(limitReached('sales-report-email-recipient', Employee::salesReportEmailRecipent()->count()))],
         ];
     }
 }

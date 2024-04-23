@@ -244,6 +244,36 @@
                                     </x-forms.field>
                                 </div>
                             @endif
+                            @if (isFeatureEnabled('Sales Report'))
+                                <div class="column is-6">
+                                    <x-forms.field>
+                                        <x-forms.label for="does_receive_sales_report_email">
+                                            Receive Sales Report Email <sup class="has-text-danger">*</sup>
+                                        </x-forms.label>
+                                        <x-forms.control class="has-icons-left">
+                                            <x-forms.select
+                                                class="is-fullwidth"
+                                                id="does_receive_sales_report_email"
+                                                name="does_receive_sales_report_email"
+                                            >
+                                                <option
+                                                    value="1"
+                                                    @selected($employee->doesReceiveSalesReportEmail())
+                                                > Yes </option>
+                                                <option
+                                                    value="0"
+                                                    @selected(!$employee->doesReceiveSalesReportEmail())
+                                                > No </option>
+                                            </x-forms.select>
+                                            <x-common.icon
+                                                name="fas fa-sort"
+                                                class="is-small is-left"
+                                            />
+                                            <x-common.validation-error property="does_receive_sales_report_email" />
+                                        </x-forms.control>
+                                    </x-forms.field>
+                                </div>
+                            @endif
                             <div class="column is-6">
                                 <x-forms.label>
                                     Change Password <sup class="has-text-danger"></sup>

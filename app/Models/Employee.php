@@ -20,6 +20,7 @@ class Employee extends Model
         'date_of_hiring' => 'datetime',
         'date_of_birth' => 'datetime',
         'enabled' => 'boolean',
+        'does_receive_sales_report_email' => 'boolean',
     ];
 
     public function user()
@@ -50,6 +51,11 @@ class Employee extends Model
     public function scopeDisabled($query)
     {
         return $query->where('enabled', 0);
+    }
+
+    public function scopeSalesReportEmailRecipent($query)
+    {
+        return $query->enabled()->where('does_receive_sales_report_email', 1);
     }
 
     public function isEnabled()
@@ -110,19 +116,24 @@ class Employee extends Model
     public function isOnLeave(): Attribute
     {
         return Attribute::make(
-            get:fn() => $this->leaves()->approved()->where('ending_period', '>', now())->exists()
+            get: fn() => $this->leaves()->approved()->where('ending_period', '>', now())->exists()
         )->shouldCache();
     }
 
     public function absentDays(): Attribute
     {
         return Attribute::make(
-            get:fn() => $this->attendanceDetails()->whereHas('attendance', fn($q) => $q->approved()->latest('ending_period'))->first()->days ?? null
+            get: fn() => $this->attendanceDetails()->whereHas('attendance', fn($q) => $q->approved()->latest('ending_period'))->first()->days ?? null
         )->shouldCache();
     }
 
     public static function getEmployees($excludeEmployeesOnLeave = true)
     {
         return User::getUsers($excludeEmployeesOnLeave)->pluck('employee');
+    }
+
+    public function doesReceiveSalesReportEmail()
+    {
+        return $this->does_receive_sales_report_email;
     }
 }
