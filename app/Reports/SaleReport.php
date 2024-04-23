@@ -14,11 +14,11 @@ class SaleReport
 
     private $base;
 
-    public function __construct($filters)
+    public function __construct($filters, $company = null)
     {
         $this->filters = $filters;
 
-        $source = ReportSource::getSalesReportInput($filters);
+        $source = ReportSource::getSalesReportInput($filters, $company);
 
         $this->master = $source['master'];
 

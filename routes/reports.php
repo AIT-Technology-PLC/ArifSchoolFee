@@ -8,6 +8,7 @@ Route::name('reports.')
     ->group(function () {
         Route::get('/{customer}/customer-profile', Report\CustomerProfileReportController::class)->name('profile');
         Route::get('/sales', [Report\SaleReportController::class, 'index'])->name('sale');
+        Route::get('/sales/print', [Report\SaleReportController::class, 'print'])->name('sale_print');
         Route::get('/sales/export', [Report\SaleReportController::class, 'export'])->name('sale_export');
         Route::get('/expenses', [Report\ExpenseReportController::class, 'index'])->name('expense');
         Route::get('/expenses/export', [Report\ExpenseReportController::class, 'export'])->name('expense_export');

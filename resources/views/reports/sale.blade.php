@@ -138,6 +138,16 @@
                 </div>
             </div>
         </div>
+        <x-slot:buttons>
+            <x-common.button
+                tag="a"
+                mode="button"
+                label="Print"
+                icon="fas fa-print"
+                href="{{ route('reports.sale_print', request()->query()) }}"
+                class="button btn-gold is-outlined has-text-weight-medium is-size-7-mobile"
+            />
+        </x-slot>
     </x-common.report-filter>
 
     <div class="columns is-marginless is-multiline mt-3">

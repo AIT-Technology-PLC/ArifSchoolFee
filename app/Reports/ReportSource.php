@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 class ReportSource
 {
-    public static function getSalesReportInput($filters)
+    public static function getSalesReportInput($filters, $company = null)
     {
-        $source = $filters['source'] ?? userCompany()->sales_report_source;
+        $company = $company ?? userCompany();
+
+        $source = $filters['source'] ?? $company->sales_report_source;
 
         [$masterTable, $detailsTable] = match ($source) {
             'Delivery Orders' => ['gdn_master_reports', 'gdn_detail_reports'],
@@ -17,10 +19,10 @@ class ReportSource
 
         return [
             'base' => DB::table($masterTable)
-                ->where('company_id', userCompany()->id),
+                ->where('company_id', $company->id),
 
             'master' => DB::table($masterTable)
-                ->where('company_id', userCompany()->id)
+                ->where('company_id', $company->id)
                 ->when(isset($filters['branches']), fn($q) => $q->whereIn($masterTable . '.warehouse_id', $filters['branches']))
                 ->when(isset($filters['period']), fn($q) => $q->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1]))
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))
@@ -42,7 +44,7 @@ class ReportSource
                     $masterTable,
                     str($detailsTable)->append('.', str($detailsTable)->before('_')->append('_id')),
                     str($masterTable)->append('.id'))
-                ->where('company_id', userCompany()->id)
+                ->where('company_id', $company->id)
                 ->when(isset($filters['branches']), fn($q) => $q->whereIn($masterTable . '.warehouse_id', $filters['branches']))
                 ->when(isset($filters['period']), fn($q) => $q->whereDate($masterTable . '.issued_on', '>=', $filters['period'][0])->whereDate($masterTable . '.issued_on', '<=', $filters['period'][1]))
                 ->when(isset($filters['user_id']), fn($query) => $query->where($masterTable . '.created_by', $filters['user_id']))

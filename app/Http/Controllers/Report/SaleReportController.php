@@ -9,6 +9,7 @@ use App\Models\Employee;
 use App\Models\Product;
 use App\Reports\ReportSource;
 use App\Reports\SaleReport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SaleReportController extends Controller
@@ -46,5 +47,22 @@ class SaleReportController extends Controller
         }
 
         return Excel::download(new SaleReportExport(ReportSource::getSalesReportInput($request->validated())), 'Sales Report.xlsx');
+    }
+
+    public function print(FilterRequest $request)
+    {
+        abort_if(authUser()->cannot('Read Sale Report'), 403);
+
+        $company = userCompany();
+
+        $period = $request->validated('period');
+
+        $saleReport = new SaleReport($request->validated());
+
+        if (!$saleReport->getSalesCount) {
+            return back()->with('failedMessage', 'No report available to be exported.');
+        }
+
+        return Pdf::loadView('reports.sale-print', compact('saleReport', 'period', 'company'))->stream();
     }
 }
