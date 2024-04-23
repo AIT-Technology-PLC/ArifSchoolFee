@@ -72,10 +72,10 @@
             Sales Report
         </h1>
         <h4>
-            @if ($period[0]->isSameDay($period[1]))
-                {{ $period[0]->toFormattedDateString() }}
+            @if (carbon($period[0])->isSameDay(carbon($period[1])))
+                {{ carbon($period[0])->toFormattedDateString() }}
             @else
-                {{ $period[0]->toFormattedDateString() }} - {{ $period[1]->toFormattedDateString() }}
+                {{ carbon($period[0])->toFormattedDateString() }} - {{ carbon($period[1])->toFormattedDateString() }}
             @endif
         </h4>
     </section>
