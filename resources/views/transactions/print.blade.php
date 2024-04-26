@@ -118,7 +118,13 @@
                     <tr>
                         <th>#</th>
                         @foreach ($columns['detail'] as $column)
+                            @continue ($column == 'unit')
+
                             <th>{{ str($column)->replace('_', ' ')->title() }}</th>
+
+                            @if (str($column)->replace('_', ' ')->title()->is('Product') && in_array('unit', $columns['detail']))
+                                <th> Unit </th>
+                            @endif
                         @endforeach
                     </tr>
                 </thead>
@@ -129,9 +135,17 @@
                                 {{ $loop->iteration }}
                             </th>
                             @foreach ($columns['detail'] as $column)
+                                @continue ($column == 'unit')
+
                                 <td>
                                     {{ $detail[$column] ?? '-' }}
                                 </td>
+
+                                @if (str($column)->replace('_', ' ')->title()->is('Product') && in_array('unit', $columns['detail']))
+                                    <td>
+                                        {{ $detail['unit'] ?? '-' }}
+                                    </td>
+                                @endif
                             @endforeach
                         </tr>
                     @endforeach
