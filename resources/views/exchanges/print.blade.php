@@ -28,7 +28,7 @@
         rel="stylesheet"
     >
 
-    @include('assets.print-css')
+    @include('assets.print-css', ['company' => userCompany()])
 </head>
 
 <body class="{{ userCompany()->hasPrintTemplate() ? 'company-background company-y-padding company-x-padding' : 'px-6' }}">
@@ -201,4 +201,5 @@
     </section>
     <x-print.footer-marketing />
 </body>
+
 </html>

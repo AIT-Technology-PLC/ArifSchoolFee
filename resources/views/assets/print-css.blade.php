@@ -1,17 +1,17 @@
 <style>
     .company-background {
-        background: url({{ asset('storage/' . ($company?->print_template_image ?? userCompany()->print_template_image)) }}) no-repeat center center fixed;
+        background: url({{ asset('storage/' . $company->print_template_image) }}) no-repeat center center fixed;
         background-size: cover;
     }
 
     .company-x-padding {
-        padding-right: {{ $company?->print_padding_horizontal ?? userCompany()->print_padding_horizontal }}%;
-        padding-left: {{ $company?->print_padding_horizontal ?? userCompany()->print_padding_horizontal }}%;
+        padding-right: {{ $company->print_padding_horizontal }}%;
+        padding-left: {{ $company->print_padding_horizontal }}%;
     }
 
     .company-y-padding {
-        padding-top: {{ $company?->print_padding_top ?? userCompany()->print_padding_top }}%;
-        padding-bottom: {{ $company?->print_padding_bottom ?? userCompany()->print_padding_bottom }}%;
+        padding-top: {{ $company->print_padding_top }}%;
+        padding-bottom: {{ $company->print_padding_bottom }}%;
     }
 
     @media print {

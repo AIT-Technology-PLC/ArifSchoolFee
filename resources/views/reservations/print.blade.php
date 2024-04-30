@@ -28,7 +28,7 @@
         rel="stylesheet"
     >
 
-    @include('assets.print-css')
+    @include('assets.print-css', ['company' => userCompany()])
 </head>
 
 <body class="{{ userCompany()->hasPrintTemplate() ? 'company-background company-y-padding company-x-padding' : 'px-6' }}">
@@ -201,7 +201,7 @@
                 @if ($reservation->hasWithholding())
                     <tr>
                         <td
-                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0)    }}"
+                            colspan="{{ 4 + (userCompany()->showProductCodeOnPrintouts() ? 1 : 0) }}"
                             class="is-borderless"
                         ></td>
                         <td class="has-text-weight-bold"></td>
