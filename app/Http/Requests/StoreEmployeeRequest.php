@@ -61,7 +61,7 @@ class StoreEmployeeRequest extends FormRequest
             'employeeCompensation.*.compensation_id' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'integer', 'distinct', Rule::in(Compensation::active()->canBeInputtedManually()->pluck('id'))],
             'employeeCompensation.*.amount' => [Rule::when(!isFeatureEnabled('Compensation Management'), 'prohibited'), 'numeric', new ValidateCompensationAmountIsValid],
             'paid_time_off_amount' => ['required', 'numeric'],
-            'does_receive_sales_report_email' => ['sometimes', 'required', 'boolean', Rule::prohibitedIf(limitReached('sales-report-email-recipient', Employee::salesReportEmailRecipent()->count()))],
+            'does_receive_sales_report_email' => ['sometimes', 'required', 'boolean', Rule::prohibitedIf($this->boolean('does_receive_sales_report_email') && limitReached('sales-report-email-recipient', Employee::salesReportEmailRecipent()->count()))],
         ];
     }
 }
