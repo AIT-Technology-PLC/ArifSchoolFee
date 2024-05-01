@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('company:deactivate')->withoutOverlapping()->evenInMaintenanceMode()->daily();
 
-        $schedule->command('email:sales-report')->withoutOverlapping()->evenInMaintenanceMode()->daily('06:00');
+        $schedule->command('email:sales-report')->withoutOverlapping()->evenInMaintenanceMode()->dailyAt('06:00');
 
         $schedule->command('email:sales-report --monthly')->withoutOverlapping()->evenInMaintenanceMode()->monthlyOn(time: '06:30');
 
