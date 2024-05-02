@@ -60,7 +60,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('email:sales-report --monthly')->withoutOverlapping()->evenInMaintenanceMode()->monthlyOn(time: '06:30');
 
-        $schedule->command('queue:work --stop-when-empty --max-time=3600 --tries=3')->runInBackground()->withoutOverlapping()->evenInMaintenanceMode()->daily('07:00');
+        $schedule->command('queue:work --stop-when-empty --max-time=3600 --tries=3')->runInBackground()->withoutOverlapping()->evenInMaintenanceMode()->dailyAt('07:00');
     }
 
     /**
