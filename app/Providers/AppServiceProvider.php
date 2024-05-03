@@ -2,8 +2,13 @@
 
 namespace App\Providers;
 
+use App\Listeners\TransferEventSubscriber;
 use App\Models\CustomField;
+use App\Models\Returnn;
+use App\Policies\ReturnPolicy;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Yajra\DataTables\EloquentDataTable;
 
@@ -37,5 +42,9 @@ class AppServiceProvider extends ServiceProvider
 
             return static::addIndexColumn();
         });
+
+        Gate::policy(Returnn::class, ReturnPolicy::class);
+
+        Event::subscribe(TransferEventSubscriber::class);
     }
 }
