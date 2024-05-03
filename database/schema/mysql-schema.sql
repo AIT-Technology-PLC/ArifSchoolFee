@@ -305,11 +305,11 @@ CREATE TABLE `companies` (
   `working_days` bigint(20) NOT NULL DEFAULT 26,
   `is_backorder_enabled` tinyint(1) NOT NULL DEFAULT 1,
   `can_check_inventory_on_forms` tinyint(1) NOT NULL DEFAULT 0,
+  `expiry_in_days` int(11) DEFAULT 30,
   `can_show_employee_job_title_on_print` tinyint(1) NOT NULL DEFAULT 1,
   `can_select_batch_number_on_forms` tinyint(1) NOT NULL DEFAULT 0,
   `filter_customer_and_supplier` tinyint(1) NOT NULL DEFAULT 1,
   `is_costing_by_freight_volume` tinyint(1) NOT NULL DEFAULT 1,
-  `expiry_in_days` int(11) DEFAULT 30,
   `income_tax_region` varchar(255) NOT NULL DEFAULT 'Ethiopia',
   `payroll_bank_name` varchar(255) DEFAULT NULL,
   `payroll_bank_account_number` varchar(255) DEFAULT NULL,
@@ -939,6 +939,7 @@ CREATE TABLE `employees` (
   `emergency_phone` varchar(255) DEFAULT NULL,
   `paid_time_off_amount` decimal(22,2) DEFAULT NULL,
   `department_id` bigint(20) unsigned DEFAULT NULL,
+  `does_receive_sales_report_email` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `employees_company_id_index` (`company_id`),
   KEY `employees_user_id_index` (`user_id`),
@@ -979,7 +980,7 @@ CREATE TABLE `exchange_details` (
   CONSTRAINT `exchange_details_merchandise_batch_id_foreign` FOREIGN KEY (`merchandise_batch_id`) REFERENCES `merchandise_batches` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `exchange_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `exchange_details_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `exchanges`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1015,7 +1016,7 @@ CREATE TABLE `exchanges` (
   CONSTRAINT `exchanges_return_id_foreign` FOREIGN KEY (`return_id`) REFERENCES `returns` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `exchanges_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `exchanges_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `expense_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1162,12 +1163,14 @@ DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
   `connection` text NOT NULL,
   `queue` text NOT NULL,
   `payload` longtext NOT NULL,
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `featurables`;
@@ -1269,6 +1272,8 @@ SET character_set_client = utf8;
   1 AS `customer_address`,
   1 AS `customer_created_at`,
   1 AS `payment_type`,
+  1 AS `bank_name`,
+  1 AS `reference_number`,
   1 AS `cash_received_type`,
   1 AS `cash_received`,
   1 AS `discount`,
@@ -1622,6 +1627,21 @@ CREATE TABLE `job_orders` (
   CONSTRAINT `job_orders_factory_id_foreign` FOREIGN KEY (`factory_id`) REFERENCES `warehouses` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `job_orders_updated_by_foreign` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `job_orders_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `leave_categories`;
@@ -2115,7 +2135,7 @@ CREATE TABLE `product_bundles` (
   KEY `product_bundles_component_id_index` (`component_id`),
   CONSTRAINT `product_bundles_component_id_foreign` FOREIGN KEY (`component_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `product_bundles_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `product_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -2638,6 +2658,8 @@ SET character_set_client = utf8;
   1 AS `customer_created_at`,
   1 AS `fs_number`,
   1 AS `payment_type`,
+  1 AS `bank_name`,
+  1 AS `reference_number`,
   1 AS `cash_received_type`,
   1 AS `cash_received`,
   1 AS `issued_on`,
@@ -2784,7 +2806,7 @@ CREATE TABLE `subscriptions` (
   KEY `subscriptions_plan_id_foreign` (`plan_id`),
   CONSTRAINT `subscriptions_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE CASCADE,
   CONSTRAINT `subscriptions_plan_id_foreign` FOREIGN KEY (`plan_id`) REFERENCES `plans` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `suppliers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -3254,7 +3276,7 @@ CREATE TABLE `warnings` (
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `gdn_master_reports` AS select `gdns`.`id` AS `id`,`gdns`.`company_id` AS `company_id`,`gdns`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`gdns`.`warehouse_id` AS `warehouse_id`,`gdns`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`gdns`.`code` AS `code`,`gdns`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`gdns_two`.`issued_on`) from `gdns` `gdns_two` where `gdns_two`.`customer_id` = `gdns`.`customer_id` and `gdns_two`.`deleted_at` is null) AS `customer_created_at`,`gdns`.`payment_type` AS `payment_type`,`gdns`.`cash_received_type` AS `cash_received_type`,`gdns`.`cash_received` AS `cash_received`,`gdns`.`discount` AS `discount`,`gdns`.`issued_on` AS `issued_on`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `subtotal_price`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`gdns` join `warehouses` on(`gdns`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`gdns`.`created_by` = `users`.`id`)) left join `customers` on(`gdns`.`customer_id` = `customers`.`id`)) left join `credits` on(`gdns`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Gdn')) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) where `gdns`.`deleted_at` is null and `gdns`.`cancelled_by` is null and `gdns`.`subtracted_by` is not null */;
+/*!50001 VIEW `gdn_master_reports` AS select `gdns`.`id` AS `id`,`gdns`.`company_id` AS `company_id`,`gdns`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`gdns`.`warehouse_id` AS `warehouse_id`,`gdns`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`gdns`.`code` AS `code`,`gdns`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`gdns_two`.`issued_on`) from `gdns` `gdns_two` where `gdns_two`.`customer_id` = `gdns`.`customer_id` and `gdns_two`.`deleted_at` is null) AS `customer_created_at`,`gdns`.`payment_type` AS `payment_type`,`gdns`.`bank_name` AS `bank_name`,`gdns`.`reference_number` AS `reference_number`,`gdns`.`cash_received_type` AS `cash_received_type`,`gdns`.`cash_received` AS `cash_received`,`gdns`.`discount` AS `discount`,`gdns`.`issued_on` AS `issued_on`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_price_before_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `subtotal_price`,if(`gdns`.`discount` is null,(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`),(select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) - (select sum(`gdn_detail_reports`.`line_tax`) from `gdn_detail_reports` where `gdn_detail_reports`.`gdn_id` = `gdns`.`id`) * (`gdns`.`discount` / 100)) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`gdns` join `warehouses` on(`gdns`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`gdns`.`created_by` = `users`.`id`)) left join `customers` on(`gdns`.`customer_id` = `customers`.`id`)) left join `credits` on(`gdns`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Gdn')) join `companies` on(`gdns`.`company_id` = `companies`.`id`)) where `gdns`.`deleted_at` is null and `gdns`.`cancelled_by` is null and `gdns`.`subtracted_by` is not null */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -3280,7 +3302,7 @@ CREATE TABLE `warnings` (
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `sale_master_reports` AS select `sales`.`id` AS `id`,`sales`.`company_id` AS `company_id`,`sales`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`sales`.`warehouse_id` AS `warehouse_id`,`sales`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`sales`.`code` AS `code`,`sales`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`sales_two`.`issued_on`) from `sales` `sales_two` where `sales_two`.`customer_id` = `sales`.`customer_id` and `sales_two`.`deleted_at` is null and `sales_two`.`cancelled_by` is null) AS `customer_created_at`,`sales`.`fs_number` AS `fs_number`,`sales`.`payment_type` AS `payment_type`,`sales`.`cash_received_type` AS `cash_received_type`,`sales`.`cash_received` AS `cash_received`,`sales`.`issued_on` AS `issued_on`,(select sum(`sale_detail_reports`.`line_price_before_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `subtotal_price`,(select sum(`sale_detail_reports`.`line_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`sales` join `warehouses` on(`sales`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`sales`.`created_by` = `users`.`id`)) left join `customers` on(`sales`.`customer_id` = `customers`.`id`)) left join `credits` on(`sales`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Sale')) join `companies` on(`sales`.`company_id` = `companies`.`id`)) where `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null and if(`companies`.`can_sale_subtract` = 1,`sales`.`subtracted_by` is not null,`sales`.`approved_by` is not null) */;
+/*!50001 VIEW `sale_master_reports` AS select `sales`.`id` AS `id`,`sales`.`company_id` AS `company_id`,`sales`.`created_by` AS `created_by`,`users`.`name` AS `user_name`,`sales`.`warehouse_id` AS `warehouse_id`,`sales`.`warehouse_id` AS `branch_id`,`warehouses`.`name` AS `branch_name`,`sales`.`code` AS `code`,`sales`.`customer_id` AS `customer_id`,`customers`.`company_name` AS `customer_name`,`customers`.`address` AS `customer_address`,(select min(`sales_two`.`issued_on`) from `sales` `sales_two` where `sales_two`.`customer_id` = `sales`.`customer_id` and `sales_two`.`deleted_at` is null and `sales_two`.`cancelled_by` is null) AS `customer_created_at`,`sales`.`fs_number` AS `fs_number`,`sales`.`payment_type` AS `payment_type`,`sales`.`bank_name` AS `bank_name`,`sales`.`reference_number` AS `reference_number`,`sales`.`cash_received_type` AS `cash_received_type`,`sales`.`cash_received` AS `cash_received`,`sales`.`issued_on` AS `issued_on`,(select sum(`sale_detail_reports`.`line_price_before_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `subtotal_price`,(select sum(`sale_detail_reports`.`line_tax`) from `sale_detail_reports` where `sale_detail_reports`.`sale_id` = `sales`.`id`) AS `total_tax`,`credits`.`credit_amount` AS `credit_amount`,`credits`.`credit_amount_settled` AS `credit_amount_settled`,`credits`.`credit_amount` - `credits`.`credit_amount_settled` AS `credit_amount_unsettled`,`credits`.`last_settled_at` AS `last_settled_at` from (((((`sales` join `warehouses` on(`sales`.`warehouse_id` = `warehouses`.`id` and `warehouses`.`is_active` = 1)) left join `users` on(`sales`.`created_by` = `users`.`id`)) left join `customers` on(`sales`.`customer_id` = `customers`.`id`)) left join `credits` on(`sales`.`id` = `credits`.`creditable_id` and `credits`.`creditable_type` = 'App\\Models\\Sale')) join `companies` on(`sales`.`company_id` = `companies`.`id`)) where `sales`.`deleted_at` is null and `sales`.`cancelled_by` is null and if(`companies`.`can_sale_subtract` = 1,`sales`.`subtracted_by` is not null,`sales`.`approved_by` is not null) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -3332,7 +3354,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (144,'2022_08_03_14
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (145,'2022_08_09_150824_create_push_subscriptions_table',14);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (146,'2022_08_16_083027_drop_discount_column',15);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (147,'2022_08_16_090206_addbatch_field_to_products_table',15);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (148,'expiry_date',15);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (148,'2022_08_16_140212_add_batch_and_expiry_date_column_to_grn_details_table',15);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (149,'2022_08_17_081512_add_columns_to_purchase_tables',15);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (150,'2022_08_17_081529_add_columns_to_purchase_details_tables',15);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (151,'2022_08_17_122505_add_columns_to_companies',15);
@@ -3384,97 +3406,106 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (203,'2022_11_09_08
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (204,'2022_11_10_112358_migrate_inventory_data_to_inventory_history_table',28);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (205,'2022_11_08_142931_update_column_property_on_bill_of_material_details_table',29);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (206,'2022_11_15_142628_add_paid_at_to_payrolls_table',29);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (207,'2019_12_14_000001_create_personal_access_tokens_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (208,'2022_11_25_215726_add_notification_field_to_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (209,'2022_11_25_221505_add_is_converted_to_damage_field_to_merchandise_batches_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (210,'2022_12_08_142650_create_taxes_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (211,'2022_12_08_142739_add_tax_column_to_products_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (212,'2022_12_11_004714_update_compensation_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (213,'2022_12_13_115808_update_value_in_transaction_fields',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (214,'2022_12_26_115017_add_can_show_employee_job_title_column_on_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (215,'2022_12_26_143644_assign_tax_to_products',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (216,'2022_12_27_145108_add_columns_to_gdns_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (217,'2022_12_27_232811_add_column_on_compensation_adjustments_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (218,'2022_12_29_190034_update_days_in_attendance_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (219,'2022_12_30_111529_add_column_to_gdn_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (220,'2023_01_12_145516_add_can_select_batch_number_on_forms_column_on_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (221,'2023_01_17_151527_add_unit_cost_column_on_grn_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (222,'2023_01_19_212510_add_merchandise_batch_id_to_damage_details',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (223,'2023_01_19_215901_add_received_quantity_to_merchandise_batches',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (224,'2023_01_20_101408_add_columns_to_customer_and_supplier_tables',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (225,'2023_01_27_120555_add_filter_customer_and_supplier_column_on_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (226,'2023_01_27_201309_add_merchandise_id_column_on_tables',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (227,'2023_01_29_211508_add_options_to_compensation_adjustments',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (228,'2023_01_30_083317_add_merchandise_batch_id_on_sales_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (229,'2023_01_31_170236_add_balance_field_to_customers_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (230,'2023_02_01_083857_create_customer_deposits_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (231,'2023_02_01_114305_drop_columns_from_prices_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (232,'2023_02_06_094711_drop_tax_type_to_expenses_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (233,'2023_02_07_220733_add_and_modify_column_on_purchases_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (234,'2023_02_08_095851_add_rejected_by_and_canceled_by_field_to_purchases_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (235,'2023_02_09_183315_remove_discount_from_pad_fields',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (236,'2023_02_14_141917_add_gdn_id_on_returns_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (237,'2023_02_17_154034_add_description_section_on__expense_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (238,'2023_02_20_100244_add_returned_quantity_to_gdn_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (239,'2023_02_20_120846_add_is_freight_amount_by_volume_column_on_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (240,'2023_02_21_135244_add_payment_method_option_columns_on_expenses_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (241,'2023_02_23_113348_update_unit_cost_in_grns',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (242,'2023_02_23_145200_adjust_amount_in_purchase_details',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (243,'2023_03_01_095844_add_tax_id_and_drop_tax_type_to_purchases_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (244,'2023_03_03_160423_modify_unit_price_in_expense_details',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (245,'2023_03_16_131831_add_update_status_permission_to_pads',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (246,'2023_03_21_163621_drop_date_unique_to_compensation_adjustments_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (247,'2023_03_27_140039_drop_unique_constraint_from_attendances',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (248,'2023_03_28_153731_add_columns_to_companies',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (249,'2023_03_29_075057_add_working_days_to_payrolls',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (250,'2023_03_30_143657_add_description_to_leaves_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (251,'2023_04_25_125420_add_with_withholding_to_sales',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (252,'2023_04_26_105005_add_return_type_to_companies',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (253,'2023_04_26_123020_change_has_withholding_to_nullable',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (254,'2023_04_27_125858_add_is_read_only_to_pad_fields',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (255,'2023_04_28_222752_create_batching_fields_for_existing_pads',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (256,'2023_05_01_180148_add_merchandise_batch_to_pads',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (257,'2023_05_02_112459_add_creditable_to_gdn',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (258,'2023_05_08_121423_create_product_reorders_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (259,'2023_07_18_072115_necessary_changes_for_subtractable_sale',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (260,'2023_08_17_171735_add_columns_for_pos_integration',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (261,'2023_08_24_163126_add_inventory_valuation_fields_to_products_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (262,'2023_08_24_163503_create_inventory_valuation_balances_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (263,'2023_08_24_163548_create_inventory_valuation_histories_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (264,'2023_08_27_153347_add_print_columns_to_pads',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (265,'2023_08_28_102526_create_custom_fields_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (266,'2023_08_29_163511_create_custom_field_values',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (267,'2023_09_02_132725_add_original_quantity_to_inventory_valuation_balances_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (268,'2023_09_04_154022_create_cost_updates_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (269,'2023_09_04_160513_create_cost_update_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (270,'2023_09_05_224324_give_users_access_to_all_warehouses_for_transfer_source_branch_permission',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (271,'2023_09_14_110408_add_columns_to_inventory_histories_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (272,'2023_09_18_124406_add_auto_generated_credit_issued_on_date_to_companies',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (273,'2023_09_18_165716_add_columns_to_inventory_valuation_related_tables',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (274,'2023_09_25_135246_change_sales_report_source_column_default_value_on_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (275,'2023_09_29_101913_change_fs_number_to_string',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (276,'2023_10_03_215517_add_proforma_invoiceable_to_proforma_invoiceable_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (277,'2023_10_11_023104_add_is_product_single_column_to_products_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (278,'2023_10_11_203151_create_product_bundles_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (279,'2023_10_13_081408_add_product_id_on_inventory_history_unique_constraint',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (280,'2023_10_16_104954_add_can_siv_subtract_from_inventory_column_to_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (281,'2023_10_16_165119_add_subtracted_by_to_sivs_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (282,'2023_10_16_194521_change_unique_index_on_valuation_related_tables',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (283,'2023_10_18_020533_add_merchandise_batch_id_to_siv_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (284,'2023_10_18_101047_add_sivable_to_sivs_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (285,'2023_10_22_163539_drop_columns_from_sivs',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (286,'2023_10_24_092200_add_delivered_quantity_to_sale_and_gdn_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (287,'2023_10_26_135433_add_is_partial_deliveries_enabled_to_companies_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (288,'2023_10_28_211917_add_can_show_product_code_on_printouts_on_companies',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (289,'2023_10_29_220724_assign_sivs_as_delivered',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (290,'2023_10_31_141059_create_exchanges_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (291,'2023_10_31_150602_create_exchange_details_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (292,'2023_11_01_141615_add_is_admin_to_users',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (293,'2023_11_14_095505_add_batch_columns_to_purchase_details',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (294,'2023_11_14_152607_add_is_in_training_in_companies',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (295,'2023_11_17_233943_add_warehouse_id_to_custom_field_values',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (296,'2023_11_18_224501_drop_has_payment_term_from_pads',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (297,'2023_11_22_115215_create_subscriptions_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (298,'2023_11_26_162403_add_has_withholding_to_reservations',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (299,'2023_11_28_080039_add_profit_margin_type_column_to_products_table',30);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (300,'2023_11_29_222503_add_can_sell_below_cost_column_to_companies_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (207,'2022_12_11_004714_update_compensation_table',30);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (208,'2022_12_13_115808_update_value_in_transaction_fields',31);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (209,'2022_12_08_142650_create_taxes_table',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (210,'2022_12_08_142739_add_tax_column_to_products_table',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (211,'2022_12_26_143644_assign_tax_to_products',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (212,'2022_12_27_193506_modify_gdn_report_views',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (214,'2022_12_27_232811_add_column_on_compensation_adjustments_table',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (215,'2022_12_29_190034_update_days_in_attendance_table',32);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (216,'2022_12_26_115017_add_can_show_employee_job_title_column_on_companies_table',33);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (217,'2022_12_27_145108_add_columns_to_gdns_table',33);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (219,'2022_11_25_215726_add_notification_field_to_companies_table',35);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (220,'2022_11_25_221505_add_is_converted_to_damage_field_to_merchandise_batches_table',35);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (221,'2022_12_30_111529_add_column_to_gdn_details_table',35);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (222,'2023_01_12_145516_add_can_select_batch_number_on_forms_column_on_companies_table',35);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (223,'2023_01_17_151527_add_unit_cost_column_on_grn_details_table',35);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (224,'2023_01_19_212510_add_merchandise_batch_id_to_damage_details',36);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (225,'2023_01_19_215901_add_received_quantity_to_merchandise_batches',36);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (226,'2023_01_20_101408_add_columns_to_customer_and_supplier_tables',37);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (227,'2023_01_27_120555_add_filter_customer_and_supplier_column_on_companies_table',37);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (228,'2023_01_27_201309_add_merchandise_id_column_on_tables',38);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (229,'2023_01_29_211508_add_options_to_compensation_adjustments',38);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (230,'2023_01_30_083317_add_merchandise_batch_id_on_sales_table',39);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (231,'2023_01_31_170236_add_balance_field_to_customers_table',40);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (232,'2023_02_01_083857_create_customer_deposits_table',40);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (233,'2023_02_01_114305_drop_columns_from_prices_table',41);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (234,'2023_02_07_220733_add_and_modify_column_on_purchases_table',42);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (235,'2023_02_09_183315_remove_discount_from_pad_fields',43);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (236,'2023_02_14_141917_add_gdn_id_on_returns_table',44);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (237,'2023_02_17_154034_add_description_section_on__expense_table',44);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (238,'2023_02_08_095851_add_rejected_by_and_canceled_by_field_to_purchases_table',45);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (239,'2023_02_20_120846_add_is_freight_amount_by_volume_column_on_companies_table',46);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (240,'2023_02_21_135244_add_payment_method_option_columns_on_expenses_table',46);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (241,'2023_02_23_113348_update_unit_cost_in_grns',47);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (243,'2023_02_23_145200_adjust_amount_in_purchase_details',48);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (244,'2023_02_20_100244_add_returned_quantity_to_gdn_details_table',49);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (245,'2023_03_03_160423_modify_unit_price_in_expense_details',50);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (246,'2023_03_10_145248_fix_inventory_level_inaccuracy',51);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (247,'2023_03_16_131831_add_update_status_permission_to_pads',52);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (248,'2023_03_21_163621_drop_date_unique_to_compensation_adjustments_table',53);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (249,'2023_03_27_140039_drop_unique_constraint_from_attendances',53);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (250,'2023_03_28_153731_add_columns_to_companies',54);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (251,'2023_03_29_075057_add_working_days_to_payrolls',55);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (252,'2023_03_30_143657_add_description_to_leaves_table',56);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (255,'2023_02_06_094711_drop_tax_type_to_expenses_table',58);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (256,'2023_03_01_095844_add_tax_id_and_drop_tax_type_to_purchases_table',58);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (257,'2023_04_25_125420_add_with_withholding_to_sales',59);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (258,'2023_04_26_105005_add_return_type_to_companies',60);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (259,'2023_04_26_123020_change_has_withholding_to_nullable',60);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (260,'2023_04_27_125858_add_is_read_only_to_pad_fields',61);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (261,'2023_04_28_222752_create_batching_fields_for_existing_pads',62);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (262,'2023_05_01_180148_add_merchandise_batch_to_pads',63);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (263,'2023_05_02_112459_add_creditable_to_gdn',64);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (265,'2023_05_08_121423_create_product_reorders_table',65);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (266,'2023_07_18_072115_necessary_changes_for_subtractable_sale',66);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (267,'2019_12_14_000001_create_personal_access_tokens_table',67);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (268,'2023_08_17_171735_add_columns_for_pos_integration',67);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (269,'2023_08_27_153347_add_print_columns_to_pads',68);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (270,'2023_08_28_102526_create_custom_fields_table',69);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (271,'2023_08_29_163511_create_custom_field_values',69);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (273,'2023_09_05_224324_give_users_access_to_all_warehouses_for_transfer_source_branch_permission',70);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (274,'2023_09_14_110408_add_columns_to_inventory_histories_table',71);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (275,'2023_09_15_144733_fix_inventory_history_data',72);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (276,'2023_09_18_124406_add_auto_generated_credit_issued_on_date_to_companies',73);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (277,'2023_08_24_163126_add_inventory_valuation_fields_to_products_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (278,'2023_08_24_163503_create_inventory_valuation_balances_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (279,'2023_08_24_163548_create_inventory_valuation_histories_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (280,'2023_09_02_132725_add_original_quantity_to_inventory_valuation_balances_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (281,'2023_09_04_154022_create_cost_updates_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (282,'2023_09_04_160513_create_cost_update_details_table',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (283,'2023_09_18_165716_add_columns_to_inventory_valuation_related_tables',74);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (286,'2023_09_25_135246_change_sales_report_source_column_default_value_on_companies_table',75);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (287,'2022_12_27_193607_modify_sale_report_views',76);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (288,'2023_01_13_214744_filter_our_cancelled_gdns',76);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (289,'2023_09_29_101913_change_fs_number_to_string',77);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (290,'2023_10_03_215517_add_proforma_invoiceable_to_proforma_invoiceable_table',78);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (291,'2023_10_28_211917_add_can_show_product_code_on_printouts_on_companies',79);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (292,'2023_10_11_023104_add_is_product_single_column_to_products_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (293,'2023_10_11_203151_create_product_bundles_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (294,'2023_10_13_081408_add_product_id_on_inventory_history_unique_constraint',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (295,'2023_10_16_104954_add_can_siv_subtract_from_inventory_column_to_companies_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (296,'2023_10_16_165119_add_subtracted_by_to_sivs_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (297,'2023_10_16_194521_change_unique_index_on_valuation_related_tables',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (298,'2023_10_18_020533_add_merchandise_batch_id_to_siv_details_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (299,'2023_10_18_101047_add_sivable_to_sivs_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (300,'2023_10_22_163539_drop_columns_from_sivs',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (301,'2023_10_24_092200_add_delivered_quantity_to_sale_and_gdn_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (302,'2023_10_26_135433_add_is_partial_deliveries_enabled_to_companies_table',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (303,'2023_10_29_220724_assign_sivs_as_delivered',80);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (304,'2023_11_14_095505_add_batch_columns_to_purchase_details',81);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (305,'2023_11_17_233943_add_warehouse_id_to_custom_field_values',82);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (306,'2023_10_31_141059_create_exchanges_table',83);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (307,'2023_10_31_150602_create_exchange_details_table',83);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (308,'2023_11_01_141615_add_is_admin_to_users',83);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (309,'2023_11_14_152607_add_is_in_training_in_companies',83);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (310,'2023_11_18_224501_drop_has_payment_term_from_pads',83);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (311,'2023_11_22_115215_create_subscriptions_table',84);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (312,'2023_11_26_162403_add_has_withholding_to_reservations',85);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (313,'2023_12_04_120446_temp_create_company_subscriptions',86);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (314,'2023_11_28_080039_add_profit_margin_type_column_to_products_table',87);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (315,'2023_11_29_222503_add_can_sell_below_cost_column_to_companies_table',88);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (316,'2024_04_23_100945_add_does_receive_sales_report_email_to_employees',89);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (317,'2024_04_23_123945_create_jobs_table',89);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (318,'2024_04_24_094302_create_failed_jobs_table',90);
