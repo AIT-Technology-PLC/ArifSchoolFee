@@ -21,6 +21,8 @@ class SalesReport extends Mailable implements ShouldQueue
 
     public $period;
 
+    public $formattedPeriod;
+
     private $fileName;
 
     public function __construct($user, $period)
@@ -29,14 +31,18 @@ class SalesReport extends Mailable implements ShouldQueue
 
         $this->period = $period;
 
-        $this->fileName = sprintf('Sales Report: %s - %s.pdf', $this->period[0]->toDateString(), $this->period[1]->toDateString());
+        $this->formattedPeriod = $this->period[0]->isSameDay($this->period[1])
+        ? $this->period[0]->toFormattedDateString()
+        : $this->period[0]->format('F Y');
+
+        $this->fileName = sprintf('Sales Report (%s).pdf', $this->formattedPeriod);
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
             from: new Address('analytics@onrica.com', 'Onrica Analytics'),
-            subject: 'Sales Report',
+            subject: str($this->fileName)->remove('.pdf')->toString(),
         );
     }
 
