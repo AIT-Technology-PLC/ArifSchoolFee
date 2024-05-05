@@ -38,7 +38,7 @@ jobs:
           mysql-version: "11.3"
 
       - name: Create Database
-        run: mysql -uroot -e 'create database testing_database'
+        run: mariadb -uroot -e 'create database testing_database'
 
       - name: Execute tests
         run: php artisan test
