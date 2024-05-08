@@ -45,7 +45,12 @@ class Peds implements PointOfSaleInterface
                     'UomName' => $saleDetail->product->unit_of_measurement,
                     'Quantity' => $saleDetail->quantity,
                     'SalesUnitPrice' => $saleDetail->unit_price,
-                    'TaxType' => $saleDetail->product->tax->type == 'VAT' ? '1' : '4',
+                    'TaxType' => match ($saleDetail->product->tax->type) {
+                        'VAT' => '1',
+                        'TOT2' => '2',
+                        'TOT5' => '3',
+                        default => '4'
+                    },
                 ];
             })
             ->toArray();
