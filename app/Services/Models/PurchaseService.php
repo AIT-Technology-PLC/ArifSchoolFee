@@ -136,15 +136,15 @@ class PurchaseService
     public function purchase($purchase)
     {
         if (!$purchase->isApproved()) {
-            return back()->with('failedMessage', 'This purchase is not yet approved.');
+            return [false, 'This purchase is not yet approved.'];
         }
 
         if ($purchase->isCancelled()) {
-            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+            return [false, 'You can not purchased a cancelled purchase.'];
         }
 
         if ($purchase->isPurchased()) {
-            return back()->with('failedMessage', 'This purchase is already purchased.');
+            return [false, 'This purchase is already purchased.'];
         }
 
         DB::transaction(function () use ($purchase) {
@@ -168,15 +168,15 @@ class PurchaseService
         }
 
         if ($purchase->isApproved()) {
-            return back()->with('failedMessage', 'This purchase is already approved.');
+            return [false, 'This purchase is already approved.'];
         }
 
         if ($purchase->isCancelled()) {
-            return back()->with('failedMessage', 'You can not purchased a cancelled purchase.');
+            return [false, 'You can not purchased a cancelled purchase.'];
         }
 
         if ($purchase->isPurchased()) {
-            return back()->with('failedMessage', 'This purchase is already purchased.');
+            return [false, 'This purchase is already purchased.'];
         }
 
         DB::transaction(function () use ($purchase) {
