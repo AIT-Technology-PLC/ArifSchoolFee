@@ -173,6 +173,7 @@ class EditTransaction extends Component
             $rules[$key][] = 'string';
 
             if ($masterPadField->hasRelation()) {
+                array_pop($rules[$key]);
                 $rules[$key][] = 'integer';
                 $rules[$key][] = new MustBelongToCompany(str($masterPadField->padRelation->model_name)->plural()->lower()->snake());
             }
@@ -190,6 +191,7 @@ class EditTransaction extends Component
             $rules[$key][] = 'string';
 
             if ($detailPadField->hasRelation()) {
+                array_pop($rules[$key]);
                 $rules[$key][] = 'integer';
                 $rules[$key][] = new MustBelongToCompany(str($detailPadField->padRelation->model_name)->plural()->lower()->snake());
             }
