@@ -52,10 +52,10 @@ class PadService
             }
 
             $pad->padFields()->createMany(
-                Arr::where($data['field'], fn($field) => is_null($field['id']) && !$field['is_relational_field'])
+                Arr::where($data['field'] ?? [], fn($field) => is_null($field['id']) && !$field['is_relational_field'])
             );
 
-            foreach ($data['field'] as $field) {
+            foreach ($data['field'] ?? [] as $field) {
                 if (is_null($field['id']) || $field['is_relational_field']) {
                     continue;
                 }
