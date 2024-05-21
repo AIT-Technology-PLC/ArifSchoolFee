@@ -102,6 +102,7 @@ class TransactionController extends Controller
 
         if ($transaction->transactionDetails->isNotEmpty()) {
             $columns['detail'] = $transaction->pad->padFields()->detailFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
+            $transaction->pad->hasPrices() ? $columns['detail'][] = 'total' : null;
         }
 
         if ($transaction->transactionDetails->whereNotNull('unit')->isNotEmpty()) {
