@@ -215,4 +215,20 @@ class InventorySummaryReport
             ->orderByDesc('quantity')
             ->get();
     }
+
+    public function getSivReports()
+    {
+        return (clone $this->query)
+            ->where('model_type', 'App\Models\Siv')
+            ->selectRaw('
+                warehouses.name AS branch_name,
+                products.name AS product_name,
+                products.code AS product_code,
+                products.unit_of_measurement AS unit_of_measurement,
+                inventory_histories.quantity AS quantity,
+                inventory_histories.issued_on AS issued_on
+            ')
+            ->orderByDesc('quantity')
+            ->get();
+    }
 }
