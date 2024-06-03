@@ -274,7 +274,7 @@ class SaleService
         }
 
         if ($sale->sivs()->exists() && !userCompany()->isPartialDeliveriesEnabled()) {
-            return [false, 'Siv for this invoice was already created.'];
+            return [false, 'Siv for this invoice was already created.', ''];
         }
 
         if ($sale->isCancelled()) {
