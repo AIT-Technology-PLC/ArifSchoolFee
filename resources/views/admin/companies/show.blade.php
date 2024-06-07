@@ -165,7 +165,7 @@
                 <div class="column is-6">
                     <x-common.show-data-section
                         icon="fas fa-calendar"
-                        data="{{ today()->diffInDays($company->subscription_expires_on, false) }} Days"
+                        data="{{ (int) today()->diffInDays($company->subscription_expires_on, false) }} Days"
                         label="Subscription Expiry Days Left"
                     />
                 </div>
@@ -429,13 +429,33 @@
                         @foreach ($company->subscriptions as $subscription)
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
-                                <td> {{ $subscription->starts_on?->toFormattedDateString() ?? 'Not set' }} </td>
-                                <td> {{ $subscription->expiresOn?->toFormattedDateString() ?? 'Not set' }} </td>
                                 <td>
-                                    @if (!$subscription->isExpired())
-                                        {{ today()->diffInDays($subscription->expiresOn, false) }}
+                                    @if (!is_null($subscription->starts_on))
+                                        {{ $subscription->starts_on->toFormattedDateString() }}
+                                    @elseif(!is_null($company->subscription_expires_on))
+                                        {{ $company->subscription_expires_on->toFormattedDateString() }}
                                     @else
+                                        {{ today()->toFormattedDateString() }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (!is_null($subscription->expiresOn))
+                                        {{ $subscription->expiresOn->toFormattedDateString() }}
+                                    @elseif(!is_null($company->subscription_expires_on))
+                                        {{ $company->subscription_expires_on->addMonths($subscription->months)->toFormattedDateString() }}
+                                    @else
+                                        {{ today()->addMonths($subscription->months)->toFormattedDateString() }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($subscription->isExpired())
                                         Expired
+                                    @elseif(!is_null($subscription->expiresOn))
+                                        {{ today()->diffInDays($subscription->expiresOn, false) }}
+                                    @elseif(!is_null($company->subscription_expires_on))
+                                        {{ $company->subscription_expires_on->diffInDays($company->subscription_expires_on->addMonths($subscription->months), false) }}
+                                    @else
+                                        {{ today()->diffInDays(today()->addMonths($subscription->months), false) }}
                                     @endif
                                 </td>
                                 <td>
