@@ -828,8 +828,8 @@
             @endcan
         @endif
 
-        @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Cost Update Management'))
-            @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Cost Update'])
+        @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Cost Update Management','Item Type Management'))
+            @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Cost Update','Read ItemType'])
                 <section class="mb-5">
                     <x-content.header>
                         <x-slot name="header">
@@ -923,6 +923,25 @@
                                         <br>
                                         <span class="is-size-6 is-size-7-mobile text-green">
                                             Brands
+                                        </span>
+                                    </div>
+                                @endcan
+                            @endif
+
+                            @if (isFeatureEnabled('Item Type Management'))
+                                @can('Read ItemType')
+                                    <div class="column is-3-tablet is-6-mobile has-text-centered has-text-grey">
+                                        <a
+                                            href="{{ route('items.index') }}"
+                                            class="general-menu-item button text-green bg-lightgreen is-borderless"
+                                        >
+                                            <span class="icon is-size-5">
+                                                <i class="fas fa-trademark"></i>
+                                            </span>
+                                        </a>
+                                        <br>
+                                        <span class="is-size-6 is-size-7-mobile text-green">
+                                            Item-Types
                                         </span>
                                     </div>
                                 @endcan

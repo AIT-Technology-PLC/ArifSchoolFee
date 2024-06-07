@@ -54,6 +54,23 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+       /*
+    |--------------------------------------------------------------------------
+    | arifPay API URL  | Hahu sms API Key  | Hahu device id
+    |--------------------------------------------------------------------------
+    |
+    | This arifPay API URL for creating a checkout session 
+    | This Hahu sms API Key used as a means of communication to hahu.io sms gateway
+    | This Hahu device id is a unique id to differentiat the registred android device as sms gateway
+    |
+    */
+
+    'arifpay_api_key' => env('ARIFPAY_API_KEY'),
+
+    'hahu_api_key' => env('HAHU_API_KEY'),
+
+    'hahu_device_id' => env('HAHU_DEVICE_ID'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

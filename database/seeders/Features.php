@@ -258,6 +258,10 @@ class Features extends Seeder
             ['is_enabled' => 1]
         );
         Feature::updateOrCreate(
+            ['name' => 'Item Type Management'],
+            ['is_enabled' => 1]
+        );
+        Feature::updateOrCreate(
             ['name' => 'Payroll Management'],
             ['is_enabled' => 1]
         );
@@ -369,6 +373,7 @@ class Features extends Seeder
                     'Return Management',
                     'Push Notification',
                     'Sales Report',
+                    'Item Type Management',
                 ])
                 ->pluck('id')
                 ->toArray()
@@ -380,6 +385,7 @@ class Features extends Seeder
                     'Pad Management',
                     'Custom Field Management',
                     'Bill Of Material Management',
+                    'Item Type Management',
                     'Job Management',
                     'Tender Management',
                 ])
@@ -392,6 +398,7 @@ class Features extends Seeder
                 ->whereNotIn('name', [
                     'Pad Management',
                     'Custom Field Management',
+                    'Item Type Management',
                     'Tender Management',
                 ])
                 ->pluck('id')
@@ -406,6 +413,7 @@ class Features extends Seeder
                     'Contact Management',
                     'Product Management',
                     'Brand Management',
+                    'Item Type Management',
                     'Warehouse Management',
                     'User Management',
                     'General Settings',
@@ -436,6 +444,7 @@ class Features extends Seeder
                     'Grn Management',
                     'Gdn Management',
                     'Product Management',
+                    'Item Type Management',
                     'Sales Report',
                     'User Management',
                     'General Settings',
@@ -458,6 +467,7 @@ class Features extends Seeder
                     'Daily Inventory Level Report',
                     'User Management',
                     'General Settings',
+                    'Item Type Management',
                     'Notification Management',
                     'Push Notification',
                 ])
@@ -484,6 +494,7 @@ class Features extends Seeder
                     'Price Management',
                     'Price Increment',
                     'Credit Management',
+                    'Item Type Management',
                     'Sales Report',
                     'Daily Inventory Level Report',
                     'Inventory Transfer Report',
@@ -521,6 +532,7 @@ class Features extends Seeder
                     'Supplier Management',
                     'Debt Management',
                     'Expense Management',
+                    'Item Type Management',
                     'Sales Report',
                     'Return Report',
                     'Customer Report',
@@ -549,6 +561,7 @@ class Features extends Seeder
                     'Grn Management',
                     'Transfer Management',
                     'Product Management',
+                    'Item Type Management',
                     'Daily Inventory Level Report',
                     'User Management',
                     'General Settings',
@@ -570,6 +583,7 @@ class Features extends Seeder
                     'Leave Management',
                     'Advancement Management',
                     'Expense Claim',
+                    'Item Type Management',
                     'Announcement Management',
                     'Compensation Management',
                     'Compensation Adjustment',
@@ -602,6 +616,7 @@ class Features extends Seeder
                     'Price Management',
                     'Price Increment',
                     'Sales Report',
+                    'Item Type Management',
                     'Sale By Payment Report',
                     'Return Report',
                     'User Management',
@@ -628,6 +643,7 @@ class Features extends Seeder
                     'Batch Management',
                     'Supplier Management',
                     'Merchandise Inventory',
+                    'Item Type Management',
                     'Inventory History',
                     'Inventory Summary Report',
                     'Sales Report',
@@ -658,6 +674,7 @@ class Features extends Seeder
                     'Customer Management',
                     'Product Management',
                     'Brand Management',
+                    'Item Type Management',
                     'Price Management',
                     'Price Increment',
                     'Inventory Valuation',
@@ -706,6 +723,7 @@ class Features extends Seeder
                     'Customer Management',
                     'Product Management',
                     'Brand Management',
+                    'Item Type Management',
                     'Price Management',
                     'Price Increment',
                     'Inventory Valuation',
@@ -760,6 +778,7 @@ class Features extends Seeder
                     'Merchandise Inventory',
                     'Inventory History',
                     'Sales Report',
+                    'Item Type Management',
                     'Credit Report',
                     'User Management',
                     'General Settings',

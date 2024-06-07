@@ -657,6 +657,15 @@
                                 </li>
                             @endcan
                         @endif
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('arifpay-transactions.index') }}"
+                                label="ArifPay Transaction Detail"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('arifpay-transactions.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('arifpay-transactions.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
                         @if (isFeatureEnabled('Proforma Invoice'))
                             @can('Read Proforma Invoice')
                                 <li>
@@ -841,8 +850,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management'))
-        @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Brand', 'Read Cost Update'])
+    @if (isFeatureEnabled('Product Management', 'Price Management', 'Price Increment', 'Brand Management', 'Cost Update Management','Item Type Management'))
+        @canany(['Read Product', 'Read Price', 'Read Price Increment', 'Read Brand', 'Read Cost Update','Read ItemType'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -928,6 +937,19 @@
                                         label="Brands"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('brands.*') ? 'text-green has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('brands.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                        @endif
+                        @if (isFeatureEnabled('Item Type Management'))
+                            @can('Read ItemType')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('items.index') }}"
+                                        label="Item-Types"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('items.*') ? 'text-green has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('items.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

@@ -46,6 +46,16 @@ class GdnDetail extends Model
         return $this->gdn;
     }
 
+    public function arifPayTransactionDetail()
+    {
+        return $this->hasOne(ArifPayTransactionDetail::class);
+    }
+     
+    public function getStatusAttribute()
+    {
+        return $this->arifPayTransactionDetail ? true : false;
+    }
+
     public function getReturnableQuantityAttribute()
     {
         return number_format($this->quantity - $this->returned_quantity, 2);

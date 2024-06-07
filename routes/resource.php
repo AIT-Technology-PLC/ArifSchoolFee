@@ -29,6 +29,8 @@ Route::resource('customers', Resource\CustomerController::class)->except(['store
 
 Route::resource('gdns', Resource\GdnController::class);
 
+Route::resource('arifpay-transactions', Resource\ArifPayTransactionDetailController::class)->only('index');
+
 Route::resource('gdn-details', Resource\GdnDetailController::class)->only('destroy');
 
 Route::resource('transfers', Resource\TransferController::class);
@@ -180,3 +182,5 @@ Route::resource('merchandise-batches', Resource\MerchandiseBatchController::clas
 Route::resource('exchanges', Resource\ExchangeController::class);
 
 Route::resource('exchange-details', Resource\ExchangeDetailController::class)->only(['destroy']);
+
+Route::resource('items', Resource\ItemController::class)->except(['show']);

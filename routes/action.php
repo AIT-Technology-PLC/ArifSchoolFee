@@ -60,6 +60,7 @@ Route::controller(Action\GdnController::class)
     ->group(function () {
         Route::post('/convert-to-siv', 'convertToSiv')->name('convert_to_siv');
         Route::post('/close', 'close')->name('close');
+        Route::post('/makePayment', 'makePayment')->name('makePayment');
         Route::get('/print', 'printed')->name('print');
         Route::post('/approve', 'approve')->name('approve');
         Route::post('/subtract', 'subtract')->name('subtract');
@@ -67,6 +68,28 @@ Route::controller(Action\GdnController::class)
         Route::post('/cancel', 'cancel')->name('cancel');
         Route::post('/approve-and-subtract', 'approveAndSubtract')->name('approve_and_subtract');
     });
+
+
+// Route to makePayment method
+Route::get('/gdn-details/{id}/makePayment', [Action\ArifPayController::class,'makePayment'])->name('gdn-details.makePayment');
+
+// Callback Route for Notify Url
+Route::post('callback', [Action\ArifPayController::class,'callback'])->name('callback');
+
+// Success url for SuccessUrl
+Route::get('successSession/{routeId}', [Action\ArifPayController::class,'successSession'])->name('successSession');
+
+// Cancel Url for CancelUrl
+Route::get('CanceledSession/{routeId}', [Action\ArifPayController::class,'CanceledSession'])->name('CanceledSession');
+
+// Route for PDF recipt - for every transaction id
+Route::get('/recipt/{transactionId}/', [Action\ArifPayController::class,'ariPayRecipt'])->name('recipt');
+
+//route to send an SMS // if its not called in method-calling
+// Route::post('/send-sms', [ArifPayController::class, 'sendSms'])->name('send-sms');
+
+
+
 
 // Sivs
 Route::controller(Action\SivController::class)
@@ -196,6 +219,7 @@ Route::post('/brands/import', [Action\BrandController::class, 'import'])->name('
 Route::post('/credits/import', [Action\CreditController::class, 'import'])->name('credits.import');
 Route::post('/debts/import', [Action\DebtController::class, 'import'])->name('debts.import');
 Route::post('/cost-updates/import', [Action\CostUpdateController::class, 'import'])->name('cost-updates.import');
+Route::post('/items/import', [Action\ItemController::class, 'import'])->name('items.import');
 
 // Job
 Route::controller(Action\JobController::class)

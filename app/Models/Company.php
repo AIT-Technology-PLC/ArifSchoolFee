@@ -157,6 +157,11 @@ class Company extends Model
         return $this->hasMany(Returnn::class);
     }
 
+    public function arifPayTransactionDetail()
+    {
+        return $this->hasMany(ArifPayTransactionDetail::class);
+    }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class);

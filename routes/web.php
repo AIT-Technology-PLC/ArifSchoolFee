@@ -5,15 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/offline', 'offline.index');
 
-// // Sign up
-// Route::get('/register',
-//     [Auth\RegisterController::class, 'showRegistrationForm'])
-//     ->name('register');
-
-// Route::post('/register',
-//     [Auth\RegisterController::class, 'register']);
-
-// Login
 Route::controller(Auth\LoginController::class)
     ->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');

@@ -23,6 +23,7 @@ class GdnDetailDatatable extends DataTable
                     'code' => $gdnDetail->product->code ?? '',
                 ]);
             })
+            ->editColumn('status', fn($gdnDetail) => view('components.datatables.gdn-detail-status', ['gdnDetail' => $gdnDetail]))
             ->editColumn('quantity', function ($gdnDetail) {
                 return quantity($gdnDetail->quantity, $gdnDetail->product->unit_of_measurement);
             })
@@ -42,7 +43,7 @@ class GdnDetailDatatable extends DataTable
                 return view('components.common.action-buttons', [
                     'model' => 'gdn-details',
                     'id' => $gdnDetail->id,
-                    'buttons' => ['delete'],
+                    'buttons' => ['delete','makePayment'],
                 ]);
             })
             ->addIndexColumn();
@@ -65,6 +66,7 @@ class GdnDetailDatatable extends DataTable
     {
         return Arr::whereNotNull([
             Column::computed('#'),
+            Column::make('status')->orderable(false),
             Column::make('from', 'warehouse.name'),
             Column::make('product', 'product.name'),
             Column::make('quantity')->addClass('has-text-right'),

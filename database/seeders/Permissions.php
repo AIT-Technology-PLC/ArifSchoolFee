@@ -383,6 +383,13 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Brand']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Brand']);
 
+            // ItemType
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create ItemType']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read ItemType']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update ItemType']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete ItemType']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import ItemType']);
+
             //Payroll
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Payroll']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Payroll']);
@@ -560,6 +567,7 @@ class Permissions extends Seeder
                 'Read Contact',
                 'Read Product',
                 'Read Brand',
+                'Read ItemType',
                 'Update Purchase',
                 'Update Supplier',
                 'Update Contact',
@@ -581,6 +589,7 @@ class Permissions extends Seeder
                 'Read Return',
                 'Read Product',
                 'Read Brand',
+                'Read ItemType',
                 'Read Reservation',
                 'Update GDN',
                 'Update Sale',
@@ -614,6 +623,7 @@ class Permissions extends Seeder
                 'Read SIV',
                 'Read Product',
                 'Read Brand',
+                'Read ItemType',
                 'Read Warehouse',
                 'Read GDN',
                 'Read Reservation',
