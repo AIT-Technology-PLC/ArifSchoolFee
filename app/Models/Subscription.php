@@ -16,6 +16,7 @@ class Subscription extends Model
     protected $casts = [
         'starts_on' => 'date',
         'is_approved' => 'boolean',
+        'months' => 'integer'
     ];
 
     public function company()

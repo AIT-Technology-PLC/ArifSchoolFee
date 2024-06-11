@@ -112,6 +112,8 @@ class TransactionController extends Controller
             $columns['detail'][] = 'expires_on';
         }
 
+        $transaction->pad->hasPrices() ? $columns['detail'][] = 'total' : null;
+
         if ($transaction->transactionMasters->isNotEmpty()) {
             $columns['master'] = $transaction->pad->padFields()->masterFields()->printable()->pluck('label')->map(fn($label) => str()->snake($label))->toArray();
         }

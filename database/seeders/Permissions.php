@@ -18,11 +18,10 @@ class Permissions extends Seeder
      */
     public function run()
     {
-        $permissions = [];
-
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         DB::transaction(function () {
+            $permissions = [];
 
             // Roles
             $analyst = Role::firstOrCreate(['name' => 'Analyst']);

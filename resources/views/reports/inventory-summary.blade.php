@@ -605,6 +605,55 @@
             @endcan
         @endif
 
+        @if (isFeatureEnabled('Siv Management') && userCompany()->canSivSubtract())
+            @can('Read SIV')
+                <div class="column is-6 p-lr-0">
+                    <x-content.header bg-color="has-background-white">
+                        <x-slot:header>
+                            <h1 class="title text-green has-text-weight-medium is-size-6">
+                                <span class="icon mr-1">
+                                    <i class="fas fa-file-export"></i>
+                                </span>
+                                <span>Store Issue Vouchers Report</span>
+                            </h1>
+                        </x-slot:header>
+                    </x-content.header>
+                    <x-content.footer>
+                        <x-common.client-datatable
+                            has-filter="false"
+                            has-length-change="false"
+                            paging-type="simple"
+                            length-menu=[5]
+                        >
+                            <x-slot name="headings">
+                                <th><abbr> # </abbr></th>
+                                <th><abbr> Branch </abbr></th>
+                                <th><abbr> Product </abbr></th>
+                                <th><abbr> Code </abbr></th>
+                                <th class="has-text-right"><abbr> Quantity </abbr></th>
+                                <th><abbr> Date </abbr></th>
+                            </x-slot>
+                            <x-slot name="body">
+                                @foreach ($inventorySummaryReport->getSivReports as $sivReport)
+                                    <tr>
+                                        <td> {{ $loop->index + 1 }} </td>
+                                        <td> {{ $sivReport->branch_name }} </td>
+                                        <td> {{ $sivReport->product_name }} </td>
+                                        <td> {{ $sivReport->product_code ?? 'N/A' }} </td>
+                                        <td
+                                            class="has-text-right"
+                                            data-sort="{{ $sivReport->quantity }}"
+                                        > {{ number_format($sivReport->quantity, 2) . ' ' . $sivReport->unit_of_measurement }} </td>
+                                        <td> {{ $sivReport->issued_on->toFormattedDateString() }} </td>
+                                    </tr>
+                                @endforeach
+                            </x-slot>
+                        </x-common.client-datatable>
+                    </x-content.footer>
+                </div>
+            @endcan
+        @endif
+
         @foreach (pads() as $pad)
             @continue ($pad->isInventoryOperationNone())
 
