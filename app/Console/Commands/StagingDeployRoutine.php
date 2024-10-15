@@ -19,7 +19,7 @@ class StagingDeployRoutine extends Command
      *
      * @var string
      */
-    protected $description = 'Deploy changes from onrica/smartwork repo dev branch';
+    protected $description = 'Deploy changes from ait/erp repo dev branch';
 
     /**
      * Create a new command instance.
@@ -49,7 +49,7 @@ class StagingDeployRoutine extends Command
 
         $githubData = env('GITHUB_USERNAME') . ':' . env('GITHUB_PASSWORD');
 
-        $this->info(exec('git pull https://' . $githubData . '@github.com/onrica/smartwork.git dev'));
+        $this->info(exec('git pull https://' . $githubData . '@github.com/ait-tech/erp.git dev'));
 
         $this->newLine();
 

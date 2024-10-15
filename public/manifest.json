@@ -1,9 +1,9 @@
 {
-    "name": "Onrica SmartWork",
-    "short_name" : "SmartWork",
+    "name": "AIT TECHNOLOGY ERP",
+    "short_name" : "ERP",
     "start_url" : "/",
     "background_color" : "#ffffff",
-    "description": "Onrica SmartWork",
+    "description": "Ait ERP",
     "theme_color" : "#edf7f2",
     "display" : "standalone",
     "orientation" : "portrait",

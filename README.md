@@ -1,8 +1,8 @@
-## About Onrica SmartWork
+## About AIT TECHNOLOGY ERP
 
-**Onrica SmartWork** is a multi-tenant ERP solution.
+**Ait Tech ERP** is a multi-tenant ERP solution.
 
-With its number of modules & features, **Onrica SmartWork** allows businesses to achieve a high level of synchronization among departments and units of a business.
+With its number of modules & features, **ait erp** allows businesses to achieve a high level of synchronization among departments and units of a business.
 
 ##### Characteristics:
 
@@ -12,7 +12,7 @@ With its number of modules & features, **Onrica SmartWork** allows businesses to
 
 ## Frameworks & Tools
 
-At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) uses [**Laravel**](https://laravel.com) as a fullstack framework.
+At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
 | Stack       | Frontend Tools     | Backend Tools                            | Other Tools                         |
 | ----------- | ------------------ | ---------------------------------------- | ----------------------------------- |
@@ -35,7 +35,7 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
     -   This is the branch that is running on the production server
     -   Do not submit PR to this branch
 -   dev
-    -   This is the branch that is running on the staging server (https://staging.onricatech.com)
+    -   This is the branch that is running on the staging server (https://staging.aittech.com)
     -   Always use this branch for development and making changes
     -   Always submit PRs to this branch
 
@@ -56,8 +56,8 @@ At its core [**Onrica SmartWork**](https://onricatech.com/products/smartwork) us
 1. Clone repository & install dependencies
 
 ```bash
-git clone https://github.com/onrica/smartwork.git
-cd smartwork
+git clone https://github.com/ait/erp.git
+cd erp
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -65,7 +65,7 @@ php artisan key:generate
 
 2. Go to your database admin (e.g. phpMyAdmin), and create a database user if you don't already have one
 3. Go to your database admin (e.g. phpMyAdmin), and create a database
-4. Go to the root folder (i.e. smartwork), find .env file and set the values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
+4. Go to the root folder (i.e. erp), find .env file and set the values of the following: DB_DATABASE, DB_USERNAME, and DB_PASSWORD.
 
 5. Migrate the database, link the storage folder, and you are up and running
 
@@ -79,5 +79,5 @@ php artisan serve
 
 | User Type | Email            | Password      |
 | --------- | ---------------- | ------------- |
-| ADMIN     | admin@onrica.com | adminpassword |
-| USER      | user@onrica.com  | userpassword  |
+| ADMIN     | admin@ait.com | adminpassword |
+| USER      | user@ait.com  | userpassword  |

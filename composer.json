@@ -1,10 +1,10 @@
 {
-    "name": "onrica/smartwork",
+    "name": "ait/erp",
     "type": "cloud-erp",
-    "description": "SmartWork.",
+    "description": "AIT-TECH-ERP.",
     "keywords": [
-        "onrica",
-        "smartwork"
+        "ait",
+        "erp"
     ],
     "license": "MIT",
     "require": {

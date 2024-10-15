@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title> SmartWork Updating ... </title>
+    <title> Ait ERP Updating ... </title>
     @include('assets.css')
     @include('pwa.tags')
 </head>
@@ -22,7 +22,7 @@
                             <i class="fa-solid fa-rocket"></i>
                         </span>
                         <span class="is-size-1">
-                            <b>SmartWork</b> UPDATING ...
+                            <b>ERP</b> UPDATING ...
                         </span>
                     </h1>
                     <h1 class="title text-green">
