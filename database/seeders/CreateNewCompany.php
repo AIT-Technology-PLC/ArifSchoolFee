@@ -17,10 +17,10 @@ class CreateNewCompany extends Seeder
             return $action->execute([
                 'company_name' => $faker->company,
                 'name' => $faker->name,
-                'email' => User::count() ? $faker->unique()->safeEmail : 'user@onrica.com',
+                'email' => User::count() ? $faker->unique()->safeEmail : 'user@ait-tech.com',
                 'password' => 'userpassword',
                 'subscriptions' => [
-                    'plan_id' => Plan::firstWhere('name', 'v3-professional')->id,
+                    'plan_id' => Plan::firstWhere('name', 'standard')->id,
                     'months' => 12,
                 ],
             ]);

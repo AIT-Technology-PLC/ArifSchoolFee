@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             CreateNewCompany::class,
             CreateAdminUser::class,
             CreateOrReplaceSalesReportViews::class,
-            ArifPayTransactionDetailsSeeder::class,
         ]);
     }
 }

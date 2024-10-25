@@ -35,7 +35,9 @@ class UserController extends Controller
 
         $user = User::create($request->validated() + ['is_admin' => true]);
 
-        $user->syncPermissions($request->validated('permissions'));
+        $user->syncPermissions(
+            Permission::where('name', 'LIKE', 'Manage Admin Panel%')->get()
+        );
 
         return redirect()->route('admin.users.index')->with('successMessage', 'User created successfully');
     }

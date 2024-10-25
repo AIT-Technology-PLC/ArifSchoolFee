@@ -7,7 +7,7 @@
         type="reset"
         icon="fas fa-times"
         label="Cancel"
-        class="is-light text-green"
+        class="is-light text-blue"
     />
 
     <x-common.button
@@ -16,6 +16,6 @@
         id="saveButton"
         icon="fas fa-save"
         label="Save"
-        class="bg-green has-text-white"
+        class="bg-blue has-text-white"
     />
 </div>

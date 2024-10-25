@@ -15,7 +15,7 @@
             <x-common.index-insight
                 :amount="$enabledCompanies"
                 border-color="#3d8660"
-                text-color="text-green"
+                text-color="text-blue"
                 label="Active"
             />
         </div>
@@ -23,7 +23,7 @@
             <x-common.index-insight
                 :amount="$disabledCompanies"
                 border-color="#863d63"
-                text-color="text-purple"
+                text-color="text-blue"
                 label="Deactivated"
             />
         </div>
@@ -41,7 +41,7 @@
                     mode="button"
                     icon="fas fa-plus-circle"
                     label="Create Company"
-                    class="btn-green is-outlined is-small"
+                    class="btn-blue is-outlined is-small"
                 />
             @endcan
         </x-content.header>

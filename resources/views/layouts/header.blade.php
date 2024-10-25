@@ -1,12 +1,12 @@
-<nav class="navbar is-fixed-top is-transparent bg-green">
-    <div class="container is-fluid p-lr-0">
-        <div class="navbar-brand">
-            <a
-                class="navbar-item pl-0 p-lr-10"
-                href="/"
-            >
-                <span class="has-text-white has-text-weight-light is-size-4 swera-demo-font">ONRICA</span>
-            </a>
+<nav class="navbar is-fixed-top is-transparent bg-softblue">
+    <div class="container is-fluid p-lr-0 ">
+        <div class="navbar-brand ml-3">
+            <figure class="image is-64x64">
+                <img
+                    class="is-rounded"
+                    src="{{ asset('img/AIT LOGO WHITE.png') }}"
+                >
+            </figure>
             @if (!authUser()->isAdmin())
                 <a
                     x-data
@@ -38,7 +38,7 @@
                 <a class="navbar-item">
                     <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
                         <span class="icon is-medium has-text-white">
-                            <i class="fas fa-building"></i>
+                            <i class="fas fa-box"></i>
                         </span>
                         <span class="is-capitalized">
                             {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }}

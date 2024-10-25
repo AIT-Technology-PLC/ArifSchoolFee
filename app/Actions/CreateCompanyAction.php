@@ -30,7 +30,7 @@ class CreateCompanyAction
 
         $warehouse = Warehouse::create([
             'company_id' => $company->id,
-            'name' => 'Main Warehouse',
+            'name' => 'Main Branch',
             'location' => 'Unknown',
             'is_sales_store' => 0,
             'is_active' => 1,
@@ -42,12 +42,12 @@ class CreateCompanyAction
             'password' => $data['password'],
             'warehouse_id' => $warehouse->id,
             'enabled' => 1,
-            'position' => 'Onrica Support Department',
+            'position' => 'AIT Support Team',
             'role' => 'System Manager',
-            'gender' => 'female',
-            'address' => 'Gerji, Taxi Tera',
+            'gender' => 'male',
+            'address' => 'Addis Ababa, Ethiopia',
             'job_type' => 'remote',
-            'phone' => '0976006522',
+            'phone' => '0966020599',
             'paid_time_off_amount' => $company->paid_time_off_amount,
         ]);
 

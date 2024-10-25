@@ -13,7 +13,7 @@ class CreateAdminUser extends Seeder
     {
         $user = User::create([
             'name' => $generator->name,
-            'email' => User::where('email', 'admin@onrica.com')->exists() ? $generator->unique()->safeEmail : 'admin@onrica.com',
+            'email' => User::where('email', 'admin@ait-tech.com')->exists() ? $generator->unique()->safeEmail : 'admin@ait-tech.com',
             'password' => 'adminpassword',
             'is_admin' => 1,
         ]);

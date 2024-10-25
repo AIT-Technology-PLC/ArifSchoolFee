@@ -6,9 +6,9 @@
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-blue has-text-weight-medium is-size-5">
                     Users
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                    <span class="tag bg-blue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-user-group" />
                         <span>
                             {{ number_format($totalUsers) }} {{ str()->plural('User', $totalUsers) }}
@@ -22,7 +22,7 @@
                 mode="button"
                 icon="fas fa-plus-circle"
                 label="Create User"
-                class="btn-green is-outlined is-small"
+                class="btn-blue is-outlined is-small"
             />
         </x-content.header>
         <x-content.footer>

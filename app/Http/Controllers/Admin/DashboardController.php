@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\FilterReportRequest;
 use App\Reports\Admin\EngagementReport;
 use App\Reports\Admin\SubscriptionReport;
 use App\Reports\Admin\TransactionReport;
+use App\Charts\CompaniesChart;
+use App\Charts\SubscriptionChart;
 
 class DashboardController extends Controller
 {
@@ -14,10 +16,14 @@ class DashboardController extends Controller
     {
         $engagementReport = new EngagementReport($request->validated());
 
-        $transactionReport = new TransactionReport(['transaction_period' => [today(), today()]]);
+        $subscriptionReport = new SubscriptionReport();
 
-        $subscriptionReport = new SubscriptionReport;
+        $chart = new CompaniesChart($engagementReport);
 
-        return view('admin.reports.dashboard', compact('engagementReport', 'transactionReport', 'subscriptionReport'));
+        $chartT = new SubscriptionChart($subscriptionReport);
+
+        return view('admin.reports.dashboard',
+            ['chart' => $chart->build(), 'chartT' => $chartT->build()], 
+            compact('engagementReport', 'subscriptionReport'));
     }
 }

@@ -6,5 +6,5 @@
     mode="button"
     data-title="View details"
     icon="fas fa-info-circle"
-    class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+    class="text-blue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
 />

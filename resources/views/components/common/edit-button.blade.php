@@ -6,5 +6,5 @@
     mode="button"
     data-title="Edit data"
     icon="fas fa-pen-square"
-    class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+    class="text-blue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
 />

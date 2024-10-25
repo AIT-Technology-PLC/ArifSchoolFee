@@ -22,10 +22,3 @@
         :id="$id"
     />
 @endif
-
-@if ($buttons == 'all' || in_array('makePayment', $buttons))
-    <x-common.make-payment
-        route="{{ $model }}.makePayment"
-        :id="$id"
-    />
-@endif

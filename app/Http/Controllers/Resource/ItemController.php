@@ -6,7 +6,9 @@ use App\DataTables\ItemDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreItemTypeRequest;
 use App\Http\Requests\UpdateItemTypeRequest;
+use App\Models\Employee;
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller

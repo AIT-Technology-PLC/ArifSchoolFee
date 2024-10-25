@@ -1,14 +1,14 @@
 @props(['filters'])
 
 <div
-    {{ $attributes->merge(['class' => 'box is-shadowless bg-lightgreen py-0']) }}
+    {{ $attributes->merge(['class' => 'box is-shadowless bg-lightblue py-0']) }}
     x-data="laravelDatatableFilter({{ $filters }})"
 >
     <div class="level mt-3 m-btm-0">
         <div class="level-left">
             <div class="level-item">
                 <div>
-                    <h6 class="text-green has-text-centered has-text-weight-bold">
+                    <h6 class="text-blue has-text-centered has-text-weight-bold">
                         <span class="icon">
                             <i class="fas fa-filter"></i>
                         </span>
@@ -24,14 +24,14 @@
                         tag="button"
                         mode="button"
                         label="Clear Filters"
-                        class="is-small btn-green is-outlined is-rounded"
+                        class="is-small btn-blue is-outlined is-rounded"
                         x-on:click="clear"
                     />
                     <x-common.button
                         tag="button"
                         mode="button"
                         label="Apply"
-                        class="is-small bg-green has-text-white is-rounded"
+                        class="is-small bg-blue has-text-white is-rounded"
                         x-on:click="filter"
                     />
                 </div>
@@ -44,14 +44,14 @@
             tag="button"
             mode="button"
             label="Clear Filters"
-            class="is-small btn-green is-outlined is-rounded"
+            class="is-small btn-blue is-outlined is-rounded"
             x-on:click="clear"
         />
         <x-common.button
             tag="button"
             mode="button"
             label="Apply"
-            class="is-small bg-green has-text-white is-rounded"
+            class="is-small bg-blue has-text-white is-rounded"
             x-on:click="filter"
         />
     </div>

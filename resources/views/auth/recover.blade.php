@@ -1,26 +1,27 @@
 @extends('auth.layout.auth')
 
 @section('title')
-    Login
+    Recover Password - AIT
 @endsection
 
 @section('content')
-        <div class="columns is-marginless ">
+        <div class="columns is-marginless">
             <div class="login column is-4">
                 <section class="section">
                     <form
                             id="formOne"
                             method="POST"
-                            action="{{ route('post.login') }}"
+                            action="{{ route('forget.update') }}"
                             novalidate
                             autocomplete="off"
                         >
                             @csrf
                             <div class="has-text-centered">
-                                <img class="login-logo" src="img/AIT LOGO.png">
+                                <img class="login-logo" src="{{ asset('img/AIT LOGO.png')}}">
                             </div>
 
                             <x-common.success-message :message="session('successMessage')" />
+                            <x-common.fail-message :message="session('failedMessage')" />
 
                             <div class="field" for="email">
                                 <label class="label">Email</label>
@@ -31,11 +32,11 @@
                                         type="text"
                                         value="{{ old('email') }}"
                                         autocomplete="email"
-                                        placeholder="Enter User-Name"
+                                        placeholder="Enter Email Address"
                                         class="input @error('email') is-danger @enderror"
                                         >
                                     <span class="icon is-small is-right">
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-envelope"></i>
                                     </span>
                                     @error('email')
                                         <span class="help has-text-white">
@@ -45,45 +46,27 @@
                                 </div>
                             </div>
 
-                            <div class="field" for="password">
-                                <label class="label">Password</label>
-                                <div class="control has-icons-right">
-                                    <input 
-                                        id="password"
-                                        name="password"
-                                        class="input @error('password') is-danger @enderror" 
-                                        type="password"
-                                        placeholder="Enter Password"
-                                        autocomplete="current-password"
-                                        >
-                                    <span class="icon is-small is-right">
-                                        <i class="fa fa-key"></i>
-                                    </span>
-                                    @error('password')
-                                        <span class="help has-text-white">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="has-text-right has-text-weight-light">
-                                <a href="{{ route('forget.index') }}">Forget Password ?</a>
-                            </div>
-
                             <div class="field mt-6">
                                 <div class="control">
-                                    <button
-                                        id="saveButton"
-                                        type="submit"
-                                        class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-3 px-3"
-                                    >
+                                    <button id="saveButton" 
+                                            type="submit" 
+                                            class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
                                         <span class="icon">
-                                            <i class="fas fa-sign-in-alt"></i>
+                                            <i class="fas fa-lock"></i>
                                         </span>
-                                        <span>
-                                            Login
+                                        <span>Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="field mt-4">
+                                <div class="control">
+                                    <button id="backButton" 
+                                            type="button" 
+                                            class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
+                                        <span class="icon">
+                                            <i class="fas fa-arrow-left"></i>
                                         </span>
+                                        <span>Back</span>
                                     </button>
                                 </div>
                             </div>
@@ -98,4 +81,10 @@
             <div id="particles-js" class="interactive-bg column is-8">
             </div>
         </div>
+
+        <script>
+            document.getElementById("backButton").addEventListener("click", function() {
+            window.history.back();
+        });
+</script>
 @endsection

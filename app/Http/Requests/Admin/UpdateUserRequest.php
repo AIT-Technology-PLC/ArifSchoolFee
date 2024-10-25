@@ -18,8 +18,6 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->route('user')->id)],
-            'permissions' => ['nullable', 'array'],
-            'permissions.*' => ['nullable', 'string', Rule::exists(Permission::class, 'name')->where('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'Manage Admin Panel Users')],
         ];
     }
 }

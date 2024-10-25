@@ -14,6 +14,10 @@
     <title> @yield('title') </title>
     @include('assets.css')
     @include('pwa.tags')
+
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <script src="{{ asset('js/particles.js') }}"></script>
+    <script src="{{ asset('js/login.js') }}"></script>
 </head>
 
 <body>

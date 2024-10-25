@@ -21,9 +21,9 @@ class CompanyDatatable extends DataTable
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
-            ->editColumn('name', fn($company) => $company->name)
+            ->editColumn('name', fn($company) => str()->ucfirst($company->name))
             ->editColumn('status', fn($company) => view('components.datatables.company-status', compact('company')))
-            ->editColumn('plan', fn($company) => $company->plan->name)
+            ->editColumn('plan', fn($company) => str()->ucfirst($company->plan->name))
             ->editColumn('is_in_training', fn($company) => $company->isInTraining() ? 'Training Mode' : 'Live Mode')
             ->editColumn('created_at', fn($company) => $company->created_at->toFormattedDateString())
             ->editColumn('actions', fn($company) => view('components.datatables.company-action', compact('company')))
@@ -47,7 +47,7 @@ class CompanyDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('id')->addClass('has-text-centered')->title('ID No'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::computed('status'),
             Column::make('plan', 'plan.name'),
             Column::make('is_in_training')->title('Mode'),
