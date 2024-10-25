@@ -35,7 +35,7 @@ At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](h
     -   This is the branch that is running on the production server
     -   Do not submit PR to this branch
 -   dev
-    -   This is the branch that is running on the staging server (https://staging.aittech.com)
+    -   This is the branch that is running on the Testing Server
     -   Always use this branch for development and making changes
     -   Always submit PRs to this branch
 
@@ -56,7 +56,7 @@ At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](h
 1. Clone repository & install dependencies
 
 ```bash
-git clone https://github.com/ait/erp.git
+git clone https://github.com/your-name/ait-inventory.git
 cd erp
 composer install
 cp .env.example .env
