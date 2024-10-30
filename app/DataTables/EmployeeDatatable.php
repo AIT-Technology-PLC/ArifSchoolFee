@@ -58,10 +58,10 @@ class EmployeeDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name', 'user.name')->addClass('text-green has-text-weight-bold'),
+            Column::make('name', 'user.name')->addClass('has-text-weight-bold'),
             Column::make('branch', 'user.warehouse.name'),
-            Column::make('email', 'user.email')->visible(false),
-            Column::make('position')->visible(false),
+            Column::make('email', 'user.email'),
+            Column::make('position'),
             Column::make('role', 'user.roles.name'),
             Column::make('status')->orderable(false),
             Column::make('user.last_online_at')->className('has-text-right')->title('Last Login'),

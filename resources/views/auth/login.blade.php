@@ -71,7 +71,7 @@
                                         class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-3 px-3"
                                     >
                                         <span class="icon">
-                                            <i class="fas fa-sign-in-alt"></i>
+                                            <i class="fas fa-lock"></i>
                                         </span>
                                         <span>
                                             Login

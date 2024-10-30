@@ -12,7 +12,7 @@
         mode="button"
         data-title="Delete permanently"
         icon="fas fa-trash"
-        class="text-purple has-text-weight-medium is-small px-2 py-0 is-transparent-color"
+        class="text-softblue has-text-weight-medium is-small px-2 py-0 is-transparent-color"
     />
 </form>
 

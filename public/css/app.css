@@ -3,11 +3,11 @@
 }
 
 .text-green {
-    color: #3d8660 !important;
+    color: #3a9264 !important;
 }
 
 .text-purple {
-    color: #863d63 !important;
+    color: #864c6a !important;
 }
 
 .text-gold {
@@ -19,7 +19,7 @@
 }
 
 .text-softblue {
-    color: #A2B9EC !important;
+    color: #3a56b3 !important;
 }
 
 .text-brown {
@@ -32,8 +32,8 @@
 }
 
 .bg-green {
-    background-color: #3d8660 !important;
-    border: 1px solid #3d8660 !important;
+    background-color: #3a9264 !important;
+    border: 1px solid #3a9264 !important;
 }
 
 .bg-lightgreen {
@@ -47,8 +47,8 @@
 }
 
 .bg-purple {
-    background-color: #863d63 !important;
-    border: 1px solid #863d63 !important;
+    background-color: #864c6a !important;
+    border: 1px solid #864c6a !important;
 }
 
 .bg-blue {

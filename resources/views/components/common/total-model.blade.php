@@ -1,6 +1,6 @@
 @props(['model', 'boxColor', 'amount', 'icon'])
 
-<div class="box  {{ $boxColor ?? 'bg-blue' }} has-text-white is-borderless">
+<div class="box  {{ $boxColor ?? 'bg-softblue' }} has-text-white is-borderless">
     <div class="columns is-marginless is-vcentered is-mobile">
         <div class="column is-4-tablet is-6-mobile has-text-centered py-0 p-lr-0">
             <x-common.icon

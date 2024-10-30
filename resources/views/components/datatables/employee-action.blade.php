@@ -4,7 +4,7 @@
     mode="button"
     data-title="Profile"
     icon="fas fa-circle-user"
-    class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+    class="text-softblue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
 />
 
 <x-common.button
@@ -13,7 +13,7 @@
     mode="button"
     data-title="Permissions"
     icon="fas fa-lock"
-    class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+    class="text-softblue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
 />
 
 <x-common.action-buttons

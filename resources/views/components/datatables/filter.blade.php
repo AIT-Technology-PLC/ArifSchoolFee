@@ -4,7 +4,7 @@
     {{ $attributes->merge(['class' => 'box is-shadowless bg-lightblue py-0']) }}
     x-data="laravelDatatableFilter({{ $filters }})"
 >
-    <div class="level mt-3 m-btm-0">
+    <div class="level mt-0 m-btm-0">
         <div class="level-left">
             <div class="level-item">
                 <div>
@@ -44,14 +44,14 @@
             tag="button"
             mode="button"
             label="Clear Filters"
-            class="is-small btn-blue is-outlined is-rounded"
+            class="is-small btn-softblue is-outlined is-rounded"
             x-on:click="clear"
         />
         <x-common.button
             tag="button"
             mode="button"
             label="Apply"
-            class="is-small bg-blue has-text-white is-rounded"
+            class="is-small bg-softblue has-text-white is-rounded"
             x-on:click="filter"
         />
     </div>

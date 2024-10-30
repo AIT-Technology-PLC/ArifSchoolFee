@@ -12,37 +12,25 @@
             />
         </div>
         <div class="column is-4 p-lr-0">
-            <x-common.index-insight
+            <x-common.total-model
+                model="Enabled"
+                box-color="bg-green"
                 :amount="$totalEnabledEmployees"
-                border-color="#3d8660"
-                text-color="text-green"
-                label="Enabled"
+                icon="fas fa-check"
             />
         </div>
         <div class="column is-4 p-lr-0">
-            <x-common.index-insight
+            <x-common.total-model
+                model="Disabled"
+                box-color="bg-purple"
                 :amount="$totalBlockedEmployees"
-                border-color="#863d63"
-                text-color="text-purple"
-                label="Disabled"
+                icon="fas fa-ban"
             />
         </div>
     </div>
 
     <x-common.content-wrapper>
         <x-content.header title="Employees">
-            @if (isFeatureEnabled('Compensation Management'))
-                @can('Create Employee')
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        @click="$dispatch('open-employee-compensation-import-modal')"
-                        icon="fas fa-upload"
-                        label="Import Employees Compensation"
-                        class="btn-green is-outlined is-small"
-                    />
-                @endcan
-            @endif
             @can('Import Employee')
                 <x-common.button
                     tag="button"
@@ -50,7 +38,7 @@
                     @click="$dispatch('open-import-modal')"
                     icon="fas fa-upload"
                     label="Import Employees"
-                    class="btn-green is-outlined is-small"
+                    class="btn-blue is-outlined is-small"
                 />
             @endcan
             @can('Create Employee')
@@ -60,7 +48,7 @@
                     mode="button"
                     icon="fas fa-plus-circle"
                     label="Create Employee"
-                    class="btn-green is-outlined is-small"
+                    class="btn-blue is-outlined is-small"
                 />
             @endcan
         </x-content.header>
@@ -134,16 +122,6 @@
             action="{{ route('employees.import') }}"
         />
     @endcan
-
-    @if (isFeatureEnabled('Compensation Management'))
-        @can('Create Employee')
-            <x-common.import
-                title="Import Employees Compensation"
-                action="{{ route('employee-compensations.import') }}"
-                button="open-employee-compensation-import-modal"
-            />
-        @endcan
-    @endif
 @endsection
 
 @push('scripts')

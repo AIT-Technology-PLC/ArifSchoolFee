@@ -48,7 +48,7 @@
                                             type="submit" 
                                             class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
                                         <span class="icon">
-                                            <i class="fas fa-lock"></i>
+                                            <i class="fas fa-arrow-right"></i>
                                         </span>
                                         <span>Next</span>
                                     </button>
