@@ -8,12 +8,9 @@ use App\DataTables\EmployeeDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
-use App\Models\Compensation;
-use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Warehouse;
 use App\Scopes\ActiveWarehouseScope;
-use App\Utilities\PayrollGenerator;
 use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
@@ -50,11 +47,7 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $departments = Department::orderBy('name')->get(['id', 'name']);
-
-        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->get(['id', 'name']);
-
-        return view('employees.create', compact('roles', 'warehouses', 'departments', 'compensations'));
+        return view('employees.create', compact('roles', 'warehouses'));
     }
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
@@ -72,9 +65,7 @@ class EmployeeController extends Controller
     {
         $employee->load(['user.roles', 'user.warehouse', 'department', 'warnings', 'expenseClaims', 'employeeCompensations']);
 
-        $payroll = PayrollGenerator::calculate($employee);
-
-        return view('employees.show', compact('employee', 'payroll'));
+        return view('employees.show', compact('employee'));
     }
 
     public function edit(Employee $employee)
@@ -85,13 +76,9 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $departments = Department::orderBy('name')->get(['id', 'name']);
-
-        $compensations = Compensation::orderBy('name')->active()->canBeInputtedManually()->get(['id', 'name']);
-
         $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
 
-        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions', 'departments', 'compensations'));
+        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions'));
     }
 
     public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)

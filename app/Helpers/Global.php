@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 if (!function_exists('authUser')) {
-    function authUser(): User
+    function authUser(): ?User
     {
         return auth()->user();
     }

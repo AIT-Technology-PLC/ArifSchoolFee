@@ -102,8 +102,8 @@
         </li>
     </ul>
     
-    @if (isFeatureEnabled('User Management', 'General Settings', 'Custom Field Management'))
-        @canany(['Update Company', 'Read Custom Field'])
+    @if (isFeatureEnabled('User Management', 'General Settings'))
+        @canany(['Update Company'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -136,19 +136,6 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @if (isFeatureEnabled('Custom Field Management'))
-                            @can('Read Custom Field')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('custom-fields.index') }}"
-                                        label="Custom Fields"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('custom-fields.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('custom-fields.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif
                         @if (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management'))
                             @can('Read Employee')
                                 <li>
@@ -175,19 +162,6 @@
                                 </li>
                             @endcan
                         @endif
-                        @foreach (pads('General Settings') as $pad)
-                            @canpad('Read', $pad)
-                            <li>
-                                <x-common.button
-                                    tag="a"
-                                    href="{{ route('pads.transactions.index', $pad->id) }}"
-                                    label="{{ $pad->name }}"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'text-blue has-text-weight-bold' : '' }}"
-                                    x-init="{{ (request()->routeIs('transactions.*') && request()->route('transaction')->pad_id == $pad->id) || (request()->routeIs('pads.transactions.*') && request()->route('pad')->id == $pad->id) ? 'activateAccordion' : '' }}"
-                                />
-                            </li>
-                            @endcanpad
-                        @endforeach
                     </ul>
                 </li>
             </ul>

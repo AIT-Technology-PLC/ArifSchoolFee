@@ -60,17 +60,6 @@
                         ></i>
                     </span>
                 </a>
-                @if (!authUser()->isAdmin() && isFeatureEnabled('Announcement Management'))
-                    <a
-                        href="{{ route('announcements.board', ['sort' => 'latest']) }}"
-                        class="navbar-item has-text-white link-text"
-                        data-title="Board"
-                    >
-                        <span class="icon">
-                            <i class="fas fa-rss"></i>
-                        </span>
-                    </a>
-                @endif
                 <a
                     x-data
                     class="navbar-item has-text-white link-text"
@@ -136,34 +125,6 @@
                                     My Profile
                                 </span>
                             </a>
-                            @if (isFeatureEnabled('Leave Management'))
-                                <hr class="navbar-divider">
-                                <a
-                                    href="{{ route('leaves.request.create') }}"
-                                    class="navbar-item text-green"
-                                >
-                                    <span class="icon is-medium">
-                                        <i class="fa-solid fa-umbrella-beach"></i>
-                                    </span>
-                                    <span>
-                                        Request Leave
-                                    </span>
-                                </a>
-                            @endif
-                            @if (isFeatureEnabled('Expense Claim'))
-                                <hr class="navbar-divider">
-                                <a
-                                    href="{{ route('expense-claims.request.create') }}"
-                                    class="navbar-item text-green"
-                                >
-                                    <span class="icon is-medium">
-                                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                                    </span>
-                                    <span>
-                                        Request Expense Claim
-                                    </span>
-                                </a>
-                            @endif
                             <hr class="navbar-divider">
                         @endif
                         <a
@@ -205,9 +166,6 @@
                 </div>
             </div>
         </div>
-        @if (!authUser()->isAdmin())
-            <x-common.create-menu />
-        @endif
         <livewire:notifications />
     </div>
 </nav>
