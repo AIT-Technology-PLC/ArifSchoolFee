@@ -6,10 +6,10 @@
     <div class="columns is-marginless is-multiline">
         <div class="column is-3 p-lr-0">
             <x-common.total-model
-                model="Companies Today"
+                model="Schools Today"
                 box-color="bg-blue"
                 :amount="$engagementReport->companies['activeCompanies']"
-                icon="fas fa-shop"
+                icon="fas fa-school"
             />
         </div>
         <div class="column is-3 p-lr-0">

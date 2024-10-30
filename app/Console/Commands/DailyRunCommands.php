@@ -12,17 +12,7 @@ class DailyRunCommands extends Command
     protected $description = 'Commands that run once per day';
 
     private $commands = [
-        'cancel:expired-proforma-invoices',
-        'cancel:expired-reservations',
-        'notifications:delete-week',
-        'inventory:low-level-notification',
-        'proforma-invoice:expiry-date-notification',
-        'reservation:expiry-date-notification',
-        'credit:due-date-notification',
-        'debt:due-date-notification',
-        'product:expiry-date-close-notification',
-        'supplier:licence-expiry-date-close-notification',
-        'customer:licence-expiry-date-close-notification',
+        'notifications:delete-month',
     ];
 
     public function __construct()

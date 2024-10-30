@@ -1,5 +1,5 @@
 <nav class="navbar is-fixed-top is-transparent bg-softblue">
-    <div class="container is-fluid p-lr-0 ">
+    <div class="container is-fluid p-lr-0">
         <div class="navbar-brand ml-3">
             <figure class="image is-64x64">
                 <img
@@ -38,7 +38,7 @@
                 <a class="navbar-item">
                     <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
                         <span class="icon is-medium has-text-white">
-                            <i class="fas fa-box"></i>
+                            <i class="fas fa-school"></i>
                         </span>
                         <span class="is-capitalized">
                             {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }}
@@ -72,16 +72,6 @@
                     </a>
                 @endif
                 <a
-                    href="/"
-                    id="mainMenuButton"
-                    class="navbar-item has-text-white link-text"
-                    data-title="{{ authUser()->isAdmin() ? '' : 'Main Menu' }}"
-                >
-                    <span class="icon">
-                        <i class="fas fa-home"></i>
-                    </span>
-                </a>
-                <a
                     x-data
                     class="navbar-item has-text-white link-text"
                     data-title="Back"
@@ -111,18 +101,6 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                @if (!authUser()->isAdmin())
-                    <a
-                        x-data
-                        @click="$dispatch('open-create-modal')"
-                        class="navbar-item has-text-white link-text"
-                        data-title="Create New ..."
-                    >
-                        <span class="icon">
-                            <i class="fas fa-plus"></i>
-                        </span>
-                    </a>
-                @endif
                 <livewire:notification-counter class="navbar-item has-text-white link-text" />
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">

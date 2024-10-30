@@ -14,21 +14,11 @@ use Yajra\DataTables\EloquentDataTable;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
         require_once __DIR__ . '/../Helpers/Global.php';
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         Paginator::defaultSimpleView('pagination::simple-default');
@@ -42,9 +32,5 @@ class AppServiceProvider extends ServiceProvider
 
             return static::addIndexColumn();
         });
-
-        Gate::policy(Returnn::class, ReturnPolicy::class);
-
-        Event::subscribe(TransferEventSubscriber::class);
     }
 }

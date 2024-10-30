@@ -6,9 +6,9 @@
     <div class="columns is-marginless is-multiline">
         <div class="column is-4 p-lr-0">
             <x-common.total-model
-                model="Companies"
+                model="Schools"
                 :amount="$companies"
-                icon="fas fa-bank"
+                icon="fas fa-school"
             />
         </div>
         <div class="column is-4 p-lr-0">

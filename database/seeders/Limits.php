@@ -22,10 +22,6 @@ class Limits extends Seeder
 
             $this->userLimit = Limit::firstOrCreate(['name' => 'user']);
 
-            $this->customFieldLimit = Limit::firstOrCreate(['name' => 'custom-field']);
-
-            $this->salesReportEmailRecipientLimit = Limit::firstOrCreate(['name' => 'sales-report-email-recipient']);
-
             $this->v1Limits();
         });
     }

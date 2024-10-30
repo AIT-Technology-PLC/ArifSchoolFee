@@ -97,10 +97,10 @@
                 x-init="{{ request()->routeIs('admin.companies.*') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
-                    name="fas fa-shop"
+                    name="fas fa-school"
                     class="pl-1"
                 />
-                <span class="ml-1"> Companies </span>
+                <span class="ml-1"> Schools </span>
             </x-common.button>
         </li>
     </ul>
@@ -207,17 +207,8 @@
                         tag="a"
                         href="{{ route('admin.reports.users') }}"
                         label="Users"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.user') ? 'text-blue has-text-weight-bold' : '' }}"
+                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.users') ? 'text-blue has-text-weight-bold' : '' }}"
                         x-init="{{ request()->routeIs('admin.reports.user') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.reports.transactions') }}"
-                        label="Transactions"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.transactions') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.reports.transactions') ? 'activateAccordion' : '' }}"
                     />
                 </li>
                 <li>

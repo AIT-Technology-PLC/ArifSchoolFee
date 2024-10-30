@@ -37,12 +37,8 @@ class CreateUserAction
 
             $this->action->execute(
                 $user,
-                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr', 'transfer_source'])
+                Arr::only($data, ['transactions'])
             );
-
-            if (isFeatureEnabledForCompany($user->employee->company_id, 'Compensation Management') && isset($data['employeeCompensation'])) {
-                $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
-            }
 
             $user->assignRole($data['role']);
 
