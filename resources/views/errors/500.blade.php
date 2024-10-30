@@ -26,7 +26,7 @@
                         We will have things fixed in no time. 
                         <br>
                         If you need help while the feature is down, please
-                        call the helpdesk at +251 97-600-6522.
+                        call the helpdesk at +251 97-226-5151.
                     </h2>
                     <button x-data class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5" @click="history.back()">
                         <span class="icon">

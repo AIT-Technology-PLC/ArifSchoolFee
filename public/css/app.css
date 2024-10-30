@@ -803,3 +803,8 @@ div.dataTables_wrapper div.dataTables_processing {
 .swera-demo-font {
     font-family: "Swera Demo", sans-serif;
 }
+
+.is-75x75 {
+    width: 75px;
+    height: 75px;
+}

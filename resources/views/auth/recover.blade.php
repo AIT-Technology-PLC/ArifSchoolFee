@@ -24,7 +24,7 @@
                             <x-common.fail-message :message="session('failedMessage')" />
 
                             <div class="field" for="email">
-                                <label class="label">Email</label>
+                                <label class="label">Email*</label>
                                 <div class="control has-icons-right">
                                     <input 
                                         id="email"
@@ -33,16 +33,12 @@
                                         value="{{ old('email') }}"
                                         autocomplete="email"
                                         placeholder="Enter Email Address"
-                                        class="input @error('email') is-danger @enderror"
+                                        class="input"
                                         >
                                     <span class="icon is-small is-right">
                                         <i class="fa fa-envelope"></i>
                                     </span>
-                                    @error('email')
-                                        <span class="help has-text-white">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                    <x-common.validation-error property="email" />
                                 </div>
                             </div>
 

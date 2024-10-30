@@ -47,11 +47,6 @@ class User extends Authenticatable
         return $this->belongsTo(Warehouse::class)->withoutGlobalScopes([ActiveWarehouseScope::class]);
     }
 
-    public function padPermissions()
-    {
-        return $this->belongsToMany(PadPermission::class);
-    }
-
     public function sideMenuComponent(): Attribute
     {
         return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : 'common.side-menu');

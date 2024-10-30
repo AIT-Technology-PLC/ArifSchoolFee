@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title> Ait ERP Updating ... </title>
+    <title> Ait School Payment Updating ... </title>
     @include('assets.css')
     @include('pwa.tags')
 </head>
@@ -22,7 +22,7 @@
                             <i class="fa-solid fa-rocket"></i>
                         </span>
                         <span class="is-size-1">
-                            <b>ERP</b> UPDATING ...
+                            <b>Ait School Payment</b> UPDATING ...
                         </span>
                     </h1>
                     <h1 class="title text-green">
@@ -33,7 +33,7 @@
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
                         We are releasing new updates. It will take 1 or 2 minutes.
                         <br>
-                        If it is taking longer, please call the helpdesk at +251 97-600-6522.
+                        If it is taking longer, please call the helpdesk at +251 97-226-5151.
                     </h2>
                     <button
                         x-data

@@ -23,7 +23,7 @@
                             <x-common.success-message :message="session('successMessage')" />
 
                             <div class="field" for="email">
-                                <label class="label">Email</label>
+                                <label class="label">Email*</label>
                                 <div class="control has-icons-right">
                                     <input 
                                         id="email"
@@ -32,26 +32,22 @@
                                         value="{{ old('email') }}"
                                         autocomplete="email"
                                         placeholder="Enter User-Name"
-                                        class="input @error('email') is-danger @enderror"
+                                        class="input"
                                         >
                                     <span class="icon is-small is-right">
                                         <i class="fa fa-user"></i>
                                     </span>
-                                    @error('email')
-                                        <span class="help has-text-white">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                    <x-common.validation-error property="email" />
                                 </div>
                             </div>
 
                             <div class="field" for="password">
-                                <label class="label">Password</label>
+                                <label class="label">Password*</label>
                                 <div class="control has-icons-right">
                                     <input 
                                         id="password"
                                         name="password"
-                                        class="input @error('password') is-danger @enderror" 
+                                        class="input" 
                                         type="password"
                                         placeholder="Enter Password"
                                         autocomplete="current-password"
@@ -59,11 +55,7 @@
                                     <span class="icon is-small is-right">
                                         <i class="fa fa-key"></i>
                                     </span>
-                                    @error('password')
-                                        <span class="help has-text-white">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
+                                    <x-common.validation-error property="password" />
                                 </div>
                             </div>
 

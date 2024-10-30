@@ -1,8 +1,8 @@
-## About AIT TECHNOLOGY ERP
+## About AIT TECHNOLOGY SCHOOL PAYMENT SYSTEM
 
-**Ait Tech ERP** is a multi-tenant ERP solution.
+**AitSchoolPayment** is a multi-tenant Payment solution.
 
-With its number of modules & features, **ait erp** allows businesses to achieve a high level of synchronization among departments and units of a business.
+With its number of modules & features, **ait school payment** allows businesses to achieve a high level of synchronization among the different brances and units of a business.
 
 ##### Characteristics:
 
@@ -12,7 +12,7 @@ With its number of modules & features, **ait erp** allows businesses to achieve 
 
 ## Frameworks & Tools
 
-At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](https://laravel.com) as a fullstack framework.
+At its core [**ait AitSchoolPayment**](https://aittech.com/products/aitschoolpayment) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
 | Stack       | Frontend Tools     | Backend Tools                            | Other Tools                         |
 | ----------- | ------------------ | ---------------------------------------- | ----------------------------------- |
@@ -35,13 +35,12 @@ At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](h
     -   This is the branch that is running on the production server
     -   Do not submit PR to this branch
 -   dev
-    -   This is the branch that is running on the Testing Server
     -   Always use this branch for development and making changes
     -   Always submit PRs to this branch
 
 ## Requirements
 
--   PHP >= 8.0
+-   PHP >= 8.2
 -   RAM >= 2GB
 -   Composer
 -   MySQL or MariaDB
@@ -56,8 +55,8 @@ At its core [**ait erp**](https://aittech.com/products/erp) uses [**Laravel**](h
 1. Clone repository & install dependencies
 
 ```bash
-git clone https://github.com/your-name/ait-inventory.git
-cd erp
+git clone https://github.com/your-name/ait-school-payment.git
+cd ait-school-payment
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -79,5 +78,5 @@ php artisan serve
 
 | User Type | Email            | Password      |
 | --------- | ---------------- | ------------- |
-| ADMIN     | admin@ait.com | adminpassword |
-| USER      | user@ait.com  | userpassword  |
+| ADMIN     | admin@ait-tech.com | adminpassword |
+| USER      | user@ait-tech.com  | userpassword  |

@@ -36,7 +36,7 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <a class="navbar-item">
-                    <h1 class="ml-3 has-text-white-ter has-text-weight-light is-uppercase is-size-5">
+                    <h1 class="ml-5 has-text-white-ter has-text-weight-normal is-uppercase is-size-5">
                         <span class="icon is-medium has-text-white">
                             <i class="fas fa-school"></i>
                         </span>
