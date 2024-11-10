@@ -20,7 +20,6 @@ class Warehouse extends Model
     ];
 
     protected $cascadeDeletes = [
-        'merchandises',
         'originalUsers',
     ];
 

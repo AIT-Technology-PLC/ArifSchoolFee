@@ -53,7 +53,7 @@
                                 mode="button"
                                 icon="fas fa-check-double"
                                 label="Mark all as read"
-                                class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                                class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                                 x-ref="submitButton"
                             />
                         </form>
@@ -67,7 +67,7 @@
                             intention="delete all of the notifications"
                             icon="fas fa-trash"
                             label="Delete All"
-                            class="has-text-weight-medium is-small text-green is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                         />
                     </x-common.dropdown-item>
                 @endif

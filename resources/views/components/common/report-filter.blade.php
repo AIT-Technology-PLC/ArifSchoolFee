@@ -14,7 +14,7 @@
         >
             <header class="quickview-header px-2">
                 <div>
-                    <h6 class="text-green has-text-centered has-text-weight-bold">
+                    <h6 class="text-softblue has-text-centered has-text-weight-bold">
                         <span class="icon">
                             <i class="fas fa-filter"></i>
                         </span>
@@ -35,13 +35,13 @@
                         type="reset"
                         label="Clear Filters"
                         x-on:click="location.search=''"
-                        class="is-small btn-green is-outlined is-rounded"
+                        class="is-small btn-softblue is-outlined is-rounded"
                     />
                     <x-common.button
                         tag="button"
                         mode="button"
                         label="Apply"
-                        class="is-small bg-green has-text-white is-rounded"
+                        class="is-small bg-softblue has-text-white is-rounded"
                     />
                 </div>
             </footer>
@@ -56,7 +56,7 @@
         data-target="quickviewDefault"
         label="Filters"
         icon="fas fa-filter"
-        class="button btn-green is-outlined has-text-weight-medium is-size-7-mobile"
+        class="button btn-softblue is-outlined has-text-weight-medium is-size-7-mobile"
     />
 
     @if (!is_null($exportRoute))

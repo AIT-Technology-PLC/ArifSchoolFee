@@ -23,10 +23,6 @@ class MustBelongToCompany implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($this->tableName == 'products' && str_contains($attribute, 'proformaInvoice') && !is_int($value)) {
-            return;
-        }
-
         $exists = DB::table($this->tableName)
             ->when(Schema::hasColumn($this->tableName, 'company_id'), fn($q) => $q->where('company_id', userCompany()->id))
             ->where($this->column, $value)

@@ -20,7 +20,7 @@
                 mode="button"
                 data-title="Mark as read"
                 icon="fas fa-check-double"
-                class="text-green has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+                class="text-softblue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
                 x-ref="submitButton"
             />
         </form>

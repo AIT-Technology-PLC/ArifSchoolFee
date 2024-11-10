@@ -13,27 +13,29 @@ class CompanyController extends Controller
     {
         $this->middleware('isFeatureAccessible:General Settings');
 
-        $this->authorizeResource(Company::class, 'company');
+        $this->authorizeResource(Company::class, 'school');
     }
 
-    public function edit(Company $company)
+    public function edit(Company $school)
     {
-        return view('companies.edit', compact('company'));
+        $school->load(['schoolType']);
+
+        return view('schools.edit', compact('school'));
     }
 
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $school)
     {
-        DB::transaction(function () use ($company, $request) {
-            $company->update($request->validated());
+        DB::transaction(function () use ($school, $request) {
+            $school->update($request->validated());
 
             if ($request->hasFile('logo')) {
-                $company->update([
+                $school->update([
                     'logo' => $request->logo->store('logo', 'public'),
                 ]);
             }
 
             if ($request->hasFile('print_template_image')) {
-                $company->update([
+                $school->update([
                     'print_template_image' => $request->print_template_image->store('print_template_image', 'public'),
                 ]);
             }

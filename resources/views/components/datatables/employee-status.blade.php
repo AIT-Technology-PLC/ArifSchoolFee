@@ -1,5 +1,5 @@
 @if ($employee->enabled)
-    <span class="tag bg-blue has-text-white">
+    <span class="tag bg-softblue has-text-white">
         <span class="icon">
             <i class="fas fa-user-check"></i>
         </span>

@@ -4,11 +4,22 @@
     href="{{ asset('img/favicon.png') }}"
 />
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" 
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+/>
+
 <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
     integrity="sha256-UDtbUHqpVVfXmdJcQVU/bfDEr9xldf3Dbd0ShD0Uf/Y=" crossorigin="anonymous"
 >
+
+<link
+    rel="stylesheet"
+    href="https://cdn.rawgit.com/octoshrimpy/bulma-o-steps/master/bulma-steps.css"
+>
+
 <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"

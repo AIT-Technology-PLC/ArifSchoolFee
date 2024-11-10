@@ -13,6 +13,10 @@ class FeatureController extends Controller
 
         $features = Feature::all();
 
-        return view('admin.features.index', compact('features'));
+        $totalEnabled = Feature::enabled()->count();
+
+        $totalDisabled = Feature::disabled()->count();
+
+        return view('admin.features.index', compact('features','totalEnabled','totalDisabled'));
     }
 }

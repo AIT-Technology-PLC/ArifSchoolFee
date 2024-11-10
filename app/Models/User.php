@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_online_at' => 'datetime',
         'password' => 'hashed',
+        'is_allowed' => 'boolean',
     ];
 
     protected $cascadeDeletes = ['employee'];
@@ -52,6 +53,21 @@ class User extends Authenticatable
         return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : 'common.side-menu');
     }
 
+    public function scopeAllowed($query)
+    {
+        return $query->where('is_allowed', 1);
+    }
+
+    public function scopeNotAllowed($query)
+    {
+        return $query->where('is_allowed', 0);
+    }
+
+    public function isAllowed()
+    {
+        return $this->is_allowed;
+    }
+
     public function isEnabled()
     {
         return $this->employee->enabled;
@@ -65,7 +81,11 @@ class User extends Authenticatable
     public function isAccessAllowed()
     {
         if ($this->isAdmin()) {
-            return true;
+            if ($this->isAllowed()) {
+                return true;
+            }
+            
+            return false;
         }
 
         return $this->employee->company->isEnabled() && $this->isEnabled() &&
@@ -124,11 +144,10 @@ class User extends Authenticatable
             });
     }
 
-    public static function getUsers($excludeUsersOnLeave = true)
+    public static function getUsers()
     {
         return static::query()
             ->whereIn('warehouse_id', authUser()->getAllowedWarehouses('hr')->pluck('id'))
-            ->when($excludeUsersOnLeave, fn($q) => $q->whereNotIn('id', Leave::getEmployeesOnLeave()->pluck('user_id')))
             ->with('employee')
             ->orderBy('name')
             ->get();
@@ -137,6 +156,30 @@ class User extends Authenticatable
     public function updateLastOnlineAt()
     {
         $this->last_online_at = now();
+
+        $this->save();
+    }
+
+    public function updateUserLoginLog()
+    {
+        UserLog::Create(
+            [
+                'created_by' => $this->id,
+                'updated_by' => $this->id,
+                'company_id' => userCompany()->id ?? null,
+                'name' => $this->name,
+                'email' => $this->email,
+                'phone' => $this->employee->phone,
+                'role' => $this->roles[0]->name,
+                'ip_address' => request()->ip(),
+                'last_online_at' => now(),
+            ]
+        );
+    }
+
+    public function toggle()
+    {
+        $this->isAllowed() ? $this->is_allowed = 0 : $this->is_allowed = 1;
 
         $this->save();
     }

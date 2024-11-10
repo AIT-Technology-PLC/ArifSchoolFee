@@ -6,9 +6,9 @@
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-softblue has-text-weight-medium is-size-5">
                     Resources
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                    <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-project-diagram" />
                         <span>
                             {{ number_format($limits->count()) }} {{ str()->plural('resources', $limits->count()) }}
@@ -22,12 +22,14 @@
                 <x-slot name="headings">
                     <th><abbr> # </abbr></th>
                     <th><abbr> Name </abbr></th>
+                    <th><abbr> Created At </abbr></th>
                 </x-slot>
                 <x-slot name="body">
                     @foreach ($limits as $limit)
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td> {{ str($limit->name)->headline() }} </td>
+                            <td> {{ str($limit->created_at->toFormattedDateString())}} </td>
                         </tr>
                     @endforeach
                 </x-slot>

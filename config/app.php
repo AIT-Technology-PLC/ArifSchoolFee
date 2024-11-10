@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Onrica'),
+    'name' => env('APP_NAME', 'AitSchoolPayment'),
 
     /*
     |--------------------------------------------------------------------------

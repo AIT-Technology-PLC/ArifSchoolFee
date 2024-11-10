@@ -36,7 +36,7 @@
                                     x-model="file"
                                     x-on:change="getFileName"
                                 >
-                                <span class="file-cta bg-green has-text-white">
+                                <span class="file-cta bg-softblue has-text-white">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>

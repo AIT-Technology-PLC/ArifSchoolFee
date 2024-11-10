@@ -3,12 +3,31 @@
 @section('title', 'Features')
 
 @section('content')
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-6 p-lr-0">
+            <x-common.total-model
+                model="Enabled"
+                box-color="bg-softblue"
+                :amount="$totalEnabled"
+                icon="fas fa-check"
+            />
+        </div>
+        <div class="column is-6 p-lr-0">
+            <x-common.total-model
+                model="Disabled"
+                box-color="bg-green"
+                :amount="$totalDisabled"
+                icon="fas fa-ban"
+            />
+        </div>
+    </div>
+
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-softblue has-text-weight-medium is-size-5">
                     Features
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                    <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-cubes" />
                         <span>
                             {{ number_format($features->count()) }} {{ str()->plural('feature', $features->count()) }}
@@ -41,7 +60,7 @@
                                         </span>
                                     </span>
                                 @else
-                                    <span class="tag bg-lightpurple text-purple has-text-weight-medium">
+                                    <span class="tag bg-purple has-text-white has-text-weight-medium">
                                         <span class="icon">
                                             <i class="fas fa-warning"></i>
                                         </span>
@@ -59,7 +78,7 @@
                                     icon="fas fa-toggle-{{ $feature->isEnabled() ? 'off' : 'on' }}"
                                     label="{{ $feature->isEnabled() ? 'Disable' : 'Enable' }}"
                                     data-title="{{ $feature->isEnabled() ? 'Disable' : 'Enable' }}"
-                                    class="btn-green is-outlined has-text-weight-medium is-small px-2 py-0"
+                                    class="btn-softblue is-outlined has-text-weight-medium is-small px-2 py-0"
                                 />
                             </td>
                         </tr>

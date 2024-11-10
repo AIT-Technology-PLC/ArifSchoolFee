@@ -38,7 +38,7 @@
                 <a class="navbar-item">
                     <h1 class="ml-5 has-text-white-ter has-text-weight-normal is-uppercase is-size-5">
                         <span class="icon is-medium has-text-white">
-                            <i class="fas fa-school"></i>
+                            <i class="fas fa-sort"></i>
                         </span>
                         <span class="is-capitalized">
                             {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }}
@@ -115,8 +115,8 @@
                     >
                         @if (!authUser()->isAdmin())
                             <a
-                                href="{{ route('employees.show', authUser()->employee->id) }}"
-                                class="navbar-item text-green"
+                                href="{{ route('users.show', authUser()->employee->id) }}"
+                                class="navbar-item text-blue"
                             >
                                 <span class="icon is-medium">
                                     <i class="fas fa-address-card"></i>
@@ -129,7 +129,7 @@
                         @endif
                         <a
                             href="{{ route('password.edit') }}"
-                            class="navbar-item text-green"
+                            class="navbar-item text-blue"
                         >
                             <span class="icon is-medium">
                                 <i class="fas fa-lock"></i>
@@ -150,14 +150,14 @@
                             @csrf
                             <x-common.icon
                                 name="fas fa-power-off"
-                                class="is-medium text-purple"
+                                class="is-medium text-blue"
                             />
                             <span>
                                 <x-common.button
                                     tag="button"
                                     mode="button"
                                     label="Logout"
-                                    class="text-purple is-borderless is-size-6-5 ml-0 pl-0"
+                                    class="text-purpbluele is-borderless is-size-6-5 ml-0 pl-0"
                                 >
                             </span>
                             </x-common.button>

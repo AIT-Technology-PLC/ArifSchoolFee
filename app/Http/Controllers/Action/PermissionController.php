@@ -31,8 +31,6 @@ class PermissionController extends Controller
 
         $userRolesPermissions = $employee->user->getPermissionsViaRoles()->pluck('name');
 
-        $pads = pads()->load('padPermissions.pad');
-
         $userPadPermissions = $employee->user->padPermissions()->pluck('pad_permission_id');
 
         return view('permissions.edit',
@@ -42,7 +40,6 @@ class PermissionController extends Controller
                 'permissionsByCategories',
                 'userPermissions',
                 'userRolesPermissions',
-                'pads',
                 'userPadPermissions'
             )
         );
@@ -55,8 +52,6 @@ class PermissionController extends Controller
         $this->authorize('update', $employee);
 
         $employee->user->syncPermissions($request->permissions);
-
-        $employee->user->padPermissions()->sync($request->validated('padPermissions') ?? []);
 
         return back()->with('message', 'Permissions updated successfully');
     }

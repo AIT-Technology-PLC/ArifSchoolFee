@@ -35,18 +35,12 @@ class UpdateUserAction
         DB::transaction(function () use ($employee, $data) {
             $user = $this->UpdateUser($employee, $data);
 
-            $employee->update(Arr::only($data, ['position', 'enabled', 'gender', 'address', 'bank_name', 'bank_account', 'tin_number', 'job_type', 'phone', 'id_type', 'id_number', 'date_of_hiring', 'date_of_birth', 'emergency_name', 'emergency_phone', 'department_id', 'paid_time_off_amount', 'does_receive_sales_report_email']));
+            $employee->update(Arr::only($data, ['enabled', 'gender', 'address', 'phone']));
 
             $this->action->execute(
                 $user,
-                Arr::only($data, ['transactions', 'read', 'subtract', 'add', 'sales', 'adjustment', 'siv', 'hr', 'transfer_source'])
+                Arr::only($data, ['transactions'])
             );
-
-            $user->employee->employeeCompensations()->forceDelete();
-
-            if (isFeatureEnabled('Compensation Management') && isset($data['employeeCompensation'])) {
-                $user->employee->employeeCompensations()->createMany($data['employeeCompensation']);
-            }
 
             $user->syncRoles(Arr::has($data, 'role') ? $data['role'] : $user->roles[0]->name);
         });

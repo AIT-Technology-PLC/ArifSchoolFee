@@ -23,7 +23,7 @@
 }
 
 .text-brown {
-    color: #863d3e !important;
+    color: #864f50 !important;
 }
 
 .bg-gold {
@@ -32,8 +32,8 @@
 }
 
 .bg-green {
-    background-color: #3a9264 !important;
-    border: 1px solid #3a9264 !important;
+    background-color: #2cac6a !important;
+    border: 1px solid #2cac6a !important;
 }
 
 .bg-lightgreen {
@@ -42,8 +42,8 @@
 }
 
 .bg-lightpurple {
-    background-color: #f6edf2 !important;
-    border: 1px solid #f6edf2 !important;
+    background-color: #af92a1 !important;
+    border: 1px solid #af92a1 !important;
 }
 
 .bg-purple {
@@ -62,8 +62,8 @@
 }
 
 .bg-brown {
-    background-color: #863d3e !important;
-    border: 1px solid #863d3e !important;
+    background-color: #864f50 !important;
+    border: 1px solid #864f50 !important;
 }
 
 .link-text:hover {
@@ -99,8 +99,8 @@
 }
 
 .btn-green {
-    border: 1px solid #3d8660 !important;
-    color: #3d8660 !important;
+    border: 1px solid #2cac6a !important;
+    color: #2cac6a !important;
 }
 
 .btn-green.is-outlined:hover {
@@ -114,6 +114,16 @@
 }
 
 .btn-blue.is-outlined:hover {
+    background: #3d6386 !important;
+    color: white !important;
+}
+
+.btn-softblue {
+    border: 1px solid #3d6386 !important;
+    color: #3d6386 !important;
+}
+
+.btn-softblue.is-outlined:hover {
     background: #3d6386 !important;
     color: white !important;
 }
@@ -393,11 +403,11 @@ td {
 }
 
 .swal-button--confirm {
-    background-color: #3d8660 !important;
+    background-color: #3a56b3 !important;
 }
 
 .swal-title {
-    color: #3d8660 !important;
+    color: #3a56b3 !important;
 }
 
 .pace {
@@ -802,6 +812,36 @@ div.dataTables_wrapper div.dataTables_processing {
 
 .swera-demo-font {
     font-family: "Swera Demo", sans-serif;
+}
+
+.panel-block {
+    display: none;
+}
+.panel-block.is-active {
+    display: block;
+}
+
+.step-content {
+    display: none; /* Hide all step contents by default */
+}
+.step-content.is-active {
+    display: block !important; /* Show the active step content */
+}
+
+.steps:not(.is-hollow) .steps-segment .steps-marker:not(.is-hollow)
+{
+  background-color: #3a56b3;
+  color: #ffffff;
+}
+
+.steps:not(.is-hollow) .steps-segment.is-active .steps-marker:not(.is-hollow)
+{
+  background-color: #3a56b3;
+  color: #ffffff;
+}
+
+.steps-segment:after{
+    background-color: #3a56b3;
 }
 
 .is-75x75 {

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-        <div class="columns is-marginless ">
+        <div class="columns is-marginless">
             <div class="login column is-4">
                 <section class="section">
                     <form

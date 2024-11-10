@@ -9,16 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class Limits extends Seeder
 {
-    private $warehouseLimit;
+    private $branchLimit;
 
     private $userLimit;
-
-    private $salesReportEmailRecipientLimit;
 
     public function run()
     {
         DB::transaction(function () {
-            $this->warehouseLimit = Limit::firstOrCreate(['name' => 'warehouse']);
+            $this->branchLimit = Limit::firstOrCreate(['name' => 'branch']);
 
             $this->userLimit = Limit::firstOrCreate(['name' => 'user']);
 
@@ -31,8 +29,8 @@ class Limits extends Seeder
         $standard = Plan::firstWhere('name', 'standard');
 
         $standard->limits()->sync([
-            $this->warehouseLimit->id => ['amount' => 10],
-            $this->userLimit->id => ['amount' => 10],
+            $this->branchLimit->id => ['amount' => 2],
+            $this->userLimit->id => ['amount' => 5],
         ]);
     }
 }

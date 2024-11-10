@@ -25,11 +25,11 @@ class SubscriptionChart
             $daysLeft[] = today()->diffInDays($company->subscription_expires_on, false);
         }
 
-        return $this->chart->pieChart()
+        return $this->chart->barChart()
             ->setTitle('Subscription')
-            ->setSubtitle('Expiry Days Left')
-            ->addData($daysLeft)
-            ->setLabels($companies->pluck('name')->toArray())
-            ->setColors(['#0736a1', '#cccccc']);
+            ->setSubtitle('Active Subscriptions')
+            ->addData('Expired in',$daysLeft)
+            ->setXAxis($companies->pluck('name')->toArray())
+            ->setGrid();
         }
 }

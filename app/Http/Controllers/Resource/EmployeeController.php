@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     {
         $this->middleware('isFeatureAccessible:User Management');
 
-        $this->authorizeResource(Employee::class, 'employee');
+        $this->authorizeResource(Employee::class, 'user');
     }
 
     public function index(EmployeeDatatable $datatable)
@@ -34,7 +34,7 @@ class EmployeeController extends Controller
 
         $warehouses = Warehouse::withoutGlobalScopes([ActiveWarehouseScope::class])->get();
 
-        return $datatable->render('employees.index', compact('totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees', 'warehouses'));
+        return $datatable->render('users.index', compact('totalEmployees', 'totalEnabledEmployees', 'totalBlockedEmployees', 'warehouses'));
     }
 
     public function create()
@@ -45,9 +45,9 @@ class EmployeeController extends Controller
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $branches = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        return view('employees.create', compact('roles', 'warehouses'));
+        return view('users.create', compact('roles', 'branches'));
     }
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
@@ -58,45 +58,45 @@ class EmployeeController extends Controller
 
         $action->execute($request->validated());
 
-        return redirect()->route('employees.index');
+        return redirect()->route('users.index');
     }
 
-    public function show(Employee $employee)
+    public function show(Employee $user)
     {
-        $employee->load(['user.roles', 'user.warehouse', 'department', 'warnings', 'expenseClaims', 'employeeCompensations']);
+        $user->load(['user.roles', 'user.warehouse']);
 
-        return view('employees.show', compact('employee'));
+        return view('users.show', compact('user'));
     }
 
-    public function edit(Employee $employee)
+    public function edit(Employee $user)
     {
-        $employee->load(['user.roles', 'user.warehouse', 'user.warehouses']);
+        $user->load(['user.roles', 'user.warehouse', 'user.warehouses']);
 
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
-        $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
+        $branches = Warehouse::orderBy('name')->get(['id', 'name']);
 
-        $warehousePermissions = $employee->user->warehouses->groupBy('pivot.type');
+        $branchPermissions = $user->user->warehouses->groupBy('pivot.type');
 
-        return view('employees.edit', compact('employee', 'roles', 'warehouses', 'warehousePermissions'));
+        return view('users.edit', compact('user', 'roles', 'branches', 'branchPermissions'));
     }
 
-    public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateUserAction $action)
+    public function update(UpdateEmployeeRequest $request, Employee $user, UpdateUserAction $action)
     {
-        if (!$employee->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
-            $action->execute($employee, $request->safe()->except('enabled'));
+        if (!$user->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
+            $action->execute($user, $request->safe()->except('enabled'));
 
-            return redirect()->route('employees.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
+            return redirect()->route('users.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
         }
 
-        $action->execute($employee, $request->validated());
+        $action->execute($user, $request->validated());
 
-        return redirect()->route('employees.index');
+        return redirect()->route('users.index');
     }
 
-    public function destroy(Employee $employee)
+    public function destroy(Employee $user)
     {
-        $employee->user->delete();
+        $user->user->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

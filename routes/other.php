@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Invokable\HomeController::class)->name('home');
 
+Route::post('/employees/{employee}/toggle', Invokable\ToggleEmployeeController::class)->name('employees.toggle');
+
+Route::post('/users/{user}/toggle', Invokable\ToggleUserController::class)->name('users.toggle');
+
 Route::prefix('api')
     ->name('api.')
     ->group(function () {

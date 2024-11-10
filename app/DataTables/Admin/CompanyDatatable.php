@@ -17,11 +17,12 @@ class CompanyDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($company) => route('admin.companies.show', $company->id),
+                'data-url' => fn($company) => route('admin.schools.show', $company->id),
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
             ->editColumn('name', fn($company) => str()->ucfirst($company->name))
+            ->editColumn('type', fn($company) => str()->ucfirst($company->schoolType->name))
             ->editColumn('status', fn($company) => view('components.datatables.company-status', compact('company')))
             ->editColumn('plan', fn($company) => str()->ucfirst($company->plan->name))
             ->editColumn('is_in_training', fn($company) => $company->isInTraining() ? 'Training Mode' : 'Live Mode')
@@ -39,6 +40,7 @@ class CompanyDatatable extends DataTable
             ->when(request('status') == 'deactivated', fn($q) => $q->disabled())
             ->with([
                 'plan',
+                'schoolType:id,name',
             ]);
     }
 
@@ -48,8 +50,9 @@ class CompanyDatatable extends DataTable
             Column::computed('#'),
             Column::make('id')->addClass('has-text-centered')->title('ID No'),
             Column::make('name'),
+            Column::make('type', 'schoolType.name')->content('N/A'),
             Column::computed('status'),
-            Column::make('plan', 'plan.name'),
+            Column::make('plan', 'plan.name')->content('N/A'),
             Column::make('is_in_training')->title('Mode'),
             Column::make('created_at')->addClass('has-text-right'),
             Column::computed('actions')->className('actions'),

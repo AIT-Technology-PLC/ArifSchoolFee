@@ -2,7 +2,6 @@
 
 namespace App\Actions;
 
-use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +32,7 @@ class CreateUserAction
         return DB::transaction(function () use ($data) {
             $user = $this->createNewUser($data);
 
-            $user->employee()->create(Arr::only($data, ['position', 'enabled', 'gender', 'address', 'bank_name', 'bank_account', 'tin_number', 'job_type', 'phone', 'id_type', 'id_number', 'date_of_hiring', 'date_of_birth', 'emergency_name', 'emergency_phone', 'department_id', 'paid_time_off_amount', 'does_receive_sales_report_email']));
+            $user->employee()->create(Arr::only($data, ['enabled', 'gender', 'address', 'phone']));
 
             $this->action->execute(
                 $user,

@@ -3,23 +3,6 @@
 @section('title', 'User Report')
 
 @section('content')
-    <div class="level mx-3 m-lr-0">
-        <div class="level-left">
-            <div class="level-item is-justify-content-left">
-                <div class="heading text-green is-size-5 is-size-6-mobile">
-                    USER
-                </div>
-            </div>
-        </div>
-        <div class="level-right m-top-0">
-            <div class="level-item is-justify-content-left">
-                <h1 class="heading text-green is-size-5 is-size-6-mobile has-text-weight-bold">
-                    REPORT
-                </h1>
-            </div>
-        </div>
-    </div>
-
     <x-common.report-filter action="{{ route('admin.reports.users') }}">
         <div class="quickview-body">
             <div class="quickview-block">
@@ -45,112 +28,78 @@
         </div>
     </x-common.report-filter>
 
-    <x-common.content-wrapper class="mt-5">
-        <div class="tile is-ancestor">
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> Users </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format($engagementReport->companies['companies']->sum('employees_count')) }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="fas fa-filter"></i>
-                                </span>
-                                <span>
-                                    FILTERED
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> Branches </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format($engagementReport->companies['companies']->sum('warehouses_count')) }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="fas fa-filter"></i>
-                                </span>
-                                <span>
-                                    FILTERED
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> Companies </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ number_format($engagementReport->companies['activeCompanies']) }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="fas fa-filter"></i>
-                                </span>
-                                <span>
-                                    FILTERED
-                                </span>
-                            </p>
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-6 p-lr-0">
+            <x-common.total-model
+                model="User Report"
+                box-color="bg-softblue"
+                amount="UR"
+                icon="fas fa-heading"
+            />
+        </div> 
+        <div class="column is-6 p-lr-0">
+            <x-common.total-model
+                model="Users"
+                box-color="bg-green"
+                :amount="number_format($engagementReport->companies['companies']->sum('employees_count'))"
+                icon="fas fa-user-group"
+            />
+        </div>
+        <div class="column is-12-mobile is-12-tablet is-8-desktop">
+            {!! $chart->container() !!}
+        </div>
+        <div class="column is-12-mobile is-12-tablet is-4-desktop">
+            <div class="columns is-multiline is-mobile">
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <div class="tile is-12 is-vertical is-parent">
+                            <div class="tile is-child box" style="border-left: 2px solid">
+                                <div class="hero">
+                                    <div class="hero-head">
+                                        <p class="text-softblue has-text-weight-bold is-uppercase heading is-size-6"> Branches </p>
+                                    </div>
+                                    <div class="hero-body px-0 pt-1">
+                                        <p class="title text-softblue">{{ number_format($engagementReport->companies['companies']->sum('warehouses_count')) }}</p>
+                                    </div>
+                                    <div class="hero-foot pt-6 has-text-right">
+                                        <p class="text-softblue has-text-weight-bold">
+                                            <span class="icon is-size-6-5">
+                                                <i class="fas fa-filter"></i>
+                                            </span>
+                                            <span>
+                                                FILTERED
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tile is-child box" style="border-left: 2px solid">
+                                <div class="hero">
+                                    <div class="hero-head">
+                                        <p class="text-softblue has-text-weight-bold is-uppercase heading is-size-6"> Companies </p>
+                                    </div>
+                                    <div class="hero-body px-0 pt-1">
+                                        <p class="title text-softblue">{{ number_format($engagementReport->companies['activeCompanies']) }}</p>
+                                    </div>
+                                    <div class="hero-foot pt-6 has-text-right">
+                                        <p class="text-softblue has-text-weight-bold">
+                                            <span class="icon is-size-6-5">
+                                                <i class="fas fa-filter"></i>
+                                            </span>
+                                            <span>
+                                                FILTERED
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="tile is-ancestor">
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
-                        <span class="icon mr-1">
-                            <i class="fas fa-bank"></i>
-                        </span>
-                        <span>
-                            Companies
-                        </span>
-                    </p>
-                    <x-common.client-datatable
-                        has-filter="false"
-                        has-length-change="false"
-                        paging-type="simple"
-                        length-menu="[6]"
-                    >
-                        <x-slot name="headings">
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Company </abbr></th>
-                            <th class="has-text-right"><abbr> Users </abbr></th>
-                            <th class="has-text-right"><abbr> Branches </abbr></th>
-                        </x-slot>
-                        <x-slot name="body">
-                            @foreach ($engagementReport->companies['companies'] as $company)
-                                <tr>
-                                    <td> {{ $loop->index + 1 }} </td>
-                                    <td> {{ $company->name }} </td>
-                                    <td class="has-text-right"> {{ number_format($company->employees_count) }} </td>
-                                    <td class="has-text-right"> {{ number_format($company->warehouses_count) }} </td>
-                                </tr>
-                            @endforeach
-                        </x-slot>
-                    </x-common.client-datatable>
-                </div>
-            </div>
-        </div>
-    </x-common.content-wrapper>
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
 @endsection

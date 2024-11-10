@@ -11,8 +11,8 @@ class CompanyPolicy
 {
     use HandlesAuthorization, VerifyModelIssuer;
 
-    public function update(User $user, Company $company)
+    public function update(User $user, Company $school)
     {
-        return $user->employee->company_id == $company->id && $user->can('Update Company');
+        return $user->employee->company_id == $school->id && $user->can('Update Company');
     }
 }

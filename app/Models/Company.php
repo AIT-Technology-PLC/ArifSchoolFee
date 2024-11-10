@@ -35,6 +35,11 @@ class Company extends Model
         return $this->hasMany(Warehouse::class);
     }
 
+    public function schoolType()
+    {
+        return $this->belongsTo(SchoolType::class);
+    }
+
     public function limits()
     {
         return $this->morphToMany(Limit::class, 'limitable')->withPivot('amount');

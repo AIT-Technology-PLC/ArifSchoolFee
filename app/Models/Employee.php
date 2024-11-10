@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -51,5 +50,12 @@ class Employee extends Model
     public static function getEmployees($excludeEmployeesOnLeave = true)
     {
         return User::getUsers($excludeEmployeesOnLeave)->pluck('employee');
+    }
+
+    public function toggle()
+    {
+        $this->isEnabled() ? $this->enabled = 0 : $this->enabled = 1;
+
+        $this->save();
     }
 }

@@ -12,26 +12,26 @@ class WarehousePolicy
 
     public function viewAny(User $user)
     {
-        return $user->can('Read Warehouse');
+        return $user->can('Read Branch');
     }
 
-    public function view(User $user, Warehouse $warehouse)
+    public function view(User $user, Warehouse $branch)
     {
-        return $user->can('Read Warehouse');
+        return $user->can('Read Branch');
     }
 
     public function create(User $user)
     {
-        return $user->can('Create Warehouse');
+        return $user->can('Create Branch');
     }
 
-    public function update(User $user, Warehouse $warehouse)
+    public function update(User $user, Warehouse $branch)
     {
-        return $user->can('Update Warehouse');
+        return $user->can('Update Branch');
     }
 
     public function import(User $user)
     {
-        return $user->can('Import Warehouse');
+        return $user->can('Import Branch');
     }
 }

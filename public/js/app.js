@@ -770,13 +770,28 @@ document.addEventListener("alpine:init", () => {
     Alpine.data("UploadedFileNameHandler", () => ({
         file: "",
         fileName: "",
+        alertMessage: null,
 
         remove() {
             this.file = "";
             this.fileName = "";
         },
+        
         getFileName() {
-            this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1);
+            const input = event.target;
+            const file = input.files[0];
+
+            if (file) {
+                if (file.size > 1048576) {
+                    this.alertMessage ="File size exceeds 1MB. Please upload a smaller file.";
+                    this.remove();
+                    return;
+                }
+                this.fileName = this.file.slice(this.file.lastIndexOf("\\") + 1);
+                this.alertMessage ="File uploaded successfully";
+            } else {
+                this.fileName = "";
+            }
         },
     }));
 

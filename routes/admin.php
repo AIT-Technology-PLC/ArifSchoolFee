@@ -4,18 +4,46 @@ use App\Http\Controllers\Admin as Admin;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/reports/dashboard', Admin\DashboardController::class)->name('reports.dashboard');
+
 Route::get('/reports/subscriptions', Admin\SubscriptionReportController::class)->name('reports.subscriptions');
+
 Route::get('/reports/users', Admin\UserReportController::class)->name('reports.users');
-Route::post('companies/{company}/reset', Admin\CompanyResetAccountController::class)->name('companies.reset');
-Route::post('companies/{company}/features', Admin\CompanyFeatureController::class)->name('companies.features.update');
-Route::post('companies/{company}/limits', Admin\CompanyLimitController::class)->name('companies.limits.update');
-Route::post('companies/{company}/toggle', Admin\CompanyToggleActivationController::class)->name('companies.toggle_activation');
-Route::get('companies/{company}/report', Admin\CompanyEngagementReportController::class)->name('companies.report');
+
+Route::post('schools/{school}/reset', Admin\CompanyResetAccountController::class)->name('schools.reset');
+
+Route::post('schools/{school}/features', Admin\CompanyFeatureController::class)->name('schools.features.update');
+
+Route::post('schools/{school}/limits', Admin\CompanyLimitController::class)->name('schools.limits.update');
+
+Route::post('schools/{school}/toggle', Admin\CompanyToggleActivationController::class)->name('schools.toggle_activation');
+
+Route::get('schools/{school}/report', Admin\CompanyEngagementReportController::class)->name('schools.report');
+
 Route::post('subscriptions/{subscription}/approve', Admin\ApproveSubscriptionController::class)->name('subscriptions.approve');
+
 Route::post('/features/{feature}/toggle', Admin\ToggleFeatureController::class)->name('features.toggle');
-Route::resource('companies', Admin\CompanyController::class);
+
+Route::resource('schools', Admin\CompanyController::class);
+
 Route::resource('users', Admin\UserController::class)->except(['show', 'destroy']);
-Route::resource('companies.subscriptions', Admin\CompanySubscriptionController::class)->shallow();
+
+Route::resource('schools.subscriptions', Admin\CompanySubscriptionController::class)->shallow();
+
 Route::resource('limits', Admin\LimitController::class)->only('index');
+
 Route::resource('features', Admin\FeatureController::class)->only('index');
-Route::resource('plans', Admin\PlanController::class)->only(['index', 'show']);
+
+Route::resource('plans', Admin\PlanController::class)->except(['destroy']);
+
+Route::resource('school-types', Admin\SchoolTypeController::class)->except(['show']);
+
+Route::resource('login-permissions', Admin\LoginPermissionController::class)->only('index');
+
+Route::resource('roles', Admin\RoleController::class)->except(['show', 'destroy']);
+
+Route::controller(Admin\CompanyPendingController::class)
+    ->name('schools.')
+    ->prefix('/admin/schools')
+    ->group(function () {
+        Route::get('/pending', 'pending')->name('pending');
+    });

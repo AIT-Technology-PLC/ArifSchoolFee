@@ -124,6 +124,16 @@ class Feature extends Model
         return $this->is_enabled;
     }
 
+    public function scopeEnabled($query)
+    {
+        return $query->where('is_enabled', 1);
+    }
+
+    public function scopeDisabled($query)
+    {
+        return $query->where('is_enabled', 0);
+    }
+
     public function toggle()
     {
         $this->isEnabled() ? $this->is_enabled = 0 : $this->is_enabled = 1;

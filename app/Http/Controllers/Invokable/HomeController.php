@@ -12,6 +12,8 @@ class HomeController extends Controller
             return redirect()->route('admin.reports.dashboard');
         }
 
+        
+
         return view('menu.index');
     }
 }

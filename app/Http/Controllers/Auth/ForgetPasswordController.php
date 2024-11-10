@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\SendEmail;
-use Illuminate\Support\yFacades\Http;
 
 class ForgetPasswordController extends Controller
 {
@@ -36,12 +35,8 @@ class ForgetPasswordController extends Controller
 
     public function update(Request $request)
     {
-        if (is_null($request->email)) {
-            return redirect()->back()->with('failedMessage', 'Email address is required.');
-        }
-
-        if (isset($request->email)) {
-            $request->validate(['email' => 'required|email']);
+        if ($request->filled('email')) {    
+            $request->validate(['email' => 'required|email|max:30']);
 
             $user = User::where('email', $request->email)->first();
     
@@ -58,10 +53,10 @@ class ForgetPasswordController extends Controller
             return redirect()->back()->with('failedMessage', 'Email address not found.');
         }
         
-        elseif($request->password && $request->token) {
+        if($request->filled('password') && $request->filled('token')) {
             $request->validate([
                 'token' => 'required', 
-                'password' => 'required', 'string', 'min:8', 'confirmed'
+                'password' => 'required|string|min:8|confirmed'
             ]);
 
             $user = User::where('reset_token', $request->token)->first();
@@ -72,5 +67,7 @@ class ForgetPasswordController extends Controller
 
             return redirect()->route('login')->with('successMessage', 'Password reset Successfully');
         }
+
+        return redirect()->back()->with('failedMessage', 'Please provide the required filed values!');
     }
 }

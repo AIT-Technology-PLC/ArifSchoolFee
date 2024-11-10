@@ -6,9 +6,9 @@
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
-                <h1 class="title text-green has-text-weight-medium is-size-5">
+                <h1 class="title text-softblue has-text-weight-medium is-size-5">
                     Plans
-                    <span class="tag bg-green has-text-white has-text-weight-normal ml-1 m-lr-0">
+                    <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-tag" />
                         <span>
                             {{ number_format($plans->count()) }} {{ str()->plural('plan', $plans->count()) }}
@@ -16,6 +16,14 @@
                     </span>
                 </h1>
             </x-slot>
+            <x-common.button
+                tag="a"
+                href="{{ route('admin.plans.create') }}"
+                mode="button"
+                icon="fas fa-plus-circle"
+                label="Create Plan"
+                class="btn-softblue is-outlined is-small"
+            />
         </x-content.header>
         <x-content.footer>
             <x-common.client-datatable length-menu="[10]">
@@ -57,7 +65,7 @@
                             </td>
                             <td>
                                 <x-common.action-buttons
-                                    :buttons="['details']"
+                                    :buttons="['edit','details']"
                                     model="admin.plans"
                                     :id="$plan->id"
                                 />

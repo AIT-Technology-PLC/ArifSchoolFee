@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Users')
+@section('title', 'Admins')
 
 @section('content')
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
                 <h1 class="title text-blue has-text-weight-medium is-size-5">
-                    Users
+                    Admins
                     <span class="tag bg-blue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-user-group" />
                         <span>
-                            {{ number_format($totalUsers) }} {{ str()->plural('User', $totalUsers) }}
+                            {{ number_format($totalUsers) }} {{ str()->plural('admin', $totalUsers) }}
                         </span>
                     </span>
                 </h1>
@@ -21,8 +21,8 @@
                 href="{{ route('admin.users.create') }}"
                 mode="button"
                 icon="fas fa-plus-circle"
-                label="Create User"
-                class="btn-blue is-outlined is-small"
+                label="Create Admin Account"
+                class="btn-softblue is-outlined is-small"
             />
         </x-content.header>
         <x-content.footer>

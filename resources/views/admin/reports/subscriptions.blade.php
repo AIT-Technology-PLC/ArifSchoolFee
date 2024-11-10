@@ -3,23 +3,6 @@
 @section('title', 'Subscription Report')
 
 @section('content')
-    <div class="level mx-3 m-lr-0">
-        <div class="level-left">
-            <div class="level-item is-justify-content-left">
-                <div class="heading text-green is-size-5 is-size-6-mobile">
-                    SUBSCRIPTION
-                </div>
-            </div>
-        </div>
-        <div class="level-right m-top-0">
-            <div class="level-item is-justify-content-left">
-                <h1 class="heading text-green is-size-5 is-size-6-mobile has-text-weight-bold">
-                    REPORT
-                </h1>
-            </div>
-        </div>
-    </div>
-
     <x-common.report-filter action="{{ route('admin.reports.subscriptions') }}">
         <div class="quickview-body">
             <div class="quickview-block">
@@ -45,124 +28,44 @@
         </div>
     </x-common.report-filter>
 
+    <div class="columns is-marginless is-multiline">
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="Subscription Report"
+                box-color="bg-softblue"
+                amount="SR"
+                icon="fas fa-heading"
+            />
+        </div> 
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="{{ today()->monthName }} Subscriptions"
+                box-color="bg-green"
+                :amount="$subscriptionReport->getTotalSubscriptionsThisMonth"
+                icon="fas fa-calendar-day"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="{{ today()->addMonth()->monthName }} Subscriptions"
+                box-color="bg-brown"
+                :amount="$subscriptionReport->getTotalSubscriptionsNextMonth"
+                icon="fas fa-calendar-day"
+            />
+        </div>
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            {!! $chart->container() !!}
+        </div>
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            {!! $chartT->container() !!}
+        </div>
+    </div>
+
     <x-common.content-wrapper class="mt-5">
         <div class="tile is-ancestor">
             <div class="tile is-parent">
                 <div class="tile is-child box">
-                    <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
-                        <span class="icon mr-1">
-                            <i class="fas fa-file-contract"></i>
-                        </span>
-                        <span>
-                            Active Subscriptions
-                        </span>
-                    </p>
-                    <x-common.client-datatable
-                        has-filter="false"
-                        has-length-change="false"
-                        paging-type="simple"
-                        length-menu="[6]"
-                    >
-                        <x-slot name="headings">
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Company </abbr></th>
-                            <th class="has-text-right"><abbr> Expiry Date </abbr></th>
-                            <th class="has-text-right"><abbr> Days Left </abbr></th>
-                        </x-slot>
-                        <x-slot name="body">
-                            @foreach ($subscriptionReport->getSubscriptionsThisAndNextMonth as $company)
-                                <tr>
-                                    <td> {{ $loop->index + 1 }} </td>
-                                    <td> {{ $company->name }} </td>
-                                    <td class="has-text-right"> {{ $company->subscription_expires_on->toFormattedDateString() }} </td>
-                                    <td class="has-text-right"> {{ today()->diffInDays($company->subscription_expires_on, false) }} </td>
-                                </tr>
-                            @endforeach
-                        </x-slot>
-                    </x-common.client-datatable>
-                </div>
-            </div>
-            <div class="tile is-4 is-vertical is-parent">
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> {{ today()->monthName }} Subscriptions </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ $subscriptionReport->getTotalSubscriptionsThisMonth }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="far fa-circle-dot"></i>
-                                </span>
-                                <span>
-                                    REALTIME
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="tile is-child box">
-                    <div class="hero">
-                        <div class="hero-head">
-                            <p class="text-green is-uppercase heading is-size-6"> {{ today()->addMonth()->monthName }} Subscriptions </p>
-                        </div>
-                        <div class="hero-body px-0 pt-1">
-                            <p class="title text-green">{{ $subscriptionReport->getTotalSubscriptionsNextMonth }}</p>
-                        </div>
-                        <div class="hero-foot pt-6 has-text-right">
-                            <p class="text-green has-text-weight-bold">
-                                <span class="icon is-size-6-5">
-                                    <i class="far fa-circle-dot"></i>
-                                </span>
-                                <span>
-                                    REALTIME
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="tile is-ancestor">
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
-                        <span class="icon mr-1">
-                            <i class="fas fa-calendar-day"></i>
-                        </span>
-                        <span>
-                            Subscriptions By Months
-                        </span>
-                    </p>
-                    <x-common.client-datatable
-                        has-filter="false"
-                        has-length-change="false"
-                        paging-type="simple"
-                        length-menu="[6]"
-                    >
-                        <x-slot name="headings">
-                            <th><abbr> # </abbr></th>
-                            <th><abbr> Month </abbr></th>
-                            <th class="has-text-right"><abbr> Companies </abbr></th>
-                        </x-slot>
-                        <x-slot name="body">
-                            @foreach (range(1, 12) as $month)
-                                <tr>
-                                    <td> {{ $loop->index + 1 }} </td>
-                                    <td> {{ now()->setMonth($month)->monthName }} </td>
-                                    <td class="has-text-right"> {{ $subscriptionReport->getSubscriptionsCountByMonths[$month] ?? 0 }} </td>
-                                </tr>
-                            @endforeach
-                        </x-slot>
-                    </x-common.client-datatable>
-                </div>
-            </div>
-            <div class="tile is-parent">
-                <div class="tile is-child box">
-                    <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
+                    <p class="text-softblue is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
                         <span class="icon mr-1">
                             <i class="fas fa-file-circle-xmark"></i>
                         </span>
@@ -199,12 +102,9 @@
                     </x-common.client-datatable>
                 </div>
             </div>
-        </div>
-
-        <div class="tile is-ancestor">
             <div class="tile is-parent">
                 <div class="tile is-child box">
-                    <p class="text-green is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
+                    <p class="text-softblue is-uppercase heading is-size-5 mb-5 has-text-weight-bold">
                         <span class="icon mr-1">
                             <i class="fas fa-filter"></i>
                         </span>
@@ -241,4 +141,9 @@
             </div>
         </div>
     </x-common.content-wrapper>
+
+    <script src="{{ $chart->cdn() }}"></script>
+    {{ $chart->script() }}
+    <script src="{{ $chartT->cdn() }}"></script>
+    {{ $chartT->script() }}
 @endsection

@@ -5,194 +5,94 @@ namespace App\Utilities;
 class PermissionCategorization
 {
     private const PERMISSION_CATEGORIES = [
-        'gdn' => [
-            'label' => 'Delivery Order',
-            'feature' => 'Gdn Management',
-            'include' => ['Read Sale Report'],
+        'branch' => [
+            'label' => 'Branch',
+            'feature' => 'Branch Management',
         ],
-        'grn' => [
-            'label' => 'Goods Received Note',
-            'feature' => 'Grn Management',
+
+        'academic year' => [
+            'label' => 'Academic Year',
+            'feature' => 'Academic Year',
         ],
-        'transfer' => [
-            'label' => 'Transfer',
-            'feature' => 'Transfer Management',
-            'exclude' => ['Employee'],
+
+        'section' => [
+            'label' => 'Section',
+            'feature' => 'Section Management',
         ],
-        'damage' => [
-            'label' => 'Damage',
-            'feature' => 'Damage Management',
+
+        'class' => [
+            'label' => 'Class',
+            'feature' => 'Class Management',
         ],
-        'adjustment' => [
-            'label' => 'Adjustment',
-            'feature' => 'Inventory Adjustment',
-            'exclude' => ['Compensation Adjustment'],
+
+        'student category' => [
+            'label' => 'Student Category',
+            'feature' => 'Student Category',
         ],
-        'siv' => [
-            'label' => 'Store Issue Voucher',
-            'feature' => 'Siv Management',
+
+        'student group' => [
+            'label' => 'Student Group',
+            'feature' => 'Student Group',
         ],
-        'inventory' => [
-            'label' => 'Inventory',
-            'feature' => 'Merchandise Inventory',
+
+        'student directory' => [
+            'label' => 'Student Directory',
+            'feature' => 'Student Directory',
         ],
-        'return' => [
-            'label' => 'Return',
-            'feature' => 'Return Management',
+
+        'route' => [
+            'label' => 'Route',
+            'feature' => 'Route Management',
         ],
-        'sale' => [
-            'label' => 'Invoice',
-            'feature' => 'Sale Management',
-            'include' => ['Read Profit Report'],
+
+        'vehicle' => [
+            'label' => 'Vehicle',
+            'feature' => 'Vehicle Management',
         ],
-        'proforma invoice' => [
-            'label' => 'Proforma Invoice',
-            'feature' => 'Proforma Invoice',
-        ],
-        'reservation' => [
-            'label' => 'Reservation',
-            'feature' => 'Reservation Management',
-        ],
-        'purchase' => [
-            'label' => 'Purchase',
-            'feature' => 'Purchase Management',
-        ],
-        'product' => [
-            'label' => 'Product & Category',
-            'feature' => 'Product Management',
-        ],
-        'warehouse' => [
-            'label' => 'Warehouse',
-            'feature' => 'Warehouse Management',
-        ],
+
         'employee' => [
             'label' => 'Employee',
             'feature' => 'User Management',
-            'exclude' => ['Employee Transfer'],
         ],
-        'supplier' => [
-            'label' => 'Supplier',
-            'feature' => 'Supplier Management',
-        ],
-        'customer' => [
-            'label' => 'Customer',
-            'feature' => 'Customer Management',
-            'exclude' => ['Customer Deposit'],
-        ],
-        'credit' => [
-            'label' => 'Credit',
-            'feature' => 'Credit Management',
-        ],
-        'price' => [
-            'label' => 'Price',
-            'feature' => 'Price Management',
-            'exclude' => ['Price Increment'],
-        ],
-        'tender' => [
-            'label' => 'Tender',
-            'feature' => 'Tender Management',
-        ],
-        'pad' => [
-            'label' => 'Pad',
-            'feature' => 'Pad Management',
-        ],
-        'custom field' => [
-            'label' => 'Custom Field Manager',
-            'feature' => 'Custom Field Management',
-        ],
+        
         'company' => [
             'label' => 'Company',
             'feature' => 'General Settings',
         ],
-        'bom' => [
-            'label' => 'Bill Of Material',
-            'feature' => 'Bill Of Material Management',
-        ],
-        'job' => [
-            'label' => 'Job',
-            'feature' => 'Job Management',
-        ],
+        
         'department' => [
             'label' => 'Department',
             'feature' => 'Department Management',
         ],
-        'employee transfer' => [
-            'label' => 'Employee Transfer',
-            'feature' => 'Employee Transfer',
+
+        'designation' => [
+            'label' => 'Designation',
+            'feature' => 'Designation Management',
         ],
-        'warning' => [
-            'label' => 'Warning',
-            'feature' => 'Warning Management',
+
+        'staff' => [
+            'label' => 'Staff',
+            'feature' => 'Staff Directory',
         ],
-        'attendance' => [
-            'label' => 'Attendance',
-            'feature' => 'Attendance Management',
+
+        'log' => [
+            'label' => 'Log',
+            'feature' => 'Log Management',
         ],
-        'leave' => [
-            'label' => 'Leave',
-            'feature' => 'Leave Management',
+
+        'fee group' => [
+            'label' => 'Fee Group',
+            'feature' => 'Fee Group',
         ],
-        'advancement' => [
-            'label' => 'Advancement',
-            'feature' => 'Advancement Management',
+
+        'fee type' => [
+            'label' => 'Fee Type',
+            'feature' => 'Fee Type',
         ],
-        'expense claim' => [
-            'label' => 'Expense Claim',
-            'feature' => 'Expense Claim',
-        ],
-        'announcement' => [
-            'label' => 'Announcement',
-            'feature' => 'Announcement Management',
-        ],
-        'compensation' => [
-            'label' => 'Compensation',
-            'feature' => 'Compensation Management',
-            'exclude' => ['Compensation Adjustment'],
-        ],
-        'compensation adjustment' => [
-            'label' => 'Compensation Adjustment',
-            'feature' => 'Compensation Adjustment',
-        ],
-        'debt' => [
-            'label' => 'Debt',
-            'feature' => 'Debt Management',
-        ],
-        'expense' => [
-            'label' => 'Expense',
-            'feature' => 'Expense Management',
-            'exclude' => ['Expense Claim'],
-        ],
-        'contact' => [
-            'label' => 'Contact',
-            'feature' => 'Contact Management',
-        ],
-        'price increment' => [
-            'label' => 'Price Increment',
-            'feature' => 'Price Increment',
-        ],
-        'brand' => [
-            'label' => 'Brand',
-            'feature' => 'Brand Management',
-        ],
-        'payroll' => [
-            'label' => 'Payroll',
-            'feature' => 'Payroll Management',
-        ],
-        'customer deposit' => [
-            'label' => 'Customer Deposit',
-            'feature' => 'Customer Deposit Management',
-        ],
-        'cost update' => [
-            'label' => 'Cost Update',
-            'feature' => 'Cost Update Management',
-        ],
-        'merchandise batch' => [
-            'label' => 'Batch',
-            'feature' => 'Batch Management',
-        ],
-        'exchange' => [
-            'label' => 'Exchange',
-            'feature' => 'Exchange Management',
+
+        'fee discount' => [
+            'label' => 'Fee Discount',
+            'feature' => 'Fee Discount',
         ],
     ];
 

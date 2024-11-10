@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Actions\CreateCompanyAction;
+use App\Actions\CreateSchoolAction;
 use App\DataTables\Admin\CompanyDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Models\Feature;
-use App\Models\Integration;
 use App\Models\Limit;
 use App\Models\Plan;
+use App\Models\SchoolType;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -24,7 +24,7 @@ class CompanyController extends Controller
 
         $companies = $enabledCompanies + $disabledCompanies;
 
-        return $datatable->render('admin.companies.index', compact('enabledCompanies', 'disabledCompanies', 'companies'));
+        return $datatable->render('admin.schools.index', compact('enabledCompanies', 'disabledCompanies', 'companies'));
     }
 
     public function create()
@@ -35,12 +35,12 @@ class CompanyController extends Controller
 
         $limits = Limit::all();
 
-        $integrations = Integration::enabled()->get();
+        $schoolTypes = SchoolType::all();
 
-        return view('admin.companies.create', compact('plans', 'limits', 'integrations'));
+        return view('admin.schools.create', compact('plans', 'limits','schoolTypes'));
     }
 
-    public function store(StoreCompanyRequest $request, CreateCompanyAction $createCompanyAction)
+    public function store(StoreCompanyRequest $request, CreateSchoolAction $createCompanyAction)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
@@ -49,23 +49,23 @@ class CompanyController extends Controller
 
             $user->employee->company->limits()->sync($request->validated('limit'));
 
-            $user->employee->company->integrations()->syncWithPivotValues($request->validated('integrations'), ['is_enabled' => 1]);
-
             return $user;
         });
 
-        return redirect()->route('admin.companies.show', $user->employee->company_id);
+        return redirect()->route('admin.schools.show', $user->employee->company_id);
     }
 
     public function edit(Company $company)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        $company->load(['plan']);
+        $company->load(['plan','schoolType']);
+
+        $schoolTypes = SchoolType::all();
 
         $plans = Plan::enabled()->get()->push($company->plan)->unique();
 
-        return view('admin.companies.edit', compact('company', 'plans'));
+        return view('admin.schools.edit', compact('company', 'plans', 'schoolTypes'));
     }
 
     public function update(UpdateCompanyRequest $request, Company $company)
@@ -74,12 +74,12 @@ class CompanyController extends Controller
 
         $company->update($request->validated());
 
-        return redirect()->route('admin.companies.show', $company);
+        return redirect()->route('admin.schools.show', $company);
     }
 
     public function show(Company $company)
     {
-        $company->load(['integrations', 'pads', 'customFields', 'limits', 'plan.limits', 'subscriptions']);
+        $company->load(['pads', 'limits', 'plan.limits', 'subscriptions']);
 
         $companyLimits = Limit::getAllLimitsOfCompany($company);
 
@@ -89,14 +89,10 @@ class CompanyController extends Controller
 
         $companyFeatures = $company->features()->get();
 
-        $integrations = Integration::enabled()->get();
-
         $features = Feature::all();
 
         $plans = Plan::enabled()->get()->push($company->plan)->unique();
 
-        $tables = ['brands', 'product_categories', 'products', 'contacts', 'customers', 'suppliers', 'purchases', 'prices', 'price_increments'];
-
-        return view('admin.companies.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits', 'integrations', 'features', 'tables', 'plans'));
+        return view('admin.schools.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits','features', 'plans'));
     }
 }

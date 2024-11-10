@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 // Permissions
 Route::controller(Action\PermissionController::class)
     ->name('permissions.')
-    ->prefix('/employees/{employee}/permissions')
+    ->prefix('/users/{employee}/permissions')
     ->group(function () {
         Route::get('/edit', 'edit')->name('edit');
         Route::patch('/', 'update')->name('update');
@@ -23,8 +23,9 @@ Route::controller(Action\NotificationController::class)
 
 
 // Import
-Route::post('/employees/import', [Action\EmployeeController::class, 'import'])->name('employees.import');
-Route::post('/warehouses/import', [Action\WarehouseController::class, 'import'])->name('warehouses.import');
+Route::post('/users/import', [Action\EmployeeController::class, 'import'])->name('users.import');
+
+Route::post('/branches/import', [Action\BranchController::class, 'import'])->name('branches.import');
 
 // Transaction
 Route::controller(Action\TransactionController::class)

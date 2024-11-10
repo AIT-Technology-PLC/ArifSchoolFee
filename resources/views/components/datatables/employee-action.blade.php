@@ -1,6 +1,6 @@
 <x-common.button
     tag="a"
-    href="{{ route('employees.show', $employee->id) }}"
+    href="{{ route('users.show', $employee->id) }}"
     mode="button"
     data-title="Profile"
     icon="fas fa-circle-user"
@@ -18,6 +18,6 @@
 
 <x-common.action-buttons
     :buttons="['edit', 'delete']"
-    model="employees"
+    model="users"
     :id="$employee->id"
 />

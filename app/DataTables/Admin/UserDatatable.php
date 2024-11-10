@@ -17,7 +17,8 @@ class UserDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('permissions', fn($user) => $user->permissions->pluck('name')->join(', '))
             ->editColumn('created_at', fn($user) => $user->created_at->toFormattedDateString())
-            ->editColumn('last_online_at', fn($user) => $user->last_online_at?->toDayDateTimeString() ?? 'New User')
+            ->editColumn('last_online_at', fn($user) => $user->last_online_at?->toDayDateTimeString() ?? 'New Admin')
+            ->editColumn('status', fn($user) => view('components.datatables.user-status', compact('user')))
             ->editColumn('actions', function ($user) {
                 return view('components.common.action-buttons', [
                     'model' => 'admin.users',
@@ -44,7 +45,7 @@ class UserDatatable extends DataTable
             Column::computed('#'),
             Column::make('name')->addClass('has-text-weight-bold'),
             Column::make('email'),
-            Column::make('permissions', 'permissions.name')->visible(false),
+            Column::make('status'),
             Column::make('created_at')->addClass('has-text-right')->title('Registration Date'),
             Column::make('last_online_at')->addClass('has-text-right')->title('Last Login'),
             Column::computed('actions')->className('actions'),

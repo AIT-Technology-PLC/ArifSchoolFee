@@ -22,7 +22,7 @@ class CompaniesChart
 
         return $this->chart->barChart()
             ->setTitle('Companies')
-            ->setSubtitle('User and Branch Count')
+            ->setSubtitle('User and Branch Data')
             ->addData('Users', $companies->pluck('employees_count')->toArray())
             ->addData('Branches', $companies->pluck('warehouses_count')->toArray())
             ->setXAxis($companies->pluck('name')->toArray())

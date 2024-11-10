@@ -84,165 +84,291 @@
         </li>
     </ul>
 
-    <ul
-        x-data="sideMenuAccordion"
-        class="menu-list mb-2"
-    >
-        <li>
-            <x-common.button
-                tag="a"
-                href="{{ route('admin.companies.index') }}"
-                class="text-blue is-size-6-5 has-text-left"
-                ::class="{ 'is-active': isAccordionActive }"
-                x-init="{{ request()->routeIs('admin.companies.*') ? 'activateAccordion' : '' }}"
-            >
-                <x-common.icon
-                    name="fas fa-school"
-                    class="pl-1"
-                />
-                <span class="ml-1"> Schools </span>
-            </x-common.button>
-        </li>
-    </ul>
-
-    
-
-    <ul
-        x-data="sideMenuAccordion"
-        class="menu-list mb-2"
-    >
-        <li>
-            <x-common.button
-                tag="button"
-                mode="button"
-                class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
-                ::class="{ 'is-active': isAccordionActive }"
-                @click="toggleAccordion"
-            >
-                <x-common.icon
-                    name="fas fa-bars"
-                    class="m-0"
-                />
-                <span class="ml-2"> Resource Management </span>
-                <span class="icon ml-auto">
-                    <i
-                        class="fas fa-caret-right"
-                        :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
-                    ></i>
-                </span>
-            </x-common.button>
-        </li>
-        <li>
-            <ul
-                class="mt-0 ml-5"
-                x-cloak
-                x-show="isAccordionOpen"
-                x-collapse
-            >
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.plans.index') }}"
-                        label="Plans"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.plans.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.plans.*') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.features.index') }}"
-                        label="Features"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.features.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.features.*') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.limits.index') }}"
-                        label="Resource"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.limits.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.limits.*') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-            </ul>
-        </li>
-    </ul>
-
-    <ul
-        x-data="sideMenuAccordion"
-        class="menu-list mb-2"
-    >
-        <li>
-            <x-common.button
-                tag="button"
-                mode="button"
-                class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
-                ::class="{ 'is-active': isAccordionActive }"
-                @click="toggleAccordion"
-            >
-                <x-common.icon
-                    name="fas fa-chart-pie"
-                    class="m-0"
-                />
-                <span class="ml-2"> Report and Analytics </span>
-                <span class="icon ml-auto">
-                    <i
-                        class="fas fa-caret-right"
-                        :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
-                    ></i>
-                </span>
-            </x-common.button>
-        </li>
-        <li>
-            <ul
-                class="mt-0 ml-5"
-                x-cloak
-                x-show="isAccordionOpen"
-                x-collapse
-            >
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.reports.users') }}"
-                        label="Users"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.users') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.reports.user') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.reports.subscriptions') }}"
-                        label="Subscriptions"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.subscriptions') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.reports.subscriptions') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-            </ul>
-        </li>
-    </ul>
-
-    @can('Manage Admin Panel Users')
+    @can(['Manage Admin Panel Users'])
         <ul
             x-data="sideMenuAccordion"
             class="menu-list mb-2"
         >
             <li>
                 <x-common.button
-                    tag="a"
-                    href="{{ route('admin.users.index') }}"
-                    class="text-blue is-size-6-5 has-text-left"
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
                     ::class="{ 'is-active': isAccordionActive }"
-                    x-init="{{ request()->routeIs('admin.users.*') ? 'activateAccordion' : '' }}"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-school"
+                        class="m-0"
+                    />
+                    <span class="ml-2"> School Management </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.schools.index') }}"
+                            label="School Account"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.schools.index') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.schools.index') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.schools.pending') }}"
+                            label="Pending Request"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.schools.pending') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.schools.pending') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.school-types.index') }}"
+                            label="School Type"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.school-types.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.school-types.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
+
+    @can(['Manage Admin Panel Users'])
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-credit-card"
+                        class="m-0"
+                    />
+                    <span class="ml-2"> Subscription Management </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.plans.index') }}"
+                            label="Plan"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.plans.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.plans.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
+    
+    @can(['Manage Admin Panel Users'])
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-project-diagram"
+                        class="m-0"
+                    />
+                    <span class="ml-2"> Resource Management </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.features.index') }}"
+                            label="Features"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.features.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.features.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.limits.index') }}"
+                            label="Resource"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.limits.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.limits.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
+
+    @can(['Manage Admin Panel Users'])
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-chart-pie"
+                        class="m-0"
+                    />
+                    <span class="ml-2"> Report and Analytics </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.reports.subscriptions') }}"
+                            label="Subscriptions"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.subscriptions') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.reports.subscriptions') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.reports.users') }}"
+                            label="Users"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.reports.users') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.reports.users') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
+
+    @can(['Manage Admin Panel Users'])
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
                 >
                     <x-common.icon
                         name="fas fa-user-group"
-                        class="pl-1"
+                        class="m-0"
                     />
-                    <span class="ml-1"> Admins </span>
+                    <span class="ml-2"> User Management </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
                 </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('admin.users.index') }}"
+                                label="Admin Account"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.users.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('admin.users.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('admin.login-permissions.index') }}"
+                                label="Login Permission"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.login-permissions.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('admin.login-permissions.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('admin.roles.index') }}"
+                                label="Role Management"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.roles.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('admin.roles.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                </ul>
             </li>
         </ul>
     @endcan

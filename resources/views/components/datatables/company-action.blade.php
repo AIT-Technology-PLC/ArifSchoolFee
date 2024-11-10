@@ -1,12 +1,12 @@
 <x-common.action-buttons
     :buttons="['details']"
-    model="admin.companies"
+    model="admin.schools"
     :id="$company->id"
 />
 
 <x-common.button
     tag="a"
-    href="{{ route('admin.companies.report', $company->id) }}"
+    href="{{ route('admin.schools.report', $company->id) }}"
     mode="button"
     data-title="Report"
     icon="fas fa-chart-pie"

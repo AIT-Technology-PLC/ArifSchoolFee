@@ -24,7 +24,7 @@
                         tag="button"
                         mode="button"
                         label="Clear Filters"
-                        class="is-small btn-blue is-outlined is-rounded"
+                        class="is-small btn-softblue is-outlined is-rounded"
                         x-on:click="clear"
                     />
                     <x-common.button
