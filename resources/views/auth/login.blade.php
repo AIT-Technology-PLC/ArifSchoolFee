@@ -68,7 +68,7 @@
                                     <button
                                         id="saveButton"
                                         type="submit"
-                                        class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-3 px-3"
+                                        class="button has-text-white bg-softblue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold py-3 px-3"
                                     >
                                         <span class="icon">
                                             <i class="fas fa-lock"></i>

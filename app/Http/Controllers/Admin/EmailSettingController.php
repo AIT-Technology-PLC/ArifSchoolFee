@@ -26,6 +26,6 @@ class EmailSettingController extends Controller
             $request->validated()
         );
 
-        return redirect()->route('admin.email-settings.create')->with('successMessage', 'Email Setting updated successfully.');
+        return redirect()->route('admin.email-settings.create')->with('successMessage', 'Email Setting Created Successfully.');
     }
 }

@@ -6,7 +6,7 @@
     <x-common.content-wrapper>
         <x-content.header>
             <x-slot name="header">
-                <span class="tag bg-blue has-text-white has-text-weight-normal ml-1 m-lr-0">
+                <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
                     <x-common.icon name="fas fa-pen" />
                     <span>
                         Edit Academic Year

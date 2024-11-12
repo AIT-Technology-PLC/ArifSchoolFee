@@ -2,15 +2,13 @@
 
 namespace App\Providers;
 
-use App\Listeners\TransferEventSubscriber;
-use App\Models\CustomField;
-use App\Models\Returnn;
-use App\Policies\ReturnPolicy;
+use App\Models\EmailSetting;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Yajra\DataTables\EloquentDataTable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,14 +21,26 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultSimpleView('pagination::simple-default');
 
-        EloquentDataTable::macro('customColumns', function ($modelType) {
-            $customFields = CustomField::active()->visibleOnColumns()->where('model_type', $modelType)->get();
-
-            foreach ($customFields as $customField) {
-                static::editColumn($customField->label, fn($model) => $model->customFieldValue($customField->id));
-            }
-
-            return static::addIndexColumn();
-        });
+        try {
+            $email = EmailSetting::firstOrFail();
+    
+            $data = [
+                'driver' => $email->mail_driver,
+                'host' => $email->mail_host,
+                'port' => $email->mail_port,
+                'encryption' => $email->mail_encryption,
+                'username' => $email->mail_username,
+                'password' => $email->mail_password, 
+                'verify_peer' => false,
+                'from' => [
+                    'address' => $email->from_mail,
+                    'name' => $email->from_name,
+                ]
+            ];
+    
+            Config::set('mail', $data);
+        } catch (\Exception $e) {
+            Log::error('Failed to set mail configuration: ' . $e->getMessage());
+        }
     }
 }

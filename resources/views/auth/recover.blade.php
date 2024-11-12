@@ -46,7 +46,7 @@
                                 <div class="control">
                                     <button id="saveButton" 
                                             type="submit" 
-                                            class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
+                                            class="button has-text-white bg-softblue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
                                         <span class="icon">
                                             <i class="fas fa-arrow-right"></i>
                                         </span>
@@ -58,7 +58,7 @@
                                 <div class="control">
                                     <button id="backButton" 
                                             type="button" 
-                                            class="button has-text-white bg-blue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
+                                            class="button has-text-white bg-softblue is-fullwidth is-uppercase is-size-6 has-text-weight-semibold">
                                         <span class="icon">
                                             <i class="fas fa-arrow-left"></i>
                                         </span>

@@ -433,6 +433,15 @@
                         x-init="{{ request()->routeIs('admin.caches.*') ? 'activateAccordion' : '' }}"
                     />
                 </li>
+                <li>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('admin.sms-settings.create') }}"
+                        label="SMS Setting"
+                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.sms-settings.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                        x-init="{{ request()->routeIs('admin.sms-settings.*') ? 'activateAccordion' : '' }}"
+                    />
+                </li>
             </ul>
         </li>
     </ul>

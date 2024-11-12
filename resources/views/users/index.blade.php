@@ -30,7 +30,7 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Employees">
+        <x-content.header title="Users">
             @can('Import Employee')
                 <x-common.button
                     tag="button"

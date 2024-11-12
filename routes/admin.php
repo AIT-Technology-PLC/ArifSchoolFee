@@ -54,6 +54,8 @@ Route::controller(Admin\CompanyPendingController::class)
 
 Route::resource('email-settings', Admin\EmailSettingController::class)->only(['create', 'store']);
 
+Route::resource('sms-settings', Admin\SmsSettingController::class)->only(['create', 'store']);
+
 //Cache Setting
 Route::get('/caches/index', [Admin\CacheController::class, 'index'])->name('caches.index');
 Route::get('clear-view-cache', [Admin\CacheController::class, 'clearViewCache'])->name('cache.clearViewCache');
