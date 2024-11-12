@@ -70,7 +70,7 @@ class Features extends Seeder
         );
 
         Feature::updateOrCreate(
-            ['name' => 'Staff Directory'],
+            ['name' => 'Staff Management'],
             ['is_enabled' => 1]
         );
 
@@ -110,7 +110,7 @@ class Features extends Seeder
         );
 
         Feature::updateOrCreate(
-            ['name' => 'Student Directory'],
+            ['name' => 'Student Management'],
             ['is_enabled' => 1]
         );
 
@@ -150,7 +150,7 @@ class Features extends Seeder
             'User Management',
             'Designation Management',
             'Department Management',
-            'Staff Directory',
+            'Staff Management',
             'General Settings',
             'Notification Management',
             'Employee Management',
@@ -158,7 +158,7 @@ class Features extends Seeder
             'Log Management',
             'Student Category',
             'Student Group',
-            'Student Directory',
+            'Student Management',
             'Fee Group',
             'Fee Type',
             'Fee Discount',
@@ -179,20 +179,19 @@ class Features extends Seeder
                     'Academic Year',
                     'Section Management',
                     'Class Management',
-                    'Class Management',
                     'Fee Group',
                     'Fee Type',
                     'Fee Discount',
                     'Fee Master',
                     'Student Category',
                     'Student Group',
-                    'Student Directory',
+                    'Student Management',
                     'Route Management',
                     'Vehicle Management',
                     'User Management',
                     'Designation Management',
                     'Department Management',
-                    'Staff Directory',
+                    'Staff Management',
                     'General Settings',
                     'Notification Management',
                     'Push Notification',

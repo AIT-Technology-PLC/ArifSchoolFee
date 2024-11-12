@@ -272,7 +272,7 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Student Category','Student Group','Student Directory'))
+    @if (isFeatureEnabled('Student Category','Student Group','Student Management'))
         @canany(['Read Student Category','Read Student Group','Read Student Directory'])
         <ul
             x-data="sideMenuAccordion"
@@ -333,7 +333,7 @@
                             </li>
                         @endcan
                     @endif
-                    @if (isFeatureEnabled('Student Directory'))
+                    @if (isFeatureEnabled('Student Management'))
                         @can('Read Student Directory')
                             <li>
                                 <x-common.button
@@ -352,8 +352,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Designation Management','Department Management', 'Staff Directory'))
-        @canany(['Read Designation','Read Department','Read Staff Directory'])
+    @if (isFeatureEnabled('Designation Management','Department Management', 'Staff Management'))
+        @canany(['Read Designation','Read Department','Read Staff'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -412,7 +412,7 @@
                                 </li>
                             @endcan
                         @endif
-                        @if (isFeatureEnabled('Staff Directory'))
+                        @if (isFeatureEnabled('Staff Management'))
                             @can('Read Staff')
                                 <li>
                                     <x-common.button
@@ -620,7 +620,7 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                        @if (isFeatureEnabled('User Management') && !isFeatureEnabled('Employee Management'))
+                        @if (isFeatureEnabled('User Management') && isFeatureEnabled('Employee Management'))
                             @can('Read Employee')
                                 <li>
                                     <x-common.button

@@ -11,15 +11,15 @@ use App\Models\Subscription;
 
 class CompanySubscriptionController extends Controller
 {
-    public function store(StoreSubscriptionRequest $request, Company $company)
+    public function store(StoreSubscriptionRequest $request, Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Subscriptions'), 403);
 
-        if (!$company->canCreateNewSubscription()) {
+        if (!$school->canCreateNewSubscription()) {
             return back()->with('failedMessage', 'Subscription can be created if current subscription has less than 30 days left.');
         }
 
-        $company->subscriptions()->create($request->validated());
+        $school->subscriptions()->create($request->validated());
 
         return back()->with('successMessage', 'New subscription is created.');
     }

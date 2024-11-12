@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Charts\CompaniesUserEngagementChart;
+use App\Charts\CompaniesBranchEngagementChart;
+use App\Charts\UsersPerBranchChart;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Reports\Admin\EngagementReport;
-use App\Reports\Admin\TransactionReport;
 
 class CompanyEngagementReportController extends Controller
 {
-    public function __invoke(Company $company)
+    public function __invoke(Company $school)
     {
-        $engagementReport = new EngagementReport(['company_id' => $company->id]);
+        $engagementReport = new EngagementReport(['company_id' => $school->id]);
 
-        $transactionReport = new TransactionReport(['company_id' => $company->id]);
+        $chart = new CompaniesUserEngagementChart($engagementReport);
 
-        return view('admin.companies.report', compact('company', 'engagementReport', 'transactionReport'));
+        $chartT = new CompaniesBranchEngagementChart($engagementReport);
+
+        $chartD = new UsersPerBranchChart($engagementReport);
+
+        return view('admin.schools.report', 
+                ['chart' => $chart->build(),'chartT' => $chartT->build(),'chartD' => $chartD->build()], 
+                compact('school', 'engagementReport'));
     }
 }

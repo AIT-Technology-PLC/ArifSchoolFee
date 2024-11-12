@@ -121,64 +121,64 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="company_email">
+                                <x-forms.label for="email">
                                     Email <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="company_email"
-                                        name="company_email"
-                                        type="company_email"
+                                        id="email"
+                                        name="email"
+                                        type="email"
                                         placeholder="School Email Address"
-                                        value="{{ old('company_email') }}"
+                                        value="{{ old('email') }}"
                                     />
                                     <x-common.icon
                                         name="fas fa-at"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="company_email" />
+                                    <x-common.validation-error property="email" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="company_phone">
+                                <x-forms.label for="phone">
                                     Phone <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="company_phone"
-                                        name="company_phone"
+                                        id="phone"
+                                        name="phone"
                                         type="number"
                                         placeholder="Phone/Telephone"
-                                        value="{{ old('company_phone') }}"
+                                        value="{{ old('phone') }}"
                                     />
                                     <x-common.icon
                                         name="fas fa-phone"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="company_phone" />
+                                    <x-common.validation-error property="phone" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="company_address">
+                                <x-forms.label for="address">
                                     Address <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="company_address"
-                                        name="company_address"
+                                        id="address"
+                                        name="address"
                                         type="text"
                                         placeholder="Address"
-                                        value="{{ old('company_address') }}"
+                                        value="{{ old('address') }}"
                                     />
                                     <x-common.icon
                                         name="fas fa-map-marker-alt"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="company_address" />
+                                    <x-common.validation-error property="address" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
@@ -248,66 +248,66 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="phone">
+                                <x-forms.label for="user.phone">
                                     Phone <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="phone"
-                                        name="phone"
+                                        id="user.phone"
+                                        name="user[phone]"
                                         type="number"
                                         placeholder="Phone"
-                                        value="{{ old('phone') }}"
+                                        value="{{ old('user.phone') }}"
                                         autocomplete="phone"
                                     />
                                     <x-common.icon
                                         name="fas fa-phone"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="phone" />
+                                    <x-common.validation-error property="user.phone" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="address">
+                                <x-forms.label for="user.address">
                                     Address <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="address"
-                                        name="address"
+                                        id="user.address"
+                                        name="user[address]"
                                         type="text"
                                         placeholder="Address"
-                                        value="{{ old('address') }}"
+                                        value="{{ old('user.address') }}"
                                         autocomplete="address"
                                     />
                                     <x-common.icon
                                         name="fas fa-map-marker-alt"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="address" />
+                                    <x-common.validation-error property="user.address" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
-                                <x-forms.label for="email">
+                                <x-forms.label for="user.email">
                                     Admin Email <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        id="email"
-                                        name="email"
+                                        id="user.email"
+                                        name="user[email]"
                                         type="email"
                                         placeholder="example@gmail.com"
-                                        value="{{ old('email') }}"
+                                        value="{{ old('user.email') }}"
                                     />
                                     <x-common.icon
                                         name="fas fa-at"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="email" />
+                                    <x-common.validation-error property="user.email" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

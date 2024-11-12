@@ -15,9 +15,9 @@ class UpdateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'currency' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'max:30', 'unique:users'],
-            'phone' => ['nullable', 'number', 'max:15'],
+            'currency' => ['required', 'string', 'max:30'],
+            'email' => ['nullable', 'string', 'email', 'max:30', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
+            'phone' => ['nullable', 'string', 'max:15', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:50'],
             'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
             'can_show_branch_detail_on_print' => ['required', 'boolean'],

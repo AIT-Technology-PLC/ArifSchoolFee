@@ -33,7 +33,11 @@ Route::resource('limits', Admin\LimitController::class)->only('index');
 
 Route::resource('features', Admin\FeatureController::class)->only('index');
 
+Route::resource('subscriptions', Admin\SubscriptionController::class)->only('index');
+
 Route::resource('plans', Admin\PlanController::class)->except(['destroy']);
+
+Route::resource('schools', Admin\CompanyController::class)->only('index');
 
 Route::resource('school-types', Admin\SchoolTypeController::class)->except(['show']);
 
@@ -47,3 +51,12 @@ Route::controller(Admin\CompanyPendingController::class)
     ->group(function () {
         Route::get('/pending', 'pending')->name('pending');
     });
+
+Route::resource('email-settings', Admin\EmailSettingController::class)->only(['create', 'store']);
+
+//Cache Setting
+Route::get('/caches/index', [Admin\CacheController::class, 'index'])->name('caches.index');
+Route::get('clear-view-cache', [Admin\CacheController::class, 'clearViewCache'])->name('cache.clearViewCache');
+Route::get('clear-route-cache', [Admin\CacheController::class, 'clearRouteCache'])->name('cache.clearRouteCache');
+Route::get('clear-config-cache', [Admin\CacheController::class, 'clearConfigCache'])->name('cache.clearConfigCache');
+Route::get('clear-all-cache', [Admin\CacheController::class, 'clearCache'])->name('cache.clearCache');

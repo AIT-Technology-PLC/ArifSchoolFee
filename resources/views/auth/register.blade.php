@@ -12,7 +12,7 @@
                     <div class="column is-5">
                         <div class="has-text-centered">
                             <h1 class="has-text-white has-text-weight-light is-size-2 is-size-3-mobile mb-4">
-                                Smart<span class="has-text-weight-bold">Work&trade;</span>
+                                Ait<span class="has-text-weight-bold">SchoolPayment&trade;</span>
                             </h1>
                         </div>
                         <div
@@ -29,7 +29,7 @@
                                     <label
                                         for="company_name"
                                         class="label has-text-white is-uppercase is-size-7"
-                                    > Company Name </label>
+                                    > School Name </label>
                                     <div class="control">
                                         <input
                                             id="company_name"

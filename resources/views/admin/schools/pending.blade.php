@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pending List')
+@section('title', 'Pending Request')
 
 @section('content')
     <x-common.content-wrapper>

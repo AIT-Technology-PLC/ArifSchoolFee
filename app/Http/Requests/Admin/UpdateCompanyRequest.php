@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Plan;
+use App\Models\SchoolType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,6 +19,7 @@ class UpdateCompanyRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'plan_id' => ['required', 'integer', Rule::in(Plan::pluck('id'))],
+            'school_type_id' => ['required', 'integer', Rule::in(SchoolType::pluck('id'))],
         ];
     }
 }

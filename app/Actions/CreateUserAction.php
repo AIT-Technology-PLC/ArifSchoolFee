@@ -32,7 +32,7 @@ class CreateUserAction
         return DB::transaction(function () use ($data) {
             $user = $this->createNewUser($data);
 
-            $user->employee()->create(Arr::only($data, ['enabled', 'gender', 'address', 'phone']));
+            $user->employee()->create(Arr::only($data, ['position','enabled', 'gender', 'address', 'phone']));
 
             $this->action->execute(
                 $user,

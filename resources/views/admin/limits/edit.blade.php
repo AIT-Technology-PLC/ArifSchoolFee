@@ -15,7 +15,7 @@
             <x-content.header title="Manage Resources" />
             <form
                 id="manage-resources"
-                action="{{ route('admin.companies.limits.update', $company->id) }}"
+                action="{{ route('admin.schools.limits.update', $school->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate
@@ -35,7 +35,7 @@
                                             name="limit[{{ $limit->id }}][amount]"
                                             type="number"
                                             placeholder="Number of {{ str($limit->name)->title()->plural() }}"
-                                            value="{{ old('limit')[$limit->id]['amount'] ?? ($limit->getLimitAmountOfCompany($company) ?? null) }}"
+                                            value="{{ old('limit')[$limit->id]['amount'] ?? ($limit->getLimitAmountOfCompany($school) ?? null) }}"
                                         />
                                         <x-common.icon
                                             name="fas fa-cubes"

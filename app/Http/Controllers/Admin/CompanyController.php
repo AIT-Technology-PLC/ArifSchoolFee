@@ -18,13 +18,15 @@ class CompanyController extends Controller
 {
     public function index(CompanyDatatable $datatable)
     {
-        $enabledCompanies = Company::enabled()->count();
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        $disabledCompanies = Company::disabled()->count();
+        $enabledSchools = Company::enabled()->count();
 
-        $companies = $enabledCompanies + $disabledCompanies;
+        $disabledSchools = Company::disabled()->count();
 
-        return $datatable->render('admin.schools.index', compact('enabledCompanies', 'disabledCompanies', 'companies'));
+        $schools = $enabledSchools + $disabledSchools;
+
+        return $datatable->render('admin.schools.index', compact('enabledSchools', 'disabledSchools', 'schools'));
     }
 
     public function create()
@@ -55,44 +57,44 @@ class CompanyController extends Controller
         return redirect()->route('admin.schools.show', $user->employee->company_id);
     }
 
-    public function edit(Company $company)
+    public function edit(Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        $company->load(['plan','schoolType']);
+        $school->load(['plan','schoolType']);
 
         $schoolTypes = SchoolType::all();
 
-        $plans = Plan::enabled()->get()->push($company->plan)->unique();
+        $plans = Plan::enabled()->get()->push($school->plan)->unique();
 
-        return view('admin.schools.edit', compact('company', 'plans', 'schoolTypes'));
+        return view('admin.schools.edit', compact('school', 'plans', 'schoolTypes'));
     }
 
-    public function update(UpdateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        $company->update($request->validated());
+        $school->update($request->validated());
 
-        return redirect()->route('admin.schools.show', $company);
+        return redirect()->route('admin.schools.show', $school);
     }
 
-    public function show(Company $company)
+    public function show(Company $school)
     {
-        $company->load(['pads', 'limits', 'plan.limits', 'subscriptions']);
+        $school->load(['limits', 'plan.limits', 'subscriptions']);
 
-        $companyLimits = Limit::getAllLimitsOfCompany($company);
+        $schoolLimits = Limit::getAllLimitsOfCompany($school);
+
+        $planFeatures = $school->plan->features()->get();
+
+        $schoolFeatures = $school->features()->get();
 
         $limits = Limit::all();
 
-        $planFeatures = $company->plan->features()->get();
-
-        $companyFeatures = $company->features()->get();
-
         $features = Feature::all();
 
-        $plans = Plan::enabled()->get()->push($company->plan)->unique();
+        $plans = Plan::enabled()->get()->push($school->plan)->unique();
 
-        return view('admin.schools.show', compact('company', 'companyLimits', 'planFeatures', 'companyFeatures', 'limits','features', 'plans'));
+        return view('admin.schools.show', compact('school', 'schoolLimits', 'planFeatures', 'schoolFeatures', 'limits','features', 'plans'));
     }
 }

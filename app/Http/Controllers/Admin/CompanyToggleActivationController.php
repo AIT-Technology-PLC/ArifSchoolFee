@@ -7,11 +7,11 @@ use App\Models\Company;
 
 class CompanyToggleActivationController extends Controller
 {
-    public function __invoke(Company $company)
+    public function __invoke(Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Activation'), 403);
 
-        $company->toggleActivation();
+        $school->toggleActivation();
 
         return back();
     }

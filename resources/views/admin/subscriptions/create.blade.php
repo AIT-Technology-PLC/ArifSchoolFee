@@ -15,7 +15,7 @@
             <x-content.header title="Create Subscription" />
             <form
                 id="manage-subscriptions"
-                action="{{ route('admin.companies.subscriptions.store', $company->id) }}"
+                action="{{ route('admin.schools.subscriptions.store', $school->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate
@@ -41,9 +41,9 @@
                                         @foreach ($plans as $plan)
                                             <option
                                                 value="{{ $plan->id }}"
-                                                @selected($plan->id == old('plan_id', $company->plan_id))
+                                                @selected($plan->id == old('plan_id', $school->plan_id))
                                             >
-                                                {{ $plan->name }}
+                                                {{ str()->ucfirst($plan->name) }}
                                             </option>
                                         @endforeach
                                     </x-forms.select>

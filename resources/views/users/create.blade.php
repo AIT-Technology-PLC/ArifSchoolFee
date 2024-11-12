@@ -220,6 +220,27 @@
                     </div>
                     <div class="column is-6-mobile is-4-tablet is-4-desktop">
                         <x-forms.field>
+                            <x-forms.label for="position">
+                                Position <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="position"
+                                    name="position"
+                                    type="text"
+                                    placeholder="User position"
+                                    value="{{ old('position') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-user-tie"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="position" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6-mobile is-4-tablet is-4-desktop">
+                        <x-forms.field>
                             <x-forms.label for="role">
                                 Choose Role <sup class="has-text-danger">*</sup>
                             </x-forms.label>

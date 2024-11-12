@@ -1,10 +1,10 @@
-@if ($school->isEnabled())
+@if ($subscription->isApproved())
     <span class="tag bg-lightgreen text-green has-text-weight-medium">
         <span class="icon">
             <i class="fas fa-dot-circle"></i>
         </span>
         <span>
-            Enabled
+            Approved
         </span>
     </span>
 @else
@@ -13,7 +13,7 @@
             <i class="fas fa-warning"></i>
         </span>
         <span>
-            Disabled
+            Waiting Approval
         </span>
     </span>
 @endif

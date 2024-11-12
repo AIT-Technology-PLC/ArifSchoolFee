@@ -17,28 +17,28 @@ class PendingCompanyDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($company) => route('admin.companies.show', $company->id),
+                'data-url' => fn($school) => route('admin.schools.show', $school->id),
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
-            ->editColumn('name', fn($company) => str()->ucfirst($company->name))
-            ->editColumn('status', fn($company) => view('components.datatables.company-status', compact('company')))
-            ->editColumn('plan', fn($company) => str()->ucfirst($company->plan->name))
-            ->editColumn('type', fn($company) => str()->ucfirst($company->schoolType->name))
-            ->editColumn('created_at', fn($company) => $company->created_at->toFormattedDateString())
-            ->editColumn('actions', function ($company) {
+            ->editColumn('name', fn($school) => str()->ucfirst($school->name))
+            ->editColumn('status', fn($school) => view('components.datatables.company-status', compact('school')))
+            ->editColumn('plan', fn($school) => str()->ucfirst($school->plan->name))
+            ->editColumn('type', fn($school) => str()->ucfirst($school->schoolType->name))
+            ->editColumn('created_at', fn($school) => $school->created_at->toFormattedDateString())
+            ->editColumn('actions', function ($school) {
                 return view('components.common.action-buttons', [
                     'model' => 'admin.schools',
-                    'id' => $company->id,
+                    'id' => $school->id,
                     'buttons' => ['details'],
                 ]);
             })
             ->addIndexColumn();
     }
 
-    public function query(Company $company)
+    public function query(Company $school)
     {
-        return $company
+        return $school
             ->newQuery()
             ->select('companies.*')
             ->disabled()

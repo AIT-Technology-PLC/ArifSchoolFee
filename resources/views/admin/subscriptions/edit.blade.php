@@ -36,7 +36,7 @@
                                             value="{{ $plan->id }}"
                                             @selected($plan->id == old('plan_id', $subscription->plan_id))
                                         >
-                                            {{ $plan->name }}
+                                            {{ str()->ucfirst($plan->name) }}
                                         </option>
                                     @endforeach
                                 </x-forms.select>

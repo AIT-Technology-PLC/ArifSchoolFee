@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Companies')
+@section('title', 'Schools')
 
 @section('content')
     <div class="columns is-marginless is-multiline">
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Schools"
-                :amount="$companies"
+                :amount="$schools"
                 icon="fas fa-school"
             />
         </div>
@@ -15,7 +15,7 @@
             <x-common.total-model
                 model="Enabled"
                 box-color="bg-green"
-                :amount="$enabledCompanies"
+                :amount="$enabledSchools"
                 icon="fas fa-check"
             />
         </div>
@@ -23,7 +23,7 @@
             <x-common.total-model
                 model="Deactivated"
                 box-color="bg-purple"
-                :amount="$disabledCompanies"
+                :amount="$disabledSchools"
                 icon="fas fa-ban"
             />
         </div>

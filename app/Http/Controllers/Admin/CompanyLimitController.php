@@ -8,11 +8,11 @@ use App\Models\Company;
 
 class CompanyLimitController extends Controller
 {
-    public function __invoke(UpdateCompanyLimitRequest $request, Company $company)
+    public function __invoke(UpdateCompanyLimitRequest $request, Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        $company->limits()->sync(
+        $school->limits()->sync(
             collect($request->validated('limit'))->whereNotNull('amount')->toArray()
         );
 

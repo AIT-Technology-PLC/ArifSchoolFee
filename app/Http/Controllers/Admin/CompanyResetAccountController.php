@@ -9,96 +9,79 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyResetAccountController extends Controller
 {
-    public function __invoke(CompanyResetAccountRequest $request, Company $company)
+    public function __invoke(CompanyResetAccountRequest $request, Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Resets'), 403);
 
-        if (!$company->isInTraining()) {
+        if (!$school->isInTraining()) {
             return back()->with('failedMessage', 'Account is in LIVE mode and can not be reset.');
         }
 
-        DB::transaction(function () use ($request, $company) {
-            if ($request->validated('reset_inventory')) {
-                $this->resetInventory($company);
+        DB::transaction(function () use ($request, $school) {
+            if ($request->validated('reset_master')) {
+                $this->resetMasterData($school);
             }
 
             if ($request->validated('reset_finance')) {
-                $this->resetFinance($company);
+                $this->resetFinance($school);
             }
 
-            if ($request->validated('reset_pad')) {
-                $this->resetPad($company);
-            }
-
-            $this->resetByTables($company, $request->validated('tables'));
+            $this->resetByTables($school, $request->validated('tables'));
         });
 
         return back()->with('successMessage', 'Account has been resetted as ordered.');
     }
 
-    private function resetInventory($company)
+    private function resetMasterData($school)
     {
-        $company->grns()->forceDelete();
+        $school->academicYears()->forceDelete();
 
-        $company->gdns()->forceDelete();
+        $school->academicYears()->forceDelete();
 
-        $company->sales()->forceDelete();
+        $school->sections()->forceDelete();
 
-        $company->transfers()->forceDelete();
+        $school->schoolClasses()->forceDelete();
 
-        $company->damages()->forceDelete();
+        $school->vehicles()->forceDelete();
 
-        $company->returns()->forceDelete();
+        $school->routes()->forceDelete();
 
-        $company->adjustments()->forceDelete();
+        $school->studentCategories()->forceDelete();
 
-        $company->reservations()->forceDelete();
+        $school->studentGroups()->forceDelete();
 
-        $company->transactions()->whereRelation('pad', 'inventory_operation_type', '<>', 'none')->forceDelete();
+        $school->students()->forceDelete();
 
-        $company->jobs()->forceDelete();
+        $school->designations()->forceDelete();
 
-        $company->sivs()->forceDelete();
+        $school->departments()->forceDelete();
 
-        $company->merchandises()->forceDelete();
+        $school->staffs()->forceDelete();
 
-        $company->inventoryHistories()->forceDelete();
+        $school->feeGroups()->forceDelete();
 
-        $company->inventoryValuationBalances()->forceDelete();
+        $school->feeTypes()->forceDelete();
 
-        $company->inventoryValuationHistories()->forceDelete();
+        $school->feeDiscounts()->forceDelete();
 
-        $company->products()->update([
-            'average_unit_cost' => 0,
-            'fifo_unit_cost' => 0,
-            'lifo_unit_cost' => 0,
-        ]);
+        $school->feeMasters()->forceDelete();
+
+        $school->userLogs()->forceDelete();
     }
 
-    private function resetFinance($company)
+    private function resetFinance($school)
     {
-        $company->credits()->forceDelete();
-
-        $company->debts()->forceDelete();
-
-        $company->customerDeposits()->forceDelete();
-
-        $company->customers()->update(['balance' => 0]);
+        $school->feeMasters()->forceDelete();
     }
 
-    private function resetPad($company)
-    {
-        $company->transactions()->whereRelation('pad', 'inventory_operation_type', 'none')->forceDelete();
-    }
-
-    private function resetByTables($company, $tables)
+    private function resetByTables($school, $tables)
     {
         if (!is_array($tables)) {
             return;
         }
 
         foreach ($tables as $table) {
-            DB::table($table)->where('company_id', $company->id)->delete();
+            DB::table($table)->where('company_id', $school->id)->delete();
         }
     }
 }

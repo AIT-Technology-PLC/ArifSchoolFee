@@ -19,8 +19,12 @@ class CreateSchoolAction
     {
         $company = Company::create([
             'name' => $data['company_name'],
-            'currency' => 'ETB',
+            'school_type_id' => $data['school_type_id'] ?? null,
+            'email' => $data['email'] ?? null,
+            'phone' => $data['phone'] ?? null,
+            'address' => $data['address'] ?? null,
             'enabled' => 0,
+            'currency' => 'ETB',
         ]);
 
         $subscription = $company->subscriptions()->create($data['subscriptions']);
@@ -35,17 +39,16 @@ class CreateSchoolAction
         ]);
 
         $user = $this->action->execute([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
+            'name' => $data['name'] ?? $data['user']['name'],
+            'email' => $data['email'] ?? $data['user']['email'],
+            'password' => $data['password'] ?? $data['user']['password'],
             'warehouse_id' => $warehouse->id,
+            'gender' => $data['gender'] ?? 'male',
+            'address' => $data['user']['address'] ?? 'Unknown',
+            'phone' => $data['user']['phone'] ?? null,
             'enabled' => 1,
-            'position' => 'AIT Support Team',
+            'position' => 'Admin Support Account',
             'role' => 'System Manager',
-            'gender' => 'male',
-            'address' => 'Addis Ababa, Ethiopia',
-            'job_type' => 'remote',
-            'phone' => '0966020599',
         ]);
 
         $user->employee->company()->associate($company)->save();

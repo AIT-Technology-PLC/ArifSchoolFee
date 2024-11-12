@@ -15,7 +15,7 @@
             <x-content.header title="Manage Features" />
             <form
                 id="manage-features"
-                action="{{ route('admin.companies.features.update', $company->id) }}"
+                action="{{ route('admin.schools.features.update', $school->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate

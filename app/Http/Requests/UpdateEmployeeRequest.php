@@ -19,6 +19,7 @@ class UpdateEmployeeRequest extends FormRequest
             'name' => ['required', 'string', 'max:30'],
             'email' => ['required', 'string', 'email', 'max:30', Rule::unique('users')->ignore($this->route('user')->user->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'position' => ['required', 'string'],
             'gender' => ['required', 'string', 'max:5', Rule::in(['male', 'female'])],
             'phone' => ['required', 'string', 'max:15'],
             'address' => ['required', 'string', 'max:50'],

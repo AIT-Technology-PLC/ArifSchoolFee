@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Activity;
 
 class Company extends Model
 {
@@ -15,7 +16,6 @@ class Company extends Model
     protected $casts = [
         'enabled' => 'integer',
         'can_show_branch_detail_on_print' => 'integer',
-        'can_show_employee_job_title_on_print' => 'integer',
         'is_in_training' => 'integer',
         'subscription_expires_on' => 'date',
     ];
@@ -65,6 +65,86 @@ class Company extends Model
         return $this->hasMany(Subscription::class);
     }
 
+    public function academicYears()
+    {
+        return $this->hasMany(AcademicYear::class);
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
+
+    public function schoolClasses()
+    {
+        return $this->hasMany(SchoolClass::class);
+    }
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
+
+    public function routes()
+    {
+        return $this->hasMany(Route::class);
+    }
+
+    public function studentCategories()
+    {
+        return $this->hasMany(StudentCategory::class);
+    }
+
+    public function studentGroups()
+    {
+        return $this->hasMany(StudentGroup::class);
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function designations()
+    {
+        return $this->hasMany(Designation::class);
+    }
+
+    public function departments()
+    {
+        return $this->hasMany(Department::class);
+    }
+
+    public function staffs()
+    {
+        return $this->hasMany(Staff::class);
+    }
+
+    public function feeGroups()
+    {
+        return $this->hasMany(FeeGroup::class);
+    }
+
+    public function feeTypes()
+    {
+        return $this->hasMany(FeeType::class);
+    }
+
+    public function feeDiscounts()
+    {
+        return $this->hasMany(FeeDiscount::class);
+    }
+
+    public function feeMasters()
+    {
+        return $this->hasMany(FeeMaster::class);
+    }
+
+    public function userLogs()
+    {
+        return $this->hasMany(UserLog::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
@@ -102,11 +182,6 @@ class Company extends Model
         return $this->can_show_branch_detail_on_print;
     }
 
-    public function canShowEmployeeJobTitleOnPrint()
-    {
-        return $this->can_show_employee_job_title_on_print;
-    }
-
     public function hasPrintTemplate()
     {
         return $this->print_template_image;
@@ -137,7 +212,7 @@ class Company extends Model
 
         $this->plan_id = $subscription->plan_id;
 
-        $this->enabled = 1;
+        $this->enabled = 0;
 
         $this->save();
     }
@@ -153,11 +228,6 @@ class Company extends Model
             return false;
         }
 
-        return today()->diffInDays($this->subscription_expires_on, false) <= 30;
-    }
-
-    public function canSellBelowCost()
-    {
-        return $this->can_sell_below_cost;
+        return today()->diffInDays($this->subscription_expires_on, false) <= 45;
     }
 }

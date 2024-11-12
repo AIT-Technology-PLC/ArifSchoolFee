@@ -37,7 +37,7 @@ class PermissionCategorization
 
         'student directory' => [
             'label' => 'Student Directory',
-            'feature' => 'Student Directory',
+            'feature' => 'Student Management',
         ],
 
         'route' => [
@@ -72,7 +72,7 @@ class PermissionCategorization
 
         'staff' => [
             'label' => 'Staff',
-            'feature' => 'Staff Directory',
+            'feature' => 'Staff Management',
         ],
 
         'log' => [

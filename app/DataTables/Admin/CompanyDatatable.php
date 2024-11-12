@@ -17,23 +17,23 @@ class CompanyDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->setRowAttr([
-                'data-url' => fn($company) => route('admin.schools.show', $company->id),
+                'data-url' => fn($school) => route('admin.schools.show', $school->id),
                 'x-data' => 'showRowDetails',
                 'x-on:click' => 'showDetails',
             ])
-            ->editColumn('name', fn($company) => str()->ucfirst($company->name))
-            ->editColumn('type', fn($company) => str()->ucfirst($company->schoolType->name))
-            ->editColumn('status', fn($company) => view('components.datatables.company-status', compact('company')))
-            ->editColumn('plan', fn($company) => str()->ucfirst($company->plan->name))
-            ->editColumn('is_in_training', fn($company) => $company->isInTraining() ? 'Training Mode' : 'Live Mode')
-            ->editColumn('created_at', fn($company) => $company->created_at->toFormattedDateString())
-            ->editColumn('actions', fn($company) => view('components.datatables.company-action', compact('company')))
+            ->editColumn('name', fn($school) => str()->ucfirst($school->name))
+            ->editColumn('type', fn($school) => str()->ucfirst($school->schoolType->name))
+            ->editColumn('status', fn($school) => view('components.datatables.company-status', compact('school')))
+            ->editColumn('plan', fn($school) => str()->ucfirst($school->plan->name))
+            ->editColumn('is_in_training', fn($school) => $school->isInTraining() ? 'Training Mode' : 'Live Mode')
+            ->editColumn('created_at', fn($school) => $school->created_at->toFormattedDateString())
+            ->editColumn('actions', fn($school) => view('components.datatables.company-action', compact('school')))
             ->addIndexColumn();
     }
 
-    public function query(Company $company)
+    public function query(Company $school)
     {
-        return $company
+        return $school
             ->newQuery()
             ->select('companies.*')
             ->when(request('status') == 'active', fn($q) => $q->enabled())

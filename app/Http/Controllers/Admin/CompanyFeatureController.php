@@ -12,37 +12,37 @@ class CompanyFeatureController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(UpdateCompanyFeatureRequest $request, Company $company)
+    public function __invoke(UpdateCompanyFeatureRequest $request, Company $school)
     {
         abort_if(authUser()->cannot('Manage Admin Panel Companies'), 403);
 
-        DB::transaction(function () use ($request, $company) {
-            $company->features()->syncWithoutDetaching(
+        DB::transaction(function () use ($request, $school) {
+            $school->features()->syncWithoutDetaching(
                 collect($request->validated('enable'))->mapWithKeys(fn($i, $k) => [$i => ['is_enabled' => 1]])->toArray()
             );
 
-            $company->features()->syncWithoutDetaching(
+            $school->features()->syncWithoutDetaching(
                 collect($request->validated('disable'))->mapWithKeys(fn($i, $k) => [$i => ['is_enabled' => 0]])->toArray()
             );
 
-            // Detach if a feature is enabled globally and by plan, and by company
-            $company->features()->detach(
-                $company->plan->features()->wherePivot('is_enabled', 1)->where('features.is_enabled', 1)->pluck('features.id')->intersect(
-                    $company->features()->wherePivot('is_enabled', 1)->pluck('features.id')
+            // Detach if a feature is enabled globally and by plan, and by school
+            $school->features()->detach(
+                $school->plan->features()->wherePivot('is_enabled', 1)->where('features.is_enabled', 1)->pluck('features.id')->intersect(
+                    $school->features()->wherePivot('is_enabled', 1)->pluck('features.id')
                 ),
             );
 
-            // Detach if a feature is disabled by company and not owned by plan
-            $company->features()->detach(
-                $company->features()->wherePivot('is_enabled', 0)->pluck('features.id')->diff(
-                    $company->plan->features()->pluck('features.id'),
+            // Detach if a feature is disabled by school and not owned by plan
+            $school->features()->detach(
+                $school->features()->wherePivot('is_enabled', 0)->pluck('features.id')->diff(
+                    $school->plan->features()->pluck('features.id'),
                 )
             );
 
-            // Detach if a feature is disabled globally or by plan, and by company
-            $company->features()->detach(
-                $company->plan->features()->wherePivot('is_enabled', 0)->orWhere('features.is_enabled', 0)->pluck('features.id')->intersect(
-                    $company->features()->wherePivot('is_enabled', 0)->pluck('features.id')
+            // Detach if a feature is disabled globally or by plan, and by school
+            $school->features()->detach(
+                $school->plan->features()->wherePivot('is_enabled', 0)->orWhere('features.is_enabled', 0)->pluck('features.id')->intersect(
+                    $school->features()->wherePivot('is_enabled', 0)->pluck('features.id')
                 ),
             );
         });
