@@ -261,6 +261,53 @@
         </ul>
     @endcan
 
+    @can(['Manage Admin Panel Payment'])
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-wallet"
+                        class="m-0"
+                    />
+                    <span class="ml-2"> Payment Management </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.currencies.index') }}"
+                            label="Currency"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.currencies.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.currencies.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
+
     @can(['Manage Admin Panel Companies'])
         <ul
             x-data="sideMenuAccordion"
@@ -383,67 +430,67 @@
     @endcan
 
     @can(['Manage Admin Panel Setting'])
-    <ul
-        x-data="sideMenuAccordion"
-        class="menu-list mb-2"
-    >
-        <li>
-            <x-common.button
-                tag="button"
-                mode="button"
-                class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
-                ::class="{ 'is-active': isAccordionActive }"
-                @click="toggleAccordion"
-            >
-                <x-common.icon
-                    name="fas fa-gear"
-                    class="m-0"
-                />
-                <span class="ml-2"> Setting </span>
-                <span class="icon ml-auto">
-                    <i
-                        class="fas fa-caret-right"
-                        :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
-                    ></i>
-                </span>
-            </x-common.button>
-        </li>
-        <li>
-            <ul
-                class="mt-0 ml-5"
-                x-cloak
-                x-show="isAccordionOpen"
-                x-collapse
-            >
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.email-settings.create') }}"
-                        label="Email Setting"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.email-settings.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.email-settings.*') ? 'activateAccordion' : '' }}"
+        <ul
+            x-data="sideMenuAccordion"
+            class="menu-list mb-2"
+        >
+            <li>
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                    ::class="{ 'is-active': isAccordionActive }"
+                    @click="toggleAccordion"
+                >
+                    <x-common.icon
+                        name="fas fa-gear"
+                        class="m-0"
                     />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.caches.index') }}"
-                        label="Cache Setting"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.caches.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.caches.*') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-                <li>
-                    <x-common.button
-                        tag="a"
-                        href="{{ route('admin.sms-settings.create') }}"
-                        label="SMS Setting"
-                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.sms-settings.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                        x-init="{{ request()->routeIs('admin.sms-settings.*') ? 'activateAccordion' : '' }}"
-                    />
-                </li>
-            </ul>
-        </li>
-    </ul>
-@endcan
+                    <span class="ml-2"> Setting </span>
+                    <span class="icon ml-auto">
+                        <i
+                            class="fas fa-caret-right"
+                            :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                        ></i>
+                    </span>
+                </x-common.button>
+            </li>
+            <li>
+                <ul
+                    class="mt-0 ml-5"
+                    x-cloak
+                    x-show="isAccordionOpen"
+                    x-collapse
+                >
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.email-settings.create') }}"
+                            label="Email Setting"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.email-settings.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.email-settings.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.caches.index') }}"
+                            label="Cache Setting"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.caches.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.caches.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.sms-settings.create') }}"
+                            label="SMS Setting"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.sms-settings.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.sms-settings.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    @endcan
 </aside>

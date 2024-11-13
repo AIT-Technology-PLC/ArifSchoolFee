@@ -24,11 +24,15 @@ class SchoolTypeController extends Controller
 
     public function create()
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         return view('admin.school-types.create');
     }
 
     public function store(StoreSchoolTypeRequest $request)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         DB::transaction(function () use ($request) {
             foreach ($request->validated('schoolType') as $schoolType) {
                 SchoolType::create($schoolType);
@@ -40,11 +44,15 @@ class SchoolTypeController extends Controller
 
     public function edit(SchoolType $schoolType)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         return view('admin.school-types.edit', compact('schoolType'));
     }
 
     public function update(UpdateSchoolTypeRequest $request, SchoolType $schoolType)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         $schoolType->update($request->validated());
 
         return redirect()->route('admin.school-types.index')->with('successMessage', 'Updated Successfully.');
@@ -52,6 +60,8 @@ class SchoolTypeController extends Controller
 
     public function destroy(SchoolType $schoolType)
     {
+        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+
         $schoolType->forceDelete();
 
         return back()->with('successMessage', 'Deleted successfully.');

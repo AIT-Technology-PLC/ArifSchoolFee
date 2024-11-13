@@ -158,6 +158,7 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Resets']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Activation']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Setting']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Payment']);
 
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();

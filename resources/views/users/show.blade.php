@@ -60,6 +60,19 @@
                             <div class="column is-4">
                                 <p class="has-text-grey is-size-7 is-uppercase">
                                     <span class="icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </span>
+                                    <span>
+                                        Position
+                                    </span>
+                                </p>
+                                <p class="has-text-weight-bold text-softblue ml-1">
+                                    {{ $user->position}}
+                                </p>
+                            </div>
+                            <div class="column is-4">
+                                <p class="has-text-grey is-size-7 is-uppercase">
+                                    <span class="icon">
                                         <i class="fas fa-code-branch"></i>
                                     </span>
                                     <span>

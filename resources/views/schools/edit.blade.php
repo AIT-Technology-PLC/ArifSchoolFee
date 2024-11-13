@@ -165,47 +165,20 @@
                                         selected
                                         disabled
                                     >Select Currency</option>
-                                    <option
-                                        value="AED"
-                                        {{ $school->currency == 'AED' ? 'selected' : '' }}
-                                    >AED - UAE Dirham</option>
-                                    <option
-                                        value="CHF"
-                                        {{ $school->currency == 'CHF' ? 'selected' : '' }}
-                                    >CHF - Swiss Frank</option>
-                                    <option
-                                        value="CNY"
-                                        {{ $school->currency == 'CNY' ? 'selected' : '' }}
-                                    >CNY - China Yuan</option>
-                                    <option
-                                        value="DJF"
-                                        {{ $school->currency == 'DJF' ? 'selected' : '' }}
-                                    >DJF - Djibouti Franc</option>
-                                    <option
-                                        value="ETB"
-                                        {{ $school->currency == 'ETB' ? 'selected' : '' }}
-                                    >ETB - Ethiopian Birr</option>
-                                    <option
-                                        value="EUR"
-                                        {{ $school->currency == 'EUR' ? 'selected' : '' }}
-                                    >EUR - Euro Union Countries</option>
-                                    <option
-                                        value="GBP"
-                                        {{ $school->currency == 'GBP' ? 'selected' : '' }}
-                                    >GBP - GB Pound Sterling</option>
-                                    <option
-                                        value="SAR"
-                                        {{ $school->currency == 'SAR' ? 'selected' : '' }}
-                                    >SAR - Saudi Riyal</option>
-                                    <option
-                                        value="USD"
-                                        {{ $school->currency == 'USD' ? 'selected' : '' }}
-                                    >USD - US Dollar</option>
+                                    @foreach ($currencies as $currency)
+                                        <option
+                                            value="{{ $currency->code }}"
+                                            @selected(old('currency', $school->currency) == $currency->code)
+                                        >
+                                            {{ $currency->code}} - {{ $currency->name }}
+                                        </option>
+                                    @endforeach
                                 </x-forms.select>
                                 <x-common.icon
-                                    name="fas fa-dollar-sign"
+                                    name="fas fa-dollar"
                                     class="is-small is-left"
                                 />
+                                <x-common.validation-error property="currency" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

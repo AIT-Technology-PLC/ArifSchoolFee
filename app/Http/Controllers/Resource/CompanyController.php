@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Currency;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -20,7 +21,9 @@ class CompanyController extends Controller
     {
         $school->load(['schoolType']);
 
-        return view('schools.edit', compact('school'));
+        $currencies = Currency::all();
+
+        return view('schools.edit', compact('school','currencies'));
     }
 
     public function update(UpdateCompanyRequest $request, Company $school)
