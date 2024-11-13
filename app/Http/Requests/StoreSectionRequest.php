@@ -16,7 +16,7 @@ class StoreSectionRequest extends FormRequest
     {
         return [
             'section' => ['required', 'array'],
-            'section.*.name' => ['required', 'string', 'distinct', Rule::unique('sections')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'section.*.name' => ['required', 'string', 'max:10', 'distinct', Rule::unique('sections')->where('company_id', userCompany()->id)->withoutTrashed()],
         ];
     }
 }

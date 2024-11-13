@@ -16,6 +16,16 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Student Category')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Categories"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Student Category')
                 <x-common.button
                     tag="a"
@@ -35,6 +45,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Student Category')
+        <x-common.import
+            title="Import Category"
+            action="{{ route('student-categories.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

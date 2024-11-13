@@ -16,13 +16,23 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Fee Group')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Groups"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Fee Group')
                 <x-common.button
                     tag="a"
                     href="{{ route('fee-groups.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Fee Group"
+                    label="Create Group"
                     class="btn-blue is-outlined is-small"
                 />
             @endcan
@@ -35,6 +45,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Fee Group')
+        <x-common.import
+            title="Import Group"
+            action="{{ route('fee-groups.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

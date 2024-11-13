@@ -17,10 +17,10 @@ class UpdateVehicleRequest extends FormRequest
         return [
             'vehicle_number' => ['required', 'string', 'max:20', Rule::unique('vehicles')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('vehicle')->id)->withoutTrashed()],
             'vehicle_model' => ['required', 'string', 'max:25'],
-            'year_made' => ['required', 'integer','gte:0', 'lte:' . date('Y')],
+            'year_made' => ['nullable', 'integer','gte:0', 'lte:' . date('Y')],
             'driver_name' => ['required', 'string','max:30'],
-            'driver_phone' => ['required', 'string','max:15', Rule::unique('vehicles')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('vehicle')->id)->withoutTrashed()],
-            'note' => ['nullable', 'string', 'max:255'],
+            'driver_phone' => ['required', 'string','max:15', 'unique:vehicles'],
+            'note' => ['nullable', 'string', 'max:100'],
         ];
     }
 }

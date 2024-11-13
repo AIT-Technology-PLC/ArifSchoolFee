@@ -16,6 +16,16 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Route')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Route"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Route')
                 <x-common.button
                     tag="a"
@@ -33,6 +43,12 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Route')
+        <x-common.import
+            title="Import Route"
+            action="{{ route('routes.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

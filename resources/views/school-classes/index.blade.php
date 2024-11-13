@@ -16,6 +16,16 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Class')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Classes"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Class')
                 <x-common.button
                     tag="a"
@@ -37,6 +47,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Class')
+        <x-common.import
+            title="Import Class"
+            action="{{ route('classes.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

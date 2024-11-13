@@ -15,7 +15,7 @@ class UpdateSectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'distinct', Rule::unique('sections')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('section')->id)->withoutTrashed()],
+            'name' => ['required', 'string', 'max:10', 'distinct', Rule::unique('sections')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('section')->id)->withoutTrashed()],
         ];
     }
 }

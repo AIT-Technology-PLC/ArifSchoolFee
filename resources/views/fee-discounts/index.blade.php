@@ -22,7 +22,7 @@
                     href="{{ route('fee-discounts.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Fee Discount"
+                    label="Create Discount"
                     class="btn-blue is-outlined is-small"
                 />
             @endcan

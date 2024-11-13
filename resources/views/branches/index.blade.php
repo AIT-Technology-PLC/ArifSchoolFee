@@ -38,7 +38,7 @@
                     @click="$dispatch('open-import-modal') "
                     icon="fas fa-upload"
                     label="Import Branches"
-                    class="btn-blue is-outlined is-small"
+                    class="btn-softblue is-outlined is-small"
                 />
             @endcan
             @can('Create Branch')

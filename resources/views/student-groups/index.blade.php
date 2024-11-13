@@ -16,7 +16,17 @@
                     </span>
                 </h1>
             </x-slot>
-            @can('Create Student Category')
+            @can('Import Student Group')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Groups"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
+            @can('Create Student Group')
                 <x-common.button
                     tag="a"
                     href="{{ route('student-groups.create') }}"
@@ -35,6 +45,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Student Group')
+        <x-common.import
+            title="Import Group"
+            action="{{ route('student-groups.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

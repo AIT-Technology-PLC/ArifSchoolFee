@@ -34,9 +34,4 @@ class AcademicYearPolicy
     {
         return $user->can('Delete Academic Year');
     }
-
-    public function import(User $user)
-    {
-        return $user->can('Import Academic Year');
-    }
 }

@@ -19,7 +19,7 @@ class StoreBranchRequest extends FormRequest
             'location' => ['required', 'string', 'max:50'],
             'is_active' => ['required', 'boolean'],
             'email' => ['nullable', 'string', 'email', 'max:30'],
-            'phone' => ['nullable', 'string','max:15', Rule::unique('warehouses')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('branch')->id)->withoutTrashed()],
+            'phone' => ['nullable', 'string','max:15', Rule::unique('warehouses')->where('company_id', userCompany()->id)->withoutTrashed()],
         ];
     }
 }

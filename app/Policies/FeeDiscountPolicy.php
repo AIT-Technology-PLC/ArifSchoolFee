@@ -34,9 +34,4 @@ class FeeDiscountPolicy
     {
         return $user->can('Delete Fee Discount');
     }
-
-    public function import(User $user)
-    {
-        return $user->can('Import Fee Discount');
-    }
 }

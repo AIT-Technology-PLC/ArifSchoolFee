@@ -16,13 +16,23 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Fee Type')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Types"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Fee Type')
                 <x-common.button
                     tag="a"
                     href="{{ route('fee-types.create') }}"
                     mode="button"
                     icon="fas fa-plus-circle"
-                    label="Create Fee Type"
+                    label="Create Type"
                     class="btn-blue is-outlined is-small"
                 />
             @endcan
@@ -35,6 +45,12 @@
             </div>
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Fee Type')
+        <x-common.import
+            title="Import Type"
+            action="{{ route('fee-types.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')

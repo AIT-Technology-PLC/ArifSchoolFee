@@ -8,10 +8,12 @@ use App\Traits\MultiTenancy;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Warehouse extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, CascadeSoftDeletes;
+    use MultiTenancy, SoftDeletes, HasUserstamps, CascadeSoftDeletes, LogsActivity;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -22,6 +24,12 @@ class Warehouse extends Model
     protected $cascadeDeletes = [
         'originalUsers',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->useLogName('Branch');
+    }
 
     public static function booted()
     {

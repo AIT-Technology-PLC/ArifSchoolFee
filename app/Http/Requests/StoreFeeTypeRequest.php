@@ -17,7 +17,11 @@ class StoreFeeTypeRequest extends FormRequest
     {
         return [
             'fee_group_id' => ['required', 'integer', new MustBelongToCompany('fee_groups')],
-            'name' => ['required', 'string', 'max:50', Rule::unique('fee_types')->where('fee_group_id', $this->input('fee_group_id'))->withoutTrashed()],
+            'name' => ['required', 'string', 'max:50', 
+                Rule::unique('fee_types')
+                ->where('fee_group_id', $this->input('fee_group_id'))
+                ->where('company_id', userCompany()->id)
+                ->withoutTrashed()],
             'description' => ['nullable', 'string', 'max:50'],
         ];
     }

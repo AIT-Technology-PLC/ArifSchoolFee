@@ -34,7 +34,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Academic Year']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Academic Year']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Academic Year']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Import Academic Year']);
 
             // Section
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Section']);
@@ -111,7 +110,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Fee Discount']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Fee Discount']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Fee Discount']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Import Fee Discount']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Assign Fee Discount']);
 
             // Fee Master
@@ -119,7 +117,6 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Fee Master']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Fee Master']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Fee Master']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Import Fee Master']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Assign Fee Master']);
 
             // Student Category

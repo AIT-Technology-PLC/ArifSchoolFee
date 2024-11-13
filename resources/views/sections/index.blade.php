@@ -16,6 +16,16 @@
                     </span>
                 </h1>
             </x-slot>
+            @can('Import Section')
+                <x-common.button
+                    tag="button"
+                    mode="button"
+                    @click="$dispatch('open-import-modal') "
+                    icon="fas fa-upload"
+                    label="Import Sections"
+                    class="btn-softblue is-outlined is-small"
+                />
+            @endcan
             @can('Create Section')
                 <x-common.button
                     tag="a"
@@ -33,6 +43,12 @@
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>
+    @can('Import Section')
+        <x-common.import
+            title="Import Section"
+            action="{{ route('sections.import') }}"
+        />
+    @endcan
 @endsection
 
 @push('scripts')
