@@ -63,6 +63,10 @@ class FeeTypeController extends Controller
 
     public function destroy(FeeType $feeType)
     {
+        if ($feeType->feeMasters()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Type is being used and cannot be deleted.']);
+        }
+
         $feeType->Delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

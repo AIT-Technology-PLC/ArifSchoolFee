@@ -36,7 +36,7 @@
                                     name="name"
                                     type="text"
                                     placeholder="School Name"
-                                    value="{{ old('name') ?? $school->name }}"
+                                    value="{{ $school->name ?? old('name')}}"
                                 />
                                 <x-common.icon
                                     name="fas fa-bank"

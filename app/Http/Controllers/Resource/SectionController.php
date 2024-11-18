@@ -57,6 +57,10 @@ class SectionController extends Controller
 
     public function destroy(Section $section)
     {
+        if ($section->schoolClasses()->exists()) {
+            return back()->with(['failedMessage' => 'This Section Date is being used and cannot be deleted.']);
+        }
+
         $section->forceDelete();
 
         return back()->with('deleted', 'Deleted Successfully.');

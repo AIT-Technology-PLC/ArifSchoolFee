@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Fee Groups')
+@section('title', 'Edit Fee Group')
 
 @section('content')
     <x-common.content-wrapper>

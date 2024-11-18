@@ -66,6 +66,10 @@ class SchoolClassController extends Controller
 
     public function destroy(SchoolClass $schoolClass)
     {
+        if ($schoolClass->students()->exists()) {
+            return back()->with(['failedMessage' => 'This School Class is being used and cannot be deleted.']);
+        }
+
         $schoolClass->delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

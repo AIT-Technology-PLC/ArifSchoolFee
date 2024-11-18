@@ -94,6 +94,17 @@ class PermissionCategorization
             'label' => 'Fee Discount',
             'feature' => 'Fee Discount',
         ],
+
+        'fee master' => [
+            'label' => 'Fee Mater',
+            'feature' => 'Fee Master',
+        ],
+
+        'collect fee' => [
+            'label' => 'Collect Fee',
+            'feature' => 'Collect Fee',
+            'include' => ['Search Fee Payment', 'Search Fee Due'],
+        ],
     ];
 
     public static function getPermissionsByCategories($permissions)

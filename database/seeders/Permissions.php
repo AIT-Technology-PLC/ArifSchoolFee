@@ -119,6 +119,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Fee Master']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Assign Fee Master']);
 
+            // Collect Fee
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Collect Fee']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Collect Fee']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Search Fee Payment']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Search Fee Due']);
+
             // Student Category
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Student Category']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Student Category']);

@@ -46,6 +46,11 @@ class Warehouse extends Model
         return $this->belongsToMany(User::class)->withPivot('type');
     }
 
+    public function staffs()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);

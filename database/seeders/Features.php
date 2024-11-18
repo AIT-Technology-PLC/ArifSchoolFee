@@ -133,10 +133,14 @@ class Features extends Seeder
             ['name' => 'Fee Master'],
             ['is_enabled' => 1]
         );
-        
+
+        Feature::updateOrCreate(
+            ['name' => 'Collect Fee'],
+            ['is_enabled' => 1]
+        );
+
         $this->features = Feature::all();
     }
-
 
     private function deleteNonExistentFeatures()
     {
@@ -163,6 +167,7 @@ class Features extends Seeder
             'Fee Type',
             'Fee Discount',
             'Fee Master',
+            'Collect Fee',
         ];
 
         Feature::whereNotIn('name', $currentFeatureNames )->forceDelete();
@@ -183,6 +188,7 @@ class Features extends Seeder
                     'Fee Type',
                     'Fee Discount',
                     'Fee Master',
+                    'Collect Fee',
                     'Student Category',
                     'Student Group',
                     'Student Management',

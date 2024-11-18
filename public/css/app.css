@@ -14,6 +14,10 @@
     color: #86843d !important;
 }
 
+.text-red {
+    color: #FF0000 !important;
+}
+
 .text-blue {
     color: #0736a1 !important;
 }
@@ -31,6 +35,11 @@
     border: 1px solid #86843d !important;
 }
 
+.bg-red {
+    background-color: #FF0000 !important;
+    border: 1px solid #FF0000 !important;
+}
+
 .bg-green {
     background-color: #2cac6a !important;
     border: 1px solid #2cac6a !important;
@@ -42,8 +51,8 @@
 }
 
 .bg-lightpurple {
-    background-color: #af92a1 !important;
-    border: 1px solid #af92a1 !important;
+    background-color: #f6edf2 !important;
+    border: 1px solid #f6edf2 !important;
 }
 
 .bg-purple {
@@ -133,8 +142,18 @@
     color: #86843d !important;
 }
 
+.btn-red {
+    border: 1px solid #FF0000 !important;
+    color: #FF0000 !important;
+}
+
 .btn-gold.is-outlined:hover {
     background: #86843d !important;
+    color: white !important;
+}
+
+.btn-red.is-outlined:hover {
+    background: #FF0000 !important;
     color: white !important;
 }
 
@@ -254,6 +273,10 @@ nav {
 
 .is-gold > progress::-webkit-progress-value {
     background-color: #86843d !important;
+}
+
+.is-red > progress::-webkit-progress-value {
+    background-color: #FF0000 !important;
 }
 
 td {

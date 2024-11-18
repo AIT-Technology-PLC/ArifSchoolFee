@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Invokable;
 
 use App\Http\Controllers\Controller;
+use App\Models\Staff;
 
 class HomeController extends Controller
 {
@@ -11,9 +12,13 @@ class HomeController extends Controller
         if (authUser()->isAdmin()) {
             return redirect()->route('admin.reports.dashboard');
         }
-
         
+        $totalStudent = Staff::count();
 
-        return view('menu.index');
+        $totalStaff = Staff::count();
+
+        $thisMonthRevenue = Staff::count();
+
+        return view('menu.index', compact('totalStudent', 'totalStaff', 'thisMonthRevenue'));
     }
 }

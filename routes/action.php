@@ -21,6 +21,33 @@ Route::controller(Action\NotificationController::class)
         Route::post('delete-all', 'deleteAll')->name('delete_all');
     });
 
+// School Setting
+Route::controller(Action\CompanyController::class)
+    ->name('notification-settings.')
+    ->prefix('/notification-settings')
+    ->group(function () {
+        Route::get('/{school}/edit', 'edit')->name('edit');
+        Route::patch('/{school}', 'update')->name('update');
+    });
+
+// School Setting
+Route::controller(Action\CollectFeeController::class)
+    ->name('collect-fees.')
+    ->prefix('/collect-fees')
+    ->group(function () {
+        Route::get('', 'index')->name('index');
+    });
+
+// Transaction
+Route::controller(Action\TransactionController::class)
+    ->name('transactions.')
+    ->prefix('/transactions/{transaction}')
+    ->group(function () {
+        Route::post('/approve', 'approve')->name('approve');
+        Route::get('/print', 'printed')->name('print');
+        Route::post('/update-status', 'updateStatus')->name('update_status');
+    });
+
 
 // Import
 Route::post('/users/import', [Action\EmployeeController::class, 'import'])->name('users.import');
@@ -47,12 +74,4 @@ Route::post('/fee-groups/import', [Action\FeeGroupController::class, 'import'])-
 
 Route::post('/fee-types/import', [Action\FeeTypeController::class, 'import'])->name('fee-types.import');
 
-// Transaction
-Route::controller(Action\TransactionController::class)
-    ->name('transactions.')
-    ->prefix('/transactions/{transaction}')
-    ->group(function () {
-        Route::post('/approve', 'approve')->name('approve');
-        Route::get('/print', 'printed')->name('print');
-        Route::post('/update-status', 'updateStatus')->name('update_status');
-    });
+Route::post('/staffs/import', [Action\StaffController::class, 'import'])->name('staffs.import');

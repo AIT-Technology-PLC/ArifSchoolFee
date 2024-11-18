@@ -432,13 +432,13 @@
             </x-content.main>
             <x-content.footer>
                 <div class="has-text-right">
-                    <button id="prevButton" class="button bg-blue has-text-white" style="display: none;">
+                    <button id="prevButton" class="button bg-softblue has-text-white" style="display: none;">
                         <span class="mr-2"><i class="fas fa-arrow-left"></i></span>Back
                     </button>
-                    <button id="nextButton" class="button bg-blue has-text-white">
+                    <button id="nextButton" class="button bg-softblue has-text-white">
                         <span class="mr-2"><i class="fas fa-arrow-right"></i></span>Next
                     </button>
-                    <button id="saveButton" class="button bg-blue has-text-white" style="display: none;">
+                    <button id="saveButton" class="button bg-softblue has-text-white" style="display: none;">
                         <span class="mr-2"><i class="fas fa-save"></i></span>Submit
                     </button>
                 </div>                    

@@ -39,4 +39,9 @@ class FeeMasterPolicy
     {
         return $user->can('Import Fee Master');
     }
+
+    public function assign(User $user)
+    {
+        return $user->can('Assign Fee Master');
+    }
 }

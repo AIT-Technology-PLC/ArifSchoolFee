@@ -55,6 +55,10 @@ class VehicleController extends Controller
 
     public function destroy(Vehicle $vehicle)
     {
+        if ($vehicle->routes()->exists()) {
+            return back()->with(['failedMessage' => 'This Vehicle Date is being used and cannot be deleted.']);
+        }
+
         $vehicle->Delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

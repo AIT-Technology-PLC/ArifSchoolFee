@@ -34,4 +34,9 @@ class FeeDiscountPolicy
     {
         return $user->can('Delete Fee Discount');
     }
+
+    public function assign(User $user)
+    {
+        return $user->can('Assign Fee Discount');
+    }
 }

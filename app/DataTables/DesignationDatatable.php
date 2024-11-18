@@ -15,7 +15,7 @@ class DesignationDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            // ->editColumn('staffs', fn($designation) => $designation->staffs_count)
+            ->editColumn('staff', fn($designation) => $designation->staffs_count)
             ->editColumn('added on', fn($designation) => $designation->created_at->toFormattedDateString())
             ->editColumn('created by', fn($designation) => $designation->createdBy->name)
             ->editColumn('edited by', fn($designation) => $designation->updatedBy->name)
@@ -34,7 +34,7 @@ class DesignationDatatable extends DataTable
         return $designation
             ->newQuery()
             ->select('designations.*')
-            // ->withCount('staffs')
+            ->withCount('staffs')
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -46,7 +46,7 @@ class DesignationDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name')->addClass('has-text-weight-bold'),
-            // Column::computed('staffs')->className('has-text-centered'),
+            Column::computed('staff')->className('has-text-centered'),
             Column::make('added on', 'created_at')->className('has-text-right'),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),

@@ -9,6 +9,21 @@
     z-index: -1;
   }
 
+  .login {
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 100%;  /* Take full width */
+    padding: 30px;
+  }
+
+  .columns {
+    display: flex;
+    align-items: center;  /* Vertically center */
+    justify-content: center;  /* Horizontally center */
+    height: 100vh;  /* Ensure full viewport height */
+    margin: 0;
+  }
+
   @media (max-width: 769px) {
     .interactive-bg{
       display: none
@@ -42,13 +57,4 @@
     max-height: 180px;
     max-width: 180px;
     display: block;
-  }
-
-  .login {
-    background-color: #ffffff;
-    border-radius: 20px;
-  }
-  
-  .columns{
-    margin: 0px;
   }

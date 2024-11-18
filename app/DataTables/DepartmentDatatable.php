@@ -15,7 +15,7 @@ class DepartmentDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            // ->editColumn('staffs', fn($department) => $department->staffs_count)
+            ->editColumn('staff', fn($department) => $department->staffs_count)
             ->editColumn('added on', fn($department) => $department->created_at->toFormattedDateString())
             ->editColumn('created by', fn($department) => $department->createdBy->name)
             ->editColumn('edited by', fn($department) => $department->updatedBy->name)
@@ -34,7 +34,7 @@ class DepartmentDatatable extends DataTable
         return $department
             ->newQuery()
             ->select('departments.*')
-            // ->withCount('staffs')
+            ->withCount('staffs')
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -46,7 +46,7 @@ class DepartmentDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('name')->addClass('has-text-weight-bold'),
-            // Column::computed('staffs')->className('has-text-centered'),
+            Column::computed('staff')->className('has-text-centered'),
             Column::make('added on', 'created_at')->className('has-text-right'),
             Column::make('created by', 'createdBy.name'),
             Column::make('edited by', 'updatedBy.name')->visible(false),

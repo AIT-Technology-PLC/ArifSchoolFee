@@ -2,64 +2,68 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\DataTables\FeeMasterDatatable;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreFeeMasterRequest;
+use App\Http\Requests\UpdateFeeMasterRequest;
+use App\Models\FeeMaster;
+use App\Models\FeeType;
 
 class FeeMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('isFeatureAccessible:Fee Master');
+
+        $this->authorizeResource(FeeMaster::class);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function index(FeeMasterDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('fee-masters-datatable')->orderBy(1, 'asc');
+
+        return $datatable->render('fee-masters.index');
+    }
+
     public function create()
     {
-        //
+        $currentFeeMasterCode = nextReferenceNumber('fee_masters');
+
+        $feeTypes = FeeType::orderBy('name')->get(['id', 'name']);
+
+        return view('fee-masters.create', compact('currentFeeMasterCode', 'feeTypes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreFeeMasterRequest $request)
     {
-        //
+        FeeMaster::firstOrCreate(
+            $request->safe()->only(['code'] + ['company_id' => userCompany()->id]),
+            $request->safe()->except(['code'] + ['company_id' => userCompany()->id]),
+        );
+
+        return redirect()->route('fee-masters.index')->with('successMessage', 'Fee Master Created Successfully.');
+    }
+  
+    public function edit(FeeMaster $feeMaster)
+    {
+        $feeMaster->load(['feeType']);
+
+        $feeTypes = FeeType::orderBy('name')->get(['id', 'name']);
+
+        return view('fee-masters.edit', compact('feeMaster', 'feeTypes'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(UpdateFeeMasterRequest $request, FeeMaster $feeMaster)
     {
-        //
+        $feeMaster->update($request->validated());
+
+        return redirect()->route('fee-masters.index')->with('successMessage', 'Updated Successfully.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function destroy(FeeMaster $feeMaster)
     {
-        //
-    }
+        $feeMaster->Delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return back()->with('deleted', 'Deleted Successfully.');
     }
 }

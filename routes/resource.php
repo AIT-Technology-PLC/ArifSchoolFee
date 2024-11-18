@@ -35,7 +35,7 @@ Route::resource('designations', Resource\DesignationController::class)->except([
 
 Route::resource('departments', Resource\DepartmentController::class)->except(['show']);
 
-Route::resource('staff-directories', Resource\StaffDirectoryController::class)->except(['show']);
+Route::resource('staff', Resource\StaffController::class);
 
 Route::resource('student-categories', Resource\StudentCategoryController::class)->except(['show']);
 

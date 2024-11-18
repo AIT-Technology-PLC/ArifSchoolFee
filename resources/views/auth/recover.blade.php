@@ -7,7 +7,7 @@
 @section('content')
         <div class="columns is-marginless">
             <div class="login column is-4">
-                <section class="section">
+                <section class="section pt-0">
                     <form
                             id="formOne"
                             method="POST"

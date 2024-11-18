@@ -417,10 +417,10 @@
                                 <li>
                                     <x-common.button
                                         tag="a"
-                                        href="{{ route('staff-directories.index') }}"
+                                        href="{{ route('staff.index') }}"
                                         label="Staff Directory"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('staff-directories.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('staff-directories.*') ? 'activateAccordion' : '' }}"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('staffs.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('staffs.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
@@ -431,8 +431,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Fee Group','Fee Type', 'Fee Discount','Fee Master'))
-        @canany(['Read Fee Group', 'Read Fee Type','Read Fee Discount','Read Fee Master'])
+    @if (isFeatureEnabled('Fee Group','Fee Type', 'Fee Discount','Fee Master', 'Collect Fee'))
+        @canany(['Read Fee Group', 'Read Fee Type','Read Fee Discount','Read Fee Master', 'Read Collect Fee', 'Search Fee Payment', 'Search Fee Due'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -518,6 +518,41 @@
                             </li>
                         @endcan
                     @endif
+                    @if (isFeatureEnabled('Collect Fee'))
+                        @can('Read Collect Fee')
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('collect-fees.index') }}"
+                                    label="Collect Fees"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                        @endcan
+                    @endif
+                    @can('Search Fee Payment')
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('collect-fees.index') }}"
+                                label="Search Fees Payment"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                    @endcan
+                    @can('Search Fee Due')
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('collect-fees.index') }}"
+                                label="Search Fees Due"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                    @endcan
                     </ul>
                 </li>
             </ul>
@@ -693,6 +728,15 @@
                                         label="School Profile"
                                         class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('schools.edit') ? 'text-blue has-text-weight-bold' : '' }}"
                                         x-init="{{ request()->routeIs('schools.edit') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('notification-settings.edit', userCompany()->id) }}"
+                                        label="Notification and Alert"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('notification-settings.edit') ? 'text-blue has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('notification-settings.edit') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan

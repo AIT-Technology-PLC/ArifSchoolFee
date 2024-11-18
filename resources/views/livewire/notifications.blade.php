@@ -68,10 +68,10 @@
                     </a>
                 @endforeach
                 @if ($unreadNotifications->isEmpty() && $readNotifications->isEmpty())
-                    <div class="columns is-marginless has-background-white has-text-weight-bold text-blue py-3 is-size-6-5 is-mobile">
+                    <div class="columns is-marginless has-background-white has-text-weight-normal text-blue py-3 is-size-6-5 is-mobile">
                         <div class="column is-12">
                             <span>
-                                No notifications
+                               You have 0 New notifications
                             </span>
                         </div>
                     </div>

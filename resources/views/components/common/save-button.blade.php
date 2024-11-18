@@ -16,6 +16,6 @@
         id="saveButton"
         icon="fas fa-save"
         label="Save"
-        class="bg-blue has-text-white"
+        class="bg-softblue has-text-white"
     />
 </div>

@@ -25,4 +25,9 @@ class FeeType extends Model
     {
         return $this->belongsTo(FeeGroup::class);
     }
+
+    public function feeMasters()
+    {
+        return $this->hasMany(FeeMaster::class);
+    }
 }

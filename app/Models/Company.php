@@ -16,6 +16,11 @@ class Company extends Model
     protected $casts = [
         'enabled' => 'integer',
         'can_show_branch_detail_on_print' => 'integer',
+        'can_send_payment_reminder' => 'integer',
+        'can_send_sms_alert' => 'integer',
+        'can_send_email_notification' => 'integer',
+        'can_send_push_notification' => 'integer',
+        'can_send_system_alert' => 'integer',
         'is_in_training' => 'integer',
         'subscription_expires_on' => 'date',
     ];
@@ -180,6 +185,31 @@ class Company extends Model
     public function canShowBranchDetailOnPrint()
     {
         return $this->can_show_branch_detail_on_print;
+    }
+
+    public function canSendPaymentReminder()
+    {
+        return $this->can_send_payment_reminder;
+    }
+
+    public function canSendSmsAlert()
+    {
+        return $this->can_send_sms_alert;
+    }
+
+    public function canSendEmailNotification()
+    {
+        return $this->can_send_email_notification;
+    }
+
+    public function canSendPushNotification()
+    {
+        return $this->can_send_push_notification;
+    }
+
+    public function canSendSystemAlert()
+    {
+        return $this->can_send_system_alert;
     }
 
     public function hasPrintTemplate()
