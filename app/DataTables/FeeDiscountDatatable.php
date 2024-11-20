@@ -21,11 +21,7 @@ class FeeDiscountDatatable extends DataTable
             ->editColumn('edited by', fn($feeDiscount) => $feeDiscount->updatedBy->name ?? 'N/A')
             ->editColumn('description', fn($feeDiscount) => view('components.datatables.searchable-description', ['description' => $feeDiscount->description]))
             ->editColumn('actions', function ($feeDiscount) {
-                return view('components.common.action-buttons', [
-                    'model' => 'fee-discounts',
-                    'id' => $feeDiscount->id,
-                    'buttons' => ['edit','delete'],
-                ]);
+                return view('components.datatables.fee-discount-action', compact('feeDiscount'));
             })
             ->addIndexColumn();
     }

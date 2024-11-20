@@ -30,14 +30,6 @@ Route::controller(Action\CompanyController::class)
         Route::patch('/{school}', 'update')->name('update');
     });
 
-// School Setting
-Route::controller(Action\CollectFeeController::class)
-    ->name('collect-fees.')
-    ->prefix('/collect-fees')
-    ->group(function () {
-        Route::get('', 'index')->name('index');
-    });
-
 // Transaction
 Route::controller(Action\TransactionController::class)
     ->name('transactions.')
@@ -47,7 +39,6 @@ Route::controller(Action\TransactionController::class)
         Route::get('/print', 'printed')->name('print');
         Route::post('/update-status', 'updateStatus')->name('update_status');
     });
-
 
 // Import
 Route::post('/users/import', [Action\EmployeeController::class, 'import'])->name('users.import');
@@ -75,3 +66,5 @@ Route::post('/fee-groups/import', [Action\FeeGroupController::class, 'import'])-
 Route::post('/fee-types/import', [Action\FeeTypeController::class, 'import'])->name('fee-types.import');
 
 Route::post('/staffs/import', [Action\StaffController::class, 'import'])->name('staffs.import');
+
+Route::post('/students/import', [Action\StudentController::class, 'import'])->name('students.import');

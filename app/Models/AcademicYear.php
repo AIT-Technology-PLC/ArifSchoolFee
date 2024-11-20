@@ -23,6 +23,11 @@ class AcademicYear extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->useLogName('Academic Year');
+            ->useLogName('Academic Year');
+    }
+    
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
 }

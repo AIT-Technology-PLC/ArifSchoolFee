@@ -2,10 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\FeeGroup;
 use App\Models\FeeMaster;
 use App\Traits\DataTableHtmlBuilder;
-use League\Flysystem\Visibility;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -23,11 +21,7 @@ class FeeMasterDatatable extends DataTable
             ->editColumn('added by', fn($feeMaster) => $feeMaster->createdBy->name ?? 'N/A')
             ->editColumn('edited by', fn($feeMaster) => $feeMaster->updatedBy->name ?? 'N/A')
             ->editColumn('actions', function ($feeMaster) {
-                return view('components.common.action-buttons', [
-                    'model' => 'fee-masters',
-                    'id' => $feeMaster->id,
-                    'buttons' => ['edit','delete'],
-                ]);
+                return view('components.datatables.fee-master-action', compact('feeMaster'));
             })
             ->addIndexColumn();
     }

@@ -145,6 +145,16 @@ class Company extends Model
         return $this->hasMany(FeeMaster::class);
     }
 
+    public function assignFeeMastsers()
+    {
+        return $this->hasMany(AssignFeeMaster::class);
+    }
+
+    public function assignFeeDiscounts()
+    {
+        return $this->hasMany(AssignFeeDiscount::class);
+    }
+
     public function userLogs()
     {
         return $this->hasMany(UserLog::class);

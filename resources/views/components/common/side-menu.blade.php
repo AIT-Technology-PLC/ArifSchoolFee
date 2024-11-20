@@ -36,7 +36,7 @@
                     href="{{ route('users.show', authUser()->employee->id) }}"
                     icon="fas fa-address-card"
                     label="My Profile"
-                    class="bg-green has-text-white is-small"
+                    class="bg-softblue has-text-white is-small"
                 />
                 <form
                     class="is-inline"
@@ -273,7 +273,7 @@
     @endif
 
     @if (isFeatureEnabled('Student Category','Student Group','Student Management'))
-        @canany(['Read Student Category','Read Student Group','Read Student Directory'])
+        @canany(['Read Student Category','Read Student Group','Read Student'])
         <ul
             x-data="sideMenuAccordion"
             class="menu-list mb-2"
@@ -334,14 +334,14 @@
                         @endcan
                     @endif
                     @if (isFeatureEnabled('Student Management'))
-                        @can('Read Student Directory')
+                        @can('Read Student')
                             <li>
                                 <x-common.button
                                     tag="a"
-                                    href="{{ route('student-directories.index') }}"
+                                    href="{{ route('students.index') }}"
                                     label="Student Directory"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('student-directories.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('student-directories.*') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('students.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('students.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -525,8 +525,8 @@
                                     tag="a"
                                     href="{{ route('collect-fees.index') }}"
                                     label="Collect Fees"
-                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                    x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fees.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('collect-fees.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -535,10 +535,10 @@
                         <li>
                             <x-common.button
                                 tag="a"
-                                href="{{ route('collect-fees.index') }}"
+                                href="{{ route('search-fee-payments.index') }}"
                                 label="Search Fees Payment"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('search-fee-payments.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('search-fee-payments.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     @endcan
@@ -546,10 +546,10 @@
                         <li>
                             <x-common.button
                                 tag="a"
-                                href="{{ route('collect-fees.index') }}"
+                                href="{{ route('search-fee-dues.index') }}"
                                 label="Search Fees Due"
-                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('collect-fee.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                x-init="{{ request()->routeIs('collect-fee.*') ? 'activateAccordion' : '' }}"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('search-fee-dues.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                x-init="{{ request()->routeIs('search-fee-dues.*') ? 'activateAccordion' : '' }}"
                             />
                         </li>
                     @endcan

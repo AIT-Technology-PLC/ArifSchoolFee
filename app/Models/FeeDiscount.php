@@ -20,4 +20,9 @@ class FeeDiscount extends Model
         return LogOptions::defaults()
         ->useLogName('Fee Discount');
     }
+
+    public function assignFeeDiscounts()
+    {
+        return $this->belongsToMany(FeeDiscount::class, 'assign_fee_discounts', 'student_id', 'fee_discount_id');
+    }
 }

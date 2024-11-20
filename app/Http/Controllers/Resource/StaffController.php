@@ -66,7 +66,7 @@ class StaffController extends Controller
     {
         $staff->load(['warehouse', 'department', 'designation', 'staffCompensations']);
 
-        return view('staff.show', compact('staff'))->with('deleted', 'Deleted successfully.');
+        return view('staff.show', compact('staff'));
     }
 
     public function edit(Staff $staff)
@@ -91,7 +91,7 @@ class StaffController extends Controller
 
     public function destroy(Staff $staff)
     {
-        $staff->softdelete();
+        $staff->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

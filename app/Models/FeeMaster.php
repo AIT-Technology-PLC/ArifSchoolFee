@@ -25,4 +25,9 @@ class FeeMaster extends Model
     {
         return $this->belongsTo(FeeType::class);
     }
+
+    public function assignFeeMasters()
+    {
+        return $this->belongsToMany(FeeMaster::class, 'assign_fee_masters', 'student_id', 'fee_master_id');
+    }
 }

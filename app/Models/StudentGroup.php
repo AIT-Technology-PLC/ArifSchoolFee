@@ -20,4 +20,9 @@ class StudentGroup extends Model
         return LogOptions::defaults()
         ->useLogName('Student Group');
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

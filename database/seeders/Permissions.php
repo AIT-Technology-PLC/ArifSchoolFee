@@ -140,11 +140,11 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Student Group']);
 
             // Student
-            $permissions[] = Permission::firstOrCreate(['name' => 'Create Student Directory']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Read Student Directory']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Update Student Directory']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Student Directory']);
-            $permissions[] = Permission::firstOrCreate(['name' => 'Import Student Directory']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Student']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Student']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Student']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Student']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Import Student']);
 
             // Company
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Company']);

@@ -59,6 +59,10 @@ class VehicleController extends Controller
             return back()->with(['failedMessage' => 'This Vehicle Date is being used and cannot be deleted.']);
         }
 
+        if ($vehicle->students()->exists()) {
+            return back()->with(['failedMessage' => 'This Vehicle Date is being used and cannot be deleted.']);
+        }
+
         $vehicle->Delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

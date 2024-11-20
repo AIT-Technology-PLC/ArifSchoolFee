@@ -41,10 +41,20 @@ Route::resource('student-categories', Resource\StudentCategoryController::class)
 
 Route::resource('student-groups', Resource\StudentGroupController::class)->except(['show']);
 
-Route::resource('student-directories', Resource\StudentGroupController::class)->except(['show']);
+Route::resource('students', Resource\StudentController::class);
 
 Route::resource('user-logs', Resource\UserLogController::class)->only(['index']);
 
 Route::resource('activity-logs', Resource\ActivityLogController::class)->only(['index']);
 
 Route::resource('transaction-fields', Resource\TransactionFieldController::class)->only(['destroy']);
+
+Route::resource('assign-fees', Resource\AssignFeeMasterController::class)->only(['show','update']);
+
+Route::resource('assign-discount-fees', Resource\AssignFeeDiscountController::class)->only(['show','update']);
+
+Route::resource('collect-fees', Resource\CollectFeeController::class)->only(['index','show']);
+
+Route::resource('search-fee-payments', Resource\SearchFeePaymentController::class)->only(['index']);
+
+Route::resource('search-fee-dues', Resource\SearchFeeDueController::class)->only(['index']);

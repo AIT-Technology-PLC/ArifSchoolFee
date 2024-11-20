@@ -35,8 +35,8 @@ class PermissionCategorization
             'feature' => 'Student Group',
         ],
 
-        'student directory' => [
-            'label' => 'Student Directory',
+        'student' => [
+            'label' => 'Student',
             'feature' => 'Student Management',
         ],
 

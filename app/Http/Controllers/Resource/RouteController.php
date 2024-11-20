@@ -69,6 +69,10 @@ class RouteController extends Controller
 
     public function destroy(Route $route)
     {
+        if ($route->students()->exists()) {
+            return back()->with(['failedMessage' => 'This Route Date is being used and cannot be deleted.']);
+        }
+
         $route->delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

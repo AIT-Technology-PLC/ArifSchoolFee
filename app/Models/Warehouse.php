@@ -51,6 +51,11 @@ class Warehouse extends Model
         return $this->hasMany(User::class);
     }
 
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);

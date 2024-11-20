@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Invokable;
 
 use App\Http\Controllers\Controller;
 use App\Models\Staff;
+use App\Models\Student;
+use App\Models\Warehouse;
 
 class HomeController extends Controller
 {
@@ -13,12 +15,14 @@ class HomeController extends Controller
             return redirect()->route('admin.reports.dashboard');
         }
         
-        $totalStudent = Staff::count();
+        $totalStudent = Student::count();
 
         $totalStaff = Staff::count();
 
         $thisMonthRevenue = Staff::count();
 
-        return view('menu.index', compact('totalStudent', 'totalStaff', 'thisMonthRevenue'));
+        $activeBranches = Warehouse::active()->count();
+
+        return view('menu.index', compact('totalStudent', 'totalStaff', 'thisMonthRevenue', 'activeBranches'));
     }
 }

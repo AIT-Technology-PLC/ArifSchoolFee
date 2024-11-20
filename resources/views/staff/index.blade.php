@@ -25,7 +25,7 @@
                     class="btn-softblue is-outlined is-small"
                 />
             @endcan
-            @can('Create Branch')
+            @can('Create Staff')
                 <x-common.button
                     tag="a"
                     href="{{ route('staff.create') }}"
@@ -37,8 +37,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted') ?? session('imported')" />
-            <x-common.fail-message :message="session('limitReachedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <x-datatables.filter filters="'branch', 'department', 'designation'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-4 p-lr-0 pt-0">

@@ -20,4 +20,9 @@ class StudentCategory extends Model
         return LogOptions::defaults()
         ->useLogName('Student Category');
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }
