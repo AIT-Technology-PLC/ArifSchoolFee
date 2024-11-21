@@ -7,7 +7,7 @@
         <div class="column is-6 dp-lr-0">
             <x-common.total-model
                 model="Enabled"
-                box-color="bg-green"
+                box-color="bg-softblue"
                 :amount="$totalEnabledUsers"
                 icon="fas fa-check"
             />
@@ -15,7 +15,7 @@
         <div class="column is-6 dp-lr-0">
             <x-common.total-model
                 model="Disabled"
-                box-color="bg-purple"
+                box-color="bg-red"
                 :amount="$totalBlockedUsers"
                 icon="fas fa-ban"
             />

@@ -59,7 +59,8 @@
 <link
     href="https://fonts.cdnfonts.com/css/swera-demo"
     rel="stylesheet"
->
+/>
+
 
 @livewireStyles
 {{-- Local Assets --}}

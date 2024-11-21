@@ -15,6 +15,11 @@ class Student extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    protected $casts = [
+        'date_of_birth' => 'datetime',
+        'admission_date' => 'datetime',
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -59,6 +64,11 @@ class Student extends Model
     public function route()
     {
         return $this->belongsTo(Route::class);
+    }
+
+    public function feePayments()
+    {
+        return $this->hasMany(FeePayment::class);
     }
 
     public function assignFeeMasters()

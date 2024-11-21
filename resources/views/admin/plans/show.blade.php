@@ -15,7 +15,7 @@
         <div class="column is-6 p-lr-0">
             <x-common.total-model
                 model="Status"
-                box-color="bg-green"
+                box-color="bg-purple"
                 :amount="$plan->isEnabled() ? 'Enabled' : 'Disabled'"
                 icon="fas fa-check"
             />

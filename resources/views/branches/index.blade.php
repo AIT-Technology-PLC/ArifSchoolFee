@@ -14,7 +14,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Active"
-                box-color="bg-green"
+                box-color="bg-purple"
                 :amount="$totalActiveBranches"
                 icon="fas fa-check"
             />
@@ -22,7 +22,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="InActive"
-                box-color="bg-purple"
+                box-color="bg-red"
                 :amount="$totalInActiveBranches"
                 icon="fas fa-ban"
             />

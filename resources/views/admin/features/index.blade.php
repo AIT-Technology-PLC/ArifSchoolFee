@@ -15,7 +15,7 @@
         <div class="column is-6 p-lr-0">
             <x-common.total-model
                 model="Disabled"
-                box-color="bg-green"
+                box-color="bg-purple"
                 :amount="$totalDisabled"
                 icon="fas fa-ban"
             />

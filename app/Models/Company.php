@@ -155,6 +155,11 @@ class Company extends Model
         return $this->hasMany(AssignFeeDiscount::class);
     }
 
+    public function feePayments()
+    {
+        return $this->hasMany(FeePayment::class);
+    }
+    
     public function userLogs()
     {
         return $this->hasMany(UserLog::class);

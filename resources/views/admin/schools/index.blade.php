@@ -14,7 +14,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Enabled"
-                box-color="bg-green"
+                box-color="bg-purple"
                 :amount="$enabledSchools"
                 icon="fas fa-check"
             />
@@ -22,7 +22,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Deactivated"
-                box-color="bg-purple"
+                box-color="bg-red"
                 :amount="$disabledSchools"
                 icon="fas fa-ban"
             />

@@ -40,7 +40,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="{{ today()->monthName }} Subscriptions"
-                box-color="bg-green"
+                box-color="bg-purple"
                 :amount="$subscriptionReport->getTotalSubscriptionsThisMonth"
                 icon="fas fa-calendar-day"
             />
@@ -48,7 +48,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="{{ today()->addMonth()->monthName }} Subscriptions"
-                box-color="bg-brown"
+                box-color="bg-red"
                 :amount="$subscriptionReport->getTotalSubscriptionsNextMonth"
                 icon="fas fa-calendar-day"
             />

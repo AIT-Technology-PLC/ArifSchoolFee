@@ -8,13 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('assign_fee_masters', function (Blueprint $table) {
+        Schema::create('fee_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('student_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
-            $table->foreignId('fee_master_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('fee_discount_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('assign_fee_master_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->string('payment_mode');
+            $table->date('payment_date');
+            $table->decimal('amount');
+            $table->decimal('fine_amount');
+            $table->decimal('discount_amount');
+            $table->date('discount_month');
             $table->timestamps();
 
             $table->index('company_id');
@@ -23,6 +30,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::drop('assign_fee_masters');
+        Schema::drop('fee_payments');
     }
 };

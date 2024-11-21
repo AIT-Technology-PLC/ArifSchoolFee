@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resource;
 
 use App\DataTables\CollectFeeDatatable;
+use App\DataTables\StudentFeeDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use App\Models\Section;
@@ -31,12 +32,16 @@ class CollectFeeController extends Controller
         return $datatable->render('collect-fees.index', compact('branches', 'classes', 'sections'));
     }
 
-    public function show(Student $collectFee)
+    public function show(StudentFeeDatatable $datatable, Student $collectFee)
     {
         abort_if(authUser()->cannot('Update Collect Fee'), 403);
 
+        $datatable = new StudentFeeDatatable($collectFee->id);
+        
+        $datatable->builder()->setTableId('student-fees-datatable')->orderBy(0, 'asc');
+
         $collectFee->load(['warehouse', 'section', 'schoolClass', 'studentCategory', 'studentGroup']);
 
-        return view('collect-fees.show', compact('collectFee'));
+        return $datatable->render('collect-fees.show', compact('collectFee'));
     }
 }

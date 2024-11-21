@@ -7,7 +7,7 @@
                 <div class="level-item is-justify-content-left">
                     <div>
                         @if (isset($title))
-                            <h1 class="title text-softblue has-text-weight-medium is-size-5">
+                            <h1 class="title text-softblue has-text-weight-medium is-size-6">
                                 {{ $title }}
                             </h1>
                         @else

@@ -26,7 +26,7 @@ class CompaniesChart
             ->addData('Users', $companies->pluck('employees_count')->toArray())
             ->addData('Branches', $companies->pluck('warehouses_count')->toArray())
             ->setXAxis($companies->pluck('name')->toArray())
-            ->setGrid()
-            ->setColors(['#0736a1', '#cccccc']);
+            ->setColors(['#3FB3E8', '#C99289'])
+            ->setGrid();
     }
 }

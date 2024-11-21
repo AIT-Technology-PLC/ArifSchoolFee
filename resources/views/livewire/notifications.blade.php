@@ -10,7 +10,7 @@
         x-collapse
     >
         <article class="message m-lr-10">
-            <div class="message-header bg-blue has-text-white">
+            <div class="message-header bg-softblue has-text-white">
                 <p class="is-size-7">Notifications</p>
                 <button
                     class="delete"

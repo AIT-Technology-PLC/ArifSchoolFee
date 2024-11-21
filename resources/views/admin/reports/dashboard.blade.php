@@ -15,7 +15,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Schools Today"
-                box-color="bg-brown"
+                box-color="bg-purple"
                 :amount="$engagementReport->companies['activeCompanies']"
                 icon="fas fa-calendar-day"
             />
@@ -23,7 +23,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Users Today"
-                box-color="bg-gold"
+                box-color="bg-red"
                 :amount="$engagementReport->users['activeUsersToday']"
                 icon="fas fa-users"
             />

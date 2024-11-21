@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Invokable;
 
+use App\Charts\CollectedFeeChart;
 use App\Http\Controllers\Controller;
-use App\Models\Staff;
-use App\Models\Student;
-use App\Models\Warehouse;
+use App\Reports\DashboardReport;
 
 class HomeController extends Controller
 {
@@ -15,14 +14,10 @@ class HomeController extends Controller
             return redirect()->route('admin.reports.dashboard');
         }
         
-        $totalStudent = Student::count();
+        $dashboardReport = new  DashboardReport();
 
-        $totalStaff = Staff::count();
+        $chart = new CollectedFeeChart($dashboardReport);
 
-        $thisMonthRevenue = Staff::count();
-
-        $activeBranches = Warehouse::active()->count();
-
-        return view('menu.index', compact('totalStudent', 'totalStaff', 'thisMonthRevenue', 'activeBranches'));
+        return view('menu.index', ['chart' => $chart->build()],  compact('dashboardReport'));
     }
 }
