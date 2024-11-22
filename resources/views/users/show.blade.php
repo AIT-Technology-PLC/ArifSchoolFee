@@ -32,7 +32,7 @@
                     <div class="column is-10 pl-5 p-lr-0">
                         <div class="columns is-marginless is-multiline is-mobile">
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-user"></i>
                                     </span>
@@ -45,7 +45,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-cogs"></i>
                                     </span>
@@ -58,7 +58,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-user-tie"></i>
                                     </span>
@@ -71,7 +71,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-code-branch"></i>
                                     </span>
@@ -84,7 +84,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-at"></i>
                                     </span>
@@ -97,7 +97,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-th"></i>
                                     </span>
@@ -110,7 +110,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-lock"></i>
                                     </span>
@@ -118,12 +118,12 @@
                                         {{ $user->enabled ? 'Enabled' : 'Disabled' }}
                                     </span>
                                 </p>
-                                <p class="has-text-weight-bold {{ $user->enabled ? 'text-softblue' : 'text-purple' }} ml-1">
+                                <p class="has-text-weight-bold {{ $user->enabled ? 'text-softblue' : 'text-purple' }} ml-1 is-size-7">
                                     System Access
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-phone"></i>
                                     </span>
@@ -136,7 +136,7 @@
                                 </p>
                             </div>
                             <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                                <p class="has-text-grey is-size-7 is-uppercase">
+                                <p class="text-softblue is-size-7 is-uppercase">
                                     <span class="icon">
                                         <i class="fas fa-map-marker-alt"></i>
                                     </span>

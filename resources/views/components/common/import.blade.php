@@ -17,10 +17,11 @@
             <x-content.header>
                 <x-slot name="header">
                     <h1 class="title text-softblue has-text-weight-medium is-size-5">
-                        <x-common.icon name="fas fa-upload" />
+                        <x-common.icon name="fas fa-heading" />
                         - {{ $title }}
                     </h1>
                 </x-slot>
+                <button class="delete" aria-label="close"  @click="toggle"></button>
             </x-content.header>
             <form
                 id="formOne"
@@ -66,9 +67,4 @@
             </form>
         </x-common.content-wrapper>
     </div>
-    <x-common.button
-        tag="button"
-        class="modal-close is-large"
-        @click="toggle"
-    />
 </div>

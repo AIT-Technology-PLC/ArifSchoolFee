@@ -68,7 +68,7 @@ if (!function_exists('money')) {
     {
         $currency = $currency ?: userCompany()->currency;
 
-        return $currency . ' ' . number_format($amount, 2);
+        return $currency . '. ' . number_format($amount, 2);
     }
 }
 

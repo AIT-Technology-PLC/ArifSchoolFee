@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Models\Activity;
 
 class Company extends Model
 {
@@ -15,6 +14,7 @@ class Company extends Model
 
     protected $casts = [
         'enabled' => 'integer',
+        'enabled_commission_setting' => 'integer',
         'can_show_branch_detail_on_print' => 'integer',
         'can_send_payment_reminder' => 'integer',
         'can_send_sms_alert' => 'integer',

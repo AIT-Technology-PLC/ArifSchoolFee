@@ -110,6 +110,134 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-4">
+                        <x-forms.field>
+                            <x-forms.label for="enabled_commission_setting">
+                                Status <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="enabled_commission_setting"
+                                    name="enabled_commission_setting"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Status
+                                    </option>
+                                    <option
+                                        value="1"
+                                        @selected(old('enabled_commission_setting', $school->enabled_commission_setting) == '1')
+                                    >
+                                        Enable
+                                    </option>
+                                    <option
+                                        value="0"
+                                        @selected(old('enabled_commission_setting', $school->enabled_commission_setting) == '0')
+                                    >
+                                        Disable
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="enabled_commission_setting" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-4">
+                        <x-forms.field>
+                            <x-forms.label for="charge_from">
+                                Charge From <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="charge_from"
+                                    name="charge_from"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select
+                                    </option>
+                                    <option
+                                        value="payer"
+                                        @selected(old('charge_from', $school->charge_from) == 'payer')
+                                    >
+                                        Payer
+                                    </option>
+                                    <option
+                                        value="payee"
+                                        @selected(old('charge_from', $school->charge_from) == 'payee')
+                                    >
+                                        Payee
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="charge_from" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-4">
+                        <x-forms.label>
+                            Charge Type | Amount <sup class="has-text-danger"></sup>
+                        </x-forms.label>
+                        <x-forms.field class="has-addons">
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="charge_type"
+                                    name="charge_type"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select
+                                    </option>
+                                    <option
+                                        value="percent"
+                                        @selected(old('charge_type', $school->charge_type) == 'percent')
+                                    >
+                                        Percent
+                                    </option>
+                                    <option
+                                        value="amount"
+                                        @selected(old('charge_type', $school->charge_type) == 'amount')
+                                    >
+                                        Amount
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="charge_type" />
+                            </x-forms.control>
+                            <x-forms.control class="has-icons-left is-expanded">
+                                <x-forms.input
+                                    id="charge_amount"
+                                    type="number"
+                                    name="charge_amount"
+                                    placeholder="Amount"
+                                    value="{{ $school->charge_amount }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="charge_amount" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

@@ -14,7 +14,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Active"
-                box-color="bg-purple"
+                box-color="bg-lightblue"
                 :amount="$totalActiveBranches"
                 icon="fas fa-check"
             />
@@ -35,7 +35,7 @@
                 <x-common.button
                     tag="button"
                     mode="button"
-                    @click="$dispatch('open-import-modal') "
+                    @click="$dispatch('open-import-modal')"
                     icon="fas fa-upload"
                     label="Import Branches"
                     class="btn-softblue is-outlined is-small"

@@ -33,6 +33,11 @@ class DashboardReport
         return Warehouse::active()->count();
     }
 
+    public function getAssignedFeeMasterThisMonth()
+    {
+        return AssignFeeMaster::count();
+    }
+
     public function getThisMonthEstimation()
     {
         return AssignFeeMaster::with('feeMaster')

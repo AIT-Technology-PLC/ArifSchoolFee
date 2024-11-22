@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Staff"
                 :amount="$totalStaff"
-                icon="fas fa-user-group"
+                icon="fas fa-users"
             />
         </div>
     </div>

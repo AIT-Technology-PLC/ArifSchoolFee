@@ -15,7 +15,7 @@
         <div class="column is-6 p-lr-0">
             <x-common.total-model
                 model="Total Permissions"
-                box-color="bg-purple"
+                box-color="bg-red"
                 :amount="$totalRoles"
                 icon="fas fa-key"
             />

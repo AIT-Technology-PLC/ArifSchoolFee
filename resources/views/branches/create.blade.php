@@ -101,7 +101,7 @@
                                     name="fas fa-sort"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="gender" />
+                                <x-common.validation-error property="is_active" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

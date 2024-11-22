@@ -21,6 +21,10 @@ class StoreCompanyRequest extends FormRequest
             'email' => ['nullable', 'string', 'email', 'max:30', 'unique:companies'],
             'phone' => ['nullable', 'string', 'max:15', 'unique:companies'],
             'address' => ['nullable', 'string', 'max:50'],
+            'enabled_commission_setting' => ['nullable', 'boolean'],
+            'charge_from' => ['nullable', 'string', 'max:5', Rule::in(['payer', 'payee'])],
+            'charge_type' => ['nullable', 'string', 'max:7', Rule::in(['percent', 'amount'])],
+            'charge_amount' => ['nullable', 'numeric', 'gte:0'],
 
             'name' => ['required', 'string', 'max:30', 'regex:/^[A-Za-z\s]+$/'],
             'user.email' => ['required', 'string', 'email', 'max:25', 'unique:users,email'],

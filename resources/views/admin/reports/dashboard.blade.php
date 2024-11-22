@@ -15,7 +15,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Schools Today"
-                box-color="bg-purple"
+                box-color="bg-lightblue"
                 :amount="$engagementReport->companies['activeCompanies']"
                 icon="fas fa-calendar-day"
             />

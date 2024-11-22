@@ -40,7 +40,7 @@
         <div class="column is-6 p-lr-0">
             <x-common.total-model
                 model="Users"
-                box-color="bg-purple"
+                box-color="bg-lightblue"
                 :amount="number_format($engagementReport->companies['companies']->sum('employees_count'))"
                 icon="fas fa-user-group"
             />

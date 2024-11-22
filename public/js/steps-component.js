@@ -23,7 +23,7 @@ const steps = document.querySelectorAll('.steps-segment');
                     document.getElementById('prevButton').style.display = 'inline-block';
                 }
 
-                if (target === 'step-three') {
+                if (target === 'step-last') {
                     document.getElementById('nextButton').style.display = 'none';
                     document.getElementById('saveButton').style.display = 'inline-block';
                 } else {

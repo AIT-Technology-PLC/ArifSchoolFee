@@ -124,6 +124,15 @@
     display: block;
     padding: 0 !important;
 }
+
 li.select2-results__option.select2-results__option--group {
     padding: 0.37em 0.55em !important;
+}
+
+.modal-background {
+    background-color: rgba(233, 221, 221, 0.66) !important;
+}
+
+.large.modal-close {
+    color: #0000;
 }

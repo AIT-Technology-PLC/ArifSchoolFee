@@ -6,7 +6,7 @@
     <div class="columns is-marginless is-multiline">
         <div class="column is-12 p-lr-0">
             <x-common.total-model
-                model="Staff"
+                model="Student"
                 :amount="$totalStudents"
                 icon="fas fa-user-graduate"
             />

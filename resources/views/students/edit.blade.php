@@ -49,7 +49,7 @@
                             </div>
                         </a>
                     </li>
-                    <li class="steps-segment has-gaps" data-target="step-three">
+                    <li class="steps-segment has-gaps" data-target="step-last">
                         <a class="text-green">
                             <span class="steps-marker">
                             <span class="icon">
@@ -482,7 +482,7 @@
                     </div>
                 </div>
 
-                <div id="step-three" class="step-content">
+                <div id="step-last" class="step-content">
                     <div class="columns is-marginless is-multiline is-mobile">
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>

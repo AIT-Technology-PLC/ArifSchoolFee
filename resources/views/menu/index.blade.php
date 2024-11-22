@@ -18,7 +18,7 @@
                 <x-common.total-model
                     model="Active Branch"
                     headValue="Branch"
-                    box-color="bg-purple"
+                    box-color="bg-lightblue"
                     :amount="$dashboardReport->getActiveBranches"
                     icon="fas fa-code-branch"
                 />
@@ -34,11 +34,11 @@
             </div>
             <div class="column is-6-mobile is-6-tablet is-3-desktop">
                 <x-common.total-model
-                    model="This Month"
-                    headValue="Estimated"
+                    model="Assigned Fee Structure"
+                    headValue="This-Month"
                     box-color="bg-softblue"
-                    :amount="0"
-                    icon="fas fa-coins"
+                    :amount="$dashboardReport->getAssignedFeeMasterThisMonth"
+                    icon="fas fa-tasks"
                 />
             </div>
             <div class="column is-12-mobile is-6-tablet is-8-desktop">

@@ -98,49 +98,49 @@
             <x-common.success-message :message="session('successMessage')" />
             <x-common.fail-message :message="session('failedMessage')" />
             <div class="columns is-marginless is-multiline is-mobile">
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-heading"
                         :data="$school->name ?? 'N/A'"
                         label="School Name"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-sort"
                         :data="$school->schoolType->name ?? 'N/A'"
                         label="School Type"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-tag"
                         :data="str()->ucfirst($school->plan->name) ?? 'N/A'"
                         label="Subscription Plan"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-phone"
                         :data="$school->phone ?? 'N/A'"
                         label="Phone"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-envelope"
                         :data="$school->email ?? 'N/A'"
                         label="Email"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-location-dot"
                         :data="$school->address ?? 'N/A'"
                         label="Address"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <div class="columns is-marginless is-vcentered is-mobile {{ $school->isEnabled() ? 'text-softblue' : 'text-purple' }}">
                         <div class="column is-1">
                             <x-common.icon
@@ -154,25 +154,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-calendar"
                         :data="$school->created_at->toFormattedDateString()"
                         label="Registration Date"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-calendar"
                         :data="$school->subscription_expires_on?->toFormattedDateString() ?? 'Not Set'"
                         label="Subscription Expiry Date"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-calendar"
                         data="{{ (int) today()->diffInDays($school->subscription_expires_on, false) }} Days"
                         label="Subscription Expiry Days Left"
+                    />
+                </div>
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                    <x-common.show-data-section
+                        icon="fas fa-power-off"
+                        :data="$school->enabled_commission_setting == 1 ? 'Enabled' : 'Disabled'"
+                        label="Commission Charge"
+                    />
+                </div>
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                    <x-common.show-data-section
+                        icon="fas fa-user"
+                        :data="ucfirst($school->charge_from)"
+                        label="Charge From"
+                    />
+                </div>
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                    <x-common.show-data-section
+                        icon="fas fa-money-bill"
+                        :data="ucfirst($school->charge_type) . ' | ' . number_format($school->charge_amount, 2)"
+                        label="Charge Type | Amount"
                     />
                 </div>
             </div>

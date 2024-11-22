@@ -14,7 +14,7 @@
         <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Enabled"
-                box-color="bg-purple"
+                box-color="bg-lightblue"
                 :amount="$enabledSchools"
                 icon="fas fa-check"
             />
