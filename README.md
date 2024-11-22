@@ -1,8 +1,8 @@
-## About AIT TECHNOLOGY SCHOOL PAYMENT SYSTEM
+## About A Project Under AIT TECHNOLOGY PLC
 
-**AitSchoolPayment** is a multi-tenant Payment solution.
+**Multi School Centralized Payment Systsem** is a multi-tenant Payment solution.
 
-With its number of modules & features, **ait school payment** allows businesses to achieve a high level of synchronization among the different brances and units of a business.
+With its number of modules & features, **Multi Schhool Centralized Payment** allows businesses to achieve a high level of synchronization among the different brances and units of a business.
 
 ##### Characteristics:
 
@@ -12,7 +12,7 @@ With its number of modules & features, **ait school payment** allows businesses 
 
 ## Frameworks & Tools
 
-At its core [**ait AitSchoolPayment**](https://aittech.com/products/aitschoolpayment) uses [**Laravel**](https://laravel.com) as a fullstack framework.
+At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasleul/multi_school_payment_system.git) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
 | Stack       | Frontend Tools     | Backend Tools                            | Other Tools                         |
 | ----------- | ------------------ | ---------------------------------------- | ----------------------------------- |
@@ -55,8 +55,8 @@ At its core [**ait AitSchoolPayment**](https://aittech.com/products/aitschoolpay
 1. Clone repository & install dependencies
 
 ```bash
-git clone https://github.com/your-name/ait-school-payment.git
-cd ait-school-payment
+git clone https://github.com/mikiyasleul/multi_school_payment_system.git
+cd multi_school_payment_system
 composer install
 cp .env.example .env
 php artisan key:generate
