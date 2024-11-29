@@ -31,7 +31,7 @@
                     <th><abbr> # </abbr></th>
                     <th><abbr> Name </abbr></th>
                     <th><abbr> Features </abbr></th>
-                    <th><abbr> Companies </abbr></th>
+                    <th><abbr> Schools </abbr></th>
                     <th><abbr> Status </abbr></th>
                     <th><abbr> Action </abbr></th>
                 </x-slot>

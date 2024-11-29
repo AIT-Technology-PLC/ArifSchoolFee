@@ -1,6 +1,6 @@
 @props(['estimated', 'collected'])
 
-<div class="box bg-white text-softblue" style="border-left: 2px solid; height: 400px; display: flex; justify-content: center; align-items: center;">
+<div class="box bg-white text-softblue" style="border-left: 2px solid !important; height: 400px; display: flex; justify-content: center; align-items: center;">
     <div class="columns is-marginless is-vcentered is-mobile is-multiline">
         <div class="column is-12 has-text-centered py-0">
             <div class="is-size-7 has-text-weight-bold is-uppercase">

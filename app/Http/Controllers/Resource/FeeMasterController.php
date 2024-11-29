@@ -27,11 +27,9 @@ class FeeMasterController extends Controller
 
     public function create()
     {
-        $currentFeeMasterCode = nextReferenceNumber('fee_masters');
-
         $feeTypes = FeeType::orderBy('name')->get(['id', 'name']);
 
-        return view('fee-masters.create', compact('currentFeeMasterCode', 'feeTypes'));
+        return view('fee-masters.create', compact('feeTypes'));
     }
 
     public function store(StoreFeeMasterRequest $request)
@@ -46,6 +44,10 @@ class FeeMasterController extends Controller
   
     public function edit(FeeMaster $feeMaster)
     {
+        if ($feeMaster->assignFeeMasters()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Master has already been assigned and cannot be edited.']);
+        }
+
         $feeMaster->load(['feeType']);
 
         $feeTypes = FeeType::orderBy('name')->get(['id', 'name']);
@@ -55,6 +57,10 @@ class FeeMasterController extends Controller
 
     public function update(UpdateFeeMasterRequest $request, FeeMaster $feeMaster)
     {
+        if ($feeMaster->assignFeeMasters()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Master has already been assigned and cannot be edited.']);
+        }
+        
         $feeMaster->update($request->validated());
 
         return redirect()->route('fee-masters.index')->with('successMessage', 'Updated Successfully.');
@@ -62,6 +68,10 @@ class FeeMasterController extends Controller
 
     public function destroy(FeeMaster $feeMaster)
     {
+        if ($feeMaster->assignFeeMasters()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Master has already been assigned and cannot be deleted.']);
+        }
+
         $feeMaster->Delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

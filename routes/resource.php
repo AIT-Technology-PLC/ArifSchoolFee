@@ -43,6 +43,10 @@ Route::resource('student-groups', Resource\StudentGroupController::class)->excep
 
 Route::resource('students', Resource\StudentController::class);
 
+Route::resource('messages', Resource\MessageController::class)->except(['edit', 'update', 'destroy']);
+
+Route::resource('notices', Resource\NoticeController::class)->except(['edit', 'update' , 'destroy']);
+
 Route::resource('user-logs', Resource\UserLogController::class)->only(['index']);
 
 Route::resource('activity-logs', Resource\ActivityLogController::class)->only(['index']);

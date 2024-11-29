@@ -95,6 +95,16 @@ class Features extends Seeder
         );
 
         Feature::updateOrCreate(
+            ['name' => 'Email/SMS Management'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
+            ['name' => 'Notice Management'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
             ['name' => 'Log Management'],
             ['is_enabled' => 1]
         );
@@ -159,6 +169,8 @@ class Features extends Seeder
             'Notification Management',
             'Employee Management',
             'Push Notification',
+            'Email/SMS Management',
+            'Notice Management',
             'Log Management',
             'Student Category',
             'Student Group',
@@ -201,6 +213,8 @@ class Features extends Seeder
                     'General Settings',
                     'Notification Management',
                     'Push Notification',
+                    'Email/SMS Management',
+                    'Notice Management',
                     'Log Management',
                     'Employee Management',
                 ])

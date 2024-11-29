@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class Warehouse extends Model
 {
@@ -56,6 +57,11 @@ class Warehouse extends Model
         return $this->hasMany(Student::class);
     }
 
+    public function notices()
+    {
+        return $this->belongsToMany(Notice::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
@@ -69,5 +75,20 @@ class Warehouse extends Model
     public function isActive()
     {
         return $this->is_active;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        
+        self::creating(function ($model) {
+            $model->code = IdGenerator::generate([
+                'table' => 'warehouses', 
+                'length' => 8, 
+                'field' => 'code', 
+                'prefix' => userCompany()->company_code.'/',
+                'reset_on_prefix_change' => true,
+                ]);
+        });
     }
 }

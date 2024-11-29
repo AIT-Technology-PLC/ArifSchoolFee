@@ -45,4 +45,9 @@ class Staff extends Model
     {
         return $this->hasOne(StaffCompensation::class);
     }
+
+    public function messageDetails()
+    {
+        return $this->hasMany(MessageDetail::class);
+    }
 }

@@ -130,6 +130,8 @@
         <x-content.header title="Add Fees">
         </x-content.header>
         <x-content.footer>
+            <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <div>  {{ $dataTable->table() }} </div>
         </x-content.footer>
     </x-common.content-wrapper>

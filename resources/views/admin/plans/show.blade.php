@@ -32,7 +32,7 @@
                         <div class="tile is-child box" style="border-left: 2px solid">
                             <div class="hero">
                                 <div class="hero-head">
-                                    <p class="text-softblue has-text-weight-bold is-uppercase heading is-size-6"> Companies </p>
+                                    <p class="text-softblue has-text-weight-bold is-uppercase heading is-size-6"> Schools </p>
                                 </div>
                                 <div class="hero-body px-0 pt-1">
                                     <p class="title text-softblue">{{ $plan->companies_count }}</p>

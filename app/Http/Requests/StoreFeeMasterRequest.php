@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\MustBelongToCompany;
-use App\Rules\UniqueReferenceNum;
 use Illuminate\Validation\Rule;
 
 class StoreFeeMasterRequest extends FormRequest
@@ -17,7 +16,6 @@ class StoreFeeMasterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('fee_masters')],
             'fee_type_id' => ['required', 'integer', new MustBelongToCompany('fee_types')],
             'due_date' => ['required', 'date', 'after:' . now()],
             'amount' => ['required', 'numeric', 'gte:0'],

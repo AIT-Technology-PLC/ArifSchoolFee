@@ -76,7 +76,7 @@
 
                 <div id="step-one" class="step-content is-active">
                     <div class="columns is-marginless is-multiline is-mobile">
-                        <div class="column is-6-mobile is-6-tablet is-6-desktop">
+                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
                                 <x-forms.label for="company_name">
                                     Name <sup class="has-text-danger">*</sup>
@@ -97,7 +97,28 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
-                        <div class="column is-6-mobile is-6-tablet is-6-desktop">
+                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                            <x-forms.field>
+                                <x-forms.label for="company_code">
+                                    School Code <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="text"
+                                        id="company_code"
+                                        name="company_code"
+                                        placeholder="School Code"
+                                        value="{{ old('company_code') }}"
+                                    />
+                                    <x-common.icon
+                                        name="fa-brands fa-autoprefixer"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="company_code" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
                                 <x-forms.label for="school_type_id">
                                     Type <sup class="has-text-danger">*</sup>

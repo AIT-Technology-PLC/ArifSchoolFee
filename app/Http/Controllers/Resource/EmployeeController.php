@@ -39,10 +39,6 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        if (limitReached('user', Employee::enabled()->count())) {
-            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
-        }
-
         $roles = Role::all()->where('name', '<>', 'System Manager');
 
         $branches = Warehouse::orderBy('name')->get(['id', 'name']);
@@ -52,10 +48,6 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request, CreateUserAction $action)
     {
-        if (limitReached('user', Employee::enabled()->count())) {
-            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
-        }
-
         $action->execute($request->validated());
 
         return redirect()->route('users.index');
@@ -83,12 +75,6 @@ class EmployeeController extends Controller
 
     public function update(UpdateEmployeeRequest $request, Employee $user, UpdateUserAction $action)
     {
-        if (!$user->isEnabled() && $request->validated('enabled') && limitReached('user', Employee::enabled()->count())) {
-            $action->execute($user, $request->safe()->except('enabled'));
-
-            return redirect()->route('users.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
-        }
-
         $action->execute($user, $request->validated());
 
         return redirect()->route('users.index');

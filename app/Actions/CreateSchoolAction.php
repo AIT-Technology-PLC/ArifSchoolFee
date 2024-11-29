@@ -19,12 +19,13 @@ class CreateSchoolAction
     {
         $company = Company::create([
             'name' => $data['company_name'],
+            'company_code' => $data['company_code'] ?? 'CODE',
             'school_type_id' => $data['school_type_id'] ?? null,
             'email' => $data['email'] ?? null,
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,
             'enabled' => 0,
-            'currency' => 'ETB',
+            'currency' => 'Br',
         ]);
 
         $subscription = $company->subscriptions()->create($data['subscriptions']);

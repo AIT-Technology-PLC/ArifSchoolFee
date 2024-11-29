@@ -19,9 +19,7 @@ class Permissions extends Seeder
             $permissions = [];
 
             // Roles
-            $analyst = Role::firstOrCreate(['name' => 'Analyst']);
             $systemManager = Role::firstOrCreate(['name' => 'System Manager']);
-            $custom = Role::firstOrCreate(['name' => 'Custom']);
 
             // Branch
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Branch']);
@@ -149,9 +147,19 @@ class Permissions extends Seeder
             // Company
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Company']);
 
-            //Log
+            // Log
             $permissions[] = Permission::firstOrCreate(['name' => 'Read User Login Log']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Activity Log']);
+
+            // Email and SMS 
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Message']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Message']);
+
+            // Notice 
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Notice']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Notice']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Notice']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Notice']);
 
             // Admin Panel
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Companies']);
@@ -173,8 +181,6 @@ class Permissions extends Seeder
             );
 
             // Assign permissions to role
-            $analyst->syncPermissions(Permission::where('name', 'like', 'Read%')->pluck('name'));
-
             $systemManager->syncPermissions(Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->get());
         });
     }

@@ -16,6 +16,9 @@ class SearchFeeDueDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('admission no', fn($assignFeeMaster) => $assignFeeMaster->student->code)
+            ->editColumn('name', fn($assignFeeMaster) => str($assignFeeMaster->student->first_name)->append(' '.$assignFeeMaster->student->father_name))
+            ->editColumn('branch', fn($assignFeeMaster) => $assignFeeMaster->student->warehouse->name)
+            ->editColumn('class', fn($assignFeeMaster) => str($assignFeeMaster->student->schoolClass->name)->append(' ( '.$assignFeeMaster->student->section->name . ' )'))
             ->editColumn('due_date', fn($assignFeeMaster) => $assignFeeMaster->feeMaster->due_date?->toFormattedDateString())
             ->editColumn('amount', fn($assignFeeMaster) => money($assignFeeMaster->feeMaster->amount))
             ->editColumn('name', fn($assignFeeMaster) => str($assignFeeMaster->student->first_name)->append(' '.$assignFeeMaster->student->father_name))
@@ -49,6 +52,8 @@ class SearchFeeDueDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('admission no','student.code'),
+            Column::make('branch','student.warehouse_id'),
+            Column::make('class', 'student.school_class_id'),
             Column::make('name', 'student.first_name')->content('N/A'),
             Column::make('due_date', 'feeMaster.due_date')->content('N/A'),
             Column::make('amount', 'feeMaster.amount')->content('N/A'),

@@ -71,6 +71,11 @@ class Student extends Model
         return $this->hasMany(FeePayment::class);
     }
 
+    public function messageDetails()
+    {
+        return $this->hasMany(MessageDetail::class);
+    }
+
     public function assignFeeMasters()
     {
         return $this->belongsToMany(FeeMaster::class, 'assign_fee_masters', 'student_id', 'fee_master_id');

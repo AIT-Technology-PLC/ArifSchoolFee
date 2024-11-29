@@ -68,3 +68,5 @@ Route::post('/fee-types/import', [Action\FeeTypeController::class, 'import'])->n
 Route::post('/staffs/import', [Action\StaffController::class, 'import'])->name('staffs.import');
 
 Route::post('/students/import', [Action\StudentController::class, 'import'])->name('students.import');
+
+Route::get('/fee-reminders/{assignFeeMaster}', [Action\PaymentReminderController::class, 'sendPaymentReminder'])->name('fee-reminder');

@@ -27,169 +27,169 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="from_name">
-                                From Name <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_FROM_NAME">
+                                MAIL_FROM_NAME <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="from_name"
-                                    name="from_name"
+                                    id="MAIL_FROM_NAME"
+                                    name="MAIL_FROM_NAME"
                                     type="text"
-                                    placeholder="From Name"
-                                    value="{{ $Email->from_name ?? old('from_name') }}"
+                                    placeholder="MAIL_FROM_NAME"
+                                    value="{{ get_static_option('MAIL_FROM_NAME') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="from_name" />
+                                <x-common.validation-error property="MAIL_FROM_NAME" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="from_mail">
-                                From Mail <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_FROM_ADDRESS">
+                                MAIL_FROM_ADDRESS <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="from_mail"
-                                    name="from_mail"
+                                    id="MAIL_FROM_ADDRESS"
+                                    name="MAIL_FROM_ADDRESS"
                                     type="text"
-                                    placeholder="From Mail"
-                                    value="{{ $Email->from_mail ?? old('from_mail') }}"
+                                    placeholder="MAIL_FROM_ADDRESS"
+                                    value="{{ get_static_option('MAIL_FROM_ADDRESS') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-envelope"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="from_mail" />
+                                <x-common.validation-error property="MAIL_FROM_ADDRESS" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_driver">
-                                Mail Driver <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_MAILER">
+                                MAIL_MAILER <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_driver"
-                                    name="mail_driver"
+                                    id="MAIL_MAILER"
+                                    name="MAIL_MAILER"
                                     type="text"
-                                    placeholder="Email Driver"
-                                    value="{{ $Email->mail_driver ?? old('mail_driver') }}"
+                                    placeholder="MAIL_MAILER"
+                                    value="{{ get_static_option('MAIL_MAILER') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_driver" />
+                                <x-common.validation-error property="MAIL_MAILER" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_host">
-                                Mail Host <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_HOST">
+                                MAIL_HOST <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_host"
-                                    name="mail_host"
+                                    id="MAIL_HOST"
+                                    name="MAIL_HOST"
                                     type="text"
-                                    placeholder="Mail Host"
-                                    value="{{ $Email->mail_host ?? old('mail_host') }}"
+                                    placeholder="MAIL_HOST"
+                                    value="{{ get_static_option('MAIL_HOST') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-th"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_host" />
+                                <x-common.validation-error property="MAIL_HOST" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_port">
-                                Mail Port <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_PORT">
+                                MAIL_PORT <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_port"
-                                    name="mail_port"
+                                    id="MAIL_PORT"
+                                    name="MAIL_PORT"
                                     type="number"
-                                    placeholder="Mail Port"
-                                    value="{{ $Email->mail_port ?? old('mail_port') }}"
+                                    placeholder="MAIL_PORT"
+                                    value="{{ get_static_option('MAIL_PORT') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_port" />
+                                <x-common.validation-error property="MAIL_PORT" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_username">
-                                Mail Username <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_USERNAME">
+                                MAIL_USERNAME <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_username"
-                                    name="mail_username"
+                                    id="MAIL_USERNAME"
+                                    name="MAIL_USERNAME"
                                     type="text"
-                                    placeholder="Mail Username"
-                                    value="{{ $Email->mail_username ?? old('mail_username') }}"
+                                    placeholder="MAIL_USERNAME"
+                                    value="{{ get_static_option('MAIL_USERNAME') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-user"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_username" />
+                                <x-common.validation-error property="MAIL_USERNAME" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_password">
-                                Mail Password <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_PASSWORD">
+                                MAIL_PASSWORD <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_password"
-                                    name="mail_password"
+                                    id="MAIL_PASSWORD"
+                                    name="MAIL_PASSWORD"
                                     type="password"
-                                    placeholder="Mail Password"
-                                    value="{{ $Email->mail_password ?? old('mail_password') }}"
+                                    placeholder="MAIL_PASSWORD"
+                                    value="{{ get_static_option('MAIL_PASSWORD') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-lock"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_password" />
+                                <x-common.validation-error property="MAIL_PASSWORD" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-6">
                         <x-forms.field>
-                            <x-forms.label for="mail_encryption">
-                                Mail Encryption <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="MAIL_ENCRYPTION">
+                                MAIL_ENCRYPTION <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="mail_encryption"
-                                    name="mail_encryption"
+                                    id="MAIL_ENCRYPTION"
+                                    name="MAIL_ENCRYPTION"
                                     type="text"
-                                    placeholder="Mail Encryption"
-                                    value="{{ $Email->mail_encryption ?? old('mail_encryption') }}"
+                                    placeholder="MAIL_ENCRYPTION"
+                                    value="{{ get_static_option('MAIL_ENCRYPTION') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="mail_encryption" />
+                                <x-common.validation-error property="MAIL_ENCRYPTION" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

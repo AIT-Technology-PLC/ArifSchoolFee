@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\AssignFeeMaster;
-use App\Models\FeeMaster;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -86,10 +85,11 @@ class StudentFeeDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('fees', 'feeMaster.name')->content('N/A')->searchable(false),
+            Column::make('invoice_number'),
+            Column::make('fees', 'feeMaster.name')->content('N/A')->orderable(false),
             Column::make('due_date', 'feeMaster.due_date'),
-            Column::make('amount', 'feeMaster.amount'),
             Column::make('status')->orderable(false),
+            Column::make('amount', 'feeMaster.amount'),
             Column::make('mode', 'feePayments.payment_mode'),
             Column::make('date', 'feePayments.payment_date'),
             Column::make('discount', 'feePayments.discount_amount')->content('0.00'),

@@ -431,8 +431,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Fee Group','Fee Type', 'Fee Discount','Fee Master', 'Collect Fee'))
-        @canany(['Read Fee Group', 'Read Fee Type','Read Fee Discount','Read Fee Master', 'Read Collect Fee', 'Search Fee Payment', 'Search Fee Due'])
+    @if (isFeatureEnabled('Fee Group','Fee Type', 'Fee Discount','Fee Master'))
+        @canany(['Read Fee Group', 'Read Fee Type','Read Fee Discount','Read Fee Master'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -449,7 +449,7 @@
                             name="fas fa-coins"
                             class="m-0"
                         />
-                        <span class="ml-2"> Fee Collection  </span>
+                        <span class="ml-2"> Fee Structure  </span>
 
                         <span class="icon ml-auto">
                             <i
@@ -518,6 +518,47 @@
                             </li>
                         @endcan
                     @endif
+                    </ul>
+                </li>
+            </ul>
+        @endcan
+    @endif
+
+    @if (isFeatureEnabled('Collect Fee'))
+        @canany(['Read Collect Fee', 'Search Fee Payment', 'Search Fee Due'])
+            <ul
+                x-data="sideMenuAccordion"
+                class="menu-list mb-2"
+            >
+                <li>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        @click="toggleAccordion"
+                    >
+                        <x-common.icon
+                            name="fas fa-hand-holding-dollar"
+                            class="m-0"
+                        />
+                        <span class="ml-2"> Fee Collection  </span>
+
+                        <span class="icon ml-auto">
+                            <i
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                            ></i>
+                        </span>
+                    </x-common.button>
+                </li>
+                <li>
+                    <ul
+                        class="mt-0 ml-5"
+                        x-show="isAccordionOpen"
+                        x-cloak
+                        x-collapse
+                    >
                     @if (isFeatureEnabled('Collect Fee'))
                         @can('Read Collect Fee')
                             <li>
@@ -559,8 +600,8 @@
         @endcan
     @endif
 
-    @if (isFeatureEnabled('Log Management'))
-        @canany(['Read User Login Log', 'Read Activity Log'])
+    @if (isFeatureEnabled('Email/SMS Management'))
+        @canany(['Read Message'])
             <ul
                 x-data="sideMenuAccordion"
                 class="menu-list mb-2"
@@ -574,14 +615,14 @@
                         @click="toggleAccordion"
                     >
                         <x-common.icon
-                            name="fas fa-history"
+                            name="fas fa-comments"
                             class="m-0"
                         />
-                        <span class="ml-2"> Logs </span>
+                        <span class="ml-2"> Communication </span>
                         <span class="icon ml-auto">
                             <i
-                                class="fas fa-caret-right"
-                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                                class="fas fa-caret-left"
+                                :class="{ 'fa-caret-left': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>
@@ -593,28 +634,28 @@
                         x-show="isAccordionOpen"
                         x-collapse
                     >
-                            @can('Read User Login Log')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('user-logs.index') }}"
-                                        label="User Log"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('user-logs.*') ? 'text-blue has-text-weight-bold' : '' }} "
-                                        x-init="{{ request()->routeIs('user-logs.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                            @can('Read Activity Log')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('activity-logs.index') }}"
-                                        label="Activity Log"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('activity-logs.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('activity-logs.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
+                    @can('Read Notice')
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('notices.index') }}"
+                                label="Notice"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('notices.*') ? 'text-blue has-text-weight-bold' : '' }} "
+                                x-init="{{ request()->routeIs('notices.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                    @endcan
+                    @can('Read Message')
+                        <li>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('messages.index') }}"
+                                label="Email/SMS"
+                                class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('messages.*') ? 'text-blue has-text-weight-bold' : '' }} "
+                                x-init="{{ request()->routeIs('messages.*') ? 'activateAccordion' : '' }}"
+                            />
+                        </li>
+                    @endcan
                     </ul>
                 </li>
             </ul>
@@ -679,6 +720,68 @@
                                 </li>
                             @endcan
                         @endif
+                    </ul>
+                </li>
+            </ul>
+        @endcanany
+    @endif
+
+    @if (isFeatureEnabled('Log Management'))
+        @canany(['Read User Login Log', 'Read Activity Log'])
+            <ul
+                x-data="sideMenuAccordion"
+                class="menu-list mb-2"
+            >
+                <li>
+                    <x-common.button
+                        tag="button"
+                        mode="button"
+                        class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        @click="toggleAccordion"
+                    >
+                        <x-common.icon
+                            name="fas fa-history"
+                            class="m-0"
+                        />
+                        <span class="ml-2"> Logs </span>
+                        <span class="icon ml-auto">
+                            <i
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                            ></i>
+                        </span>
+                    </x-common.button>
+                </li>
+                <li>
+                    <ul
+                        class="mt-0 ml-5"
+                        x-cloak
+                        x-show="isAccordionOpen"
+                        x-collapse
+                    >
+                            @can('Read User Login Log')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('user-logs.index') }}"
+                                        label="User Log"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('user-logs.*') ? 'text-blue has-text-weight-bold' : '' }} "
+                                        x-init="{{ request()->routeIs('user-logs.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
+                            @can('Read Activity Log')
+                                <li>
+                                    <x-common.button
+                                        tag="a"
+                                        href="{{ route('activity-logs.index') }}"
+                                        label="Activity Log"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('activity-logs.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('activity-logs.*') ? 'activateAccordion' : '' }}"
+                                    />
+                                </li>
+                            @endcan
                     </ul>
                 </li>
             </ul>

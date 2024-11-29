@@ -14,23 +14,21 @@ class StoreSmsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'single_message_url' => ['required', 'string'],
-            'bulk_message_url' => ['required', 'string'],
-            'security_message_url' => ['required', 'string'],
-            'from' => ['required', 'string','max:100'],
-            'token' => ['required', 'integer'],
-            'sender' => ['nullable', 'string', 'max:20'],
-            'callback' => ['nullable', 'string','max:50'],
-            'compaign' => ['nullable', 'string'],
-            'create_callback' => ['nullable', 'string', 'max:50'],
-            'status_callback' => ['nullable', 'string', 'max:50'],
-            'message_prefix' => ['nullable', 'string', 'max:3'],
-            'message_postfix' => ['nullable', 'string', 'max:3'],
-            'space_before' => ['nullable', 'numeric', 'between:0,3'],
-            'space_after' => ['nullable', 'numeric', 'between:0,3'],
-            'time_to_live' => ['nullable', 'numeric', 'gte:0'],
-            'code_length' => ['nullable', 'numeric', 'between:3,6'],
-            'code_type' => ['nullable', 'numeric', 'between:0,2'],
+            'AFROMESSAGE_SINGLE_MESSAGE_URL' => ['required', 'string','max:100'],
+            'AFROMESSAGE_BULK_MESSAGE_URL' => ['required', 'string','max:100'],
+            'AFROMESSAGE_SECURITY_MESSAGE_URL' => ['required', 'string','max:100'],
+            'AFROMESSAGE_FROM' => ['required', 'string','max:100'],
+            'AFROMESSAGE_TOKEN' => ['required', 'string'],
+            'AFROMESSAGE_SENDER' => ['nullable', 'string', 'max:20'],
+            'AFROMESSAGE_CALLBACK' => ['nullable', 'string','max:50'],
+            'AFROMESSAGE_CAMPAIGN_NAME' => ['nullable', 'string'],
+            'AFROMESSAGE_CREATE_CALLBACK' => ['nullable', 'string', 'max:50'],
+            'AFROMESSAGE_STATUS_CALLBACK' => ['nullable', 'string', 'max:50'],
+            'SPACES_BEFORE' => ['nullable', 'numeric', 'between:0,3'],
+            'SPACES_AFTER' => ['nullable', 'numeric', 'between:0,3'],
+            'TIME_TO_LIVE' => ['nullable', 'numeric', 'gte:0'],
+            'CODE_LENGTH' => ['nullable', 'numeric', 'between:3,6'],
+            'CODE_TYPE' => ['nullable', 'numeric', 'between:0,2'],
         ];
     }
 }

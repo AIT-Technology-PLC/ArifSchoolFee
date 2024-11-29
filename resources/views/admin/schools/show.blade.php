@@ -107,6 +107,13 @@
                 </div>
                 <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
+                        icon="fa-brands fa-autoprefixer"
+                        :data="$school->company_code ?? 'N/A'"
+                        label="School Code"
+                    />
+                </div>
+                <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                    <x-common.show-data-section
                         icon="fas fa-sort"
                         :data="$school->schoolType->name ?? 'N/A'"
                         label="School Type"
@@ -141,18 +148,11 @@
                     />
                 </div>
                 <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                    <div class="columns is-marginless is-vcentered is-mobile {{ $school->isEnabled() ? 'text-softblue' : 'text-purple' }}">
-                        <div class="column is-1">
-                            <x-common.icon
-                                name="fas {{ $school->isEnabled() ? 'fa-check-circle' : 'fa-times-circle' }}"
-                                class="is-size-3"
-                            />
-                        </div>
-                        <div class="column m-lr-20">
-                            <div class="is-size- has-text-weight-bold"> {{ $school->isEnabled() ? 'Active' : 'Deactivated' }} </div>
-                            <div class="is-uppercase is-size-7"> Status </div>
-                        </div>
-                    </div>
+                    <x-common.show-data-section
+                        icon="fas {{ $school->isEnabled() ? 'fa-check-circle' : 'fa-times-circle' }}"
+                        data="{{ $school->isEnabled() ? 'Active' : 'Deactivated' }}"
+                        label="Status"
+                    />
                 </div>
                 <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section

@@ -10,7 +10,7 @@
             line-height: 1.6;
         }
         .container {
-            width: 80%;
+            width: 70%;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #e2e2e2;
@@ -20,7 +20,7 @@
         .header {
             text-align: center;
             color: #ffffff;;
-            background-color: #3b53b3;
+            background-color: #6079ca;
             padding: 3px;
             border-radius: 5px;
         }
@@ -40,13 +40,8 @@
             <h2>{{ $subject }}</h2>
         </div>
         <div class="content">
-            <p>Dear {{$data->name}},</p>
-
-            <p>We received a request to reset your password. To reset your password, please click the link below:</p>
-            <p>{{ route('forget.edit', ['token' => $data->reset_token]) }} </p>
-
-            <p>If you did not request a password reset, please ignore this email.</p>
-            <p>Thank you</p>
+            <p>Dear {{$receiver}},</p>
+            <p>{!! nl2br($message_content) !!}</p>
         </div>
         <div class="footer">
             <p>&copy; AIT Technology. All rights reserved.</p>

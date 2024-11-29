@@ -65,12 +65,6 @@ return [
     |
     */
 
-    'arifpay_api_key' => env('ARIFPAY_API_KEY'),
-
-    'hahu_api_key' => env('HAHU_API_KEY'),
-
-    'hahu_device_id' => env('HAHU_DEVICE_ID'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

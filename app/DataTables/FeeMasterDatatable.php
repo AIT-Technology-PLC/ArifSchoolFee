@@ -18,6 +18,7 @@ class FeeMasterDatatable extends DataTable
             ->editColumn('fee group', fn($feeMaster) => $feeMaster->feeType->feeGroup->name)
             ->editColumn('fee type', fn($feeMaster) => $feeMaster->feeType->name)
             ->editColumn('due_date', fn($feeMaster) => $feeMaster->due_date->toFormattedDateString())
+            ->editColumn('fine_type', fn($feeMaster) => ucfirst($feeMaster->fine_type))
             ->editColumn('created_at', fn($feeMaster) => $feeMaster->created_at->toFormattedDateString())
             ->editColumn('added by', fn($feeMaster) => $feeMaster->createdBy->name ?? 'N/A')
             ->editColumn('edited by', fn($feeMaster) => $feeMaster->updatedBy->name ?? 'N/A')
@@ -43,9 +44,8 @@ class FeeMasterDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('code')->title('Fee No'),
-            Column::make('fee group')->content('N/A')->searchable(false),
             Column::make('fee type', 'feeType.name')->content('N/A'),
+            Column::make('fee group')->content('N/A')->searchable(false),
             Column::make('amount'),
             Column::make('due_date'),
             Column::make('fine_type')->content('N/A'),

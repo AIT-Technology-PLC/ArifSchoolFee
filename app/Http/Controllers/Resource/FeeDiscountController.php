@@ -43,11 +43,19 @@ class FeeDiscountController extends Controller
   
     public function edit(FeeDiscount $feeDiscount)
     {
+        if ($feeDiscount->assignFeeDiscounts()->exists() || $feeDiscount->feePayments()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Discount has already been assigned and cannot be edited.']);
+        }
+
         return view('fee-discounts.edit',  compact('feeDiscount'));
     }
   
     public function update(UpdateFeeDiscountRequest $request, FeeDiscount $feeDiscount)
     {
+        if ($feeDiscount->assignFeeDiscounts()->exists() || $feeDiscount->feePayments()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Discount has already been assigned and cannot be edited.']);
+        }
+
         $feeDiscount->update($request->validated());
 
         return redirect()->route('fee-discounts.index')->with('successMessage', 'Updated Successfully.');
@@ -56,6 +64,10 @@ class FeeDiscountController extends Controller
  
     public function destroy(FeeDiscount $feeDiscount)
     {
+        if ($feeDiscount->assignFeeDiscounts()->exists() || $feeDiscount->feePayments()->exists()) {
+            return back()->with(['failedMessage' => 'This Fee Discount has already been assigned and cannot be deleted.']);
+        }
+
         $feeDiscount->delete();
 
         return back()->with('deleted', 'Deleted Successfully.');

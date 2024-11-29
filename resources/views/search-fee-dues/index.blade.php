@@ -115,7 +115,7 @@
                     </div>
                 </div>
             </x-datatables.filter>
-            <div > 
+            <div id="dataTableContainer" class="is-hidden"> 
                 {{ $dataTable->table() }} 
             </div>
         </x-content.footer>

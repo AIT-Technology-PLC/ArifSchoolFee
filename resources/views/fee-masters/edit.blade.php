@@ -24,29 +24,8 @@
             @csrf
             @method('PATCH')
             <div class="box radius-bottom-0 mb-0 radius-top-0">
-                <div class="columns is-marginless is-multiline">
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label for="code">
-                                Fee Master No <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    type="number"
-                                    name="code"
-                                    id="code"
-                                    readonly
-                                    value="{{ $feeMaster->code }}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-hashtag"
-                                    class="is-large is-left"
-                                />
-                                <x-common.validation-error property="code" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
+                <div class="columns is-marginless is-multiline is-mobile">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="fee_type_id">
                                 Fee Type <sup class="has-text-danger">*</sup>
@@ -80,7 +59,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="due_date">
                                 Due Date <sup class="has-text-danger">*</sup>
@@ -92,7 +71,7 @@
                                     name="due_date"
                                     type="date"
                                     placeholder="mm/dd/yyyy"
-                                    value="{{ $feeMaster->due_date ?? now()->toDateString() }}"
+                                    value="{{ $feeMaster->due_date->toDateString() ?? now()->toDateString() }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-calendar-alt"
@@ -102,7 +81,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="amount">
                                 Amount <sup class="has-text-danger">*</sup>
@@ -123,7 +102,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.label>
                             Fine Type <sup class="has-text-danger"></sup>
                         </x-forms.label>
@@ -142,11 +121,11 @@
                                     </option>
                                     <option
                                         value="percentage"
-                                        @selected($feeMaster->fine_type ?? old('fine_type') == 'percentage')
+                                        @selected($feeMaster->fine_type == 'percentage')
                                     > Percentage </option>
                                     <option
                                         value="amount"
-                                        @selected($feeMaster->fine_type ?? old('fine_type') == 'amount')
+                                        @selected($feeMaster->fine_type == 'amount')
                                     > Amount </option>
                                 </x-forms.select>
                                 <x-common.icon
@@ -155,7 +134,7 @@
                                 />
                                 <x-common.validation-error property="fine_type" />
                             </x-forms.control>
-                            <x-forms.control class="has-icons-left">
+                            <x-forms.control class="has-icons-left is-expanded">
                                 <x-forms.input
                                     id="fine_amount"
                                     name="fine_amount"

@@ -50,6 +50,10 @@ class StudentController extends Controller
 
     public function create()
     {
+        if (limitReached('student', Student::count())) {
+            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
+        }
+
         $data = $this->studentService->create();
 
         return view('students.create', $data);
@@ -57,9 +61,13 @@ class StudentController extends Controller
 
     public function store(StoreStudentRequest $request)
     {
+        if (limitReached('student', Student::count())) {
+            return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
+        }
+
         Student::firstOrCreate(
-            $request->safe()->only(['first_name'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['first_name'] + ['company_id' => userCompany()->id]),
+            $request->safe()->only(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
+            $request->safe()->except(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('students.index')->with('successMessage', 'New Student Added Successfully.');
@@ -81,6 +89,10 @@ class StudentController extends Controller
 
     public function update(UpdateStudentRequest $request, Student $student)
     {
+        if (limitReached('student', Student::count())) {
+            return redirect()->route('students.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
+        }
+
         $student->update($request->validated());
 
         return redirect()->route('students.index')->with('successMessage', 'Updated Successfully.');

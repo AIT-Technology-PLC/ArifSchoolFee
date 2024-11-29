@@ -58,6 +58,8 @@ Route::resource('sms-settings', Admin\SmsSettingController::class)->only(['creat
 
 Route::resource('currencies', Admin\CurrencyController::class)->except(['show']);
 
+Route::resource('payment-methods', Admin\PaymentMethodController::class)->except(['show', 'destroy']);
+
 //Cache Setting
 Route::get('/caches/index', [Admin\CacheController::class, 'index'])->name('caches.index');
 Route::get('clear-view-cache', [Admin\CacheController::class, 'clearViewCache'])->name('cache.clearViewCache');

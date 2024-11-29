@@ -37,9 +37,15 @@ class AssignFeeMasterController extends Controller
     public function update(Request $request, FeeMaster $assignFee)
     {
         $validatedData = $request->validate([
-            'student_id' => 'required|array',
+            'student_id' => 'nullable|array',
             'student_id.*' => 'exists:students,id',
         ]);
+
+        if (empty($validatedData['student_id'])) {
+            AssignFeeMaster::where('fee_master_id', $assignFee->id)->delete();
+
+            return redirect()->route('assign-fees.show', $assignFee->id)->with('successMessage', 'Assigned Fee Master Removed successfully.');
+        }
 
         $currentStudentIds = AssignFeeMaster::where('fee_master_id', $assignFee->id)->pluck('student_id')->toArray();
 
@@ -55,10 +61,11 @@ class AssignFeeMasterController extends Controller
                     'company_id' => userCompany()->id,
                     'fee_master_id' => $assignFee->id,
                     'student_id' => $studentId,
+                    'invoice_number' => nextInvoiceNumber('assign_fee_masters'),
                 ]
             );
         }
 
-        return redirect()->route('assign-fees.show', $assignFee->id)->with('successMessage', ' Fee Master Assigned successfully.');
+        return redirect()->route('assign-fees.show', $assignFee->id)->with('successMessage', 'Fee Master Assigned successfully.');
     }
 }

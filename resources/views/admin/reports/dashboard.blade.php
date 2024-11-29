@@ -29,16 +29,8 @@
             />
         </div>
 
-        <div class="column is-12-mobile is-12-tablet is-6-desktop">
-            {!! $chart->container() !!}
-        </div>
-
-        <div class="column is-12-mobile is-12-tablet is-6-desktop">
-            {!! $chartT->container() !!}
-        </div>
-
         <div class="column is-12-mobile is-12-tablet is-8-desktop">
-            {!! $chartD->container() !!}
+            {!! $chart->container() !!}
         </div>
 
         <div class="column is-12-mobile is-12-tablet is-4-desktop">
@@ -86,6 +78,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            {!! $chartT->container() !!}
+        </div>
+
+        <div class="column is-12-mobile is-12-tablet is-6-desktop">
+            {!! $chartD->container() !!}
         </div>
     </div>
 

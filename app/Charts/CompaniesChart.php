@@ -21,12 +21,12 @@ class CompaniesChart
         $companies = $data['companies'];
 
         return $this->chart->barChart()
-            ->setTitle('Companies')
+            ->setTitle('Schools')
             ->setSubtitle('User and Branch Data')
             ->addData('Users', $companies->pluck('employees_count')->toArray())
             ->addData('Branches', $companies->pluck('warehouses_count')->toArray())
             ->setXAxis($companies->pluck('name')->toArray())
-            ->setColors(['#3FB3E8', '#C99289'])
+            ->setColors(['#3FB3E8', '#E86289'])
             ->setGrid();
     }
 }

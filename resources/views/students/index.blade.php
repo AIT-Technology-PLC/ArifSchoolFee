@@ -39,6 +39,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
             <x-common.fail-message :message="session('failedMessage')" />
+            <x-common.fail-message :message="session('limitReachedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             <x-datatables.filter filters="'branch', 'class', 'section'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-4 p-lr-0 pt-0">

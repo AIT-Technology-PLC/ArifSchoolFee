@@ -48,8 +48,8 @@ class CompanyDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('id')->addClass('has-text-centered')->title('ID No'),
             Column::make('name'),
+            Column::make('company_code')->content('N/A')->title('School Code'),
             Column::make('type', 'schoolType.name')->content('N/A'),
             Column::computed('status'),
             Column::make('plan', 'plan.name')->content('N/A'),

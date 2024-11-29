@@ -1,3 +1,10 @@
+.select2-container {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    position: relative;
+}
+
 .select2-container .select2-selection--single {
     height: auto !important;
     padding: 5.05px 0 !important;
@@ -130,9 +137,9 @@ li.select2-results__option.select2-results__option--group {
 }
 
 .modal-background {
-    background-color: rgba(233, 221, 221, 0.66) !important;
+    background-color: rgba(238, 229, 229, 0.56) !important;
 }
 
 .large.modal-close {
-    color: #0000;
+    color: #f3ebeb00;
 }

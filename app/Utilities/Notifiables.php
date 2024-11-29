@@ -90,20 +90,4 @@ class Notifiables
 
         return $users->unique();
     }
-
-    public static function forPad($pad, $creator = null, $permission = 'Read')
-    {
-        return $pad
-            ->padPermissions()
-            ->with('users')
-            ->where('name', $permission)
-            ->get()
-            ->pluck('users')
-            ->flatten()
-            ->push($creator)
-            ->push(...User::whereRelation('employee', 'company_id', userCompany()->id)->role('System Manager')->get())
-            ->where('id', '!=', auth()->id())
-            ->filter()
-            ->unique('id');
-    }
 }

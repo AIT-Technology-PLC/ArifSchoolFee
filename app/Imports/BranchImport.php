@@ -4,13 +4,14 @@ namespace App\Imports;
 
 use App\Models\Warehouse;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\OnEachRow;
 
-class BranchImport implements ToModel, WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts
+class BranchImport implements WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts, OnEachRow
 {
     use Importable;
 
@@ -25,7 +26,7 @@ class BranchImport implements ToModel, WithHeadingRow, WithValidation, WithChunk
         $this->activeBranches = Warehouse::active()->get();
     }
 
-    public function model(array $row)
+    public function onRow(Row $row)
     {
         if ($this->branches->where('name', $row['branch_name'])->count()) {
             return null;
@@ -37,7 +38,7 @@ class BranchImport implements ToModel, WithHeadingRow, WithValidation, WithChunk
             return null;
         }
 
-        $branche = new Warehouse([
+        $branche = Warehouse::create([
             'company_id' => userCompany()->id,
             'created_by' => authUser()->id,
             'updated_by' => authUser()->id,

@@ -55,7 +55,7 @@ class StudentDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('code')->title('Student No'),
+            Column::make('code')->title('Admission No'),
             Column::make('first_name')->addClass('has-text-weight-bold')->title('Name'),
             Column::make('branch', 'warehouse.name'),
             Column::make('class', 'schoolClass.name'),

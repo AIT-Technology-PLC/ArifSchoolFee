@@ -80,6 +80,11 @@ class Company extends Model
         return $this->hasMany(Section::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function schoolClasses()
     {
         return $this->hasMany(SchoolClass::class);
@@ -163,6 +168,11 @@ class Company extends Model
     public function userLogs()
     {
         return $this->hasMany(UserLog::class);
+    }
+     
+    public function notices()
+    {
+        return $this->hasMany(Notice::class);
     }
 
     public function scopeEnabled($query)

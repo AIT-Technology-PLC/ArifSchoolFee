@@ -68,7 +68,7 @@
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-forms.field>
                                 <x-forms.label for="code">
-                                    Student No <sup class="has-text-danger">*</sup>
+                                    Admission No <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
@@ -344,7 +344,7 @@
                         <div class="column is-6-mobile is-6-tablet is-3-desktop">
                             <x-forms.field>
                                 <x-forms.label for="email">
-                                    Email <sup class="has-text-danger"></sup>
+                                    Email <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
@@ -365,7 +365,7 @@
                         <div class="column is-6-mobile is-6-tablet is-3-desktop">
                             <x-forms.field>
                                 <x-forms.label for="phone">
-                                    Phone <sup class="has-text-danger"></sup>
+                                    Phone <sup class="has-text-danger">*</sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input

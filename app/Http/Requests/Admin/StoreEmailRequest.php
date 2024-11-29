@@ -14,21 +14,14 @@ class StoreEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from_name' => ['required', 'string', 'max:50', 'regex:/^[A-Za-z\s]+$/'],
-            'from_mail' => ['required', 'string', 'email', 'max:40'],
-            'mail_driver' => ['required', 'string', 'max:6'],
-            'mail_host' => ['required', 'string', 'max:20'],
-            'mail_port' => ['required', 'integer'],
-            'mail_username' => ['required', 'string', 'email', 'max:40'],
-            'mail_password' => ['required', 'string', 'max:25'],
-            'mail_encryption' => ['required', 'string', 'max:6'],
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'from_name.regex' => 'Should contain only letters and spaces',
+            'MAIL_FROM_NAME' => ['required', 'string', 'max:50'],
+            'MAIL_FROM_ADDRESS' => ['required', 'string', 'email', 'max:50'],
+            'MAIL_MAILER' => ['required', 'string', 'max:50'],
+            'MAIL_HOST' => ['required', 'string', 'max:50'],
+            'MAIL_PORT' => ['required', 'integer'],
+            'MAIL_USERNAME' => ['required', 'string', 'email', 'max:50'],
+            'MAIL_PASSWORD' => ['required', 'string', 'max:50'],
+            'MAIL_ENCRYPTION' => ['required', 'string', 'max:50'],
         ];
     }
 }

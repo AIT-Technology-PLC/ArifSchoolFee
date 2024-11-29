@@ -16,6 +16,7 @@ class CreateNewSchool extends Seeder
         $user = DB::transaction(function () use ($faker, $action) {
             return $action->execute([
                 'company_name' => $faker->company,
+                'company_code' => 'CODE',
                 'name' => $faker->name,
                 'email' => User::count() ? $faker->unique()->safeEmail : 'user@ait-tech.com',
                 'password' => 'userpassword',

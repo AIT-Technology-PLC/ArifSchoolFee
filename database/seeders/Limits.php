@@ -11,14 +11,14 @@ class Limits extends Seeder
 {
     private $branchLimit;
 
-    private $userLimit;
+    private $studentLimit;
 
     public function run()
     {
         DB::transaction(function () {
             $this->branchLimit = Limit::firstOrCreate(['name' => 'branch']);
 
-            $this->userLimit = Limit::firstOrCreate(['name' => 'user']);
+            $this->studentLimit = Limit::firstOrCreate(['name' => 'student']);
 
             $this->v1Limits();
         });
@@ -30,7 +30,7 @@ class Limits extends Seeder
 
         $standard->limits()->sync([
             $this->branchLimit->id => ['amount' => 2],
-            $this->userLimit->id => ['amount' => 5],
+            $this->studentLimit->id => ['amount' => 100],
         ]);
     }
 }

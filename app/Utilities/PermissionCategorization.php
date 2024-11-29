@@ -38,6 +38,7 @@ class PermissionCategorization
         'student' => [
             'label' => 'Student',
             'feature' => 'Student Management',
+            'exclude' => ['Student Group', 'Student Category'],
         ],
 
         'route' => [
@@ -73,6 +74,16 @@ class PermissionCategorization
         'staff' => [
             'label' => 'Staff',
             'feature' => 'Staff Management',
+        ],
+
+        'email and sms' => [
+            'label' => 'Email/SMS',
+            'feature' => 'Email/SMS Management',
+        ],
+
+        'notice' => [
+            'label' => 'Notice',
+            'feature' => 'Notice Management',
         ],
 
         'log' => [

@@ -2,7 +2,6 @@
 
 namespace App\Imports;
 
-use App\Models\Employee;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Rules\MustBelongToCompany;
@@ -21,12 +20,6 @@ class EmployeeImport implements WithHeadingRow, OnEachRow, WithValidation, WithC
 
     public function onRow(Row $row)
     {
-        if (limitReached('user', Employee::enabled()->count())) {
-            session('limitReachedMessage', __('messages.limit_reached', ['limit' => 'users']));
-
-            return;
-        }
-
         $user = User::create([
             'name' => $row['name'],
             'email' => $row['email'],

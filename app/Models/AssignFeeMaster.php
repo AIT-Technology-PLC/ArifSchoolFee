@@ -34,4 +34,27 @@ class AssignFeeMaster extends Model
     {
         return $this->hasMany(FeePayment::class, 'assign_fee_master_id');
     }
+
+    public function getFineAmount()
+    {
+        $feeMaster = $this->feeMaster;
+        
+        if (!$feeMaster) {
+            return 0;
+        }
+
+        if (now()->gt($feeMaster->due_date)) {
+            $fineAmount = 0;
+
+            if ($feeMaster->fine_type === 'amount') {
+                $fineAmount = $feeMaster->fine_amount;
+            } elseif ($feeMaster->fine_type === 'percentage') {
+                $fineAmount = ($feeMaster->fine_amount / 100) * $feeMaster->amount;
+            }
+
+            return $fineAmount;
+        }
+
+        return 0;
+    }
 }

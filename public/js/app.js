@@ -198,7 +198,7 @@ function disableInputTypeNumberMouseWheel() {
     }
 }
 
-const initializeSelect2 = (element, placeholder = "Select a product") => {
+const initializeSelect2 = (element, placeholder = "") => {
     return $(element).select2({
         dropdownParent: $(element).parent(),
         placeholder: placeholder,

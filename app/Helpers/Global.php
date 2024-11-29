@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+
 
 if (!function_exists('authUser')) {
     function authUser(): ?User
@@ -79,6 +82,27 @@ if (!function_exists('nextReferenceNumber')) {
             ->where('company_id', userCompany()->id)
             ->when(Schema::hasColumn($table, 'warehouse_id'), fn($q) => $q->where('warehouse_id', authUser()->warehouse_id))
             ->max($column) + 1;
+    }
+}
+
+if (!function_exists('nextInvoiceNumber')) {
+    function nextInvoiceNumber($table, $column = 'invoice_number')
+    {
+        $latestInvoice = DB::table($table)
+            ->where('company_id', userCompany()->id)
+            ->orderByDesc($column)
+            ->first();
+
+        $sequence = 1;
+        
+        if ($latestInvoice) {
+            preg_match('/(\d+)$/', $latestInvoice->$column, $matches);
+            if (isset($matches[1])) {
+                $sequence = (int) $matches[1] + 1;
+            }
+        }
+
+        return userCompany()->company_code . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
     }
 }
 
@@ -169,5 +193,43 @@ if (!function_exists('carbon')) {
         }
 
         return Carbon::parse($value);
+    }
+}
+
+if (!function_exists('get_static_option')) {
+    function get_static_option($key)
+    {
+        $value = env($key);
+
+        return $value ? $value : null;
+    }
+}
+
+if (!function_exists('set_static_option')) {
+    function set_static_option($key, $value)
+    {
+        $path = base_path('.env');
+
+        if (File::exists($path)) {
+            $content = File::get($path);
+
+            if (strpos($content, $key) !== false) {
+                $content = preg_replace("/^{$key}=.*/m", "{$key}={$value}", $content);
+            } else {
+                $content .= "\n{$key}={$value}";
+            }
+
+            File::put($path, $content);
+
+            Artisan::call('config:clear');
+            Artisan::call('config:cache');
+        }
+    }
+}
+
+if (!function_exists('update_static_option')) {
+    function update_static_option($key, $value)
+    {
+        set_static_option($key, $value);
     }
 }

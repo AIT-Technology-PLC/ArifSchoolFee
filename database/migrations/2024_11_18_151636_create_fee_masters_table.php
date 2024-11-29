@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('fee_masters', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('fee_type_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');

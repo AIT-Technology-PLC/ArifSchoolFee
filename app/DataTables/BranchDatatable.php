@@ -52,6 +52,7 @@ class BranchDatatable extends DataTable
         return collect([
             Column::computed('#'),
             Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('code'),
             Column::make('location'),
             Column::make('status')->orderable(false),
             Column::make('email')->content('N/A'),

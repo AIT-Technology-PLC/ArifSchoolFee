@@ -9,6 +9,10 @@ class CreateStaffDetail
 {
    public function execute($data)
     {
+        if (Staff::where('first_name', $data['first_name'])->where('phone', $data['phone'])->where('email', $data['email'])->count()) {
+            return null;
+        }
+
         $staff = Staff::create([
             'company_id' => userCompany()->id,
             'code' => $data['code'],

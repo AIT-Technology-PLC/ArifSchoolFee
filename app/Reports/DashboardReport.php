@@ -41,7 +41,7 @@ class DashboardReport
     public function getThisMonthEstimation()
     {
         return AssignFeeMaster::with('feeMaster')
-                ->whereHas('feeMaster', function ($query) { $query->whereMonth('due_date', now()->month); })
+                ->whereHas('feeMaster', function ($query) { $query->whereMonth('created_at', now()->month); })
                 ->get()
                 ->sum(function ($assignFeeMaster) {
                     return $assignFeeMaster->feeMaster ? $assignFeeMaster->feeMaster->amount : 0;
@@ -52,12 +52,20 @@ class DashboardReport
     {
         return AssignFeeMaster::with('feePayments')
             ->whereHas('feeMaster', function ($query) {
-                $query->whereMonth('due_date', now()->month);
+                $query->whereMonth('created_at', now()->month);
             })
             ->get()
             ->sum(function ($assignFeeMaster) {
                 return $assignFeeMaster->feePayments->sum('amount');
             });
+    }
+
+    public function getThisMonthVATAmount()
+    {
+        $collectedAmount = $this->getThisMonthCollectedAmount();
+        $vatRate = 0.15;
+        
+        return $collectedAmount * $vatRate;
     }
 
     public function getMonthlyCollectedAmount()
@@ -70,9 +78,9 @@ class DashboardReport
         foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('5 day'), $endOfMonth) as $date) {
             $collectedAmount = AssignFeeMaster::with('feePayments')
                 ->whereHas('feeMaster', function ($query) use ($date) {
-                    $query->whereYear('due_date', $date->format('Y'))
-                    ->whereMonth('due_date', $date->format('m'))
-                    ->whereDay('due_date', $date->format('d'));
+                    $query->whereYear('created_at', $date->format('Y'))
+                    ->whereMonth('created_at', $date->format('m'))
+                    ->whereDay('created_at', $date->format('d'));
                 })
                 ->get()
                 ->sum(function ($assignFeeMaster) {

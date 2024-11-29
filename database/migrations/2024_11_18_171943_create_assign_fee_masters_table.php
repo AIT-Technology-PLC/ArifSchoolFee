@@ -10,11 +10,13 @@ return new class extends Migration
     {
         Schema::create('assign_fee_masters', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_number')->unique();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('student_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('fee_master_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
+            $table->timestamp('reminder_sent_at')->nullable();
             $table->timestamps();
 
             $table->index('company_id');

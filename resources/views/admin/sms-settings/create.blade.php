@@ -27,287 +27,308 @@
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="single_message_url">
-                                Single Message Url <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="AFROMESSAGE_SINGLE_MESSAGE_URL">
+                                SINGLE_MESSAGE_URL <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="single_message_url"
-                                    name="single_message_url"
+                                    id="AFROMESSAGE_SINGLE_MESSAGE_URL"
+                                    name="AFROMESSAGE_SINGLE_MESSAGE_URL"
                                     type="text"
-                                    placeholder="Single Message Url"
-                                    value="{{ $Sms->single_message_url ?? old('single_message_url') }}"
+                                    placeholder="SINGLE_MESSAGE_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_SINGLE_MESSAGE_URL') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-message"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="single_message_url" />
+                                <x-common.validation-error property="AFROMESSAGE_SINGLE_MESSAGE_URL" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="bulk_message_url">
-                                Bulk Message Url <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="AFROMESSAGE_BULK_MESSAGE_URL">
+                                BULK_MESSAGE_URL <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="bulk_message_url"
-                                    name="bulk_message_url"
+                                    id="AFROMESSAGE_BULK_MESSAGE_URL"
+                                    name="AFROMESSAGE_BULK_MESSAGE_URL"
                                     type="text"
-                                    placeholder="Bulk Message Url"
-                                    value="{{ $Sms->bulk_message_url ?? old('bulk_message_url') }}"
+                                    placeholder="BULK_MESSAGE_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_BULK_MESSAGE_URL') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-message"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="bulk_message_url" />
+                                <x-common.validation-error property="AFROMESSAGE_BULK_MESSAGE_URL" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="security_message_url">
-                                Security Message Url <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="AFROMESSAGE_SECURITY_MESSAGE_URL">
+                                SECURITY_MESSAGE_URL <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="security_message_url"
-                                    name="security_message_url"
+                                    id="AFROMESSAGE_SECURITY_MESSAGE_URL"
+                                    name="AFROMESSAGE_SECURITY_MESSAGE_URL"
                                     type="text"
-                                    placeholder="Security Message Url"
-                                    value="{{ $Sms->security_message_url ?? old('security_message_url') }}"
+                                    placeholder="SECURITY_MESSAGE_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_SECURITY_MESSAGE_URL') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-message"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="security_message_url" />
+                                <x-common.validation-error property="AFROMESSAGE_SECURITY_MESSAGE_URL" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="callback">
-                                Callback Url <sup class="has-text-danger"></sup>
+                            <x-forms.label for="AFROMESSAGE_CALLBACK">
+                                CALLBACK_URL <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="callback"
-                                    name="callback"
+                                    id="AFROMESSAGE_CALLBACK"
+                                    name="AFROMESSAGE_CALLBACK"
                                     type="text"
-                                    placeholder="Callback Url"
-                                    value="{{ $Sms->callback ?? old('callback') }}"
+                                    placeholder="CALLBACK_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_CALLBACK') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="callback" />
+                                <x-common.validation-error property="AFROMESSAGE_CALLBACK" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="create_callback">
-                                Create Callback Url <sup class="has-text-danger"></sup>
+                            <x-forms.label for="AFROMESSAGE_CREATE_CALLBACK">
+                                CREATE_CALLBACK_URL <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="create_callback"
-                                    name="create_callback"
+                                    id="AFROMESSAGE_CREATE_CALLBACK"
+                                    name="AFROMESSAGE_CREATE_CALLBACK"
                                     type="text"
-                                    placeholder="Create Callback Url"
-                                    value="{{ $Sms->create_callback ?? old('create_callback') }}"
+                                    placeholder="CREATE_CALLBACK_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_CREATE_CALLBACK') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="create_callback" />
+                                <x-common.validation-error property="AFROMESSAGE_CREATE_CALLBACK" />
                             </x-forms.control>
                         </x-forms.field>
                     </div> 
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="token">
-                                Token <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="AFROMESSAGE_STATUS_CALLBACK">
+                                STATUS_CALLBACK_URL <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="token"
-                                    name="token"
+                                    id="AFROMESSAGE_STATUS_CALLBACK"
+                                    name="AFROMESSAGE_STATUS_CALLBACK"
                                     type="text"
-                                    placeholder="Token"
-                                    value="{{ $Sms->token ?? old('token') }}"
+                                    placeholder="STATUS_CALLBACK_URL"
+                                    value="{{ get_static_option('AFROMESSAGE_STATUS_CALLBACK') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="token" />
+                                <x-common.validation-error property="AFROMESSAGE_STATUS_CALLBACK" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div> 
+                    <div class="column is-4">
+                        <x-forms.field>
+                            <x-forms.label for="AFROMESSAGE_TOKEN">
+                                TOKEN <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="AFROMESSAGE_TOKEN"
+                                    name="AFROMESSAGE_TOKEN"
+                                    type="text"
+                                    placeholder="TOKEN"
+                                    value="{{ get_static_option('AFROMESSAGE_TOKEN') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-hashtag"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="AFROMESSAGE_TOKEN" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="from">
-                                From <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="AFROMESSAGE_FROM">
+                                FROM <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="from"
-                                    name="from"
+                                    id="AFROMESSAGE_FROM"
+                                    name="AFROMESSAGE_FROM"
                                     type="text"
-                                    placeholder="From"
-                                    value="{{ $Sms->from ?? old('from') }}"
+                                    placeholder="FROM"
+                                    value="{{ get_static_option('AFROMESSAGE_FROM') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-heading"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="from" />
+                                <x-common.validation-error property="AFROMESSAGE_FROM" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="sender">
-                                Sender Name <sup class="has-text-danger"></sup>
+                            <x-forms.label for="AFROMESSAGE_SENDER">
+                                SENDER_NAME <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="sender"
-                                    name="sender"
+                                    id="AFROMESSAGE_SENDER"
+                                    name="AFROMESSAGE_SENDER"
                                     type="text"
-                                    placeholder="Sender Name"
-                                    value="{{ $Sms->sender ?? old('sender') }}"
+                                    placeholder="SENDER_NAME"
+                                    value="{{ get_static_option('AFROMESSAGE_SENDER') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-user-tie"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="sender" />
+                                <x-common.validation-error property="AFROMESSAGE_SENDER" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="compaign">
-                                Compaign Name <sup class="has-text-danger"></sup>
+                            <x-forms.label for="AFROMESSAGE_CAMPAIGN_NAME">
+                                CAMPAIGN_NAME <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="compaign"
-                                    name="compaign"
+                                    id="AFROMESSAGE_CAMPAIGN_NAME"
+                                    name="AFROMESSAGE_CAMPAIGN_NAME"
                                     type="text"
-                                    placeholder="Compaign Name"
-                                    value="{{ $Sms->compaign ?? old('compaign') }}"
+                                    placeholder="CAMPAIGN_NAME"
+                                    value="{{ get_static_option('AFROMESSAGE_CAMPAIGN_NAME') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-heading"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="compaign" />
+                                <x-common.validation-error property="AFROMESSAGE_CAMPAIGN_NAME" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>                
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="space_After">
-                                Space Before <sup class="has-text-danger"></sup>
+                            <x-forms.label for="SPACES_BEFORE">
+                                SPACES_BEFORE <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="space_before"
-                                    name="space_before"
+                                    id="SPACES_BEFORE"
+                                    name="SPACES_BEFORE"
                                     type="number"
-                                    placeholder="Space Before"
-                                    value="{{ $Sms->space_before ?? old('space_before') }}"
+                                    placeholder="SPACES_BEFORE"
+                                    value="{{ get_static_option('SPACES_BEFORE') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="space_before" />
+                                <x-common.validation-error property="SPACES_BEFORE" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="space_after">
-                                Space After <sup class="has-text-danger"></sup>
+                            <x-forms.label for="SPACES_AFTER">
+                                SPACES_AFTER <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="space_after"
-                                    name="space_after"
+                                    id="SPACES_AFTER"
+                                    name="SPACES_AFTER"
                                     type="number"
-                                    placeholder="Space After"
-                                    value="{{ $Sms->space_after ?? old('space_after') }}"
+                                    placeholder="SPACES_AFTER"
+                                    value="{{ get_static_option('SPACES_AFTER') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="space_after" />
+                                <x-common.validation-error property="SPACES_AFTER" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="time_to_live">
-                                Time To live <sup class="has-text-danger"></sup>
+                            <x-forms.label for="TIME_TO_LIVE">
+                                TIME_TO_LIVE <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="time_to_live"
-                                    name="time_to_live"
+                                    id="TIME_TO_LIVE"
+                                    name="TIME_TO_LIVE"
                                     type="number"
-                                    placeholder="Time To live"
-                                    value="{{ $Sms->time_to_live ?? old('time_to_live') }}"
+                                    placeholder="TIME_TO_LIVE"
+                                    value="{{ get_static_option('TIME_TO_LIVE') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="time_to_live" />
+                                <x-common.validation-error property="TIME_TO_LIVE" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="code_length">
-                                Code length <sup class="has-text-danger"></sup>
+                            <x-forms.label for="CODE_LENGTH">
+                                CODE_LENGTH <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="code_length"
-                                    name="code_length"
+                                    id="CODE_LENGTH"
+                                    name="CODE_LENGTH"
                                     type="number"
-                                    placeholder="Code length"
-                                    value="{{ $Sms->code_length ?? old('code_length') }}"
+                                    placeholder="CODE_LENGTH"
+                                    value="{{ get_static_option('CODE_LENGTH') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-hashtag"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="code_length" />
+                                <x-common.validation-error property="CODE_LENGTH" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
                     <div class="column is-4">
                         <x-forms.field>
-                            <x-forms.label for="code_type">
-                                Code Type <sup class="has-text-danger"></sup>
+                            <x-forms.label for="CODE_TYPE">
+                                CODE_TYPE <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left ">
                                 <x-forms.select
                                     class="is-fullwidth"
-                                    id="code_type"
-                                    name="code_type"
+                                    id="CODE_TYPE"
+                                    name="CODE_TYPE"
                                 >
                                     <option
                                         disabled
@@ -317,19 +338,19 @@
                                     </option>
                                     <option
                                         value="0"
-                                        @selected($Sms->code_type ?? old('code_type') == '0')
+                                        @selected(get_static_option('CODE_LENGTH') == '0')
                                     >
                                      Number 
                                     </option>
                                     <option
                                         value="1"
-                                        @selected($Sms->code_type ?? old('code_type') == '1')
+                                        @selected(get_static_option('CODE_LENGTH') == '1')
                                     >
                                      Alphabet 
                                     </option>
                                     <option
                                         value="2"
-                                        @selected($Sms->code_type ?? old('code_type') == '2')
+                                        @selected(get_static_option('CODE_LENGTH') == '2')
                                     >
                                       Alpha Numeric 
                                     </option>
@@ -338,7 +359,7 @@
                                     name="fas fa-sort"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="code_type" />
+                                <x-common.validation-error property="CODE_TYPE" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>
