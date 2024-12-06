@@ -1,15 +1,20 @@
 <div
-    x-data="toggler"
-    @open-fee-details-modal.window="toggle"
-    class="modal is-active"
+    x-data="{ 
+        isHidden: true, 
+        modalId: null,
+        fee_discount_id: '{{ old('fee_discount_id', $assignFeeMaster->fee_discount_id) }}',
+        discount_amount: '{{ old('discount_amount', $assignFeeMaster->discount_amount ?? 0) }}',
+        amount: '{{ old('amount', $assignFeeMaster->feeMaster->amount) }}',
+        fine_amount: '{{ old('fine_amount', $assignFeeMaster->getFineAmount()) }}',
+        }"
+    @open-fee-details-modal.window="if ($event.detail.id === '{{ $assignFeeMaster->id }}') { modalId = $event.detail.id; isHidden = false }"
+    x-show="modalId === '{{ $assignFeeMaster->id }}'"
+    :class="{'is-active': !isHidden}" 
+    class="modal"
     x-cloak
-    x-show="!isHidden"
     x-transition
 >
-    <div
-        class="modal-background"
-        @click="toggle"
-    ></div>
+<div class="modal-background" @click="isHidden = true"></div>
     <div class="modal-content p-lr-20">
         <x-common.content-wrapper>
             <x-content.header >
@@ -22,7 +27,7 @@
             </x-content.header>
             <form
                 id="student_fee_detail"
-                action="{{ route('students.index', $assignFeeMaster->id) }}"
+                action="{{ route('payment.process', $assignFeeMaster->id) }}"
                 method="POST"
                 enctype="multipart/form-data"
                 novalidate
@@ -86,6 +91,7 @@
                                         name="amount"
                                         placeholder="Amount"
                                         value="{{ $assignFeeMaster->feeMaster->amount }}"
+                                        readonly
                                     />
                                     <x-common.icon
                                         name="fas fa-money-bill"
@@ -96,23 +102,24 @@
                             </x-forms.field>
                         </div>
                         <div class="column is-6">
-                            <x-forms.label for="fine">
+                            <x-forms.label for="fine_amount">
                                 Fine <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.field>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
                                         type="number"
-                                        name="fine"
-                                        id="fine"
+                                        name="fine_amount"
+                                        id="fine_amount"
                                         placeholder="Fine"
                                         :value="$assignFeeMaster->getFineAmount()"
+                                        readonly
                                     />
                                     <x-common.icon
-                                        name="fas fa-sort"
+                                        name="fas fa-money-bill"
                                         class="is-large is-left"
                                     />
-                                    <x-common.validation-error property="fine" />
+                                    <x-common.validation-error property="fine_amount" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
@@ -132,23 +139,25 @@
                             </x-forms.field>
                         </div>
                         <div class="column is-6">
-                            <x-forms.label for="discount">
+                            <x-forms.label for="discount_amount">
                                 Discount <sup class="has-text-danger"></sup>
                             </x-forms.label>
                             <x-forms.field>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
                                         type="number"
-                                        name="discount"
-                                        id="discount"
+                                        name="discount_amount"
+                                        id="discount_amount"
                                         placeholder="Discount"
-                                        value="{{ 0 }}"
+                                        x-model="discount_amount"
+                                        x-bind:readonly="fee_discount_id !== ''"
+                                        x-bind:value="fee_discount_id ? discount_amount : 0"
                                     />
                                     <x-common.icon
                                         name="fas fa-percent"
                                         class="is-large is-left"
                                     />
-                                    <x-common.validation-error property="discount" />
+                                    <x-common.validation-error property="discount_amount" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
@@ -164,6 +173,25 @@
                                         class="is-small is-left"
                                     />
                                     <x-common.validation-error property="payment_mode" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-12">
+                            <x-forms.label>
+                                Total Price <sup class="has-text-weight-light"></sup>
+                            </x-forms.label>
+                            <x-forms.field>
+                                <x-forms.control class="has-icons-left is-expanded">
+                                    <x-forms.input
+                                        x-bind:value="(parseFloat(amount) + parseFloat(fine_amount) - (parseFloat(discount_amount) || 0)).toFixed(2)"
+                                        type="number"
+                                        readonly
+                                        disabled
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-money-check"
+                                        class="is-small is-left"
+                                    />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

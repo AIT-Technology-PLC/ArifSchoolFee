@@ -37,20 +37,30 @@ class AssignFeeDiscountController extends Controller
 
     public function update(Request $request, FeeDiscount $assignDiscountFee)
     {
+        if ($assignDiscountFee->whereHas('feePayments')->exists()) {
+            return back()->with(['failedMessage' => 'Unable to edit the data since some of the assigned discount has already been utilized.']);
+        }
+        
         $validatedData = $request->validate([
-            'student_id' => 'required|array',
+            'student_id' => 'nullable|array',
             'student_id.*' => 'exists:students,id',
         ]);
+
+        if (empty($validatedData['student_id'])) {
+            AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->delete();
+
+            return redirect()->route('assign-discount-fees.show', $assignDiscountFee->id)->with('successMessage', 'Assigned Fee Discount Removed successfully.');
+        }
 
         $currentStudentIds = AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->pluck('student_id')->toArray();
 
         $studentsToRemove = array_diff($currentStudentIds, $validatedData['student_id']);
 
-        AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)
-                   ->whereIn('student_id', $studentsToRemove)
-                   ->delete();
+        $studentsToAdd = array_diff($validatedData['student_id'], $currentStudentIds);
 
-        foreach ($validatedData['student_id'] as $studentId) {
+        AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->whereIn('student_id', $studentsToRemove)->delete();
+
+        foreach ($studentsToAdd as $studentId) {
             AssignFeeDiscount::updateOrCreate(
                 [
                     'company_id' => userCompany()->id,

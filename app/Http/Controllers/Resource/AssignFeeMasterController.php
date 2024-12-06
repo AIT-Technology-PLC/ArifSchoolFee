@@ -36,6 +36,10 @@ class AssignFeeMasterController extends Controller
 
     public function update(Request $request, FeeMaster $assignFee)
     {
+        if ($assignFee->assignFeeMasters()->whereHas('feePayments')->exists()) {
+            return back()->with(['failedMessage' => 'Unable to edit the data since some of the assigned fee has already been paid.']);
+        }
+
         $validatedData = $request->validate([
             'student_id' => 'nullable|array',
             'student_id.*' => 'exists:students,id',
@@ -51,16 +55,18 @@ class AssignFeeMasterController extends Controller
 
         $studentsToRemove = array_diff($currentStudentIds, $validatedData['student_id']);
 
-        AssignFeeMaster::where('fee_master_id', $assignFee->id)
-                   ->whereIn('student_id', $studentsToRemove)
-                   ->delete();
+        $studentsToAdd = array_diff($validatedData['student_id'], $currentStudentIds);
 
-        foreach ($validatedData['student_id'] as $studentId) {
+        AssignFeeMaster::where('fee_master_id', $assignFee->id)->whereIn('student_id', $studentsToRemove)->delete();
+
+        foreach ($studentsToAdd as $studentId) {
             AssignFeeMaster::updateOrCreate(
                 [
                     'company_id' => userCompany()->id,
                     'fee_master_id' => $assignFee->id,
                     'student_id' => $studentId,
+                ],
+                [
                     'invoice_number' => nextInvoiceNumber('assign_fee_masters'),
                 ]
             );

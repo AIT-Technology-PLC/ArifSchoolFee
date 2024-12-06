@@ -41,7 +41,8 @@ class CompanyDatatable extends DataTable
             ->with([
                 'plan',
                 'schoolType:id,name',
-            ]);
+            ])
+            ->orderBy('created_at', 'DESC');
     }
 
     protected function getColumns()

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('amount');
             $table->decimal('fine_amount');
             $table->decimal('discount_amount');
-            $table->date('discount_month');
+            $table->date('discount_month')->nullable();
             $table->timestamps();
 
             $table->index('company_id');

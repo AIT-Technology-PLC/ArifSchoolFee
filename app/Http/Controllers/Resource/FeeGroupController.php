@@ -56,7 +56,7 @@ class FeeGroupController extends Controller
     public function destroy(FeeGroup $feeGroup)
     {
         if ($feeGroup->feeTypes()->exists()) {
-            return back()->with(['failedMessage' => 'This Fee Group is being used and cannot be deleted.']);
+            return back()->with(['failedMessage' => 'This Fee Group data is being used and cannot be deleted.']);
         }
 
         $feeGroup->delete();

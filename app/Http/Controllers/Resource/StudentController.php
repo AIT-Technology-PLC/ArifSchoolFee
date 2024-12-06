@@ -7,14 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Services\Models\StudentService;
-use Illuminate\Http\Request;
 use App\Models\SchoolClass;
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\StudentCategory;
 use App\Models\StudentGroup;
 use App\Models\Warehouse;
-use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -100,7 +98,11 @@ class StudentController extends Controller
 
     public function destroy(Student $student)
     {
-        $student->delete();
+        if ($student->feePayments()->exists() || $student->messageDetails()->exists()) {
+            return back()->with(['failedMessage' => 'This Student date data has already been used and cannot be deleted.']);
+        }
+
+        $student->softDeleted();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

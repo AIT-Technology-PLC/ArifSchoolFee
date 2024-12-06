@@ -71,7 +71,7 @@ if (!function_exists('money')) {
     {
         $currency = $currency ?: userCompany()->currency;
 
-        return $currency . '. ' . number_format($amount, 2);
+        return $currency . ', ' . number_format($amount, 2);
     }
 }
 
@@ -222,7 +222,6 @@ if (!function_exists('set_static_option')) {
             File::put($path, $content);
 
             Artisan::call('config:clear');
-            Artisan::call('config:cache');
         }
     }
 }

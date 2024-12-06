@@ -90,4 +90,18 @@ class Notifiables
 
         return $users->unique();
     }
+
+    public static function byAdminPermission($permission, $creator = null)
+    {
+        $admins = User::query()
+            ->permission($permission)
+            ->whereDoesntHave('employee')
+            ->get();
+
+        if (static::isCreatorValid($creator)) {
+            $admins->push($creator);
+        }
+
+        return $admins->unique();
+    }
 }

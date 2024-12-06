@@ -224,7 +224,7 @@
                             name="fas fa-route"
                             class="m-0"
                         />
-                        <span class="ml-2"> Transport </span>
+                        <span class="ml-2"> Transport Master</span>
                         <span class="icon ml-auto">
                             <i
                                 class="fas fa-caret-right"
@@ -621,8 +621,8 @@
                         <span class="ml-2"> Communication </span>
                         <span class="icon ml-auto">
                             <i
-                                class="fas fa-caret-left"
-                                :class="{ 'fa-caret-left': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
+                                class="fas fa-caret-right"
+                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
                             ></i>
                         </span>
                     </x-common.button>

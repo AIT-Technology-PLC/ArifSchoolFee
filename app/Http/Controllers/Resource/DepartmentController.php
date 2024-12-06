@@ -59,6 +59,10 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department)
     {
+        if ($department->staffs()->exists()) {
+            return back()->with(['failedMessage' => 'This Department data is being used and cannot be deleted.']);
+        }
+
         $department->delete();
 
         return back()->with('deleted', 'Deleted successfully.');

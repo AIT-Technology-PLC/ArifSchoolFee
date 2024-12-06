@@ -28,7 +28,7 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted')" />
             <x-common.fail-message :message="session('failedMessage')" />
             <div>
                 {{ $dataTable->table() }}

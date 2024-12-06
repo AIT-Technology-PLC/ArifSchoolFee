@@ -16,7 +16,7 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'currency' => ['required', 'string', 'max:30'],
-            'email' => ['nullable', 'string', 'email', 'max:30', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
+            'email' => ['nullable', 'string', 'email', 'max:40', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
             'phone' => ['nullable', 'string', 'max:15', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],
             'address' => ['nullable', 'string', 'max:50'],
             'tin' => ['nullable', 'numeric', 'digits:10', Rule::unique('companies')->where('id', '<>', $this->route('school')->id)->withoutTrashed()],

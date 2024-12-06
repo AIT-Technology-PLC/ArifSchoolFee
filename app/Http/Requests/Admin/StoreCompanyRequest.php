@@ -19,7 +19,7 @@ class StoreCompanyRequest extends FormRequest
         return [
             'company_name' => ['required', 'string', 'max:60', 'unique:companies,name'],
             'company_code' => ['required', 'string', 'max:5', 'unique:companies'],
-            'email' => ['nullable', 'string', 'email', 'max:30', 'unique:companies'],
+            'email' => ['nullable', 'string', 'email', 'max:40', 'unique:companies'],
             'phone' => ['nullable', 'string', 'max:15', 'unique:companies'],
             'address' => ['nullable', 'string', 'max:50'],
             'enabled_commission_setting' => ['nullable', 'boolean'],
@@ -28,7 +28,7 @@ class StoreCompanyRequest extends FormRequest
             'charge_amount' => ['nullable', 'numeric', 'gte:0'],
 
             'name' => ['required', 'string', 'max:30', 'regex:/^[A-Za-z\s]+$/'],
-            'user.email' => ['required', 'string', 'email', 'max:25', 'unique:users,email'],
+            'user.email' => ['required', 'string', 'email', 'max:40', 'unique:users,email'],
             'user.phone' => ['required', 'string', 'max:15', 'unique:employees,phone'],
             'user.address' => ['nullable', 'string', 'max:25'],
             'gender' => ['required', 'string', 'max:6', Rule::in(['male', 'female'])],

@@ -15,6 +15,11 @@ class PaymentMethod extends Model
         'enabled' => 'boolean',
     ];
 
+    public function paymentGateways()
+    {
+        return $this->hasMany(PaymentGateway::class);
+    }
+
     public function isEnabled()
     {
         return $this->enabled;

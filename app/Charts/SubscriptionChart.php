@@ -30,6 +30,7 @@ class SubscriptionChart
             ->setSubtitle('Active Subscriptions')
             ->addData('Expired in',$daysLeft)
             ->setXAxis($companies->pluck('name')->toArray())
+            ->setColors(['#3FB3E8', '#C99289'])
             ->setGrid();
         }
 }

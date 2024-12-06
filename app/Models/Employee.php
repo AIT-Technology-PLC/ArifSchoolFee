@@ -55,11 +55,6 @@ class Employee extends Model
         return $this->gender == 'female';
     }
 
-    public static function getEmployees($excludeEmployeesOnLeave = true)
-    {
-        return User::getUsers($excludeEmployeesOnLeave)->pluck('employee');
-    }
-
     public function toggle()
     {
         $this->isEnabled() ? $this->enabled = 0 : $this->enabled = 1;

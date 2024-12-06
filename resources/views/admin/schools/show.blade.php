@@ -24,7 +24,7 @@
                         <x-common.button
                             tag="button"
                             mode="button"
-                            @click="$dispatch('open-school-limits-modal')"
+                            @click="$dispatch('open-company-limits-modal')"
                             icon="fas fa-diagram-project"
                             label="Manage Resources"
                             class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"

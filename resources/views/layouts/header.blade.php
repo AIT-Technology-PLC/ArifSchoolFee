@@ -1,7 +1,7 @@
 <nav class="navbar is-fixed-top is-transparent bg-softblue">
     <div class="container is-fluid p-lr-0">
         <div class="navbar-brand ml-3">
-            <figure class="image is-64x64">
+            <figure class="image is-75x75">
                 <img
                     class="is-rounded"
                     src="{{ asset('img/AIT LOGO WHITE.png') }}"

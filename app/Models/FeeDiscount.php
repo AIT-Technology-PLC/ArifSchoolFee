@@ -23,7 +23,7 @@ class FeeDiscount extends Model
 
     public function assignFeeDiscounts()
     {
-        return $this->belongsToMany(FeeDiscount::class, 'assign_fee_discounts', 'student_id', 'fee_discount_id');
+        return $this->hasMany(AssignFeeDiscount::class);
     }
 
     public function feePayments()

@@ -40,6 +40,22 @@ Route::controller(Action\TransactionController::class)
         Route::post('/update-status', 'updateStatus')->name('update_status');
     });
 
+// ArifPay
+Route::controller(Action\ArifPayController::class)
+    ->name('arifpay.')
+    ->prefix('/arifpay')
+    ->group(function () {
+        Route::get('/cancel/{routeId}', 'cancelSession')->name('cancel');
+        Route::get('/success/{routeId}', 'successSession')->name('success');
+        Route::get('/error/{routeId}', 'errorSession')->name('error');
+        Route::post('/callback', 'callbackSession')->name('callback');
+    });
+
+// Fee Reminder and Fee Payment
+Route::get('/fee-reminders/{assignFeeMaster}', [Action\PaymentReminderController::class, 'sendPaymentReminder'])->name('fee-reminder');
+
+Route::post('/fee-payments/{assignFeeMaster}', [Action\FeePaymentController::class, 'processPayment'])->name('payment.process');
+
 // Import
 Route::post('/users/import', [Action\EmployeeController::class, 'import'])->name('users.import');
 
@@ -68,5 +84,3 @@ Route::post('/fee-types/import', [Action\FeeTypeController::class, 'import'])->n
 Route::post('/staffs/import', [Action\StaffController::class, 'import'])->name('staffs.import');
 
 Route::post('/students/import', [Action\StudentController::class, 'import'])->name('students.import');
-
-Route::get('/fee-reminders/{assignFeeMaster}', [Action\PaymentReminderController::class, 'sendPaymentReminder'])->name('fee-reminder');

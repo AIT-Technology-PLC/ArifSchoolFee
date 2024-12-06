@@ -38,8 +38,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="session('failedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

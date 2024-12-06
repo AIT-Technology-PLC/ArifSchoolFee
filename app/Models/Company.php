@@ -16,11 +16,9 @@ class Company extends Model
         'enabled' => 'integer',
         'enabled_commission_setting' => 'integer',
         'can_show_branch_detail_on_print' => 'integer',
-        'can_send_payment_reminder' => 'integer',
         'can_send_sms_alert' => 'integer',
         'can_send_email_notification' => 'integer',
         'can_send_push_notification' => 'integer',
-        'can_send_system_alert' => 'integer',
         'is_in_training' => 'integer',
         'subscription_expires_on' => 'date',
     ];
@@ -175,6 +173,11 @@ class Company extends Model
         return $this->hasMany(Notice::class);
     }
 
+    public function paymentGateways()
+    {
+        return $this->hasMany(PaymentGateway::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', 1);
@@ -212,11 +215,6 @@ class Company extends Model
         return $this->can_show_branch_detail_on_print;
     }
 
-    public function canSendPaymentReminder()
-    {
-        return $this->can_send_payment_reminder;
-    }
-
     public function canSendSmsAlert()
     {
         return $this->can_send_sms_alert;
@@ -230,11 +228,6 @@ class Company extends Model
     public function canSendPushNotification()
     {
         return $this->can_send_push_notification;
-    }
-
-    public function canSendSystemAlert()
-    {
-        return $this->can_send_system_alert;
     }
 
     public function hasPrintTemplate()

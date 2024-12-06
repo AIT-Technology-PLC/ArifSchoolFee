@@ -17,8 +17,7 @@ class StudentDatatable extends DataTable
             ->eloquent($query)
             ->editColumn('first_name', fn($student) => str($student->first_name)->append(' '.$student->last_name))
             ->editColumn('branch', fn($student) => $student->warehouse->name)
-            ->editColumn('class', fn($student) => $student->schoolClass->name)
-            ->editColumn('section', fn($student) => $student->section->name)
+            ->editColumn('class', fn($student) => str($student->schoolClass->name)->append(' ( '.$student->section->name . ' )'))
             ->editColumn('category', fn($student) => $student->studentCategory->name)
             ->editColumn('added on', fn($student) => $student->created_at->toFormattedDateString())
             ->editColumn('added by', fn($student) => $student->createdBy->name ?? 'N/A')
@@ -38,9 +37,9 @@ class StudentDatatable extends DataTable
         return $student
             ->newQuery()
             ->select('students.*')
-            ->when(is_numeric(request('branch')), fn($query) => $query->where('student.warehouse_id', request('branch')))
-            ->when(is_numeric(request('class')), fn($query) => $query->where('student.school_class_id', request('class')))
-            ->when(is_numeric(request('section')), fn($query) => $query->where('student.section_id', request('section')))
+            ->when(is_numeric(request('branch')), fn($query) => $query->where('students.warehouse_id', request('branch')))
+            ->when(is_numeric(request('class')), fn($query) => $query->where('students.school_class_id', request('class')))
+            ->when(is_numeric(request('section')), fn($query) => $query->where('students.section_id', request('section')))
             ->with([
                 'createdBy:id,name',
                 'updatedBy:id,name',
@@ -59,7 +58,6 @@ class StudentDatatable extends DataTable
             Column::make('first_name')->addClass('has-text-weight-bold')->title('Name'),
             Column::make('branch', 'warehouse.name'),
             Column::make('class', 'schoolClass.name'),
-            Column::make('section', 'section.name'),
             Column::make('category', 'studentCategory.name'),
             Column::make('added on', 'created_at')->className('has-text-right')->visible(false),
             Column::make('added by', 'createdBy.name')->visible(false),

@@ -56,7 +56,7 @@ class StudentGroupController extends Controller
     public function destroy(StudentGroup $studentGroup)
     {
         if ($studentGroup->students()->exists()) {
-            return back()->with(['failedMessage' => 'This Student Group is being used and cannot be deleted.']);
+            return back()->with(['failedMessage' => 'This Student Group data is being used and cannot be deleted.']);
         }
 
         $studentGroup->delete();

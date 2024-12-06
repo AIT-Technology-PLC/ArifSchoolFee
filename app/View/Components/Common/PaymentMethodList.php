@@ -13,7 +13,7 @@ class PaymentMethodList extends Component
     public $name;
     public $value;
 
-    public function __construct($id = 'payment_mode', $name = 'payment_mode', $value = 'id')
+    public function __construct($id = 'payment_mode', $name = 'payment_mode', $value = 'name')
     {
         $this->paymentMethods = Cache::store('array')->rememberForever('paymentMethods', function () {
             return PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);

@@ -20,8 +20,7 @@
     display: flex;
     align-items: center;  /* Vertically center */
     justify-content: center;  /* Horizontally center */
-    height: 100vh;  /* Ensure full viewport height */
-    margin: 0;
+    margin: 0px;
   }
 
   @media (max-width: 769px) {
@@ -56,5 +55,12 @@
     margin: 0 auto;
     max-height: 180px;
     max-width: 180px;
+    display: block;
+  }
+
+  .registration-logo {
+    margin: 0 auto;
+    max-height: 140px;
+    max-width: 140px;
     display: block;
   }

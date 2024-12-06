@@ -25,35 +25,8 @@
     @method('PATCH')
         <x-content.main>
             <x-common.success-message :message="session('successMessage')" />
-            <div class="columns is-marginless is-multiline">
-                <div class="column is-4">
-                    <x-forms.field>
-                        <x-forms.label for="can_send_payment_reminder">
-                            Payment Reminder <sup class="has-text-danger">*</sup>
-                        </x-forms.label>
-                        <x-forms.control class="has-icons-left">
-                            <x-forms.select
-                                class="is-fullwidth"
-                                id="can_send_payment_reminder"
-                                name="can_send_payment_reminder"
-                            >
-                                <option
-                                    value="1"
-                                    @selected($school->canSendPaymentReminder())
-                                >Enabled</option>
-                                <option
-                                    value="0"
-                                    @selected(!$school->canSendPaymentReminder())
-                                >Disabled</option>
-                            </x-forms.select>
-                            <x-common.icon
-                                name="fas fa-sort"
-                                class="is-small is-left"
-                            />
-                        </x-forms.control>
-                    </x-forms.field>
-                </div>
-                <div class="column is-4">
+            <div class="columns is-marginless is-multiline is-centered">
+                <div class="column is-7">
                     <x-forms.field>
                         <x-forms.label for="can_send_sms_alert">
                             SMS Alert <sup class="has-text-danger">*</sup>
@@ -79,8 +52,7 @@
                             />
                         </x-forms.control>
                     </x-forms.field>
-                </div>
-                <div class="column is-4">
+                    
                     <x-forms.field>
                         <x-forms.label for="can_send_email_notification">
                             Email Notification <sup class="has-text-danger">*</sup>
@@ -106,8 +78,7 @@
                             />
                         </x-forms.control>
                     </x-forms.field>
-                </div>
-                <div class="column is-4">
+                    
                     <x-forms.field>
                         <x-forms.label for="can_send_push_notification">
                             Push Notification <sup class="has-text-danger">*</sup>
@@ -134,37 +105,31 @@
                         </x-forms.control>
                     </x-forms.field>
                 </div>
-                <div class="column is-4">
-                    <x-forms.field>
-                        <x-forms.label for="can_send_system_alert">
-                            System Generated Alert <sup class="has-text-danger">*</sup>
-                        </x-forms.label>
-                        <x-forms.control class="has-icons-left">
-                            <x-forms.select
-                                class="is-fullwidth"
-                                id="can_send_system_alert"
-                                name="can_send_system_alert"
-                            >
-                                <option
-                                    value="1"
-                                    @selected($school->canSendSystemAlert())
-                                >Enabled</option>
-                                <option
-                                    value="0"
-                                    @selected(!$school->canSendSystemAlert())
-                                >Disabled</option>
-                            </x-forms.select>
-                            <x-common.icon
-                                name="fas fa-sort"
-                                class="is-small is-left"
-                            />
-                        </x-forms.control>
-                    </x-forms.field>
-                </div>
             </div>
         </x-content.main>
         <x-content.footer>
-            <x-common.save-button />
+            <div class="columns is-marginless">
+                <div class="column is-paddingless">
+                    <div class="buttons is-centered">
+                        <button class="button is-white text-blue" type="reset">
+                            <span class="icon">
+                                <i class="fas fa-times"></i>
+                            </span>
+                            <span>
+                                Cancel
+                            </span>
+                        </button>
+                        <button id="saveButton" class="button bg-softblue has-text-white">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>
+                                Change
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </x-content.footer>
     </form>
 </x-common.content-wrapper>

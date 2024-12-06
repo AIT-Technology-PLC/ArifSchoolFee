@@ -60,6 +60,12 @@ Route::resource('currencies', Admin\CurrencyController::class)->except(['show'])
 
 Route::resource('payment-methods', Admin\PaymentMethodController::class)->except(['show', 'destroy']);
 
+Route::resource('payment-gateways', Admin\PaymentGatewayController::class)->except(['show', 'destroy']);
+
+Route::resource('arifpay-settings', Admin\ArifpaySettingController::class)->only(['create', 'store']);
+
+Route::resource('paypal-settings', Admin\PaypalSettingController::class)->only(['create', 'store']);
+
 //Cache Setting
 Route::get('/caches/index', [Admin\CacheController::class, 'index'])->name('caches.index');
 Route::get('clear-view-cache', [Admin\CacheController::class, 'clearViewCache'])->name('cache.clearViewCache');

@@ -30,3 +30,8 @@ Route::get('manifest.json', function () {
         'gcm_sender_id' => config('webpush.gcm.sender_id'),
     ];
 });
+
+Route::get('/api/sections/{classId}', [App\Http\Controllers\Api\SectionController::class, 'getSectionsByClass']);
+
+Route::get('/api/vehicles/{routeId}', [App\Http\Controllers\Api\VehicleController::class, 'getVehiclesByRoute']);
+

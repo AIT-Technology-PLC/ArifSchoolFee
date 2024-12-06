@@ -735,7 +735,7 @@
                     <button id="saveButton" class="button bg-softblue has-text-white" style="display: none;">
                         <span class="mr-2"><i class="fas fa-save"></i></span>Submit
                     </button>
-                </div>                    
+                </div>                
             </x-content.footer>
         </form>  
     </x-common.content-wrapper>

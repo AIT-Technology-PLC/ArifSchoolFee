@@ -30,7 +30,7 @@
                 <p class="panel-tabs mx-3" id="tabs">
                     <a class="is-active" data-target="basic-information">Basic Information</a>
                     <a data-target="personal-detail">Personal Detail</a>
-                    <a data-target="payroll-detail">Payroll Information</a>
+                    <a data-target="address-and-transport-detail">Address and Transport</a>
                 </p>
                 <br/>
 
@@ -146,7 +146,7 @@
                     </div>
                 </div>
 
-                <div id="payroll-detail" class="panel-block">
+                <div id="address-and-transport-detail" class="panel-block">
                     <div class="columns is-marginless is-multiline is-mobile">
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
@@ -165,7 +165,7 @@
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
                                 icon="fas fa-route"
-                                :data="$student->route->name ?? 'N/A'"
+                                :data="$student->route->title ?? 'N/A'"
                                 label="Route"
                             />
                         </div>

@@ -1,4 +1,48 @@
+if (document.getElementById('school_class_id')) {
+    document.getElementById('school_class_id').addEventListener('change', function() {
+        var classId = this.value;
+        var sectionSelect = document.getElementById('section_id');
 
+        sectionSelect.innerHTML = '<option value="" selected disabled>Select Section</option>';
+
+        if (classId) {
+            fetch(`/api/sections/${classId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(section => {
+                        var option = document.createElement('option');
+                        option.value = section.id;
+                        option.textContent = section.name;
+                        sectionSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching sections:', error));
+        }
+    });
+}
+
+if (document.getElementById('route_id')) {
+    document.getElementById('route_id').addEventListener('change', function() {
+        var routeId = this.value;
+        var vehicleSelect = document.getElementById('vehicle_id');
+
+        vehicleSelect.innerHTML = '<option value="" selected disabled>Select Vehicle</option>';
+
+        if (routeId) {
+            fetch(`/api/vehicles/${routeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(vehicle => {
+                        var option = document.createElement('option');
+                        option.value = vehicle.id;
+                        option.textContent = vehicle.vehicle_number;
+                        vehicleSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching vehicles:', error));
+        }
+    });
+}
 document.addEventListener('DOMContentLoaded', () => {
 const steps = document.querySelectorAll('.steps-segment');
 

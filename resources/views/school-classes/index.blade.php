@@ -39,9 +39,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
-            <x-common.fail-message :message="session('failedMessage')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
-          
+            <x-common.fail-message :message="session('failedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             <div>
                 {{ $dataTable->table() }}
             </div>

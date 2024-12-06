@@ -50,14 +50,14 @@ class StudentFeeDatatable extends DataTable
             ->editColumn('fine', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentFine = $assignFeeMaster->feePayments->first();
-                    return $paymentFine ? money ($paymentFine->fine) : '0.00';
+                    return $paymentFine ? money ($paymentFine->fine_amount) : '0.00';
                 }
                 return '0.00';
             })
             ->editColumn('paid', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentPaid = $assignFeeMaster->feePayments->first();
-                    return $paymentPaid ? money ($paymentPaid->paid) : '0.00';
+                    return $paymentPaid ? money ($paymentPaid->amount + $paymentPaid->fine_amount - $paymentPaid->discount_amount) : '0.00';
                 }
                 return '0.00';
             })

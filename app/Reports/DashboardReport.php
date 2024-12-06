@@ -41,7 +41,9 @@ class DashboardReport
     public function getThisMonthEstimation()
     {
         return AssignFeeMaster::with('feeMaster')
-                ->whereHas('feeMaster', function ($query) { $query->whereMonth('created_at', now()->month); })
+                ->whereHas('feeMaster', function ($query) { 
+                        $query->whereMonth('due_date', now()->month)->whereYear('due_date', now()->year); 
+                    })
                 ->get()
                 ->sum(function ($assignFeeMaster) {
                     return $assignFeeMaster->feeMaster ? $assignFeeMaster->feeMaster->amount : 0;
@@ -52,7 +54,7 @@ class DashboardReport
     {
         return AssignFeeMaster::with('feePayments')
             ->whereHas('feeMaster', function ($query) {
-                $query->whereMonth('created_at', now()->month);
+                $query->whereMonth('due_date', now()->month)->whereYear('due_date', now()->year); 
             })
             ->get()
             ->sum(function ($assignFeeMaster) {
@@ -75,13 +77,12 @@ class DashboardReport
 
         $dailyCollectedAmounts = [];
 
-        foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('5 day'), $endOfMonth) as $date) {
-            $collectedAmount = AssignFeeMaster::with('feePayments')
-                ->whereHas('feeMaster', function ($query) use ($date) {
-                    $query->whereYear('created_at', $date->format('Y'))
-                    ->whereMonth('created_at', $date->format('m'))
-                    ->whereDay('created_at', $date->format('d'));
-                })
+        foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('1 day'), $endOfMonth) as $date) {
+                $collectedAmount = AssignFeeMaster::with(['feePayments' => function ($query) use ($date) {
+                    $query->whereYear('payment_date', $date->format('Y'))
+                    ->whereMonth('payment_date', $date->format('m'))
+                    ->whereDay('payment_date', $date->format('d'));
+                }])
                 ->get()
                 ->sum(function ($assignFeeMaster) {
                     return $assignFeeMaster->feePayments->sum('amount');

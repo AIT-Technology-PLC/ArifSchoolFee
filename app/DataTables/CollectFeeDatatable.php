@@ -16,8 +16,7 @@ class CollectFeeDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('branch', fn($student) => $student->warehouse->name)
-            ->editColumn('class', fn($student) => $student->schoolClass->name)
-            ->editColumn('section', fn($student) => $student->section->name)
+            ->editColumn('class', fn($student) => str($student->schoolClass->name)->append(' ( '.$student->section->name . ' )'))
             ->editColumn('actions', function ($student) {
                 return view('components.datatables.collect-fee-action', compact('student'));
             })
@@ -56,12 +55,11 @@ class CollectFeeDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('branch', 'warehouse.name'),
-            Column::make('class', 'schoolClass.name'),
-            Column::make('section', 'section.name'),
-            Column::make('code')->title('Admission No'),
             Column::make('first_name')->title('Name'),
             Column::make('father_name')->content('N/A'),
+            Column::make('code')->title('Admission No'),
+            Column::make('branch', 'warehouse.name'),
+            Column::make('class', 'schoolClass.name'),
             Column::make('phone')->content('N/A'),
             Column::computed('actions')->className('actions'),
         ];

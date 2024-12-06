@@ -28,7 +28,7 @@ class CreateSchoolAction
             'currency' => 'Br',
         ]);
 
-        $subscription = $company->subscriptions()->create($data['subscriptions']);
+        $subscription= $company->subscriptions()->create($data['subscriptions']);
 
         $subscription->approve();
 
@@ -37,6 +37,7 @@ class CreateSchoolAction
             'name' => 'Main Branch',
             'location' => 'Unknown',
             'is_active' => 1,
+            'code' =>  $company->company_code,
         ]);
 
         $user = $this->action->execute([

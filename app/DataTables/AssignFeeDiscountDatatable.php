@@ -16,8 +16,7 @@ class AssignFeeDiscountDatatable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('branch', fn($student) => ucfirst($student->warehouse->name))
-            ->editColumn('class', fn($student) => ucfirst($student->schoolClass->name))
-            ->editColumn('section', fn($student) => ucfirst($student->section->name))
+            ->editColumn('class', fn($student) => str($student->schoolClass->name)->append(' ( '.$student->section->name . ' )'))
             ->editColumn('gender', fn($student) => ucfirst($student->gender) )
             ->editColumn('category', fn($student) => $student->studentCategory->name)
             ->editColumn('checkbox', function ($student) {
@@ -54,13 +53,17 @@ class AssignFeeDiscountDatatable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('checkbox')->orderable(false)->exportable(false)->printable(false)->width(20)->addClass('dt-checkboxes'),
+            Column::computed('checkbox')
+                ->orderable(false)
+                ->exportable(false)
+                ->printable(false)
+                ->width(20)
+                ->title('<input type="checkbox" class="select-all-checkbox">'),
             Column::computed('#'),
             Column::make('first_name')->title('Name'),
             Column::make('father_name')->content('N/A'),
             Column::make('branch', 'warehouse.name'),
             Column::make('class', 'schoolClass.name'),
-            Column::make('section', 'section.name'),
             Column::make('category', 'studentCategory.name'),
             Column::make('code')->title('Admission No'),
             Column::make('gender'),

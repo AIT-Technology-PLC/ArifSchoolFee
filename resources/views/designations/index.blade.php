@@ -11,7 +11,7 @@
                     <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
                         <x-common.icon name="fas fa-sort" />
                         <span>
-                            {{ number_format($totalDesignations) }} {{ str()->plural('department', $totalDesignations) }}
+                            {{ number_format($totalDesignations) }} {{ str()->plural('designation', $totalDesignations) }}
                         </span>
                     </span>
                 </h1>
@@ -38,8 +38,8 @@
             @endcan
         </x-content.header>
         <x-content.footer>
-            <x-common.success-message :message="session('deleted')" />
-            <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
+            <x-common.success-message :message="session('successMessage') ?? session('deleted') ?? session('imported')" />
+            <x-common.fail-message :message="session('failedMessage') ?? (count($errors->all()) ? $errors->all() : null)" />
             {{ $dataTable->table() }}
         </x-content.footer>
     </x-common.content-wrapper>

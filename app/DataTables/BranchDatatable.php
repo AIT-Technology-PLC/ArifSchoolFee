@@ -22,8 +22,8 @@ class BranchDatatable extends DataTable
                     ->when($keyword == 'inactive', fn($query) => $query->inactive());
             })
             ->editColumn('created on', fn($branch) => $branch->created_at->toFormattedDateString())
-            ->editColumn('created by', fn($branch) => $branch->createdBy->name)
-            ->editColumn('edited by', fn($branch) => $branch->updatedBy->name)
+            ->editColumn('created by', fn($branch) => $branch->createdBy->name ?? 'N/A')
+            ->editColumn('edited by', fn($branch) => $branch->updatedBy->name ?? 'N/A')
             ->editColumn('actions', function ($branch) {
                 return view('components.common.action-buttons', [
                     'model' => 'branches',

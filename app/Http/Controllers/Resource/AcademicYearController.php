@@ -76,6 +76,10 @@ class AcademicYearController extends Controller
 
     public function destroy(AcademicYear $academicYear)
     {
+        if ($academicYear->students()->exists()) {
+            return back()->with(['failedMessage' => 'This Academic Year data is being used and cannot be deleted.']);
+        }
+
         $academicYear->forceDelete();
 
         return back()->with('deleted', 'Deleted Successfully.');

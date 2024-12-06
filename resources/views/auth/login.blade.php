@@ -87,7 +87,6 @@
                     </p>
                 </div>
             </div>
-            <div id="particles-js" class="interactive-bg column is-8">
-            </div>
+            <div id="particles-js" class="interactive-bg column is-8"></div>
         </div>
 @endsection

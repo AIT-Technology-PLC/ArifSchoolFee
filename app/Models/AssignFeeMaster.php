@@ -57,4 +57,20 @@ class AssignFeeMaster extends Model
 
         return 0;
     }
+
+    public function isDueDatePassed()
+    {
+        $feeMaster = $this->feeMaster;
+        
+        if (!$feeMaster || !$feeMaster->due_date) {
+            return false;
+        }
+
+        return now()->lte($feeMaster->due_date);
+    }
+
+    public function isPaid()
+    {
+        return $this->feePayments()->exists();
+    }
 }

@@ -11,36 +11,34 @@
 
 <script>
     $(document).ready(function() {
-        // Initialize the DataTable
-        var table = $('.datatable').DataTable({
-            columnDefs: [{
-                targets: 0, // Target the first column (checkboxes)
-                orderable: false, // Disable ordering for this column
-                render: function(data, type, row) {
-                    return ''; // Leave it empty, since checkboxes are already in the Blade component
-                }
-            }]
-        });
+        const selectAllCheckbox = document.querySelector('.select-all-checkbox');
+        const studentCheckboxes = document.querySelectorAll('.student-checkbox');
 
-        // Append the "select all" checkbox to the header
-        $('#datatable thead th.dt-checkboxes').html('<input type="checkbox" id="select-all">');
+        if (selectAllCheckbox && studentCheckboxes.length > 0) {
+            // Ensure the "Select All" checkbox state is correctly set on page load
+            const allChecked = [...studentCheckboxes].every(checkbox => checkbox.checked);
+            const someChecked = [...studentCheckboxes].some(checkbox => checkbox.checked);
 
-        // Handle the "select all" checkbox in the header
-        $('#datatable thead').on('change', '#select-all', function() {
-            var isChecked = $(this).prop('checked');
-            // Select or deselect all checkboxes in the table body
-            table.rows().every(function() {
-                this.node().querySelector('input[type="checkbox"]').checked = isChecked;
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = !allChecked && someChecked;
+
+            // Add event listener for the 'Select All' checkbox
+            selectAllCheckbox.addEventListener('change', function() {
+                studentCheckboxes.forEach(function(checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                });
             });
-        });
 
-        // Update the "select all" checkbox based on individual row checkboxes
-        $('#datatable tbody').on('change', 'input[type="checkbox"]', function() {
-            var totalChecked = table.$('input[type="checkbox"]:checked').length;
-            var totalCheckboxes = table.$('input[type="checkbox"]').length;
-
-            // If all checkboxes are checked, check the "select all" checkbox
-            $('#select-all').prop('checked', totalChecked === totalCheckboxes);
-        });
+            // Update the 'Select All' checkbox when any individual checkbox is toggled
+            studentCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const allChecked = [...studentCheckboxes].every(checkbox => checkbox.checked);
+                    selectAllCheckbox.checked = allChecked;
+                    selectAllCheckbox.indeterminate = !allChecked && [...studentCheckboxes].some(checkbox => checkbox.checked);
+                });
+            });
+        } else {
+            console.error("Elements not found");
+        }
     });
 </script>

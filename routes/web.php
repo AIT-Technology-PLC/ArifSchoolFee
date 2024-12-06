@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth as Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Other as Other;
 
 Route::view('/offline', 'offline.index');
 
@@ -36,3 +37,11 @@ Route::prefix('/password')->group(function () {
     Route::get('/reset', [Auth\ForgetPasswordController::class, 'edit'])->name('forget.edit');
     Route::post('/request', [Auth\ForgetPasswordController::class, 'update'])->name('forget.update');
 });
+
+// School Or Company Registration
+Route::controller(Other\CompanyController::class)
+    ->prefix('/schools')
+    ->group(function () {
+        Route::get('/register', 'register')->name('schools.register');
+        Route::post('/store', 'store')->name('schools.store');
+    });

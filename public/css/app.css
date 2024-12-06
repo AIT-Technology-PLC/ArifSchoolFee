@@ -3,7 +3,7 @@
 }
 
 .text-green {
-    color: #4eaf6f !important;
+    color: #509c6a !important;
 }
 
 .text-purple {
@@ -50,8 +50,8 @@
 }
 
 .bg-green {
-    background-color: #4eaf6f !important;
-    border: 1px solid #4eaf6f !important;
+    background-color: #509c6a !important;
+    border: 1px solid #509c6a !important;
 }
 
 .bg-lightgreen {
@@ -91,7 +91,7 @@
 
 .link-text:hover {
     color: white !important;
-    background: #4eaf6f !important;
+    background: #509c6a !important;
 }
 
 .to-the-right {
@@ -132,12 +132,12 @@
 }
 
 .btn-green {
-    border: 1px solid #4eaf6f !important;
-    color: #4eaf6f !important;
+    border: 1px solid #509c6a !important;
+    color: #509c6a !important;
 }
 
 .btn-green.is-outlined:hover {
-    background: #4eaf6f !important;
+    background: #509c6a !important;
     color: white !important;
 }
 
@@ -188,12 +188,12 @@
 select,
 input,
 textarea {
-    color: #4eaf6f !important;
+    color: #509c6a !important;
     font-weight: 300 !important;
 }
 
 .select:after {
-    border-color: #4eaf6f !important;
+    border-color: #509c6a !important;
 }
 
 .menu-list a.is-active,
@@ -284,7 +284,7 @@ nav {
 }
 
 .is-green > progress::-webkit-progress-value {
-    background-color: #4eaf6f !important;
+    background-color: #509c6a !important;
 }
 
 .is-purple > progress::-webkit-progress-value {
@@ -326,7 +326,7 @@ td {
     z-index: 99999;
     white-space: nowrap;
     background-color: #edf7f2;
-    color: #4eaf6f;
+    color: #509c6a;
     font-size: small;
     font-weight: 500;
     padding: 7px;
@@ -368,13 +368,13 @@ td {
 .available a {
     background-color: #fafafa;
     border-color: #fafafa;
-    color: #4eaf6f;
+    color: #509c6a;
     z-index: 1;
 }
 
 .tabs.is-toggle li.available.is-active a {
-    background-color: #4eaf6f;
-    border-color: #4eaf6f;
+    background-color: #509c6a;
+    border-color: #509c6a;
     color: #fafafa;
     z-index: 1;
 }
@@ -531,7 +531,7 @@ td {
 }
 
 .general-menu-item:hover {
-    border: 1px solid #4eaf6f !important;
+    border: 1px solid #509c6a !important;
 }
 
 .button.is-focused:not(:active),
@@ -573,7 +573,7 @@ table.dataTable.no-footer {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
-    color: #4eaf6f !important;
+    color: #509c6a !important;
     border: none !important;
     border-radius: 2px;
     font-size: small !important;
@@ -584,14 +584,14 @@ table.dataTable.no-footer {
     color: white !important;
     border: none !important;
     background: none !important;
-    background-color: #4eaf6f !important;
+    background-color: #509c6a !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     color: white !important;
     border: none !important;
     background: none !important;
-    background-color: #4eaf6f !important;
+    background-color: #509c6a !important;
 }
 
 .dataTables_wrapper .dataTables_info {
@@ -602,7 +602,7 @@ table.dataTable.no-footer {
 
 .dataTables_wrapper .dataTables_length {
     font-size: small !important;
-    color: #4eaf6f !important;
+    color: #509c6a !important;
     margin-top: 10px !important;
     margin-bottom: 20px !important;
 }
@@ -663,7 +663,7 @@ div.dt-button-collection a.dt-button {
 
 div.dt-button-collection button.dt-button.active:not(.disabled) {
     box-shadow: none !important;
-    color: #4eaf6f !important;
+    color: #509c6a !important;
 }
 
 table.dataTable thead th,
@@ -675,7 +675,7 @@ table.dataTable thead td {
 
 .dataTables_wrapper .dataTables_length {
     font-size: small !important;
-    color: #4eaf6f !important;
+    color: #509c6a !important;
     margin-top: 0 !important;
     margin-bottom: 20px !important;
     margin-right: 5px !important;
@@ -830,14 +830,14 @@ div.dataTables_wrapper div.dataTables_processing {
 
 .note-modal-footer .note-btn {
     float: right;
-    background-color: #4eaf6f;
+    background-color: #509c6a;
     color: white !important;
     font-weight: 400 !important;
 }
 
 .note-modal-title {
     font-size: 20px;
-    color: #4eaf6f;
+    color: #509c6a;
     margin: 0;
     line-height: 1.4;
 }
@@ -846,7 +846,7 @@ div.dataTables_wrapper div.dataTables_processing {
     display: block;
     width: 100%;
     font-size: 16px;
-    color: #4eaf6f;
+    color: #509c6a;
     margin-bottom: 10px;
     font-weight: 700;
 }
@@ -902,12 +902,16 @@ div.dataTables_wrapper div.dataTables_processing {
     height: 75px;
 }
 
-.column.is-12 {
-    flex: auto;
-    width: 100%
+@media screen and (max-width: 769px), print {
+    .column.is-6{
+        flex: auto;
+        width: 100%;
+    }
 }
 
-.column.is-6 {
-    flex: auto;
-    width: 40%
+@media screen and (min-width: 769px), print {
+    .column.is-6{
+        flex: auto;
+        width: 45%;
+    }
 }

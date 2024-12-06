@@ -312,6 +312,15 @@
                             x-init="{{ request()->routeIs('admin.payment-methods.*') ? 'activateAccordion' : '' }}"
                         />
                     </li>
+                    <li>
+                        <x-common.button
+                            tag="a"
+                            href="{{ route('admin.payment-gateways.index') }}"
+                            label="Payment Gateway"
+                            class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.payment-gateways.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                            x-init="{{ request()->routeIs('admin.payment-gateways.*') ? 'activateAccordion' : '' }}"
+                        />
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -268,8 +268,8 @@
                 <x-common.fail-message :message="$errors->first('base')"/>
             @endif
 
-            <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+            <div class="columns is-marginless is-multiline is-mobile">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="subject">
                                 Subject <sup class="has-text-danger">*</sup>
@@ -290,7 +290,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="type">
                                 Message Type <sup class="has-text-danger">*</sup>
@@ -335,7 +335,7 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12-mobile is-12-tablet is-6-desktop">
                         <x-forms.field>
                             <x-forms.label for="message_content">
                                 Message <sup class="has-text-danger">*</sup>
@@ -353,12 +353,12 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-12-mobile is-12-tablet is-6-desktop">
                         <x-forms.label>
                             To <sup class="has-text-danger">*</sup>
                         </x-forms.label>
                         <div class="panel">
-                            <p id="tabs" class="panel-tabs panel-heading is-size-6">
+                            <p id="tabs" class="panel-tabs panel-heading is-size-6 has-text-weight-normal">
                                 <a data-target="all" class="is-active">All</a>
                                 <a data-target="specific_user">Specific User</a>
                                 <a data-target="specific_student">Specific Student</a>

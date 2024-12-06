@@ -56,7 +56,7 @@ class StudentCategoryController extends Controller
     public function destroy(StudentCategory $studentCategory)
     {
         if ($studentCategory->students()->exists()) {
-            return back()->with(['failedMessage' => 'This Student Category is being used and cannot be deleted.']);
+            return back()->with(['failedMessage' => 'This Student Category data is being used and cannot be deleted.']);
         }
 
         $studentCategory->delete();

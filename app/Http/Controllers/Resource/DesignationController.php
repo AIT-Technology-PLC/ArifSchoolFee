@@ -59,6 +59,10 @@ class DesignationController extends Controller
 
     public function destroy(Designation $designation)
     {
+        if ($designation->staffs()->exists()) {
+            return back()->with(['failedMessage' => 'This Designation data is being used and cannot be deleted.']);
+        }
+
         $designation->delete();
 
         return back()->with('deleted', 'Deleted successfully.');

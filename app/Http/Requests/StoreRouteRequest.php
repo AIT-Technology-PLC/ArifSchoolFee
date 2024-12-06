@@ -17,7 +17,7 @@ class StoreRouteRequest extends FormRequest
     {
         return [
             'route' => ['required', 'array'],
-            'route.*.title' => ['required', 'string', 'distinct', Rule::unique('routes')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'route.*.title' => ['required', 'string', 'max:30','distinct', Rule::unique('routes')->where('company_id', userCompany()->id)->withoutTrashed()],
             'route.*.fare' => ['required', 'numeric', 'gte:0'],
             'route.*.vehicle_id' => ['required', 'array'],
             'route.*.vehicle_id.*' => ['required', 'integer', 'distinct', new MustBelongToCompany('vehicles')],
