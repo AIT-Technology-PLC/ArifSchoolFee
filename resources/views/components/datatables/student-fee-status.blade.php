@@ -1,4 +1,13 @@
-@if ($assignFeeMaster->feePayments->count())
+@if (!$assignFeeMaster->feePayments->count() && $assignFeeMaster->paymentTransactions()->pending()->count())    
+    <span class="tag bg-gold has-text-white">
+        <span class="icon">
+            <i class="fas fa-hourglass-half"></i>
+        </span>
+        <span>
+            Pending
+        </span>
+    </span>
+@elseif ($assignFeeMaster->feePayments->count() && !$assignFeeMaster->paymentTransactions()->pending()->count())
     <span class="tag bg-green has-text-white">
         <span class="icon">
             <i class="fas fa-check-circle"></i>

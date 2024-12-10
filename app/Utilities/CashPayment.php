@@ -25,9 +25,9 @@ class CashPayment
 
             $transaction->company_id = $assignFeeMaster->company_id; 
             $transaction->student_id = $assignFeeMaster->student_id;
-            $transaction->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
             $transaction->assign_fee_master_id = $assignFeeMaster->id;
             $transaction->payment_mode = 'Cash';
+            $transaction->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
             $transaction->payment_date = Carbon::parse($paymentData['payment_date']);
             $transaction->amount = $paymentData['amount'];
             $transaction->fine_amount = $paymentData['fine_amount'] ?? 0;

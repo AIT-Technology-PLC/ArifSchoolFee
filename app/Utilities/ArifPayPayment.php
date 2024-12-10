@@ -3,9 +3,10 @@
 namespace App\Utilities;
 
 use App\Models\AssignFeeMaster;
+use App\Models\PaymentTransaction;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Exception;
 
 class ArifPayPayment
@@ -32,6 +33,16 @@ class ArifPayPayment
             $validatedPaymentInfo = $this->validatePaymentInfo($payload);
 
             $response = $this->makeApiCall($validatedPaymentInfo);
+
+            if (isset($response['data']['sessionId'])) {
+                $transaction = new PaymentTransaction();
+                $transaction->assign_fee_master_id = $assignFeeMaster->id;
+                $transaction->session_id = $response['data']['sessionId'];
+                $transaction->status = 'pending';
+                $transaction->payment_method = 'Arifpay';
+                $transaction->payment_data = json_encode($paymentData);
+                $transaction->save();
+            }
 
             if (isset($response['data']['paymentUrl'])) {
                 return $response['data']['paymentUrl'];

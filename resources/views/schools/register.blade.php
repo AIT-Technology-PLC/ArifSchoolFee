@@ -16,9 +16,9 @@
                             autocomplete="off"
                         >
                             @csrf
-                            <div class="has-text-centered">
+                            {{-- <div class="has-text-centered">
                                 <img class="registration-logo" src="{{ asset('img/AIT LOGO.png') }}">
-                            </div>
+                            </div> --}}
 
                             <div class="has-text-centered">
                                 <h1 class="title">Registration Form</h1>
@@ -68,7 +68,7 @@
             
                             <div id="step-one" class="step-content is-active">
                                 <div class="columns is-marginless is-multiline is-mobile">
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="company_name">
                                                 Name <sup class="has-text-danger">*</sup>
@@ -89,7 +89,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="company_code">
                                                 School Code <sup class="has-text-danger">*</sup>
@@ -110,7 +110,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="school_type_id">
                                                 Type <sup class="has-text-danger">*</sup>
@@ -144,7 +144,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="email">
                                                 Email <sup class="has-text-danger"></sup>
@@ -165,7 +165,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="phone">
                                                 Phone <sup class="has-text-danger"></sup>
@@ -186,7 +186,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="address">
                                                 Address <sup class="has-text-danger"></sup>
@@ -212,7 +212,7 @@
             
                             <div id="step-two" class="step-content">
                                 <div class="columns is-marginless is-multiline is-mobile">
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="name">
                                                 Admin Name <sup class="has-text-danger">*</sup>
@@ -233,7 +233,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="gender">
                                                 Gender <sup class="has-text-danger">*</sup>
@@ -271,7 +271,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.phone">
                                                 Phone <sup class="has-text-danger">*</sup>
@@ -293,7 +293,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.email">
                                                 Admin Email <sup class="has-text-danger">*</sup>
@@ -314,7 +314,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.address">
                                                 Address <sup class="has-text-danger"></sup>
@@ -336,7 +336,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
                                         <x-forms.label>
                                             Admin Password <sup class="has-text-danger">*</sup>
                                         </x-forms.label>

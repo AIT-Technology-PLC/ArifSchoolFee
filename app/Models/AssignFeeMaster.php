@@ -35,6 +35,11 @@ class AssignFeeMaster extends Model
         return $this->hasMany(FeePayment::class, 'assign_fee_master_id');
     }
 
+    public function paymentTransactions()
+    {
+        return $this->hasMany(PaymentTransaction::class);
+    }
+
     public function getFineAmount()
     {
         $feeMaster = $this->feeMaster;
