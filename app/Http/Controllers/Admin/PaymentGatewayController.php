@@ -26,7 +26,7 @@ class PaymentGatewayController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        $schools = Company::enabled()->enabled()->orderBy('name')->get(['id', 'name']);
+        $schools = Company::enabled()->orderBy('name')->get(['id', 'name']);
 
         $methods = PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);
 

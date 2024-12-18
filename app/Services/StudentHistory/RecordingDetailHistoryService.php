@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\InventoryHistory;
+namespace App\Services\StudentHistory;
 
 use App\Interfaces\DetailHistoryServiceInterface;
 use App\Models\TransactionField;
 
-class TransactionDetailHistoryService implements DetailHistoryServiceInterface
+class RecordingDetailHistoryService implements DetailHistoryServiceInterface
 {
     private $warehouse;
 

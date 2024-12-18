@@ -56,6 +56,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
+
+            // Bank Controllers
+            Route::middleware(['web', 'auth', 'isCallCenter'])
+                ->prefix('call-centers')
+                ->name('call-centers.')
+                ->group(base_path('routes/callcenter.php'));
         });
 
     }

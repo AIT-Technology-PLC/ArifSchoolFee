@@ -58,6 +58,10 @@ class AcademicYearController extends Controller
 
     public function update(UpdateAcademicYearRequest $request, AcademicYear $academicYear)
     {
+        if ($academicYear->students()->exists()) {
+            return back()->with(['failedMessage' => 'This Academic Year data is being used and cannot be edited.']);
+        }
+
         DB::transaction(function () use ($request, $academicYear) {
             $dataToUpdate = array_merge(
                 $request->safe()->only(['title', 'year']),

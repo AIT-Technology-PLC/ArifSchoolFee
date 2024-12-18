@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
                 'isFeatureAccessible' => \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
                 'isEmployeeEnabled' => \App\Http\Middleware\AllowOnlyEnabledUsers::class,
                 'isAdmin' => \App\Http\Middleware\AllowOnlyAdminUsers::class,
+                'isBank' => \App\Http\Middleware\AllowOnlyBankUsers::class,
+                'isCallCenter' => \App\Http\Middleware\AllowOnlyCallCenterUsers::class,
             ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -30,6 +30,8 @@ Route::controller(Action\CompanyController::class)
         Route::patch('/{school}', 'update')->name('update');
     });
 
+Route::get('/students/{student}/history', [Action\StudentController::class, 'history'])->name('students.history');
+
 // Transaction
 Route::controller(Action\TransactionController::class)
     ->name('transactions.')

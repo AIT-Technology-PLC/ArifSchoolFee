@@ -35,14 +35,18 @@ class DashboardReport
 
     public function getAssignedFeeMasterThisMonth()
     {
-        return AssignFeeMaster::count();
+        return AssignFeeMaster::whereHas('feeMaster', function ($query) {
+            $query->whereMonth('due_date', now()->month)
+                  ->whereYear('due_date', now()->year);
+        })->count();
     }
 
     public function getThisMonthEstimation()
     {
         return AssignFeeMaster::with('feeMaster')
                 ->whereHas('feeMaster', function ($query) { 
-                        $query->whereMonth('due_date', now()->month)->whereYear('due_date', now()->year); 
+                        $query->whereMonth('due_date', now()->month)
+                              ->whereYear('due_date', now()->year); 
                     })
                 ->get()
                 ->sum(function ($assignFeeMaster) {
@@ -54,7 +58,8 @@ class DashboardReport
     {
         return AssignFeeMaster::with('feePayments')
             ->whereHas('feeMaster', function ($query) {
-                $query->whereMonth('due_date', now()->month)->whereYear('due_date', now()->year); 
+                $query->whereMonth('due_date', now()->month)
+                      ->whereYear('due_date', now()->year); 
             })
             ->get()
             ->sum(function ($assignFeeMaster) {
@@ -77,7 +82,7 @@ class DashboardReport
 
         $dailyCollectedAmounts = [];
 
-        foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('1 day'), $endOfMonth) as $date) {
+        foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('5 day'), $endOfMonth) as $date) {
                 $collectedAmount = AssignFeeMaster::with(['feePayments' => function ($query) use ($date) {
                     $query->whereYear('payment_date', $date->format('Y'))
                     ->whereMonth('payment_date', $date->format('m'))

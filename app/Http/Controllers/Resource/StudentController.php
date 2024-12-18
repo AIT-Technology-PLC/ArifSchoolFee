@@ -13,6 +13,8 @@ use App\Models\Student;
 use App\Models\StudentCategory;
 use App\Models\StudentGroup;
 use App\Models\Warehouse;
+use App\Services\Student\StudentOperationService;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -63,10 +65,16 @@ class StudentController extends Controller
             return back()->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
         }
 
-        Student::firstOrCreate(
-            $request->safe()->only(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
-        );
+        DB::transaction(function () use ($request) {
+            $student = Student::firstOrCreate(
+                $request->safe()->only(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
+                $request->safe()->except(['first_name', 'father_name', 'last_name','school_class_id', 'section_id'] + ['company_id' => userCompany()->id]),
+            );
+
+            StudentOperationService::add($request, $student);
+
+            return $student;
+        });
 
         return redirect()->route('students.index')->with('successMessage', 'New Student Added Successfully.');
     }
@@ -91,7 +99,13 @@ class StudentController extends Controller
             return redirect()->route('students.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
         }
 
-        $student->update($request->validated());
+        DB::transaction(function () use ($request, $student) {
+            $student->update($request->validated());
+
+            StudentOperationService::add($request, $student);
+
+            return $student;
+        });
 
         return redirect()->route('students.index')->with('successMessage', 'Updated Successfully.');
     }

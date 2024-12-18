@@ -24,6 +24,16 @@
                                 class="has-text-weight-medium is-small text-blue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                             />
                         </x-common.dropdown-item>
+                        <x-common.dropdown-item>
+                            <x-common.button
+                                tag="a"
+                                href="{{ route('students.history', $student->id) }}"
+                                mode="button"
+                                icon="fas fa-history"
+                                label="View History"
+                                class="has-text-weight-medium is-small text-blue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                            />
+                        </x-common.dropdown-item>
                     </x-common.dropdown>
                 </div>
 

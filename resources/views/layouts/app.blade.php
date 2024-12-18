@@ -11,7 +11,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}"
     >
-    <title> @yield('title') - {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }} </title>
+    <title> @yield('title') - {{ authUser()->isAdmin() ? 'Admin Panel' : (authUser()->isCallCenter() ? 'Call Center' :  (authUser()->isBank() ? authUser()->bank_name : userCompany()->name)) }} </title>
     @include('assets.css')
     @include('pwa.tags')
 </head>

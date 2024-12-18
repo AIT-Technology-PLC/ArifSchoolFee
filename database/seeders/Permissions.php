@@ -171,6 +171,9 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Setting']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Payment']);
 
+            // Call Center and Bank
+            $permissions[] = Permission::firstOrCreate(['name' => 'Manage Schools Payment']);
+
             // Delete Non-existent permissions
             Permission::whereNotIn('name', collect($permissions)->pluck('name'))->forceDelete();
 
@@ -181,7 +184,7 @@ class Permissions extends Seeder
             );
 
             // Assign permissions to role
-            $systemManager->syncPermissions(Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->get());
+            $systemManager->syncPermissions(Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'LIKE', 'Manage Schools Payment')->get());
         });
     }
 }

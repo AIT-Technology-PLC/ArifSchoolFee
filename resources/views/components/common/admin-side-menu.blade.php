@@ -419,7 +419,7 @@
                             <x-common.button
                                 tag="a"
                                 href="{{ route('admin.users.index') }}"
-                                label="Admin Account"
+                                label="Account Management"
                                 class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('admin.users.*') ? 'text-blue has-text-weight-bold' : '' }}"
                                 x-init="{{ request()->routeIs('admin.users.*') ? 'activateAccordion' : '' }}"
                             />

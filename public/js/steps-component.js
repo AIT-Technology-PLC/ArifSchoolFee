@@ -43,6 +43,51 @@ if (document.getElementById('route_id')) {
         }
     });
 }
+
+if (document.getElementById('school')) {
+    document.getElementById('school').addEventListener('change', function() {
+        var schoolId = this.value;
+        var branchSelect = document.getElementById('branch');
+
+        branchSelect.innerHTML = '<option value="" selected disabled>Select Branch</option>';
+
+        if (schoolId) {
+            fetch(`/api/branches/${schoolId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(branch => {
+                        var option = document.createElement('option');
+                        option.value = branch.id;
+                        option.textContent = branch.name;
+                        branchSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching branches:', error));
+        }
+    });
+
+    document.getElementById('school').addEventListener('change', function() {
+        var schoolId = this.value;
+        var schoolClassSelect = document.getElementById('school_class_id');
+
+        schoolClassSelect.innerHTML = '<option value="" selected disabled>Select Class</option>';
+
+        if (schoolId) {
+            fetch(`/api/classes/${schoolId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(schoolClass => {
+                        var option = document.createElement('option');
+                        option.value = schoolClass.id;
+                        option.textContent = schoolClass.name;
+                        schoolClassSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching Classes:', error));
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 const steps = document.querySelectorAll('.steps-segment');
 

@@ -1,4 +1,4 @@
-@if (!$assignFeeMaster->isPaid())
+@if (!$assignFeeMaster->isPaid() && !$assignFeeMaster->paymentTransactions()->pending()->count())
     <x-common.button
         tag="a"
         mode="button"
@@ -9,7 +9,7 @@
     />
 @endif
 
-@if ($assignFeeMaster->isDueDatePassed())
+@if (!$assignFeeMaster->isPaid() && $assignFeeMaster->isDueDatePassed()&& !$assignFeeMaster->paymentTransactions()->pending()->count())
     <x-common.button
         tag="a"
         href="{{ route('fee-reminder', $assignFeeMaster->id) }}"
@@ -20,16 +20,4 @@
     />
 @endif
 
-@can('Update Collect Fee')
-    @include('collect-fees.partials.fee-details', ['assignFeeMaster' => $assignFeeMaster])
-@endcan
-
-{{-- <div
-    x-data="{ isHidden: true, modalId: null }"
-    @open-fee-details-modal.window="if ($event.detail.id === '{{ $assignFeeMaster->id }}') { modalId = $event.detail.id; isHidden = false }"
-    x-show="modalId === '{{ $assignFeeMaster->id }}'"
-    class="modal"
-    x-cloak
-    x-transition
->
-<div class="modal-background" @click="isHidden = true"></div> --}}
+@include('collect-fees.partials.fee-details', ['assignFeeMaster' => $assignFeeMaster])

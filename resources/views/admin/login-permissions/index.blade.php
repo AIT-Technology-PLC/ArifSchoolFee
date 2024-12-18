@@ -35,16 +35,19 @@
                 <x-slot name="headings">
                     <th><abbr> # </abbr></th>
                     <th><abbr> Name </abbr></th>
+                    <th><abbr> User Type </abbr></th>
+                    <th><abbr> Bank Name </abbr></th>
                     <th><abbr> Email </abbr></th>
                     <th><abbr> Status </abbr></th>
                     <th><abbr> Action </abbr></th>
                 </x-slot>
                 <x-slot name="body">
                     @foreach ($users as $user)
-                      @if ($user->isAdmin())
                         <tr>
                             <td> {{ $loop->index + 1 }} </td>
                             <td> {{ $user->name }} </td>
+                            <td> {{ ucfirst($user->user_type) }} </td>
+                            <td> {{ $user->bank_name ?? 'N/A' }} </td>
                             <td> {{ $user->email }} </td>
                             <td>
                                 @if ($user->isAllowed())
@@ -79,7 +82,6 @@
                                 />
                             </td>
                         </tr>
-                      @endif
                     @endforeach
                 </x-slot>
             </x-common.client-datatable>

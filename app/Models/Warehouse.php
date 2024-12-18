@@ -62,6 +62,11 @@ class Warehouse extends Model
         return $this->belongsToMany(Notice::class);
     }
 
+    public function studentHistories()
+    {
+        return $this->hasMany(StudentHistory::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);

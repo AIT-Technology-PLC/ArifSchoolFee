@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function sideMenuComponent(): Attribute
     {
-        return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : 'common.side-menu');
+        return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : ($this->isCallCenter() || $this->isBank() ? 'common.call-center-side-menu' : 'common.side-menu'));
     }
 
     public function scopeAllowed($query)
@@ -78,9 +78,19 @@ class User extends Authenticatable
         return $this->is_admin && is_null($this->employee);
     }
 
+    public function isCallCenter()
+    {
+        return $this->user_type == 'call_center' && is_null($this->employee);
+    }
+
+    public function isBank()
+    {
+        return $this->user_type == 'bank' && is_null($this->employee);
+    }
+
     public function isAccessAllowed()
     {
-        if ($this->isAdmin()) {
+        if ($this->isAdmin() || $this->isCallCenter() || $this->isBank()) {
             if ($this->isAllowed()) {
                 return true;
             }

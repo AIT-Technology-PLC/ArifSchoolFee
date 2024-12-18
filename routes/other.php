@@ -31,7 +31,11 @@ Route::get('manifest.json', function () {
     ];
 });
 
+Route::get('/api/vehicles/{routeId}', [App\Http\Controllers\Api\VehicleController::class, 'getVehiclesByRoute']);
+
 Route::get('/api/sections/{classId}', [App\Http\Controllers\Api\SectionController::class, 'getSectionsByClass']);
 
-Route::get('/api/vehicles/{routeId}', [App\Http\Controllers\Api\VehicleController::class, 'getVehiclesByRoute']);
+Route::get('/api/branches/{schoolId}', [App\Http\Controllers\Api\BranchController::class, 'getBranchesBySchool']);
+
+Route::get('/api/classes/{schoolId}', [App\Http\Controllers\Api\SchoolClassController::class, 'getClassesBySchool']);
 

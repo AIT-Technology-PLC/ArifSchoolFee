@@ -30,7 +30,8 @@ class SearchFeeDueDatatable extends DataTable
         $query = $assignFeeMaster
                 ->newQuery()->select('assign_fee_masters.*')
                 ->whereHas('feeMaster', function ($q) { $q->where('due_date', '<=', now()); })
-                ->doesntHave('feePayments');
+                ->doesntHave('feePayments')
+                ->doesntHave('paymentTransactions');
 
         $query->when(is_numeric(request('branch')), fn($q) => $q->whereHas('student', fn($q) => $q->where('warehouse_id', request('branch'))))
         ->when(is_numeric(request('class')), fn($q) => $q->whereHas('student', fn($q) => $q->where('school_class_id', request('class'))))

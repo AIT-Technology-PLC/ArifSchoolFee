@@ -16,7 +16,15 @@ class PaymentMethodList extends Component
     public function __construct($id = 'payment_mode', $name = 'payment_mode', $value = 'name')
     {
         $this->paymentMethods = Cache::store('array')->rememberForever('paymentMethods', function () {
+            if (authUser()->isCallCenter()) {
+                return PaymentMethod::enabled()
+                    ->whereIn('name', ['Arifpay'])
+                    ->orderBy('name')
+                    ->get(['id', 'name']);
+            }
+
             return PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);
+
         });
 
         $this->id = $id;

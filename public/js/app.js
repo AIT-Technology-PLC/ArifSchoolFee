@@ -308,6 +308,22 @@ document.addEventListener("alpine:init", () => {
         },
     }));
 
+    Alpine.data(
+        "usersInformation",
+        (
+            userType = "",
+        ) => ({
+            userType: "",
+
+            init() {
+                this.userType = userType;
+            },
+            isUserTypeBankSelected() {
+                return this.userType == 'bank';
+            },
+        })
+    );
+
     Alpine.data("sideMenuAccordion", () => ({
         isAccordionActive: false,
         isAccordionOpen: false,

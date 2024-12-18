@@ -7,23 +7,13 @@
                     src="{{ asset('img/AIT LOGO WHITE.png') }}"
                 >
             </figure>
-            @if (!authUser()->isAdmin())
-                <a
-                    x-data
-                    @click="$dispatch('open-create-modal')"
-                    class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right"
-                    data-title="Create New ..."
-                >
-                    <span class="icon">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                </a>
+            @if (!authUser()->isCallCenter() && !authUser()->isBank())
+                <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop {{ authUser()->isAdmin()  ? 'to-the-right' : 'to-the-right' }}" />
             @endif
-            <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop {{ authUser()->isAdmin() ? 'to-the-right' : '' }}" />
             <span
                 x-data="toggler"
                 @click="toggle;$dispatch('side-menu-opened')"
-                class="navbar-item has-text-white is-size-5 is-hidden-desktop"
+                class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right"
             >
                 <span class="icon">
                     <i
@@ -38,10 +28,16 @@
                 <a class="navbar-item">
                     <h1 class="ml-5 has-text-white-ter has-text-weight-normal is-uppercase is-size-5">
                         <span class="icon is-medium has-text-white">
-                            <i class="fas fa-sort"></i>
+                            <i class="fas 
+                                {{ 
+                                    authUser()->isAdmin() ? 'fa-user-shield' : 
+                                    (authUser()->isCallCenter() ? 'fa-headset' : 
+                                    (authUser()->isBank() ? 'fa-bank' : 'fa-school')) 
+                                }}">
+                            </i>
                         </span>
                         <span class="is-capitalized">
-                            {{ authUser()->isAdmin() ? 'Admin Panel' : userCompany()->name }}
+                            {{ authUser()->isAdmin() ? 'Admin Panel' : (authUser()->isCallCenter() ? 'Call Center' :  (authUser()->isBank() ? authUser()->bank_name : userCompany()->name)) }}
                         </span>
                     </h1>
                 </a>
@@ -90,7 +86,9 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                <livewire:notification-counter class="navbar-item has-text-white link-text" />
+                @if (!authUser()->isCallCenter() && !authUser()->isBank())
+                    <livewire:notification-counter class="navbar-item has-text-white link-text" />
+                 @endif
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure
@@ -113,7 +111,7 @@
                         class="navbar-dropdown is-boxed"
                         style="left: -68px !important"
                     >
-                        @if (!authUser()->isAdmin())
+                        @if (!authUser()->isAdmin() && !authUser()->isCallCenter() && !authUser()->isBank())
                             <a
                                 href="{{ route('users.show', authUser()->employee->id) }}"
                                 class="navbar-item text-blue"

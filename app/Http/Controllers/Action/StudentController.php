@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Action;
 
+use App\DataTables\StudentHistoryDatatable;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Http\Requests\UploadImportFileRequest;
 use App\Imports\StudentImport;
+use App\Models\StudentHistory;
 
 class StudentController extends Controller
 {
@@ -23,5 +25,14 @@ class StudentController extends Controller
         (new StudentImport)->import($request->validated('file'));
 
         return back()->with('imported', __('messages.file_imported'));
+    }
+
+    public function history(StudentHistoryDatatable $datatable, Student $student)
+    {
+        $datatable = new StudentHistoryDatatable($student->id);
+
+        $datatable->builder()->setTableId('student-histories-datatable')->orderBy(0, 'asc');
+
+        return $datatable->render('students.history', compact('student'));
     }
 }

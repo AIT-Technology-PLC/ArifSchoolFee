@@ -20,6 +20,10 @@ class Student extends Model
         'admission_date' => 'datetime',
     ];
 
+    protected $cascadeDeletes = [
+        'studentHistories',
+    ];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -94,5 +98,10 @@ class Student extends Model
     public function isAssignedToFeeDiscount($feeDiscountId)
     {
         return $this->assignFeeDiscounts()->where('fee_discount_id', $feeDiscountId)->exists();
+    }
+
+    public function studentHistories()
+    {
+        return $this->hasMany(StudentHistory::class);
     }
 }

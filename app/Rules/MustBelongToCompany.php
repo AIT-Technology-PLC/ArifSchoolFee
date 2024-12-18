@@ -23,6 +23,10 @@ class MustBelongToCompany implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (authUser()->isCallCenter()) {
+            return ;
+        }
+
         $exists = DB::table($this->tableName)
             ->when(Schema::hasColumn($this->tableName, 'company_id'), fn($q) => $q->where('company_id', userCompany()->id))
             ->where($this->column, $value)

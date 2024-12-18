@@ -10,7 +10,7 @@ class CompanyScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        if (! auth()->check() || authUser()->isAdmin()) {
+        if (! auth()->check() || authUser()->isAdmin() || authUser()->isCallCenter() || authUser()->isBank()) {
             return;
         }
 

@@ -11,7 +11,7 @@ class LoginPermissionController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        $users = User::all();
+        $users = User::where(function ($query) {$query->where('is_admin', 1)->orWhereIn('user_type', ['call_center', 'bank']);})->get();
 
         $totalEnabledUsers = User::where('is_admin', 1)->allowed()->count();
 

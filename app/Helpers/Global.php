@@ -41,7 +41,7 @@ if (!function_exists('isFeatureEnabled')) {
             return false;
         }
 
-        if (authUser()->isAdmin()) {
+        if (authUser()->isAdmin() || authUser()->isCallCenter() || authUser()->isBank()) {
             return true;
         }
 
@@ -69,6 +69,10 @@ if (!function_exists('isFeatureEnabledForCompany')) {
 if (!function_exists('money')) {
     function money($amount = 0.00, $currency = null)
     {
+        if (authUser()->isAdmin() || authUser()->isCallCenter() || authUser()->isBank()) {
+            return 'Br'. ', ' . number_format($amount, 2);
+        }
+
         $currency = $currency ?: userCompany()->currency;
 
         return $currency . ', ' . number_format($amount, 2);

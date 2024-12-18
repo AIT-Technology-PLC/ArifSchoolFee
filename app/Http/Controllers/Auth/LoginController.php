@@ -20,7 +20,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if (! authUser()->isAdmin()) {
+        if (!authUser()->isAdmin() && !authUser()->isCallCenter() && !authUser()->isBank()) {
             $user->updateUserLoginLog();
         }
     }

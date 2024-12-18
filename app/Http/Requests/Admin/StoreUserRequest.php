@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Permission;
 
 class StoreUserRequest extends FormRequest
 {
@@ -19,6 +17,8 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'user_type' => ['required', 'string', 'in:admin,call_center,bank'],
+            'bank_name' => ['nullable', 'string', 'max:255', 'required_if:user_type,bank'],
         ];
     }
 }

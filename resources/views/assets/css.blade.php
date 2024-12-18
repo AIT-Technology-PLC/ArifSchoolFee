@@ -61,7 +61,6 @@
     rel="stylesheet"
 />
 
-
 @livewireStyles
 {{-- Local Assets --}}
 <link
