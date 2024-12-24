@@ -8,10 +8,8 @@
 >
     <option 
         selected
-        disabled
         value=""
     >Select Discount Group</option>
-    
     @foreach ($feeDiscounts as $feeDiscount)
         <option
             value="{{ $feeDiscount->$value }}"

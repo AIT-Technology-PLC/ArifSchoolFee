@@ -150,8 +150,9 @@
             >
                 @csrf
                 @method('PATCH')
+                    {{ $dataTable->table() }} 
                     <div id="dataTableContainer" class="is-hidden"> 
-                        {{ $dataTable->table() }} 
+                        <hr>
                         <x-common.assign-button label="Assign Fee" />
                     </div>
             </form>

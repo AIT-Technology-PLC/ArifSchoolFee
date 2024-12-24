@@ -82,10 +82,21 @@ if (!function_exists('money')) {
 if (!function_exists('nextReferenceNumber')) {
     function nextReferenceNumber($table, $column = 'code')
     {
-        return DB::table($table)
+        $latestReference = DB::table($table)
             ->where('company_id', userCompany()->id)
-            ->when(Schema::hasColumn($table, 'warehouse_id'), fn($q) => $q->where('warehouse_id', authUser()->warehouse_id))
-            ->max($column) + 1;
+            ->orderByDesc($column)
+            ->first();
+
+        $sequence = 1;
+
+        if ($latestReference) {
+            preg_match('/(\d+)$/', $latestReference->$column, $matches);
+            if (isset($matches[1])) {
+                $sequence = (int)$matches[1] + 1;
+            }
+        }
+
+        return userCompany()->company_code . '/' .date('Y'). '/'.str_pad($sequence, 3, '0', STR_PAD_LEFT);
     }
 }
 
@@ -234,5 +245,46 @@ if (!function_exists('update_static_option')) {
     function update_static_option($key, $value)
     {
         set_static_option($key, $value);
+    }
+}
+
+if (!function_exists('calculateCommission')) {
+    function calculateCommission($amount, $companyId = null)
+    {
+        $companyId = $companyId ?: userCompany()->id;
+
+        $company = DB::table('companies')->where('id', $companyId)->first();
+
+        if (!$company || !$company->enabled_commission_setting) {
+            return 0;
+        }
+
+        $chargeType = $company->charge_type;
+        $chargeAmount = $company->charge_amount;
+
+        if ($chargeType === 'percent') {
+            $commission = $amount * ($chargeAmount / 100);
+        } elseif ($chargeType === 'amount') {
+            $commission = $chargeAmount;
+        } else {
+            return 0;
+        }
+
+        return $commission;
+    }
+}
+
+if (!function_exists('isCommissionFromPayer')) {
+    function isCommissionFromPayer($companyId = null)
+    {
+        $companyId = $companyId ?: userCompany()->id;
+
+        $company = DB::table('companies')->where('id', $companyId)->first();
+
+        if (!$company || !$company->enabled_commission_setting) {
+            return false;
+        }
+
+        return $company->charge_from === 'payer';
     }
 }

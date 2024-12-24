@@ -46,7 +46,7 @@ class RouteDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('title')->addClass('has-text-weight-bold'),
+            Column::make('title'),
             Column::make('fare'),
             Column::make('vehicles', 'vehicles.vehicle_number'),
             Column::make('created by', 'createdBy.name'),

@@ -1,3 +1,5 @@
+<option value="Telebirr"> Telebirr </option>
+<option value="M-Pesa"> M-Pesa </option>
 <option value="Abay Bank"> Abay Bank </option>
 <option value="Addis Bank SC"> Addis Bank SC </option>
 <option value="Ahadu Bank"> Ahadu Bank </option>
@@ -19,7 +21,6 @@
 <option value="National Bank of Ethiopia"> National Bank of Ethiopia </option>
 <option value="Nib International Bank"> Nib International Bank </option>
 <option value="Oromia International Bank"> Oromia International Bank </option>
-<option value="Shabelle Bank"> Shabelle Bank </option>
 <option value="Siinqee Bank"> Siinqee Bank </option>
 <option value="Tsedey Bank"> Tsedey Bank </option>
 <option value="Tsehay Bank"> Tsehay Bank </option>

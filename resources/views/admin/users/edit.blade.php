@@ -113,43 +113,43 @@
                         </x-forms.field>
                     </div>
                     <div 
-                    class="column is-6"
-                    x-show="isUserTypeBankSelected()"
-                >
-                    <x-forms.label>
-                        Bank Details <sup class="has-text-danger">*</sup>
-                    </x-forms.label>
-                    <x-forms.field>
-                        <x-forms.control class="has-icons-left">
-                            <x-forms.select
-                                class="is-fullwidth"
-                                id="bank_name"
-                                name="bank_name"
-                            >
-                                <option
-                                    disabled
-                                    selected
+                        class="column is-6"
+                        x-show="isUserTypeBankSelected()"
+                        >
+                        <x-forms.label>
+                            Bank Details <sup class="has-text-danger">*</sup>
+                        </x-forms.label>
+                        <x-forms.field>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="bank_name"
+                                    name="bank_name"
                                 >
-                                    Select Bank
-                                </option>
-                                @if (old('bank_name', $user->bank_name))
                                     <option
-                                        value="{{ old('bank_name', $user->bank_name) }}"
+                                        disabled
                                         selected
                                     >
-                                        {{ old('bank_name', $user->bank_name) }}
+                                        Select Bank
                                     </option>
-                                @endif
-                                @include('lists.banks')
-                            </x-forms.select>
-                            <x-common.icon
-                                name="fas fa-sort"
-                                class="is-small is-left"
-                            />
-                            <x-common.validation-error property="bank_name" />
-                        </x-forms.control>
-                    </x-forms.field>
-                </div>
+                                    @if (old('bank_name', $user->bank_name))
+                                        <option
+                                            value="{{ old('bank_name', $user->bank_name) }}"
+                                            selected
+                                        >
+                                            {{ old('bank_name', $user->bank_name) }}
+                                        </option>
+                                    @endif
+                                    @include('lists.banks')
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="bank_name" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

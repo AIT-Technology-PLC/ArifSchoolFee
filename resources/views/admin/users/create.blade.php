@@ -164,7 +164,6 @@
                                     >
                                         Select Bank
                                     </option>
-                                    index
                                     @include('lists.banks')
                                 </x-forms.select>
                                 <x-common.icon

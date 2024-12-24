@@ -54,11 +54,25 @@ class StudentFeeDatatable extends DataTable
                 }
                 return '0.00';
             })
+            ->editColumn('commission', function($assignFeeMaster) {
+                if ($assignFeeMaster->feePayments->isNotEmpty()) {
+                    $paymentCommission = $assignFeeMaster->feePayments->first();
+                    return $paymentCommission ? money ($paymentCommission->commission_amount) : '0.00';
+                }
+                return '0.00';
+            })
             ->editColumn('paid', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentPaid = $assignFeeMaster->feePayments->first();
-                    return $paymentPaid ? money ($paymentPaid->amount + $paymentPaid->fine_amount - $paymentPaid->discount_amount) : '0.00';
+                    $paidAmount = $paymentPaid ? $paymentPaid->amount + $paymentPaid->fine_amount - $paymentPaid->discount_amount : '0.00';
+
+                    if (isCommissionFromPayer($assignFeeMaster->company->id)) {
+                        return money($paidAmount + $paymentPaid->commission_amount);
+                    }
+                    
+                    return $paidAmount;
                 }
+
                 return '0.00';
             })
             ->editColumn('actions', function ($assignFeeMaster) {
@@ -92,8 +106,9 @@ class StudentFeeDatatable extends DataTable
             Column::make('amount', 'feeMaster.amount'),
             Column::make('mode', 'feePayments.payment_mode'),
             Column::make('date', 'feePayments.payment_date'),
-            Column::make('discount', 'feePayments.discount_amount')->content('0.00'),
             Column::make('fine', 'feePayments.fine_amount')->content('0.00'),
+            Column::make('discount', 'feePayments.discount_amount')->content('0.00'),
+            Column::make('commission', 'feePayments.commission_amount')->content('0.00'),
             Column::make('paid', 'feePayments.amount')->content('0.00'),
             Column::computed('actions')->className('actions'),
         ];

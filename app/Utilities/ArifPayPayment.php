@@ -57,19 +57,28 @@ class ArifPayPayment
 
     private function preparePaymentPayload(AssignFeeMaster $assignFeeMaster, array $paymentData)
     {
+        $baseAmount = (float) $paymentData['amount'] + (float) $paymentData['fine_amount'] - (float) ($paymentData['discount_amount'] ?? 0);
+    
+        $commissionAmount = 0;
+        if (isCommissionFromPayer($assignFeeMaster->company->id)) {
+            $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
+        }
+
+        $finalPrice = $baseAmount + $commissionAmount;
+
         return [
             'cancelUrl' => route('arifpay.cancel', ['routeId' => $assignFeeMaster->student_id]),
             'successUrl' => route('arifpay.success', ['routeId' => $assignFeeMaster->student_id]),
             'errorUrl' => route('arifpay.error', ['routeId' => $assignFeeMaster->student_id]),
             'notifyUrl' => $this->notifyUrl,
             'paymentMethods' => ['TELEBIRR_USSD'],
-            'phone' => $assignFeeMaster->student->phone ?? '0933624757',
-            'email' => $assignFeeMaster->student->email ?? 'student@example.com',
+            'phone' => $assignFeeMaster->student->phone ?? '0972265151',
+            'email' => $assignFeeMaster->student->email ?? 'info@aittechworld.com',
             'items' => [
                 [
                     'name' => $assignFeeMaster->feeMaster->feeType->name,
                     'quantity' => 1,
-                    'price' => (float) $paymentData['amount'] + (float) $paymentData['fine_amount'] - (float) ($paymentData['discount_amount'] ?? 0),
+                    'price' => $finalPrice,
                     'description' => 'Fee Payment',
                     'image' => 'https://thumbs.dreamstime.com/z/pay-application-fee-isolated-cartoon-vector-illustrations-young-girl-makes-payment-college-education-online-using-gold-card-256581225.jpg?w=768',
                 ],

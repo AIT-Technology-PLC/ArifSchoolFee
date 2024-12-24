@@ -62,6 +62,10 @@ class SchoolTypeController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
+        if ($schoolType->companies()->exists()) {
+            return back()->with(['failedMessage' => 'The School Type data is being used and cannot be deleted.']);
+        }
+
         $schoolType->forceDelete();
 
         return back()->with('successMessage', 'Deleted successfully.');

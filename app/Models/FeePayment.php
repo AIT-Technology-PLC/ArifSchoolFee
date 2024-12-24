@@ -22,6 +22,11 @@ class FeePayment extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function studentHistory()
+    {
+        return $this->belongsTo(StudentHistory::class);
+    }
+
     public function assignFeeMaster()
     {
         return $this->belongsTo(AssignFeeMaster::class, 'assign_fee_master_id');

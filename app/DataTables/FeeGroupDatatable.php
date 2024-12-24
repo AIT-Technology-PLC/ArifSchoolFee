@@ -44,7 +44,7 @@ class FeeGroupDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::make('description')->visible(false)->content('N/A'),
             Column::make('created_at')->className('has-text-right'),
             Column::make('added by', 'createdBy.name'),

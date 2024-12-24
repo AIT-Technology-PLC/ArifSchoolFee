@@ -39,3 +39,4 @@ Route::get('/api/branches/{schoolId}', [App\Http\Controllers\Api\BranchControlle
 
 Route::get('/api/classes/{schoolId}', [App\Http\Controllers\Api\SchoolClassController::class, 'getClassesBySchool']);
 
+Route::post('/calculate-commission', [App\Http\Controllers\Api\CommissionController::class, 'calculateCommission']);

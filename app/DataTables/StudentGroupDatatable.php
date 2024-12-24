@@ -44,7 +44,7 @@ class StudentGroupDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::make('description')->content('N/A')->visible(false),
             Column::make('created_at'),
             Column::make('added by', 'createdBy.name'),

@@ -32,7 +32,7 @@
                                 {{ 
                                     authUser()->isAdmin() ? 'fa-user-shield' : 
                                     (authUser()->isCallCenter() ? 'fa-headset' : 
-                                    (authUser()->isBank() ? 'fa-bank' : 'fa-school')) 
+                                    (authUser()->isBank() ? 'fa-bank' : 'fa-graduation-cap')) 
                                 }}">
                             </i>
                         </span>

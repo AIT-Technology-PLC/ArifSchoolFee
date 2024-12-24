@@ -54,7 +54,7 @@ Route::controller(Action\ArifPayController::class)
     });
 
 // Fee Reminder and Fee Payment
-Route::get('/fee-reminders/{assignFeeMaster}', [Action\PaymentReminderController::class, 'sendPaymentReminder'])->name('fee-reminder');
+Route::post('/fee-reminders/{assignFeeMaster}', [Action\PaymentReminderController::class, 'sendPaymentReminder'])->name('fee-reminder');
 
 Route::post('/fee-payments/{assignFeeMaster}', [Action\FeePaymentController::class, 'processPayment'])->name('payment.process');
 

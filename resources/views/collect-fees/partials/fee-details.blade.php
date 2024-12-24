@@ -3,10 +3,51 @@
         isHidden: true, 
         modalId: null,
         fee_discount_id: '{{ old('fee_discount_id', $assignFeeMaster->fee_discount_id) }}',
-        discount_amount: '{{ old('discount_amount', $assignFeeMaster->discount_amount ?? 0) }}',
-        amount: '{{ old('amount', $assignFeeMaster->feeMaster->amount) }}',
-        fine_amount: '{{ old('fine_amount', $assignFeeMaster->getFineAmount()) }}',
-        }"
+        discount_amount: parseFloat('{{ old('discount_amount', $assignFeeMaster->discount_amount ?? 0) }}'),
+        amount: parseFloat('{{ old('amount', $assignFeeMaster->feeMaster->amount) }}'),
+        fine_amount: parseFloat('{{ old('fine_amount', $assignFeeMaster->getFineAmount()) }}'),
+        commission_amount: 0,
+        company_id: '{{ $assignFeeMaster->company->id }}',
+        is_commission_from_payer: false,
+
+        calculateTotal() {
+                const total = this.amount + this.fine_amount - (this.discount_amount || 0);
+                this.updateCommission(total);
+
+                if (this.is_commission_from_payer) {
+                    return (total + this.commission_amount).toFixed(2);
+                }
+                    
+                return total.toFixed(2); 
+        },
+        
+        async updateCommission(totalAmount) {
+            try {
+                const response = await fetch('/calculate-commission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        amount: totalAmount,
+                        company_id: this.company_id,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    this.commission_amount = parseFloat(data.commission || 0);
+                    this.is_commission_from_payer = data.is_commission_from_payer || false;
+                } else {
+                    console.error('Error calculating commission:', data.message);
+                }
+            } catch (error) {
+                console.error('Error calculating commission:', error);
+            }
+        },
+    }"
     @open-fee-details-modal.window="if ($event.detail.id === '{{ $assignFeeMaster->id }}') { modalId = $event.detail.id; isHidden = false }"
     x-show="modalId === '{{ $assignFeeMaster->id }}'"
     :class="{'is-active': !isHidden}" 
@@ -20,7 +61,7 @@
             <x-content.header >
                 <x-slot name="header">
                     <h1 class="title text-softblue has-text-weight-medium is-size-6">
-                        {{str($assignFeeMaster->feeMaster->feeType->name)->append(' / '.$assignFeeMaster->feeMaster->feeType->feeGroup->name)}}
+                        Collect Assigned Fee
                     </h1>
                 </x-slot>
                 <button class="delete" aria-label="close"  @click="toggle"></button>
@@ -90,7 +131,7 @@
                                         id="amount"
                                         name="amount"
                                         placeholder="Amount"
-                                        value="{{ $assignFeeMaster->feeMaster->amount }}"
+                                        x-model="amount"
                                         readonly
                                     />
                                     <x-common.icon
@@ -112,7 +153,7 @@
                                         name="fine_amount"
                                         id="fine_amount"
                                         placeholder="Fine"
-                                        :value="$assignFeeMaster->getFineAmount()"
+                                        x-model="fine_amount"
                                         readonly
                                     />
                                     <x-common.icon
@@ -150,8 +191,9 @@
                                         id="discount_amount"
                                         placeholder="Discount"
                                         x-model="discount_amount"
-                                        x-bind:readonly="fee_discount_id !== ''"
                                         x-bind:value="fee_discount_id ? discount_amount : 0"
+                                        @input="calculateTotal()" 
+                                        readonly
                                     />
                                     <x-common.icon
                                         name="fas fa-percent"
@@ -176,17 +218,38 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
-                        <div class="column is-12">
+                        <div class="column is-6">
+                            <x-forms.label for="commission_amount">
+                                Commission <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.field>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="text"
+                                        name="commission_amount"
+                                        id="commission_amount"
+                                        placeholder="Commission"
+                                        x-model="commission_amount"
+                                        readonly
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-money-bill"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="commission_amount" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6">
                             <x-forms.label>
                                 Total Price <sup class="has-text-weight-light"></sup>
                             </x-forms.label>
                             <x-forms.field>
                                 <x-forms.control class="has-icons-left is-expanded">
                                     <x-forms.input
-                                        x-bind:value="(parseFloat(amount) + parseFloat(fine_amount) - (parseFloat(discount_amount) || 0)).toFixed(2)"
+                                        x-bind:value="calculateTotal()"
                                         type="number"
                                         readonly
-                                        disabled
                                     />
                                     <x-common.icon
                                         name="fas fa-money-check"

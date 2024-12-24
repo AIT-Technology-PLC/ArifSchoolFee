@@ -17,10 +17,7 @@ class PaymentMethodList extends Component
     {
         $this->paymentMethods = Cache::store('array')->rememberForever('paymentMethods', function () {
             if (authUser()->isCallCenter()) {
-                return PaymentMethod::enabled()
-                    ->whereIn('name', ['Arifpay'])
-                    ->orderBy('name')
-                    ->get(['id', 'name']);
+                return PaymentMethod::enabled()->onlineMethod()->orderBy('name')->get(['id', 'name']);
             }
 
             return PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);

@@ -58,7 +58,7 @@ class EmployeeDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name', 'user.name')->addClass('has-text-weight-bold'),
+            Column::make('name', 'user.name'),
             Column::make('branch', 'user.warehouse.name'),
             Column::make('email', 'user.email'),
             Column::make('position'),

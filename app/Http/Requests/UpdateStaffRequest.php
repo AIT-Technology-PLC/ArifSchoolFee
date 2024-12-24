@@ -17,7 +17,7 @@ class UpdateStaffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('staff', $this->route('staff')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('staff', $this->route('staff')->id)],
             'warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'department_id' => ['required', 'integer', new MustBelongToCompany('departments')],
             'designation_id' => ['required', 'integer', new MustBelongToCompany('designations')],

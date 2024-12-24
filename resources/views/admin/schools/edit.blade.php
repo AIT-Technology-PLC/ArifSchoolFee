@@ -39,31 +39,10 @@
                                     value="{{ $school->name ?? old('name')}}"
                                 />
                                 <x-common.icon
-                                    name="fas fa-bank"
+                                    name="fas fa-graduation-cap"
                                     class="is-small is-left"
                                 />
                                 <x-common.validation-error property="name" />
-                            </x-forms.control>
-                        </x-forms.field>
-                    </div>
-                    <div class="column is-4">
-                        <x-forms.field>
-                            <x-forms.label for="company_code">
-                                School Code <sup class="has-text-danger">*</sup>
-                            </x-forms.label>
-                            <x-forms.control class="has-icons-left">
-                                <x-forms.input
-                                    id="company_code"
-                                    name="company_code"
-                                    type="text"
-                                    placeholder="School Name"
-                                    value="{{ $school->company_code ?? old('company_code')}}"
-                                />
-                                <x-common.icon
-                                    name="fas fa-code"
-                                    class="is-small is-left"
-                                />
-                                <x-common.validation-error property="company_code" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

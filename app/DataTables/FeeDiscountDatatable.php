@@ -41,7 +41,7 @@ class FeeDiscountDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::make('discount_code'),
             Column::make('discount_type'),
             Column::make('amount'),

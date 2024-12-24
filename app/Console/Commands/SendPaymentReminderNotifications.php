@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Account;
 use Illuminate\Console\Command;
 use App\Models\AssignFeeMaster;
 use App\Utilities\Sms;
@@ -36,6 +37,23 @@ class SendPaymentReminderNotifications extends Command
         foreach ($assignFeeMasters as $assignFeeMaster) {
             $dueDate = $assignFeeMaster->feeMaster->due_date;
             $daysRemaining = $today->diffInDays($dueDate);
+
+            //calculate the final price 
+            $baseAmount = (float) $assignFeeMaster->feeMaster->amount + (float) $assignFeeMaster->getFineAmount();
+            $commissionAmount = 0;
+            if (isCommissionFromPayer($assignFeeMaster->company->id)) {
+                $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
+            }
+            $finalPrice = $baseAmount + $commissionAmount;
+
+            //check and retrive the active accounts for payemnt
+            $accounts = Account::active()->where('company_id', $assignFeeMaster->company->id)->get();
+            $accountDetails = $accounts->map(function ($account, $index) {
+                return "Option " . ($index + 1) . ":\n" .
+                        "{$account->account_type}\n" .
+                        "Account Number: {$account->account_number}\n" .
+                        "Account Holder: {$account->account_holder}";
+            })->implode("\n\n"); 
             
             if ($assignFeeMaster->feePayments->count() > 0) {
                 continue;
@@ -45,13 +63,12 @@ class SendPaymentReminderNotifications extends Command
                        "We hope you are well. Below are the payment details for your child, " . 
                        $assignFeeMaster->student->first_name . ", for the " . 
                        $assignFeeMaster->feeMaster->feeType->name . " fee:\n\n" . 
+                       "Payment Id: " . $assignFeeMaster->invoice_number . "\n\n" .
                        "Step #1: Please send the payment to:\n" .
-                       "Amount: " . $assignFeeMaster->feeMaster->amount . "\n" .
-                       "Telebirr\n" .
-                       "Mikiyas Leul\n" .
-                       "0933624757\n\n" .
-                       "Step #2: Confirm your payment following this link: " .
-                       "aitschoolpayment.com/i/" . $assignFeeMaster->invoice_number . "\n\n" .
+                       "Amount: " . $finalPrice . "\n" .
+                       "Due_Date: " . $assignFeeMaster->feeMaster->due_date->toDateString() . "\n" .
+                       $accountDetails . "\n\n" .
+                       
                        "Thank you for your attention to this matter.\n" .
                        "Best regards,\n" .
                        $assignFeeMaster->company->name;

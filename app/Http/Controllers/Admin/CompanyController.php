@@ -26,7 +26,11 @@ class CompanyController extends Controller
 
         $schools = $enabledSchools + $disabledSchools;
 
-        return $datatable->render('admin.schools.index', compact('enabledSchools', 'disabledSchools', 'schools'));
+        $plans = Plan::enabled()->get();
+
+        $types = SchoolType::all();
+
+        return $datatable->render('admin.schools.index', compact('enabledSchools', 'disabledSchools', 'schools', 'plans','types'));
     }
 
     public function create()

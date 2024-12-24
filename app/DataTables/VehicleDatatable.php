@@ -20,7 +20,7 @@ class VehicleDatatable extends DataTable
             ->editColumn('created at', fn($vehicle) => $vehicle->created_at->toFormattedDateString())
             ->editColumn('created by', fn($vehicle) => $vehicle->createdBy->name)
             ->editColumn('edited by', fn($vehicle) => $vehicle->updatedBy->name)
-            ->editColumn('note', fn($vehicle) => view('components.datatables.searchable-description', ['description' => $vehicle->note]))
+            ->editColumn('note', fn($vehicle) => strip_tags($vehicle->note))
             ->editColumn('actions', function ($vehicle) {
                 return view('components.common.action-buttons', [
                     'model' => 'vehicles',
@@ -46,7 +46,7 @@ class VehicleDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('vehicle_number')->addClass('has-text-weight-bold'),
+            Column::make('vehicle_number'),
             Column::make('vehicle_model'),
             Column::make('year_made')->content('N/A'),
             Column::make('driver_name'),

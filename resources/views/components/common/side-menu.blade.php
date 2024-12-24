@@ -272,8 +272,8 @@
         @endcanany
     @endif
 
-    @if (isFeatureEnabled('Student Category','Student Group','Student Management'))
-        @canany(['Read Student Category','Read Student Group','Read Student'])
+    @if (isFeatureEnabled('Student Category','Student Group','Student Management','Student Promote'))
+        @canany(['Read Student Category','Read Student Group','Read Student','Read Student Promote'])
         <ul
             x-data="sideMenuAccordion"
             class="menu-list mb-2"
@@ -287,7 +287,7 @@
                         @click="toggleAccordion"
                     >
                         <x-common.icon
-                            name="fas fa-graduation-cap"
+                            name="fas fa-user-graduate"
                             class="m-0"
                         />
                         <span class="ml-2"> Student Master  </span>
@@ -342,6 +342,19 @@
                                     label="Student Directory"
                                     class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('students.*') ? 'text-blue has-text-weight-bold' : '' }}"
                                     x-init="{{ request()->routeIs('students.*') ? 'activateAccordion' : '' }}"
+                                />
+                            </li>
+                        @endcan
+                    @endif
+                    @if (isFeatureEnabled('Student Promote'))
+                        @can('Read Student Promote')
+                            <li>
+                                <x-common.button
+                                    tag="a"
+                                    href="{{ route('student-promotes.index') }}"
+                                    label="Student Promote"
+                                    class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('student-promotes.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                    x-init="{{ request()->routeIs('student-promotes.*') ? 'activateAccordion' : '' }}"
                                 />
                             </li>
                         @endcan
@@ -426,6 +439,31 @@
                             @endcan
                         @endif
                     </ul>
+                </li>
+            </ul>
+        @endcanany
+    @endif
+
+    @if (isFeatureEnabled('Account Management'))
+        @canany(['Read Account'])
+            <ul
+                x-data="sideMenuAccordion"
+                class="menu-list mb-2"
+            >
+                <li>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('accounts.index') }}"
+                        class="text-blue is-size-6-5 has-text-left"
+                        ::class="{ 'is-active': isAccordionActive }"
+                        x-init="{{ request()->routeIs('accounts.*') ? 'activateAccordion' : '' }}"
+                    >
+                        <x-common.icon
+                            name="fas fa-wallet"
+                            class="pl-1"
+                        />
+                        <span class="ml-1"> Account Management</span>
+                    </x-common.button>
                 </li>
             </ul>
         @endcanany
@@ -661,59 +699,6 @@
             </ul>
         @endcanany
     @endif
-
-    {{-- @if (isFeatureEnabled('Sales Report','Inventory In Transit Report')) --}}
-        {{-- @canany(['Read Sale Report',]) --}}
-            <ul
-                x-data="sideMenuAccordion"
-                class="menu-list mb-2"
-            >
-                <li>
-                    <x-common.button
-                        tag="button"
-                        mode="button"
-                        class="is-fullwidth is-justify-content-left is-borderless text-blue is-size-6-5 ml-0"
-                        ::class="{ 'is-active': isAccordionActive }"
-                        @click="toggleAccordion"
-                    >
-                        <x-common.icon
-                            name="fas fa-chart-pie"
-                            class="m-0"
-                        />
-                        <span class="ml-2"> Report </span>
-                        <span class="icon ml-auto">
-                            <i
-                                class="fas fa-caret-right"
-                                :class="{ 'fa-caret-right': !isAccordionOpen, 'fa-caret-down': isAccordionOpen }"
-                            ></i>
-                        </span>
-                    </x-common.button>
-                </li>
-                <li>
-                    <ul
-                        class="mt-0 ml-5"
-                        x-cloak
-                        x-show="isAccordionOpen"
-                        x-collapse
-                    >
-                        {{-- @if (isFeatureEnabled('Sales Report'))
-                            @can('Read Sale Report')
-                                <li>
-                                    <x-common.button
-                                        tag="a"
-                                        href="{{ route('reports.sale') }}"
-                                        label="Sales"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('reports.sale') ? 'text-blue has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('reports.*') ? 'activateAccordion' : '' }}"
-                                    />
-                                </li>
-                            @endcan
-                        @endif --}}
-                    </ul>
-                </li>
-            </ul>
-        {{-- @endcanany --}}
-    {{-- @endif --}}
 
     @if (isFeatureEnabled('User Management'))
         @canany(['Read Employee','Update Employee'])

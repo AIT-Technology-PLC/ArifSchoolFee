@@ -18,7 +18,6 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'company_code' => ['required', 'string', 'max:5', Rule::unique('companies')->ignore($this->route('school')->id)],
             'plan_id' => ['required', 'integer', Rule::in(Plan::pluck('id'))],
             'school_type_id' => ['required', 'integer', Rule::in(SchoolType::pluck('id'))],
             'enabled_commission_setting' => ['nullable', 'boolean'],

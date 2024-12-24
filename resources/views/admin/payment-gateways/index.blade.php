@@ -29,6 +29,26 @@
                         class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
                     />
                 </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('admin.stripe-settings.create') }}"
+                        mode="button"
+                        icon="fab fa-stripe"
+                        label="Stripe Setting"
+                        class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
+                <x-common.dropdown-item>
+                    <x-common.button
+                        tag="a"
+                        href="{{ route('admin.telebirr-settings.create') }}"
+                        mode="button"
+                        icon="fas fa-credit-card"
+                        label="Telebirr Setting"
+                        class="has-text-weight-medium is-small text-softblue is-borderless is-transparent-color is-block is-fullwidth has-text-left"
+                    />
+                </x-common.dropdown-item>
             </x-common.dropdown>
             <x-common.button
                 tag="a"

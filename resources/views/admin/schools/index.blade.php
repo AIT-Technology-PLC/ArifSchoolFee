@@ -8,7 +8,7 @@
             <x-common.total-model
                 model="Schools"
                 :amount="$schools"
-                icon="fas fa-school"
+                icon="fas fa-graduation-cap"
             />
         </div>
         <div class="column is-4 p-lr-0">
@@ -48,7 +48,7 @@
         <x-content.footer>
             <x-common.success-message :message="session('deleted') ?? session('imported')" />
             <x-common.fail-message :message="count($errors->all()) ? $errors->all() : null" />
-            <x-datatables.filter filters="'status'">
+            <x-datatables.filter filters="'status','plans', 'types'">
                 <div class="columns is-marginless is-vcentered">
                     <div class="column is-3 p-lr-0 pt-0">
                         <x-forms.field class="has-text-centered">
@@ -70,6 +70,56 @@
                                     <option value="all"> All </option>
                                     @foreach (['Active', 'Deactivated'] as $status)
                                         <option value="{{ str()->lower($status) }}"> {{ $status }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.plans"
+                                    x-on:change="add('plans')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Plans
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach ($plans as $plan)
+                                        <option value="{{ $plan->id }}"> {{ $plan->name }} </option>
+                                    @endforeach
+                                </x-forms.select>
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-3 p-lr-0 pt-0">
+                        <x-forms.field class="has-text-centered">
+                            <x-forms.control>
+                                <x-forms.select
+                                    id=""
+                                    name=""
+                                    class="is-size-7-mobile is-fullwidth"
+                                    x-model="filters.types"
+                                    x-on:change="add('types')"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                        value=""
+                                    >
+                                        Types
+                                    </option>
+                                    <option value="all"> All </option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}"> {{ $type->name }} </option>
                                     @endforeach
                                 </x-forms.select>
                             </x-forms.control>

@@ -17,7 +17,7 @@ class StoreStaffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('staff')],
+            'code' => ['required', 'string', new UniqueReferenceNum('staff')],
             'warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'department_id' => ['required', 'integer', new MustBelongToCompany('departments')],
             'designation_id' => ['required', 'integer', new MustBelongToCompany('designations')],

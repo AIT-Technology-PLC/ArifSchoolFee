@@ -34,4 +34,14 @@ class PaymentMethod extends Model
     {
         return $query->where('enabled', 0);
     }
+
+    public function scopeOnlineMethod($query)
+    {
+        return $query->where('type', 'online');
+    }
+
+    public function scopeOfflineMethod($query)
+    {
+        return $query->where('type', 'offline');
+    }
 }

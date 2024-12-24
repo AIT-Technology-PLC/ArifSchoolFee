@@ -37,4 +37,9 @@ class StudentHistory extends Model
     {
         return $this->belongsTo(Section::class);
     }
+    
+    public function feePayments()
+    {
+        return $this->hasMany(FeePayment::class);
+    }
 }

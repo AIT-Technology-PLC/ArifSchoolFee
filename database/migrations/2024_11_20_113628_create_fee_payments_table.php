@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('student_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
+            $table->foreignId('student_history_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('fee_discount_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('assign_fee_master_id')->nullable()->constrained()->onDelete('set null')->onUpdate('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->onUpdate('cascade');
@@ -21,10 +22,13 @@ return new class extends Migration
             $table->decimal('amount');
             $table->decimal('fine_amount');
             $table->decimal('discount_amount');
+            $table->decimal('commission_amount');
             $table->date('discount_month')->nullable();
             $table->timestamps();
 
             $table->index('company_id');
+            $table->index('student_id');
+            $table->index('student_history_id');
         });
     }
 

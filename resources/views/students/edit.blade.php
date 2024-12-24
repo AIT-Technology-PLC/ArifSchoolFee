@@ -72,7 +72,7 @@
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        type="number"
+                                        type="text"
                                         name="code"
                                         id="code"
                                         readonly

@@ -27,6 +27,8 @@ Route::resource('fee-discounts', Resource\FeeDiscountController::class)->except(
 
 Route::resource('fee-masters', Resource\FeeMasterController::class)->except(['show']);
 
+Route::resource('accounts', Resource\AccountController::class)->except(['show','destroy']);
+
 Route::resource('vehicles', Resource\VehicleController::class)->except(['show']);
 
 Route::resource('routes', Resource\RouteController::class)->except(['show']);
@@ -42,6 +44,8 @@ Route::resource('student-categories', Resource\StudentCategoryController::class)
 Route::resource('student-groups', Resource\StudentGroupController::class)->except(['show']);
 
 Route::resource('students', Resource\StudentController::class);
+
+Route::resource('student-promotes', Resource\StudentPromoteController::class)->only(['index','store']);
 
 Route::resource('messages', Resource\MessageController::class)->except(['edit', 'update', 'destroy']);
 

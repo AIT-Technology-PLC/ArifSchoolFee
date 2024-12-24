@@ -66,6 +66,10 @@ Route::resource('arifpay-settings', Admin\ArifpaySettingController::class)->only
 
 Route::resource('paypal-settings', Admin\PaypalSettingController::class)->only(['create', 'store']);
 
+Route::resource('stripe-settings', Admin\StripeSettingController::class)->only(['create', 'store']);
+
+Route::resource('telebirr-settings', Admin\TelebirrSettingController::class)->only(['create', 'store']);
+
 //Cache Setting
 Route::get('/caches/index', [Admin\CacheController::class, 'index'])->name('caches.index');
 Route::get('clear-view-cache', [Admin\CacheController::class, 'clearViewCache'])->name('cache.clearViewCache');

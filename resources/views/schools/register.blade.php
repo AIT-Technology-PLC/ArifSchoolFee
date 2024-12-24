@@ -16,10 +16,6 @@
                             autocomplete="off"
                         >
                             @csrf
-                            {{-- <div class="has-text-centered">
-                                <img class="registration-logo" src="{{ asset('img/AIT LOGO.png') }}">
-                            </div> --}}
-
                             <div class="has-text-centered">
                                 <h1 class="title">Registration Form</h1>
                             </div>
@@ -32,7 +28,7 @@
                                     <a class="text-green">
                                         <span class="steps-marker">
                                             <span class="icon">
-                                                <i class="fas fa-school"></i>
+                                                <i class="fas fa-graduation-cap"></i>
                                             </span>
                                         </span>
                                         <div class="steps-content">
@@ -82,7 +78,7 @@
                                                     value="{{ old('company_name') }}"
                                                 />
                                                 <x-common.icon
-                                                    name="fas fa-school"
+                                                    name="fas fa-graduation-cap"
                                                     class="is-small is-left"
                                                 />
                                                 <x-common.validation-error property="company_name" />

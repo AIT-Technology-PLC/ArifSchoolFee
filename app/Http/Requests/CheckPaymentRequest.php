@@ -19,7 +19,7 @@ class CheckPaymentRequest extends FormRequest
             'amount' => ['required', 'numeric', 'gte:0'],
             'fine_amount' => ['nullable', 'numeric', 'gte:0'],
             'fee_discount_id' => ['nullable', 'integer', new MustBelongToCompany('fee_discounts')],
-            'discount_amount' => ['nullable', 'numeric', 'gte:0'],
+            'discount_amount' => ['nullable', 'numeric', 'gte:0', 'required_unless:fee_discount_id,null'],
             'payment_mode' => ['required', 'string'],
         ];
     }

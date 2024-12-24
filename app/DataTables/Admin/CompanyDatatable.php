@@ -38,6 +38,8 @@ class CompanyDatatable extends DataTable
             ->select('companies.*')
             ->when(request('status') == 'active', fn($q) => $q->enabled())
             ->when(request('status') == 'deactivated', fn($q) => $q->disabled())
+            ->when(is_numeric(request('plans')), fn($query) => $query->where('companies.plan_id', request('plans')))
+            ->when(is_numeric(request('types')), fn($query) => $query->where('companies.school_type_id', request('types')))
             ->with([
                 'plan',
                 'schoolType:id,name',

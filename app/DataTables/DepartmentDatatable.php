@@ -45,7 +45,7 @@ class DepartmentDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::computed('staff')->className('has-text-centered'),
             Column::make('added on', 'created_at')->className('has-text-right'),
             Column::make('created by', 'createdBy.name'),

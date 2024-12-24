@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </x-datatables.filter>
-            <div id="dataTableContainer" class="is-hidden"> 
+            <div>
                 {{ $dataTable->table() }} 
             </div>
         </x-content.footer>
@@ -118,26 +118,6 @@
 
 @push('scripts')
     {{ $dataTable->scripts() }}
-
-    <script>
-        $(document).ready(function() {
-            var table = $('#collect-fees-datatable').DataTable();
-
-            function toggleTableVisibility() {
-                if (table.rows().count() > 0) {
-                    $('#dataTableContainer').removeClass('is-hidden'); 
-                } else {
-                    $('#dataTableContainer').addClass('is-hidden');
-                }
-            }
-
-            toggleTableVisibility();
-
-            table.on('draw', function() {
-                toggleTableVisibility();
-            });
-        });
-    </script>
 @endpush
 
 

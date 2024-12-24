@@ -59,11 +59,11 @@ class CollectSchoolFeeDatatable extends DataTable
         return [
             Column::computed('#'),
             Column::make('school', 'company.name'),
+            Column::make('code')->title('Admission No'),
             Column::make('branch', 'warehouse.name'),
             Column::make('first_name')->title('Name'),
             Column::make('father_name')->content('N/A'),
             Column::make('class', 'schoolClass.name'),
-            Column::make('code')->title('Admission No'),
             Column::make('email')->content('N/A'),
             Column::make('phone')->content('N/A'),
             Column::computed('actions')->className('actions'),

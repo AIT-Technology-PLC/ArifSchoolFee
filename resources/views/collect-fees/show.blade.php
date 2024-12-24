@@ -21,6 +21,19 @@
                 <div class="column is-6-mobile is-6-tablet is-3-desktop">
                     <p class="has-text-grey is-size-7 is-uppercase">
                         <span class="icon">
+                            <i class="fas fa-hashtag"></i>
+                        </span>
+                        <span>
+                            {{ $collectFee->code }}
+                        </span>
+                    </p>
+                    <p class="has-text-weight-bold text-softblue ml-1 is-size-7">
+                        Admission No
+                    </p>
+                </div>
+                <div class="column is-6-mobile is-6-tablet is-3-desktop">
+                    <p class="has-text-grey is-size-7 is-uppercase">
+                        <span class="icon">
                             <i class="fas fa-user"></i>
                         </span>
                         <span>
@@ -107,19 +120,6 @@
                     </p>
                     <p class="has-text-weight-bold text-softblue ml-1 is-size-7">
                         Category
-                    </p>
-                </div>
-                <div class="column is-6-mobile is-6-tablet is-3-desktop">
-                    <p class="has-text-grey is-size-7 is-uppercase">
-                        <span class="icon">
-                            <i class="fas fa-hashtag"></i>
-                        </span>
-                        <span>
-                            {{ $collectFee->code }}
-                        </span>
-                    </p>
-                    <p class="has-text-weight-bold text-softblue ml-1 is-size-7">
-                        Admission No
                     </p>
                 </div>
             </div>

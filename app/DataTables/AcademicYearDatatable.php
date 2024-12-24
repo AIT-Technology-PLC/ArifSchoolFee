@@ -46,7 +46,7 @@ class AcademicYearDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('year')->addClass('has-text-weight-bold'),
+            Column::make('year'),
             Column::make('title'),
             Column::make('starting_period'),
             Column::make('ending_period'),

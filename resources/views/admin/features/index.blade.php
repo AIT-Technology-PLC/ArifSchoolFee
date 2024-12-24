@@ -4,15 +4,23 @@
 
 @section('content')
     <div class="columns is-marginless is-multiline">
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
+            <x-common.total-model
+                model="Total Feature"
+                box-color="bg-softblue"
+                :amount="$features->count()"
+                icon="fas fa-cubes"
+            />
+        </div>
+        <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Enabled"
-                box-color="bg-softblue"
+                box-color="bg-lightblue"
                 :amount="$totalEnabled"
                 icon="fas fa-check"
             />
         </div>
-        <div class="column is-6 p-lr-0">
+        <div class="column is-4 p-lr-0">
             <x-common.total-model
                 model="Disabled"
                 box-color="bg-purple"
@@ -27,12 +35,6 @@
             <x-slot name="header">
                 <h1 class="title text-softblue has-text-weight-medium is-size-5">
                     Features
-                    <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-cubes" />
-                        <span>
-                            {{ number_format($features->count()) }} {{ str()->plural('feature', $features->count()) }}
-                        </span>
-                    </span>
                 </h1>
             </x-slot>
         </x-content.header>

@@ -9,7 +9,7 @@
                 model="Total Schools"
                 box-color="bg-softblue"
                 :amount="$totalSchools"
-                icon="fas fa-school"
+                icon="fas fa-graduation-cap"
             />
         </div>
         <div class="column is-4 p-lr-0">

@@ -10,7 +10,7 @@ class Plans extends Seeder
     public function run()
     {
         Plan::updateOrCreate(
-            ['name' => 'standard'],
+            ['name' => 'Standard'],
             ['is_enabled' => 1],
         );
     }

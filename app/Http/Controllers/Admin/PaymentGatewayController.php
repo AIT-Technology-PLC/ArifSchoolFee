@@ -28,7 +28,7 @@ class PaymentGatewayController extends Controller
 
         $schools = Company::enabled()->orderBy('name')->get(['id', 'name']);
 
-        $methods = PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);
+        $methods = PaymentMethod::enabled()->onlineMethod()->orderBy('name')->get(['id', 'name']);
 
         return view('admin.payment-gateways.create', compact('schools','methods'));
     }
@@ -48,7 +48,7 @@ class PaymentGatewayController extends Controller
 
         $schools = Company::enabled()->enabled()->orderBy('name')->get(['id', 'name']);
 
-        $methods = PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);
+        $methods = PaymentMethod::enabled()->onlineMethod()->orderBy('name')->get(['id', 'name']);
 
         return view('admin.payment-gateways.edit', compact('paymentGateway', 'schools','methods'));
     }

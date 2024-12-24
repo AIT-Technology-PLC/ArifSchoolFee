@@ -22,6 +22,15 @@ class FeePaymentController extends Controller
 
     public function processPayment(CheckPaymentRequest $request, AssignFeeMaster $assignFeeMaster)
     {
+        $discountAmount = $request->fee_discount_id === null ? 0 : $request->discount_amount;
+
+        $request->merge([
+            'amount' => $assignFeeMaster->feeMaster->amount,
+            'fine_amount' => $assignFeeMaster->getFineAmount(),
+            'discount_amount' => $discountAmount,
+            'commission_amount' => calculateCommission(($assignFeeMaster->feeMaster->amount + $assignFeeMaster->getFineAmount() - $discountAmount) , $assignFeeMaster->company->id),
+        ]);
+
         $paymentMethod = $request->input('payment_mode');
         $paymentProcessor = null;
 

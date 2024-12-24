@@ -25,6 +25,7 @@ class CashPayment
 
             $transaction->company_id = $assignFeeMaster->company_id; 
             $transaction->student_id = $assignFeeMaster->student_id;
+            $transaction->student_history_id = $assignFeeMaster->student->latestStudentHistoryId();
             $transaction->assign_fee_master_id = $assignFeeMaster->id;
             $transaction->payment_mode = 'Cash';
             $transaction->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
@@ -32,6 +33,7 @@ class CashPayment
             $transaction->amount = $paymentData['amount'];
             $transaction->fine_amount = $paymentData['fine_amount'] ?? 0;
             $transaction->discount_amount = $paymentData['discount_amount'] ?? 0;
+            $transaction->commission_amount = $paymentData['commission_amount'] ?? 0;
             $transaction->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
 
             $transaction->save();

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type')->nullable();
             $table->boolean('enabled')->default('0');
             $table->timestamps();
         });

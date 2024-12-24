@@ -98,7 +98,7 @@
                     @click="toggleAccordion"
                 >
                     <x-common.icon
-                        name="fas fa-school"
+                        name="fas fa-graduation-cap"
                         class="m-0"
                     />
                     <span class="ml-2"> School Management </span>

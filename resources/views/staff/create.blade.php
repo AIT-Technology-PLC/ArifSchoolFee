@@ -71,7 +71,7 @@
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
-                                        type="number"
+                                        type="text"
                                         name="code"
                                         id="code"
                                         readonly
@@ -215,27 +215,6 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-3-desktop">
                             <x-forms.field>
-                                <x-forms.label for="last_name">
-                                    Last Name <sup class="has-text-danger">*</sup>
-                                </x-forms.label>
-                                <x-forms.control class="has-icons-left">
-                                    <x-forms.input
-                                        id="last_name"
-                                        name="last_name"
-                                        type="text"
-                                        placeholder="Last Name"
-                                        value="{{ old('last_name') }}"
-                                    />
-                                    <x-common.icon
-                                        name="fas fa-user"
-                                        class="is-small is-left"
-                                    />
-                                    <x-common.validation-error property="last_name" />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-6-mobile is-6-tablet is-3-desktop">
-                            <x-forms.field>
                                 <x-forms.label for="father_name">
                                     Father Name <sup class="has-text-danger"></sup>
                                 </x-forms.label>
@@ -252,6 +231,27 @@
                                         class="is-small is-left"
                                     />
                                     <x-common.validation-error property="father_name" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
+                        <div class="column is-6-mobile is-6-tablet is-3-desktop">
+                            <x-forms.field>
+                                <x-forms.label for="last_name">
+                                    Last Name <sup class="has-text-danger">*</sup>
+                                </x-forms.label>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        id="last_name"
+                                        name="last_name"
+                                        type="text"
+                                        placeholder="Last Name"
+                                        value="{{ old('last_name') }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-user"
+                                        class="is-small is-left"
+                                    />
+                                    <x-common.validation-error property="last_name" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

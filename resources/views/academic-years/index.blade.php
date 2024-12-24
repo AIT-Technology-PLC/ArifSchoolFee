@@ -9,7 +9,7 @@
                 <h1 class="title text-softblue has-text-weight-medium is-size-5">
                     Academic Year
                     <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-sort" />
+                        <x-common.icon name="fas fa-calendar" />
                         <span>
                             {{ number_format($totalAcademicYears) }} {{ str()->plural('academic year'), $totalAcademicYears }}
                         </span>

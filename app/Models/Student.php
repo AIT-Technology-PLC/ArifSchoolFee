@@ -104,4 +104,14 @@ class Student extends Model
     {
         return $this->hasMany(StudentHistory::class);
     }
+
+    public function latestStudentHistoryId()
+    {
+        return $this->studentHistories()->latest('created_at')->value('id');    
+    }
+
+    public function hasUnpaidFees()
+    {
+        return $this->assignFeeMasters()->whereDoesntHave('feePayments')->exists();
+    }
 }

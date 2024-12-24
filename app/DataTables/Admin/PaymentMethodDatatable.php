@@ -17,6 +17,7 @@ class PaymentMethodDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->editColumn('name', fn($paymentMethod) => str()->ucfirst($paymentMethod->name))
+            ->editColumn('type', fn($paymentMethod) => str()->ucfirst($paymentMethod->type))
             ->editColumn('status', fn($paymentMethod) => view('components.datatables.payment-method-status', compact('paymentMethod')))
             ->editColumn('created_at', fn($paymentMethod) => $paymentMethod->created_at->toFormattedDateString())
             ->editColumn('actions', function ($paymentMethod) {
@@ -40,7 +41,8 @@ class PaymentMethodDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
+            Column::make('type')->content('N/A'),
             Column::make('status')->orderable(false),
             Column::computed('actions')->className('actions'),
         ];

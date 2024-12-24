@@ -38,7 +38,12 @@ class PermissionCategorization
         'student' => [
             'label' => 'Student',
             'feature' => 'Student Management',
-            'exclude' => ['Student Group', 'Student Category'],
+            'exclude' => ['Student Group', 'Student Category', 'Student Promote'],
+        ],
+
+        'student promote' => [
+            'label' => 'Student Promote',
+            'feature' => 'Student Promote',
         ],
 
         'route' => [
@@ -115,6 +120,11 @@ class PermissionCategorization
             'label' => 'Collect Fee',
             'feature' => 'Collect Fee',
             'include' => ['Search Fee Payment', 'Search Fee Due'],
+        ],
+
+        'account management' => [
+            'label' => 'Account Management',
+            'feature' => 'Account Management',
         ],
     ];
 

@@ -23,7 +23,7 @@
     </div>
 
     <x-common.content-wrapper>
-        <x-content.header title="Role">
+        <x-content.header title="Roles">
             <x-common.button
                 tag="a"
                 href="{{ route('admin.roles.create') }}"

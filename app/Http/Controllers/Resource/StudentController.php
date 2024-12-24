@@ -99,6 +99,10 @@ class StudentController extends Controller
             return redirect()->route('students.index')->with('limitReachedMessage', __('messages.limit_reached', ['limit' => 'students']));
         }
 
+        if ($student->hasUnpaidFees()) {
+            return redirect()->route('students.index')->with('failedMessage', 'Cannot edit student details. Active unpaid fees are found.');
+        }
+
         DB::transaction(function () use ($request, $student) {
             $student->update($request->validated());
 
@@ -112,6 +116,10 @@ class StudentController extends Controller
 
     public function destroy(Student $student)
     {
+        if ($student->hasUnpaidFees()) {
+            return back()->with(['failedMessage' => 'Unable to delete student data. Active unpaid fees are found.']);
+        }
+
         if ($student->feePayments()->exists() || $student->messageDetails()->exists()) {
             return back()->with(['failedMessage' => 'This Student date data has already been used and cannot be deleted.']);
         }

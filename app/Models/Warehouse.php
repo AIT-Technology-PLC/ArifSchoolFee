@@ -95,9 +95,13 @@ class Warehouse extends Model
                 $prefix = 'BR';
             }
 
+            $prefixLength = strlen($prefix) + 1;
+            $numericLength = 2;
+            $length = $prefixLength + $numericLength;
+
             $model->code = IdGenerator::generate([
                 'table' => 'warehouses', 
-                'length' => 8, 
+                'length' =>  $length, 
                 'field' => 'code', 
                 'prefix' => $prefix.'/',
                 'reset_on_prefix_change' => true,

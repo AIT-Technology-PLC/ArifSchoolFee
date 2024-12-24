@@ -17,7 +17,7 @@ class UpdateStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('students', $this->route('student')->id)],
+            'code' => ['required', 'string', new UniqueReferenceNum('students', $this->route('student')->id)],
             'warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'school_class_id' => ['required', 'integer', new MustBelongToCompany('school_classes')],
             'section_id' => ['required', 'integer', new MustBelongToCompany('sections')],

@@ -123,6 +123,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Search Fee Payment']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Search Fee Due']);
 
+            // Account Management
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Account']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Account']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Account']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Account']);
+
             // Student Category
             $permissions[] = Permission::firstOrCreate(['name' => 'Create Student Category']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Read Student Category']);
@@ -143,6 +149,12 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Student']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Delete Student']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Import Student']);
+
+            // Student Promote
+            $permissions[] = Permission::firstOrCreate(['name' => 'Create Student Promote']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Student Promote']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Update Student Promote']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Delete Student Promote']);
 
             // Company
             $permissions[] = Permission::firstOrCreate(['name' => 'Update Company']);

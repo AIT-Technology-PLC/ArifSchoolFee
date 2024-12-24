@@ -19,6 +19,7 @@ use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use App\Rules\MustBelongToCompany;
 use Illuminate\Validation\Rule;
+use App\Services\Student\StudentOperationService;
 
 class StudentImport implements WithHeadingRow, WithValidation, WithChunkReading, WithBatchInserts, OnEachRow
 {
@@ -55,8 +56,7 @@ class StudentImport implements WithHeadingRow, WithValidation, WithChunkReading,
             return null;
         }
 
-
-        return Student::create([
+        $student = Student::create([
             'company_id' => userCompany()->id,
             'code' => $this->students->isEmpty() ? nextReferenceNumber('students') : ($this->students->last()->code + 1),
             'warehouse_id' => Warehouse::firstWhere('name', $row['branch_name'])->id,
@@ -81,6 +81,10 @@ class StudentImport implements WithHeadingRow, WithValidation, WithChunkReading,
             'current_address' => $row['current_address'] ?? null,
             'permanent_address' => $row['permanent_address'] ?? null,
         ]);
+
+        StudentOperationService::add($row, $student);
+
+        return $student;
     }
 
     public function rules(): array

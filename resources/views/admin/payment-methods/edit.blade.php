@@ -25,7 +25,7 @@
             @method('PATCH')
             <x-content.main>
                 <div class="columns is-marginless is-multiline">
-                    <div class="column is-6">
+                    <div class="column is-4">
                         <x-forms.field>
                             <x-forms.label for="name">
                                 Name <sup class="has-text-danger">*</sup>
@@ -46,7 +46,45 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
-                    <div class="column is-6">
+                    <div class="column is-4">
+                        <x-forms.field>
+                            <x-forms.label for="type">
+                                Type <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="type"
+                                    name="type"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Type
+                                    </option>
+                                    <option
+                                        value="offline"
+                                        @selected(old('type', $paymentMethod->type) == 'offline')
+                                    >
+                                        Offline
+                                    </option>
+                                    <option
+                                        value="online"
+                                        @selected(old('type', $paymentMethod->type) == 'online')
+                                    >
+                                        Online
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="type" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-4">
                         <x-forms.field>
                             <x-forms.label for="enabled">
                                 Status <sup class="has-text-danger">*</sup>

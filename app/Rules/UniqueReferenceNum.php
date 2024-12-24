@@ -27,7 +27,6 @@ class UniqueReferenceNum implements ValidationRule
         $this->value = round($value);
 
         $isTaken = DB::table($this->tableName)
-            ->when(Schema::hasColumn($this->tableName, 'warehouse_id'), fn($q) => $q->where('warehouse_id', authUser()->warehouse_id))
             ->where('company_id', userCompany()->id)
             ->where('code', $value)
             ->when(is_numeric($this->excludedId), fn($q) => $q->where('id', '<>', $this->excludedId))

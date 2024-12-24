@@ -125,6 +125,11 @@ class Features extends Seeder
         );
 
         Feature::updateOrCreate(
+            ['name' => 'Student Promote'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
             ['name' => 'Fee Group'],
             ['is_enabled' => 1]
         );
@@ -146,6 +151,11 @@ class Features extends Seeder
 
         Feature::updateOrCreate(
             ['name' => 'Collect Fee'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
+            ['name' => 'Account Management'],
             ['is_enabled' => 1]
         );
 
@@ -175,11 +185,13 @@ class Features extends Seeder
             'Student Category',
             'Student Group',
             'Student Management',
+            'Student Promote',
             'Fee Group',
             'Fee Type',
             'Fee Discount',
             'Fee Master',
             'Collect Fee',
+            'Account Management',
         ];
 
         Feature::whereNotIn('name', $currentFeatureNames )->forceDelete();
@@ -187,7 +199,7 @@ class Features extends Seeder
 
     private function v1Plans()
     {
-        $standard = Plan::firstWhere('name', 'standard');
+        $standard = Plan::firstWhere('name', 'Standard');
 
         $standard->features()->sync(
             $this->features
@@ -204,6 +216,7 @@ class Features extends Seeder
                     'Student Category',
                     'Student Group',
                     'Student Management',
+                    'Student Promote',
                     'Route Management',
                     'Vehicle Management',
                     'User Management',
@@ -217,6 +230,7 @@ class Features extends Seeder
                     'Notice Management',
                     'Log Management',
                     'Employee Management',
+                    'Account Management',
                 ])
                 ->pluck('id')
                 ->toArray()

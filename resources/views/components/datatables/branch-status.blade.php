@@ -1,11 +1,19 @@
 @if ($branch->isActive())
-    <span class="icon is-small text-green">
-        <i class="fas fa-circle"></i>
+    <span class="tag bg-lightgreen text-green has-text-weight-medium">
+        <span class="icon">
+            <i class="fas fa-dot-circle"></i>
+        </span>
+        <span>
+            Active
+        </span>
     </span>
-    <span class="text-green"> Active </span>
 @else
-    <span class="icon is-small text-purple">
-        <i class="fas fa-circle"></i>
+    <span class="tag bg-purple has-text-white has-text-weight-medium">
+        <span class="icon">
+            <i class="fas fa-warning"></i>
+        </span>
+        <span>
+            Not Active
+        </span>
     </span>
-    <span class="text-purple"> Not Active </span>
 @endif

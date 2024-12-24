@@ -17,7 +17,7 @@ class StoreStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'integer', new UniqueReferenceNum('students')],
+            'code' => ['required', 'string', new UniqueReferenceNum('students')],
             'warehouse_id' => ['required', 'integer', new MustBelongToCompany('warehouses')],
             'school_class_id' => ['required', 'integer', new MustBelongToCompany('school_classes')],
             'section_id' => ['required', 'integer', new MustBelongToCompany('sections')],

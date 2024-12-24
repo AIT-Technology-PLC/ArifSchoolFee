@@ -7,9 +7,9 @@
         <x-content.header>
             <x-slot name="header">
                 <h1 class="title text-softblue has-text-weight-medium is-size-5">
-                    Departments
+                    Department
                     <span class="tag bg-softblue has-text-white has-text-weight-normal ml-1 m-lr-0">
-                        <x-common.icon name="fas fa-sort" />
+                        <x-common.icon name="fas fa-layer-group" />
                         <span>
                             {{ number_format($totalDepartments) }} {{ str()->plural('department', $totalDepartments) }}
                         </span>
