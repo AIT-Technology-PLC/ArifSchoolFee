@@ -34,8 +34,8 @@ class FeeDiscountController extends Controller
     public function store(StoreFeeDiscountRequest $request)
     {
         FeeDiscount::firstOrCreate(
-            $request->safe()->only(['name'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['name'] + ['company_id' => userCompany()->id]),
+            $request->safe()->only(['name','discount_code'] + ['company_id' => userCompany()->id]),
+            $request->safe()->except(['name','discount_code'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('fee-discounts.index')->with('successMessage', 'New Group Created Successfully.');

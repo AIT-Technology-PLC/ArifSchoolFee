@@ -35,8 +35,8 @@ class FeeMasterController extends Controller
     public function store(StoreFeeMasterRequest $request)
     {
         FeeMaster::firstOrCreate(
-            $request->safe()->only(['code'] + ['company_id' => userCompany()->id]),
-            $request->safe()->except(['code'] + ['company_id' => userCompany()->id]),
+            $request->safe()->only(['fee_type_id','due_date'] + ['company_id' => userCompany()->id]),
+            $request->safe()->except(['fee_type_id','due_date'] + ['company_id' => userCompany()->id]),
         );
 
         return redirect()->route('fee-masters.index')->with('successMessage', 'Fee Master Created Successfully.');

@@ -16,7 +16,7 @@ class StoreSchoolClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:10', Rule::unique('school_classes')->where('company_id', userCompany()->id)->withoutTrashed()],
+            'name' => ['required', 'string', 'max:20', Rule::unique('school_classes')->where('company_id', userCompany()->id)->withoutTrashed()],
             'section_id' => ['nullable', 'array'],
             'section_id.*' => ['required', 'integer', new MustBelongToCompany('sections')],
         ];

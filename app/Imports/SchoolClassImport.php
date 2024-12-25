@@ -47,7 +47,7 @@ class SchoolClassImport implements WithHeadingRow, WithValidation, WithChunkRead
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:10'],
+            'name' => ['required', 'string', 'max:20'],
             'section_name' => ['required', 'integer', new MustBelongToCompany('sections', 'name')],
         ];
     }

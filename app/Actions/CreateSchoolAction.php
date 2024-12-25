@@ -47,7 +47,7 @@ class CreateSchoolAction
             'warehouse_id' => $warehouse->id,
             'gender' => $data['gender'] ?? 'male',
             'address' => $data['user']['address'] ?? 'Unknown',
-            'phone' => $data['user']['phone'] ?? null,
+            'phone' => $data['user']['phone'] ?? '0911001122',
             'enabled' => 1,
             'position' => 'Admin Support Account',
             'role' => 'System Manager',

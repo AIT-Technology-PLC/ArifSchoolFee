@@ -7,13 +7,11 @@
                     src="{{ asset('img/AIT LOGO WHITE.png') }}"
                 >
             </figure>
-            @if (!authUser()->isCallCenter() && !authUser()->isBank())
-                <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop {{ authUser()->isAdmin()  ? 'to-the-right' : 'to-the-right' }}" />
-            @endif
+            <livewire:notification-counter class="navbar-item has-text-white is-size-5 is-hidden-desktop {{ authUser() ? 'to-the-right' : 'to-the-right' }}" />
             <span
                 x-data="toggler"
                 @click="toggle;$dispatch('side-menu-opened')"
-                class="navbar-item has-text-white is-size-5 is-hidden-desktop to-the-right"
+                class="navbar-item has-text-white is-size-5 is-hidden-desktop"
             >
                 <span class="icon">
                     <i
@@ -86,9 +84,7 @@
                         <i class="fas fa-redo-alt"></i>
                     </span>
                 </a>
-                @if (!authUser()->isCallCenter() && !authUser()->isBank())
-                    <livewire:notification-counter class="navbar-item has-text-white link-text" />
-                 @endif
+                <livewire:notification-counter class="navbar-item has-text-white link-text" />
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <figure

@@ -23,7 +23,7 @@
                     icon="fas fa-code-branch"
                 />
             </div>
-            <div class="column is-6-mobile is-6-tablet is-4-desktop">
+            <div class="column is-12-mobile is-12-tablet is-4-desktop">
                 <x-common.total-model
                     model="Total Staff"
                     headValue="Staff"
@@ -32,10 +32,10 @@
                     icon="fas fa-user-group"
                 />
             </div>
-            <div class="column is-12-mobile is-6-tablet is-8-desktop">
+            <div class="column is-12-mobile is-12-tablet is-8-desktop">
                 {!! $chart->container() !!}
             </div>
-            <div class="column is-12-mobile is-6-tablet is-4-desktop">
+            <div class="column is-12-mobile is-12-tablet is-4-desktop">
                 <x-common.fee-data-shower-model
                     :estimated="$dashboardReport->getThisMonthEstimation"
                     :collected="$dashboardReport->getThisMonthCollectedAmount"

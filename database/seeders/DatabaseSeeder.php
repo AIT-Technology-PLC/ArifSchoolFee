@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
             Limits::class,
             Features::class,
             Permissions::class,
-            CreateNewSchool::class,
             CreateAdminUser::class,
         ]);
     }

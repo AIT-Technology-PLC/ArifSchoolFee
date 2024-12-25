@@ -19,8 +19,8 @@ class StoreFeeMasterRequest extends FormRequest
             'fee_type_id' => ['required', 'integer', new MustBelongToCompany('fee_types')],
             'due_date' => ['required', 'date', 'after:' . now()],
             'amount' => ['required', 'numeric', 'gte:0'],
-            'fine_type' => ['nullable', 'string', 'max:20', 'required_unless:fine_amount,null', Rule::in(['percentage', 'amount'])],
-            'fine_amount' => ['nullable', 'numeric', 'gte:0', 'required_unless:fine_type,null'],
+            'fine_type' => ['nullable', 'string', 'max:20', 'required_if:fine_amount,!null', Rule::in(['percentage', 'amount'])],
+            'fine_amount' => ['nullable', 'numeric', 'gte:0', 'required_if:fine_type,!null'],
         ];
     }
 }
