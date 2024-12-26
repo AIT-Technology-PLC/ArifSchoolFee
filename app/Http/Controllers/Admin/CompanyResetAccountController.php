@@ -22,8 +22,8 @@ class CompanyResetAccountController extends Controller
                 $this->resetMasterData($school);
             }
 
-            if ($request->validated('reset_finance')) {
-                $this->resetFinance($school);
+            if ($request->validated('reset_transaction')) {
+                $this->resetTransaction($school);
             }
 
             $this->resetByTables($school, $request->validated('tables'));
@@ -34,8 +34,6 @@ class CompanyResetAccountController extends Controller
 
     private function resetMasterData($school)
     {
-        $school->academicYears()->forceDelete();
-
         $school->academicYears()->forceDelete();
 
         $school->sections()->forceDelete();
@@ -58,6 +56,8 @@ class CompanyResetAccountController extends Controller
 
         $school->staffs()->forceDelete();
 
+        $school->accounts()->forceDelete();
+
         $school->feeGroups()->forceDelete();
 
         $school->feeTypes()->forceDelete();
@@ -65,13 +65,21 @@ class CompanyResetAccountController extends Controller
         $school->feeDiscounts()->forceDelete();
 
         $school->feeMasters()->forceDelete();
-
-        $school->userLogs()->forceDelete();
     }
 
-    private function resetFinance($school)
+    private function resetTransaction($school)
     {
-        $school->feeMasters()->forceDelete();
+        $school->userLogs()->forceDelete();
+
+        $school->assignFeeMastsers()->forceDelete();
+
+        $school->assignFeeDiscounts()->forceDelete();
+
+        $school->feePayments()->forceDelete();
+
+        $school->messages()->forceDelete();
+
+        $school->notices()->forceDelete();
     }
 
     private function resetByTables($school, $tables)

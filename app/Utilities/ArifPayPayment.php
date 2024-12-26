@@ -112,7 +112,7 @@ class ArifPayPayment
 
         return $paymentInfo;
     }
-
+    
     public function calculateBeneficiariesAmount($items)
     {
         return collect($items)->reduce(function ($total, $item) {

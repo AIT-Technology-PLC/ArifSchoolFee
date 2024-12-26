@@ -25,85 +25,57 @@
                     <div class="columns is-marginless is-multiline">
                         <div class="column is-4">
                             <x-forms.field>
-                                <x-forms.label for="reset_inventory">
-                                    Reset Inventory <sup class="has-text-danger"></sup>
+                                <x-forms.label for="reset_master">
+                                    Reset Master Data <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select
                                         class="is-fullwidth"
-                                        id="reset_inventory"
-                                        name="reset_inventory"
+                                        id="reset_master"
+                                        name="reset_master"
                                     >
                                         <option
                                             value="1"
-                                            @selected(old('reset_inventory'))
+                                            @selected(old('reset_master'))
                                         > Reset </option>
                                         <option
                                             value="0"
-                                            @selected(!old('reset_inventory'))
+                                            @selected(!old('reset_master'))
                                         > No </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-chart-bar"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="reset_inventory" />
+                                    <x-common.validation-error property="reset_master" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
                         <div class="column is-4">
                             <x-forms.field>
-                                <x-forms.label for="reset_finance">
-                                    Reset Finance <sup class="has-text-danger"></sup>
+                                <x-forms.label for="reset_transaction">
+                                    Reset Transaction <sup class="has-text-danger"></sup>
                                 </x-forms.label>
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.select
                                         class="is-fullwidth"
-                                        id="reset_finance"
-                                        name="reset_finance"
+                                        id="reset_transaction"
+                                        name="reset_transaction"
                                     >
                                         <option
                                             value="1"
-                                            @selected(old('reset_finance'))
+                                            @selected(old('reset_transaction'))
                                         > Reset </option>
                                         <option
                                             value="0"
-                                            @selected(!old('reset_finance'))
+                                            @selected(!old('reset_transaction'))
                                         > No </option>
                                     </x-forms.select>
                                     <x-common.icon
                                         name="fas fa-dollar-sign"
                                         class="is-small is-left"
                                     />
-                                    <x-common.validation-error property="reset_finance" />
-                                </x-forms.control>
-                            </x-forms.field>
-                        </div>
-                        <div class="column is-4">
-                            <x-forms.field>
-                                <x-forms.label for="reset_pad">
-                                    Reset Pads <sup class="has-text-danger"></sup>
-                                </x-forms.label>
-                                <x-forms.control class="has-icons-left">
-                                    <x-forms.select
-                                        class="is-fullwidth"
-                                        id="reset_pad"
-                                        name="reset_pad"
-                                    >
-                                        <option
-                                            value="1"
-                                            @selected(old('reset_pad'))
-                                        > Reset </option>
-                                        <option
-                                            value="0"
-                                            @selected(!old('reset_pad'))
-                                        > No </option>
-                                    </x-forms.select>
-                                    <x-common.icon
-                                        name="fas fa-folder-open"
-                                        class="is-small is-left"
-                                    />
-                                    <x-common.validation-error property="reset_pad" />
+                                    <x-common.validation-error property="reset_transaction" />
                                 </x-forms.control>
                             </x-forms.field>
                         </div>

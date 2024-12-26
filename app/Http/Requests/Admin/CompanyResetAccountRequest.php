@@ -15,11 +15,10 @@ class CompanyResetAccountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reset_inventory' => ['nullable', 'boolean'],
-            'reset_finance' => ['nullable', 'boolean'],
-            'reset_pad' => ['nullable', 'boolean'],
+            'reset_master' => ['nullable', 'boolean'],
+            'reset_transaction' => ['nullable', 'boolean'],
             'tables' => ['nullable', 'array'],
-            'tables.*' => ['string', Rule::in(['brands', 'product_categories', 'products', 'contacts', 'customers', 'suppliers', 'purchases', 'prices', 'price_increments'])],
+            'tables.*' => ['string', Rule::in(['academic_years', 'sections', 'school_classes', 'routes', 'vehicles', 'fee_groups', 'fee_types', 'student_categories', 'student_groups','designations','departments'])],
         ];
     }
 }
