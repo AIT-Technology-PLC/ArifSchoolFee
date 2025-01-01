@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Actions\CreateUserAction;
 use App\Models\Company;
+use App\Models\SchoolType;
 use App\Models\Warehouse;
 
 class CreateSchoolAction
@@ -17,10 +18,14 @@ class CreateSchoolAction
 
     public function execute($data)
     {
+        $schoolType = SchoolType::firstOrCreate([
+            'name' => 'Private',
+        ]);
+
         $company = Company::create([
             'name' => $data['company_name'],
             'company_code' => $data['company_code'] ?? 'CODE',
-            'school_type_id' => $data['school_type_id'] ?? null,
+            'school_type_id' => $schoolType->id ?? ($data['school_type_id'] ?? null),
             'email' => $data['email'] ?? null,
             'phone' => $data['phone'] ?? null,
             'address' => $data['address'] ?? null,

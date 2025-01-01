@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\CreateSchoolAction;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,7 @@ class DatabaseSeeder extends Seeder
             Limits::class,
             Features::class,
             Permissions::class,
+            CreateSchoolAction::class,
             CreateAdminUser::class,
         ]);
     }

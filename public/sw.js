@@ -10,9 +10,9 @@ const { registerRoute, setCatchHandler } = workbox.routing;
 skipWaiting();
 clientsClaim();
 
-const VERSION = 120;
-const PRECACHE = "precache-v5";
-const RUNTIME = "runtime-v5";
+const VERSION = 1; // last time it was 120
+const PRECACHE = "precache-v1";  // last time it was v5
+const RUNTIME = "runtime-v1"; // last time it was v5
 
 setCacheNameDetails({
     prefix: "",
@@ -34,6 +34,10 @@ precacheAndRoute(
         { url: "/js/app.js", revision: VERSION },
         { url: "/js/store.js", revision: VERSION },
         { url: "/js/datatables-plugins.js", revision: VERSION },
+        { url: "/js/login.js", revision: VERSION },
+        { url: "/js/message-page.js", revision: VERSION },
+        { url: "/js/particles.js", revision: VERSION },
+        { url: "/js/steps-component.js", revision: VERSION },
         { url: "/livewire/livewire.js", revision: VERSION },
         { url: "/css/bulma-select2.css", revision: VERSION },
         { url: "/css/app.css", revision: VERSION },

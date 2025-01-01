@@ -17,6 +17,7 @@ class CompaniesChart
    
     public function build()
     {
+
         $data = $this->engagementReport->companies();
         $companies = $data['companies'];
 

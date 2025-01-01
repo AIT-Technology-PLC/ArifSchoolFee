@@ -69,10 +69,29 @@ class EngagementReport
         $data['activeCompanies'] = Employee::whereHas('user', fn($q) => $q->whereNot('name', 'ait support')->whereDate('last_online_at', '>=', $this->filters['user_period'][0])->whereDate('last_online_at', '<=', today()))->distinct('company_id')->count();
 
         $data['companies'] = Company::enabled()
-            ->when(!empty($this->filters['company_id']), fn($q) => $q->where('id', $this->filters['company_id']))
+            ->when(
+                !empty($this->filters['company_id']),
+                fn($q) => $q->where('id', $this->filters['company_id'])
+            )
+            ->whereHas('employees', fn($q) => 
+                $q->whereHas('user', fn($q) =>
+                    $q->whereNot('name', 'ait support')
+                    ->whereDate('last_online_at', today())
+                )
+            )
             ->withCount([
-                'employees' => fn($q) => $q->whereHas('user', fn($q) => $q->whereNot('name', 'ait support')->whereDate('last_online_at', '>=', $this->filters['user_period'][0])->whereDate('last_online_at', '<=', today())),
-                'warehouses' => fn($q) => $q->whereHas('originalUsers', fn($q) => $q->whereNot('name', 'ait support')->whereDate('last_online_at', '>=', $this->filters['user_period'][0])->whereDate('last_online_at', '<=', today())),
+                'employees' => fn($q) =>
+                    $q->whereHas('user', fn($q) =>
+                        $q->whereNot('name', 'ait support')
+                        ->whereDate('last_online_at', '>=', $this->filters['user_period'][0])
+                        ->whereDate('last_online_at', '<=', today())
+                    ),
+                'warehouses' => fn($q) =>
+                    $q->whereHas('originalUsers', fn($q) =>
+                        $q->whereNot('name', 'ait support')
+                        ->whereDate('last_online_at', '>=', $this->filters['user_period'][0])
+                        ->whereDate('last_online_at', '<=', today())
+                    ),
             ])
             ->orderBy('employees_count', 'DESC')
             ->orderBy('warehouses_count', 'DESC')
