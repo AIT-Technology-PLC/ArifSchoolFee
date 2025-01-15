@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Reports\CallCenter;
+namespace App\Reports\ServiceCenter;
 
 use App\Models\AssignFeeMaster;
 use App\Models\Company;

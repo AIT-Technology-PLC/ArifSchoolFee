@@ -9,14 +9,14 @@ class SmsSettingController extends Controller
 {
     public function create()
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Setting'), 403);
 
         return view('admin.sms-settings.create');
     }
 
     public function store(StoreSmsRequest $request)
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Setting'), 403);
 
         update_static_option('AFROMESSAGE_SINGLE_MESSAGE_URL', $request->AFROMESSAGE_SINGLE_MESSAGE_URL);
         update_static_option('AFROMESSAGE_BULK_MESSAGE_URL', $request->AFROMESSAGE_BULK_MESSAGE_URL);

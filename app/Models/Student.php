@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
 class Student extends Model
 {
-    use MultiTenancy, SoftDeletes, HasUserstamps, LogsActivity;
+    use HasFactory, MultiTenancy, SoftDeletes, HasUserstamps, LogsActivity;
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
@@ -85,9 +86,19 @@ class Student extends Model
         return $this->belongsToMany(FeeMaster::class, 'assign_fee_masters', 'student_id', 'fee_master_id');
     }
 
+    public function assignFeeMasterRecords()
+    {
+        return $this->hasMany(AssignFeeMaster::class);
+    }
+
     public function assignFeeDiscounts()
     {
         return $this->belongsToMany(FeeDiscount::class, 'assign_fee_discounts', 'student_id', 'fee_discount_id');
+    }
+
+    public function assignFeeDiscountRecords()
+    {
+        return $this->hasMany(AssignFeeDiscount::class);
     }
 
     public function isAssignedToFeeMaster($feeMasterId)
@@ -112,6 +123,6 @@ class Student extends Model
 
     public function hasUnpaidFees()
     {
-        return $this->assignFeeMasters()->whereDoesntHave('feePayments')->exists();
+        return $this->assignFeeMasterRecords()->whereDoesntHave('feePayments')->exists();
     }
 }

@@ -77,25 +77,62 @@ class DashboardReport
 
     public function getMonthlyCollectedAmount()
     {
+        // Get the start and end dates of the current month
         $startOfMonth = now()->startOfMonth();
         $endOfMonth = now()->endOfMonth();
 
-        $dailyCollectedAmounts = [];
+        // Get the estimated total amount to collect for this month
+        $estimatedAmount = $this->getThisMonthEstimation();  // Using the getThisMonthEstimation method
+        
+        // Initialize arrays for weekly collected amounts and estimated amounts
+        $weeklyCollectedAmounts = [];
+        $weeklyEstimatedAmounts = [];
 
-        foreach (new \DatePeriod($startOfMonth, \DateInterval::createFromDateString('5 day'), $endOfMonth) as $date) {
-                $collectedAmount = AssignFeeMaster::with(['feePayments' => function ($query) use ($date) {
-                    $query->whereYear('payment_date', $date->format('Y'))
-                    ->whereMonth('payment_date', $date->format('m'))
-                    ->whereDay('payment_date', $date->format('d'));
-                }])
-                ->get()
-                ->sum(function ($assignFeeMaster) {
-                    return $assignFeeMaster->feePayments->sum('amount');
-                });
+        // Loop through each week of the month
+        $currentWeekStart = $startOfMonth;
+        $currentWeekEnd = $startOfMonth->copy()->endOfWeek();
 
-            $dailyCollectedAmounts[$date->format('d')] = $collectedAmount;
+        while ($currentWeekStart <= $endOfMonth) {
+            // Collect payments for the current week
+            $collectedAmount = AssignFeeMaster::with(['feePayments' => function ($query) use ($currentWeekStart, $currentWeekEnd) {
+                $query->whereBetween('payment_date', [$currentWeekStart, $currentWeekEnd]);
+            }])
+            ->get()
+            ->sum(function ($assignFeeMaster) {
+                return $assignFeeMaster->feePayments->sum('amount');
+            });
+
+            // Store the collected amount for the week
+            $weeklyCollectedAmounts[] = $collectedAmount;
+
+            // Store the estimated amount for the week (constant for all weeks)
+            $weeklyEstimatedAmounts[] = $estimatedAmount;
+
+            // Move to the next week
+            $currentWeekStart = $currentWeekEnd->addDay();
+            $currentWeekEnd = $currentWeekStart->copy()->endOfWeek();
         }
 
-        return $dailyCollectedAmounts;
+        // Return data suitable for the chart (grouped by week)
+        return [
+            'weeks' => $this->getWeeksOfMonth($startOfMonth, $endOfMonth),  // Week labels (x-axis)
+            'collected' => $weeklyCollectedAmounts,  // Collected fees (y-axis)
+            'estimated' => $weeklyEstimatedAmounts,  // Estimated fees (y-axis)
+        ];
+    }
+
+    public function getWeeksOfMonth($startOfMonth, $endOfMonth)
+    {
+        $weeks = [];
+        $currentWeekStart = $startOfMonth;
+        $currentWeekEnd = $startOfMonth->copy()->endOfWeek();
+
+        while ($currentWeekStart <= $endOfMonth) {
+            $weeks[] = 'Week ' . $currentWeekStart->week;
+            $currentWeekStart = $currentWeekEnd->addDay();
+            $currentWeekEnd = $currentWeekStart->copy()->endOfWeek();
+        }
+
+        return $weeks;
     }
 }

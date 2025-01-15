@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\CallCenter;
+namespace App\Http\Controllers\ServiceCenter;
 
 use App\Charts\UserWiseFeeCollectionChart;
 use App\Http\Controllers\Controller;
-use App\Reports\CallCenter\DashboardReport;
+use App\Reports\ServiceCenter\DashboardReport;
 
 class DashboardController extends Controller
 {
@@ -14,6 +14,6 @@ class DashboardController extends Controller
 
         $chart = new UserWiseFeeCollectionChart($dashboardReport);
 
-        return view('call-centers.index', ['chart' => $chart->build()], compact('dashboardReport'));
+        return view('service-centers.index', ['chart' => $chart->build()], compact('dashboardReport'));
     }
 }

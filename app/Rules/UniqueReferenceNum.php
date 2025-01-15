@@ -5,15 +5,12 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class UniqueReferenceNum implements ValidationRule
 {
     private $tableName;
 
     private $excludedId;
-
-    private $value;
 
     public function __construct($tableName, $excludedId = null)
     {
@@ -24,7 +21,7 @@ class UniqueReferenceNum implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $this->value = round($value);
+        $numericValue = is_numeric($value) ? round((float) $value) : $value;
 
         $isTaken = DB::table($this->tableName)
             ->where('company_id', userCompany()->id)
@@ -34,7 +31,7 @@ class UniqueReferenceNum implements ValidationRule
             ->exists();
 
         if ($isTaken) {
-            $fail("Reference #{$this->value} has already been taken.");
+            $fail("Reference #{$numericValue} has already been taken.");
         }
     }
 }

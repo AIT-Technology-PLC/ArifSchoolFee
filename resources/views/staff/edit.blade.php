@@ -307,7 +307,7 @@
                                     <x-forms.input
                                         id="phone"
                                         name="phone"
-                                        type="number"
+                                        type="tel"
                                         placeholder="Phone/Telephone"
                                         value="{{  $staff->phone ?? old('phone') }}"
                                     />

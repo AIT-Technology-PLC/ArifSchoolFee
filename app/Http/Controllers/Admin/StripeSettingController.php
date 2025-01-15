@@ -9,14 +9,14 @@ class StripeSettingController extends Controller
 {
     public function create()
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         return view('admin.stripe-settings.create');
     }
 
     public function store(StoreStripeRequest $request)
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         update_static_option('STRIPE_SECRET_KEY', $request->STRIPE_SECRET_KEY);
         update_static_option('STRIPE_PUBLISHABLE_KEY', $request->STRIPE_PUBLISHABLE_KEY);

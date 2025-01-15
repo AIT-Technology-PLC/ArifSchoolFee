@@ -6,18 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckPaymentRequest;
 use App\Models\AssignFeeMaster;
 use App\Utilities\ArifPayPayment;
+use App\Utilities\TelebirrPayment;
 use App\Utilities\CashPayment;
 use App\Utilities\ChequePayment;
 
 class FeePaymentController extends Controller
 {
-    private $cashPayment, $arifPayPayment, $chequePayment;
+    private $cashPayment, $arifPayPayment, $chequePayment, $telebirrPayment;
 
-    public function __construct(CashPayment $cashPayment, ArifPayPayment $arifPayPayment, ChequePayment $chequePayment)
+    public function __construct(CashPayment $cashPayment, ArifPayPayment $arifPayPayment, ChequePayment $chequePayment, TelebirrPayment $telebirrPayment)
     {
         $this->cashPayment = $cashPayment;
         $this->arifPayPayment = $arifPayPayment;
         $this->chequePayment = $chequePayment;
+        $this->telebirrPayment = $telebirrPayment;
     }
 
     public function processPayment(CheckPaymentRequest $request, AssignFeeMaster $assignFeeMaster)
@@ -44,6 +46,9 @@ class FeePaymentController extends Controller
             case 'Arifpay':
                 $paymentProcessor = $this->arifPayPayment;
                 break;
+            case 'Telebirr':
+                $paymentProcessor = $this->telebirrPayment;
+                break;
             default:
                  return redirect()->back()->with('failedMessage', 'Invalid payment method');
         }
@@ -53,6 +58,8 @@ class FeePaymentController extends Controller
     
             if ($paymentUrl) {
                 if ($paymentMethod === 'Arifpay') {
+                    return redirect()->away($paymentUrl);
+                }elseif ($paymentMethod === 'Telebirr') {
                     return redirect()->away($paymentUrl);
                 }
 

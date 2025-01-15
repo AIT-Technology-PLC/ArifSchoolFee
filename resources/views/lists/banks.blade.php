@@ -1,5 +1,3 @@
-<option value="Telebirr"> Telebirr </option>
-<option value="M-Pesa"> M-Pesa </option>
 <option value="Abay Bank"> Abay Bank </option>
 <option value="Addis Bank SC"> Addis Bank SC </option>
 <option value="Ahadu Bank"> Ahadu Bank </option>

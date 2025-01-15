@@ -19,13 +19,23 @@ class CollectedFeeChart
     {
         $dailyCollectedAmounts = $this->dashboardReport->getMonthlyCollectedAmount();
 
+        if (empty($dailyCollectedAmounts['collected']) && empty($dailyCollectedAmounts['estimated'])) {
+            return $this->chart->areaChart()
+                ->setTitle('Collected Fees for ' . now()->format('F Y'))
+                ->setSubtitle('No data available')
+                ->addData('Estimated Fees', [0]) // Default value (0) to indicate no data
+                ->addData('Collected Fees', [0]) // Default value (0) to indicate no data
+                ->setXAxis(['No Data Available']) // Placeholder for x-axis
+                ->setColors(['#D3D3D3']) // Neutral color indicating no data
+                ->setGrid();
+        }
+
         return $this->chart->areaChart()
             ->setTitle('Collected Fees for ' . now()->format('F Y'))
             ->setSubtitle('Total collected fees')
-            // ->addData('Collected Fees', array_values($dailyCollectedAmounts))
-            ->addData(now()->subMonth()->format('F Y'), [40, 93, 35, 42, 18, 82])
-            ->addData(now()->format('F Y'), [70, 29, 77, 28, 55, 45])
-            ->setXAxis(array_keys($dailyCollectedAmounts))
+            ->addData('Estimated Fees', array_values($dailyCollectedAmounts['estimated']))
+            ->addData('Collected Fees', array_values($dailyCollectedAmounts['collected']))
+            ->setXAxis(array_keys($dailyCollectedAmounts['weeks']))
             ->setColors(['#3FB3E8', '#C99289'])
             ->setGrid();
     }

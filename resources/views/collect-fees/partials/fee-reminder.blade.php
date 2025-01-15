@@ -59,7 +59,7 @@
             <x-content.header >
                 <x-slot name="header">
                     <h1 class="title text-softblue has-text-weight-medium is-size-6">
-                        Send Reminder Message
+                        Send Payment Code
                     </h1>
                 </x-slot>
                 <button class="delete" aria-label="close"  @click="toggle"></button>
@@ -126,7 +126,7 @@
                                 <x-forms.control class="has-icons-left">
                                     <x-forms.input
                                         class="is-fullwidth"
-                                        type="number"
+                                        type="tel"
                                         id="phone"
                                         name="phone"
                                         placeholder="Phone Number"
@@ -151,7 +151,7 @@
                                         class="is-fullwidth"
                                         id="other_phone"
                                         name="other_phone"
-                                        type="number"
+                                        type="tel"
                                         placeholder="Other Phone Number"
                                         value="{{ old('other_phone') }}"
                                     />
@@ -196,7 +196,7 @@
                                     <i class="fas fa-bell"></i>
                                 </span>
                                 <span>
-                                    Send Payment Reminder
+                                    Send Payment Code
                                 </span>
                             </button>
                         </div>

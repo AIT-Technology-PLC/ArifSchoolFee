@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\CallCenter;
+namespace App\Http\Controllers\ServiceCenter;
 
 use App\DataTables\CollectSchoolFeeDatatable;
 use App\DataTables\StudentFeeDatatable;
@@ -32,7 +32,7 @@ class CollectFeeController extends Controller
 
         $sections = Section::orderBy('name')->get(['id', 'name']);
 
-        return $datatable->render('call-centers.collect-fees.index', compact('schools','branches', 'classes', 'sections'));
+        return $datatable->render('service-centers.collect-fees.index', compact('schools','branches', 'classes', 'sections'));
     }
 
     public function show(StudentFeeDatatable $datatable, Student $collectFee)
@@ -45,6 +45,6 @@ class CollectFeeController extends Controller
 
         $collectFee->load(['company', 'warehouse', 'section', 'schoolClass', 'studentCategory', 'studentGroup']);
 
-        return $datatable->render('call-centers.collect-fees.show', compact('collectFee'));
+        return $datatable->render('service-centers.collect-fees.show', compact('collectFee'));
     }
 }

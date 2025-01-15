@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public function sideMenuComponent(): Attribute
     {
-        return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : ($this->isCallCenter() || $this->isBank() ? 'common.call-center-side-menu' : 'common.side-menu'));
+        return Attribute::get(fn() => $this->isAdmin() ? 'common.admin-side-menu' : ($this->isCallCenter() || $this->isBank() ? 'common.service-center-side-menu' : 'common.side-menu'));
     }
 
     public function scopeAllowed($query)
@@ -125,29 +125,21 @@ class User extends Authenticatable
 
     public function getAllowedWarehouses($type)
     {
-        $withOnlyCanBeSoldFromBranches = $type == 'sales' ? true : false;
-
         $cacheKey = $this->id . '_' . $type . '_' . 'allowedWarehouses';
 
         if ($this->hasRole('System Manager')) {
             return Cache::store('array')
-                ->rememberForever($cacheKey, function () use ($withOnlyCanBeSoldFromBranches) {
+                ->rememberForever($cacheKey, function () use ($type) {
                     return Warehouse::orderBy('name')
-                        ->when($withOnlyCanBeSoldFromBranches, function ($query) {
-                            return $query->where('can_be_sold_from', 1);
-                        })
                         ->get(['id', 'name']);
                 });
         }
 
         return Cache::store('array')
-            ->rememberForever($cacheKey, function () use ($type, $withOnlyCanBeSoldFromBranches) {
+            ->rememberForever($cacheKey, function () use ($type) {
                 return $this->warehouses()
                     ->wherePivot('type', $type)
                     ->orderBy('warehouses.name')
-                    ->when($withOnlyCanBeSoldFromBranches, function ($query) {
-                        return $query->where('warehouses.can_be_sold_from', 1);
-                    })
                     ->get(['warehouses.id', 'warehouses.name'])
                     ->push($this->warehouse)
                     ->unique();

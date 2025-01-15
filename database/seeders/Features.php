@@ -159,6 +159,21 @@ class Features extends Seeder
             ['is_enabled' => 1]
         );
 
+        Feature::updateOrCreate(
+            ['name' => 'Student Report'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
+            ['name' => 'Student History Report'],
+            ['is_enabled' => 1]
+        );
+
+        Feature::updateOrCreate(
+            ['name' => 'Staff Report'],
+            ['is_enabled' => 1]
+        );
+
         $this->features = Feature::all();
     }
 
@@ -192,6 +207,9 @@ class Features extends Seeder
             'Fee Master',
             'Collect Fee',
             'Account Management',
+            'Student Report',
+            'Student History Report',
+            'Staff Report',
         ];
 
         Feature::whereNotIn('name', $currentFeatureNames )->forceDelete();
@@ -231,6 +249,9 @@ class Features extends Seeder
                     'Log Management',
                     'Employee Management',
                     'Account Management',
+                    'Student Report',
+                    'Student History Report',
+                    'Staff Report',
                 ])
                 ->pluck('id')
                 ->toArray()

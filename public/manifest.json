@@ -1,9 +1,9 @@
 {
-    "name": "AIT TECHNOLOGY ERP",
-    "short_name" : "ERP",
+    "name": "ArifSchoolFee",
+    "short_name" : "ArifSchoolFee",
     "start_url" : "/",
     "background_color" : "#ffffff",
-    "description": "Ait ERP",
+    "description": "ArifSchoolFee",
     "theme_color" : "#edf7f2",
     "display" : "standalone",
     "orientation" : "portrait",

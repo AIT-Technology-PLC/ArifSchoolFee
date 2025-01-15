@@ -104,6 +104,9 @@
                                                 />
                                                 <x-common.validation-error property="company_code" />
                                             </x-forms.control>
+                                            <p class="help is-danger">
+                                                Once this code is saved, it cannot be edited!
+                                            </p>
                                         </x-forms.field>
                                     </div>
                                     <div class="column is-12-mobile is-6-tablet is-6-desktop">

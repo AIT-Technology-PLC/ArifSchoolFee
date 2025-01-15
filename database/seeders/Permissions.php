@@ -183,6 +183,11 @@ class Permissions extends Seeder
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Setting']);
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Admin Panel Payment']);
 
+            //Report
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Student Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Student History Report']);
+            $permissions[] = Permission::firstOrCreate(['name' => 'Read Staff Report']);
+
             // Call Center and Bank
             $permissions[] = Permission::firstOrCreate(['name' => 'Manage Schools Payment']);
 
@@ -196,7 +201,11 @@ class Permissions extends Seeder
             );
 
             // Assign permissions to role
-            $systemManager->syncPermissions(Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')->whereNot('name', 'LIKE', 'Manage Schools Payment')->get());
+            $systemManager->syncPermissions(
+                Permission::whereNot('name', 'LIKE', 'Manage Admin Panel%')
+                ->whereNot('name', 'LIKE', 'Manage Schools Payment')
+                ->get()
+            );
         });
     }
 }

@@ -57,11 +57,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
 
-            // Bank Controllers
-            Route::middleware(['web', 'auth', 'isCallCenter'])
-                ->prefix('call-centers')
-                ->name('call-centers.')
-                ->group(base_path('routes/callcenter.php'));
+            // Service Center Controllers
+            Route::middleware(['web', 'auth', 'isServiceCenter'])
+                ->prefix('srervice-centers')
+                ->name('service-centers.')
+                ->group(base_path('routes/servicecenter.php'));
         });
 
     }

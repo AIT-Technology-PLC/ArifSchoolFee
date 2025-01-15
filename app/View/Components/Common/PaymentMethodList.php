@@ -19,6 +19,9 @@ class PaymentMethodList extends Component
             if (authUser()->isCallCenter()) {
                 return PaymentMethod::enabled()->onlineMethod()->orderBy('name')->get(['id', 'name']);
             }
+            elseif (authUser()->isBank()) {
+                return PaymentMethod::enabled()->offlineMethod()->orderBy('name')->get(['id', 'name']);
+            }
 
             return PaymentMethod::enabled()->orderBy('name')->get(['id', 'name']);
 

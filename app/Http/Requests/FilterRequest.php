@@ -21,14 +21,11 @@ class FilterRequest extends FormRequest
             'period' => ['required', 'array'],
             'period.*' => ['required', 'date'],
             'user_id' => ['nullable', 'integer', new MustBelongToCompany('users')],
-            'tax_id' => ['nullable', 'integer', new MustBelongToCompany('taxes')],
-            'product_id' => ['nullable', 'integer', new MustBelongToCompany('products')],
-            'bank_name' => ['nullable', 'string'],
-            'expense_category_id' => ['nullable', 'integer', new MustBelongToCompany('expense_categories')],
-            'source' => ['nullable', 'string', Rule::in(['Invoices', 'Delivery Orders'])],
-            'customer_id' => ['nullable', 'integer', new MustBelongToCompany('customers')],
-            'payment_method' => ['nullable', 'string', Rule::in(['Cash Payment', 'Credit Payment', 'Bank Deposit', 'Bank Transfer', 'Deposits', 'Cheque'])],
-            'bank_name' => ['nullable', 'string'],
+            'sections' => ['nullable', 'integer', new MustBelongToCompany('sections')],
+            'classes' => ['nullable', 'integer', new MustBelongToCompany('school_classes')],
+            'academicYears' => ['nullable', 'integer', new MustBelongToCompany('academic_years')],
+            'designations' => ['nullable', 'integer', new MustBelongToCompany('designations')],
+            'departments' => ['nullable', 'integer', new MustBelongToCompany('departments')],
         ];
     }
 

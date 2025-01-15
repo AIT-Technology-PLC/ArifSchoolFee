@@ -370,7 +370,7 @@
                                     <x-forms.input
                                         id="phone"
                                         name="phone"
-                                        type="number"
+                                        type="tel"
                                         placeholder="Phone/Telephone"
                                         value="{{ old('phone') }}"
                                     />
@@ -428,7 +428,7 @@
                                     <x-forms.input
                                         id="father_phone"
                                         name="father_phone"
-                                        type="phone"
+                                        type="tel"
                                         placeholder="Father Phone"
                                         value="{{ old('father_phone') }}"
                                         autocomplete="father_phone"
@@ -465,7 +465,7 @@
                                     <x-forms.input
                                         id="mother_phone"
                                         name="mother_phone"
-                                        type="phone"
+                                        type="tel"
                                         placeholder="Mother Phone"
                                         value="{{ old('mother_phone') }}"
                                         autocomplete="mother_phone"

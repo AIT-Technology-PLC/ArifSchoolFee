@@ -80,10 +80,12 @@ if (!function_exists('money')) {
 }
 
 if (!function_exists('nextReferenceNumber')) {
-    function nextReferenceNumber($table, $column = 'code')
+    function nextReferenceNumber($table, $column = 'code', $companyId = null)
     {
+        $companyId = $companyId ?? userCompany()->id;
+
         $latestReference = DB::table($table)
-            ->where('company_id', userCompany()->id)
+            ->where('company_id', $companyId)
             ->orderByDesc($column)
             ->first();
 
@@ -96,7 +98,9 @@ if (!function_exists('nextReferenceNumber')) {
             }
         }
 
-        return userCompany()->company_code . '/' .date('Y'). '/'.str_pad($sequence, 3, '0', STR_PAD_LEFT);
+        $companyCode = DB::table('companies')->where('id', $companyId)->value('company_code');
+
+        return $companyCode . '/' .date('Y'). '/'.str_pad($sequence, 3, '0', STR_PAD_LEFT);
     }
 }
 

@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AllowOnlyBankUsers
+class AllowOnlyServiceCenterUsers
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (authUser()->isBank()) {
+        if (authUser()->isCallCenter() || authUser()->isBank()) {
             authUser()->updateLastOnlineAt();
             return $next($request);
         }

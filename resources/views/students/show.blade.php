@@ -106,7 +106,7 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
-                                icon="fas fa-mars"
+                                icon="fas fa-user"
                                 :data="$student->father_name ? ucfirst($student->father_name) : 'N/A'"
                                 label="Father Name"
                             />
@@ -120,16 +120,23 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
-                                icon="fas fa-venus"
+                                icon="fas fa-user"
                                 :data="$student->mother_name ? ucfirst($student->mother_name) : 'N/A'"
                                 label="Mother Name"
                             />
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
-                            icon="fa fa-user"
+                            icon="fa fa-sort"
                             :data="$student->gender ? ucfirst($student->gender) : 'N/A'"
                             label="Gender"
+                            />
+                        </div>
+                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                            <x-common.show-data-section
+                                icon="fa fa-calendar-alt"
+                                :data="$student->date_of_birth?->toFormattedDateString() ?? 'N/A'"
+                                label="Date Of Birth"
                             />
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
@@ -141,18 +148,25 @@
                         </div>
                         <div class="column is-6-mobile is-6-tablet is-4-desktop">
                             <x-common.show-data-section
+                                icon="fas fa-phone"
+                                :data="$student->father_phone ?? 'N/A'"
+                                label="Father Phone"
+                            />
+                        </div>
+                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
+                            <x-common.show-data-section
+                                icon="fas fa-phone"
+                                :data="$student->mother_phone ?? 'N/A'"
+                                label="Mother Phone"
+                            />
+                        </div>
+                        <div class="column is-12-mobile is-6-tablet is-4-desktop">
+                            <x-common.show-data-section
                                 icon="fa fa-envelope"
                                 :data="$student->email ?? 'N/A'"
                                 label="Email"
                             />
                         </div> 
-                        <div class="column is-6-mobile is-6-tablet is-4-desktop">
-                            <x-common.show-data-section
-                                icon="fa fa-calendar-alt"
-                                :data="$student->date_of_birth?->toFormattedDateString() ?? 'N/A'"
-                                label="Date Of Birth"
-                            />
-                        </div>
                     </div>
                 </div>
 

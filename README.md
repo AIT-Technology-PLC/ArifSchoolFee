@@ -28,6 +28,7 @@ At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasle
 |             | Pace.js            | Laravel Cascade Softdeletes              |                                     |
 |             | Workbox            | Maatwebsite - Laravel Excel              |                                     |
 |             | Date Range Picker  | Laravel Notifications Channel - Web Push |                                     |
+|             | Steps Component    | laravel-id-generator |                                     |
 
 ## Branches & Environments
 

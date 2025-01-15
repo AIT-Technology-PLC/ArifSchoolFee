@@ -1,6 +1,6 @@
 <x-common.button
     tag="a"
-    href="{{ route('call-centers.collect-fees.show', $student->id) }}"
+    href="{{ route('service-centers.collect-fees.show', $student->id) }}"
     mode="button"
     data-title="Collect Fee"
     icon="fas fa-hand-holding-dollar"

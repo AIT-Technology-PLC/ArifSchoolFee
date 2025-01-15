@@ -1,7 +1,7 @@
 @props(['icon', 'data' => 'N/A', 'label', 'type' => 'short'])
 
 @if ($type == 'long')
-    <div class="columns is-marginless is-vcentered is-mobile is-multiline text-softblue">
+    <div class="columns is-marginless is-vcentered is-multiline is-mobile text-softblue">
         <div class="column ml-5 mr-1">
             <div class="has-text-weight-bold"> {{ $label }} </div>
             <div class="is-size-7 mt-3"> {!! is_null($data) ? 'N/A' : nl2br($data) !!} </div>

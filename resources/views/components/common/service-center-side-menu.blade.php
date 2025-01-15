@@ -70,10 +70,10 @@
         <li>
             <x-common.button
                 tag="a"
-                href="{{ route('call-centers.index') }}"
+                href="{{ route('service-centers.index') }}"
                 class="text-blue is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"
-                x-init="{{ request()->routeIs('call-centers.index') ? 'activateAccordion' : '' }}"
+                x-init="{{ request()->routeIs('service-centers.index') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
                     name="fas fa-dashboard"
@@ -91,13 +91,13 @@
         <li>
             <x-common.button
                 tag="a"
-                href="{{ route('call-centers.collect-fees.index') }}"
+                href="{{ route('service-centers.collect-fees.index') }}"
                 class="text-blue is-size-6-5 has-text-left"
                 ::class="{ 'is-active': isAccordionActive }"
-                x-init="{{ request()->routeIs('call-centers.collect-fees.index') ? 'activateAccordion' : '' }}"
+                x-init="{{ request()->routeIs('service-centers.collect-fees.index') ? 'activateAccordion' : '' }}"
             >
                 <x-common.icon
-                    name="fas fa-hand-holding-dollar"
+                    name="fas fa-credit-card"
                     class="pl-1"
                 />
                 <span class="ml-1"> Collect Fees </span>

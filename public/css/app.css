@@ -898,8 +898,8 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 .is-75x75 {
-    width: 75px;
-    height: 75px;
+    width: 128px;
+    height: 0px;
 }
 
 @media screen and (max-width: 769px), print {

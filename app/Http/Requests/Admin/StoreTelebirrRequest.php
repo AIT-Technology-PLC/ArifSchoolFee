@@ -14,10 +14,12 @@ class StoreTelebirrRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'TELEBIRR_CHECKOUT_URL' => ['required', 'string','max:100'],
-            'TELEBIRR_API_KEY' => ['required', 'string'],
-            'TELEBIRR_SECRET_KEY' => ['required', 'string'],
-            'TELEBIRR_CLIENT_ID' => ['required', 'string'],
+            'TELEBIRR_BASE_URL' => ['required', 'string'],
+            'TELEBIRR_MERCHANT_APP_ID' => ['required', 'string'],
+            'TELEBIRR_MERCHANT_CODE' => ['required', 'string'],
+            'TELEBIRR_FABRIC_APP_ID' => ['required', 'string'],
+            'TELEBIRR_APP_SECRET' => ['required', 'string'],
+            'TELEBIRR_PRIVATE_KEY' => ['required', 'string'],
         ];
     }
 }

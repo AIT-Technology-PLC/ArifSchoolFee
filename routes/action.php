@@ -22,6 +22,7 @@ Route::controller(Action\NotificationController::class)
     });
 
 // School Setting
+
 Route::controller(Action\CompanyController::class)
     ->name('notification-settings.')
     ->prefix('/notification-settings')
@@ -40,17 +41,6 @@ Route::controller(Action\TransactionController::class)
         Route::post('/approve', 'approve')->name('approve');
         Route::get('/print', 'printed')->name('print');
         Route::post('/update-status', 'updateStatus')->name('update_status');
-    });
-
-// ArifPay
-Route::controller(Action\ArifPayController::class)
-    ->name('arifpay.')
-    ->prefix('/arifpay')
-    ->group(function () {
-        Route::get('/cancel/{routeId}', 'cancelSession')->name('cancel');
-        Route::get('/success/{routeId}', 'successSession')->name('success');
-        Route::get('/error/{routeId}', 'errorSession')->name('error');
-        Route::post('/callback', 'callbackSession')->name('callback');
     });
 
 // Fee Reminder and Fee Payment
@@ -86,3 +76,23 @@ Route::post('/fee-types/import', [Action\FeeTypeController::class, 'import'])->n
 Route::post('/staffs/import', [Action\StaffController::class, 'import'])->name('staffs.import');
 
 Route::post('/students/import', [Action\StudentController::class, 'import'])->name('students.import');
+
+// ArifPay
+Route::controller(Action\ArifPayController::class)
+    ->name('arifpay.')
+    ->prefix('/arifpay')
+    ->group(function () {
+        Route::get('/cancel/{routeId}', 'cancelSession')->name('cancel');
+        Route::get('/success/{routeId}', 'successSession')->name('success');
+        Route::get('/error/{routeId}', 'errorSession')->name('error');
+        Route::post('/callback', 'callbackSession')->name('callback');
+    });
+
+// Telebirr
+Route::controller(Action\TelebirrPaymentController::class)
+    ->name('telebirr.')
+    ->prefix('/telebirr')
+    ->group(function () {
+        Route::post('/notify', 'handleNotification')->name('notify');
+        Route::get('/redirect/{routeId}', 'handleRedirect')->name('redirect');
+    });

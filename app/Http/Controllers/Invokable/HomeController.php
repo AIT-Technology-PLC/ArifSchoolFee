@@ -14,8 +14,8 @@ class HomeController extends Controller
             return redirect()->route('admin.reports.dashboard');
         }
     
-        if (authUser()->isCallCenter()) {
-            return redirect()->route('call-centers.index');
+        if (authUser()->isCallCenter() || authUser()->isBank()) {
+            return redirect()->route('service-centers.index');
         }
         
         $dashboardReport = new  DashboardReport();

@@ -19,6 +19,15 @@ class UserWiseFeeCollectionChart
     {
         $schools = collect($this->dashboardReport->getSchoolsServedByUserThisMonth());
 
+        if ($schools->isEmpty()) {
+            return $this->chart->pieChart()
+                ->setTitle('Schools Served by User')
+                ->setSubtitle('Current Month')
+                ->addData([1])
+                ->setLabels(['No Data Available'])
+                ->setColors(['#D3D3D3']); // Neutral color for no data
+        }
+
         return $this->chart->pieChart()
             ->setTitle('Schools Served by User')
             ->setSubtitle('Current Month')
@@ -28,5 +37,5 @@ class UserWiseFeeCollectionChart
                     return "{$school['company_name']} ({$school['currency']})";
                 })->toArray()
             );
-        }
+    }
 }

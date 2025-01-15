@@ -27,79 +27,117 @@
                 <div class="columns is-marginless is-multiline is-centered">
                     <div class="column is-8">
                         <x-forms.field>
-                            <x-forms.label for="TELEBIRR_CHECKOUT_URL">
-                                Telebirr Checkour Url<sup class="has-text-danger">*</sup>
+                            <x-forms.label for="TELEBIRR_BASE_URL">
+                                Telebirr Base Url<sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="TELEBIRR_CHECKOUT_URL"
-                                    name="TELEBIRR_CHECKOUT_URL"
+                                    id="TELEBIRR_BASE_URL"
+                                    name="TELEBIRR_BASE_URL"
                                     type="text"
-                                    placeholder="TELEBIRR_CHECKOUT_URL"
-                                    value="{{ get_static_option('TELEBIRR_CHECKOUT_URL') }}"
+                                    placeholder="TELEBIRR_BASE_URL"
+                                    value="{{ get_static_option('TELEBIRR_BASE_URL') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-link"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="TELEBIRR_CHECKOUT_URL" />
+                                <x-common.validation-error property="TELEBIRR_BASE_URL" />
                             </x-forms.control>
                         </x-forms.field>
                         <x-forms.field>
-                            <x-forms.label for="TELEBIRR_CLIENT_ID">
-                                Telebirr Client ID <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="TELEBIRR_MERCHANT_APP_ID">
+                                Telebirr Merchant App ID <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="TELEBIRR_CLIENT_ID"
-                                    name="TELEBIRR_CLIENT_ID"
+                                    id="TELEBIRR_MERCHANT_APP_ID"
+                                    name="TELEBIRR_MERCHANT_APP_ID"
                                     type="text"
-                                    placeholder="TELEBIRR_CLIENT_ID"
-                                    value="{{ get_static_option('TELEBIRR_CLIENT_ID') }}"
+                                    placeholder="TELEBIRR_MERCHANT_APP_ID"
+                                    value="{{ get_static_option('TELEBIRR_MERCHANT_APP_ID') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-id-badge"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="TELEBIRR_CLIENT_ID" />
+                                <x-common.validation-error property="TELEBIRR_MERCHANT_APP_ID" />
                             </x-forms.control>
                         </x-forms.field>
                         <x-forms.field>
-                            <x-forms.label for="TELEBIRR_API_KEY">
-                                Telebirr Api Key <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="TELEBIRR_MERCHANT_CODE">
+                                Telebirr Merchant Code <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="TELEBIRR_API_KEY"
-                                    name="TELEBIRR_API_KEY"
+                                    id="TELEBIRR_MERCHANT_CODE"
+                                    name="TELEBIRR_MERCHANT_CODE"
                                     type="text"
-                                    placeholder="TELEBIRR_API_KEY"
-                                    value="{{ get_static_option('TELEBIRR_API_KEY') }}"
+                                    placeholder="TELEBIRR_MERCHANT_CODE"
+                                    value="{{ get_static_option('TELEBIRR_MERCHANT_CODE') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-code-branch"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="TELEBIRR_MERCHANT_CODE" />
+                            </x-forms.control>
+                        </x-forms.field>
+                        <x-forms.field>
+                            <x-forms.label for="TELEBIRR_FABRIC_APP_ID">
+                                Telebirr Fabric App ID <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="TELEBIRR_FABRIC_APP_ID"
+                                    name="TELEBIRR_FABRIC_APP_ID"
+                                    type="text"
+                                    placeholder="TELEBIRR_FABRIC_APP_ID"
+                                    value="{{ get_static_option('TELEBIRR_FABRIC_APP_ID') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-key"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="TELEBIRR_API_KEY" />
+                                <x-common.validation-error property="TELEBIRR_FABRIC_APP_ID" />
                             </x-forms.control>
                         </x-forms.field>
                         <x-forms.field>
-                            <x-forms.label for="TELEBIRR_SECRET_KEY">
-                                Telebirr Secret Key <sup class="has-text-danger">*</sup>
+                            <x-forms.label for="TELEBIRR_APP_SECRET">
+                                Telebirr App Secret <sup class="has-text-danger">*</sup>
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    id="TELEBIRR_SECRET_KEY"
-                                    name="TELEBIRR_SECRET_KEY"
+                                    id="TELEBIRR_APP_SECRET"
+                                    name="TELEBIRR_APP_SECRET"
                                     type="text"
-                                    placeholder="TELEBIRR_SECRET_KEY"
-                                    value="{{ get_static_option('TELEBIRR_SECRET_KEY') }}"
+                                    placeholder="TELEBIRR_APP_SECRET"
+                                    value="{{ get_static_option('TELEBIRR_APP_SECRET') }}"
                                 />
                                 <x-common.icon
                                     name="fas fa-key"
                                     class="is-small is-left"
                                 />
-                                <x-common.validation-error property="TELEBIRR_SECRET_KEY" />
+                                <x-common.validation-error property="TELEBIRR_APP_SECRET" />
+                            </x-forms.control>
+                        </x-forms.field>
+                        <x-forms.field>
+                            <x-forms.label for="TELEBIRR_PRIVATE_KEY">
+                                Telebirr Private Key <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    id="TELEBIRR_PRIVATE_KEY"
+                                    name="TELEBIRR_PRIVATE_KEY"
+                                    type="text"
+                                    placeholder="TELEBIRR_PRIVATE_KEY"
+                                    value="{{ get_static_option('TELEBIRR_PRIVATE_KEY') }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-key"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="TELEBIRR_PRIVATE_KEY" />
                             </x-forms.control>
                         </x-forms.field>
                     </div>

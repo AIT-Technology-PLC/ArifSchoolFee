@@ -27,6 +27,8 @@ class CollectFeeDatatable extends DataTable
     {
         $query = $student->newQuery()->select('students.*');
 
+        $query->whereHas('assignFeeMasters');
+
         $query->when(is_numeric(request('branch')), fn($q) => $q->where('students.warehouse_id', request('branch')))
             ->when(is_numeric(request('class')), fn($q) => $q->where('students.school_class_id', request('class')))
             ->when(is_numeric(request('section')), fn($q) => $q->where('students.section_id', request('section')))

@@ -9,15 +9,17 @@
     />
 @endif
 
-@if (!$assignFeeMaster->isPaid() && !$assignFeeMaster->paymentTransactions()->pending()->count())
-    <x-common.button
-        tag="a"
-        mode="button"
-        @click="$dispatch('open-fee-reminder-modal', { id: '{{ $assignFeeMaster->id }}' })"
-        data-title="Send Payment Code"
-        icon="fas fa-bell"
-        class="text-softblue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
-    />
+@if (isFeatureEnabled('Account Management') && !authUser()->isBank())
+    @if (!$assignFeeMaster->isPaid() && !$assignFeeMaster->paymentTransactions()->pending()->count())
+        <x-common.button
+            tag="a"
+            mode="button"
+            @click="$dispatch('open-fee-reminder-modal', { id: '{{ $assignFeeMaster->id }}' })"
+            data-title="Send Payment Code"
+            icon="fas fa-bell"
+            class="text-softblue has-text-weight-medium is-not-underlined is-small px-2 py-0 is-transparent-color"
+        />
+    @endif
 @endif
 
 @include('collect-fees.partials.fee-details', ['assignFeeMaster' => $assignFeeMaster])

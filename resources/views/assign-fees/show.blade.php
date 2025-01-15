@@ -153,7 +153,7 @@
                     {{ $dataTable->table() }} 
                     <div id="dataTableContainer" class="is-hidden"> 
                         <hr>
-                        <x-common.assign-button label="Assign Fee" />
+                        <x-common.assign-and-remove-button />
                     </div>
             </form>
         </x-content.footer>

@@ -46,30 +46,34 @@ class AssignFeeDiscountController extends Controller
             'student_id.*' => 'exists:students,id',
         ]);
 
-        if (empty($validatedData['student_id'])) {
-            AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->delete();
-
-            return redirect()->route('assign-discount-fees.show', $assignDiscountFee->id)->with('successMessage', 'Assigned Fee Discount Removed successfully.');
-        }
+        $action = $request->input('action');
 
         $currentStudentIds = AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->pluck('student_id')->toArray();
 
-        $studentsToRemove = array_diff($currentStudentIds, $validatedData['student_id']);
+        $newStudentIds = $validatedData['student_id'] ?? [];
 
-        $studentsToAdd = array_diff($validatedData['student_id'], $currentStudentIds);
+        if ($action == 'remove') {
+            AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)
+                            ->whereIn('student_id', $newStudentIds)
+                            ->delete();
 
-        AssignFeeDiscount::where('fee_discount_id', $assignDiscountFee->id)->whereIn('student_id', $studentsToRemove)->delete();
-
-        foreach ($studentsToAdd as $studentId) {
-            AssignFeeDiscount::updateOrCreate(
-                [
-                    'company_id' => userCompany()->id,
-                    'fee_discount_id' => $assignDiscountFee->id,
-                    'student_id' => $studentId,
-                ]
-            );
+            return redirect()->back()->with('successMessage', 'Fee Discount Removed successfully.');
         }
 
-        return redirect()->route('assign-discount-fees.show', $assignDiscountFee->id)->with('successMessage', ' Fee Discount Assigned successfully.');
+        if ($action == 'assign') {
+            $studentsToAdd = array_diff($newStudentIds, $currentStudentIds);
+    
+            foreach ($studentsToAdd as $studentId) {
+                AssignFeeDiscount::updateOrCreate(
+                    [
+                        'company_id' => userCompany()->id,
+                        'fee_discount_id' => $assignDiscountFee->id,
+                        'student_id' => $studentId,
+                    ]
+                );
+            }
+
+            return redirect()->back()->with('successMessage', ' Fee Discount Assigned successfully.');
+        }
     }
 }

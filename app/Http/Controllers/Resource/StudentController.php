@@ -121,10 +121,10 @@ class StudentController extends Controller
         }
 
         if ($student->feePayments()->exists() || $student->messageDetails()->exists()) {
-            return back()->with(['failedMessage' => 'This Student date data has already been used and cannot be deleted.']);
+            return back()->with(['failedMessage' => 'This Student data has already been used and cannot be deleted.']);
         }
 
-        $student->softDeleted();
+        $student->delete();
 
         return back()->with('deleted', 'Deleted successfully.');
     }

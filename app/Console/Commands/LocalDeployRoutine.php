@@ -19,7 +19,7 @@ class LocalDeployRoutine extends Command
      *
      * @var string
      */
-    protected $description = 'Deploy changes from ait/erp repo current branch';
+    protected $description = 'Deploy changes from ait/arifschoolfee repo current branch';
 
     /**
      * Create a new command instance.

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'AitSchoolPayment'),
+    'name' => env('APP_NAME', 'ArifSchoolFee'),
 
     /*
     |--------------------------------------------------------------------------

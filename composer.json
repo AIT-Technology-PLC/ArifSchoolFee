@@ -1,10 +1,10 @@
 {
-    "name": "ait/erp",
+    "name": "ait/arifschoolfee",
     "type": "cloud-erp",
-    "description": "AIT-TECH-ERP.",
+    "description": "ArifSchoolFee",
     "keywords": [
         "ait",
-        "erp"
+        "arifschoolfee"
     ],
     "license": "MIT",
     "require": {
@@ -25,6 +25,7 @@
         "livewire/livewire": "^3.4",
         "maatwebsite/excel": "^3.1",
         "masbug/flysystem-google-drive-ext": "^2.3",
+        "phpseclib/phpseclib": "^3.0",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-backup": "^8.8",
         "spatie/laravel-permission": "^6.7",

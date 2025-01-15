@@ -153,7 +153,7 @@
 
                 <div id="dataTableContainer" class="is-hidden"> 
                     <hr>
-                    <x-common.assign-button label="Assign Fee Discount" />
+                    <x-common.assign-and-remove-button  assignLabel="Assign Discount" removeLabel="Remove Discount"/>
                 </div>
             </form>
         </x-content.footer>

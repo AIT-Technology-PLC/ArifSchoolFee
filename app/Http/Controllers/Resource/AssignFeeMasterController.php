@@ -45,33 +45,39 @@ class AssignFeeMasterController extends Controller
             'student_id.*' => 'exists:students,id',
         ]);
 
-        if (empty($validatedData['student_id'])) {
-            AssignFeeMaster::where('fee_master_id', $assignFee->id)->delete();
+        $action = $request->input('action');
 
-            return redirect()->route('assign-fees.show', $assignFee->id)->with('successMessage', 'Assigned Fee Master Removed successfully.');
+        $currentStudentIds = AssignFeeMaster::where('fee_master_id', $assignFee->id)
+                                ->pluck('student_id')
+                                ->toArray();    
+        
+        $newStudentIds = $validatedData['student_id'] ?? [];
+
+        if ($action == 'remove') {
+            AssignFeeMaster::where('fee_master_id', $assignFee->id)
+                           ->whereIn('student_id', $newStudentIds)
+                           ->delete();
+    
+            return redirect()->back()->with('successMessage', 'Fee Master Removed successfully.');
         }
 
-        $currentStudentIds = AssignFeeMaster::where('fee_master_id', $assignFee->id)->pluck('student_id')->toArray();
-
-        $studentsToRemove = array_diff($currentStudentIds, $validatedData['student_id']);
-
-        $studentsToAdd = array_diff($validatedData['student_id'], $currentStudentIds);
-
-        AssignFeeMaster::where('fee_master_id', $assignFee->id)->whereIn('student_id', $studentsToRemove)->delete();
-
-        foreach ($studentsToAdd as $studentId) {
-            AssignFeeMaster::updateOrCreate(
-                [
-                    'company_id' => userCompany()->id,
-                    'fee_master_id' => $assignFee->id,
-                    'student_id' => $studentId,
-                ],
-                [
-                    'invoice_number' => nextInvoiceNumber('assign_fee_masters'),
-                ]
-            );
+        if ($action == 'assign') {
+            $studentsToAdd = array_diff($newStudentIds, $currentStudentIds);
+    
+            foreach ($studentsToAdd as $studentId) {
+                AssignFeeMaster::updateOrCreate(
+                    [
+                        'company_id' => userCompany()->id,
+                        'fee_master_id' => $assignFee->id,
+                        'student_id' => $studentId,
+                    ],
+                    [
+                        'invoice_number' => nextInvoiceNumber('assign_fee_masters'),
+                    ]
+                );
+            }
+    
+            return redirect()->back()->with('successMessage', 'Fee Master Assigned successfully.');
         }
-
-        return redirect()->route('assign-fees.show', $assignFee->id)->with('successMessage', 'Fee Master Assigned successfully.');
     }
 }

@@ -9,14 +9,14 @@ class EmailSettingController extends Controller
 {
     public function create()
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Setting'), 403);
 
         return view('admin.email-settings.create');
     }
 
     public function store(StoreEmailRequest $request)
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Setting'), 403);
 
         update_static_option('MAIL_MAILER', $request->MAIL_MAILER);
         update_static_option('MAIL_HOST', $request->MAIL_HOST);

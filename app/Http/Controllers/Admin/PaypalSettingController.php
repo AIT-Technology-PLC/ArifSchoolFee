@@ -9,14 +9,14 @@ class PaypalSettingController extends Controller
 {
     public function create()
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         return view('admin.paypal-settings.create');
     }
 
     public function store(StorePaypalRequest $request)
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         update_static_option('AFROMESSAGE_SINGLE_MESSAGE_URL', $request->AFROMESSAGE_SINGLE_MESSAGE_URL);
         update_static_option('AFROMESSAGE_BULK_MESSAGE_URL', $request->AFROMESSAGE_BULK_MESSAGE_URL);

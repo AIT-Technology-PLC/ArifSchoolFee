@@ -9,14 +9,14 @@ class ArifpaySettingController extends Controller
 {
     public function create()
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         return view('admin.arifpay-settings.create');
     }
 
     public function store(StoreArifpayRequest $request)
     {
-        abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
+        abort_if(authUser()->cannot('Manage Admin Panel Payment'), 403);
 
         update_static_option('ARIFPAY_CHECKOUT_URL', $request->ARIFPAY_CHECKOUT_URL);
         update_static_option('ARIFPAY_SECRET_KEY', $request->ARIFPAY_SECRET_KEY);
