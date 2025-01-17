@@ -5,9 +5,19 @@
 @endsection
 
 @section('content')
-        <div class="columns is-marginless">
-            <div class="login column is-4">
+<div class="container-login is-12">
+    <div class="column is-8 p-0">
+        <div class="columns is-multiline ">
+            <div class="column is-6 login login-img" style="background-color:#6079ca">
+                <img class="" src="https://lms.arifeducation.com/frontend/img/signin.png">
+            </div>
+
+            <div class="column is-6 login">
                 <section class="section pt-0">
+                    <div class="has-text-centered">
+                        <img class="login-logo" src="{{ asset('img/AIT LOGO.png')}}">
+                    </div>
+                    
                     <form
                             id="formOne"
                             method="POST"
@@ -16,10 +26,7 @@
                             autocomplete="off"
                         >
                             @csrf
-                            <div class="has-text-centered">
-                                <img class="login-logo" src="{{ asset('img/AIT LOGO.png')}}">
-                            </div>
-
+                           
                             <x-common.success-message :message="session('successMessage')" />
                             <x-common.fail-message :message="session('failedMessage')" />
 
@@ -67,20 +74,21 @@
                                 </div>
                             </div>
                     </form>
+                    
+                    <div class="has-text-centered is-size-7">
+                        <p class="has-text-grey">
+                            Copyright © {{ now()->year }} Powered by AIT Technology.
+                        </p>
+                    </div>
                 </section>
-                <div class="has-text-centered is-size-7">
-                    <p class="has-text-grey">
-                        Copyright © {{ now()->year }} Powered by AIT Technology.
-                    </p>
-                </div>
-            </div>
-            <div id="particles-js" class="interactive-bg column is-8">
             </div>
         </div>
+    </div>
+</div>
 
-        <script>
-            document.getElementById("backButton").addEventListener("click", function() {
-            window.location.href = '{{ route('login') }}';
-        });
+<script>
+        document.getElementById("backButton").addEventListener("click", function() {
+        window.location.href = '{{ route('login') }}';
+    });     
 </script>
 @endsection

@@ -23,8 +23,6 @@
     <x-common.connection-status />
 
     @include('assets.js')
-    <script src="{{ asset('js/particles.js') }}"></script>
-    <script src="{{ asset('js/login.js') }}"></script>
 </body>
 
 </html>

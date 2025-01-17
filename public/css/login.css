@@ -1,66 +1,69 @@
-
-.interactive-bg {
-    min-height: 100vh;
-    background-color: #6079ca;
-    -webkit-box-shadow: inset 24px 4px 64px -24px rgb(102, 93, 93);
-    -moz-box-shadow: inset 24px 4px 64px -24px rgba(102, 93, 93);
-    box-shadow: inset 24px 4px 64px -24px rgba(102, 93, 93);
-    padding: 0px;
-    z-index: -1;
-  }
-
-  .login {
-    background-color: #ffffff;
-    border-radius: 20px;
-    width: 100%;  /* Take full width */
-    padding: 30px;
-  }
-
-  .columns {
-    display: flex;
-    align-items: center;  /* Vertically center */
-    justify-content: center;  /* Horizontally center */
-    margin: 0px;
-  }
-
-  @media (max-width: 769px) {
-    .interactive-bg{
-      display: none
-    }
-  }
+.container-login{
+  width:100vw;
+  height:100vh;
+  background-color:#e5e0e0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
   
-  .input {
-    border-radius: 50px;
-  }
+}
 
-  .title {
-    font-size: 20px;
-    font-weight: 400; /* Use numeric value for font weight */
-    margin-bottom: 30px;
-    background-color: #fff8f8; /* Light gray background */
-    padding: 10px 25px; /* Padding for spacing */
-    border-radius: 5px; /* Rounded corners */
-    border-left: 2px solid #6079ca;
-    border-right: 2px solid #6079ca;
-    display: inline-block;
-  }
+.login {
+  background-color: #ffffff;
+  width: 100%;
+  padding: 30px;
+  height:85vh;
+}
 
-  .button {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    flex: 1;
-  }
-  
-  .login-logo {
-    margin: 0 auto;
-    max-height: 180px;
-    max-width: 180px;
-    display: block;
-  }
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 70vh;
+}
 
-  .registration-logo {
-    margin: 0 auto;
-    max-height: 140px;
-    max-width: 140px;
-    display: block;
+.login-img img{
+  width: 100%;
+  object-fit: cover;
+  height:100%;
+}
+
+.columns {
+  display: flex;
+  align-items: center;  /* Vertically center */
+  justify-content: center;  /* Horizontally center */
+  margin: 0px;
+  border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+  .login-img{
+    display: none
   }
+}
+
+.input {
+  border-radius: 50px;
+}
+
+.button {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  flex: 1;
+}
+
+.login-logo {
+  margin: auto;
+  margin-top: 80px;
+  max-height: 200px;
+  max-width: 200px;
+  display: block;
+}
+
+.register-logo {
+  margin: auto;
+  margin-bottom: 20px;
+  max-height: 180px;
+  max-width: 180px;
+  display: block;
+}

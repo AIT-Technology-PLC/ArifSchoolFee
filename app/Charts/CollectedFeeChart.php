@@ -21,7 +21,7 @@ class CollectedFeeChart
 
         if (empty($dailyCollectedAmounts['collected']) && empty($dailyCollectedAmounts['estimated'])) {
             return $this->chart->areaChart()
-                ->setTitle('Collected Fees for ' . now()->format('F Y'))
+                ->setTitle('Fees for ' . now()->format('F Y'))
                 ->setSubtitle('No data available')
                 ->addData('Estimated Fees', [0]) // Default value (0) to indicate no data
                 ->addData('Collected Fees', [0]) // Default value (0) to indicate no data
@@ -31,8 +31,8 @@ class CollectedFeeChart
         }
 
         return $this->chart->areaChart()
-            ->setTitle('Collected Fees for ' . now()->format('F Y'))
-            ->setSubtitle('Total collected fees')
+            ->setTitle('Fees for ' . now()->format('F Y'))
+            ->setSubtitle('Total assigned and collected fees')
             ->addData('Estimated Fees', array_values($dailyCollectedAmounts['estimated']))
             ->addData('Collected Fees', array_values($dailyCollectedAmounts['collected']))
             ->setXAxis(array_keys($dailyCollectedAmounts['weeks']))

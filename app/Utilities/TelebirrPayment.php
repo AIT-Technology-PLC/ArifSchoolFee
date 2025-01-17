@@ -45,9 +45,7 @@ class TelebirrPayment
         ])->post(env('TELEBIRR_BASE_URL') . $rawRequest);
 
         //return the payment url
-        return $response;
-
-        // return response()->json(['prepay_url' => $rawRequest]);
+        return response()->json(['prepay_url' => $rawRequest]);
     }
 
     public function createOrder($assignFeeMaster, $paymentData)

@@ -5,25 +5,31 @@
 @endsection
 
 @section('content')
-        <div class="columns is-marginless">
-            <div class="login column is-7">
-                <section class="section pt-0">
-                    <form
-                            id="formOne"
+
+    <div class="container-login is-12">
+        <div class="column is-9 p-0">
+            <div class="columns is-multiline">
+                <div class="column is-4 login login-img" style="background-color:#6079ca">
+                    <img class="" src="https://lms.arifeducation.com/frontend/img/signin.png">
+                </div>
+
+                <div class="column is-8 login">
+                    <section class="section">
+                        <div class="has-text-centered">
+                            <img class="register-logo" src="{{ asset('img/AIT LOGO.png')}}">
+                        </div>
+
+                        <form id="formOne"
                             method="POST"
                             action="{{ route('schools.store') }}"
                             novalidate
                             autocomplete="off"
                         >
                             @csrf
-                            <div class="has-text-centered">
-                                <h1 class="title">Registration Form</h1>
-                            </div>
-
                             <x-common.success-message :message="session('successMessage')" />
                             <x-common.fail-message :message="session('failedMessage')" />
 
-                            <ul class="steps is-medium is-centered has-content-centered">
+                            <ul class="steps is-horizontal is-medium is-centered has-content-centered">
                                 <li class="steps-segment is-active has-gaps" data-target="step-one">
                                     <a class="text-green">
                                         <span class="steps-marker">
@@ -64,7 +70,7 @@
             
                             <div id="step-one" class="step-content is-active">
                                 <div class="columns is-marginless is-multiline is-mobile">
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="company_name">
                                                 Name <sup class="has-text-danger">*</sup>
@@ -85,7 +91,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="company_code">
                                                 School Code <sup class="has-text-danger">*</sup>
@@ -109,7 +115,7 @@
                                             </p>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="school_type_id">
                                                 Type <sup class="has-text-danger">*</sup>
@@ -143,7 +149,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="email">
                                                 Email <sup class="has-text-danger"></sup>
@@ -164,7 +170,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="phone">
                                                 Phone <sup class="has-text-danger"></sup>
@@ -185,7 +191,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="address">
                                                 Address <sup class="has-text-danger"></sup>
@@ -211,7 +217,7 @@
             
                             <div id="step-two" class="step-content">
                                 <div class="columns is-marginless is-multiline is-mobile">
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="name">
                                                 Admin Name <sup class="has-text-danger">*</sup>
@@ -232,7 +238,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="gender">
                                                 Gender <sup class="has-text-danger">*</sup>
@@ -270,7 +276,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.phone">
                                                 Phone <sup class="has-text-danger">*</sup>
@@ -292,7 +298,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.email">
                                                 Admin Email <sup class="has-text-danger">*</sup>
@@ -313,7 +319,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="user.address">
                                                 Address <sup class="has-text-danger"></sup>
@@ -335,7 +341,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.label>
                                             Admin Password <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -374,7 +380,7 @@
             
                             <div id="step-last" class="step-content">
                                 <div class="columns is-marginless is-multiline is-mobile">
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.field>
                                             <x-forms.label for="subscriptions[plan_id]">
                                                 Subscription Plan <sup class="has-text-danger">*</sup>
@@ -406,7 +412,7 @@
                                             </x-forms.control>
                                         </x-forms.field>
                                     </div>
-                                    <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                    <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                         <x-forms.label for="subscriptions[months]">
                                             Subscription Period (in Months) <sup class="has-text-danger">*</sup>
                                         </x-forms.label>
@@ -428,7 +434,7 @@
                                         </x-forms.field>
                                     </div>
                                     @foreach ($limits as $limit)
-                                        <div class="column is-12-mobile is-6-tablet is-6-desktop">
+                                        <div class="column is-6-mobile is-6-tablet is-6-desktop">
                                             <x-forms.field>
                                                 <x-forms.label for="limit[{{ $limit->id }}][amount]">
                                                     Number of {{ str($limit->name)->title()->plural() }} <sup class="has-text-danger">*</sup>
@@ -453,7 +459,7 @@
                                 </div>
                             </div>
 
-                            <div class="has-text-right">
+                            <div class="has-text-right mb-2">
                                 <button id="prevButton" class="button bg-softblue has-text-white" style="display: none;">
                                     <span class="mr-2"><i class="fas fa-arrow-left"></i></span>Back
                                 </button>
@@ -464,16 +470,18 @@
                                     <span class="mr-2"><i class="fas fa-save"></i></span>Submit
                                 </button>
                             </div>  
-                    </form>
-                </section>
-                <div class="has-text-centered is-size-7">
-                    <p class="has-text-grey">
-                        Copyright © {{ now()->year }} Powered by AIT Technology.
-                    </p>
+                        </form>
+                        
+                        <div class="has-text-centered is-size-7">
+                            <p class="has-text-grey">
+                                Copyright © {{ now()->year }} Powered by AIT Technology.
+                            </p>
+                        </div>
+                    </section>
                 </div>
             </div>
-            <div id="particles-js" class="interactive-bg column is-5"></div>
         </div>
+    </div>
 
-        <script src="{{ asset('js/steps-component.js') }}"></script>
+<script src="{{ asset('js/steps-component.js') }}"></script>
 @endsection
