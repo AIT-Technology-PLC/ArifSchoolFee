@@ -41,9 +41,11 @@ class SendPaymentReminderNotifications extends Command
             //calculate the final price 
             $baseAmount = (float) $assignFeeMaster->feeMaster->amount + (float) $assignFeeMaster->getFineAmount();
             $commissionAmount = 0;
+
             if (isCommissionFromPayer($assignFeeMaster->company->id)) {
                 $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
             }
+            
             $finalPrice = $baseAmount + $commissionAmount;
 
             //check and retrive the active accounts for payemnt

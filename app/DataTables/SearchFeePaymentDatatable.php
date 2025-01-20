@@ -24,7 +24,7 @@ class SearchFeePaymentDatatable extends DataTable
             ->editColumn('fine', fn($feePayment) => money($feePayment->fine_amount))
             ->editColumn('mode', fn($feePayment) => $feePayment->payment_mode)
             ->editColumn('paid', function($feePayment) {
-                    return $feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount;
+                    return  money($feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount);
             })
             ->addIndexColumn();
     }

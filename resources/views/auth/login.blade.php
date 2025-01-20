@@ -1,7 +1,7 @@
 @extends('auth.layout.auth')
 
 @section('title')
-    Login
+    Login - {{ env('APP_NAME' ?? null) }}
 @endsection
 
 @section('content')
@@ -10,10 +10,10 @@
         <div class="column is-8 p-0">
             <div class="columns is-multiline">
                 <div class="column is-6 login login-img" style="background-color:#6079ca">
-                    <img class="" src="https://lms.arifeducation.com/frontend/img/signin.png">
+                    <img class="" src="{{ asset('img/login-image.png')}}">
                 </div>
 
-                <div class="column is-6 login">
+                <div class="column is-6 login p-3">
                     <section class="section pt-0">
                         <div class="has-text-centered">
                             <img class="login-logo" src="img/AIT LOGO.png">

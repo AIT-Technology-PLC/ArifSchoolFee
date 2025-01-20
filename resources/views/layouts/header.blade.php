@@ -3,7 +3,6 @@
         <div class="navbar-brand ml-3">
             <figure class="image is-75x75">
                 <img
-                    class="is-rounded"
                     src="{{ asset('img/AIT LOGO WHITE.png') }}"
                 >
             </figure>

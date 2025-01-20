@@ -57,7 +57,7 @@ class UserDatatable extends DataTable
     {
         return [
             Column::computed('#'),
-            Column::make('name')->addClass('has-text-weight-bold'),
+            Column::make('name'),
             Column::make('email'),
             Column::make('user_type'),
             Column::make('status'),

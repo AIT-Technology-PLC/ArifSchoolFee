@@ -75,7 +75,7 @@ class TelebirrService
             'timestamp' =>  (string) time(),
             'version' => '1.0',
             'biz_content' => [
-                'notify_url' => 'https://webhook.site/#!/view/cc964444-d78c-4344-8698-d707810bb350', // Your webhook endpoint
+                'notify_url' => 'https://webhook.site/78dea7da-7f8d-4ede-8a08-a4183705e4fc', // Your webhook endpoint
                 'appid' => $this->merchantAppId,
                 'merch_code' => $this->merchantCode,
                 'merch_order_id' => (string) time(),
@@ -83,8 +83,11 @@ class TelebirrService
                 'title' => $title,
                 'total_amount' => (string) $amount,
                 'trans_currency' => 'ETB',
-                'timeout_express' => '120m',
+                'timeout_express' => '45m',
                 'business_type' => 'BuyGoods',
+                'payee_identifier' => $this->merchantCode,
+                'payee_identifier_type' => '04',
+                'payee_type'=> '5000',
                 'redirect_url' => route('telebirr.redirect', ['routeId' => $studentId]),
                 'callback_info' => 'From web',
             ],

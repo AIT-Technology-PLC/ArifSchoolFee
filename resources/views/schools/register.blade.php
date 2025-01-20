@@ -1,7 +1,7 @@
 @extends('auth.layout.auth')
 
 @section('title')
-    School Registration
+    Subscription - {{ env('APP_NAME' ?? null) }}
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="column is-9 p-0">
             <div class="columns is-multiline">
                 <div class="column is-4 login login-img" style="background-color:#6079ca">
-                    <img class="" src="https://lms.arifeducation.com/frontend/img/signin.png">
+                    <img class="" src="{{ asset('img/registration-image.png')}}">
                 </div>
 
                 <div class="column is-8 login">

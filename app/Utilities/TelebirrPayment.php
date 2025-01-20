@@ -38,14 +38,16 @@ class TelebirrPayment
         $prepayId = $orderResponse['biz_content']['prepay_id'];
         $rawRequest = $this->generateRawRequest($prepayId);
 
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'X-APP-Key' => env('TELEBIRR_FABRIC_APP_ID'),
-            'Authorization' => 'Bearer d2e2b1c00780a97a9e13382044f27522',
-        ])->post(env('TELEBIRR_BASE_URL') . $rawRequest);
-
+        // $response = Http::withHeaders([
+        //     'Content-Type' => 'application/json',
+        //     'X-APP-Key' => env('TELEBIRR_FABRIC_APP_ID'),
+        //     'Authorization' => 'Bearer d2e2b1c00780a97a9e13382044f27522',
+        // ])->get('https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest);
+        
         //return the payment url
-        return response()->json(['prepay_url' => $rawRequest]);
+        // return response()->json(['prepay_url' => $rawRequest]);
+
+        return 'https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest;
     }
 
     public function createOrder($assignFeeMaster, $paymentData)
@@ -86,7 +88,6 @@ class TelebirrPayment
 
         //Construct the raw request string
         $queryString = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-
 
         return $queryString ."&version=1.0&trade_type=Checkout";
     }
