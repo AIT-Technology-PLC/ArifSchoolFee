@@ -9,6 +9,10 @@ Route::view('/offline', 'offline.index');
 Route::controller(Auth\LoginController::class)
     ->group(function () {
         Route::get('/login', 'showLoginForm')->name('login');
+        // Route::get('/admin/login', 'showAdminLoginForm')->name('admin.login');
+        // Route::get('/bank/login', 'showBankLoginForm')->name('bank.login');
+        // Route::get('/call-center/login', 'showCallCenterLoginForm')->name('callcenter.login');
+        
         Route::post('/auth/login', 'login')->name('post.login');
         Route::post('/logout', 'logout')->name('logout');
     });

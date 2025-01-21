@@ -9,9 +9,9 @@
         <div class="columns is-marginless is-centered">
             <div class="column is-7 has-text-centered">
                 <h1 class="title has-text-grey-lighter is-size-1" style="font-size: 150px !important;">
-                    4<span class="text-green">0</span>3
+                    4<span class="text-softblue">0</span>3
                 </h1>
-                <h1 class="title text-green">
+                <h1 class="title text-softblue">
                     <span class="icon is-large">
                         <i class="fas fa-exclamation-circle"></i>
                     </span>

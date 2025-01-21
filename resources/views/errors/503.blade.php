@@ -17,7 +17,7 @@
         <section class="hero bg-lightgreen is-fullheight">
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <h1 class="title text-green has-text-weight-light">
+                    <h1 class="title text-softblue has-text-weight-light">
                         <span class="icon is-large">
                             <i class="fa-solid fa-rocket"></i>
                         </span>
@@ -25,7 +25,7 @@
                             <b>Ait School Payment</b> UPDATING ...
                         </span>
                     </h1>
-                    <h1 class="title text-green">
+                    <h1 class="title text-softblue">
                         <span>
                             Sorry for the interruption.
                         </span>
@@ -33,11 +33,11 @@
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
                         We are releasing new updates. It will take 1 or 2 minutes.
                         <br>
-                        If it is taking longer, please call the helpdesk at +251 97-226-5151.
+                        If it is taking longer, please call the helpdesk at +251 93-362-4757.
                     </h2>
                     <button
                         x-data
-                        class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5"
+                        class="button btn-blue is-outlined is-uppercase has-text-weight-medium px-5 py-5"
                         @click="history.back()"
                     >
                         <span class="icon">
@@ -49,7 +49,7 @@
                     </button>
                     <button
                         x-data
-                        class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5"
+                        class="button bg-blue has-text-white is-uppercase has-text-weight-medium px-5 py-5"
                         @click="location.reload()"
                     >
                         <span class="icon">

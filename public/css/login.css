@@ -66,3 +66,15 @@ section {
   max-width: 180px;
   display: block;
 }
+
+.title {
+  font-size: 20px;
+  font-weight: 400; /* Use numeric value for font weight */
+  margin: 30px;
+  background-color: #fff8f8; /* Light gray background */
+  padding: 10px 25px; /* Padding for spacing */
+  border-radius: 5px; /* Rounded corners */
+  border-left: 2px solid #3952ce;
+  border-right: 2px solid #3952ce;
+  display: inline-block;
+}

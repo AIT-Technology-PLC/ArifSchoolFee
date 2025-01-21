@@ -31,7 +31,7 @@
                             <i class="fas fa-slash"></i>
                         </span>
                     </h1>
-                    <h1 class="title text-green is-size-4-mobile">
+                    <h1 class="title text-softblue is-size-4-mobile">
                         <span>
                             No Internet Connection
                         </span>
@@ -42,7 +42,7 @@
                     <div class="buttons is-centered mt-6">
                         <a
                             href="/"
-                            class="button bg-green has-text-white is-uppercase has-text-weight-medium px-5 py-5"
+                            class="button bg-blue has-text-white is-uppercase has-text-weight-medium px-5 py-5"
                         >
                             <span class="icon">
                                 <i class="fas fa-bars"></i>
@@ -53,7 +53,7 @@
                         </a>
                         <button
                             x-data
-                            class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5"
+                            class="button btn-blue is-outlined is-uppercase has-text-weight-medium px-5 py-5"
                             @click="history.back()"
                         >
                             <span class="icon">
@@ -65,7 +65,7 @@
                         </button>
                         <button
                             x-data
-                            class="button btn-green is-outlined is-uppercase has-text-weight-medium px-5 py-5"
+                            class="button btn-blue is-outlined is-uppercase has-text-weight-medium px-5 py-5"
                             @click="location.reload()"
                         >
                             <span class="icon">
