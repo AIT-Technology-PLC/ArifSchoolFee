@@ -19,10 +19,11 @@ class SearchFeePaymentDatatable extends DataTable
             ->editColumn('fees', fn($feePayment) => str($feePayment->assignFeeMaster->feeMaster->feeType->name)->append(' / '.$feePayment->AssignFeeMaster->feeMaster->feeType->feeGroup->name))
             ->editColumn('name', fn($feePayment) => str($feePayment->student->first_name)->append(' '.$feePayment->student->father_name))
             ->editColumn('date', fn($feePayment) => $feePayment->payment_date->toFormattedDateString())
+            ->editColumn('mode', fn($feePayment) => $feePayment->payment_mode)
             ->editColumn('amount', fn($feePayment) => money($feePayment->amount))
             ->editColumn('discount', fn($feePayment) => money($feePayment->discount_amount))
             ->editColumn('fine', fn($feePayment) => money($feePayment->fine_amount))
-            ->editColumn('mode', fn($feePayment) => $feePayment->payment_mode)
+            ->editColumn('commission', fn($feePayment) => money($feePayment->commission))
             ->editColumn('paid', function($feePayment) {
                     return  money($feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount);
             })
@@ -66,6 +67,7 @@ class SearchFeePaymentDatatable extends DataTable
             Column::make('amount')->content('0.00'),
             Column::make('discount')->content('0.00'),
             Column::make('fine')->content('0.00'),
+            Column::make('commission')->content('0.00'),
             Column::make('paid')->content('0.00'),
         ];
     }

@@ -49,3 +49,7 @@ Route::controller(Other\CompanyController::class)
         Route::get('/register', 'register')->name('schools.register');
         Route::post('/store', 'store')->name('schools.store');
     });
+
+Route::get('/test-larabug', function(){
+    throw new Exception("Testing Larabug Integration");
+});

@@ -4,7 +4,7 @@ namespace App\Utilities;
 
 use App\Models\AssignFeeMaster;
 use App\Services\Models\TelebirrService;
-use Illuminate\Support\Facades\Http;
+use App\Models\PaymentTransaction;
 
 class TelebirrPayment
 {
@@ -38,16 +38,22 @@ class TelebirrPayment
         $prepayId = $orderResponse['biz_content']['prepay_id'];
         $rawRequest = $this->generateRawRequest($prepayId);
 
-        // $response = Http::withHeaders([
-        //     'Content-Type' => 'application/json',
-        //     'X-APP-Key' => env('TELEBIRR_FABRIC_APP_ID'),
-        //     'Authorization' => 'Bearer d2e2b1c00780a97a9e13382044f27522',
-        // ])->get('https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest);
-        
-        //return the payment url
-        // return response()->json(['prepay_url' => $rawRequest]);
+        // //Payment order information - Reconciliation
+        // if ($rawRequest) {
+        //     $transaction = new PaymentTransaction();
+        //     $transaction->assign_fee_master_id = $assignFeeMaster->id;
+        //     $transaction->session_id = $orderResponse['biz_content']['merch_order_id'];
+        //     $transaction->status = 'pending';
+        //     $transaction->payment_method = 'Telebirr';
+        //     $transaction->payment_data = json_encode($paymentData);
+        //     $transaction->save();
+        // } else {
+        //     return response()->json(['error' => 'Failed to process the payment'], 400);
+        // }
 
-        return 'https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest;
+        $assembled_url = 'https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest;
+
+        return $assembled_url;
     }
 
     public function createOrder($assignFeeMaster, $paymentData)
@@ -89,7 +95,10 @@ class TelebirrPayment
         //Construct the raw request string
         $queryString = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
 
+        if (empty($queryString)) {
+            return null;
+        }
+    
         return $queryString ."&version=1.0&trade_type=Checkout";
     }
-}
-          
+}          

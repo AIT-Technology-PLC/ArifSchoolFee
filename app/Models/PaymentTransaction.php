@@ -32,4 +32,9 @@ class PaymentTransaction extends Model
     {
         return $query->where('payment_method', 'Arifpay');
     }
+
+    public function scopeTelebirr($query)
+    {
+        return $query->where('payment_method', 'Telebirr');
+    }
 }

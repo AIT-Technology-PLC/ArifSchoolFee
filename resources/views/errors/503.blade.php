@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title> Ait School Payment Updating ... </title>
+    <title> Arif School Fee Updating ... </title>
     @include('assets.css')
     @include('pwa.tags')
 </head>
@@ -22,7 +22,7 @@
                             <i class="fa-solid fa-rocket"></i>
                         </span>
                         <span class="is-size-1">
-                            <b>Ait School Payment</b> UPDATING ...
+                            <b>Arif School Fee</b> UPDATING ...
                         </span>
                     </h1>
                     <h1 class="title text-softblue">
@@ -31,9 +31,9 @@
                         </span>
                     </h1>
                     <h2 class="subtitle has-text-grey-light has-text-weight-normal">
-                        We are releasing new updates. It will take 1 or 2 minutes.
+                        We are releasing new updates. It will take 5 or 10 minutes.
                         <br>
-                        If it is taking longer, please call the helpdesk at +251 93-362-4757.
+                        If it is taking longer, please call the helpdesk at +251 97-226-5151.
                     </h2>
                     <button
                         x-data

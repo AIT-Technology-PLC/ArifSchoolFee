@@ -70,12 +70,12 @@ class TelebirrService
     public function createRequestObject($title, $amount, $studentId)
     {
         $payload = [
+            'timestamp' =>  (string) time(),
             'nonce_str' => bin2hex(random_bytes(16)),
             'method' => 'payment.preorder',
-            'timestamp' =>  (string) time(),
             'version' => '1.0',
             'biz_content' => [
-                'notify_url' => 'https://webhook.site/78dea7da-7f8d-4ede-8a08-a4183705e4fc', // Your webhook endpoint
+                'notify_url' => route('telebirr.notify'),
                 'appid' => $this->merchantAppId,
                 'merch_code' => $this->merchantCode,
                 'merch_order_id' => (string) time(),
