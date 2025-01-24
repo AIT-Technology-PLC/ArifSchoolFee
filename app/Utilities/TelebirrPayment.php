@@ -38,7 +38,7 @@ class TelebirrPayment
         $prepayId = $orderResponse['biz_content']['prepay_id'];
         $rawRequest = $this->generateRawRequest($prepayId);
 
-        // //Payment order information - Reconciliation
+        //Payment order information - Reconciliation
         // if ($rawRequest) {
         //     $transaction = new PaymentTransaction();
         //     $transaction->assign_fee_master_id = $assignFeeMaster->id;

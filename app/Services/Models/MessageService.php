@@ -33,7 +33,7 @@ class MessageService
         // Apply filters to User query
         $employees = Employee::enabled()->orderBy('id')
         ->when(isset($request['gender']) && !is_null($request['gender']), fn($query) => $query->where('gender', $request['gender']))
-        ->when(isset($request['warehouse_id']) && !is_null($request['warehouse_id']), fn($query) => $query->where('warehouse_id', $request['warehouse_id']))
+        ->when(isset($request['warehouse_id']) && !is_null($request['warehouse_id']), fn($query) => $query->whereHas('user', fn($q) => $q->where('users.warehouse_id', $request['warehouse_id'])))
         ->get();
 
         // Apply filters to Staff query
