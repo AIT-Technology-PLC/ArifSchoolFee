@@ -59,8 +59,8 @@ class StaffReport
     {
         $data = (clone $this->query)
             ->selectRaw('COUNT(*) AS total, CASE 
-                            WHEN STAFF.gender = "male" THEN "Male"
-                            WHEN STAFF.gender = "female" THEN "Female"
+                            WHEN staff.gender = "male" THEN "Male"
+                            WHEN staff.gender = "female" THEN "Female"
                             ELSE "Other"
                         END AS gender_category')
             ->groupBy('gender_category')

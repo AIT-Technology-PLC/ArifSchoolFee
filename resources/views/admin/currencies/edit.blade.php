@@ -88,6 +88,65 @@
                             </x-forms.control>
                         </x-forms.field>
                     </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="exchange_rate">
+                                Exchange Rate <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left">
+                                <x-forms.input
+                                    type="numeric"
+                                    name="exchange_rate"
+                                    id="exchange_rate"
+                                    placeholder="Exchange Rate"
+                                    value="{{ old('exchange_rate') ?? $currency->exchange_rate }}"
+                                />
+                                <x-common.icon
+                                    name="fas fa-exchange-alt"
+                                    class="is-large is-left"
+                                />
+                                <x-common.validation-error property="exchange_rate" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
+                    <div class="column is-6">
+                        <x-forms.field>
+                            <x-forms.label for="enabled">
+                                Enable Exchange Rate <sup class="has-text-danger">*</sup>
+                            </x-forms.label>
+                            <x-forms.control class="has-icons-left ">
+                                <x-forms.select
+                                    class="is-fullwidth"
+                                    id="enabled"
+                                    name="enabled"
+                                >
+                                    <option
+                                        disabled
+                                        selected
+                                    >
+                                        Select Status
+                                    </option>
+                                    <option
+                                        value="1"
+                                        @selected(old('enabled', $currency->enabled) == '1')
+                                    >
+                                        Yes
+                                    </option>
+                                    <option
+                                        value="0"
+                                        @selected(old('enabled', $currency->enabled) == '0')
+                                    >
+                                        No
+                                    </option>
+                                </x-forms.select>
+                                <x-common.icon
+                                    name="fas fa-sort"
+                                    class="is-small is-left"
+                                />
+                                <x-common.validation-error property="enabled" />
+                            </x-forms.control>
+                        </x-forms.field>
+                    </div>
                 </div>
             </x-content.main>
             <x-content.footer>

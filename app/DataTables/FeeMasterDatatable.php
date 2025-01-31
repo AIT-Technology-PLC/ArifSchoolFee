@@ -20,6 +20,8 @@ class FeeMasterDatatable extends DataTable
             ->editColumn('due_date', fn($feeMaster) => $feeMaster->due_date->toFormattedDateString())
             ->editColumn('fine_type', fn($feeMaster) => ucfirst($feeMaster->fine_type ?? 'N/A'))
             ->editColumn('created_at', fn($feeMaster) => $feeMaster->created_at->toFormattedDateString())
+            ->editColumn('amount', fn($feeDiscount) => money($feeDiscount->amount))
+            ->editColumn('fine_amount', fn($feeDiscount) => $feeDiscount->fine_amount !==null ? money($feeDiscount->fine_amount): 'N/A')
             ->editColumn('added by', fn($feeMaster) => $feeMaster->createdBy->name ?? 'N/A')
             ->editColumn('edited by', fn($feeMaster) => $feeMaster->updatedBy->name ?? 'N/A')
             ->editColumn('actions', function ($feeMaster) {

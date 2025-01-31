@@ -10,7 +10,7 @@
         <div class="column is-8 p-0">
             <div class="columns is-multiline">
                 <div class="column is-6 login login-img" style="background-color:#6079ca">
-                    <img class="" src="{{ asset('img/login-image.png')}}">
+                    <img class="" src="{{ asset('img/bank-login-image.png')}}">
                 </div>
 
                 <div class="column is-6 login p-3">
@@ -21,7 +21,7 @@
 
                         <form id="formOne" 
                               method="POST" 
-                              action="{{ route('post.login') }}" 
+                              action="{{ route('post.bank.login') }}" 
                               novalidate 
                               autocomplete="off"
                         >

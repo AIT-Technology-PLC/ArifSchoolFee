@@ -19,7 +19,7 @@
 
                 <form id="formOne" 
                         method="POST" 
-                        action="{{ route('post.login') }}" 
+                        action="{{ route('post.admin.login') }}" 
                         novalidate 
                         autocomplete="off"
                 >

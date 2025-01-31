@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware
             ->validateCsrfTokens(['api/*'])
+            ->validateCsrfTokens(except: [
+                '/arifpay/callback',
+                '/telebirr/notify'
+            ])
             ->alias([
                 'isFeatureAccessible' => \App\Http\Middleware\AllowOnlyEnabledFeatures::class,
                 'isEmployeeEnabled' => \App\Http\Middleware\AllowOnlyEnabledUsers::class,

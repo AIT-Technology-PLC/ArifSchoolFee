@@ -13,6 +13,7 @@ use App\Models\Student;
 use App\Models\StudentCategory;
 use App\Models\StudentGroup;
 use App\Models\Warehouse;
+use App\Services\Models\StudentLMSService;
 use App\Services\Student\StudentOperationService;
 use Illuminate\Support\Facades\DB;
 
@@ -72,6 +73,8 @@ class StudentController extends Controller
             );
 
             StudentOperationService::add($request, $student);
+
+            StudentLMSService::sendPayload($student);
 
             return $student;
         });

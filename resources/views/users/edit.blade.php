@@ -25,7 +25,7 @@
             @method('PATCH')
             <x-content.main>
                 <x-common.fail-message :message="session('limitReachedMessage')" />
-                <div class="columns is-marginless is-multiline">
+                <div class="columns is-marginless is-multiline is-mobile">
                     <div class="column is-6-mobile is-4-tablet is-4-desktop">
                         <x-forms.field>
                             <x-forms.label for="name">
@@ -252,7 +252,7 @@
                                             @foreach ($roles as $role)
                                                     <option
                                                         value="{{ $role->name }}"
-                                                        {{ old('role') == $role->name ? 'selected' : '' }}
+                                                        @selected(old('role', $user->user->roles[0]->name) == $role->name)
                                                     >
                                                         {{ $role->name }}
                                                     </option>
@@ -268,7 +268,7 @@
                         </div>
                     @endif
                     @if (authUser()->id != $user->user->id && !$user->user->hasRole('System Manager'))
-                        <div class="column is-4">
+                        <div class="column is-6-mobile is-4-tablet is-4-desktop">
                             <x-forms.field>
                                 <x-forms.label for="enabled">
                                     Can this user access the system? <sup class="has-text-danger">*</sup>
@@ -300,7 +300,7 @@
                         </div>
                     @endif
                     @if (authUser()->id != $user->user->id && !$user->user->hasRole('System Manager'))
-                        <div class="column is-12">
+                        <div class=" is-12-mobile">
                             <x-forms.label
                                     for="transactions[]"
                                     class="label text-green"

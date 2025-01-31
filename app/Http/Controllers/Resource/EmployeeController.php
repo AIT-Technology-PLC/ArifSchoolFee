@@ -50,7 +50,7 @@ class EmployeeController extends Controller
     {
         $action->execute($request->validated());
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('successMessage', 'New User Created Successfully.');
     }
 
     public function show(Employee $user)
@@ -77,7 +77,7 @@ class EmployeeController extends Controller
     {
         $action->execute($user, $request->validated());
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('successMessage', 'Updated Successfully.');
     }
 
     public function destroy(Employee $user)

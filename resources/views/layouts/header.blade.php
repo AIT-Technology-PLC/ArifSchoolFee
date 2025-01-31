@@ -137,7 +137,7 @@
                         <hr class="navbar-divider">
                         <form
                             class="navbar-item"
-                            action="{{ route('logout') }}"
+                            action="{{ authUser()->isAdmin() ? route('admin.logout') : (authUser()->isCallCenter() ? route('callcenter.logout') : (authUser()->isBank() ? route('bank.logout') : route('logout'))) }}"
                             method="POST"
                         >
                             @csrf

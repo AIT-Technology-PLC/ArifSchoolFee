@@ -31,8 +31,6 @@ class PermissionController extends Controller
 
         $userRolesPermissions = $employee->user->getPermissionsViaRoles()->pluck('name');
 
-        $userPadPermissions = $employee->user->padPermissions()->pluck('pad_permission_id');
-
         return view('permissions.edit',
             compact(
                 'employee',
@@ -40,7 +38,6 @@ class PermissionController extends Controller
                 'permissionsByCategories',
                 'userPermissions',
                 'userRolesPermissions',
-                'userPadPermissions'
             )
         );
     }

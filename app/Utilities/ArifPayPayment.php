@@ -33,7 +33,7 @@ class ArifPayPayment
             $validatedPaymentInfo = $this->validatePaymentInfo($payload);
 
             $response = $this->makeApiCall($validatedPaymentInfo);
-
+            
             if (isset($response['data']['sessionId'])) {
                 $transaction = new PaymentTransaction();
                 $transaction->assign_fee_master_id = $assignFeeMaster->id;
@@ -72,7 +72,7 @@ class ArifPayPayment
             'errorUrl' => route('arifpay.error', ['routeId' => $assignFeeMaster->student_id]),
             'notifyUrl' => $this->notifyUrl,
             'paymentMethods' => ['TELEBIRR_USSD'],
-            'phone' => $assignFeeMaster->student->phone ?? '0972265151',
+            'phone' => $assignFeeMaster->student->phone ?? '251972265151',
             'email' => $assignFeeMaster->student->email ?? 'info@aittechworld.com',
             'items' => [
                 [

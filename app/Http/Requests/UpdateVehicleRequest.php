@@ -19,7 +19,7 @@ class UpdateVehicleRequest extends FormRequest
             'vehicle_model' => ['required', 'string', 'max:25'],
             'year_made' => ['nullable', 'integer','gte:0', 'lte:' . date('Y')],
             'driver_name' => ['required', 'string','max:30'],
-            'driver_phone' => ['required', 'string','max:15', 'unique:vehicles'],
+            'driver_phone' => ['required', 'string','max:15', Rule::unique('vehicles')->where('company_id', userCompany()->id)->where('id', '<>', $this->route('vehicle')->id)->withoutTrashed()],
             'note' => ['nullable', 'string', 'max:100'],
         ];
     }

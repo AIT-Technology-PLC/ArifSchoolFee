@@ -56,7 +56,7 @@ Route::resource('email-settings', Admin\EmailSettingController::class)->only(['c
 
 Route::resource('sms-settings', Admin\SmsSettingController::class)->only(['create', 'store']);
 
-Route::resource('currencies', Admin\CurrencyController::class)->except(['show']);
+Route::resource('currencies', Admin\CurrencyController::class);
 
 Route::resource('payment-methods', Admin\PaymentMethodController::class)->except(['show', 'destroy']);
 

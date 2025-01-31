@@ -37,7 +37,7 @@ class AssignFeeDiscountController extends Controller
 
     public function update(Request $request, FeeDiscount $assignDiscountFee)
     {
-        if ($assignDiscountFee->whereHas('feePayments')->exists()) {
+        if ($assignDiscountFee->feePayments()->exists()) {
             return back()->with(['failedMessage' => 'Unable to edit the data since some of the assigned discount has already been utilized.']);
         }
         

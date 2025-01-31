@@ -17,7 +17,7 @@
 
                         <form id="formOne" 
                               method="POST" 
-                              action="{{ route('post.login') }}" 
+                              action="{{ route('post.callcenter.login') }}" 
                               novalidate 
                               autocomplete="off"
                         >
@@ -75,7 +75,7 @@
                     </section>
                 </div>
                 <div class="column is-6 login login-img" style="background-color:#6079ca">
-                    <img class="" src="{{ asset('img/login-image.png')}}">
+                    <img class="" src="{{ asset('img/callcenter-login-image.png')}}">
                 </div>
             </div>
         </div>

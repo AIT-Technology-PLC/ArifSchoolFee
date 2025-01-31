@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Action;
+namespace App\Http\Controllers\Other;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
@@ -84,8 +84,7 @@ class TelebirrPaymentController extends Controller
         }
     
         // Find the pending transaction with the session ID
-        $transaction = PaymentTransaction::pending()
-            ->telebirr()->where('session_id', $paymentData['merch_order_id'])->first();
+        $transaction = PaymentTransaction::pending()->telebirr()->where('session_id', $paymentData['merch_order_id'])->first();
 
         if (!$transaction) {
             Log::error('Transaction not found for Order Id: ' . $paymentData['merch_order_id']);
@@ -103,17 +102,18 @@ class TelebirrPaymentController extends Controller
                     $feePayment = new FeePayment();
                     $feePayment->company_id = $transaction->assignFeeMaster->company_id; 
                     $feePayment->student_id = $transaction->assignFeeMaster->student_id;
-                    $transaction->student_history_id = $transaction->assignFeeMaster->student->latestStudentHistoryId();
+                    $feePayment->student_history_id = $transaction->assignFeeMaster->student->latestStudentHistoryId();
                     $feePayment->assign_fee_master_id = $transaction->assignFeeMaster->id;
                     $feePayment->payment_mode = 'Telebirr';
-                    $transaction->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
-                    $transaction->payment_date = Carbon::parse($paymentData['payment_date']);
-                    $transaction->amount = $paymentData['amount'];
-                    $transaction->fine_amount = $paymentData['fine_amount'] ?? 0;
-                    $transaction->discount_amount = $paymentData['discount_amount'] ?? 0;
-                    $transaction->commission_amount = $paymentData['commission_amount'] ?? 0;
-                    $transaction->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
+                    $feePayment->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
+                    $feePayment->payment_date = Carbon::parse($paymentData['payment_date']);
+                    $feePayment->amount = $paymentData['amount'];
+                    $feePayment->fine_amount = $paymentData['fine_amount'] ?? 0;
+                    $feePayment->discount_amount = $paymentData['discount_amount'] ?? 0;
+                    $feePayment->commission_amount = $paymentData['commission_amount'] ?? 0;
+                    $feePayment->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
 
+                    $feePayment->save();
                     break;
                 default:
                     return response()->json(['message' => 'Transaction status is unknown'], 400);

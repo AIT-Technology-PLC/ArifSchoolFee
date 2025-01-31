@@ -14,7 +14,14 @@ Route::controller(Auth\LoginController::class)
         Route::get('/call-center/login', 'showCallCenterLoginForm')->name('callcenter.login');
         
         Route::post('/auth/login', 'login')->name('post.login');
+        Route::post('/admin/auth/login', 'login')->name('post.admin.login');
+        Route::post('/bank/auth/login', 'login')->name('post.bank.login');
+        Route::post('/call-center/auth/login', 'login')->name('post.callcenter.login');
+
         Route::post('/logout', 'logout')->name('logout');
+        Route::post('/admin/logout', 'logout')->name('admin.logout');
+        Route::post('/bank/logout', 'logout')->name('bank.logout');
+        Route::post('/callcenter/logout', 'logout')->name('callcenter.logout');
     });
 
 // Confirm Password
@@ -50,6 +57,21 @@ Route::controller(Other\CompanyController::class)
         Route::post('/store', 'store')->name('schools.store');
     });
 
-Route::get('/test-larabug', function(){
-    throw new Exception("Testing Larabug Integration");
-});
+// ArifPay
+Route::controller(Other\ArifPayController::class)
+    ->prefix('/arifpay')
+    ->group(function () {
+        Route::get('/cancel/{routeId}', 'cancelSession')->name('arifpay.cancel');
+        Route::get('/success/{routeId}', 'successSession')->name('arifpay.success');
+        Route::get('/error/{routeId}', 'errorSession')->name('arifpay.error');
+        Route::post('/callback', 'callback')->name('arifpay.callback');
+    });
+
+// Telebirr
+Route::controller(Other\TelebirrPaymentController::class)
+    ->name('telebirr.')
+    ->prefix('/telebirr')
+    ->group(function () {
+        Route::get('/redirect/{routeId}', 'handleRedirect')->name('redirect');
+        Route::post('/notify', 'handleNotification')->name('notify');
+    });

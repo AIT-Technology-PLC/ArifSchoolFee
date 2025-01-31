@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\CurrencyDatatable;
+use App\DataTables\Admin\CurrencyHistoryDatatable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCurrencyRequest;
 use App\Http\Requests\Admin\UpdateCurrencyRequest;
@@ -32,9 +33,24 @@ class CurrencyController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        Currency::create($request->validated());
+        $validated = $request->validated();
 
-        return redirect()->route('admin.currencies.index')->with('successMessage', 'Currency created successfully');
+        $validated['rate_source'] = $validated['exchange_rate'] !== null ? 'manual' : null;
+
+        $currency = Currency::create($validated);
+
+        if ($validated['exchange_rate'] !== null) {
+            $currency->currencyHistories()->create($validated);
+        }
+
+        return redirect()->route('admin.currencies.show', $currency->id)->with('successMessage', 'Currency created successfully');
+    }
+
+    public function show(Currency $currency, CurrencyHistoryDatatable $datatable)
+    {
+        $datatable->builder()->setTableId('currency-histories-datatable');
+
+        return $datatable->render('admin.currencies.show', compact('currency'));
     }
 
     public function edit(Currency $currency)
@@ -48,9 +64,17 @@ class CurrencyController extends Controller
     {
         abort_if(authUser()->cannot('Manage Admin Panel Users'), 403);
 
-        $currency->update($request->validated());
+        $validated = $request->validated();
 
-        return redirect()->route('admin.currencies.index')->with('successMessage', 'Updated Successfully.');
+        $validated['rate_source'] = $validated['exchange_rate'] !== null ? 'manual' : $currency->rate_source;
+
+        $currency->update($validated);
+
+        if ($validated['exchange_rate'] !== null) {
+            $currency->currencyHistories()->create($validated);
+        }
+
+        return redirect()->route('admin.currencies.show', $currency->id)->with('successMessage', 'Updated Successfully.');
     }
 
     public function destroy(Currency $currency)

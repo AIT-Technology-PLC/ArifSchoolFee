@@ -18,6 +18,7 @@ class FeeDiscountDatatable extends DataTable
             ->editColumn('discount_type', fn($feeDiscount) => str()->ucfirst($feeDiscount->discount_type))
             ->editColumn('created_at', fn($feeDiscount) => $feeDiscount->created_at->toFormattedDateString())
             ->editColumn('added by', fn($feeDiscount) => $feeDiscount->createdBy->name ?? 'N/A')
+            ->editColumn('amount', fn($feeDiscount) => money($feeDiscount->amount))
             ->editColumn('edited by', fn($feeDiscount) => $feeDiscount->updatedBy->name ?? 'N/A')
             ->editColumn('description', fn($feeDiscount) => view('components.datatables.searchable-description', ['description' => $feeDiscount->description]))
             ->editColumn('actions', function ($feeDiscount) {

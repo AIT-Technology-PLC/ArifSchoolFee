@@ -16,6 +16,7 @@
         </x-content.header>
         <x-content.footer>
             <x-common.success-message :message="session('successMessage')" />
+            <x-common.fail-message :message="session('failedMessage')" />
             <x-datatables.filter filters="'branch', 'class', 'section', 'category', 'gender'">
                 <div class="columns is-marginless is-multiline">
                     <div class="column is-2.4 p-lr-0 pt-0">

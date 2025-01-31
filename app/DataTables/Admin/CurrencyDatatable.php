@@ -3,7 +3,6 @@
 namespace App\DataTables\Admin;
 
 use App\Models\Currency;
-use App\Models\SchoolType;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -18,12 +17,15 @@ class CurrencyDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->editColumn('name', fn($currency) => str()->ucfirst($currency->name))
+            ->editColumn('exchange_rate', fn($currency) => $currency->exchange_rate !== null ? $currency->exchange_rate : 'N/A')
+            ->editColumn('rate_source', fn($currency) => $currency->exchange_rate !== null ? ucfirst($currency->rate_source) : 'N/A')
+            ->editColumn('exchange_rate_status', fn($currency) => view('components.datatables.currency-status', compact('currency')))
             ->editColumn('created_at', fn($currency) => $currency->created_at->toFormattedDateString())
             ->editColumn('actions', function ($currency) {
                 return view('components.common.action-buttons', [
                     'model' => 'admin.currencies',
                     'id' => $currency->id,
-                    'buttons' => ['edit','delete'],
+                    'buttons' => 'all',
                 ]);
             })
             ->addIndexColumn();
@@ -43,6 +45,9 @@ class CurrencyDatatable extends DataTable
             Column::make('name'),
             Column::make('code'),
             Column::make('symbol'),
+            Column::make('exchange_rate'),
+            Column::make('exchange_rate_status')->orderable(false),
+            Column::make('rate_source'),
             Column::make('created_at'),
             Column::computed('actions')->className('actions'),
         ];

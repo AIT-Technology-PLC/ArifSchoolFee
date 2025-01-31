@@ -70,7 +70,7 @@ if (!function_exists('money')) {
     function money($amount = 0.00, $currency = null)
     {
         if (authUser()->isAdmin() || authUser()->isCallCenter() || authUser()->isBank()) {
-            return 'Br'. ', ' . number_format($amount, 2);
+            return 'Br'. ', ' . number_format($amount, 4);
         }
 
         $currency = $currency ?: userCompany()->currency;

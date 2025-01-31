@@ -25,6 +25,16 @@ class PermissionCategorization
             'feature' => 'Class Management',
         ],
 
+        'route' => [
+            'label' => 'Route',
+            'feature' => 'Route Management',
+        ],
+
+        'vehicle' => [
+            'label' => 'Vehicle',
+            'feature' => 'Vehicle Management',
+        ],
+
         'student category' => [
             'label' => 'Student Category',
             'feature' => 'Student Category',
@@ -45,26 +55,6 @@ class PermissionCategorization
             'label' => 'Student Promote',
             'feature' => 'Student Promote',
         ],
-
-        'route' => [
-            'label' => 'Route',
-            'feature' => 'Route Management',
-        ],
-
-        'vehicle' => [
-            'label' => 'Vehicle',
-            'feature' => 'Vehicle Management',
-        ],
-
-        'employee' => [
-            'label' => 'Employee',
-            'feature' => 'User Management',
-        ],
-        
-        'company' => [
-            'label' => 'Company',
-            'feature' => 'General Settings',
-        ],
         
         'department' => [
             'label' => 'Department',
@@ -81,19 +71,9 @@ class PermissionCategorization
             'feature' => 'Staff Management',
         ],
 
-        'email and sms' => [
-            'label' => 'Email/SMS',
-            'feature' => 'Email/SMS Management',
-        ],
-
-        'notice' => [
-            'label' => 'Notice',
-            'feature' => 'Notice Management',
-        ],
-
-        'log' => [
-            'label' => 'Log',
-            'feature' => 'Log Management',
+        'account' => [
+            'label' => 'Account Management',
+            'feature' => 'Account Management',
         ],
 
         'fee group' => [
@@ -122,9 +102,29 @@ class PermissionCategorization
             'include' => ['Search Fee Payment', 'Search Fee Due'],
         ],
 
-        'account management' => [
-            'label' => 'Account Management',
-            'feature' => 'Account Management',
+        'message' => [
+            'label' => 'Email/SMS',
+            'feature' => 'Email/SMS Management',
+        ],
+
+        'notice' => [
+            'label' => 'Notice',
+            'feature' => 'Notice Management',
+        ],
+
+        'employee' => [
+            'label' => 'User',
+            'feature' => 'User Management',
+        ],
+
+        'log' => [
+            'label' => 'Log',
+            'feature' => 'Log Management',
+        ],
+        
+        'company' => [
+            'label' => 'Company',
+            'feature' => 'General Settings',
         ],
     ];
 

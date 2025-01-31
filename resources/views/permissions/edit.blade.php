@@ -64,41 +64,6 @@
                             </div>
                         </div>
                     @endforeach
-                    @foreach ($pads as $pad)
-                        @continue(!$pad->isEnabled())
-                        <div
-                            class="column is-6"
-                            x-init="addToPermissionList('{{ str($pad->name)->remove(' ')->lower() }}')"
-                            x-ref="{{ str($pad->name)->remove(' ')->lower() }}"
-                        >
-                            <div class="message">
-                                <div class="message-header has-background-white-ter text-gold">
-                                    {{ $pad->name }} Permissions
-                                </div>
-                                <div class="message-body has-background-white-bis">
-                                    <div class="columns is-marginless is-multiline">
-                                        @foreach ($pad->padPermissions as $padPermission)
-                                            <div class="column is-one-third">
-                                                <div class="field">
-                                                    <div class="control">
-                                                        <label class="checkbox text-green has-text-weight-normal is-size-7">
-                                                            <input
-                                                                type="checkbox"
-                                                                name="padPermissions[]"
-                                                                value="{{ $padPermission->id }}"
-                                                                {{ $userPadPermissions->contains($padPermission->id) ? 'checked' : '' }}
-                                                            >
-                                                            {{ $padPermission->name }} {{ $padPermission->pad->name }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             </x-content.main>
             <x-content.footer>

@@ -432,8 +432,8 @@
                                         tag="a"
                                         href="{{ route('staff.index') }}"
                                         label="Staff Directory"
-                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('staffs.*') ? 'text-blue has-text-weight-bold' : '' }}"
-                                        x-init="{{ request()->routeIs('staffs.*') ? 'activateAccordion' : '' }}"
+                                        class="has-text-grey has-text-weight-normal is-size-6-5 {{ request()->routeIs('staff.*') ? 'text-blue has-text-weight-bold' : '' }}"
+                                        x-init="{{ request()->routeIs('staff.*') ? 'activateAccordion' : '' }}"
                                     />
                                 </li>
                             @endcan
