@@ -1,6 +1,6 @@
 ## About A Project Under AIT TECHNOLOGY PLC
 
-**Multi School Centralized Payment Systsem** is a multi-tenant Payment solution.
+**Multi School Centralized Payment Systsem** is a multi-school Payment solution.
 
 With its number of modules & features, **Multi Schhool Centralized Payment** allows businesses to achieve a high level of synchronization among the different brances and units of a business.
 
@@ -12,7 +12,7 @@ With its number of modules & features, **Multi Schhool Centralized Payment** all
 
 ## Frameworks & Tools
 
-At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasleul/multi_school_payment_system.git) uses [**Laravel**](https://laravel.com) as a fullstack framework.
+At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasleul/ArifSchoolFee.git) uses [**Laravel**](https://laravel.com) as a fullstack framework.
 
 | Stack       | Frontend Tools     | Backend Tools                            | Other Tools                         |
 | ----------- | ------------------ | ---------------------------------------- | ----------------------------------- |
@@ -35,10 +35,15 @@ At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasle
 -   main
     -   This is the branch that is running on the production server
     -   Do not submit PR to this branch
--   dev
-    -   Always use this branch for development and making changes
+    -   Serve as live, stable, and tested code-base that is available to the end user.
+-   staging
+    -   Always use this branch for final development testing and making changes before deployment to production
+    -   Used for user-acceptance testing (UAT) and previewing changes before deploying to production.
+-   testing
+    -   Used for QA testing and experimentation.
+    -   All developers push their feature branches here for testing.
     -   Always submit PRs to this branch
-
+    
 ## Requirements
 
 -   PHP >= 8.2
@@ -56,7 +61,7 @@ At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasle
 1. Clone repository & install dependencies
 
 ```bash
-git clone https://github.com/mikiyasleul/multi_school_payment_system.git
+git clone https://github.com/mikiyasleul/ArifSchoolFee.git
 cd multi_school_payment_system
 composer install
 cp .env.example .env
