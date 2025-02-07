@@ -7,110 +7,47 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Models\PaymentTransaction;
 use App\Models\FeePayment;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class TelebirrPaymentController extends Controller
 {
-    private $privateKey;
-
-    public function __construct()
+    public function notify(Request $request)
     {
-        $this->privateKey = env('TELEBIRR_PRIVATE_KEY');
-    }
-
-    public function handleNotification(string $notificationJson): void
-    {
-        $notificationData = json_decode($notificationJson, true);
-
-        if ($notificationData === null) {
-            Log::error("Invalid JSON format: $notificationJson");
-            throw new \Exception('Invalid JSON format');
-        }
-
-        $encryptedData = $notificationData['encrypted_data'] ?? null;
-        if (!$encryptedData) {
-            Log::error('Encrypted data not found in the notification');
-            throw new \Exception('Encrypted data not found');
-        }
-
-        try {
-            $decryptedPaymentData = $this->decryptPaymentData($encryptedData);
-        } catch (\Exception $e) {
-            Log::error('Decryption failed: ' . $e->getMessage());
-            throw $e;
-        }
-
-        $this->processPaymentData($decryptedPaymentData);
-    }
-
-    private function decryptPaymentData(string $encryptedData): string
-    {
-        $publicKeyResource = $this->getPrivateKeyResource();
-        $decryptedData = '';
-        $dataChunks = str_split(base64_decode($encryptedData), 256);
-
-        foreach ($dataChunks as $chunk) {
-            $partialDecrypted = '';
-            $decryptionSuccess = openssl_public_decrypt($chunk, $partialDecrypted, $publicKeyResource, OPENSSL_PKCS1_PADDING);
-            if (!$decryptionSuccess) {
-                throw new \Exception('Decryption failed for chunk');
-            }
-            $decryptedData .= $partialDecrypted;
-        }
-
-        return $decryptedData;
-    }
-
-    private function getPrivateKeyResource()
-    {
-        $privateKeyPem = chunk_split($this->privateKey, 64, "\n");
-        $privateKeyPem = "-----BEGIN PRIVATE KEY-----\n" . $privateKeyPem . "-----END PRIVATE KEY-----\n";
+        Log::info('Telebirr Webhook Notify:', [
+            'Merch_order_id' => $request->merch_order_id,
+            'status' => $request->trade_status
+        ]);
         
-        // Load the private key resource for decryption
-        $privateKeyResource = openssl_pkey_get_private($privateKeyPem);
-        
-        if (!$privateKeyResource) {
-            throw new \Exception('Invalid private key');
-        }
-    
-        return $privateKeyResource;
-    }
-
-    private function processPaymentData(string $paymentData)
-    {
-        if (!isset($paymentData['merch_order_id']) || !isset($paymentData['trade_status'])) {
-            Log::error('Invalid payment data structure: ' . json_encode($paymentData));
-            return response()->json(['message' => 'Invalid payment data'], 400);
-        }
-    
         // Find the pending transaction with the session ID
-        $transaction = PaymentTransaction::pending()->telebirr()->where('session_id', $paymentData['merch_order_id'])->first();
+        $transaction = PaymentTransaction::pending()->telebirr()->where('session_id', $request['merch_order_id'])->first();
 
         if (!$transaction) {
-            Log::error('Transaction not found for Order Id: ' . $paymentData['merch_order_id']);
+            Log::error('Transaction not found for Order Id: ' . $request['merch_order_id']);
             return response()->json(['message' => 'Transaction not found'], 404);
         }
 
         DB::beginTransaction();
 
         try {
-            switch ($paymentData['trade_status']) {
+            switch ($request->trade_status) {
                 case 'Completed':
                     $transaction->status = 'success';
                     $paymentData = json_decode($transaction->payment_data, true);
-
                     $feePayment = new FeePayment();
                     $feePayment->company_id = $transaction->assignFeeMaster->company_id; 
                     $feePayment->student_id = $transaction->assignFeeMaster->student_id;
                     $feePayment->student_history_id = $transaction->assignFeeMaster->student->latestStudentHistoryId();
                     $feePayment->assign_fee_master_id = $transaction->assignFeeMaster->id;
                     $feePayment->payment_mode = 'Telebirr';
+                    $feePayment->reference_number = $request->payment_order_id;
                     $feePayment->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
                     $feePayment->payment_date = Carbon::parse($paymentData['payment_date']);
                     $feePayment->amount = $paymentData['amount'];
                     $feePayment->fine_amount = $paymentData['fine_amount'] ?? 0;
                     $feePayment->discount_amount = $paymentData['discount_amount'] ?? 0;
                     $feePayment->commission_amount = $paymentData['commission_amount'] ?? 0;
+                    $feePayment->exchange_rate = $paymentData['exchange_rate'] ?? null;
                     $feePayment->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
 
                     $feePayment->save();
@@ -132,7 +69,7 @@ class TelebirrPaymentController extends Controller
         return response()->json(['message' => 'Webhook processed successfully'], 200);
     }
 
-    public function handleRedirect($routeId)
+    public function redirect($routeId)
     {
         return redirect()->route('collect-fees.show', $routeId)->with('successMessage', 'The transaction was made successfully.');
     }

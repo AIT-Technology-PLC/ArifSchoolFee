@@ -218,6 +218,27 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
+                        <div class="column is-12">
+                            <x-forms.label for="reference_number">
+                                Reference No <sup class="has-text-danger"></sup>
+                            </x-forms.label>
+                            <x-forms.field>
+                                <x-forms.control class="has-icons-left">
+                                    <x-forms.input
+                                        type="text"
+                                        name="reference_number"
+                                        id="reference_number"
+                                        placeholder="Reference Number"
+                                        value="{{ old('reference_number') }}"
+                                    />
+                                    <x-common.icon
+                                        name="fas fa-hashtag"
+                                        class="is-large is-left"
+                                    />
+                                    <x-common.validation-error property="reference_number" />
+                                </x-forms.control>
+                            </x-forms.field>
+                        </div>
                         <div class="column is-6">
                             <x-forms.label for="commission_amount">
                                 Commission <sup class="has-text-danger"></sup>

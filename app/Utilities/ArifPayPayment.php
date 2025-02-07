@@ -33,7 +33,7 @@ class ArifPayPayment
             $validatedPaymentInfo = $this->validatePaymentInfo($payload);
 
             $response = $this->makeApiCall($validatedPaymentInfo);
-            
+
             if (isset($response['data']['sessionId'])) {
                 $transaction = new PaymentTransaction();
                 $transaction->assign_fee_master_id = $assignFeeMaster->id;
@@ -64,7 +64,9 @@ class ArifPayPayment
             $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
         }
 
-        $finalPrice = $baseAmount + $commissionAmount;
+        $calculatedPrice = $baseAmount + $commissionAmount;
+
+        $finalPrice = $calculatedPrice * ($paymentData['exchange_rate'] ?? 1);
 
         return [
             'cancelUrl' => route('arifpay.cancel', ['routeId' => $assignFeeMaster->student_id]),
@@ -78,14 +80,14 @@ class ArifPayPayment
                 [
                     'name' => $assignFeeMaster->feeMaster->feeType->name,
                     'quantity' => 1,
-                    'price' => $finalPrice,
+                    'price' =>  $finalPrice,
                     'description' => 'Fee Payment',
                     'image' => 'https://thumbs.dreamstime.com/z/pay-application-fee-isolated-cartoon-vector-illustrations-young-girl-makes-payment-college-education-online-using-gold-card-256581225.jpg?w=768',
                 ],
             ],
             'lang' => 'EN',
             'nonce' => floor(rand() * 10000) . "",
-            'expireDate' => Carbon::now()->addWeek(),
+            'expireDate' => Carbon::now()->addDay(),
         ];
     }
 

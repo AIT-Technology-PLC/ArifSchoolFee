@@ -61,6 +61,20 @@ class StudentFeeDatatable extends DataTable
                 }
                 return '0.00';
             })
+            ->editColumn('exchange_rate', function($assignFeeMaster) {
+                if ($assignFeeMaster->feePayments->isNotEmpty()) {
+                    $paymentExchangeRate = $assignFeeMaster->feePayments->first();
+                    return $paymentExchangeRate ? $paymentExchangeRate->exchange_rate: null;
+                }
+                return null;
+            })
+            ->editColumn('reference_number', function($assignFeeMaster) {
+                if ($assignFeeMaster->feePayments->isNotEmpty()) {
+                    $paymentReferenceNumber = $assignFeeMaster->feePayments->first();
+                    return $paymentReferenceNumber ? $paymentReferenceNumber->reference_number: null;
+                }
+                return null;
+            })
             ->editColumn('paid', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentPaid = $assignFeeMaster->feePayments->first();
@@ -70,7 +84,7 @@ class StudentFeeDatatable extends DataTable
                         return money($paidAmount + $paymentPaid->commission_amount);
                     }
                     
-                    return $paidAmount;
+                    return money($paidAmount);
                 }
 
                 return '0.00';
@@ -106,9 +120,11 @@ class StudentFeeDatatable extends DataTable
             Column::make('amount', 'feeMaster.amount'),
             Column::make('mode', 'feePayments.payment_mode'),
             Column::make('date', 'feePayments.payment_date'),
+            Column::make('reference_number', 'feePayments.reference_number')->content('-'),
             Column::make('fine', 'feePayments.fine_amount')->content('0.00'),
             Column::make('discount', 'feePayments.discount_amount')->content('0.00'),
             Column::make('commission', 'feePayments.commission_amount')->content('0.00'),
+            Column::make('exchange_rate', 'feePayments.exchange_rate')->content('-'),
             Column::make('paid', 'feePayments.amount')->content('0.00'),
             Column::computed('actions')->className('actions'),
         ];

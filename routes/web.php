@@ -72,6 +72,6 @@ Route::controller(Other\TelebirrPaymentController::class)
     ->name('telebirr.')
     ->prefix('/telebirr')
     ->group(function () {
-        Route::get('/redirect/{routeId}', 'handleRedirect')->name('redirect');
-        Route::post('/notify', 'handleNotification')->name('notify');
+        Route::get('/redirect/{routeId}', 'redirect')->name('redirect');
+        Route::post('/notify', 'notify')->name('notify');
     });

@@ -70,7 +70,7 @@ if (!function_exists('money')) {
     function money($amount = 0.00, $currency = null)
     {
         if (authUser()->isAdmin() || authUser()->isCallCenter() || authUser()->isBank()) {
-            return 'Br'. ', ' . number_format($amount, 4);
+            return number_format($amount, 4);
         }
 
         $currency = $currency ?: userCompany()->currency;
@@ -290,5 +290,29 @@ if (!function_exists('isCommissionFromPayer')) {
         }
 
         return $company->charge_from === 'payer';
+    }
+}
+
+if (!function_exists('exchangeRateValue')) {
+    function exchangeRateValue($companyId = null)
+    {
+        $companyId = $companyId;
+        $company = DB::table('companies')->where('id', $companyId)->first();
+
+        if (!$company) {
+            return null;
+        }
+
+        if ($company->currency === 'Br') {
+            return null;
+        }
+
+        $currencyData = DB::table('currencies')->where('code', $company->currency)->first();
+
+        if ($currencyData) {
+            return $currencyData->exchange_rate;
+        }
+
+        return null;
     }
 }

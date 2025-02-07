@@ -21,6 +21,7 @@ class CheckPaymentRequest extends FormRequest
             'fee_discount_id' => ['nullable', 'integer', new MustBelongToCompany('fee_discounts')],
             'discount_amount' => ['nullable', 'numeric', 'gte:0', 'required_unless:fee_discount_id,null'],
             'payment_mode' => ['required', 'string'],
+            'reference_number' => ['nullable', 'string'],
         ];
     }
 }

@@ -30,6 +30,7 @@ class FeePaymentController extends Controller
             'amount' => $assignFeeMaster->feeMaster->amount,
             'fine_amount' => $assignFeeMaster->getFineAmount(),
             'discount_amount' => $discountAmount,
+            'exchange_rate' => exchangeRateValue($assignFeeMaster->company->id),
             'commission_amount' => calculateCommission(($assignFeeMaster->feeMaster->amount + $assignFeeMaster->getFineAmount() - $discountAmount) , $assignFeeMaster->company->id),
         ]);
 

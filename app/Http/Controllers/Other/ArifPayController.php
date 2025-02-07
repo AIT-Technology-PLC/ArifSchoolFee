@@ -43,12 +43,14 @@ class ArifPayController extends Controller
                     $feePayment->student_history_id = $transaction->assignFeeMaster->student->latestStudentHistoryId();
                     $feePayment->assign_fee_master_id = $transaction->assignFeeMaster->id;
                     $feePayment->payment_mode = 'Arifpay';
+                    $feePayment->reference_number = request()->input('transaction.transactionId');
                     $feePayment->fee_discount_id = $paymentData['fee_discount_id'] ?? null;
                     $feePayment->payment_date = Carbon::parse($paymentData['payment_date']);
                     $feePayment->amount = $paymentData['amount'];
                     $feePayment->fine_amount = $paymentData['fine_amount'] ?? 0;
                     $feePayment->discount_amount = $paymentData['discount_amount'] ?? 0;
                     $feePayment->commission_amount = $paymentData['commission_amount'] ?? 0;
+                    $feePayment->exchange_rate = $paymentData['exchange_rate'] ?? null;
                     $feePayment->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
 
                     $feePayment->save();
@@ -63,6 +65,10 @@ class ArifPayController extends Controller
                     break;
                 case 'CANCELLED':
                     $transaction->status = 'canceled';
+                    $this->cancelCheckoutSession($request->sessionId);
+                    break;
+                case 'EXPIRED':
+                    $transaction->status = 'expired';
                     $this->cancelCheckoutSession($request->sessionId);
                     break;
                 default:

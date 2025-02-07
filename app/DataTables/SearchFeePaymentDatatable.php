@@ -24,6 +24,7 @@ class SearchFeePaymentDatatable extends DataTable
             ->editColumn('discount', fn($feePayment) => money($feePayment->discount_amount))
             ->editColumn('fine', fn($feePayment) => money($feePayment->fine_amount))
             ->editColumn('commission', fn($feePayment) => money($feePayment->commission))
+            ->editColumn('exchange_rate', fn($feePayment) => $feePayment->exchange_rate ? money($feePayment->exchange_rate) : null)
             ->editColumn('paid', function($feePayment) {
                     return  money($feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount);
             })
@@ -65,9 +66,11 @@ class SearchFeePaymentDatatable extends DataTable
             Column::make('fees')->content('N/A'),
             Column::make('mode')->content(''),
             Column::make('amount')->content('0.00'),
+            Column::make('reference_number')->content('-'),
             Column::make('discount')->content('0.00'),
             Column::make('fine')->content('0.00'),
             Column::make('commission')->content('0.00'),
+            Column::make('exchange_rate')->content('-'),
             Column::make('paid')->content('0.00'),
         ];
     }

@@ -38,18 +38,18 @@ class TelebirrPayment
         $prepayId = $orderResponse['biz_content']['prepay_id'];
         $rawRequest = $this->generateRawRequest($prepayId);
 
-        //Payment order information - Reconciliation
-        // if ($rawRequest) {
-        //     $transaction = new PaymentTransaction();
-        //     $transaction->assign_fee_master_id = $assignFeeMaster->id;
-        //     $transaction->session_id = $orderResponse['biz_content']['merch_order_id'];
-        //     $transaction->status = 'pending';
-        //     $transaction->payment_method = 'Telebirr';
-        //     $transaction->payment_data = json_encode($paymentData);
-        //     $transaction->save();
-        // } else {
-        //     return response()->json(['error' => 'Failed to process the payment'], 400);
-        // }
+        // Payment order information - Reconciliation
+        if ($rawRequest) {
+            $transaction = new PaymentTransaction();
+            $transaction->assign_fee_master_id = $assignFeeMaster->id;
+            $transaction->session_id = $orderResponse['biz_content']['merch_order_id'];
+            $transaction->status = 'pending';
+            $transaction->payment_method = 'Telebirr';
+            $transaction->payment_data = json_encode($paymentData);
+            $transaction->save();
+        } else {
+            return response()->json(['error' => 'Failed to process the payment'], 400);
+        }
 
         $assembled_url = 'https://developerportal.ethiotelebirr.et:38443/payment/web/paygate?' . $rawRequest;
 
@@ -61,14 +61,19 @@ class TelebirrPayment
         // Data Preparation for the payment
         $baseAmount = (float) $paymentData['amount'] + (float) $paymentData['fine_amount'] - (float) ($paymentData['discount_amount'] ?? 0);
 
+        //calculate amount to be paid
         $commissionAmount = 0;
         if (isCommissionFromPayer($assignFeeMaster->company->id)) {
             $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
         }
-        $amount = $baseAmount + $commissionAmount;
+        $calculatedPrice = $baseAmount + $commissionAmount;
+
+        //preare data for telebirr checkout
         $title = $assignFeeMaster->feeMaster->feeType->name;
         $studentId = $assignFeeMaster->student_id;
+        $amount = $calculatedPrice * ($paymentData['exchange_rate'] ?? 1);
 
+        //cretae telebirr order - second setep on transaction process
         $orderResponse = $this->telebirrService->createOrder($title, $amount, $studentId);
 
         if (!$orderResponse) {

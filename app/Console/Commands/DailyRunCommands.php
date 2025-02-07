@@ -14,6 +14,9 @@ class DailyRunCommands extends Command
     private $commands = [
         'notifications:delete-month',
         'assignFeeMaster:payment-reminder-notifications',
+        'optimize:cache',
+        'company:deactivate',
+        'remove:removeOlderPendingPayments',
     ];
 
     public function __construct()

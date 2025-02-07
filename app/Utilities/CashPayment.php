@@ -34,6 +34,7 @@ class CashPayment
             $transaction->fine_amount = $paymentData['fine_amount'] ?? 0;
             $transaction->discount_amount = $paymentData['discount_amount'] ?? 0;
             $transaction->commission_amount = $paymentData['commission_amount'] ?? 0;
+            $transaction->reference_number = $paymentData['reference_number'] ?? null;
             $transaction->discount_month = (isset($paymentData['discount_amount']) && $paymentData['discount_amount'] > 0) || isset($paymentData['fee_discount_id']) ? Carbon::now() : null;
 
             $transaction->save();
