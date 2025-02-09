@@ -33,6 +33,7 @@ class PaymentReminderController extends Controller
 
         //check and retrive the active accounts for payemnt
         $accounts = Account::active()->get();
+        
         $accountDetails = $accounts->map(function ($account, $index) {
             return "Option " . ($index + 1) . ":\n" .
                     "{$account->account_type}\n" .
