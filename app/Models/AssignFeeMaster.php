@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasUserstamps;
 use App\Traits\MultiTenancy;
+use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
@@ -61,6 +62,17 @@ class AssignFeeMaster extends Model
         }
 
         return 0;
+    }
+
+    public function getExchangeRate()
+    {
+        $company = $this->company;
+
+        if (!$company || $company->currency === 'Br') {
+            return null;
+        }
+
+        return DB::table('currencies')->where('code', $company->currency)->value('exchange_rate'); 
     }
 
     public function isDueDatePassed()

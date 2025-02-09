@@ -67,7 +67,7 @@ class SendPaymentReminderNotifications extends Command
                        $assignFeeMaster->feeMaster->feeType->name . " fee:\n\n" . 
                        "Payment Id: " . $assignFeeMaster->invoice_number . "\n\n" .
                        "Step #1: Please send the payment to:\n" .
-                       "Amount: " . $finalPrice . "\n" .
+                       "Amount: " . currencyValue($assignFeeMaster->company->id). ', ' . $finalPrice."\n" .
                        "Due_Date: " . $assignFeeMaster->feeMaster->due_date->toDateString() . "\n" .
                        $accountDetails . "\n\n" .
                        

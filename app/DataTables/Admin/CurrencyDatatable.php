@@ -17,7 +17,7 @@ class CurrencyDatatable extends DataTable
             ->eloquent($query)
             ->setRowClass('is-clickable')
             ->editColumn('name', fn($currency) => str()->ucfirst($currency->name))
-            ->editColumn('exchange_rate', fn($currency) => $currency->exchange_rate !== null ? $currency->exchange_rate : 'N/A')
+            ->editColumn('exchange_rate', fn($currency) => $currency->exchange_rate !== null ? number_format($currency->exchange_rate, 4) : 'N/A')
             ->editColumn('rate_source', fn($currency) => $currency->exchange_rate !== null ? ucfirst($currency->rate_source) : 'N/A')
             ->editColumn('exchange_rate_status', fn($currency) => view('components.datatables.currency-status', compact('currency')))
             ->editColumn('created_at', fn($currency) => $currency->created_at->toFormattedDateString())

@@ -6,16 +6,19 @@ use App\Models\AssignFeeMaster;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Arr;
 
 class StudentFeeDatatable extends DataTable
 {
     use DataTableHtmlBuilder;
 
-    protected $studentId;
+    protected $studentId, $currency;
 
-    public function __construct($studentId = null)
+    public function __construct($studentId = null, $currency)
     {
         $this->studentId = $studentId;
+
+        $this->currency = $currency;
     }
 
     public function dataTable($query)
@@ -64,30 +67,49 @@ class StudentFeeDatatable extends DataTable
             ->editColumn('exchange_rate', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentExchangeRate = $assignFeeMaster->feePayments->first();
-                    return $paymentExchangeRate ? $paymentExchangeRate->exchange_rate: null;
+                    return $paymentExchangeRate ? number_format($paymentExchangeRate->exchange_rate, 4) : null;
                 }
                 return null;
             })
             ->editColumn('reference_number', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
                     $paymentReferenceNumber = $assignFeeMaster->feePayments->first();
-                    return $paymentReferenceNumber ? $paymentReferenceNumber->reference_number: null;
+                    return $paymentReferenceNumber ? $paymentReferenceNumber->reference_number : null;
                 }
                 return null;
             })
             ->editColumn('paid', function($assignFeeMaster) {
                 if ($assignFeeMaster->feePayments->isNotEmpty()) {
-                    $paymentPaid = $assignFeeMaster->feePayments->first();
-                    $paidAmount = $paymentPaid ? $paymentPaid->amount + $paymentPaid->fine_amount - $paymentPaid->discount_amount : '0.00';
+                    $payment = $assignFeeMaster->feePayments->first();
+                    $paidAmount = $payment ? $payment->amount + $payment->fine_amount - $payment->discount_amount : '0.00';
 
                     if (isCommissionFromPayer($assignFeeMaster->company->id)) {
-                        return money($paidAmount + $paymentPaid->commission_amount);
+                        return money($paidAmount + $payment->commission_amount);
                     }
                     
                     return money($paidAmount);
                 }
 
                 return '0.00';
+            })
+            ->editColumn('amount_in_etb', function($assignFeeMaster) {
+                if ($assignFeeMaster->feePayments->isNotEmpty()) {
+                    $payment = $assignFeeMaster->feePayments->first();
+                    $paidAmount = $payment ? $payment->amount + $payment->fine_amount - $payment->discount_amount : 0.00;
+            
+                    if (isCommissionFromPayer($assignFeeMaster->company->id)) {
+                        $paidAmount += $payment->commission_amount;
+                    }
+                    
+                    if (!is_null($payment->exchange_rate)) {
+                        $convertedAmount = $paidAmount * $payment->exchange_rate;
+                        return  'ETB, ' . number_format($convertedAmount, 3);
+                    }
+
+                    return null;
+                }
+            
+                return null;
             })
             ->editColumn('actions', function ($assignFeeMaster) {
                 return view('components.datatables.student-fee-action', compact('assignFeeMaster'));
@@ -111,12 +133,12 @@ class StudentFeeDatatable extends DataTable
 
     protected function getColumns()
     {
-        return [
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('invoice_number'),
-            Column::make('fees', 'feeMaster.name')->content('N/A')->orderable(false),
+            Column::make('fees', 'feeMaster.name')->orderable(false)->searchable(false)->content('N/A'),
             Column::make('due_date', 'feeMaster.due_date'),
-            Column::make('status')->orderable(false),
+            Column::make('status')->orderable(false)->searchable(false),
             Column::make('amount', 'feeMaster.amount'),
             Column::make('mode', 'feePayments.payment_mode'),
             Column::make('date', 'feePayments.payment_date'),
@@ -124,10 +146,11 @@ class StudentFeeDatatable extends DataTable
             Column::make('fine', 'feePayments.fine_amount')->content('0.00'),
             Column::make('discount', 'feePayments.discount_amount')->content('0.00'),
             Column::make('commission', 'feePayments.commission_amount')->content('0.00'),
-            Column::make('exchange_rate', 'feePayments.exchange_rate')->content('-'),
-            Column::make('paid', 'feePayments.amount')->content('0.00'),
+            $this->currency !== 'Br' ? Column::make('exchange_rate', 'feePayments.exchange_rate')->content('-') : null,
+            Column::make('paid', 'feePayments.amount')->orderable(false)->searchable(false)->content('0.00'),
+            $this->currency !== 'Br' ? Column::computed('amount_in_etb')->content('-')->searchable(false)->title('Amount in ETB') : null,
             Column::computed('actions')->className('actions'),
-        ];
+        ]);
     }
 
     protected function filename(): string

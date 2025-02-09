@@ -15,7 +15,7 @@ class CurrencyHistoryDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('exchange_rate', fn($currencyHistory) => money($currencyHistory->exchange_rate))
+            ->editColumn('exchange_rate', fn($currencyHistory) => number_format($currencyHistory->exchange_rate, 4))
             ->editColumn('rate_source', fn($currencyHistory) => ucfirst($currencyHistory->rate_source))
             ->editColumn('created_at', fn($currencyHistory) => $currencyHistory->created_at->toFormattedDateString())
             ->addIndexColumn();

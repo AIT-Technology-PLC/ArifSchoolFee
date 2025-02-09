@@ -24,9 +24,11 @@ class PaymentReminderController extends Controller
         //calculate the final price 
         $baseAmount = (float) $assignFeeMaster->feeMaster->amount + (float) $assignFeeMaster->getFineAmount();
         $commissionAmount = 0;
+
         if (isCommissionFromPayer($assignFeeMaster->company->id)) {
             $commissionAmount = calculateCommission($baseAmount, $assignFeeMaster->company->id);
         }
+
         $finalPrice = $baseAmount + $commissionAmount;
 
         //check and retrive the active accounts for payemnt
@@ -45,7 +47,7 @@ class PaymentReminderController extends Controller
                        $assignFeeMaster->feeMaster->feeType->name . " fee:\n\n" .
                        "Payment Id: " . $assignFeeMaster->invoice_number . "\n\n" .
                        "Step #1: Please send the payment to:\n" .
-                       "Amount: " . money($finalPrice) . "\n" .
+                       "Amount: " . currencyValue($assignFeeMaster->company->id). ', ' . $finalPrice."\n" .
                        "Due_Date: " . $assignFeeMaster->feeMaster->due_date->toDateString() . "\n" .
                         $accountDetails . "\n\n" .
 

@@ -35,11 +35,11 @@ class CollectFeeController extends Controller
         return $datatable->render('service-centers.collect-fees.index', compact('schools','branches', 'classes', 'sections'));
     }
 
-    public function show(StudentFeeDatatable $datatable, Student $collectFee)
+    public function show(Student $collectFee)
     {
         abort_if(authUser()->cannot('Manage Schools Payment'), 403);
 
-        $datatable = new StudentFeeDatatable($collectFee->id);
+        $datatable = new StudentFeeDatatable($collectFee->id, $collectFee->company->currency);
         
         $datatable->builder()->setTableId('student-fees-datatable')->orderBy(0, 'asc');
 

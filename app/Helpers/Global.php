@@ -316,3 +316,17 @@ if (!function_exists('exchangeRateValue')) {
         return null;
     }
 }
+
+if (!function_exists('currencyValue')) {
+    function currencyValue($companyId = null)
+    {
+        $companyId = $companyId;
+        $company = DB::table('companies')->where('id', $companyId)->first();
+
+        if ($company) {
+           return $company->currency; 
+        }
+
+        return null;
+    }
+}

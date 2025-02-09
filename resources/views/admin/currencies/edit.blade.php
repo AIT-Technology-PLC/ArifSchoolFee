@@ -95,7 +95,7 @@
                             </x-forms.label>
                             <x-forms.control class="has-icons-left">
                                 <x-forms.input
-                                    type="numeric"
+                                    type="number"
                                     name="exchange_rate"
                                     id="exchange_rate"
                                     placeholder="Exchange Rate"

@@ -32,7 +32,7 @@
                 <div class="column is-6-mobile is-6-tablet is-4-desktop">
                     <x-common.show-data-section
                         icon="fas fa-exchange-alt"
-                        :data="$currency->exchange_rate ?? '0.00'"
+                        :data="$currency->exchange_rate ? number_format($currency->exchange_rate, 4) : '-'"
                         label="Exchange Rate"
                     />
                 </div>

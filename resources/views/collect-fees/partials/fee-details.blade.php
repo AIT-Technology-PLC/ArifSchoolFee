@@ -6,6 +6,7 @@
         discount_amount: parseFloat('{{ old('discount_amount', $assignFeeMaster->discount_amount ?? 0) }}'),
         amount: parseFloat('{{ old('amount', $assignFeeMaster->feeMaster->amount) }}'),
         fine_amount: parseFloat('{{ old('fine_amount', $assignFeeMaster->getFineAmount()) }}'),
+        exchange_rate: '{{ old('exchange_rate', $assignFeeMaster->getExchangeRate() ?? null) }}',
         commission_amount: 0,
         company_id: '{{ $assignFeeMaster->company->id }}',
         is_commission_from_payer: false,
@@ -14,11 +15,13 @@
                 const total = this.amount + this.fine_amount - (this.discount_amount || 0);
                 this.updateCommission(total);
 
+                const calculatedValue = total;
+
                 if (this.is_commission_from_payer) {
-                    return (total + this.commission_amount).toFixed(2);
+                    calculatedValue += this.commission_amount;
                 }
-                    
-                return total.toFixed(2); 
+
+                return (calculatedValue * (this.exchange_rate || 1)).toFixed(2); 
         },
         
         async updateCommission(totalAmount) {
@@ -218,7 +221,7 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
-                        <div class="column is-12">
+                        <div class="column is-6">
                             <x-forms.label for="reference_number">
                                 Reference No <sup class="has-text-danger"></sup>
                             </x-forms.label>
@@ -239,6 +242,30 @@
                                 </x-forms.control>
                             </x-forms.field>
                         </div>
+                        @if ($assignFeeMaster->getExchangeRate() !== null)                            
+                            <div class="column is-6">
+                                <x-forms.label for="exchange_rate">
+                                    Exchange Rate <sup class="has-text-danger"></sup>
+                                </x-forms.label>
+                                <x-forms.field>
+                                    <x-forms.control class="has-icons-left">
+                                        <x-forms.input
+                                            type="text"
+                                            name="exchange_rate"
+                                            id="exchange_rate"
+                                            placeholder="Exchange Rate"
+                                            x-model="exchange_rate"
+                                            readonly
+                                        />
+                                        <x-common.icon
+                                            name="fas fa-exchange-alt"
+                                            class="is-large is-left"
+                                        />
+                                        <x-common.validation-error property="exchange_rate" />
+                                    </x-forms.control>
+                                </x-forms.field>
+                            </div>
+                        @endif
                         <div class="column is-6">
                             <x-forms.label for="commission_amount">
                                 Commission <sup class="has-text-danger"></sup>

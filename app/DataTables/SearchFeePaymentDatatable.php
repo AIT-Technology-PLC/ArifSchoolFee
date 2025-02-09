@@ -6,6 +6,7 @@ use App\Models\FeePayment;
 use App\Traits\DataTableHtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Arr;
 
 class SearchFeePaymentDatatable extends DataTable
 {
@@ -24,9 +25,23 @@ class SearchFeePaymentDatatable extends DataTable
             ->editColumn('discount', fn($feePayment) => money($feePayment->discount_amount))
             ->editColumn('fine', fn($feePayment) => money($feePayment->fine_amount))
             ->editColumn('commission', fn($feePayment) => money($feePayment->commission))
-            ->editColumn('exchange_rate', fn($feePayment) => $feePayment->exchange_rate ? money($feePayment->exchange_rate) : null)
+            ->editColumn('exchange_rate', fn($feePayment) => $feePayment->exchange_rate ? number_format($feePayment->exchange_rate,4) : null)
             ->editColumn('paid', function($feePayment) {
                     return  money($feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount);
+            })
+            ->editColumn('amount_in_etb', function ($feePayment) {
+                $paidAmount = $feePayment->amount + $feePayment->fine_amount - $feePayment->discount_amount;
+            
+                if (isCommissionFromPayer($feePayment->company->id)) {
+                    $paidAmount += $feePayment->commission_amount;
+                }
+            
+                if (!is_null($feePayment->exchange_rate)) {
+                    $convertedAmount = $paidAmount * $feePayment->exchange_rate;
+                    return  'ETB, ' . number_format($convertedAmount, 3);
+                }
+            
+                return null;
             })
             ->addIndexColumn();
     }
@@ -58,11 +73,11 @@ class SearchFeePaymentDatatable extends DataTable
 
     protected function getColumns()
     {
-        return [
+        return Arr::whereNotNull([
             Column::computed('#'),
             Column::make('date')->content(''),
             Column::make('name','student.first_name')->content(''),
-            Column::make('class')->content('N/A'),
+            Column::make('class')->content('N/A')->searchable(false),
             Column::make('fees')->content('N/A'),
             Column::make('mode')->content(''),
             Column::make('amount')->content('0.00'),
@@ -70,9 +85,10 @@ class SearchFeePaymentDatatable extends DataTable
             Column::make('discount')->content('0.00'),
             Column::make('fine')->content('0.00'),
             Column::make('commission')->content('0.00'),
-            Column::make('exchange_rate')->content('-'),
-            Column::make('paid')->content('0.00'),
-        ];
+            userCompany()->currency !== 'Br' ? Column::make('exchange_rate')->content('-') : null,
+            Column::make('paid')->orderable(false)->searchable(false)->content('0.00'),
+            userCompany()->currency !== 'Br' ? Column::computed('amount_in_etb')->searchable(false)->content('-')->title('Amount in ETB') : null,
+        ]);
     }
 
     protected function filename(): string
