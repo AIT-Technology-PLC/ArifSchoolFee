@@ -42,7 +42,7 @@ At its core [**Multi Schhool Centralized Payment**](https://github.com/mikiyasle
 -   testing
     -   Used for QA testing and experimentation.
     -   All developers push their feature branches here for testing.
-    -   Always submit PRs to this branch
+    -   Always submit PRs to this branch or merge the new code to it.
     
 ## Requirements
 
